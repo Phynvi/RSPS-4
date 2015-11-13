@@ -1,0 +1,646 @@
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import javax.swing.JTabbedPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JToggleButton;
+import javax.swing.JTextField;
+import javax.swing.JList;
+import java.awt.Color;
+
+public class GUISERVER extends JFrame 
+{
+static GUISERVER theGUISERVER;
+
+JPanel pnPanel0;
+JTabbedPane tbpPanel0;
+
+
+class Panel1 extends JPanel implements ActionListener 
+{
+
+   JPanel pnPanel16;
+
+   JPanel pnPanelserverout;
+   JTextArea taServerArea;
+   JButton btButStartServ;
+   JButton btButStopServ;
+   JButton btButRestart;
+   JButton btButUpdateServ;
+   JButton btButQuickupdate;
+   JButton btButKickall;
+   JButton btButkicknonmod;
+   JButton btButBanAll;
+   JButton btButUberban;
+
+   /**
+    *Constructor for the Panel1 object
+    */
+   public Panel1() 
+   {
+      super();
+
+      GridBagLayout gbPanel1 = new GridBagLayout();
+      GridBagConstraints gbcPanel1 = new GridBagConstraints();
+      setLayout( gbPanel1 );
+
+      pnPanel16 = new JPanel();
+      pnPanel16.setBorder( BorderFactory.createTitledBorder( "Options" ) );
+      GridBagLayout gbPanel16 = new GridBagLayout();
+      GridBagConstraints gbcPanel16 = new GridBagConstraints();
+      pnPanel16.setLayout( gbPanel16 );
+
+      pnPanelserverout = new JPanel();
+      pnPanelserverout.setBorder( BorderFactory.createTitledBorder( "Server Output" ) );
+      GridBagLayout gbPanelserverout = new GridBagLayout();
+      GridBagConstraints gbcPanelserverout = new GridBagConstraints();
+      pnPanelserverout.setLayout( gbPanelserverout );
+
+      taServerArea = new JTextArea(2,10);
+      JScrollPane scpServerArea = new JScrollPane( taServerArea );
+      gbcPanelserverout.gridx = 0;
+      gbcPanelserverout.gridy = 0;
+      gbcPanelserverout.gridwidth = 3;
+      gbcPanelserverout.gridheight = 1;
+      gbcPanelserverout.fill = GridBagConstraints.BOTH;
+      gbcPanelserverout.weightx = 1;
+      gbcPanelserverout.weighty = 1;
+      gbcPanelserverout.anchor = GridBagConstraints.NORTH;
+      gbPanelserverout.setConstraints( scpServerArea, gbcPanelserverout );
+      pnPanelserverout.add( scpServerArea );
+      gbcPanel16.gridx = 0;
+      gbcPanel16.gridy = 4;
+      gbcPanel16.gridwidth = 3;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 1;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( pnPanelserverout, gbcPanel16 );
+      pnPanel16.add( pnPanelserverout );
+
+      btButStartServ = new JButton( "Start Server"  );
+      btButStartServ.setRolloverEnabled( true );
+      btButStartServ.addActionListener( this );
+      gbcPanel16.gridx = 0;
+      gbcPanel16.gridy = 0;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButStartServ, gbcPanel16 );
+      pnPanel16.add( btButStartServ );
+
+      btButStopServ = new JButton( "Stop Server"  );
+      btButStopServ.setRolloverEnabled( true );
+      btButStopServ.addActionListener( this );
+      gbcPanel16.gridx = 1;
+      gbcPanel16.gridy = 0;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButStopServ, gbcPanel16 );
+      pnPanel16.add( btButStopServ );
+
+      btButRestart = new JButton( "Restart Server"  );
+      btButRestart.setRolloverEnabled( true );
+      btButRestart.addActionListener( this );
+      gbcPanel16.gridx = 2;
+      gbcPanel16.gridy = 0;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButRestart, gbcPanel16 );
+      pnPanel16.add( btButRestart );
+
+      btButUpdateServ = new JButton( "Update Server"  );
+      btButUpdateServ.setRolloverEnabled( true );
+      btButUpdateServ.addActionListener( this );
+      gbcPanel16.gridx = 0;
+      gbcPanel16.gridy = 1;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButUpdateServ, gbcPanel16 );
+      pnPanel16.add( btButUpdateServ );
+
+      btButQuickupdate = new JButton( "Quick Update Server"  );
+      btButQuickupdate.setRolloverEnabled( true );
+      btButQuickupdate.addActionListener( this );
+      gbcPanel16.gridx = 1;
+      gbcPanel16.gridy = 1;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButQuickupdate, gbcPanel16 );
+      pnPanel16.add( btButQuickupdate );
+
+      btButKickall = new JButton( "Kick All Players"  );
+      btButKickall.setRolloverEnabled( true );
+      btButKickall.addActionListener( this );
+      gbcPanel16.gridx = 2;
+      gbcPanel16.gridy = 1;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButKickall, gbcPanel16 );
+      pnPanel16.add( btButKickall );
+
+      btButkicknonmod = new JButton( "Kick everyone but staff"  );
+      btButkicknonmod.setRolloverEnabled( true );
+      btButkicknonmod.addActionListener( this );
+      gbcPanel16.gridx = 0;
+      gbcPanel16.gridy = 2;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButkicknonmod, gbcPanel16 );
+      pnPanel16.add( btButkicknonmod );
+
+      btButBanAll = new JButton( "Ban All Players"  );
+      btButBanAll.setRolloverEnabled( true );
+      btButBanAll.addActionListener( this );
+      gbcPanel16.gridx = 1;
+      gbcPanel16.gridy = 2;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButBanAll, gbcPanel16 );
+      pnPanel16.add( btButBanAll );
+
+      btButUberban = new JButton( "Ban everyone but staff"  );
+      btButUberban.setRolloverEnabled( true );
+      btButUberban.addActionListener( this );
+      gbcPanel16.gridx = 2;
+      gbcPanel16.gridy = 2;
+      gbcPanel16.gridwidth = 1;
+      gbcPanel16.gridheight = 1;
+      gbcPanel16.fill = GridBagConstraints.BOTH;
+      gbcPanel16.weightx = 1;
+      gbcPanel16.weighty = 0;
+      gbcPanel16.anchor = GridBagConstraints.NORTH;
+      gbPanel16.setConstraints( btButUberban, gbcPanel16 );
+      pnPanel16.add( btButUberban );
+      gbcPanel1.gridx = 0;
+      gbcPanel1.gridy = 0;
+      gbcPanel1.gridwidth = 1;
+      gbcPanel1.gridheight = 1;
+      gbcPanel1.fill = GridBagConstraints.BOTH;
+      gbcPanel1.weightx = 1;
+      gbcPanel1.weighty = 1;
+      gbcPanel1.anchor = GridBagConstraints.NORTH;
+      gbPanel1.setConstraints( pnPanel16, gbcPanel1 );
+      add( pnPanel16 );
+   } 
+
+   /**
+    */
+   public void actionPerformed( ActionEvent e ) 
+   {
+      if ( e.getSource() == btButStartServ ) 
+      {
+      // Action for btButStartServ
+      }
+      if ( e.getSource() == btButStopServ ) 
+      {
+      // Action for btButStopServ
+      }
+      if ( e.getSource() == btButRestart ) 
+      {
+      // Action for btButRestart
+      }
+      if ( e.getSource() == btButUpdateServ ) 
+      {
+      // Action for btButUpdateServ
+      }
+      if ( e.getSource() == btButQuickupdate ) 
+      {
+      // Action for btButQuickupdate
+      }
+      if ( e.getSource() == btButKickall ) 
+      {
+      // Action for btButKickall
+      }
+      if ( e.getSource() == btButkicknonmod ) 
+      {
+      // Action for btButkicknonmod
+      }
+      if ( e.getSource() == btButBanAll ) 
+      {
+      // Action for btButBanAll
+      }
+      if ( e.getSource() == btButUberban ) 
+      {
+      // Action for btButUberban
+      }
+   } 
+} 
+
+Panel1 pnPanel1;
+
+
+class Panel2 extends JPanel implements ActionListener 
+{
+
+   JPanel pnPanelPlayeroptions;
+   ButtonGroup rbgPanelPlayeroptions;
+   JComboBox cmbMaxplayers;
+   JLabel lbMaxlbl;
+   JLabel lbPklbl;
+   JToggleButton tbtTglButPk;
+
+   JPanel pnPanelcharedit;
+   JLabel lbCharfile;
+   JTextField tfText0;
+
+   JPanel pnPaneltasks;
+   JList lsList0;
+   JButton btBut0;
+   JTextArea taCharout;
+   JButton btButSaveplayer;
+
+   /**
+    *Constructor for the Panel2 object
+    */
+   public Panel2() 
+   {
+      super();
+
+      GridBagLayout gbPanel2 = new GridBagLayout();
+      GridBagConstraints gbcPanel2 = new GridBagConstraints();
+      setLayout( gbPanel2 );
+
+      pnPanelPlayeroptions = new JPanel();
+      pnPanelPlayeroptions.setBorder( BorderFactory.createTitledBorder( "Player Options" ) );
+      rbgPanelPlayeroptions = new ButtonGroup();
+      GridBagLayout gbPanelPlayeroptions = new GridBagLayout();
+      GridBagConstraints gbcPanelPlayeroptions = new GridBagConstraints();
+      pnPanelPlayeroptions.setLayout( gbPanelPlayeroptions );
+
+      String []dataMaxplayers = { "1000", "5000", "10000", "30000", "60000" };
+      cmbMaxplayers = new JComboBox( dataMaxplayers );
+      gbcPanelPlayeroptions.gridx = 2;
+      gbcPanelPlayeroptions.gridy = 0;
+      gbcPanelPlayeroptions.gridwidth = 1;
+      gbcPanelPlayeroptions.gridheight = 1;
+      gbcPanelPlayeroptions.fill = GridBagConstraints.NONE;
+      gbcPanelPlayeroptions.weightx = 0;
+      gbcPanelPlayeroptions.weighty = 0;
+      gbcPanelPlayeroptions.anchor = GridBagConstraints.WEST;
+      gbPanelPlayeroptions.setConstraints( cmbMaxplayers, gbcPanelPlayeroptions );
+      pnPanelPlayeroptions.add( cmbMaxplayers );
+
+      lbMaxlbl = new JLabel( "Maximum number of players"  );
+      gbcPanelPlayeroptions.gridx = 0;
+      gbcPanelPlayeroptions.gridy = 0;
+      gbcPanelPlayeroptions.gridwidth = 2;
+      gbcPanelPlayeroptions.gridheight = 1;
+      gbcPanelPlayeroptions.fill = GridBagConstraints.BOTH;
+      gbcPanelPlayeroptions.weightx = 1;
+      gbcPanelPlayeroptions.weighty = 1;
+      gbcPanelPlayeroptions.anchor = GridBagConstraints.NORTH;
+      gbPanelPlayeroptions.setConstraints( lbMaxlbl, gbcPanelPlayeroptions );
+      pnPanelPlayeroptions.add( lbMaxlbl );
+
+      lbPklbl = new JLabel( "Player Killing On | Off"  );
+      gbcPanelPlayeroptions.gridx = 0;
+      gbcPanelPlayeroptions.gridy = 1;
+      gbcPanelPlayeroptions.gridwidth = 2;
+      gbcPanelPlayeroptions.gridheight = 1;
+      gbcPanelPlayeroptions.fill = GridBagConstraints.BOTH;
+      gbcPanelPlayeroptions.weightx = 1;
+      gbcPanelPlayeroptions.weighty = 1;
+      gbcPanelPlayeroptions.anchor = GridBagConstraints.NORTH;
+      gbPanelPlayeroptions.setConstraints( lbPklbl, gbcPanelPlayeroptions );
+      pnPanelPlayeroptions.add( lbPklbl );
+
+      tbtTglButPk = new JToggleButton( "Pk Toggle"  );
+      tbtTglButPk.setRolloverEnabled( true );
+      tbtTglButPk.addActionListener( this );
+      rbgPanelPlayeroptions.add( tbtTglButPk );
+      gbcPanelPlayeroptions.gridx = 2;
+      gbcPanelPlayeroptions.gridy = 1;
+      gbcPanelPlayeroptions.gridwidth = 1;
+      gbcPanelPlayeroptions.gridheight = 1;
+      gbcPanelPlayeroptions.fill = GridBagConstraints.BOTH;
+      gbcPanelPlayeroptions.weightx = 1;
+      gbcPanelPlayeroptions.weighty = 0;
+      gbcPanelPlayeroptions.anchor = GridBagConstraints.NORTH;
+      gbPanelPlayeroptions.setConstraints( tbtTglButPk, gbcPanelPlayeroptions );
+      pnPanelPlayeroptions.add( tbtTglButPk );
+      gbcPanel2.gridx = 0;
+      gbcPanel2.gridy = 0;
+      gbcPanel2.gridwidth = 1;
+      gbcPanel2.gridheight = 1;
+      gbcPanel2.fill = GridBagConstraints.BOTH;
+      gbcPanel2.weightx = 1;
+      gbcPanel2.weighty = 1;
+      gbcPanel2.anchor = GridBagConstraints.NORTH;
+      gbPanel2.setConstraints( pnPanelPlayeroptions, gbcPanel2 );
+      add( pnPanelPlayeroptions );
+
+      pnPanelcharedit = new JPanel();
+      pnPanelcharedit.setBorder( BorderFactory.createTitledBorder( "Character Edit" ) );
+      GridBagLayout gbPanelcharedit = new GridBagLayout();
+      GridBagConstraints gbcPanelcharedit = new GridBagConstraints();
+      pnPanelcharedit.setLayout( gbPanelcharedit );
+
+      lbCharfile = new JLabel( "Character File:"  );
+      gbcPanelcharedit.gridx = 0;
+      gbcPanelcharedit.gridy = 0;
+      gbcPanelcharedit.gridwidth = 1;
+      gbcPanelcharedit.gridheight = 1;
+      gbcPanelcharedit.fill = GridBagConstraints.BOTH;
+      gbcPanelcharedit.weightx = 1;
+      gbcPanelcharedit.weighty = 0;
+      gbcPanelcharedit.anchor = GridBagConstraints.NORTH;
+      gbPanelcharedit.setConstraints( lbCharfile, gbcPanelcharedit );
+      pnPanelcharedit.add( lbCharfile );
+
+      tfText0 = new JTextField( );
+      gbcPanelcharedit.gridx = 1;
+      gbcPanelcharedit.gridy = 0;
+      gbcPanelcharedit.gridwidth = 1;
+      gbcPanelcharedit.gridheight = 1;
+      gbcPanelcharedit.fill = GridBagConstraints.BOTH;
+      gbcPanelcharedit.weightx = 1;
+      gbcPanelcharedit.weighty = 0;
+      gbcPanelcharedit.anchor = GridBagConstraints.NORTH;
+      gbPanelcharedit.setConstraints( tfText0, gbcPanelcharedit );
+      pnPanelcharedit.add( tfText0 );
+
+      pnPaneltasks = new JPanel();
+      pnPaneltasks.setBorder( BorderFactory.createTitledBorder( "Comon Tasks" ) );
+      GridBagLayout gbPaneltasks = new GridBagLayout();
+      GridBagConstraints gbcPaneltasks = new GridBagConstraints();
+      pnPaneltasks.setLayout( gbPaneltasks );
+
+      String []dataList0 = { "Make Admin", "Make Moderator", "Make User", 
+                             "Ban Player" };
+      lsList0 = new JList( dataList0 );
+      JScrollPane scpList0 = new JScrollPane( lsList0 );
+      gbcPaneltasks.gridx = 0;
+      gbcPaneltasks.gridy = 0;
+      gbcPaneltasks.gridwidth = 1;
+      gbcPaneltasks.gridheight = 2;
+      gbcPaneltasks.fill = GridBagConstraints.BOTH;
+      gbcPaneltasks.weightx = 1;
+      gbcPaneltasks.weighty = 1;
+      gbcPaneltasks.anchor = GridBagConstraints.NORTH;
+      gbPaneltasks.setConstraints( scpList0, gbcPaneltasks );
+      pnPaneltasks.add( scpList0 );
+      gbcPanelcharedit.gridx = 3;
+      gbcPanelcharedit.gridy = 0;
+      gbcPanelcharedit.gridwidth = 1;
+      gbcPanelcharedit.gridheight = 4;
+      gbcPanelcharedit.fill = GridBagConstraints.BOTH;
+      gbcPanelcharedit.weightx = 1;
+      gbcPanelcharedit.weighty = 0;
+      gbcPanelcharedit.anchor = GridBagConstraints.NORTH;
+      gbPanelcharedit.setConstraints( pnPaneltasks, gbcPanelcharedit );
+      pnPanelcharedit.add( pnPaneltasks );
+
+      btBut0 = new JButton( "Browse"  );
+      btBut0.setRolloverEnabled( true );
+      btBut0.addActionListener( this );
+      gbcPanelcharedit.gridx = 2;
+      gbcPanelcharedit.gridy = 0;
+      gbcPanelcharedit.gridwidth = 1;
+      gbcPanelcharedit.gridheight = 1;
+      gbcPanelcharedit.fill = GridBagConstraints.NONE;
+      gbcPanelcharedit.weightx = 0;
+      gbcPanelcharedit.weighty = 0;
+      gbcPanelcharedit.anchor = GridBagConstraints.WEST;
+      gbPanelcharedit.setConstraints( btBut0, gbcPanelcharedit );
+      pnPanelcharedit.add( btBut0 );
+
+      taCharout = new JTextArea(2,10);
+      gbcPanelcharedit.gridx = 0;
+      gbcPanelcharedit.gridy = 1;
+      gbcPanelcharedit.gridwidth = 3;
+      gbcPanelcharedit.gridheight = 3;
+      gbcPanelcharedit.fill = GridBagConstraints.BOTH;
+      gbcPanelcharedit.weightx = 1;
+      gbcPanelcharedit.weighty = 1;
+      gbcPanelcharedit.anchor = GridBagConstraints.NORTH;
+      gbPanelcharedit.setConstraints( taCharout, gbcPanelcharedit );
+      pnPanelcharedit.add( taCharout );
+
+      btButSaveplayer = new JButton( "Save"  );
+      btButSaveplayer.setRolloverEnabled( true );
+      btButSaveplayer.addActionListener( this );
+      gbcPanelcharedit.gridx = 0;
+      gbcPanelcharedit.gridy = 4;
+      gbcPanelcharedit.gridwidth = 3;
+      gbcPanelcharedit.gridheight = 1;
+      gbcPanelcharedit.fill = GridBagConstraints.BOTH;
+      gbcPanelcharedit.weightx = 1;
+      gbcPanelcharedit.weighty = 0;
+      gbcPanelcharedit.anchor = GridBagConstraints.NORTH;
+      gbPanelcharedit.setConstraints( btButSaveplayer, gbcPanelcharedit );
+      pnPanelcharedit.add( btButSaveplayer );
+      gbcPanel2.gridx = 0;
+      gbcPanel2.gridy = 1;
+      gbcPanel2.gridwidth = 1;
+      gbcPanel2.gridheight = 1;
+      gbcPanel2.fill = GridBagConstraints.BOTH;
+      gbcPanel2.weightx = 1;
+      gbcPanel2.weighty = 1;
+      gbcPanel2.anchor = GridBagConstraints.NORTH;
+      gbPanel2.setConstraints( pnPanelcharedit, gbcPanel2 );
+      add( pnPanelcharedit );
+   } 
+
+   /**
+    */
+   public void actionPerformed( ActionEvent e ) 
+   {
+      if ( e.getSource() == tbtTglButPk ) 
+      {
+      // Action for tbtTglButPk
+      }
+      if ( e.getSource() == btBut0 ) 
+      {
+      // Action for btBut0
+      }
+      if ( e.getSource() == btButSaveplayer ) 
+      {
+      // Action for btButSaveplayer
+      }
+   } 
+} 
+
+Panel2 pnPanel2;
+
+
+class PanelAbout extends JPanel implements ActionListener 
+{
+   JList lsList1;
+
+   /**
+    *Constructor for the PanelAbout object
+    */
+   public PanelAbout() 
+   {
+      super();
+
+      GridBagLayout gbPanelAbout = new GridBagLayout();
+      GridBagConstraints gbcPanelAbout = new GridBagConstraints();
+      setLayout( gbPanelAbout );
+
+      String []dataList1 = { 
+                             "Server Gui Designed and Programmed by Phaze for WhiteFang.", 
+                             "Come visit the best private server site on the planet at http://runefame.net/forums", 
+                             "", 
+                             "Shoutout to Fender, Scim, Nets8, Corrosive, *******, bwe45, Apothic Haxxor, and anyone else im forgeting.", 
+                             "", "You all rock :D" };
+      lsList1 = new JList( dataList1 );
+      gbcPanelAbout.gridx = 0;
+      gbcPanelAbout.gridy = 0;
+      gbcPanelAbout.gridwidth = 20;
+      gbcPanelAbout.gridheight = 20;
+      gbcPanelAbout.fill = GridBagConstraints.BOTH;
+      gbcPanelAbout.weightx = 1;
+      gbcPanelAbout.weighty = 1;
+      gbcPanelAbout.anchor = GridBagConstraints.NORTH;
+      gbPanelAbout.setConstraints( lsList1, gbcPanelAbout );
+      add( lsList1 );
+   } 
+
+   /**
+    */
+   public void actionPerformed( ActionEvent e ) 
+   {
+   } 
+} 
+
+PanelAbout pnPanelAbout;
+
+JPanel pnPanel28;
+JButton btButok;
+/**
+ */
+public static void main( String args[] ) 
+{
+   try 
+   {
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+   }
+   catch ( ClassNotFoundException e ) 
+   {
+   }
+   catch ( InstantiationException e ) 
+   {
+   }
+   catch ( IllegalAccessException e ) 
+   {
+   }
+   catch ( UnsupportedLookAndFeelException e ) 
+   {
+   }
+   theGUISERVER = new GUISERVER();
+} 
+
+/**
+ */
+public GUISERVER() 
+{
+   super( "Server GUI V.1 By Phaze - http://runefame.net , made for whitefang" );
+
+   pnPanel0 = new JPanel();
+   GridBagLayout gbPanel0 = new GridBagLayout();
+   GridBagConstraints gbcPanel0 = new GridBagConstraints();
+   pnPanel0.setLayout( gbPanel0 );
+
+   tbpPanel0 = new JTabbedPane( );
+
+   pnPanel1 = new Panel1();
+   tbpPanel0.addTab("Server",pnPanel1);
+
+   pnPanel2 = new Panel2();
+   tbpPanel0.addTab("Players",pnPanel2);
+
+   pnPanelAbout = new PanelAbout();
+   tbpPanel0.addTab("About",pnPanelAbout);
+   gbcPanel0.gridx = 0;
+   gbcPanel0.gridy = 0;
+   gbcPanel0.gridwidth = 30;
+   gbcPanel0.gridheight = 19;
+   gbcPanel0.fill = GridBagConstraints.BOTH;
+   gbcPanel0.weightx = 1;
+   gbcPanel0.weighty = 1;
+   gbcPanel0.anchor = GridBagConstraints.NORTH;
+   gbPanel0.setConstraints( tbpPanel0, gbcPanel0 );
+   pnPanel0.add( tbpPanel0 );
+
+   pnPanel28 = new JPanel();
+   GridBagLayout gbPanel28 = new GridBagLayout();
+   GridBagConstraints gbcPanel28 = new GridBagConstraints();
+   pnPanel28.setLayout( gbPanel28 );
+
+   btButok = new JButton( "Ok"  );
+   btButok.setBackground( new Color( 255,255,160 ) );
+   btButok.setRolloverEnabled( true );
+   gbcPanel28.gridx = 0;
+   gbcPanel28.gridy = 0;
+   gbcPanel28.gridwidth = 5;
+   gbcPanel28.gridheight = 1;
+   gbcPanel28.fill = GridBagConstraints.BOTH;
+   gbcPanel28.weightx = 1;
+   gbcPanel28.weighty = 0;
+   gbcPanel28.anchor = GridBagConstraints.NORTH;
+   gbPanel28.setConstraints( btButok, gbcPanel28 );
+   pnPanel28.add( btButok );
+   gbcPanel0.gridx = 0;
+   gbcPanel0.gridy = 19;
+   gbcPanel0.gridwidth = 30;
+   gbcPanel0.gridheight = 1;
+   gbcPanel0.fill = GridBagConstraints.VERTICAL;
+   gbcPanel0.weightx = 1;
+   gbcPanel0.weighty = 0;
+   gbcPanel0.anchor = GridBagConstraints.EAST;
+   gbPanel0.setConstraints( pnPanel28, gbcPanel0 );
+   pnPanel0.add( pnPanel28 );
+
+   setDefaultCloseOperation( EXIT_ON_CLOSE );
+
+   setContentPane( pnPanel0 );
+   pack();
+   setVisible( true );
+} 
+}

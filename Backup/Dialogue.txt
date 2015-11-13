@@ -1,0 +1,20 @@
+NpcString = "";
+NpcString2 = "";
+NpcString3 = "";
+NpcString4 = "";
+NpcString5 = "";
+NpcString6 = "";
+NpcString7 = "";
+NpcString8 = "";
+NpcString9 = "";
+NpcString10 = "";
+NpcString11 = "";
+NpcString12 = "";
+
+
+					spawnABrother(2026,3553,9715); //dharok
+					spawnABrother(2030,3575,9707);//verac
+					spawnABrother(2025,3557,9700);//ahrim
+					spawnABrother(2027,3540,9705);//guthan
+					spawnABrother(2028,3549,9684);//karil
+					spawnABrother(2029,3568,9687);//torag

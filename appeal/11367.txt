@@ -1,0 +1,18 @@
+prayerglow.dat
+0 - Blue
+
+1 - Green
+2 - Purple
+3 - Red
+4 - White
+5 - Yellow
+
+18819 - 1000 kills
+18820 - 850
+18818 - 700
+
+18836 - 525
+18838 - 375
+18840 - 200
+
+11456 - Title

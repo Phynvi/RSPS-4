@@ -1,0 +1,70 @@
+//Woodcutting Voids by AAA Mods
+
+public void woodcutting2()
+{
+	if(actionTimer == 0){
+	woodcuttingon = true;
+	}
+}
+
+
+
+public void woodcuttingProcess()
+{
+
+	wctime = misc.random(wcnumb1)+wcnumb2;
+	wcdif = (playerLevel[8] / 4);
+
+	if (freeSlots() == 0){
+	woodcuttingon = false;
+	sendMessage("Your inventory is full!");
+	resetAnimation();
+	return;
+	}
+	if (playerLevel[8] < wclevel){
+	woodcuttingon = false;
+	sendMessage(wclevel+" woodcutting is required to cut the "+wcname+" tree.");
+	resetAnimation();
+	}
+	if (actionTimer > 0)
+	{
+	startAnimation(wcanim);
+	}
+	if (wcani > 0){
+	startAnimation(wcanim);
+	wcani = 7;
+        PlayerHandler.players[playerId].updateRequired = true;
+        PlayerHandler.players[playerId].appearanceUpdateRequired = true;
+	}
+	if (actionTimer == 0)
+	{
+	if (playerLevel[8] >= wclevel && (IsItemInBag(1351) == true || playerEquipment[playerWeapon] == 1351 || IsItemInBag(1349) == true || playerEquipment[playerWeapon] == 1349 || IsItemInBag(1353) == true || playerEquipment[playerWeapon] == 1353 || IsItemInBag(1361) == true || playerEquipment[playerWeapon] == 1361 || IsItemInBag(1355) == true || playerEquipment[playerWeapon] == 1355 || IsItemInBag(1357) == true || playerEquipment[playerWeapon] == 1357 || IsItemInBag(1359) == true || playerEquipment[playerWeapon] == 1359 || IsItemInBag(6739) == true || playerEquipment[playerWeapon] == 6739)){
+		actionTimer = wctime - wcdif;
+		woodcutting2();
+		sendMessage("You cut some "+wcname+" logs.");
+		addItem (wcitem, 1);
+		addSkillXP(wcxp*rate, 8);
+		}
+	if (playerLevel[8] >= wclevel && (IsItemInBag(1351) == false && IsItemInBag(1353) == false && IsItemInBag(1349) == false && IsItemInBag(1355) == false && IsItemInBag(1357) == false && IsItemInBag(1359) == false && IsItemInBag(1361) == false && IsItemInBag(6739) == false) && wieldaxe == 0){
+	woodcuttingon = false;
+	sendMessage("You need to be wielding an axe to cut the tree!");
+	resetAnimation();
+	}
+	}
+}
+
+
+public int wieldaxe = 0;
+public int wcnumb1;
+public int wcnumb2;
+public int wcdif = 0;
+public int wcxp = 0;
+String wcname = "";
+public int wclevel = 0;
+public int wcanim = 0;
+public int wctime = 0;
+public int wcitem = 0;
+public int wcani = 0;
+public boolean woodcuttingon = false;
+
+//Woodcutting Voids by AAA Mods

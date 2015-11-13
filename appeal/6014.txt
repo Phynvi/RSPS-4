@@ -1,0 +1,12 @@
+Admin panel - 18794
+Player Name - 18797
+PlayerName - 18798
+Current Rights - 18799
+Power - 18800
+Options - 18801
+Players Online - 18796
+Online - 18802
+Coordinates - 18792
+Coords - 18803
+18804 - view panel list
+18805 - execute

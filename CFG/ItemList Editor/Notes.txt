@@ -1,0 +1,41 @@
+ItemList Editor is a tool developed by Bloodraider[PSNB].
+---------------------------------------------------------
+
+Information
+------------
+This tool was designed as an effective, yet easy to use tool to
+configure values of items. It was originally developed as part
+of a development-toolkit, but seeing as I've received very few
+suggestions for tools, I decided to release this tool stand-alone.
+Best of luck
+ ~ Bloodraider/PSNB
+------------
+
+Instructions
+------------
+Click on the Load List button, and navigate to your Item configuration
+file [item.cfg]. After selecting the file, the tool will load each item
+name into the program. Note: You're going to have to use the item.cfg
+provided in the download as there seems to be a bug that messes this up
+in others. I'm not sure how to fix, as I've noticed it varies from cfg
+to cfg.
+
+Search for the item name, or ID of the item you wish to edit. Alternatively
+you can scroll through the list to locate the item you're looking for.
+
+Double click on the item you wish to edit, and it's information will be loaded
+into the editing fields.
+
+Change the values of the fields to whatever you desired, then click on the 'save edited item'
+button.
+
+After you've made your changes, press save list, and select an output directory.
+------------
+
+Bugs
+------------
+If you happen to come across any bugs, please notify me.
+
+Runelocus - Bloodraider
+Rune-Server - PSNB
+------------
