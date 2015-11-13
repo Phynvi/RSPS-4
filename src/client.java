@@ -1,5 +1,5 @@
 // SarimScape client by Angelo
-//Remnants of many older servers, aka the clusterclient
+//Remnants of many older servers, satan's isle mostly
 
 
 import java.io.*;
