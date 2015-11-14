@@ -46,6 +46,15 @@
 			return false;
 		}
 		
+		public void buildBalancedTree(ItemList[] items, int start, int end){
+			if(start > end)
+				return;
+			int mid = (start+end)/2;
+			this.add(items[mid]);
+			buildBalancedTree(items, start, mid-1);
+			buildBalancedTree(items, mid+1,end);
+		}
+		
 		/**
 		 * Private recursive search method
 		 * @param numb Number to search for
@@ -94,6 +103,7 @@
 		 * @param numb Number to add to the structure
 		 */
 		public void add(ItemList e){
+			if(e == null) return;
 			if(root == null){
 				root = new Node(e);
 				elements += 1;

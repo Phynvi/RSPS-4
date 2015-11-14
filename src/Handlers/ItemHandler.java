@@ -278,7 +278,6 @@ public class ItemHandler {
 		newItemList.HighAlch = HighAlch;
 		newItemList.Bonuses = Bonuses;
 		ItemListArray[slot] = newItemList;
-		ItemList.add(newItemList);
 	}	
 
 	public boolean loadItemList(String FileName) {
@@ -337,6 +336,7 @@ public class ItemHandler {
 				line = characterfile.readLine();
 			} catch(IOException ioexception1) { EndOfFile = true; }
 		}
+		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
 		try { characterfile.close(); } catch(IOException ioexception) { }
 		return false;
 	}
