@@ -145,8 +145,16 @@ public class NPCHandler {
 		npcs[slot] = newNPC;
 	}
 
+	NPCList[] NPCListArray = new NPCList[maxListedNPCs];
+	int NPCListArrayCounter = 0;
+	
 	public void newNPCList(int npcType, String npcName, int combat, int HP) {
-		npcList2.add(npcType, npcName, combat, HP);
+		NPCList n = new NPCList(npcType);
+		n.npcName = npcName;
+		n.npcCombat = combat;
+		n.npcHealth = HP;
+		NPCListArray[NPCListArrayCounter] = n;
+		NPCListArrayCounter += 1;
 	}
 
 	/*
@@ -1871,6 +1879,7 @@ WORLDMAP 2: (not-walk able places)
 			} else {
 				if (line.equals("[ENDOFNPCLIST]")) {
 					try { characterfile.close(); } catch(IOException ioexception) { }
+					npcList2.buildBalancedTree(NPCListArray, 0, NPCListArray.length-1);
 					return true;
 				}
 			}

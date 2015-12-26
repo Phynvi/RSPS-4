@@ -212,7 +212,7 @@ public class client extends Player implements Runnable {
 		
 		if(!server.npcHandler.npcs[npcIndex].attackable) return;
 		
-		if(debugmode) debug("npcIndex: "+npcIndex+" magicID: "+spellID);
+		debug("npcIndex: "+npcIndex+" magicID: "+spellID);
 
 		int npcID = server.npcHandler.npcs[npcIndex].npcType;             
 		if( (DIALOGUEHANDLER.exists(npcID) || lists.safeNPCs.exists(npcID)) && npcID != 1 && npcID != 2 && npcID != 3 &&
@@ -3398,15 +3398,11 @@ public void ResetWalkTo() {
 	WalkingTo = false;
 }
 
-public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {
-
-	if(debugmode == true){ //
-		debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
-		sendMessage("Object hashcode is "+objectID.hashCode());
-	}
+public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
+		debug("atObject: "+objectX+","+objectY+" objectID: "+objectID+"\nObject hashcode is "+objectID.hashCode()); 
 
 	if(isObjSpamming()) return;
-	objtimer = System.currentTimeMillis();
+		objtimer = System.currentTimeMillis();
 	
 	stopAnim();	
 
@@ -5050,8 +5046,6 @@ break;*/
 public boolean spinning = false;
 
 public void objectClick2(int objectID, int objectX, int objectY) {
-
-	if(debugmode)
 		debug("atObject2: "+objectX+","+objectY+" objectID: "+objectID); 
 
 	if(isObjSpamming()) return;
@@ -5140,8 +5134,6 @@ public void objectClick2(int objectID, int objectX, int objectY) {
 /*OBJECT CLICK THREE*/
 
 public void objectClick3(int objectID, int objectX, int objectY) {
-
-	if(debugmode)
 		debug("atObject3: "+objectX+","+objectY+" objectID: "+objectID);
 
 	if(isObjSpamming()) return;
@@ -5169,7 +5161,6 @@ public void objectClick3(int objectID, int objectX, int objectY) {
 }
 
 public void objectClick4(int objectID, int objectX, int objectY) {
-	if(debugmode)
 		debug("atObject4: "+objectX+","+objectY+" objectID: "+objectID);
 
 	if(isObjSpamming()) return;
@@ -8839,7 +8830,6 @@ public void appendConnected() {
 			playerPass = inStream.readString();
 			misc.println(playerName+" is signing onto server.");
 
-
                         // BELOW QUOTED OUT BECAUSE THEN PEOPLE CAN'T CONNECT UNLESS THEY'RE USING MY CLIENT
 			/*playerServer = inStream.readString();
                         int extrapacket = 0;
@@ -8894,9 +8884,21 @@ playerName.replaceAll("<", "_");
 playerName.replaceAll(">", "_");
 playerName.replaceAll("|", "_");
 playerName.trim();*/
-
  returnCode = 2;
-
+ 
+	if(PlayerHandler.isPlayerOn(playerName)){ 
+		for(Player p : server.playerHandler.players){
+			if(p != null){
+				if(p.playerName.equalsIgnoreCase(playerName) && p.playerId != playerId && loadGame(playerName, playerPass) != 2){
+					client g = (client) p;
+				  savefile = false;
+				  disconnected = true;
+					g.disconnectPlayerAndSave("Another person is logging onto the same Account");
+				}
+			}
+		}
+	} 
+ 
 /*
     String hash = MD5.asHex(MD5.getHash(playerPass));
     MD5 md5 = new MD5();
@@ -8987,7 +8989,7 @@ outStream.writeWord(0);//Time before casting the graphic
 		outStream.writeString("Duel");
 		outStream.endFrameVarSize();*/
 		
-				outStream.createFrameVarSize(104);
+		outStream.createFrameVarSize(104);
 		outStream.writeByteC(5);		// command slot
 		outStream.writeByteA(0);		// 0 or 1; 1 if command should be placed on top in context menu
 		outStream.writeString("TEST");
@@ -9106,7 +9108,7 @@ public void loadsave(){
   {
    returnCode = 5;
    disconnected = true;
-   debug(playerName+" is already online.");
+   System.out.println(playerName+" is already online.");
   } 
  else 
  {
@@ -9126,8 +9128,8 @@ public void loadsave(){
   }
   else if(loadGame(playerName, playerPass) == 3)
   {
-   misc.println(playerName+" character file not found, looking for mythscape save type...");
-   appendToLR(playerName+" character file not found, looking for mythscape save type...");
+   misc.println(playerName+" character file not found, looking for save type...");
+   appendToLR(playerName+" character file not found, looking for save type...");
    secondaryload();
   }
   else
@@ -9219,17 +9221,16 @@ public int readSave() {
 					}
 				}
 			}
-                        return 1;
+			return 1;
 }
 public void secondaryload(){
-if (debugmode)
-		{
-			returnCode = 4;
-			playerName = "_";
-			disconnected = true;
-			teleportToX = 0;
-			teleportToY = 0;
-		}
+	if (debugmode){
+		returnCode = 4;
+		playerName = "_";
+		disconnected = true;
+		teleportToX = 0;
+		teleportToY = 0;
+	}
 if(playerName.equalsIgnoreCase("null") || playerName.equalsIgnoreCase("syi"))
 disconnected = true;
 		PlayerSave loadgame = loadMythgame(playerName, playerPass);
@@ -19810,10 +19811,8 @@ public boolean compareBonuses(int myBonus, int enemyBonus){
 	if(myBonus < 3) myBonus = 3; //give benefit of doubt
 	int myRandom = misc.random(myBonus); //declaring for debugging purposes
 	int eRandom = misc.random(enemyBonus);
-	if(debugmode) sendMessage("myBonus : "+myBonus+" enemyBonus : "+enemyBonus);
-//	if(debugmode) debug("myRandom : "+myRandom+" eRandom : "+eRandom);
+	debug("myBonus : "+myBonus+" enemyBonus : "+enemyBonus);
 	return (myRandom > eRandom);
-//	return (misc.random(myBonus) > misc.random(enemyBonus));
 }
 
 public boolean Hit(int index){

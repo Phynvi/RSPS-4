@@ -1,17 +1,17 @@
 [ACCOUNT]
-character-username = AAA Mods
+character-username = aaa mods
 character-password = lollol
 
 [CHARACTER]
-character-height = 0
-character-posx = 3024
-character-posy = 3206
+character-height = 1
+character-posx = 2465
+character-posy = 3497
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.101
-character-lastlogin = 20151012
-character-energy = 106
+character-lastconnection = 192.168.1.100
+character-lastlogin = 20151016
+character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
@@ -40,13 +40,13 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	26772800
+character-skill = 0	99	26843600
 character-skill = 1	99	16267980
 character-skill = 2	99	35478000
-character-skill = 3	99	50906860
+character-skill = 3	99	50977660
 character-skill = 4	99	19472080
-character-skill = 5	99	16431588
-character-skill = 6	99	18694574
+character-skill = 5	99	16433988
+character-skill = 6	99	18856634
 character-skill = 7	99	16184120
 character-skill = 8	99	16055705
 character-skill = 9	99	14749475
@@ -57,7 +57,7 @@ character-skill = 13	99	14267272
 character-skill = 14	99	15406300
 character-skill = 15	99	14159467
 character-skill = 16	99	21926350
-character-skill = 17	99	16184696
+character-skill = 17	99	16189496
 character-skill = 18	99	17327555
 character-skill = 19	99	15970650
 character-skill = 20	99	15235458
@@ -67,18 +67,18 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	555	9929
-character-item = 1	556	10000
-character-item = 2	557	9901
+character-item = 0	555	9926
+character-item = 1	556	9822
+character-item = 2	557	9899
 character-item = 3	558	10000
 character-item = 4	559	10000
 character-item = 5	560	10000
-character-item = 6	561	9994
+character-item = 6	561	9882
 character-item = 7	562	10000
 character-item = 8	563	10000
-character-item = 9	564	9998
+character-item = 9	564	9992
 character-item = 10	565	10000
-character-item = 11	566	9987
+character-item = 11	566	9931
 character-item = 12	567	10000
 character-item = 13	2435	1
 character-item = 14	13309	1

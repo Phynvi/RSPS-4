@@ -173,6 +173,18 @@ public static int stradd = 2;
 						else s.close();
 					}
 				} 
+//				else 	if(PlayerHandler.isPlayerOn(playerName)){ 
+//					for(Player p : server.playerHandler.players){
+//						if(p != null){
+//							if(p.playerName.equalsIgnoreCase(playerName)){
+//								client g = (client) p;
+//							  savefile = false;
+//							  disconnected = true;
+//								g.disconnectPlayerAndSave("Another person is logging onto the same Account");
+//							}
+//						}
+//					}
+//				}
 				else {
 					//playerHandler.newPlayerClient(s, connectingHost);
 					//connectedList.add(connectingHost);

@@ -14,11 +14,11 @@
 			private int data;
 			Node left;
 			Node right;
-			public Node(int i, String name, int combat, int health){
-				this.data = i;
-				this.npcName = name;
-				this.npcCombat = combat;
-				this.npcHealth = health;
+			public Node(NPCList n){
+				this.data = n.npcId;
+				this.npcName = n.npcName;
+				this.npcCombat = n.npcCombat;
+				this.npcHealth = n.npcHealth;
 			}
 			
 		}
@@ -65,6 +65,15 @@
 				return true;
 			}
 			return false;
+		}
+		
+		public void buildBalancedTree(NPCList[] npcs, int start, int end){
+			if(start > end)
+				return;
+			int mid = (start+end)/2;
+			this.add(npcs[mid]);
+			buildBalancedTree(npcs, start, mid-1);
+			buildBalancedTree(npcs, mid+1,end);
 		}
 		
 		/**
@@ -114,22 +123,23 @@
 		 * Adds a single element to the BST
 		 * @param numb Number to add to the structure
 		 */
-		public void add(int npcID, String name, int combat, int health){
+		public void add(NPCList n){
+			if(n == null) return;
 			if(root == null){
-				root = new Node(npcID, name, combat, health);
+				root = new Node(n);
 				elements += 1;
 				return;
 			}			
-			Node temp = findNode(npcID, root); //will get the correct node to insert
+			Node temp = findNode(n.npcId, root); //will get the correct node to insert
 			if(temp == null){ //means a duplicate was found
-				System.out.println("[ERROR] - While adding to NPCListBST, duplicate found of "+npcID);
+				System.out.println("[ERROR] - While adding to NPCListBST, duplicate found of "+n.npcId);
 				return;
 			}
-			if(npcID < temp.data){ //place to the left
-				temp.left = new Node(npcID, name, combat, health);
+			if(n.npcId < temp.data){ //place to the left
+				temp.left = new Node(n);
 			}
-			if(npcID > temp.data){ //place to the right
-				temp.right = new Node(npcID, name, combat, health);
+			if(n.npcId > temp.data){ //place to the right
+				temp.right = new Node(n);
 			}
 			elements += 1;
 		}
