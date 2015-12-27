@@ -82,6 +82,11 @@ public class misc {
 		return temp;
 	}
 
+	/**
+	 * Generates a random number, from zero to range
+	 * @param range Generates a random number from zero to this number, this number is included
+	 * @return Random generated number
+	 */
 	public static int random(int range) { //0 till range (range INCLUDED)
 		return (int)(java.lang.Math.random() * (range+1));
 	}

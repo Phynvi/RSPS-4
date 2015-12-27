@@ -1020,9 +1020,8 @@ public class client extends Player implements Runnable {
 			selectOptionTravel2("Travel to God Wars?", "Yes", 2630,3690, "No", -1, -1);
 			break;
 		
-		//TODO - fill KBD area with monsters
 		case 715: //Elena
-			selectOptionTravel2("Travel to King Black Dragon?", "Yes", 3027,3851, "No", -1, -1);
+			selectOptionTravel2("Travel to King Black Dragon?", "Yes", 3033,3851, "No", -1, -1);
 			break;
 		
 		case 1207:
@@ -17453,8 +17452,6 @@ parseIncomingPackets2();
 		return true;
 	}
 
-	public int CRYSTALBOW = 4212;
-	
 	public boolean Attack() {
 		isPVP = true;
 		int EnemyX = PlayerHandler.players[AttackingOn].absX;
@@ -17622,7 +17619,7 @@ parseIncomingPackets2();
 				CalculateRange();
 				hitDiff = misc.random(playerMaxHit);
 				
-				if(playerEquipment[playerWeapon] != 4212 && playerEquipmentN[playerArrows] != 0){
+				if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){
 					DeleteArrow();
 					if(misc.random(1) == 0){
 						if (playerEquipment[playerCape] == 11342 || playerEquipment[playerCape] == 11341){
@@ -19175,14 +19172,22 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 		}
 	}
 
+/**
+ * Will check the player weapon and apply a bonus to their original attack
+ * The new amount (including bonus) is returned
+ * @param original Original attack damage
+ * @param Y Y coordinate (typically of enemy), used for gfx and distance measurements
+ * @param X X coordinate (typically of enemy), used for gfx and distance measurements
+ * @return Bonus damage
+ */
 public int checkSpecials(int original, int Y, int X){
 	int specdmg = 0;
-	if (playerEquipment[playerWeapon] == 15334){
+	if (playerEquipment[playerWeapon] == 15334){ //Bandos godsword
 		litBar = false;
 		specialDelay -= 10;
 		return original+(int)((double)original/10.0); //player hit + 10%
 	}
-	if (playerEquipment[playerWeapon] == 15333){
+	if (playerEquipment[playerWeapon] == 15333){ //Armadyl Godsword
 		litBar = false;
 		specialDelay -= 5;
 		return original+(int)((double)original/4.0); //player hit + 25%
@@ -19195,7 +19200,7 @@ public int checkSpecials(int original, int Y, int X){
 		stillgfxz(479, absY, absX, 50, 40);
 		return original+(int)((double)original/10.0); //player hit + 10%
 	}    
-	if (playerEquipment[playerWeapon] == 15335){
+	if (playerEquipment[playerWeapon] == 15335){ // Saradomin Godsword
 		litBar = false;
 		specialDelay -= 5;
 		if (original <= 20){ //always heals for minimum of 10
@@ -19231,7 +19236,7 @@ public int checkSpecials(int original, int Y, int X){
 		return original;
 	}    
 
-	if (playerEquipment[playerWeapon] == 15336){
+	if (playerEquipment[playerWeapon] == 15336){ //Zamorak Godsword
 		litBar = false;
 		specialDelay -= 6;
 		stillgfxz(368, Y, X, 50, 50);
@@ -19239,7 +19244,7 @@ public int checkSpecials(int original, int Y, int X){
 		return original + misc.random(playerLevel[playerMagic]/3);	                	
 	}    
 
-	if (playerEquipment[playerWeapon] == 15351){
+	if (playerEquipment[playerWeapon] == 15351){ //Saradomin Sword
 		litBar = false;
 		specialDelay -= 10;
 		stillgfxz(119, Y, X, 50, 75);
@@ -19268,7 +19273,7 @@ public int checkSpecials(int original, int Y, int X){
 		stillgfxz(248, absY, absX, 100, 32);
 		return original+misc.random(playerLevel[playerAttack]/7); //original random playerattack/7
 	}       
-	if (playerEquipment[playerWeapon] == 4151){
+	if (playerEquipment[playerWeapon] == 4151){ //Abby whip
 		litBar = false;
 		specialDelay -= 5;
 		updateRequired = true;
@@ -19285,7 +19290,7 @@ public int checkSpecials(int original, int Y, int X){
 		playerEnergy += original/10; //adds 10% of hit to energy
 		return original; //return hit
 	}    
-	if (playerEquipment[playerWeapon] == 7158){
+	if (playerEquipment[playerWeapon] == 7158){ //Dragon 2h
 		litBar = false;
 		specialDelay -= 6;
 		stillgfxz(246, absY, absX, 0, 20);
@@ -19309,14 +19314,14 @@ public int checkSpecials(int original, int Y, int X){
 		stillgfxz(251, absY, absX, 100, 29);
 		return original+misc.random(playerLevel[playerStrength]/9); //original and small bonus
 	} 
-	if (playerEquipment[playerWeapon] == 4153){
+	if (playerEquipment[playerWeapon] == 4153){ //Granite Maul
 		litBar = false;
 		specialDelay -= 5;
 		SpecTimer = 4;
 		stillgfxz(337, Y, X, 100, 10);
 		return original; //original and extra hit
 	} 
-	if (playerEquipment[playerWeapon] == 4587){
+	if (playerEquipment[playerWeapon] == 4587){ 
 		litBar = false;
 		specialDelay -= 5;
 		stillgfxz(347, Y, X, 100, 30);
@@ -19355,9 +19360,7 @@ public int checkSpecials(int original, int Y, int X){
 		return original + misc.random(playerLevel[playerAttack]/25); //original and small bonus
 	} 
 	if (FullGuthanEquipped()){
-		int chance = 0;
-		chance = misc.random(3);
-		if(chance == 0) {
+		if(misc.random(3) == 0) { //25% chance
 			NewHP += original;
 			if(NewHP > getLevelForXP(playerXP[3]));
 			NewHP = getLevelForXP(playerXP[3]);
@@ -19365,10 +19368,10 @@ public int checkSpecials(int original, int Y, int X){
 			stillgfx(398, absY, absX);
 		}
 	}
-	if(FullDharokEquipped())
-	{
-		original += (getLevelForXP(playerXP[playerHitpoints]) - playerLevel[playerHitpoints])/2;
+	if(FullDharokEquipped()){
+		return original + (getLevelForXP(playerXP[playerHitpoints]) - playerLevel[playerHitpoints])/2;
 	}
+	
 	return original;
 } 
 
@@ -19506,7 +19509,7 @@ public boolean AttackNPC() {
 				}
 				else this.BOWHANDLER.arrowProjectile(attacknpc);
 				
-				if(playerEquipment[playerWeapon] != 4212 && playerEquipmentN[playerArrows] != 0){
+				if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){ //if not cbow and if there are arrows
 					DeleteArrow();
 					if(misc.random(1) == 0){
 						if (playerEquipment[playerCape] == 11342 || playerEquipment[playerCape] == 11341){

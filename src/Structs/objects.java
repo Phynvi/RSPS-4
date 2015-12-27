@@ -362,7 +362,7 @@ c.deletethatobject(2812, 3343); //
 c.deletethatobject(2839, 9639); //
 c.deletethatobject(2841, 9637); //
 c.deletethatobject(3089, 3859);//Ladder
-c.deletethatobject(3030, 3852);//Ladder
+
 c.deletethatobject(3115, 3859);//Ladder
 c.deletethatobject(2907, 9798);//Ladder
 c.deletethatobject(2902, 9801);//Ladder
@@ -589,8 +589,6 @@ c.makeGlobalObject(3179, 9756, 3337, 0, 10);
 c.makeGlobalObject(2532, 3091, 357, 0, 10);
 c.makeGlobalObject(2532, 3092, 357, 0, 10);
 
-c.makeGlobalObject(3024, 3845, 357, 0, 10);
-c.makeGlobalObject(3025, 3846, 357, 0, 10);
 c.makeGlobalObject(3109, 3836, 75, 0, 10);
 c.makeGlobalObject(3087, 3868, 357, 0, 10);
 

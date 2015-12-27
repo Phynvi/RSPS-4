@@ -42,6 +42,8 @@ public class Item {
 	};
 	public static int SmithingItems[][] = new int[5][5];
 
+	static final int CRYSTALBOW = 4212;
+	
 	public static boolean[] itemStackable = new boolean[17000];
 	public static boolean[] itemIsNote = new boolean[17000];
 	public static boolean[] itemTwoHanded = new boolean[17000];
