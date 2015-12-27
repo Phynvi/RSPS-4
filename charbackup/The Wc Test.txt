@@ -1,16 +1,16 @@
 [ACCOUNT]
-character-username = The Wc Test
+character-username = the wc test
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2208
-character-posy = 3255
+character-posx = 2957
+character-posy = 3214
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = c-50-158-156-126.hsd1.il.comcast.net
-character-lastlogin = 20150728
+character-lastconnection = 192.168.1.100
+character-lastlogin = 20151127
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -29,7 +29,7 @@ character-equip = 9	12003	1
 character-equip = 10	15350	1	
 character-equip = 11	-1	0	
 character-equip = 12	6737	1	
-character-equip = 13	4740	9986	
+character-equip = 13	4740	9967	
 
 [LOOK]
 character-look = 0	0
@@ -40,11 +40,11 @@ character-look = 4	3
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	97	11539500
+character-skill = 0	97	11557700
 character-skill = 1	81	2286100
 character-skill = 2	93	7556900
-character-skill = 3	76	17278760
-character-skill = 4	79	1919860
+character-skill = 3	95	17316560
+character-skill = 4	79	1939460
 character-skill = 5	90	5658192
 character-skill = 6	99	15018380
 character-skill = 7	99	14458562
@@ -73,10 +73,6 @@ character-item = 2	2435	1
 character-item = 3	2435	1
 character-item = 4	4152	1
 character-item = 5	3632	1
-character-item = 7	392	1
-character-item = 8	392	1
-character-item = 9	392	1
-character-item = 10	392	1
 character-item = 11	392	1
 character-item = 12	392	1
 character-item = 13	392	1

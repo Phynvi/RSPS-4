@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = 192.168.1.100
-character-lastlogintime = 20151016
+character-lastlogintime = 20151127
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -12,7 +12,7 @@ character-pkpoints = 21
 character-killcount = 18
 character-deathcount = 1
 character-mutedate = 0
-character-height = 1
+character-height = 0
 character-torag = 0
 character-verac = 0
 character-guthan = 0
@@ -43,7 +43,7 @@ bandos = 12
 armadyl = 0
 prevarmadyl = 0
 prevbandos = 21
-spellbook = 1
+spellbook = 0
 
 [QUESTS]
 character-questpoints = 0

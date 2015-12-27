@@ -202,31 +202,31 @@ public class client extends Player implements Runnable {
 		return false;
 	}
 	
-	public void magicOnNPC(int npcIndex){
-		
+	private boolean magicOnNPC(int npcIndex){
+
 		if(LoopAttDelay > 1)
-			return;
-		
+			return false;
+
 		teleportToX = absX;
 		teleportToY = absY;
-		
-		if(!server.npcHandler.npcs[npcIndex].attackable) return;
-		
+
+		if(!server.npcHandler.npcs[npcIndex].attackable) return false;
+
 		debug("npcIndex: "+npcIndex+" magicID: "+spellID);
 
 		int npcID = server.npcHandler.npcs[npcIndex].npcType;             
 		if( (DIALOGUEHANDLER.exists(npcID) || lists.safeNPCs.exists(npcID)) && npcID != 1 && npcID != 2 && npcID != 3 &&
 				npcID != 4 && npcID != 5 && npcID != 6 && npcID != 7)
-			return;
+			return false;
 
 		int required = this.MAGICDATAHANDLER.checkMagicLevel(spellID);
 		if(playerLevel[playerMagic] < required){
 			sendMessage("You need "+required+" Magic to do that.");
-			return;
+			return false;
 		}
-		
+
 		if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID))
-			return;
+			return false;
 
 		int EnemyX2 = server.npcHandler.npcs[npcIndex].absX;
 		int EnemyY2 = server.npcHandler.npcs[npcIndex].absY;
@@ -237,7 +237,7 @@ public class client extends Player implements Runnable {
 
 		if(server.npcHandler.npcs[npcIndex].attacknpc > 0) {
 			sendMessage("You can't attack a dueling npc");
-			return;
+			return false;
 		}
 
 		if((server.npcHandler.npcs[npcIndex] != null) && (server.npcHandler.npcs[npcIndex].followPlayer < 1 || server.npcHandler.npcs[npcIndex].followPlayer == playerId)) {
@@ -247,7 +247,7 @@ public class client extends Player implements Runnable {
 					server.npcHandler.npcs[npcIndex].StartKilling = playerId;
 					server.npcHandler.npcs[npcIndex].RandomWalk = false;
 					server.npcHandler.npcs[npcIndex].IsUnderAttack = true;
-					
+
 					int casterX = absX;
 					int casterY = absY;
 					int offsetX = (casterX - EnemyX2) * -1;
@@ -259,7 +259,7 @@ public class client extends Player implements Runnable {
 					this.MAGICDATAHANDLER.removeMagicRunes(spellID);
 
 					LoopAttDelay = 17;
-					
+
 					switch(spellID){ 
 					case 1152: //Wind Strike
 						hitDiff = ProjectileSpell(90, 95, 92, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 2);
@@ -330,7 +330,7 @@ public class client extends Player implements Runnable {
 
 					case 12881: //Ice Burst - Level 70
 						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,363,22,BURST);					
-						return;
+						return true;
 
 					case 12871: //Ice Blitz - Level 82
 						hitDiff = ancientsProjectileSpell(366, 367, 368, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 26);
@@ -338,7 +338,7 @@ public class client extends Player implements Runnable {
 
 					case 12891: //Ice Barrage - Level 94
 						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,369,30,BARRAGE);					
-						return;
+						return true;
 
 					case 12939: // Smoke Rush - Level 50
 						hitDiff = ancientsProjectileSpell(384, 384, 385, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14);
@@ -346,7 +346,7 @@ public class client extends Player implements Runnable {
 
 					case 12963: // Smoke Burst - Level 62
 						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,389,18,BURST);		
-						return;
+						return true;
 
 					case 12951: //Smoke Blitz - Level 74
 						hitDiff = ancientsProjectileSpell(386, 386, 387, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 23);
@@ -354,7 +354,7 @@ public class client extends Player implements Runnable {
 
 					case 12975: //Smoke Barrage - Level 86
 						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,391,27,BARRAGE);
-						return;
+						return true;
 
 					case 12987: //Shadow Rush - Level 52
 						hitDiff = ancientsProjectileSpell(378, 378, 379, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15);
@@ -362,7 +362,7 @@ public class client extends Player implements Runnable {
 
 					case 13011: //Shadow Burst - Level 64
 						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,382,19,BURST);
-						return;
+						return true;
 
 					case 12999: //Shadow Blitz - Level 76
 						hitDiff = ancientsProjectileSpell(380, 380, 381, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 24);
@@ -370,7 +370,7 @@ public class client extends Player implements Runnable {
 
 					case 13023: //Shadow Barrage - Level 88
 						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,383,28,BARRAGE);
-						return;
+						return true;
 
 					case 12901: //Blood Rush - Level 56
 						hitDiff = ancientsProjectileSpell(372, 372, 373, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16);
@@ -385,7 +385,7 @@ public class client extends Player implements Runnable {
 						NewHP += total;
 						if(NewHP > getLevelForXP(playerXP[3])) 
 							NewHP = getLevelForXP(playerXP[3]);
-						return;
+						return true;
 
 					case 12911: //Blood Blitz - Level 80
 						hitDiff = ancientsProjectileSpell(374, 374, 375, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 25);
@@ -402,13 +402,13 @@ public class client extends Player implements Runnable {
 						NewHP += total;
 						if(NewHP > getLevelForXP(playerXP[3])) 
 							NewHP = getLevelForXP(playerXP[3]);
-						return;
+						return true;
 
 					default:
 						debug("Unhandled magicID : "+spellID);
-						return;
+						return false;
 					}
-					
+
 					if(!MageHitNPC(npcIndex)) hitDiff = 0;
 
 					if ((EnemyHP2 - hitDiff) < 0) 
@@ -421,18 +421,19 @@ public class client extends Player implements Runnable {
 					server.npcHandler.npcs[npcIndex].hitUpdateRequired = true;
 					server.npcHandler.npcs[npcIndex].animNumber = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcIndex].npcType);
 					server.npcHandler.npcs[npcIndex].updateAttackingPlayers(playerId, hitDiff);
-
+					return true;
 				}
 				catch(Exception e) {
 					debug("Error at magic on npcs!");
 					debug(e.toString());
+					return false;
 				}
 
 			} 
 		}
-
+		return false;
 	}
-	
+
 	
 	/**
 	 * @return false by default
@@ -3178,6 +3179,9 @@ public int totalz = (getLevelForXP(playerXP[0]) + getLevelForXP(playerXP[1]) + g
 	}
 	public void println(String str) {
 		System.out.println("[client-"+playerId+"-"+playerName+"]: "+str);
+	}
+	public void error(String str) {
+		System.out.println("[client-"+playerId+"-"+playerName+"] [ERROR] : "+str);
 	}
 	
 	
@@ -8307,7 +8311,6 @@ public int amountOfItem(int itemID)
 		return i1;
 	}
 
-/*PKING VOIDS FROM Rune Unlimited*/
 public void inCombat(){
 LogoutDelay = System.currentTimeMillis();
 }
@@ -14044,6 +14047,7 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 			case 164:	// regular walk
 				updateIdle();
 				
+				//click to walk
 			case 98:	// walk on command
 				updateIdle();
 				if (noClick)
@@ -14069,10 +14073,8 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 					break;
 				}
 				
-				if(faceNPC > 0) {
-					ResetAttack();
+				if(faceNPC > 0) 
 					ResetAttackNPC();
-				}
 
 //				if(winDuel && duelStatus == 4) {
 //					for(int i9 = 0; i9 < duelItems.length; i9++) { // Adds staked items so you get them back (they get deleted when putting on screen)
@@ -14144,11 +14146,11 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 
 	
 					//banking
-					if (IsBanking == true) {
+					if (IsBanking) {
 						RemoveAllWindows();
 					}
 					//shopping
-					if (IsShopping == true) {
+					if (IsShopping) {
 						IsShopping = false;
 						MyShopID = 0;
 						UpdateShop = false;
@@ -14161,6 +14163,7 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 						sendMessage("You decline the trade.");
 						RemoveAllWindows();
 					}
+
 					//follow check
 					if (playerFollowID != -1) {
 						for (i = 0; i < playerFollow.length; i++) {
@@ -17692,7 +17695,8 @@ parseIncomingPackets2();
 		AttackingOn = 0;
 		//resetAnimation();
 		IsUsingSkill = false;
-                pEmote = playerSE;
+    pEmote = playerSE;
+		requirePlayerUpdate();
 		return true;
 	}
 
@@ -19171,7 +19175,15 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 			
 		}
 	}
-
+	
+	public int getSpecialDamageAndModifySpecialDelay(int damage){
+		if (litBar){
+			damage = checkSpecials(damage, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX);
+			getFilling();
+		}
+		return damage;
+	}
+	
 /**
  * Will check the player weapon and apply a bonus to their original attack
  * The new amount (including bonus) is returned
@@ -19375,6 +19387,118 @@ public int checkSpecials(int original, int Y, int X){
 	return original;
 } 
 
+
+/**
+ * Checks to see if the player has a bow and ammo equipped
+ * Will modify PkingDelay if a bow is equipped
+ * @return The distance of what they have equipped, depending on type of fight style.
+ * Returns -1 if a bow is equipped with no ammo
+ * Returns 1 as default if no bow is equipped
+ */
+private int bowAndArrowCheck(){
+	if(lists.bows.exists(playerEquipment[playerWeapon])){ //Check to see if a bow is equipped
+		if(!this.BOWHANDLER.checkAmmo())
+			return -1;
+		switch (FightType) {
+			case 1:
+				PkingDelay = 9;
+				return 4;
+			case 2: //rapid
+				PkingDelay = 7;
+				return 3;
+			case 3:
+				PkingDelay = 12;
+				return 6;
+		}		
+	}
+	return 1; //default distance, no bow equipped
+}
+
+private boolean hitNPC(int npcID, int damage){
+	try{
+		if ( (server.npcHandler.npcs[npcID].HP-damage) < 0)
+			damage = server.npcHandler.npcs[npcID].HP;
+		server.npcHandler.npcs[npcID].StartKilling = playerId;
+		server.npcHandler.npcs[npcID].RandomWalk = false;
+		server.npcHandler.npcs[npcID].IsUnderAttack = true;
+		server.npcHandler.npcs[npcID].hitDiff = damage;
+		server.npcHandler.npcs[npcID].Killing[playerId] += damage;
+		server.npcHandler.npcs[npcID].updateRequired = true;
+		server.npcHandler.npcs[npcID].hitUpdateRequired = true;
+		server.npcHandler.npcs[npcID].animNumber = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcID].npcType);
+		server.npcHandler.npcs[npcID].updateAttackingPlayers(playerId, damage);
+		return true;
+	}
+	catch(Exception e){
+		error("In hitNPC : "+e.getMessage());
+		return false;
+	}
+}
+
+/**
+ * Will set the loop attack delay, hit delay timer, and call hitNPC
+ * @param npcID - NPC ID in the array of current NPCs
+ * @param damage - Damage to inflict
+ * @return True if the hit was successful, false otherwise
+ */
+private boolean updateDelayAndHitNPC(int npcID, int damage){
+	LoopAttDelay = PkingDelay+10;
+	hitDelayTimer = System.currentTimeMillis();
+	return hitNPC(attacknpc, damage);
+}
+
+private void addCombatXP(int damage){
+	if(damage != 0){
+		double TotalExp = 0;
+		if (FightType != 3) {
+			TotalExp = (double)(200 * damage);
+			TotalExp = (double)(TotalExp * CombatExpRate);
+			addSkillXP((int)(TotalExp), SkillID);
+		}
+		else {
+			TotalExp = (double)(200 * damage);
+			TotalExp = (double)(TotalExp * CombatExpRate);
+			addSkillXP((int)(TotalExp), playerAttack);
+			addSkillXP((int)(TotalExp), playerDefence);
+			addSkillXP((int)(TotalExp), playerStrength);
+		}
+		TotalExp = (double)(200 * damage);
+		TotalExp = (double)(TotalExp * CombatExpRate);
+		addSkillXP((int)(TotalExp), playerHitpoints);
+	}
+}
+
+private void addCombatRangedXP(int damage){
+	if(damage != 0){
+		double TotalExp = 0;
+		TotalExp = (double)(200 * damage);
+		TotalExp = (double)(TotalExp * CombatExpRate);
+		addSkillXP((int)(TotalExp), playerRanged);
+		TotalExp = (double)(200 * damage);
+		TotalExp = (double)(TotalExp * CombatExpRate);
+		addSkillXP((int)(TotalExp), playerHitpoints);
+	}
+}
+
+private void refreshPlayerPosition(){
+	teleportToX = absX;
+	teleportToY = absY;
+	requirePlayerUpdate();
+}
+
+private void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord){
+	if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){ //if not cbow and if there are arrows
+		DeleteArrow();
+		if(misc.random(1) == 0){
+			if (playerEquipment[playerCape] == 11342 || playerEquipment[playerCape] == 11341){
+				addItem(playerEquipment[playerArrows], 1);
+				sendMessage("The accumulator has attracted an arrow.");
+			}
+			else ItemHandler.addItem(playerEquipment[playerArrows], XCoord, YCoord, 1, playerId, false);
+		}
+	}
+}
+
 public boolean AttackNPC() {
 	
 	if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
@@ -19384,84 +19508,48 @@ public boolean AttackNPC() {
 		}
 	}
 	
-	
 	if (server.npcHandler.npcs[attacknpc].IsDead == true){
 		ResetAttackNPC();
-		ResetAttack();
 		return false;
 	}
 	int EnemyX = server.npcHandler.npcs[attacknpc].absX;
 	int EnemyY = server.npcHandler.npcs[attacknpc].absY;
-	int EnemyHP = server.npcHandler.npcs[attacknpc].HP;
 	int hitDiff = 0;
 
 	faceNPC(attacknpc);
-	//viewTo(server.npcHandler.npcs[attacknpc].absX, server.npcHandler.npcs[attacknpc].absY);
 
 	if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
 
 		PkingDelay = 5;
 		//resetanim = 5;
 
-		boolean UseBow = false;
-		int distance = 1;
-
-		if(lists.bows.exists(playerEquipment[playerWeapon])){ //if a bow is equipped
-			
-			if(!this.BOWHANDLER.checkAmmo()){ 
-				sendMessage("You need ammo to use this ranged weapon.");
-				ResetAttack();
-				ResetAttackNPC();
-				teleportToX = absX;
-				teleportToY = absY;
-				requirePlayerUpdate();
-				return false;
-			}
-			else{
-				PkingDelay = 4;
-				UseBow = true;
-				distance = 5;
-				if(FightType == 2){ //rapid
-					distance = 3;
-					PkingDelay = 1;
-				}
-				if(FightType == 3){ //long
-					distance = 6;
-					PkingDelay = 7;
-				}
-			}
+		int distance = bowAndArrowCheck();
+		if(distance == -1){
+			sendMessage("You need ammo to use this ranged weapon.");
+			return false;
 		}
 		
 		if(autocast){
-			distance = 5;
 			if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID)){
-				teleportToX = absX;
-				teleportToY = absY;
-				requirePlayerUpdate();
-				ResetAttack();
+				ResetAttackNPC();
 				return false;
 			}
-		}
-		
-		boolean halberd = false;
-		if(!autocast && !UseBow){ //halberd check
-			if(lists.halberd.exists(playerEquipment[playerWeapon])){
-				halberd = true;
-				PkingDelay = 7;
-				distance = 2;
-			}
+			distance = 5;
 		}
 		
 		if(LoopAttDelay > 1)
 			return false;
-
-		if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
-			if(!UseBow && !autocast) { //melee
-				if(halberd){
-					teleportToX = absX;
-					teleportToY = absY;
-					requirePlayerUpdate();
-				}
+		
+		/* Melee */
+		if(distance == 1 && !autocast) { 
+			if(lists.halberd.exists(playerEquipment[playerWeapon])){
+				PkingDelay = 7;
+				distance = 2;
+			}
+			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
+				if(distance > 1)
+					refreshPlayerPosition();
+				
 				setAnimation(GetWepAnim());
 				CalculateMaxHit();
 				int eff = playerMaxHit + (int)Math.ceil((attEffect/100.0)*playerMaxHit);
@@ -19470,110 +19558,60 @@ public boolean AttackNPC() {
 				
 				if(!HitNPC(attacknpc)) hitDiff = 0;
 				
-				if (litBar){
-					hitDiff = checkSpecials(hitDiff, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX);
-					getFilling();
-				}
-				if(hitDiff != 0){
-					double TotalExp = 0;
-					if (FightType != 3) {
-						TotalExp = (double)(200 * hitDiff);
-						TotalExp = (double)(TotalExp * CombatExpRate);
-						addSkillXP((int)(TotalExp), SkillID);
-					} else {
-						TotalExp = (double)(200 * hitDiff);
-						TotalExp = (double)(TotalExp * CombatExpRate);
-						addSkillXP((int)(TotalExp), playerAttack);
-						addSkillXP((int)(TotalExp), playerDefence);
-						addSkillXP((int)(TotalExp), playerStrength);
-					}
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), playerHitpoints);
-				}
-				actionTimer = 7;
-			}
-			if(UseBow && !autocast){
-				teleportToX = absX;
-				teleportToY = absY;
-				requirePlayerUpdate();
+				hitDiff = getSpecialDamageAndModifySpecialDelay(hitDiff);
 				
+				addCombatXP(hitDiff);
+				inCombat(); 
+			
+				return updateDelayAndHitNPC(attacknpc, hitDiff);
+			}			
+		}
+		/* Ranged */
+		if(distance > 1 && !autocast){
+			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
+				refreshPlayerPosition();
 				CalculateRange();
 				hitDiff = misc.random(playerMaxHit);
-				
+
 				if(!RangeHitNPC(attacknpc)) hitDiff = 0;
-				
+
 				if (litBar){
 					hitDiff = checkSpecials(hitDiff, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX);
 					getFilling();
 				}
 				else this.BOWHANDLER.arrowProjectile(attacknpc);
-				
-				if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){ //if not cbow and if there are arrows
-					DeleteArrow();
-					if(misc.random(1) == 0){
-						if (playerEquipment[playerCape] == 11342 || playerEquipment[playerCape] == 11341){
-							addItem(playerEquipment[playerArrows], 1);
-							sendMessage("The accumulator has attracted an arrow.");
-						}
-						else ItemHandler.addItem(playerEquipment[playerArrows], EnemyX, EnemyY, 1, playerId, false);
-					}
-				}
-				
-				
-				if(hitDiff != 0){
-					double TotalExp = 0;
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), playerRanged);
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), playerHitpoints);
-				}
-				
+
+				checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
+
+				addCombatRangedXP(hitDiff);
 				setAnimation(this.BOWHANDLER.getBowEmote());
+				return updateDelayAndHitNPC(attacknpc, hitDiff);
 			}
-			if(autocast){
-				magicOnNPC(attacknpc);
-				return false;
-			}
-
-			inCombat(); 
-			if ((EnemyHP - hitDiff) < 0) 
-				hitDiff = EnemyHP;		
-		
-			LoopAttDelay = PkingDelay+10;
-			hitDelayTimer = System.currentTimeMillis();
-			server.npcHandler.npcs[attacknpc].StartKilling = playerId;
-			server.npcHandler.npcs[attacknpc].RandomWalk = false;
-			server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-			server.npcHandler.npcs[attacknpc].hitDiff = hitDiff;
-			server.npcHandler.npcs[attacknpc].Killing[playerId] += hitDiff;
-			server.npcHandler.npcs[attacknpc].updateRequired = true;
-			server.npcHandler.npcs[attacknpc].hitUpdateRequired = true;
-			server.npcHandler.npcs[attacknpc].animNumber = NPCAnim.getBlockAnimation(server.npcHandler.npcs[attacknpc].npcType);
-			server.npcHandler.npcs[attacknpc].updateAttackingPlayers(playerId, hitDiff);
-			return true;
-
 		}
+		
+		/* Magic */
+		if(distance > 1 && autocast){
+			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) 
+				return magicOnNPC(attacknpc);
+		}
+		
 	}
 	else {
-		sendMessage("error , attacking npc");
+		error("In AttackNPC");
 	}
 	return false;
 }
 
-
 	public boolean ResetAttackNPC() {
+		ResetAttack();
 		if (attacknpc > -1 && attacknpc < server.npcHandler.maxNPCs) {
 			server.npcHandler.npcs[attacknpc].IsUnderAttack = false;
 		}
 		IsAttackingNPC = false;
 		attacknpc = -1;
-		//resetAnimation();
-                pEmote = playerSE;
-                faceNPC = 65535;
-                faceNPCupdate = true;
+    pEmote = playerSE;
+    faceNPC = 65535;
+    faceNPCupdate = true;
 		return true;
 	}
 	public void ManipulateDirection() {
@@ -19584,6 +19622,8 @@ public boolean AttackNPC() {
 			dirUpdateRequired = true;
 		}
 	}
+	
+	
 
 	public int GetNPCID(int coordX, int coordY) {
 		for (int i = 0; i < server.npcHandler.maxNPCs; i++) {
