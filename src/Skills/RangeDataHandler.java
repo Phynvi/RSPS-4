@@ -238,7 +238,7 @@ public int getBonus(){
 	return (int)Math.floor((double)(ammoBonus+bowBonus+equipmentBonus)/2.0);
 }
 
-	private int getArrowGFX(){
+	public int getArrowGFX(){
 		int curAmmo = c.playerEquipment[c.playerArrows];
 		int curBow = c.playerEquipment[c.playerWeapon];
 		if(lists.xbow.exists(curBow))

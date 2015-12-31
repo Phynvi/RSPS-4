@@ -1,15 +1,15 @@
 
 public class MagicDataHandler {
 	private client c;
-	
+
 	public MagicDataHandler(client pc){
 		c = pc;
 	}
-	
+
 	public int getMagicBonusDamage(){
 		return (int)Math.floor((double)(getStaffBonus()+getEquipmentBonus())/2.0);
 	}
-	
+
 	/**
 	 * Calculate's a player's maximum possible damage for a spell.
 	 * Calculations based off of magic level, max damage of spell, and equipment.
@@ -25,7 +25,7 @@ public class MagicDataHandler {
 		if(calc > maxDamage) calc = maxDamage;
 		return calc;
 	}
-	
+
 	private int getStaffBonus(){
 		int weap = c.playerEquipment[c.playerWeapon];
 		switch(weap){
@@ -34,13 +34,13 @@ public class MagicDataHandler {
 		case 1387:
 		case 1381:
 			return 2;
-			
+
 		case 1393: //battle staffs
 		case 1395:
 		case 1397:
 		case 1399:
 			return 4;
-			
+
 		case 2415: //saradomin staff
 		case 2416: //guthix staff
 		case 2417: //zamorak staff
@@ -49,25 +49,25 @@ public class MagicDataHandler {
 		case 1405: //mystic staff
 		case 1407: //mystic staff
 			return 5;
-			
+
 		case 4675: //Ancient Staff
 			return 7;
-			
+
 		case 4710://Ahrim's Staff
 		case 13308: //Staff from quest
 			return 9;
-			
-			default:
-				if(lists.basicMagicStaffs.exists(weap))
-					return 2;
+
+		default:
+			if(lists.basicMagicStaffs.exists(weap))
+				return 2;
 		}
 		return 0;
 	}
-	
+
 	public int getEquipmentBonus(){
 		int total = 0;
-		
-	//offhand
+
+		//offhand
 		switch(c.playerEquipment[c.playerShield]){ 
 		case 6889: //mage book
 		case 3840: case 3842: case 3844: //holy books
@@ -90,14 +90,14 @@ public class MagicDataHandler {
 			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerShield]))
 				total += 1;
 		}
-		
+
 		//Hat
 		switch(c.playerEquipment[c.playerHat]){ 
 		case 14090: //magic hood
 		case 14509: //3rd age
 			total += 4;
 			break;
-			
+
 		case 14497: //dagon hai bottom
 		case 15217: //draconic bottom
 		case 4708: //ahrim's
@@ -107,7 +107,7 @@ public class MagicDataHandler {
 			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerHat]))
 				total += 1;
 		}
-		
+
 		//Chest
 		switch(c.playerEquipment[c.playerChest]){ 
 		case 14507: //3rd age
@@ -137,35 +137,42 @@ public class MagicDataHandler {
 			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerLegs]))
 				total += 1;
 		}
-		
+
 		//Feet
 		switch(c.playerEquipment[c.playerFeet]){ 
 		default:
 			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerFeet]))
 				total += 1;
 		}
-		
+
 		//Cape
 		switch(c.playerEquipment[c.playerCape]){ 
 		case 14088: //magic skillcape
 		case 14089: //magic skillcape
 			total += 4;
 			break;
-		
+
 		case 2412: //saradomin cape
 		case 2413: //guthix cape
 		case 2414: //zamorak cape
 			total += 2;
 			break;
-		
+
 		default:
 			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerCape]))
 				total += 1;
 		}
-		
+
+		//Gloves
+		switch(c.playerEquipment[c.playerHands]){
+		default:
+			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerCape]))
+				total += 1;
+		}
+
 		return total;
 	}
-	
+
 	private void hasMagicRunesAndRemove(int ... amountThenItem){
 		if(amountThenItem == null) return;
 		if(amountThenItem[0] == -1) return; //requires no runes to cast
@@ -206,7 +213,7 @@ public class MagicDataHandler {
 
 		return true;
 	}
-	
+
 	public void removeMagicRunes(int spellID){
 		hasMagicRunesAndRemove(magicRunes(spellID));
 	}
@@ -214,7 +221,7 @@ public class MagicDataHandler {
 	public boolean checkMagicRunes(int spellID){
 		return hasMagicRunes(magicRunes(spellID));
 	}
-	
+
 	//runes
 	int FIRE = 554;
 	int WATER = 555;
@@ -229,7 +236,7 @@ public class MagicDataHandler {
 	int COSMIC = 564;
 	int BLOOD = 565;
 	int SOUL = 566;
-	
+
 	private int[] magicRunes(int magicID){
 		switch(magicID){ 
 		case 50235: // Home teleport ancients
@@ -248,7 +255,7 @@ public class MagicDataHandler {
 			return new int[]{2,LAW, 2,BLOOD};
 		case 51039: //Dwarf Throne teleport ancients
 			return new int[]{2,LAW, 8,WATER};
-			
+
 		case 29031: //gnome tree stronghold
 			return new int[]{2,FIRE, 2,LAW};
 		case 6004: //Ardougne
@@ -420,11 +427,11 @@ public class MagicDataHandler {
 			return 80;
 		case 12929: //Blood Barrage - Level 92
 			return 92;
-			
+
 		default:
 			c.debug("Unhandled magicID in checkMagicLevel : "+magicID);
 			return -1;
 		}
 	}
-	
+
 }

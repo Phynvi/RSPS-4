@@ -1,15 +1,15 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = 192.168.1.100
-character-lastlogintime = 20151127
+character-lastlogintime = 20151131
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
 character-eastergift = 4
 character-hasegg = 0
-character-hasset = 8
-character-pkpoints = 21
-character-killcount = 18
+character-hasset = 11
+character-pkpoints = 24
+character-killcount = 21
 character-deathcount = 1
 character-mutedate = 0
 character-height = 0

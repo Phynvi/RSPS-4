@@ -199,9 +199,9 @@ public class EventManager{
 							c.stillgfxz(337, server.npcHandler.npcs[c.attacknpc].absY, server.npcHandler.npcs[c.attacknpc].absX, 100, 10);
 						}
 						if (c.IsAttacking){
-							c.meleeDamage = true;
 							int dmg = misc.random(c.playerMaxHit);
-							c.SpecDamg2(dmg); //method accounts for prayer
+							if(c.PMelee) dmg = (int)(dmg*0.6);
+							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 						c.setAnimation(1667);
 					}
@@ -213,8 +213,8 @@ public class EventManager{
 							c.SpecDamgNPC(c.playerMaxHit + misc.random(c.playerLevel[c.playerAttack]/11));	
 						if (c.IsAttacking){
 							int dmg = misc.random(c.playerMaxHit + misc.random(c.playerLevel[c.playerAttack]/11));
-							c.meleeDamage = true;
-							c.SpecDamg2(dmg); //method accounts for prayer
+							if(c.PMelee) dmg = (int)(dmg*0.6);
+							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 					}
 					
@@ -222,35 +222,37 @@ public class EventManager{
 						c.setAnimation(426);
 						c.CalculateRange();
 						if(c.IsAttackingNPC){
-							int EnemyX = server.npcHandler.npcs[c.attacknpc].absX;
-							int EnemyY = server.npcHandler.npcs[c.attacknpc].absY;
-							int offsetX = (c.absX - EnemyX) * -1;
-							int offsetY = (c.absY - EnemyY) * -1;
 							c.SpecDamgNPC(c.playerMaxHit + misc.random(c.playerLevel[c.playerAttack]/25));	
-							//c.createProjectile(c.absY, c.absX, offsetX, offsetY, 50, 75, 249, 43, 31, c.attacknpc+1);
 						}
 						if (c.IsAttacking){
 							int dmg = misc.random(c.playerMaxHit + misc.random(c.playerLevel[c.playerAttack]/25));
-							c.rangeDamage = true;
-							c.SpecDamg2(dmg); 
-							int X = PlayerHandler.players[c.AttackingOn].absX;
-							int Y = PlayerHandler.players[c.AttackingOn].absY;
-							int offsetX = (c.absX - X) * -1;
-							int offsetY = (c.absY - Y) * -1;
-							//c.createProjectile(c.absY, c.absX, offsetX, offsetY, 50, 75, 249, 43, 31, c.AttackingOn+1);
+							if (c.PRange) dmg = (int)(dmg*0.6);
+							c.damagePlayer(c.AttackingOn, dmg); 
+						}
+					}
+					if(c.playerEquipment[c.playerWeapon] == Item.DARKBOW){ 
+						c.setAnimation(426);
+						c.CalculateRange();
+						if(c.IsAttackingNPC){
+							c.SpecDamgNPC(c.playerMaxHit + (int)(c.playerMaxHit*0.3) );	
+						}
+						if (c.IsAttacking){
+							int dmg = misc.random(c.playerMaxHit + (int)(c.playerMaxHit*0.3) );
+							if (c.PRange) dmg = (int)(dmg*0.6);
+							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 					}
 					
 				}
-				if (c.DClawsHit1 == true && (c.IsAttackingNPC || c.IsAttacking)){
-					c.DClawsTimer = 7;
+				if (c.DClawsHit1 == true && (c.IsAttackingNPC || c.IsAttacking) && c.DClawsTimer == 8){
 					if (c.DClawsDmg > 0){
 						c.DClawsHit2 = c.DClawsDmg/2; //2nd hit is first hit divided by 2
 						if (c.IsAttackingNPC) //if attacking NPC
 							c.SpecDamgNPC2(c.DClawsHit2); //directly dmg
 						if (c.IsAttacking){ //if attacking player
-							c.meleeDamage = true;
-							c.SpecDamg2(c.DClawsHit2);
+							int dmg = c.DClawsHit2;
+							if(c.PMelee) dmg = (int)(dmg*0.6);
+							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 						c.DClawsHit3 = (c.DClawsHit2/2)-misc.random(2); //3rd and 4th hit add up to 2nd hit
 						c.DClawsHit4 = c.DClawsHit2-c.DClawsHit3;
@@ -262,8 +264,9 @@ public class EventManager{
 						if (c.IsAttackingNPC) //if attacking NPC
 							c.SpecDamgNPC2(c.DClawsHit2); //directly dmg
 						if (c.IsAttacking){ //if attacking player
-							c.meleeDamage = true;
-							c.SpecDamg2(c.DClawsHit2);	
+							int dmg = c.DClawsHit2;
+							if(c.PMelee) dmg = (int)(dmg*0.6);
+							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 						if (c.DClawsHit2 == 0){//if zero damage dealt on second hit
 							c.CalculateMaxHit(); //Calculates max hit
@@ -285,20 +288,22 @@ public class EventManager{
 					}
 					c.DClawsHit1= false;
 				}
-				if ((c.IsAttackingNPC || c.IsAttacking) && c.DClawsTimer == 4){
+				if ((c.IsAttackingNPC || c.IsAttacking) && c.DClawsTimer == 7){
 					if (c.IsAttackingNPC) //if attacking NPC
 						c.SpecDamgNPC2(c.DClawsHit3); //directly dmg
 					if (c.IsAttacking){ //if attacking player
-						c.meleeDamage = true;
-						c.SpecDamg2(c.DClawsHit3);
+						int dmg = c.DClawsHit3;
+						if(c.PMelee) dmg = (int)(dmg*0.6);
+						c.damagePlayer(c.AttackingOn, dmg); 
 					}
 				}
-				if ((c.IsAttackingNPC || c.IsAttacking) && c.DClawsTimer == 1){
+				if ((c.IsAttackingNPC || c.IsAttacking) && c.DClawsTimer == 6){
 					if (c.IsAttackingNPC) //if attacking NPC
 						c.SpecDamgNPC2(c.DClawsHit4); //directly dmg
 					if (c.IsAttacking){ //if attacking player
-						c.meleeDamage = true;
-						c.SpecDamg2(c.DClawsHit4);
+						int dmg = c.DClawsHit4;
+						if(c.PMelee) dmg = (int)(dmg*0.6);
+						c.damagePlayer(c.AttackingOn, dmg); 
 					}
 				}
 				break;

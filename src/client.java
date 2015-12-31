@@ -45,7 +45,7 @@ public class client extends Player implements Runnable {
 		}
 		return true;
 	}
-	
+		
 	private int getSpecAmount(){
 		switch(playerEquipment[playerWeapon]){
 		case 1434: //dargon mace? 
@@ -68,6 +68,7 @@ public class client extends Player implements Runnable {
 		case 15335: //Saradomin Godsword
 			return 5;
 			
+		case Item.DARKBOW:
 		case 4587: //Dragon Scimitar
 		case 15336: //Zaradomin Godsword
 			return 6;	
@@ -125,6 +126,15 @@ public class client extends Player implements Runnable {
 		return defTotal;
 	}
 	
+	public int playerMagicDefBonusStatic(){
+		double defBonus = (double)playerLevel[playerMagic]/9.0;
+		double defBonusEffect = ((double)playerLevel[playerMagic]/9.0)*(double)defEffect/100.0;
+		double levelBonus = defBonus+defBonusEffect;
+		int defrandom = (int)levelBonus;
+		int defrandom2 = (playerLevel[playerMagic]+1)/25 + getShieldMagicDefBonus(); //static defence given
+		return defrandom+defrandom2;
+	}
+	
 	/**
 	 * Can get deductions as high as ~15
 	 * @return amount to be deducted from hit on player
@@ -137,6 +147,15 @@ public class client extends Player implements Runnable {
 		int defrandom2 = (playerLevel[1]+1)/25 + getShieldDefBonus();
 		int defTotal = misc.random(defrandom+defrandom2);
 		return defTotal;
+	}
+	
+	public int playerMeleeDefBonusStatic(){
+		double defBonus = (double)playerLevel[1]/9.0;
+		double defBonusEffect = ((double)playerLevel[1]/9.0)*(double)defEffect/100.0;
+		double levelBonus = defBonus+defBonusEffect;
+		int defrandom = (int)levelBonus;
+		int defrandom2 = (playerLevel[1]+1)/25 + getShieldDefBonus();
+		return defrandom+defrandom2;
 	}
 	
 	public boolean ElysianSpiritShield(){
@@ -2458,7 +2477,7 @@ public void CheckBar() {
 		sendFrame171(0, 12323);
 		litBarCheck(12335);
 		break;
-	case 861: case 4212: case 15156: //bow specials
+	case 861: case 4212: case 15156: case 4734://bow specials
 		setSidebarInterface(0, 1764); 
 		sendFrame246(1765, 200, playerEquipment[playerWeapon]);
 		sendFrame126(getItemName(playerEquipment[playerWeapon]), 1767);
@@ -2835,32 +2854,6 @@ public void SpecDamg(int maxDamage) {
 	}
       }
     }
-
-public boolean meleeDamage, rangeDamage, magicDamage;
-
-public void SpecDamg2(int directDamage) {
-	 for (Player p : server.playerHandler.players)
-	  {
-	   if(p != null) 
-	    {
-		 if (PlayerHandler.players[AttackingOn].IsDead == false ) {
-		 int damage = directDamage;
-		 if (PlayerHandler.players[AttackingOn].PMelee && meleeDamage)
-					damage = (int)((double)damage*0.6); //protects for 40% in PvP
-		 if (PlayerHandler.players[AttackingOn].PMage && magicDamage)
-				damage = (int)((double)damage*0.6); //protects for 40% in PvP
-		 if (PlayerHandler.players[AttackingOn].PRange && rangeDamage)
-				damage = (int)((double)damage*0.6); //protects for 40% in PvP
-	         if (PlayerHandler.players[AttackingOn].playerLevel[3] - hitDiff < 0) 
-	         damage = PlayerHandler.players[AttackingOn].playerLevel[3];
-		 PlayerHandler.players[AttackingOn].hitDiff = damage;
-		 PlayerHandler.players[AttackingOn].updateRequired = true;
-		 PlayerHandler.players[AttackingOn].hitUpdateRequired = true;
-		 meleeDamage = rangeDamage = magicDamage = false;
-		 }
-		}
-	      }
-	    }
 
 
 public void SpecDamgScythe() {
@@ -5199,10 +5192,9 @@ teleOtherScreen = false;
 
 public void DeleteArrow()
 {
- if(playerEquipmentN[playerArrows] == 0)
- {
+ if( playerEquipmentN[playerArrows]-1 <= 0)
   deleteequiment(playerEquipment[playerArrows], playerArrows);
- }
+ 
  if(playerEquipment[playerWeapon] != 4214 && playerEquipmentN[playerArrows] != 0){
   outStream.createFrameVarSizeWord(34);
   outStream.writeWord(1688);
@@ -6118,7 +6110,7 @@ public void ProjectileSpellPlayer2(int startID, int movingID, int finishID, int 
  
 public int ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg) {
 		setAnimation(711);
-		if(!MageHit(index)){
+		if(!MageHit(index-1)){
 			maxDmg = 0;
 			finishID = 339;
 		}
@@ -6133,7 +6125,7 @@ public void ProjectileSpellPlayer(int startID, int movingID, int finishID, int c
 
 public int ancientsProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg) {
 	setAnimation(1978);
-	if(!MageHit(index)){
+	if(!MageHit(index-1)){
 		maxDmg = 0;
 		finishID = 339;
 	}
@@ -13876,6 +13868,8 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 
 					if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null && !Cant) {
 						if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
+							IsAttacking = false;
+							AttackingOn = 0;
 							IsAttackingNPC = true;
 							server.npcHandler.npcs[attacknpc].StartKilling = playerId;
 							server.npcHandler.npcs[attacknpc].RandomWalk = false;
@@ -14488,8 +14482,8 @@ case 95: // update chat
 						
 						if(plz != null) {
 							IsAttacking = true;
-							inCombat();
-							setAnimation(GetWepAnim());
+							IsAttackingNPC = false;
+							attacknpc = -1;
 						} 
 						
 						if(server.playerHandler.players[AttackingOn] != null) {
@@ -14845,7 +14839,7 @@ case 249: //Magic on Players
 
 		if(isInPKZone() && duelStatus == -1) {	
 			MageAttackIndex = playerIndexx+1;
-				AttackMage(playerIndexx);
+				AttackPlayerMagic(playerIndexx);
 		}
 		else sendMessage("That player is in a safe zone.");
 		
@@ -16399,7 +16393,9 @@ case 29138:
 			else sendMessage("You do not have enough power.");
 			break;
 		}
-		if(specialDelay >= getSpecAmount())
+		int requiredSpecialAmount = getSpecAmount();
+		if(requiredSpecialAmount == -1) break;
+		if(specialDelay >= requiredSpecialAmount)
 			litBar = true;
 		else{
 			sendMessage("You do not have enough power.");
@@ -17455,236 +17451,176 @@ parseIncomingPackets2();
 		return true;
 	}
 
+	
+	private void applyBandosSpecial(client opponentClient, int damage){
+		if(damage <= 0) return;
+		
+		if( (opponentClient.playerLevel[1]-damage) < 1)
+			opponentClient.playerLevel[1] = 1; 
+
+		if( (opponentClient.playerLevel[2]-damage) < 1)
+			opponentClient.playerLevel[2] = 1; 
+
+		if( (opponentClient.playerLevel[1]-damage) >= 1)
+			opponentClient.playerLevel[1] -= damage; 
+
+		if( (opponentClient.playerLevel[2]-damage) >= 1)
+			opponentClient.playerLevel[2] -= damage; 
+
+		opponentClient.sendMessage("Your Strength and Defence have been drained by the Bandos Special.");
+		opponentClient.addSkillXP(0, 1);
+		opponentClient.addSkillXP(0, 2); //updates frames
+		
+	}
+	
+	/**
+	 * Private helper method for PVP combat. Will update attack delay as well.
+	 * @param playerID Player ID in players array
+	 * @param damage damage to inflict to player
+	 * @return true if damage inflicted successfully
+	 */
+	private boolean updateDelayAndDamagePlayer(int playerID, int damage){
+		client opponentClient = (client) PlayerHandler.players[playerID];
+		
+		LoopAttDelay = PkingDelay+7;
+		debug("LoopAttDelay : "+LoopAttDelay);
+		playerSpamTimer = System.currentTimeMillis();
+		faceNPC = 32768+playerID;
+		faceNPCupdate = true;
+		PlayerHandler.players[playerID].faceNPC = 32768+AttackingOn;
+		PlayerHandler.players[playerID].faceNPCupdate = true;
+		opponentClient.KillerId = playerId;
+		opponentClient.inCombat();
+		if(opponentClient.autoRetaliate == 1 && !opponentClient.IsAttacking) //1 means on
+			opponentAutoAttack(opponentClient);
+		inCombat();
+		if (opponentClient.SpecEmoteTimer == 0)
+			opponentClient.setAnimation(GetBlockAnim(opponentClient.playerEquipment[opponentClient.playerWeapon]));
+		return damagePlayer(playerID, damage);
+	}
+	
+	public boolean damagePlayer(int playerID, int damage){
+		try{
+			int playerHP = PlayerHandler.players[playerID].playerLevel[playerHitpoints];
+			if (damage > playerHP) damage = playerHP;
+			if (damage < 0) damage = 0;
+			PlayerHandler.players[playerID].hitDiff = damage;
+			PlayerHandler.players[playerID].hitUpdateRequired = true;
+			PlayerHandler.players[playerID].updateRequired = true;
+			PlayerHandler.players[playerID].appearanceUpdateRequired = true;
+			return true;
+		}
+		catch(Exception e){
+			error("In damagePlayer : "+e.getMessage());
+			return false;
+		}
+	}
+	
 	public boolean Attack() {
 		isPVP = true;
 		int EnemyX = PlayerHandler.players[AttackingOn].absX;
 		int EnemyY = PlayerHandler.players[AttackingOn].absY;
-		int EnemyHP = PlayerHandler.players[AttackingOn].playerLevel[playerHitpoints];
 		int EnemyHPExp = PlayerHandler.players[AttackingOn].playerXP[playerHitpoints];
-		client AttackingOn2 = (client) server.playerHandler.players[AttackingOn]; //opponent's client
-
-		if(!canAttackOpponent(AttackingOn2))
+		client opponentClient = (client) server.playerHandler.players[AttackingOn]; //opponent's client
+		if (opponentClient == null){
+			error("In Attack, opponent client is null");
+			return false;
+		}
+			
+		if(!canAttackOpponent(opponentClient))
 			return false;
 
-		int hitDiff = 0;
-		//int wepdelay = 10; //controls default delay
-		PkingDelay = 7; //default delay
-
-		//viewTo(server.playerHandler.players[AttackingOn].absX, server.playerHandler.players[AttackingOn].absY);
-
-		boolean UseBow = false;
-
-		int distance = 1;
-
-		if(isBow())	{ //if player has a bow equipped
-			if(!this.BOWHANDLER.checkAmmo()){ 
-				teleportToX = absX;
-				teleportToY = absY;
-				sendMessage("You need ammo to use this ranged weapon.");
-				ResetAttack();
-				return false;
-			}
-			if(FightType == 1){ //accurate
-				distance = 5;
-				PkingDelay = 9;
-			}
-			if(FightType == 2){ //rapid
-				distance = 3;
-				PkingDelay = 7;
-			}
-			if(FightType == 3){ //long
-				distance = 7;
-				PkingDelay = 12;
-			}
-			UseBow = true;
+		int distance = bowAndArrowCheck();
+		if(distance == -1){
+			sendMessage("You need ammo to use this ranged weapon.");
+			refreshPlayerPosition();
+			ResetAttack();
+			return false;
 		}
 
 		if(LoopAttDelay > 1)
 			return false;
-		
-		if(autocast){
-			distance = 6;
-			if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID)){
-				teleportToX = absX;
-				teleportToY = absY;
-				requirePlayerUpdate();
-				return false;
-			}
-		}
-		
-		if(!autocast && !UseBow){ //halberd check
+
+		/* Melee */
+		if(distance == 1 && !autocast) { 
 			if(lists.halberd.exists(playerEquipment[playerWeapon])){
-				PkingDelay = 12;
+				PkingDelay = 9;
 				distance = 2;
 			}
-		}
-		
-		//checkWildRange(AttackingOn2.combat); //in case i want to bring back wilderness level
+			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
+				if (PlayerHandler.players[AttackingOn].IsDead == true) {
+					ResetAttack();
+					return false;
+				}
 
-		if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
-			if (PlayerHandler.players[AttackingOn].IsDead == true) {
-				ResetAttack();
-				return false;
-			} 
-			
-			if(!UseBow && !autocast){ //melee
-				//actionAmount++;
-				//setAnimation(playerSEA);
-				inCombat(); 
-				AttackingOn2.KillerId = playerId;
-				AttackingOn2.inCombat();
-				if(AttackingOn2.autoRetaliate == 1 && !AttackingOn2.IsAttacking) //1 means on
-					opponentAutoAttack(AttackingOn2);
+				PkingDelay = 7; //default delay
 
 				setAnimation(GetWepAnim());
-				CalculateMaxHit();
-				int eff = playerMaxHit + (int)Math.ceil((attEffect/100.0)*playerMaxHit);
-				hitDiff = misc.random(eff);
-				if(hitDiff > playerMaxHit) hitDiff = playerMaxHit;
 				
-				LoopAttDelay = PkingDelay+7;
-				
+				int damage = CalculateMaxHit(); //updates playerMaxHit as well
+				damage = misc.random( damage + (int)Math.ceil((attEffect/100.0)*damage) );
+				if(damage > playerMaxHit) damage = playerMaxHit;
+
 				if(litBar){
-					hitDiff = checkSpecials(hitDiff, AttackingOn2.absY, AttackingOn2.absX);
+					damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
 					getFilling();
-					switch(playerEquipment[playerWeapon]){
-					case 15334: //BGS, lowers strength and defence by hitDiff
-						if(hitDiff > 0){
-							if ((AttackingOn2.playerLevel[1]-hitDiff) < 1)
-								AttackingOn2.playerLevel[1] = 1; 
-
-							if ((AttackingOn2.playerLevel[2]-hitDiff) < 1)
-								AttackingOn2.playerLevel[2] = 1; 
-
-							if ((AttackingOn2.playerLevel[1]-hitDiff) >= 1)
-								AttackingOn2.playerLevel[1] -= hitDiff; 
-
-							if ((AttackingOn2.playerLevel[2]-hitDiff) >= 1)
-								AttackingOn2.playerLevel[2] -= hitDiff; 
-
-							AttackingOn2.sendMessage("Your Strength and Defence have been drained by the Bandos Special.");
-							AttackingOn2.addSkillXP(0, 1);
-							AttackingOn2.addSkillXP(0, 2); //updates frames
-						}
-						break;
-					case 15336: //ZGS, freezes
-						if(hitDiff > 0){
-							AttackingOn2.frozen(20); //freezes for 20 seconds
-							AttackingOn2.stillgfxz(369, AttackingOn2.absY, AttackingOn2.absX, 0, 20);
-						}
-						break;
-					}
 				}
-				
-				hitDiff -= AttackingOn2.playerMeleeDefBonus(); //accounts for opponent's defence level
 
-				if(!Hit(AttackingOn)) hitDiff = 0;
-				
-				if(AttackingOn2.PMelee)
-					hitDiff = (int)((double)hitDiff*0.6); //protects for 40% in PvP
+				damage -= opponentClient.playerMeleeDefBonus(); //accounts for opponent's defence level
 
-				if(hitDiff < 0) hitDiff = 0;
-				
-				if ((EnemyHP - hitDiff) < 0) 
-					hitDiff = EnemyHP;
-				
+				if(!Hit(AttackingOn)) damage = 0;
+
+				if(opponentClient.PMelee)
+					damage = (int)((double)damage*0.6); //protects for 40% in PvP
+
+				if(usedBandosSpecial){
+					usedBandosSpecial = false;
+					applyBandosSpecial(opponentClient, damage);
+				}
+				if(usedZamorakSpecial){
+					usedZamorakSpecial = false;
+					opponentClient.frozen(20);
+					opponentClient.stillgfxz(369, opponentClient.absY, opponentClient.absX, 0, 20);
+				}
+
 				//PkingDelay = wepdelay;
-				
-				double TotalExp = 0;
-				if (FightType != 3) {
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), SkillID);
-				} else {
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), playerAttack);
-					addSkillXP((int)(TotalExp), playerDefence);
-					addSkillXP((int)(TotalExp), playerStrength);
-				}
-				TotalExp = (double)(200 * hitDiff);
-				TotalExp = (double)(TotalExp * CombatExpRate);
-				addSkillXP((int)(TotalExp), playerHitpoints);
+				addCombatXP(damage);
+				return updateDelayAndDamagePlayer(AttackingOn, damage);
 			}
-			
-			if(UseBow && !autocast){ //ranged with bow
-					//actionAmount++;
-					//setAnimation(playerSEA);
-				teleportToX = absX;
-				teleportToY = absY;
-				
-				inCombat(); 
-				AttackingOn2.KillerId = playerId;
-				AttackingOn2.inCombat();
-				if(AttackingOn2.autoRetaliate == 1 && !AttackingOn2.IsAttacking) //1 means on
-					opponentAutoAttack(AttackingOn2);
-				
-				CalculateRange();
-				hitDiff = misc.random(playerMaxHit);
-				
-				if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){
-					DeleteArrow();
-					if(misc.random(1) == 0){
-						if (playerEquipment[playerCape] == 11342 || playerEquipment[playerCape] == 11341){
-							addItem(playerEquipment[playerArrows], 1);
-							sendMessage("The accumulator has attracted an arrow.");
-						}
-						else ItemHandler.addItem(playerEquipment[playerArrows], EnemyX, EnemyY, 1, playerId, false);
-					}
-				}
-				
-					if(litBar){
-						hitDiff = checkSpecials(hitDiff, AttackingOn2.absY, AttackingOn2.absX);
-						getFilling();
-					}
-					else this.BOWHANDLER.arrowProjectilePlayer(AttackingOn);
-					
-					LoopAttDelay = PkingDelay+7;
-					
-					hitDiff -= AttackingOn2.playerMeleeDefBonus(); //accounts for opponent's defence level
-					
-					if(!RangeHit(AttackingOn)) hitDiff = 0;
-					
-					if(AttackingOn2.PRange)
-						hitDiff = (int)((double)hitDiff*0.6); //protects for 40% in PvP
-					
-					if(hitDiff < 0) hitDiff = 0;
-					
-					if ((EnemyHP - hitDiff) < 0) 
-						hitDiff = EnemyHP;
-
-					setAnimation(this.BOWHANDLER.getBowEmote());
-					
-					double TotalExp = 0;
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), playerRanged);
-					TotalExp = (double)(200 * hitDiff);
-					TotalExp = (double)(TotalExp * CombatExpRate);
-					addSkillXP((int)(TotalExp), playerHitpoints);
-				
-			}
-			
-			if(autocast && !UseBow){
-				AttackMage(AttackingOn);
-				return true;
-			}
-
-			if (AttackingOn2.SpecEmoteTimer == 0)
-				AttackingOn2.setAnimation(GetBlockAnim(AttackingOn2.playerEquipment[AttackingOn2.playerWeapon]));
-			
-			isPVP = false;
-			faceNPC = 32768+AttackingOn;
-			faceNPCupdate = true;
-			AttackingOn2.faceNPC = 32768+AttackingOn;
-			AttackingOn2.faceNPCupdate = true;
-			PlayerHandler.players[AttackingOn].hitDiff = hitDiff;
-			PlayerHandler.players[AttackingOn].hitUpdateRequired = true;
-			PlayerHandler.players[AttackingOn].updateRequired = true;
-			PlayerHandler.players[AttackingOn].appearanceUpdateRequired = true;
-			return true;
-
 		}
+
+		/* Ranged */
+		if(distance > 1 && !autocast){
+			//actionAmount++;
+			//setAnimation(playerSEA);
+			refreshPlayerPosition();
+
+			int damage = misc.random(CalculateRange());
+
+			if(litBar){
+				damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
+				getFilling();
+			}
+			else this.BOWHANDLER.arrowProjectilePlayer(AttackingOn);
+
+			if(!RangeHit(AttackingOn)) damage = 0;
+
+			if(opponentClient.PRange)
+				damage = (int)((double)damage*0.6); //protects for 40% in PvP
+
+			setAnimation(this.BOWHANDLER.getBowEmote());
+			
+			checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
+
+			addCombatRangedXP(damage);
+			
+			return updateDelayAndDamagePlayer(AttackingOn, damage);			
+		}
+		
+		/* Magic */
+		if(autocast){
+			return AttackPlayerMagic(AttackingOn);
+		}	
 
 		isPVP = false;
 		return false;
@@ -18932,45 +18868,48 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 
 	int applySnare = -1;
 	
-	public void AttackMage(int index) {
+	private boolean AttackPlayerMagic(int index) {
 		if(LoopAttDelay > 1)
-			return;
-		
-		teleportToX = absX;
-		teleportToY = absY;
-		requirePlayerUpdate();
+			return false;
 		
 		applySnare = -1;
 		int required = this.MAGICDATAHANDLER.checkMagicLevel(spellID);
 		if(playerLevel[playerMagic] < required){
 			sendMessage("You need a Magic level of at least "+required+" to do that.");
-			return;
+			refreshPlayerPosition();
+			return false;
 		}
 		
-		if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID))
-			return;
+		if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID)){
+			refreshPlayerPosition();
+			return false;
+		}
 		
 		int playerIndex = index;
 		client castOnPlayer = (client) server.playerHandler.players[playerIndex];
 		
-		if(!canAttackOpponent(castOnPlayer))
-			return;
-		
-		int distance = 6;
+		if(!canAttackOpponent(castOnPlayer)){
+			refreshPlayerPosition();
+			return false;
+		}
 		
 		int EnemyX2 = server.playerHandler.players[playerIndex].absX;
 		int EnemyY2 = server.playerHandler.players[playerIndex].absY;
 		int EnemyHP = server.playerHandler.players[playerIndex].playerLevel[playerHitpoints];
 		int heal = 0;
 		int myHP = playerLevel[playerHitpoints];
-		int hitDiff = 0;	
+		int damage = 0;	
+		
+		int distanceBetweenMeAndMyEnemy = distanceBetweenPoints(EnemyX2, EnemyY2, absX, absY);
 		
 		//inStream.readSignedWordA();
-		if (GoodDistance(EnemyX2, EnemyY2, absX, absY, distance) && castOnPlayer != null){	
-
+		if (distanceBetweenMeAndMyEnemy <= 6){				
 			if(debugmode) debug("playerIndex: "+playerIndex+" spellID: "+spellID);
-
-			faceNPC(32768+index);
+			
+			PkingDelay = 4+(distanceBetweenMeAndMyEnemy/2);
+			
+			refreshPlayerPosition();
+			
 			int offsetX = (absX - EnemyX2) * -1;
 			int offsetY = (absY - EnemyY2) * -1;
 			int BURST = 2; int BARRAGE = 3;
@@ -18984,128 +18923,127 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				opponentAutoAttack(castOnPlayer);
 			
 			this.MAGICDATAHANDLER.removeMagicRunes(spellID);
-			LoopAttDelay = PkingDelay + 7;
 			
 			switch(spellID){ 
 			
 			case 1152: //Wind Strike
-				hitDiff = ProjectileSpellPlayer(90, 95, 92, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 2);
+				damage = ProjectileSpellPlayer(90, 95, 92, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 2);
 				break;
 
 			case 1154: //Water Strike
-				hitDiff = ProjectileSpellPlayer(93, 94, 95, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 5);
+				damage = ProjectileSpellPlayer(93, 94, 95, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 5);
 				break;
 
 			case 1156: //Earth Strike
-				hitDiff = ProjectileSpellPlayer(96, 97, 98, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 9);
+				damage = ProjectileSpellPlayer(96, 97, 98, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 9);
 				break;
 
 			case 1158: //Fire Strike
-				hitDiff = ProjectileSpellPlayer(99, 100, 101, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 13);
+				damage = ProjectileSpellPlayer(99, 100, 101, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 13);
 				break;
 
 			case 1160: //Wind Bolt
-				hitDiff = ProjectileSpellPlayer(117, 118, 119, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17);
+				damage = ProjectileSpellPlayer(117, 118, 119, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17);
 				break;
 			case 1163: //thing
-				hitDiff = ProjectileSpellPlayer(120, 121, 122, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23);
+				damage = ProjectileSpellPlayer(120, 121, 122, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23);
 				break;
 
 			case 1166: //Earth Bolt
-				hitDiff = ProjectileSpellPlayer(123, 124, 125, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 29); 
+				damage = ProjectileSpellPlayer(123, 124, 125, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 29); 
 				break;
 
 			case 1169: //Fire Bolt
-				hitDiff = ProjectileSpellPlayer(126, 127, 128, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 35);
+				damage = ProjectileSpellPlayer(126, 127, 128, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 35);
 				break;
 
 			case 1172: //Wind Blast
-				hitDiff = ProjectileSpellPlayer(132, 133, 134, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 41);
+				damage = ProjectileSpellPlayer(132, 133, 134, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 41);
 				break;
 
 			case 1175: //Water Blast
-				hitDiff = ProjectileSpellPlayer(135, 136, 137, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 47);
+				damage = ProjectileSpellPlayer(135, 136, 137, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 47);
 				break;
 
 			case 1177: //Earth Blast
-				hitDiff = ProjectileSpellPlayer(138, 139, 140, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 53);
+				damage = ProjectileSpellPlayer(138, 139, 140, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 53);
 				break;
 
 			case 1181: //Fire Blast
-				hitDiff = ProjectileSpellPlayer(129, 130, 131, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 59);
+				damage = ProjectileSpellPlayer(129, 130, 131, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 59);
 				break;
 
 			case 1183: //Wind Wave
-				hitDiff = ProjectileSpellPlayer(158, 159, 160, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26);
+				damage = ProjectileSpellPlayer(158, 159, 160, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26);
 				break;
 
 			case 1185: //Water Wave
-				hitDiff = ProjectileSpellPlayer(161, 162, 163, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 27);
+				damage = ProjectileSpellPlayer(161, 162, 163, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 27);
 				break;
 
 			case 1188: //Earth Wave
-				hitDiff = ProjectileSpellPlayer(164, 165, 166, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 28);
+				damage = ProjectileSpellPlayer(164, 165, 166, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 28);
 				break;
 
 			case 1189: //Fire Wave
-				hitDiff = ProjectileSpellPlayer(155, 156, 157, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 30);
+				damage = ProjectileSpellPlayer(155, 156, 157, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 30);
 				break;
 
 			case 12861: //Ice Rush - Level 58
 				applySnare = 5;
-				hitDiff = ancientsProjectileSpellPlayer(360, 360, 361, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17);
+				damage = ancientsProjectileSpellPlayer(360, 360, 361, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17);
 				break;
 
 			case 12881: //Ice Burst - Level 70
 				applySnare = 10;
 				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST);					
-				return;
+				return true;
 
 			case 12871: //Ice Blitz - Level 82
 				applySnare = 15;
-				hitDiff = ancientsProjectileSpellPlayer(366, 367, 368, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26);
+				damage = ancientsProjectileSpellPlayer(366, 367, 368, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26);
 				break;
 
 			case 12891: //Ice Barrage - Level 94
 				applySnare = 20;
 				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE);					
-				return;
+				return true;
 
 			case 12939: // Smoke Rush - Level 50
-				hitDiff = ancientsProjectileSpellPlayer(384, 384, 385, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14);
+				damage = ancientsProjectileSpellPlayer(384, 384, 385, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14);
 				break;
 
 			case 12963: // Smoke Burst - Level 62
 				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST);		
-				return;
+				return true;
 
 			case 12951: //Smoke Blitz - Level 74
-				hitDiff = ancientsProjectileSpellPlayer(386, 386, 387, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23);
+				damage = ancientsProjectileSpellPlayer(386, 386, 387, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23);
 				break;
 
 			case 12975: //Smoke Barrage - Level 86
 				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE);
-				return;
+				return true;
 
 			case 12987: //Shadow Rush - Level 52
-				hitDiff = ancientsProjectileSpellPlayer(378, 378, 379, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15);
+				damage = ancientsProjectileSpellPlayer(378, 378, 379, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15);
 				break;
 
 			case 13011: //Shadow Burst - Level 64
 				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST);
-				return;
+				return true;
 
 			case 12999: //Shadow Blitz - Level 76
-				hitDiff = ancientsProjectileSpellPlayer(380, 380, 381, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 24);
+				damage = ancientsProjectileSpellPlayer(380, 380, 381, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 24);
 				break;
 
 			case 13023: //Shadow Barrage - Level 88
 				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE);
-				return;
+				return true;
 
 			case 12901: //Blood Rush - Level 56
-				hitDiff = ancientsProjectileSpellPlayer(372, 372, 373, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16);
-				NewHP += hitDiff/4;
+				damage = ancientsProjectileSpellPlayer(372, 372, 373, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16);
+				NewHP += damage/4;
 				if(NewHP > getLevelForXP(playerXP[3])) 
 					NewHP = getLevelForXP(playerXP[3]);
 				break;
@@ -19116,11 +19054,11 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				NewHP += total;
 				if(NewHP > getLevelForXP(playerXP[3])) 
 					NewHP = getLevelForXP(playerXP[3]);
-				return;
+				return true;
 
 			case 12911: //Blood Blitz - Level 80
-				hitDiff = ancientsProjectileSpellPlayer(374, 374, 375, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 25);
-				int total2 = hitDiff/4;
+				damage = ancientsProjectileSpellPlayer(374, 374, 375, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 25);
+				int total2 = damage/4;
 				if(total2 > 7) total2 = 7; //greatest amount that can be healed is 7
 				NewHP += total2;
 				if(NewHP > getLevelForXP(playerXP[3])) 
@@ -19133,7 +19071,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				NewHP += total3;
 				if(NewHP > getLevelForXP(playerXP[3])) 
 					NewHP = getLevelForXP(playerXP[3]);
-				return;				
+				return true;				
 				
 			default:
 				debug("Unhandled spellID when casting on player : "+spellID);
@@ -19141,39 +19079,23 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 
 			}
 			
-			hitDiff -= castOnPlayer.playerMagicDefBonus(); //accounts for opponent's defence level
+			//if(!doesMySpellHitMyEnemy(playerIndex)) damage = 0;
+			
+			//damage -= misc.random(   ( (client) server.playerHandler.players[playerIndex] ).playerMagicDefBonusStatic()    );
 			
 			if(castOnPlayer.PMage)
-				hitDiff = (int)((double)hitDiff*0.6); //reduce by 40% in pvp
-
-			if(hitDiff < 0) hitDiff = 0;
+				damage = (int)((double)damage*0.6); //reduce by 40% in pvp
 			
-			if ((EnemyHP - hitDiff) < 0) 
-				hitDiff = EnemyHP;
-			
-			if(hitDiff > 0 && applySnare > 0)
+			if(damage > 0 && applySnare > 0)
 				castOnPlayer.frozen(applySnare);
 			
-			inCombat(); 
-			castOnPlayer.KillerId = playerId;
-			castOnPlayer.inCombat();
-			if(castOnPlayer.autoRetaliate == 1 && !castOnPlayer.IsAttacking) //1 means on
-				opponentAutoAttack(castOnPlayer);
-			
-			addSkillXP((hitDiff * mageXP2), 6);
+			int exp = damage*4*CombatExpRate;
+			if (exp < 0) exp = 4*CombatExpRate;
+			addSkillXP(exp, 6);
 
-			if (castOnPlayer.SpecEmoteTimer == 0)
-				castOnPlayer.setAnimation(GetBlockAnim(castOnPlayer.playerEquipment[castOnPlayer.playerWeapon]));
-			
-			castOnPlayer.hitDiff = hitDiff;
-			castOnPlayer.KillerId = playerId;
-			castOnPlayer.hitUpdateRequired = true;
-			castOnPlayer.requirePlayerUpdate();
-			
-			faceNPC = 32768+castOnPlayer.playerId;
-			faceNPCupdate = true;
-			
+			return updateDelayAndDamagePlayer(playerIndex, damage);			
 		}
+		return false;
 	}
 	
 	public int getSpecialDamageAndModifySpecialDelay(int damage){
@@ -19184,6 +19106,8 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 		return damage;
 	}
 	
+	private boolean usedBandosSpecial = false;
+	private boolean usedZamorakSpecial = false;
 /**
  * Will check the player weapon and apply a bonus to their original attack
  * The new amount (including bonus) is returned
@@ -19195,9 +19119,12 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 public int checkSpecials(int original, int Y, int X){
 	int specdmg = 0;
 	if (playerEquipment[playerWeapon] == 15334){ //Bandos godsword
+		if(IsAttacking && AttackingOn != 0){
+			usedBandosSpecial = true;
+		}
 		litBar = false;
 		specialDelay -= 10;
-		return original+(int)((double)original/10.0); //player hit + 10%
+		return original+(int)((double)original/10.0); //player hit + 10%;
 	}
 	if (playerEquipment[playerWeapon] == 15333){ //Armadyl Godsword
 		litBar = false;
@@ -19249,6 +19176,9 @@ public int checkSpecials(int original, int Y, int X){
 	}    
 
 	if (playerEquipment[playerWeapon] == 15336){ //Zamorak Godsword
+		if(IsAttacking && AttackingOn != 0){
+			usedZamorakSpecial = true;
+		}
 		litBar = false;
 		specialDelay -= 6;
 		stillgfxz(368, Y, X, 50, 50);
@@ -19268,6 +19198,7 @@ public int checkSpecials(int original, int Y, int X){
 		DClawsHit1 = true;
 		litBar = false;
 		specialDelay -= 10;
+		DClawsTimer = 10;
 		if (original > 0){
 			DClawsDmg = original+9;
 			return original+9;
@@ -19346,12 +19277,35 @@ public int checkSpecials(int original, int Y, int X){
 		return original + misc.random(playerLevel[playerRanged]/11); //original and small bonus
 	} 
 	
-	//TODO - Other ranged specials, C Bow, Darkbow, Karil's
+	//TODO - Add Crystal Bow and Karil's
+	
+	if (playerEquipment[playerWeapon] == Item.DARKBOW){
+		litBar = false;
+		specialDelay -= 6;
+		SpecTimer = 3;
+		if(IsAttackingNPC){
+			int EnemyX = server.npcHandler.npcs[attacknpc].absX;
+			int EnemyY = server.npcHandler.npcs[attacknpc].absY;
+			int offsetX = (absX - EnemyX) * -1;
+			int offsetY = (absY - EnemyY) * -1;
+			createProjectile(absY, absX, offsetY, offsetX, 50, 75, BOWHANDLER.getArrowGFX(), 43, 31, attacknpc+1);
+			createProjectile(absY, absX, offsetY, offsetX, 50, 85, BOWHANDLER.getArrowGFX(), 43, 31, attacknpc+1);
+		}
+		if (IsAttacking){
+			int X3 = PlayerHandler.players[AttackingOn].absX;
+			int Y3 = PlayerHandler.players[AttackingOn].absY;
+			int offsetX = (absX - X3) * -1;
+			int offsetY = (absY - Y3) * -1;
+			createProjectile(absY, absX, offsetY, offsetX, 50, 75, BOWHANDLER.getArrowGFX(), 43, 31, AttackingOn+1);
+			createProjectile(absY, absX, offsetY, offsetX, 50, 85, BOWHANDLER.getArrowGFX(), 43, 31, AttackingOn+1);
+		}
+		return original + (int)(original*0.3); //original and 30% bonus
+	}
+	
 	if (playerEquipment[playerWeapon] == 861){ //magic shortbow
 		litBar = false;
 		specialDelay -= 5;
 		SpecTimer = 3;
-
 		if(IsAttackingNPC){
 			int EnemyX = server.npcHandler.npcs[attacknpc].absX;
 			int EnemyY = server.npcHandler.npcs[attacknpc].absY;
@@ -19368,9 +19322,9 @@ public int checkSpecials(int original, int Y, int X){
 			createProjectile(absY, absX, offsetY, offsetX, 50, 75, 249, 43, 31, AttackingOn+1);
 			createProjectile(absY, absX, offsetY, offsetX, 50, 85, 249, 43, 31, AttackingOn+1);
 		}
-
 		return original + misc.random(playerLevel[playerAttack]/25); //original and small bonus
 	} 
+	
 	if (FullGuthanEquipped()){
 		if(misc.random(3) == 0) { //25% chance
 			NewHP += original;
@@ -19389,7 +19343,7 @@ public int checkSpecials(int original, int Y, int X){
 
 
 /**
- * Checks to see if the player has a bow and ammo equipped
+ * Checks to see if the player has a bow and ammo equipped.
  * Will modify PkingDelay if a bow is equipped
  * @return The distance of what they have equipped, depending on type of fight style.
  * Returns -1 if a bow is equipped with no ammo
@@ -19488,13 +19442,15 @@ private void refreshPlayerPosition(){
 
 private void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord){
 	if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){ //if not cbow and if there are arrows
-		DeleteArrow();
 		if(misc.random(1) == 0){
 			if (playerEquipment[playerCape] == 11342 || playerEquipment[playerCape] == 11341){
 				addItem(playerEquipment[playerArrows], 1);
 				sendMessage("The accumulator has attracted an arrow.");
 			}
-			else ItemHandler.addItem(playerEquipment[playerArrows], XCoord, YCoord, 1, playerId, false);
+			else{ 
+				ItemHandler.addItem(playerEquipment[playerArrows], XCoord, YCoord, 1, playerId, false);
+				DeleteArrow();
+			}
 		}
 	}
 }
@@ -19526,17 +19482,11 @@ public boolean AttackNPC() {
 		int distance = bowAndArrowCheck();
 		if(distance == -1){
 			sendMessage("You need ammo to use this ranged weapon.");
+			refreshPlayerPosition();
+			ResetAttackNPC();
 			return false;
 		}
-		
-		if(autocast){
-			if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID)){
-				ResetAttackNPC();
-				return false;
-			}
-			distance = 5;
-		}
-		
+				
 		if(LoopAttDelay > 1)
 			return false;
 		
@@ -19588,11 +19538,19 @@ public boolean AttackNPC() {
 				return updateDelayAndHitNPC(attacknpc, hitDiff);
 			}
 		}
-		
+				
 		/* Magic */
-		if(distance > 1 && autocast){
-			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) 
-				return magicOnNPC(attacknpc);
+		if(autocast){
+			final int AUTOCASTDISTANCE = 5;
+			if (GoodDistance(EnemyX, EnemyY, absX, absY, AUTOCASTDISTANCE)){ 
+				if(magicOnNPC(attacknpc))
+					return true;
+				else{
+					refreshPlayerPosition();
+					ResetAttackNPC();
+					return false;
+				}
+			}
 		}
 		
 	}
@@ -19755,7 +19713,7 @@ public boolean AttackNPC() {
 	/**
 	 * Calculates a player's max hit based on global variables
 	 */
-	public void CalculateMaxHit() {
+	public int CalculateMaxHit() {
     double MaxHit = 0;
     
 		double StrBonus = playerBonus[10]; //Strength Bonus
@@ -19777,6 +19735,7 @@ public boolean AttackNPC() {
 			MaxHit += (Strength * 0.0205);
 		}
 		playerMaxHit = (int)Math.floor(MaxHit);
+		return playerMaxHit;
 }
 	
 
@@ -19802,7 +19761,7 @@ public boolean FullGuthanEquipped() {
 return (playerEquipment[playerHat] == 4724 && playerEquipment[playerChest] == 4728 && playerEquipment[playerLegs] == 4730 && playerEquipment[playerWeapon] == 4726);			
 }
 
-public void CalculateRange() {
+public int CalculateRange() {
 	double MaxHit = 0;
 	int RangeBonus = playerBonus[5]; //Range Bonus
 	int Range = playerLevel[4]; //Range
@@ -19810,6 +19769,7 @@ public void CalculateRange() {
 	MaxHit += (double)(Range * 0.085);
 	playerMaxHit = (int)Math.floor(MaxHit);
 	playerMaxHit += misc.random(this.BOWHANDLER.getBonus());
+	return playerMaxHit;
 }
 
 public boolean MageHitNPC(int npcIndex){
@@ -19817,7 +19777,15 @@ public boolean MageHitNPC(int npcIndex){
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 	int enemyBonus = (npcMaxHP / 2);
 	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()-this.BOWHANDLER.getBonus();
-	return compareBonuses(myBonus,enemyBonus);
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
+}
+
+public boolean doesMySpellHitMyEnemy(int playerIndex){
+	client playerClient = (client) server.playerHandler.players[playerIndex];
+	if(playerClient == null) return false;
+	int enemyBonus = playerClient.playerMagicDefBonusStatic();
+	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()-this.BOWHANDLER.getBonus();
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean RangeHitNPC(int npcIndex){
@@ -19825,7 +19793,7 @@ public boolean RangeHitNPC(int npcIndex){
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 	int enemyBonus = (npcMaxHP / 2);
 	int myBonus = playerLevel[playerMagic]+this.BOWHANDLER.getBonus()-this.MAGICDATAHANDLER.getMagicBonusDamage();
-	return compareBonuses(myBonus,enemyBonus);
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean HitNPC(int npcIndex){
@@ -19833,7 +19801,7 @@ public boolean HitNPC(int npcIndex){
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 	int enemyBonus = (npcMaxHP / 2);
 	int myBonus = playerLevel[playerAttack];
-	return compareBonuses(myBonus,enemyBonus);
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 
@@ -19849,7 +19817,7 @@ return 3;
 return 1;
 }
 
-public boolean compareBonuses(int myBonus, int enemyBonus){
+public boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
 	if(enemyBonus < 1) enemyBonus = 1;
 	if(myBonus < 3) myBonus = 3; //give benefit of doubt
 	int myRandom = misc.random(myBonus); //declaring for debugging purposes
@@ -19863,23 +19831,26 @@ public boolean Hit(int index){
 	client enemy = (client) server.playerHandler.players[index]; //opponent's client
 	int enemyBonus = (enemy.playerLevel[playerDefence]+enemy.playerMeleeDefBonus())/4;
 	int myBonus = playerLevel[playerAttack]/3;
-	return compareBonuses(myBonus,enemyBonus);
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean RangeHit(int index){
 	if(server.playerHandler.players[index] == null) return false;
 	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonus = ((enemy.playerLevel[playerDefence]+1)/4)+enemy.playerMeleeDefBonus()*2;
+	int enemyBonus = ((enemy.playerLevel[playerDefence]+1)/4)+enemy.playerMeleeDefBonusStatic()-enemy.MAGICDATAHANDLER.getEquipmentBonus()*2;
 	int myBonus = (playerLevel[playerRanged]/3)+this.BOWHANDLER.getBonus();
-	return compareBonuses(myBonus,enemyBonus);
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean MageHit(int index) {
-	if(server.playerHandler.players[index] == null) return false;
+	if(server.playerHandler.players[index] == null){ 
+		error("In MageHit, given Null index");
+		return false;
+	}
 	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonus = ((enemy.playerLevel[playerDefence]+1)/4)+enemy.BOWHANDLER.getEquipmentBonus()+enemy.MAGICDATAHANDLER.getMagicBonusDamage();
-	int myBonus = (playerLevel[playerMagic]/3)+this.MAGICDATAHANDLER.getEquipmentBonus()-this.BOWHANDLER.getBonus();
-	return compareBonuses(myBonus,enemyBonus);	
+	int enemyBonus = ((enemy.playerLevel[playerDefence]+1)/4)+enemy.BOWHANDLER.getEquipmentBonus()*2+enemy.MAGICDATAHANDLER.getMagicBonusDamage();
+	int myBonus = (playerLevel[playerMagic]/3)+this.MAGICDATAHANDLER.getMagicBonusDamage()*3-this.BOWHANDLER.getBonus();
+	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);	
 }
 
 //public boolean Hit(int index) {
