@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class NPCHandler {
 	public static BST aggressiveNPCS = new BST(1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
-	public static BST rangedNPC = new BST(1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
+	public static BST rangedNPC = new BST(199,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static BST largeNPC = new BST(); //NPCs larger than one tile
 	
@@ -1283,6 +1283,11 @@ WORLDMAP 2: (not-walk able places)
 								break;
 							}
 							break; 
+							
+							//Test NPC for GFX
+						case 199:
+							range(0);
+							break;
 						
 						case 1157: //Kalphite Guardian magic
 							magic(16);
@@ -1592,8 +1597,6 @@ WORLDMAP 2: (not-walk able places)
 						//Defence
 
 						int hitDiff = 0;
-						
-						hitDiff = 0; 
 
 						if (NPCFightType == 1){ //melee
 							hitDiff = misc.random(_maxHit);
@@ -1601,6 +1604,7 @@ WORLDMAP 2: (not-walk able places)
 							if (c.PMelee)
 								hitDiff = 0;
 						}
+						//TODO - add projectiles
 						if (NPCFightType == 2){ //range
 							hitDiff = misc.random(_maxHit);
 							hitDiff -= c.playerMeleeDefBonus(); 

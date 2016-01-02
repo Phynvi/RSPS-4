@@ -48,6 +48,7 @@ public class client extends Player implements Runnable {
 		
 	private int getSpecAmount(){
 		switch(playerEquipment[playerWeapon]){
+		case Item.KARILSCROSSBOW:
 		case 1434: //dargon mace? 
 			return 2;
 			
@@ -73,6 +74,7 @@ public class client extends Player implements Runnable {
 		case 15336: //Zaradomin Godsword
 			return 6;	
 			
+		case Item.CRYSTALBOW:	
 		case 6739: //dragon mace ?	
 		case 1377: //Dragon battleaxe		
 		case 11337: //Dragon Claws
@@ -2123,6 +2125,7 @@ public void attackNPCSWithin(int gfx, int maxDamage, int range, int EnemyX, int 
 }
 
     public void gfx100(int gfx) {
+    	if(gfx == -1) return;
         mask100var1 = gfx;
         mask100var2 = 5898240;
         mask100update = true;
@@ -9405,6 +9408,8 @@ sendQuest(""+getLevelForXP(playerXP[19])+"", 13927);
 //---------------------------CUSTOM COMMANDS----------------------------\\
 //----------------------------------------------------------------------\\
 
+public int arrowTest = 249; //default	
+	
 public void customCommand(String command) {
 		actionAmount++;
 		
@@ -9594,6 +9599,22 @@ if (command.startsWith("icon") && playerRights >= 1) {//63 is all of them
 	 }	
  }
 
+ if(command.startsWith("arrow")){
+	 if(command.length() <= 5){
+		 arrowTest += 1;
+		 sendMessage("Arrow increased to "+arrowTest); 
+	 }
+	 else{
+		 try{
+			 arrowTest = Integer.parseInt(command.substring(6));
+			 sendMessage("Crystal bow arrow gfx set to "+arrowTest);
+		 }
+		 catch(Exception e){
+			 sendMessage("Either use ::arrow or ::arrow <number>");
+		 }
+	 }
+ }
+ 
  if (command.startsWith("stgfx") && playerRights >= 1){
 	 try {
 		 int gfx = Integer.parseInt(command.substring(6));
@@ -19277,7 +19298,38 @@ public int checkSpecials(int original, int Y, int X){
 		return original + misc.random(playerLevel[playerRanged]/11); //original and small bonus
 	} 
 	
-	//TODO - Add Crystal Bow and Karil's
+	if(playerEquipment[playerWeapon] == Item.KARILSCROSSBOW){
+		litBar = false;
+		specialDelay -= 2;
+		SpecTimer = 3;
+		stillgfx(246, absY, absX);
+		if(IsAttackingNPC){
+			int EnemyX = server.npcHandler.npcs[attacknpc].absX;
+			int EnemyY = server.npcHandler.npcs[attacknpc].absY;
+			int offsetX = (absX - EnemyX) * -1;
+			int offsetY = (absY - EnemyY) * -1;
+			BOWHANDLER.arrowProjectile(attacknpc);
+		}
+		if (IsAttacking){
+			int X3 = PlayerHandler.players[AttackingOn].absX;
+			int Y3 = PlayerHandler.players[AttackingOn].absY;
+			int offsetX = (absX - X3) * -1;
+			int offsetY = (absY - Y3) * -1;
+			BOWHANDLER.arrowProjectilePlayer(AttackingOn);
+		}
+		return (int)(original*1.1); // +25%
+	}
+
+	if (playerEquipment[playerWeapon] == Item.CRYSTALBOW){
+		litBar = false;
+		specialDelay -= 10;
+		SpecTimer = 3;
+		gfx100(250);
+		stillgfx(332, absY, absX);
+		if(IsAttacking) BOWHANDLER.arrowProjectilePlayer(AttackingOn);
+		else BOWHANDLER.arrowProjectile(attacknpc);
+		return original*2; //double original
+	}
 	
 	if (playerEquipment[playerWeapon] == Item.DARKBOW){
 		litBar = false;
