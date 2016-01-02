@@ -400,6 +400,7 @@ public class NPCHandler {
 					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply){
 						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
 						Player attackingPlayer = server.playerHandler.players[npcs[i].StartKilling];
+						client c = (client) attackingPlayer;
 						if(attackingPlayer != null){
 							if((attackingPlayer.distanceToPoint(npcs[i].absX, npcs[i].absY) < 7) && attackingPlayer.heightLevel == npcs[i].heightLevel){
 								npcs[i].RandomWalk = false;
@@ -1182,15 +1183,16 @@ WORLDMAP 2: (not-walk able places)
 		if (server.playerHandler.players[playerID] == null) {
 			ResetAttackPlayer(NPCID);
 			return false;
-		} else if (server.playerHandler.players[playerID].DirectionCount < 2) {
-			return false;
 		}
+//		else if (server.playerHandler.players[playerID].DirectionCount < 2) {
+//			return false;
+//		}
 
 		client c = (client) server.playerHandler.players[playerID];
-		int EnemyX = server.playerHandler.players[playerID].absX;
-		int EnemyY = server.playerHandler.players[playerID].absY;
-		npcs[NPCID].enemyX = EnemyX;
-		npcs[NPCID].enemyY = EnemyY;
+		int playerX = server.playerHandler.players[playerID].absX;
+		int playerY = server.playerHandler.players[playerID].absY;
+		npcs[NPCID].enemyX = playerX;
+		npcs[NPCID].enemyY = playerY;
 		npcs[NPCID].updateRequired = true;
 		//npcs[NPCID].animUpdateRequired = true;
 		//npcs[NPCID].dirUpdateRequired = true;
@@ -1207,7 +1209,7 @@ WORLDMAP 2: (not-walk able places)
 			server.playerHandler.players[playerID].IsAttackingNPC = true; // Xerozcheez: makes it so if player runs away the player attacks back when npc follows
 		}
 		
-		if(EnemyX == npcs[NPCID].absX && EnemyY == npcs[NPCID].absY){ //steps off player if on top of player
+		if(playerX == npcs[NPCID].absX && playerY == npcs[NPCID].absY){ //steps off player if on top of player
 			int rX = misc.random(1);
 			int rY = misc.random(1);
 			if(rX == 0) rX = -1;
@@ -1217,7 +1219,7 @@ WORLDMAP 2: (not-walk able places)
 			npcs[NPCID].getNextNPCMovement();
 		}
 		
-		if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, EnemyX, EnemyY, npcs[NPCID].attackDistance)) {
+		if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
 
 			if (npcs[NPCID].actionTimer == 0) { 
 					if (server.playerHandler.players[playerID].IsDead == true) {
@@ -1273,13 +1275,13 @@ WORLDMAP 2: (not-walk able places)
 							magic(20);
 							switch(misc.random(3)){
 							case 0:
-								gfxAll(377, EnemyY, EnemyX);	
+								gfxAll(377, playerY, playerX);	
 								break;
 							case 1:
-								gfxAll(368, EnemyY, EnemyX);	
+								gfxAll(368, playerY, playerX);	
 								break;
 							case 2:
-								gfxAll(435, EnemyY, EnemyX);	
+								gfxAll(435, playerY, playerX);	
 								break;
 							}
 							break; 
@@ -1287,6 +1289,9 @@ WORLDMAP 2: (not-walk able places)
 							//Test NPC for GFX
 						case 199:
 							range(0);
+							//int offsetX = (npcs[NPCID].absX - c.absX) * -1;
+							//int offsetY = (npcs[NPCID].absY - c.absY) * -1;
+							//c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 80, 11, 43, 31, c.playerId+1); //does not guarnatee work
 							break;
 						
 						case 1157: //Kalphite Guardian magic
@@ -1306,7 +1311,7 @@ WORLDMAP 2: (not-walk able places)
 
 						case 1624:
 							magic(21);
-							gfxAll(346, EnemyY, EnemyX);
+							gfxAll(346, playerY, playerX);
 							c.stillgfx(346, c.absY, c.absX);
 							break;
 
@@ -1374,12 +1379,12 @@ WORLDMAP 2: (not-walk able places)
 							case 2:
 								if (c.dragfire()){
 									magic(2);
-									gfxAll(440, EnemyY, EnemyX);
+									gfxAll(440, playerY, playerX);
 									c.stillgfx(440, c.absY, c.absX);
 									c.sendMessage("Your shield protects you from the Dragon's breath.");
 								}
 								if (c.dragfire2()){
-									gfxAll(440, EnemyY, EnemyX);
+									gfxAll(440, playerY, playerX);
 									c.stillgfx(440, c.absY, c.absX);
 									c.stillgfx(4, c.absY, c.absX);
 									c.stillgfx(5, c.absY, c.absX);
@@ -1395,7 +1400,7 @@ WORLDMAP 2: (not-walk able places)
 								}
 								else {
 									npcs[NPCID].animNumber = 81; //Dragons
-									gfxAll(440, EnemyY, EnemyX);
+									gfxAll(440, playerY, playerX);
 									c.stillgfx(440, c.absY, c.absX);
 									magic(50);
 									c.sendMessage("The Dragon strikes with its fiery breath.");
@@ -1473,7 +1478,7 @@ WORLDMAP 2: (not-walk able places)
 								hitDiffOverride = misc.random(40);
 								npcs[NPCID].animNumber = 2081; 
 								c.stillgfx(398, c.absY, c.absX);
-								gfxAll(398, EnemyY, EnemyX);
+								gfxAll(398, playerY, playerX);
 								if(npcs[NPCID].HP < 125 && hitDiffOverride != 0 && !c.PMelee)
 									npcs[NPCID].HP += hitDiffOverride; 	
 								break;
@@ -1497,9 +1502,9 @@ WORLDMAP 2: (not-walk able places)
 							melee(31);
 							if (misc.random(4) == 0){
 								c.stillgfx(537, c.absY, c.absX);
-								gfxAll(537, EnemyY, EnemyX);
+								gfxAll(537, playerY, playerX);
 								c.stillgfx(172, c.absY, c.absX);
-								gfxAll(172, EnemyY, EnemyX);
+								gfxAll(172, playerY, playerX);
 								magic(41);
 								c.sendMessage("The Kalphite Queen strikes with Magic!");
 							}
@@ -1682,10 +1687,12 @@ WORLDMAP 2: (not-walk able places)
 		_maxHit = maxHit;
 		NPCFightType = 1;
 	}
-	private void range(int maxHit){
+	private void range(int maxHit){ //, int projectileGFX){
 		_maxHit = maxHit;
 		NPCFightType = 2;
+		//npcProjectileGFX = projectileGFX;
 	}
+	private int npcProjectileGFX = -1;
 	private void magic(int maxHit){
 		_maxHit = maxHit;
 		NPCFightType = 3;
