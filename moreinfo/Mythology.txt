@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = 192.168.1.103
-character-lastlogintime = 20150905
+character-lastlogin = c-73-9-224-11.hsd1.il.comcast.net
+character-lastlogintime = 20160002
 character-ancients = 11
 character-starter = 1
 character-easterevent = 0
@@ -37,7 +37,7 @@ slayerCount = 31
 specialDelay = 10
 masteries = 0
 pirate = 11
-homeTeleportTimer = 8
+homeTeleportTimer = 7
 skillsTeleportTimer = 0
 bandos = 0
 armadyl = 0

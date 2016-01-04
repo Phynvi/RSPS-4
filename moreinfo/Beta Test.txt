@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = host21-184-static.10-188-b.business.telecomitalia.it
-character-lastlogintime = 20150711
+character-lastlogin = WRT610N
+character-lastlogintime = 20160003
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -32,17 +32,17 @@ character-RM = 4
 character-inprison = 0
 character-dragcharge = 50
 character-beta = 1
-slayerNPC = 913
-slayerCount = 9
+slayerNPC = 112
+slayerCount = 0
 specialDelay = 10
 masteries = 0
-pirate = 0
+pirate = 11
 homeTeleportTimer = 0
 skillsTeleportTimer = 0
 bandos = 0
-armadyl = 2
+armadyl = 0
 prevarmadyl = 0
-prevbandos = 50
+prevbandos = 37
 spellbook = 1
 
 [QUESTS]

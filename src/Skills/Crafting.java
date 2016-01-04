@@ -28,6 +28,9 @@ public class Crafting {
 		if(item1 == CHISEL && item2 == 1621) //cutting emerald
 			return craftingvoid(15, 1621, 1605);
 		
+		if(item1 == 1605 && item2 == 1595) //crafting emerald amulet
+			return craftingvoid(30, 1605, 1677);
+		
 		if(item1 == 1605 && item2 == 1592) //emerald ring
 			return craftingvoid(25, 1605, 1639);
 		

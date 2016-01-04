@@ -1,5 +1,5 @@
 [ACCOUNT]
-character-username = mythology
+character-username = Mythology
 character-password = lollol
 
 [CHARACTER]
@@ -9,8 +9,8 @@ character-posy = 3208
 character-rights = 0
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.103
-character-lastlogin = 20150905
+character-lastconnection = c-73-9-224-11.hsd1.il.comcast.net
+character-lastlogin = 20160002
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0

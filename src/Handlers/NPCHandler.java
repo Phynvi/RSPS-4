@@ -67,7 +67,7 @@ public class NPCHandler {
 		if(largeNPC.exists(npcType)) //NPCs larger than one tile, so their attack distance should be 2 if they are melee
 			newNPC.attackDistance = 2;
 		if(rangedNPC.exists(npcType)){
-			newNPC.attackDelay = misc.random(1)+5;
+			newNPC.attackDelay = 9;
 			newNPC.attackDistance = 4;
 			newNPC.agroRange = 7;
 		}
@@ -1530,7 +1530,6 @@ WORLDMAP 2: (not-walk able places)
 							case 1: case 2: case 3:
 								melee(60);
 								npcs[NPCID].animNumber = 7060; 
-								c.stillgfx(293, c.absY, c.absX);
 								break;
 							}
 							break;
@@ -1601,26 +1600,29 @@ WORLDMAP 2: (not-walk able places)
 						
 						//Defence
 
-						int hitDiff = 0;
-
-						if (NPCFightType == 1){ //melee
-							hitDiff = misc.random(_maxHit);
-							hitDiff -= c.playerMeleeDefBonus(); 
-							if (c.PMelee)
-								hitDiff = 0;
-						}
-						//TODO - add projectiles
-						if (NPCFightType == 2){ //range
-							hitDiff = misc.random(_maxHit);
-							hitDiff -= c.playerMeleeDefBonus(); 
-							if (c.PRange)
-								hitDiff = 0;
-						}
-						if (NPCFightType == 3){ //mage
-							hitDiff = misc.random(_maxHit);
-							hitDiff -= c.playerMagicDefBonus(); //formula for defence reduction, includes magic reduction
-							if (c.PMage)
-								hitDiff = 0;
+						int hitDiff = misc.random(_maxHit);
+						int npcBonus = npcs[NPCID].MaxHP/2;
+						int playerBonus = c.playerLevel[c.playerDefence];
+						
+						if (c.isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+						
+						if (hitDiff > 0){
+							if (NPCFightType == 1){ //melee
+								hitDiff -= c.playerMeleeDefBonus();
+								if (c.PMelee)
+									hitDiff = 0;
+							}
+							//TODO - add projectiles
+							if (NPCFightType == 2){ //range
+								hitDiff -= c.playerMeleeDefBonus(); 
+								if (c.PRange)
+									hitDiff = 0;
+							}
+							if (NPCFightType == 3){ //mage
+								hitDiff -= c.playerMagicDefBonus(); //formula for defence reduction, includes magic reduction
+								if (c.PMage)
+									hitDiff = 0;
+							}
 						}
 
 						if (maxHitOverride){
@@ -1646,7 +1648,7 @@ WORLDMAP 2: (not-walk able places)
 							}
 						}
 						if(c.DivineSpiritShield()){ //reduces by 30%
-							hitDiff -= Math.floor((double)hitDiff * (3.0/10.0));
+							hitDiff = (int)(hitDiff*0.7);
 						}
 						
 						if (hitDiff < 0)
@@ -1655,7 +1657,7 @@ WORLDMAP 2: (not-walk able places)
 						if ((EnemyHP - hitDiff) < 0) 
 							hitDiff = EnemyHP;
 						
-						if (c.SpecEmoteTimer == 0) //if the player is not in the middle of animation for special
+						if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special
 							c.startAnimation(c.GetBlockAnim(c.playerEquipment[c.playerWeapon]));
 
 						npcs[NPCID].faceplayer(playerID);
@@ -1666,7 +1668,7 @@ WORLDMAP 2: (not-walk able places)
 						npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 						npcs[NPCID].animUpdateRequired = true;
 						
-						if( c.autoRetaliate == 1 && !c.IsAttackingNPC){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
+						if( c.autoRetaliate == 1 && !c.IsAttackingNPC ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
 							c.IsAttackingNPC = true;
 							c.attacknpc = npcs[NPCID].npcId;
 							c.AttackNPC();

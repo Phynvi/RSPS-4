@@ -9489,9 +9489,12 @@ public void customCommand(String command) {
 		}
 		
 		if(command.startsWith("save")){
-			savechar();
-			savemoreinfo();
-			debug("Player forced save char and moreinfo");
+			sendMessage(playerName+" - Saving Status: ");
+			if(savechar()) sendMessage("Character Saved, ");
+			else sendMessage("Failed to save character,");
+
+			if(savemoreinfo()) sendMessage("Character moreinfo saved");
+			else sendMessage("Failed to save character moreinfo");
 			return;
 		}
 			
