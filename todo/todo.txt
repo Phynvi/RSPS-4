@@ -1,0 +1,11 @@
+-Dragon block animation
+-Moss giant (possibly other giants?) attack animation
+-Level gain sprites
+-Runecrafting
+-Make so if a monster does not have a block animation, it does not refer to default but instead does nothing
+-NPC projectiles
+-NPC poison/player poison
+-Finish specials, add in promethius 2h, rune claws, 
+	-Custom karil special, attacks all npcs in area of 4, projectile to each one
+-Run energy subtracts
+-
