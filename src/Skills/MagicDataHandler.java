@@ -7,7 +7,9 @@ public class MagicDataHandler {
 	}
 
 	public int getMagicBonusDamage(){
-		return (int)Math.floor((double)(getStaffBonus()+getEquipmentBonus())/2.0);
+		int bonus = (int)Math.floor((double)(getStaffBonus()+getEquipmentBonus())/2.0);
+		c.debug("Magic bonus damage : "+bonus);
+		return bonus;
 	}
 
 	/**

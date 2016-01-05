@@ -25,25 +25,72 @@ public class client extends Player implements Runnable {
 	 * @param isFast Set to True if running during emote
 	 * @return
 	 */
-	private boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, String msg){
+	private boolean agilityTeleport(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean dmg, int amount, String msg){
 		if(playerLevel[playerAgility] >= level){
-			int chance = (playerLevel[playerAgility]+1)/10;			
+			int chance = playerLevel[playerAgility]-level;		
 			if(absX == x1 && absY == y1){
-				//if(misc.random(chance) == 0) //TODO - damage
-				walkingemote(emote, x2, y2, exp, isFast);
+				teleport(x2, y2);
+				if(dmg && misc.random(chance) == 0){
+					damagePlayer(playerId, misc.random(amount));
+					sendMessage("You injure yourself.");
+				}
+				startAnimation(emote);
 				return true;
 			}
 			if(absX == x2 && absY == y2){
-
-				walkingemote(emote, x1, y1, exp, isFast);
+				teleport(x1,y1);
+				if(dmg && misc.random(chance) == 0){
+					damagePlayer(playerId, misc.random(amount));
+					sendMessage("You injure yourself.");
+				}
+				startAnimation(emote);
 				return true;
 			}
+			return false;
 		}
 		else {
 			sendMessage("You need "+level+" agility to do that.");
 			return false;
 		}
-		return true;
+	}	
+	
+	/**
+	 * 
+	 * @param x1 side 1 X
+	 * @param y1 side 1 Y
+	 * @param x2 side 2 X
+	 * @param y2 side 2 Y
+	 * @param emote Emote to use during obstacle
+	 * @param level Required to use obstacle
+	 * @param exp experience given, multiplied by rate
+	 * @param isFast Set to True if running during emote
+	 * @return
+	 */
+	private boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, String msg){
+		if(playerLevel[playerAgility] >= level){
+			int chance = playerLevel[playerAgility]-level;	
+			if(absX == x1 && absY == y1){
+				walkingemote(emote, x2, y2, exp, isFast);
+				if(dmg && misc.random(chance) == 0){
+					damagePlayer(playerId, misc.random(amount));
+					sendMessage("You injure yourself.");
+				}
+				return true;
+			}
+			if(absX == x2 && absY == y2){
+				walkingemote(emote, x1, y1, exp, isFast);
+				if(dmg && misc.random(chance) == 0){
+					damagePlayer(playerId, misc.random(amount));
+					sendMessage("You injure yourself.");
+				}
+				return true;
+			}
+			return false;
+		}
+		else {
+			sendMessage("You need "+level+" agility to do that.");
+			return false;
+		}
 	}
 		
 	private int getSpecAmount(){
@@ -3496,9 +3543,10 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		else sendMessage("I need an axe to do that.");
 		break;
 	
+	
 	case 5111: //brimhaven stepping stones
 	case 5110:
-		agilityObstacle(2649,9562,2647,9557, 1115, 85, 55, true, false, 0, "");
+		agilityTeleport(2649,9562,2647,9557, 1115, 85, 55, true, 5, "");
 		break;
 	
 	case 5098: //bimhaven 2nd floor going to 1st floor, furthest from entrance
@@ -3508,7 +3556,6 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 	case 5097: //brimhaven 1st floor going to 2nd floor, furthest from entrance
 		teleport(2637,9510,2);
 		break;
-		
 	
 	case 5096: //brimhaven 2nd floor going to 1st floor, near entrance
 		teleport(2650,9591);
@@ -6019,6 +6066,31 @@ cast = false;
 fired = false;
 }
 
+public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+		int startHeight, int endHeight, int lockon,int delay) {
+	for (Player p : server.playerHandler.players) {
+		if(p != null){
+			if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
+				client g = (client) p;
+				g.outStream.createFrame(85);
+				g.outStream.writeByteC((casterY - (mapRegionY * 8)) - 2);
+				g.outStream.writeByteC((casterX - (mapRegionX * 8)) - 3);
+				g.outStream.createFrame(117);
+				g.outStream.writeByte(angle);                     //Starting place of the projectile
+				g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
+				g.outStream.writeByte(offsetX);                //Distance between caster and enemy X
+				g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
+				g.outStream.writeWord(gfxMoving);             //The moving graphic ID
+				g.outStream.writeByte(startHeight);           //The starting height
+				g.outStream.writeByte(endHeight);             //Destination height
+				g.outStream.writeWord(delay);                        //Time the missle is created
+				g.outStream.writeWord(speed);                     //Speed minus the distance making it set
+				g.outStream.writeByte(16);                        //Initial slope
+				g.outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
+			}
+		}
+	}
+}
 
     public void createProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
                 int startHeight, int endHeight, int lockon) {
@@ -13866,7 +13938,7 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 
 
 			case 72: //Click to attack
-				if(isNPCSpamming()) return;
+				if(isNPCSpamming()) break;
 				spamtimer = System.currentTimeMillis();
 				
 				//playerLevel[18] is slayer
@@ -13876,6 +13948,7 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 				}
 				else {
 					attacknpc = inStream.readUnsignedWordA();
+					if(server.npcHandler.npcs[attacknpc].moveToSpawn) break;
 					boolean Cant = false;
 					if(server.npcHandler.npcs[attacknpc].attacknpc > 0) {
 						Cant = true;
@@ -17554,7 +17627,7 @@ parseIncomingPackets2();
 		if(!canAttackOpponent(opponentClient))
 			return false;
 
-		int distance = bowAndArrowCheck();
+		int distance = ifHasBowAndAmmoUpdateDelay();
 		if(distance == -1){
 			sendMessage("You need ammo to use this ranged weapon.");
 			refreshPlayerPosition();
@@ -19343,16 +19416,17 @@ public int checkSpecials(int original, int Y, int X){
 			int EnemyY = server.npcHandler.npcs[attacknpc].absY;
 			int offsetX = (absX - EnemyX) * -1;
 			int offsetY = (absY - EnemyY) * -1;
-			createProjectile(absY, absX, offsetY, offsetX, 50, 75, BOWHANDLER.getArrowGFX(), 43, 31, attacknpc+1);
-			createProjectile(absY, absX, offsetY, offsetX, 50, 85, BOWHANDLER.getArrowGFX(), 43, 31, attacknpc+1);
+			gfx100(BOWHANDLER.getDrawbackArrowGFX());
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 70, BOWHANDLER.getArrowGFX(), 43, 31, attacknpc+1,40);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 70, BOWHANDLER.getArrowGFX(), 43, 31, attacknpc+1,50);
 		}
 		if (IsAttacking){
 			int X3 = PlayerHandler.players[AttackingOn].absX;
 			int Y3 = PlayerHandler.players[AttackingOn].absY;
 			int offsetX = (absX - X3) * -1;
 			int offsetY = (absY - Y3) * -1;
-			createProjectile(absY, absX, offsetY, offsetX, 50, 75, BOWHANDLER.getArrowGFX(), 43, 31, AttackingOn+1);
-			createProjectile(absY, absX, offsetY, offsetX, 50, 85, BOWHANDLER.getArrowGFX(), 43, 31, AttackingOn+1);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 70, BOWHANDLER.getArrowGFX(), 43, 31, AttackingOn+1,40);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 70, BOWHANDLER.getArrowGFX(), 43, 31, AttackingOn+1,50);
 		}
 		return original + (int)(original*0.3); //original and 30% bonus
 	}
@@ -19361,21 +19435,22 @@ public int checkSpecials(int original, int Y, int X){
 		litBar = false;
 		specialDelay -= 5;
 		SpecTimer = 3;
+		gfx100(250);
 		if(IsAttackingNPC){
 			int EnemyX = server.npcHandler.npcs[attacknpc].absX;
 			int EnemyY = server.npcHandler.npcs[attacknpc].absY;
 			int offsetX = (absX - EnemyX) * -1;
 			int offsetY = (absY - EnemyY) * -1;
-			createProjectile(absY, absX, offsetY, offsetX, 50, 75, 249, 43, 31, attacknpc+1);
-			createProjectile(absY, absX, offsetY, offsetX, 50, 85, 249, 43, 31, attacknpc+1);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 60, 249, 43, 31, attacknpc+1,40);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 70, 249, 43, 31, attacknpc+1,50);
 		}
 		if (IsAttacking){
 			int X3 = PlayerHandler.players[AttackingOn].absX;
 			int Y3 = PlayerHandler.players[AttackingOn].absY;
 			int offsetX = (absX - X3) * -1;
 			int offsetY = (absY - Y3) * -1;
-			createProjectile(absY, absX, offsetY, offsetX, 50, 75, 249, 43, 31, AttackingOn+1);
-			createProjectile(absY, absX, offsetY, offsetX, 50, 85, 249, 43, 31, AttackingOn+1);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 60, 249, 43, 31, AttackingOn+1,40);
+			createProjectileWithDelay(absY, absX, offsetY, offsetX, 50, 70, 249, 43, 31, AttackingOn+1,50);
 		}
 		return original + misc.random(playerLevel[playerAttack]/25); //original and small bonus
 	} 
@@ -19398,13 +19473,13 @@ public int checkSpecials(int original, int Y, int X){
 
 
 /**
- * Checks to see if the player has a bow and ammo equipped.
+ * Checks to see if the player has a bow and ammo equipped
  * Will modify PkingDelay if a bow is equipped
  * @return The distance of what they have equipped, depending on type of fight style.
- * Returns -1 if a bow is equipped with no ammo
- * Returns 1 as default if no bow is equipped
+ * Returns -1 if a bow is equipped with no ammo.
+ * Returns 1 as default if no bow is equipped.
  */
-private int bowAndArrowCheck(){
+private int ifHasBowAndAmmoUpdateDelay(){
 	if(lists.bows.exists(playerEquipment[playerWeapon])){ //Check to see if a bow is equipped
 		if(!this.BOWHANDLER.checkAmmo())
 			return -1;
@@ -19534,7 +19609,7 @@ public boolean AttackNPC() {
 		PkingDelay = 5;
 		//resetanim = 5;
 
-		int distance = bowAndArrowCheck();
+		int distance = ifHasBowAndAmmoUpdateDelay();
 		if(distance == -1){
 			sendMessage("You need ammo to use this ranged weapon.");
 			refreshPlayerPosition();
@@ -19831,7 +19906,7 @@ public boolean MageHitNPC(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 	int enemyBonus = (npcMaxHP / 2);
-	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()-this.BOWHANDLER.getBonus();
+	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()*2-this.BOWHANDLER.getBonus();
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
@@ -19839,7 +19914,7 @@ public boolean doesMySpellHitMyEnemy(int playerIndex){
 	client playerClient = (client) server.playerHandler.players[playerIndex];
 	if(playerClient == null) return false;
 	int enemyBonus = playerClient.playerMagicDefBonusStatic();
-	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()-this.BOWHANDLER.getBonus();
+	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()*2-this.BOWHANDLER.getBonus();
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
@@ -19847,7 +19922,7 @@ public boolean RangeHitNPC(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 	int enemyBonus = (npcMaxHP / 2);
-	int myBonus = playerLevel[playerMagic]+this.BOWHANDLER.getBonus()-this.MAGICDATAHANDLER.getMagicBonusDamage();
+	int myBonus = playerLevel[playerMagic]+this.BOWHANDLER.getBonus()*2-this.MAGICDATAHANDLER.getMagicBonusDamage();
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 

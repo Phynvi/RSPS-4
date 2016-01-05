@@ -7,7 +7,6 @@ import java.util.ArrayList;
 //For gradually restoring HP	
 
 public class EventManager{
-	protected Timer Event0, Event1, Event2;		
 	protected ArrayList<Timer> TimerList = new ArrayList<Timer>();
 	protected ArrayList<Event> EventList = new ArrayList<Event>();
 
@@ -55,12 +54,6 @@ public class EventManager{
 				c.NewHP = (c.playerLevel[c.playerHitpoints] + 1);
 				if (c.NewHP > c.getLevelForXP(c.playerXP[c.playerHitpoints])) 
 					c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);	
-				if (c.playerEquipment[c.playerCape] == 11342 || c.playerEquipment[c.playerCape] == 11341){
-					if(lists.ammo.exists(c.playerEquipment[c.playerArrows])){
-					c.addItem(c.playerEquipment[c.playerArrows], 1);
-					c.sendMessage("The accumulator has attracted a rune arrow.");
-					}
-				}
 				break;
 
 			case 1: //Called every second	

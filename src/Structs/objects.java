@@ -373,6 +373,11 @@ c.deletethatobject(2806, 3193);
 
 
 public static void NewObjects(client c) { // new objects
+	c.makeGlobalObject(2442, 3124, 4421, 1, 10);
+	c.makeGlobalObject(2441, 3123, 4421, 1, 10);
+	c.makeGlobalObject(2440, 3124, 4421, 1, 10);
+	c.makeGlobalObject(2439, 3123, 4421, 1, 10);
+
 	c.makeGlobalObject(2853, 3609, 4421, 1, 10);
 	c.makeGlobalObject(2851, 3609, 4421, 1, 10);
 	c.makeGlobalObject(2874, 3600, 4421, 1, 10);

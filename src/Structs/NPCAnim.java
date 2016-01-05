@@ -812,9 +812,8 @@ public class NPCAnim {
 		case 1590:
 		case 1591:
 		case 1592:
+		case 941:
 			return 89;
-
-
 
 		default:
 			return 1834;
