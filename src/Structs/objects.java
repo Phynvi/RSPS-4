@@ -711,9 +711,19 @@ c.makeGlobalObject(2808, 3377, 1306, 1, 10);
 //Dwarf Quest
 c.makeGlobalObject(2034, 4527, 8878, 0, 10);
 c.makeGlobalObject(2034, 4528, 5816, 0, 10);
-c.makeGlobalObject(3495, 3185, 12802, 0, 10);
 c.makeGlobalObject(3250, 2787, 7318, 0, 10);
 //Dwarf Quest
+
+
+c.makeGlobalObject(3488, 3261, 4421, 1, 10);
+c.makeGlobalObject(3489, 3260, 4421, 1, 10);
+c.makeGlobalObject(3488, 3259, 4421, 1, 10);
+c.makeGlobalObject(3489, 3258, 4421, 1, 10);
+c.makeGlobalObject(3488, 3257, 4421, 1, 10);
+c.makeGlobalObject(3489, 3256, 4421, 1, 10);
+c.makeGlobalObject(3488, 3255, 4421, 1, 10);
+c.makeGlobalObject(3489, 3255, 4421, 1, 10);
+c.makeGlobalObject(3560, 3402, 12802, 2, 10);
 
 c.makeGlobalObject(2916, 4824, 2111, 0, 10);
 c.makeGlobalObject(2916, 4830, 2111, 0, 10);

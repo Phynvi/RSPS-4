@@ -164,18 +164,13 @@ public class MenuHandler {
 	
 	public String[] magicMenu(){
 		return new String[]{"@gre@Magic Guide", "","",
-				"Currently, magic does not require runes to use.",
-				"",
 				"Magic bonus is determined separate from your",
 				"displayed magic bonus in the equipment tab. ",
 				"@gre@Your current gear's Magic bonus : +"+c.MAGICDATAHANDLER.getMagicBonusDamage(),
+				"Note: 16 is currently the highest possible bonus.",
 				"",
-				"The ancient spellbook is activated by wielding staffs which grant ancient magicks.",
-				"Two Staffs allow this: ",
-				"1. An Ancient Staff, which can be gathered from a rare drop.",
-				"2. The Staff from the quest Dwarf Problems II.",
-				"",
-				"@red@NOTE: @bla@Low and High level alchemy do require fire and nature runes."};
+				"The Ancients spellbook is available by completing Dwarf Problems Part II.",
+				"",};
 	}
 	
 	public static String[] agilityGuide(){
@@ -353,8 +348,10 @@ public class MenuHandler {
 				"Level 40 - Riyl Shade",
 				"Level 50 - Dust Devil",
 				"Level 65 - Asyn Shade",
+				"Level 72 - Skeletal Wyvern",
 				"Level 75 - Fiyr Shade",
-				"Level 85 - Abyssal Demon"};
+				"Level 85 - Abyssal Demon",
+				"Level 90 - Dark Beast"};
 	}
 	
 	public static String wbBook(){
@@ -371,9 +368,9 @@ public class MenuHandler {
 		"#Enter the manhole in Port Sarim, break through"+
 		"#the closed gate, and search the cupboard."+
 		"#-----------------------------------------------"+
-		"#South of Mort'ton lies a ghost town, South of"+
-		"#the ghost town near the ocean is a tomb."+
-		"#inside the tomb rests a piece of the relic.#");
+		"#Deep in East Mort Myre Swamp there lies a graveyard."+
+		"#In this graveyard exists a tomb which is different then"+
+		"#most others. Search this tomb.#");
 	}
 	
 	public String ancientsmenu2(){

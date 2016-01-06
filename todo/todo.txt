@@ -1,11 +1,7 @@
 
--Moss giant (possibly other giants?) attack animation
-
 -Level gain sprites
 
 -Runecrafting
-
--Make so if a monster does not have a block animation, it does not refer to default but instead does nothing
 
 -NPC projectiles
 
@@ -20,7 +16,6 @@
 
 -Populate Canifis with actual NPCs
 
--Seal off Burgh de Rott
--Move quest from Burgh De Rott to the Graveyard
-
 -PEST CONTROL FOUND
+
+-Combat by bonuses

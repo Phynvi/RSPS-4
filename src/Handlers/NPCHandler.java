@@ -3,12 +3,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
-	public static BST rangedNPC = new BST(1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
-	public static BST ignoreCombatLevel = new BST(122,123,125,64); //NPCs in this list will be aggressive no matter what
-	public static BST largeNPC = new BST(); //NPCs larger than one tile
+	public static BST aggressiveNPCS = new BST(2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST rangedNPC = new BST(3068,3069,3070,3071,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
+	public static BST ignoreCombatLevel = new BST(2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
+	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
 	
 	private static int NPCFightType; 
 	public static int hitRange = 0;
@@ -414,9 +413,9 @@ public class NPCHandler {
 						client person = (client) p;
 						if (p != null && person != null) {
 							int dist = npcs[i].agroRange;
-							
-							if (npcs[i].isAggressive && person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= dist && 
-									p.heightLevel == npcs[i].heightLevel && ( !p.IsAttackingNPC || person.isInMultiCombat() ) && npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn) {
+							if ((npcs[i].isAggressive || npcs[i].isAggressiveIgnoreCombatLevel) && person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= dist && 
+									p.heightLevel == npcs[i].heightLevel && ( !p.IsAttackingNPC || person.isInMultiCombat() ) && 
+									npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn) {
 								if((getCombat(npcs[i].npcType)*2) > person.combat || npcs[i].isAggressiveIgnoreCombatLevel){
 									npcs[i].StartKilling = person.playerId;
 									npcs[i].RandomWalk = false;
@@ -582,9 +581,6 @@ public class NPCHandler {
 							npcs[i].animNumber = 28; // baby dragons
 						} else if (npcs[i].npcType == 110 || npcs[i].npcType == 112 || npcs[i].npcType == 117) {
 							npcs[i].animNumber = 131; // Moss giant + Hill Giant
-						} else if (npcs[i].npcType == 1615) {
-							npcs[i].animNumber = 1538; // Abby Demon
-
 						} else if (npcs[i].npcType == 1616) {
 							npcs[i].animNumber = 1548; // Basilisk
 
@@ -719,6 +715,18 @@ public class NPCHandler {
 		giveSlayerEXP(c,npcID);
 		
 		switch (npcID){
+
+		//Dark Beast
+		case 2783:
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.darkBeastDrop));
+			dropItem(NPCID, DropList.BIGBONES);
+			break;
+		
+		//Skeletal Wyvern
+		case 3070:
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, DropList.WYVERNBONES);
+			break;
 		
 		case 2573:
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
@@ -1234,6 +1242,7 @@ WORLDMAP 2: (not-walk able places)
 						
 						boolean maxHitOverride = false;
 						int hitDiffOverride = 0;
+						int freezePlayer = -1;
 						
 						switch (_npcID){
 						
@@ -1245,6 +1254,27 @@ WORLDMAP 2: (not-walk able places)
 //							int offsetX = (npcs[NPCID].absX - X3) * -1;
 //							int offsetY = (npcs[NPCID].absY - Y3) * -1;
 //							c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 75, 20, 43, 31, Player+1);
+							break;
+							
+							//skeletal wyverns
+						case 3068:
+						case 3069:
+						case 3070:
+						case 3071:
+							if(misc.random(3) == 0){
+								if(c.hasAnyDragonFireShield()){
+									c.sendMessage("Your shield protects you from the Wyvern's icey breath.");
+									c.stillgfx(361, c.absY, c.absX);
+									magic(10);
+								}
+								else{
+									c.sendMessage("The Wyvern strikes with icey breath.");
+									c.stillgfx(363, c.absY, c.absX);
+									magic(50);
+								}
+								freezePlayer = 5;
+							}
+							else range(13);
 							break;
 							
 						case 2373: //testing clipping
@@ -1317,9 +1347,7 @@ WORLDMAP 2: (not-walk able places)
 
 						case 1615:
 							melee(26);
-							npcs[NPCID].animNumber = 1537; //Abby Demon
-							c.stillgfx(409, c.absY, c.absX);
-							npcs[NPCID].animNumber = 0x326;
+							c.stillgfx(409, npcs[NPCID].absY, npcs[NPCID].absX);
 							break;
 
 						case 912:
@@ -1328,6 +1356,7 @@ WORLDMAP 2: (not-walk able places)
 							npcs[NPCID].animNumber = 711; 
 							c.stillgfxz(345, c.absY, c.absX, 50, 50);
 							break;
+							
 						case 677: //demon boss from dwarf problems ii
 							switch (misc.random(2)){
 							case 0:
@@ -1383,7 +1412,7 @@ WORLDMAP 2: (not-walk able places)
 									c.stillgfx(440, c.absY, c.absX);
 									c.sendMessage("Your shield protects you from the Dragon's breath.");
 								}
-								if (c.dragfire2()){
+								if (c.hasDFS()){
 									gfxAll(440, playerY, playerX);
 									c.stillgfx(440, c.absY, c.absX);
 									c.stillgfx(4, c.absY, c.absX);
@@ -1412,12 +1441,6 @@ WORLDMAP 2: (not-walk able places)
 							}
 
 							break;
-
-						case 110: case 112: case 117: //giants
-							npcs[NPCID].animNumber = 0x326;
-							melee(10);
-							break;
-
 							
 						case 369: //paladin
 							npcs[NPCID].animNumber = SLASH;
@@ -1657,6 +1680,9 @@ WORLDMAP 2: (not-walk able places)
 						if ((EnemyHP - hitDiff) < 0) 
 							hitDiff = EnemyHP;
 						
+						if(freezePlayer > -1 && hitDiff > 0)
+							c.frozen(freezePlayer);						
+						
 						if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special
 							c.startAnimation(c.GetBlockAnim(c.playerEquipment[c.playerWeapon]));
 
@@ -1873,6 +1899,7 @@ WORLDMAP 2: (not-walk able places)
 			return false;
 		}
 		while(EndOfFile == false && line != null) {
+			String lineoriginal = line;
 			line = line.trim();
 			int spot = line.indexOf("=");
 			if (spot > -1) {
@@ -1887,7 +1914,17 @@ WORLDMAP 2: (not-walk able places)
 				token2_2 = token2_2.replaceAll("\t\t", "\t");
 				token3 = token2_2.split("\t");
 				if (token.equals("npc")) {
-					newNPCList(Integer.parseInt(token3[0]), token3[1], Integer.parseInt(token3[2]), Integer.parseInt(token3[3]));
+					if(token3.length == 3){ //means HP not defined, so default is 1
+						newNPCList(Integer.parseInt(token3[0]), token3[1], Integer.parseInt(token3[2]), 1);
+					}
+					else{
+						try{
+						newNPCList(Integer.parseInt(token3[0]), token3[1], Integer.parseInt(token3[2]), Integer.parseInt(token3[3]));
+						}
+						catch(Exception e){
+							System.out.println("Error in parsing npc.cfg, line : "+lineoriginal);
+						}
+					}
 				}
 			} else {
 				if (line.equals("[ENDOFNPCLIST]")) {

@@ -133,6 +133,14 @@
 		}
 		
 		/**
+		 * Will add multiple arrays to a BST
+		 */
+		public void add(int[] ... lists){
+			for(int i = 0; i < lists.length; i++)
+				this.add(lists[i]);
+		}
+		
+		/**
 		 * Adds multiple elements
 		 * @param numbs Formatted array of numbers to add
 		 */

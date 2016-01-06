@@ -428,6 +428,8 @@ public class Prayer {
 			return 225;
 		case 534: //babydragon bones
 			return 125;
+		case 6812: //Wyvern Bones
+			return 240;
 			default:
 				c.debug("In prayer handler, boneID "+boneID+" not found.");
 				return 25;

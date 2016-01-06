@@ -42,6 +42,8 @@ public class Item {
 	};
 	public static int SmithingItems[][] = new int[5][5];
 
+	static final int ANTIDRAGONFIRESHIELD = 1540;
+	static final int DFS = 13361;
 	static final int CRYSTALBOW = 4212;
 	static final int DARKBOW = 15156;
 	static final int KARILSCROSSBOW = 4734;

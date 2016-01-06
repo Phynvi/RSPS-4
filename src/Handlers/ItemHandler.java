@@ -5,11 +5,11 @@ import java.io.*;
 
 public class ItemHandler {
 
- // Phate: Setting VARS
+	// Phate: Setting VARS
 	public static int showItemTimer = 60;
 	public static int hideItemTimer = 60;
 
- // Phate: Global Item VARS
+	// Phate: Global Item VARS
 	public static int[] globalItemController =		new int[5001];
 	public static int[] globalItemID =				new int[5001];
 	public static int[] globalItemX =				new int[5001];
@@ -34,6 +34,8 @@ public class ItemHandler {
 			ResetItem(i);
 		}
 		loadItemList("item.cfg");
+		loadItemPrices("itemprices.cfg");
+		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
 		//loadDrops("drops.cfg");
 	}
 
@@ -43,7 +45,7 @@ public class ItemHandler {
 				globalItemTicks[i]++;
 
 			if ((hideItemTimer+showItemTimer) == globalItemTicks[i]) {
-			//	misc.println("Item Removed ["+i+"] id is ["+globalItemID[i]+"]");
+				//	misc.println("Item Removed ["+i+"] id is ["+globalItemID[i]+"]");
 				if(!globalItemStatic[i]) {
 					removeItemAll(globalItemID[i], globalItemX[i], globalItemY[i]);
 				} else {
@@ -57,7 +59,7 @@ public class ItemHandler {
 				} else
 					misc.println("Item is static");
 			} 
-			
+
 		}
 	}
 
@@ -66,7 +68,7 @@ public class ItemHandler {
 			if(globalItemID[i] == itemID && globalItemX[i] == itemX && globalItemY[i] == itemY)	// Phate: Found item
 				return true;
 		}
-	 return false;							// Phate: Item doesnt exist
+		return false;							// Phate: Item doesnt exist
 	}
 
 	public static int itemAmount(int itemID, int itemX, int itemY) {
@@ -74,7 +76,7 @@ public class ItemHandler {
 			if(globalItemID[i] == itemID && globalItemX[i] == itemX && globalItemY[i] == itemY)	// Phate: Found item
 				return globalItemAmount[i];
 		}
-	 return 0;							// Phate: Item doesnt exist
+		return 0;							// Phate: Item doesnt exist
 	}
 
 	public static void addItem(int itemID, int itemX, int itemY, int itemAmount, int itemController, boolean itemStatic) {
@@ -108,8 +110,8 @@ public class ItemHandler {
 
 	public static void spawnItem(int itemID, int itemX, int itemY, int itemAmount, int playerFor) {
 		client person = (client) server.playerHandler.players[playerFor];
-                if(person != null)
-		person.createGroundItem(itemID, itemX, itemY, itemAmount);
+		if(person != null)
+			person.createGroundItem(itemID, itemX, itemY, itemAmount);
 	}
 
 	public static void removeItem(int itemID, int itemX, int itemY, int itemAmount) {
@@ -128,40 +130,40 @@ public class ItemHandler {
 	}
 
 	public static void createItemAll(int itemID, int itemX, int itemY, int itemAmount, int itemController) {
-			for (Player p : server.playerHandler.players){
-				if(p != null) {
-					client person = (client)p;
-					if((person.playerName != null || person.playerName != "null") && !(person.playerId == itemController)) {
-				//		 misc.println("distance to create "+person.distanceToPoint(itemX, itemY));
-						if (person.distanceToPoint(itemX, itemY) <= 60) {
-							person.createGroundItem(itemID, itemX, itemY, itemAmount);
-						}
+		for (Player p : server.playerHandler.players){
+			if(p != null) {
+				client person = (client)p;
+				if((person.playerName != null || person.playerName != "null") && !(person.playerId == itemController)) {
+					//		 misc.println("distance to create "+person.distanceToPoint(itemX, itemY));
+					if (person.distanceToPoint(itemX, itemY) <= 60) {
+						person.createGroundItem(itemID, itemX, itemY, itemAmount);
 					}
 				}
 			}
+		}
 	}
 
 	public static void removeItemAll(int itemID, int itemX, int itemY) {
-			for (Player p : server.playerHandler.players){
-				if(p != null) {
-					client person = (client)p;
-					if(person.playerName != null || person.playerName != "null") {
-				//		misc.println("distance to remove "+person.distanceToPoint(itemX, itemY));
-						if (person.distanceToPoint(itemX, itemY) <= 60) {
-							person.removeGroundItem(itemX, itemY, itemID);
-						}
+		for (Player p : server.playerHandler.players){
+			if(p != null) {
+				client person = (client)p;
+				if(person.playerName != null || person.playerName != "null") {
+					//		misc.println("distance to remove "+person.distanceToPoint(itemX, itemY));
+					if (person.distanceToPoint(itemX, itemY) <= 60) {
+						person.removeGroundItem(itemX, itemY, itemID);
 					}
 				}
 			}
+		}
 	}
 	public static int itemCount = 0;
 	public static int DropItemCount = 0;
 	public static int MaxDropItems = 100000;
 	public static int MaxListedItems = 20000;
-							//process() is called evry 500 ms
+	//process() is called evry 500 ms
 	public static int MaxDropShowDelay = 120; //120 * 500 = 60000 / 1000 = 60s
 	public static int SDID = 90; //90 * 500 = 45000 / 1000 = 45s
-					//SDID = Standard Drop Items Delay
+	//SDID = Standard Drop Items Delay
 	public static int[] DroppedItemsID = new int[MaxDropItems];
 	public static int[] DroppedItemsX = new int[MaxDropItems];
 	public static int[] DroppedItemsY = new int[MaxDropItems];
@@ -174,7 +176,7 @@ public class ItemHandler {
 	public static boolean[] DroppedItemsAlwaysDrop = new boolean[MaxDropItems];
 	public ItemList ItemListArray[] = new ItemList[MaxListedItems];
 	public itemListBST ItemList = new itemListBST();
-	
+
 
 	/*ItemHandler() {
 		for(int i = 0; i < MaxDropItems; i++) {
@@ -242,10 +244,10 @@ public class ItemHandler {
 					int y = Integer.parseInt(token3[2]);
 					int amount = Integer.parseInt(token3[3]);
 					int height = Integer.parseInt(token3[4]); 
-                                        for (int i = 0; i < 5000; i++)
-                                        {
-                                        createItemAll(id, x, y, amount, globalItemController[i]);
-                                        }
+					for (int i = 0; i < 5000; i++)
+					{
+						createItemAll(id, x, y, amount, globalItemController[i]);
+					}
 				}
 			} else {
 				if (line.equals("[ENDOFDROPLIST]")) {
@@ -262,14 +264,7 @@ public class ItemHandler {
 	}
 
 	public void newItemList(int ItemId, String ItemName, String ItemDescription, double ShopValue, double LowAlch, double HighAlch, int Bonuses[]) {
-		// first, search for a free slot
-		int slot = -1;
-		for (int i = 0; i < 9999; i++) {
-			if (ItemListArray[i] == null) {
-				slot = i;
-				break;
-			}
-		}
+		
 		ItemList newItemList = new ItemList(ItemId);
 		newItemList.itemName = ItemName;
 		newItemList.itemDescription = ItemDescription;
@@ -277,8 +272,51 @@ public class ItemHandler {
 		newItemList.LowAlch = LowAlch;
 		newItemList.HighAlch = HighAlch;
 		newItemList.Bonuses = Bonuses;
-		ItemListArray[slot] = newItemList;
+		ItemListArray[ItemId] = newItemList;
 	}	
+
+	//TODO 
+	public boolean loadItemPrices(String FileName) {
+		String line = "";
+		BufferedReader characterfile = null;
+		try {
+			characterfile = new BufferedReader(new FileReader("./CFG/"+FileName));
+		} catch(FileNotFoundException fileex) {
+			misc.println(FileName+": file not found.");
+			return false;
+		}
+		try {
+			line = characterfile.readLine();
+		} 
+		catch(IOException ioexception) {
+			misc.println(FileName+": error loading file.");
+			line = null;
+		}
+		int index = 0;
+		while(line != null) {
+			try{
+				String[] itemInfo = line.split(" ");
+				int itemID = Integer.parseInt(itemInfo[0]);
+				if (itemID >= ItemListArray.length)
+					System.out.println("Invalid item ID, in "+FileName+" at line : "+line);
+				else{
+					if(ItemListArray[itemID] != null)
+						ItemListArray[itemID].ShopValue = Double.parseDouble(itemInfo[1]);
+					else System.out.println("Nonexistent item detected in "+FileName+" at line : "+line);
+				}
+				line = characterfile.readLine();
+			}
+			catch(Exception e){
+				System.out.println("Error reading item prices at line : "+line);
+				System.out.println("Error: "+e.toString());
+			}
+		}
+		try{
+			characterfile.close();
+		}
+		catch(Exception e){}
+		return true;
+	}
 
 	public boolean loadItemList(String FileName) {
 		String line = "";
@@ -302,31 +340,38 @@ public class ItemHandler {
 			return false;
 		}
 		while(EndOfFile == false && line != null) {
+			String originalLine = line;
 			line = line.trim();
 			int spot = line.indexOf("=");
 			if (spot > -1) {
-				token = line.substring(0, spot);
-				token = token.trim();
-				token2 = line.substring(spot + 1);
-				token2 = token2.trim();
-				token2_2 = token2.replaceAll("\t\t", "\t");
-				token2_2 = token2_2.replaceAll("\t\t", "\t");
-				token2_2 = token2_2.replaceAll("\t\t", "\t");
-				token2_2 = token2_2.replaceAll("\t\t", "\t");
-				token2_2 = token2_2.replaceAll("\t\t", "\t");
-				token3 = token2_2.split("\t");
-				if (token.equals("item")) {
-					int[] Bonuses = new int[12];
-					for (int i = 0; i < 12; i++) {
-						if (token3[(6 + i)] != null) {
-							Bonuses[i] = Integer.parseInt(token3[(6 + i)]);
-						} else {
-							break;
+				try{
+					token = line.substring(0, spot);
+					token = token.trim();
+					token2 = line.substring(spot + 1);
+					token2 = token2.trim();
+					token2_2 = token2.replaceAll("\t\t", "\t");
+					token2_2 = token2_2.replaceAll("\t\t", "\t");
+					token2_2 = token2_2.replaceAll("\t\t", "\t");
+					token2_2 = token2_2.replaceAll("\t\t", "\t");
+					token2_2 = token2_2.replaceAll("\t\t", "\t");
+					token3 = token2_2.split("\t");
+					if (token.equals("item")) {
+						int[] Bonuses = new int[12];
+						for (int i = 0; i < 12; i++) {
+							if (token3[(6 + i)] != null) {
+								Bonuses[i] = Integer.parseInt(token3[(6 + i)]);
+							} else {
+								break;
+							}
 						}
+						newItemList(Integer.parseInt(token3[0]), token3[1].replaceAll("_", " "), token3[2].replaceAll("_", " "), Double.parseDouble(token3[4]), Double.parseDouble(token3[4]), Double.parseDouble(token3[6]), Bonuses);
 					}
-					newItemList(Integer.parseInt(token3[0]), token3[1].replaceAll("_", " "), token3[2].replaceAll("_", " "), Double.parseDouble(token3[4]), Double.parseDouble(token3[4]), Double.parseDouble(token3[6]), Bonuses);
 				}
-			} else {
+				catch(Exception e){
+					System.out.println("At line : "+originalLine);
+				}
+			} 
+			else {
 				if (line.equals("[ENDOFITEMLIST]")) {
 					try { characterfile.close(); } catch(IOException ioexception) { }
 					return true;
@@ -336,7 +381,6 @@ public class ItemHandler {
 				line = characterfile.readLine();
 			} catch(IOException ioexception1) { EndOfFile = true; }
 		}
-		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
 		try { characterfile.close(); } catch(IOException ioexception) { }
 		return false;
 	}

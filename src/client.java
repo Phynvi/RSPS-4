@@ -217,7 +217,7 @@ public class client extends Player implements Runnable {
 	
 	
 	public int getShieldDefBonus(){
-		if(dragfire2()) return getDFSBonus();
+		if(hasDFS()) return getDFSBonus();
 		switch(playerEquipment[playerShield]){
 		default:
 			return 0;
@@ -225,7 +225,7 @@ public class client extends Player implements Runnable {
 	}
 	
 	public int getShieldMagicDefBonus(){
-		if(dragfire2()) return getDFSBonus();
+		if(hasDFS()) return getDFSBonus();
 		switch(playerEquipment[playerShield]){
 		case 3629: //Spectral Spirit Shield
 			return 6;
@@ -1354,11 +1354,6 @@ public class client extends Player implements Runnable {
 				break;
 			}
 			selectOptionTravel2("Help out Hammerspike Stoutbeard?", "Sure thing", 2037,4535, "No thank you", -1,-1);
-			break;
-			
-		case 1182:
-			if(playerLevel[16] >= 50) selectOptionTravel2("Travel to the Warewolf Agility Course?", "Yes", 3540, 9868, "No", -1,-1);
-			else npcdialogue("Agility Teleporter", 1182, "With 50 Agility you may enter", "the Warewolf Agility Course.");
 			break;
 			
 		case 606:
@@ -3528,7 +3523,14 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		sendMessage("The sign reads : ");
 		sendMessage("This is why replacing models in the client is not always a good idea.");
 		break;
-	
+		
+	case 6970: //Mort Myre Swamp Boat to Mort'ton
+		selectOptionTravel2("Take the boat to Mort'ton?", "Yes", 3522,3285, "No", -1, -1);
+		break;
+	case 6969: //Mort'ton Swamp Boat to Mort Myre Swamp
+		selectOptionTravel2("Take the boat into Mort Myre Swamp?", "Yes", 3500, 3380, "No", -1, -1);
+		break;
+		
 	case 5106:	
 	case 5107: //vines to demons	
 	case 5105:
@@ -3541,6 +3543,16 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 				sendMessage("You cut your way through.");
 		}
 		else sendMessage("I need an axe to do that.");
+		break;
+		
+		//warewolf agility entrance and exit
+	case 5131:
+		if(playerLevel[playerAgility] > 50)
+			teleport(3549,9865);
+		else sendMessage("You need at least 50 agility to enter.");
+		break;
+	case 5130:
+		teleport(3543,3463);
 		break;
 	
 	
@@ -4644,12 +4656,7 @@ break;*/
 
 	case 12816:
 	case 12817:
-		if (ancients >= 5){
-			ReplaceObject(objectX,objectY,6951, -1);
-		}
-		else if (ancients < 5){
-			sendMessage("The gate won't budge.");
-		}
+		sendMessage("A sign on the gate reads: 'Under Construction.'");
 		break;
 
 	case 1728:
@@ -9937,11 +9944,11 @@ if(command.startsWith("quest") && playerRights >= 2){
 	}
 }
 
-if (command.startsWith("interfaces") && playerRights >= 2) {
+if (command.startsWith("interface2") && playerRights >= 2) {
 	try {
 		int intname = Integer.parseInt(command.substring(11));
 		showInterface(intname);
-		sendMessage(intname+" interface opened.");
+		sendMessage(intname+" interface2 opened.");
 	}
 	catch(Exception e) {
 		sendMessage("Wrong Syntax! Use as ::int #");
@@ -9964,6 +9971,7 @@ if (command.startsWith("interface") && playerRights >= 2) {
 	}
 	return;
 }
+
 
 if (command.startsWith("shop") && playerRights >= 2) {
  try {
@@ -19485,13 +19493,13 @@ private int ifHasBowAndAmmoUpdateDelay(){
 			return -1;
 		switch (FightType) {
 			case 1:
-				PkingDelay = 9;
+				PkingDelay = 7;
 				return 4;
 			case 2: //rapid
-				PkingDelay = 7;
+				PkingDelay = 5;
 				return 3;
 			case 3:
-				PkingDelay = 12;
+				PkingDelay = 10;
 				return 6;
 		}		
 	}
@@ -19509,7 +19517,9 @@ private boolean hitNPC(int npcID, int damage){
 		server.npcHandler.npcs[npcID].Killing[playerId] += damage;
 		server.npcHandler.npcs[npcID].updateRequired = true;
 		server.npcHandler.npcs[npcID].hitUpdateRequired = true;
-		server.npcHandler.npcs[npcID].animNumber = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcID].npcType);
+		int blockAnim = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcID].npcType);
+		if(blockAnim != -1)
+			server.npcHandler.npcs[npcID].animNumber = blockAnim;
 		server.npcHandler.npcs[npcID].updateAttackingPlayers(playerId, damage);
 		return true;
 	}
@@ -19878,12 +19888,16 @@ public boolean AttackNPC() {
 		return (playerEquipment[playerWeapon] == 13308);
 	}	
 	
+	public boolean hasAnyDragonFireShield(){
+		return(playerEquipment[playerShield] == Item.ANTIDRAGONFIRESHIELD || playerEquipment[playerShield] == Item.DFS);
+	}
+	
 public boolean dragfire() {
- return (playerEquipment[playerShield] == 1540); //dfire shield
+ return (playerEquipment[playerShield] == Item.ANTIDRAGONFIRESHIELD); //dfire shield
 }
 
-public boolean dragfire2() {
- return (playerEquipment[playerShield] == 13361); //DFS
+public boolean hasDFS() {
+ return (playerEquipment[playerShield] == Item.DFS); //DFS
 }
 
 

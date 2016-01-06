@@ -8,6 +8,7 @@ public class DropList {
 	public static final int BIGBONES = 532;
 	public static final int BABYDRAGONBONES = 534;
 	public static final int DRAGONBONES = 536;
+	public static final int WYVERNBONES = 6812;
 	
 	public static int[] basicArmorAndItemsNoTrim = {1075, 1087, 1103, 1117, 1139, 1155, 1173, 1189, 1205, 1237, 1277, 1291, 1307, 1321, 1337, 1351, 1375, 1422, 2349, 3095, 3190, 4119, 440, 1067, 
 												1081, 1101, 1115, 1137, 1153, 1175, 1191, 1203, 1239, 1279, 1293, 1309, 1323, 1335, 1349, 1363, 1420, 2351, 3096, 3192, 4121, 778, 1069, 1083, 
@@ -105,6 +106,7 @@ public class DropList {
 	public static LinkedList<Drop> kree = new LinkedList<Drop>();
 	public static LinkedList<Drop> abbyDrop = new LinkedList<Drop>();
 	public static LinkedList<Drop> bossDrop = new LinkedList<Drop>();
+	public static LinkedList<Drop> darkBeastDrop = new LinkedList<Drop>();
 
 	/**
 	 * Canon misc. drop
@@ -118,18 +120,22 @@ public class DropList {
 	public void generateLists(){
 
 		//System.out.println("DropHandler : Loading drops...");
-		long starting = System.currentTimeMillis();
+		//long starting = System.currentTimeMillis();
+		populate(darkBeastDrop, 
+				new Drop(2, Item.DARKBOW),
+				DropList.miscdrop(3),
+				new Drop(7, basicArmorAndItemsNoTrim, basicCapes, craftedJew, magicStaffs,armorTrim,dragonItems),
+				new Drop(1,rareGear));
 		
 		populate(barrowsDrop, //40% basic, 40% misc drop, 10% dragon items, 10% rare gear
 				DropList.miscdrop(2), 
 				new Drop(1, DropList.rareGear, DropList.defenders, DropList.rareWeapons, DropList.FIRECAPE, DropList.SERVERTOKEN));
 		
 		populate(dragonDrop, //40% basic, 45% misc, 10% rare, 5% DFS
-				new Drop(8, basicArmorAndItemsNoTrim,craftedJew,magicStaffs,basicCapes),
+				new Drop(8, basicArmorAndItemsNoTrim,armorTrim,craftedJew,magicStaffs,basicCapes),
 				miscdrop(9),
 				new Drop(2, dragonItems, defenders, rareGear),
 				new Drop(1, DFS));
-
 				
 		populate(newLowLevelDrop, 
 				new Drop(6, bronzeItems, steelItems, blackItemsNoTrim, mithrilItemsNoTrim, adamItemsNoTrim), 
@@ -148,10 +154,10 @@ public class DropList {
 				new Drop(1, armorTrim));
 		
 		populate(higherLevelDrop, 
-				new Drop(8, basicArmorAndItemsNoTrim, armorTrim,magicStaffs,basicCapes), 
+				new Drop(9, basicArmorAndItemsNoTrim, armorTrim,magicStaffs,basicCapes), 
 				miscdrop(8),
 				new Drop(2, dragonItems), 
-				new Drop(2, defenders), 
+				new Drop(1, defenders), 
 				new Drop(1, rareGear));
 		
 		populate(kree, 
@@ -181,7 +187,7 @@ public class DropList {
 				new Drop(4, basicArmorAndItemsNoTrim, armorTrim, obbyItems,magicStaffs,basicCapes), 
 				miscdrop(4), 
 				new Drop(1, dragonItems),
-				new Drop(1, rareGear, defenders, rareWeapons, FIRECAPE, spiritShields, promethiumArmor, DFS, SERVERTOKEN));
+				new Drop(1, rareGear, rareWeapons, FIRECAPE, spiritShields, promethiumArmor, DFS, SERVERTOKEN));
 		
 		//System.out.println("DropHandler : Loaded drops successfully in "+(System.currentTimeMillis()-starting)+" ms");
 		
