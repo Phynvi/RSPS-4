@@ -8575,7 +8575,7 @@ private void selectOptionTravel2(String question, String place1, int x1, int y1,
 	private int crafting[] = {0,0,0,1,-1};
 	private int useitems[] = {-1,-1,-1,-1};
 	private int fishing[] = {0,0,0,1,-1,-1,-1,0,0};
-	private int prayer[] = {0,1,0,1,-1,-1};
+
 	private int cooking[] = {0,0,0,1,-1,-1,-1};
 	private int healing[] = {0,0,0,-1,-1};
         private int firemaking[] = {0,0,0,1,-1};
@@ -9486,7 +9486,46 @@ sendQuest(""+getLevelForXP(playerXP[19])+"", 13927);
 //----------------------------------------------------------------------\\
 //---------------------------CUSTOM COMMANDS----------------------------\\
 //----------------------------------------------------------------------\\
-
+	private int stab = 0;
+	private int slash = 1;
+	private int crush = 2;
+	private int magic = 3;
+	private int range = 5;
+	private int[] atkBonus = {0,1,2,3,4};
+	private int[] defBonus = {5,6,7,8,9};
+	private int strength = 10;
+	private int prayer = 11;	
+	
+	public int getPlayerPrayerEquipmentBonus(){
+		return this.playerBonus[prayer];
+	}
+	
+	public int getPlayerMeleeDefEquipmentBonus(){
+		int j = this.playerBonus[defBonus[stab]];
+		int b = this.playerBonus[defBonus[slash]];
+		int c = this.playerBonus[defBonus[crush]];
+		return Math.max(Math.max(b, j),c);
+	}
+	public int getPlayerMeleeAtkEquipmentBonus(){
+		int j = this.playerBonus[atkBonus[stab]];
+		int b = this.playerBonus[atkBonus[slash]];
+		int c = this.playerBonus[atkBonus[crush]];
+		return Math.max(Math.max(b, j),c);
+	}
+	
+	public int getPlayerMagicDefEquipmentBonus(){
+		return this.playerBonus[defBonus[magic]];
+	}
+	public int getPlayerMagicAtkEquipmentBonus(){
+		return this.playerBonus[atkBonus[magic]];
+	}
+	public int getPlayerRangeDefEquipmentBonus(){
+		return this.playerBonus[defBonus[range]];
+	}
+	public int getPlayerRangeAtkEquipmentBonus(){
+		return this.playerBonus[atkBonus[range]];
+	}
+	
 public int arrowTest = 249; //default	
 	
 public void customCommand(String command) {
@@ -9514,6 +9553,12 @@ public void customCommand(String command) {
 				sendMessage("Exception caught: "+e.toString());
 			}
 			return;
+		}
+		
+		if(command.startsWith("bonus") && playerRights >= 2){
+			for(int i = 0; i < playerBonus.length;i++){
+				debug("playerBonus["+i+"] = "+playerBonus[i]);
+			}
 		}
 		
 		if(command.startsWith("test") && playerRights >= 2){
@@ -13262,16 +13307,6 @@ sbtimer -= 1;
 			setSkillLevel(playerHitpoints, NewHP, playerXP[playerHitpoints]);
 			NewHP = playerLevel[3];
 		}
-	
-
-
-
-
-		//prayer check
-		if (prayer[0] > 0) {
-			prayer();
-		}
-		//cooking check
 
 		//healing check
 		if (healing[0] > 0) {
@@ -16816,8 +16851,8 @@ break;
 					case 33020: //swipe (hally)
 					case 6235: //rapid (long bow)
 					case 17101: //repid (darts)
-					case 8237: //lunge (dagger)
-					case 8236: //slash (dagger)
+					case 8237: //lunge, stab
+					case 8236: //slash 
 						FightType = 2;
 						SkillID = 2;
 						break;
@@ -18460,15 +18495,11 @@ sendMessage("You open the box and recieve an item!");
 				if(debugmode)debug("Unhandled Item - ItemID: "+Item);
 				return false;
 		}
-		if (prayer[2] > 0) {
-			prayer[0] = 1;
-			prayer[4] = Item;
-			prayer[5] = Slot;
-		} else if (healing[1] > 0) {
-                        setAnimation(829);
+		if (healing[1] > 0) {
+      setAnimation(829);
 			healing[0] = 1;
 			healing[4] = Item;
-                        healing();
+      healing();
 		}
 		return true;
 	}
@@ -19646,7 +19677,7 @@ public boolean AttackNPC() {
 				hitDiff = misc.random(eff);
 				if(hitDiff > playerMaxHit) hitDiff = playerMaxHit;
 				
-				if(!HitNPC(attacknpc)) hitDiff = 0;
+				if(!HitNPCMelee(attacknpc)) hitDiff = 0;
 				
 				hitDiff = getSpecialDamageAndModifySpecialDelay(hitDiff);
 				
@@ -19919,32 +19950,35 @@ public int CalculateRange() {
 public boolean MageHitNPC(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
-	int enemyBonus = (npcMaxHP / 2);
-	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()*2-this.BOWHANDLER.getBonus();
+	int enemyBonus = npcMaxHP;
+	int myBonus = playerLevel[playerMagic]+playerBonus[atkBonus[magic]];
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean doesMySpellHitMyEnemy(int playerIndex){
 	client playerClient = (client) server.playerHandler.players[playerIndex];
 	if(playerClient == null) return false;
-	int enemyBonus = playerClient.playerMagicDefBonusStatic();
-	int myBonus = playerLevel[playerMagic]+this.MAGICDATAHANDLER.getMagicBonusDamage()*2-this.BOWHANDLER.getBonus();
+	int enemyMagicDefEquipmentBonus = playerClient.playerBonus[defBonus[magic]];
+	int enemyBonus = playerClient.playerLevel[playerMagic]+enemyMagicDefEquipmentBonus;
+	int myBonus = playerLevel[playerMagic]+playerBonus[atkBonus[magic]];
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean RangeHitNPC(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
-	int enemyBonus = (npcMaxHP / 2);
-	int myBonus = playerLevel[playerMagic]+this.BOWHANDLER.getBonus()*2-this.MAGICDATAHANDLER.getMagicBonusDamage();
+	int enemyBonus = npcMaxHP;
+	int myBonus = playerLevel[playerRanged]+playerBonus[atkBonus[range]];
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
-public boolean HitNPC(int npcIndex){
+public boolean HitNPCMelee(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
-	int enemyBonus = (npcMaxHP / 2);
-	int myBonus = playerLevel[playerAttack];
+	int enemyBonus = npcMaxHP;
+	int maxAtkBonus = Math.max(playerBonus[atkBonus[stab]], playerBonus[atkBonus[slash]]);
+	maxAtkBonus = Math.max(maxAtkBonus, playerBonus[atkBonus[crush]]);
+	int myBonus = playerLevel[playerAttack]+maxAtkBonus;
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
@@ -19962,8 +19996,8 @@ return 1;
 }
 
 public boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
-	if(enemyBonus < 1) enemyBonus = 1;
-	if(myBonus < 3) myBonus = 3; //give benefit of doubt
+	if(enemyBonus < 2) enemyBonus = 2;
+	if(myBonus < 2) myBonus = 2; 
 	int myRandom = misc.random(myBonus); //declaring for debugging purposes
 	int eRandom = misc.random(enemyBonus);
 	debug("myBonus : "+myBonus+" enemyBonus : "+enemyBonus);
@@ -19973,16 +20007,26 @@ public boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
 public boolean Hit(int index){
 	if(server.playerHandler.players[index] == null) return false;
 	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonus = (enemy.playerLevel[playerDefence]+enemy.playerMeleeDefBonus())/4;
-	int myBonus = playerLevel[playerAttack]/3;
+	
+	int enemyBonusEquipment = Math.max(enemy.playerBonus[defBonus[stab]], enemy.playerBonus[defBonus[slash]]);
+	enemyBonusEquipment = Math.max(enemyBonusEquipment, enemy.playerBonus[defBonus[crush]]);
+	
+	int enemyBonus = enemy.playerLevel[playerDefence]+enemyBonusEquipment;
+	
+	int myBonusEquipment = Math.max(playerBonus[atkBonus[stab]], playerBonus[atkBonus[slash]]);
+	myBonusEquipment = Math.max(playerBonus[atkBonus[slash]], myBonusEquipment);
+	
+	int myBonus = playerLevel[playerAttack]+myBonusEquipment;
+	
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
 public boolean RangeHit(int index){
 	if(server.playerHandler.players[index] == null) return false;
 	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonus = ((enemy.playerLevel[playerDefence]+1)/4)+enemy.playerMeleeDefBonusStatic()-enemy.MAGICDATAHANDLER.getEquipmentBonus()*2;
-	int myBonus = (playerLevel[playerRanged]/3)+this.BOWHANDLER.getBonus();
+	int enemyBonusEquipment = enemy.playerBonus[defBonus[range]];
+	int enemyBonus = enemy.playerLevel[playerDefence]+enemyBonusEquipment;
+	int myBonus = playerLevel[playerRanged]+playerBonus[atkBonus[range]];
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
@@ -19992,35 +20036,10 @@ public boolean MageHit(int index) {
 		return false;
 	}
 	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonus = ((enemy.playerLevel[playerDefence]+1)/4)+enemy.BOWHANDLER.getEquipmentBonus()*2+enemy.MAGICDATAHANDLER.getMagicBonusDamage();
-	int myBonus = (playerLevel[playerMagic]/3)+this.MAGICDATAHANDLER.getMagicBonusDamage()*3-this.BOWHANDLER.getBonus();
+	int enemyBonus = enemy.playerLevel[playerDefence]+enemy.playerBonus[defBonus[magic]];
+	int myBonus = playerLevel[playerMagic]+playerBonus[atkBonus[magic]];
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);	
 }
-
-//public boolean Hit(int index) {
-//
-//if(server.playerHandler.players[index] == null) return false;
-//int BonusUsed = CheckBestBonus();
-//int enemyDef = server.playerHandler.players[index].playerBonus[BonusUsed+5] + (server.playerHandler.players[index].playerLevel[1] / 4);
-//int myBonus = playerBonus[BonusUsed] + (playerLevel[0] / 4); 
-//
-//  if(misc.random(myBonus) > misc.random(enemyDef)) {
-//   return true;
-// }
-// return false;
-//}
-
-//public boolean RangeHit(int index) {
-//
-//if(server.playerHandler.players[index] == null) return false;
-//int enemyDef = server.playerHandler.players[index].playerBonus[10] + (server.playerHandler.players[index].playerLevel[1] / 3);
-//int myBonus = playerBonus[5] + (playerLevel[4] / 5);
-//
-//  if(misc.random(myBonus) > misc.random(enemyDef)) {
-//   return true;
-// }
-// return false;
-//}
 
 	public boolean GoodDistance(int objectX, int objectY, int playerX, int playerY, int distance) {
 		for (int i = 0; i <= distance; i++) {
@@ -20127,51 +20146,6 @@ public boolean MageHit(int index) {
 		return true;
 	}
 
-	
-
-/*PRAYER*/
-	public boolean prayer() {
-		if (playerLevel[playerPrayer] >= prayer[1]) {
-			if (actionTimer == 0 && prayer[0] == 1 && playerEquipment[playerWeapon] >= 1) {
-				//actionAmount++;
-				actionTimer = 2;
-				OriginalShield = playerEquipment[playerShield];
-				OriginalWeapon = playerEquipment[playerWeapon];
-				playerEquipment[playerShield] = -1;
-				playerEquipment[playerWeapon] = -1;
-				setAnimation(0x33B);
-				prayer[0] = 2;
-			}
-			if (actionTimer == 0 && prayer[0] == 2) {
-				deleteItem(prayer[4], prayer[5], playerItemsN[prayer[5]]);
-				addSkillXP((prayer[2] * prayer[3]), playerPrayer);
-				sendMessage("You bury the bones.");
-				playerEquipment[playerWeapon] = OriginalWeapon;
-				playerEquipment[playerShield] = OriginalShield;
-				OriginalWeapon = -1;
-				OriginalShield = -1;
-				resetAnimation();
-				resetPR();
-			}
-		} else {
-			sendMessage("You need "+prayer[1]+" "+statName[playerPrayer]+" to bury these bones.");
-			resetPR();
-			return false;
-		}
-		return true;
-	}
-	public boolean resetPR() {
-		prayer[0] = 0;
-		prayer[1] = 0;
-		prayer[2] = 0;
-		prayer[4] = -1;
-		prayer[5] = -1;
-		IsUsingSkill = false;
-		return true;
-	}
-	
-
-	
 	
 	public boolean CheckSmelting(int ItemID, int ItemSlot) {
 		boolean GoFalse = false;

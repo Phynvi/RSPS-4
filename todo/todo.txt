@@ -17,5 +17,3 @@
 -Populate Canifis with actual NPCs
 
 -PEST CONTROL FOUND
-
--Combat by bonuses

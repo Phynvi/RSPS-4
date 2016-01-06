@@ -332,7 +332,10 @@ public class EventManager{
 
 			case 6: //called every 3 seconds
 				if (c.prayerAmount > 0){ //prayer
-					c.playerLevel[5] -= c.prayerAmount;
+					int amountToDrain = c.prayerAmount-c.getPlayerPrayerEquipmentBonus()/2;
+					if (amountToDrain < 1) amountToDrain = 1;
+					c.playerLevel[5] -= amountToDrain;
+					
 					if(c.playerLevel[5] <= 0){
 						c.playerLevel[5] = 0;
 						c.PRAY.disableAllPrayer();

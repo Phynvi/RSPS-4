@@ -91,37 +91,37 @@ public class Prayer {
 				c.frame36(94, 0);
 				break;
 			case "Protect From Magic":
-				if(c.PMage){ c.prayerAmount -= 1;
+				if(c.PMage){ c.prayerAmount -= 2;
 				c.PMage = false;
 				c.headIcon = 0; }
 				c.frame36(95, 0);
 				break;
 			case "Protect From Range":
-				if(c.PRange){ c.prayerAmount -= 1;
+				if(c.PRange){ c.prayerAmount -= 2;
 				c.PRange = false;
 				c.headIcon = 0; }
 				c.frame36(96, 0);
 				break;
 			case "Protect From Melee":
-				if(c.PMelee){ c.prayerAmount -= 1;
+				if(c.PMelee){ c.prayerAmount -= 2;
 				c.PMelee = false;
 				c.headIcon = 0; }
 				c.frame36(97, 0);
 				break;
 			case "Retribution":
-				if(Retribution){ c.prayerAmount -= 1;
+				if(Retribution){ c.prayerAmount -= 3;
 				Retribution = false;
 				c.headIcon = 0; }
 				c.frame36(98, 0);
 				break;
 			case "Redemption":
-				if(Redemption){ c.prayerAmount -= 1;
+				if(Redemption){ c.prayerAmount -= 3;
 				Redemption = false;
 				c.headIcon = 0; }
 				c.frame36(99, 0);
 				break;
 			case "Smite":
-				if(Smite){ c.prayerAmount -= 1;
+				if(Smite){ c.prayerAmount -= 3;
 				Smite = false;
 				c.headIcon = 0; }
 				c.frame36(100, 0);
@@ -306,7 +306,7 @@ public class Prayer {
 					disablePrayer("Protect From Range", "Protect From Melee", "Retribution", "Redemption", "Smite");
 					c.PMage = true;
 					c.headIcon = 4;
-					c.prayerAmount += 1;
+					c.prayerAmount += 2;
 				}
 				c.appearanceUpdateRequired = true;
 			}		
@@ -324,7 +324,7 @@ public class Prayer {
 				}
 				else{
 					disablePrayer("Protect From Magic", "Protect From Melee", "Retribution", "Redemption", "Smite");
-					c.prayerAmount += 1;
+					c.prayerAmount += 2;
 					c.PRange = true;
 					c.headIcon = 2;
 				}
@@ -344,7 +344,7 @@ public class Prayer {
 				}
 				else {
 					disablePrayer("Protect From Range", "Protect From Magic", "Retribution", "Redemption", "Smite");
-					c.prayerAmount += 1;
+					c.prayerAmount += 2;
 					c.PMelee = true;
 					c.headIcon = 1;
 				}
@@ -364,7 +364,7 @@ public class Prayer {
 				}
 				else{
 					disablePrayer("Protect From Range", "Protect From Magic", "Protect From Melee", "Redemption", "Smite");
-					c.prayerAmount += 1;
+					c.prayerAmount += 3;
 					Retribution = true;
 					c.headIcon = 8;
 				}
@@ -383,7 +383,7 @@ public class Prayer {
 				}
 				else{
 					disablePrayer("Protect From Range", "Protect From Magic", "Protect From Melee", "Retribution", "Smite");
-					c.prayerAmount += 1;
+					c.prayerAmount += 3;
 					Redemption = true;
 					c.headIcon = 32;
 				}
@@ -402,7 +402,7 @@ public class Prayer {
 				}
 				else{
 					disablePrayer("Protect From Range", "Protect From Magic", "Protect From Melee", "Retribution", "Redemption");
-					c.prayerAmount += 1;
+					c.prayerAmount += 3;
 					Smite = true;
 					c.headIcon = 16;
 				}

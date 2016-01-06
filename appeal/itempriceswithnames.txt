@@ -1,0 +1,3288 @@
+As of 5-15-2011
+
+[2]Cannonball:292
+[6]Cannon base:161.8k
+[8]Cannon stand:156.9k
+[10]Cannon barrels:161.7k
+[12]Cannon furnace:161.6k
+[36]Candle:215
+[39]Bronze arrowtips:12
+[40]Iron arrowtips:13
+[41]Steel arrowtips:41
+[42]Mithril arrowtips:65
+[43]Adamant arrowtips:171
+[44]Rune arrowtips:530
+[45]Opal bolt tips:1
+[46]Pearl bolt tips:9
+[47]Barb bolttips:23
+[48]Longbow (u):10
+[50]Shortbow (u):2
+[52]Arrow shaft:6
+[53]Headless arrow:23
+[54]Oak shortbow (u):7
+[56]Oak longbow (u):11
+[58]Willow longbow (u):23
+[60]Willow shortbow (u):13
+[62]Maple longbow (u):116
+[64]Maple shortbow (u):60
+[66]Yew longbow (u):462
+[68]Yew shortbow (u):231
+[70]Magic longbow (u):1,270
+[72]Magic shortbow (u):830
+[91]Guam potion (unf):427
+[93]Marrentill potion (unf):101
+[95]Tarromin potion (unf):775
+[97]Harralander potion (unf):682
+[99]Ranarr potion (unf):5,321
+[101]Irit potion (unf):3,166
+[103]Avantoe potion (unf):5,617
+[105]Kwuarm potion (unf):3,979
+[107]Cadantine potion (unf):1,629
+[109]Dwarf weed potion (unf):6,737
+[111]Torstol potion (unf):7,417
+[113]Strength potion (4):1,163
+[115]Strength potion (3):839
+[117]Strength potion (2):658
+[119]Strength potion (1):335
+[121]Attack potion (3):233
+[123]Attack potion (2):131
+[125]Attack potion (1):71
+[127]Restore potion (3):30
+[129]Restore potion (2):45
+[131]Restore potion (1):36
+[133]Defence potion (3):427
+[135]Defence potion (2):244
+[137]Defence potion (1):150
+[139]Prayer potion (3):4,447
+[141]Prayer potion (2):3,009
+[143]Prayer potion (1):1,551
+[145]Super attack (3):1,569
+[147]Super attack (2):924
+[149]Super attack (1):396
+[151]Fishing potion (3):47
+[153]Fishing potion (2):90
+[155]Fishing potion (1):55
+[157]Super strength (3):2,831
+[159]Super strength (2):1,848
+[161]Super strength (1):1,454
+[163]Super defence (3):199
+[165]Super defence (2):218
+[167]Super defence (1):73
+[169]Ranging potion (3):5,402
+[171]Ranging potion (2):3,874
+[173]Ranging potion (1):1,714
+[175]Antipoison (3):2,013
+[177]Antipoison (2):1,172
+[179]Antipoison (1):656
+[181]Super antipoison (3):2,305
+[183]Super antipoison (2):1,458
+[185]Super antipoison (1):755
+[187]Weapon poison:35
+[189]Zamorak brew (3):1,226
+[191]Zamorak brew (2):1,174
+[193]Zamorak brew (1):696
+[195]Potion:88
+[197]Poison chalice:124
+[199]Grimy guam:217
+[201]Grimy marrentill:54
+[203]Grimy tarromin:525
+[205]Grimy harralander:449
+[207]Grimy ranarr:5,022
+[209]Grimy irit:2,768
+[211]Grimy avantoe:5,105
+[213]Grimy kwuarm:3,576
+[215]Grimy cadantine:1,259
+[217]Grimy dwarf weed:6,211
+[219]Grimy torstol:54.9k
+[221]Eye of newt:35
+[223]Red spiders' eggs:456
+[225]Limpwurt root:1,022
+[227]Vial of water:39
+[229]Vial:7
+[231]Snape grass:463
+[233]Pestle and mortar:425
+[235]Unicorn horn dust:2,398
+[237]Unicorn horn:2,293
+[239]White berries:2,717
+[241]Dragon scale dust:1,042
+[243]Blue dragon scale:865
+[245]Wine of zamorak:2,423
+[247]Jangerberries:126
+[249]Clean guam:258
+[251]Clean marrentill:53
+[253]Clean tarromin:590
+[255]Clean harralander:451
+[257]Clean ranarr:5,112
+[259]Clean irit:2,836
+[261]Clean avantoe:5,182
+[263]Clean kwuarm:3,583
+[265]Clean cadantine:1,210
+[267]Clean dwarf weed:6,232
+[269]Clean torstol:55.0k
+[288]Goblin mail:46
+[299]Mithril seeds:436
+[301]Lobster pot:170
+[303]Small fishing net:440
+[305]Big fishing net:139
+[307]Fishing rod:94
+[309]Fly fishing rod:156
+[311]Harpoon:191
+[313]Fishing bait:7
+[314]Feather:11
+[315]Shrimps:5
+[317]Raw shrimps:8
+[319]Anchovies:12
+[321]Raw anchovies:6
+[325]Sardine:10
+[327]Raw sardine:12
+[329]Salmon:17
+[331]Raw salmon:32
+[333]Trout:10
+[335]Raw trout:15
+[339]Cod:7
+[341]Raw cod:15
+[345]Raw herring:17
+[347]Herring:7
+[349]Raw pike:41
+[351]Pike:13
+[353]Raw mackerel:9
+[355]Mackerel:38
+[359]Raw tuna:51
+[361]Tuna:33
+[363]Raw bass:255
+[365]Bass:105
+[371]Raw swordfish:217
+[373]Swordfish:165
+[377]Raw lobster:113
+[379]Lobster:72
+[383]Raw shark:591
+[385]Shark:625
+[389]Raw manta ray:1,758
+[391]Manta ray:2,170
+[395]Raw sea turtle:1,388
+[397]Sea turtle:1,797
+[401]Seaweed:394
+[403]Edible seaweed:321
+[405]Casket:4,909
+[407]Oyster:114
+[411]Oyster pearl:26
+[413]Oyster pearls:935
+[426]Priest gown:74
+[428]Priest gown:28
+[434]Clay:80
+[436]Copper ore:59
+[438]Tin ore:46
+[440]Iron ore:157
+[442]Silver ore:222
+[444]Gold ore:257
+[447]Mithril ore:296
+[449]Adamantite ore:1,176
+[451]Runite ore:10.7k
+[453]Coal:288
+[464]Strange fruit:904
+[526]Bones:129
+[528]Burnt bones:203
+[530]Bat bones:219
+[532]Big bones:644
+[534]Babydragon bones:1,866
+[536]Dragon bones:6,347
+[538]Druid's robe :193
+[540]Druid's robe top:351
+[542]Monk's robe:88
+[544]Monk's robe top:589
+[550]Newcomer map:44
+[554]Fire rune:3
+[555]Water rune:15
+[556]Air rune:5
+[557]Earth rune:17
+[558]Mind rune:3
+[559]Body rune:4
+[560]Death rune:299
+[561]Nature rune:158
+[562]Chaos rune:122
+[563]Law rune:279
+[564]Cosmic rune:73
+[565]Blood rune:395
+[566]Soul rune:317
+[567]Unpowered orb:460
+[569]Fire orb:1,818
+[571]Water orb:1,269
+[573]Air orb:1,335
+[575]Earth orb:1,671
+[577]Wizard robe:2,190
+[579]Wizard hat:551
+[581]Black robe:1,771
+[590]Tinderbox:90
+[592]Ashes:67
+[596]Unlit torch:1
+[598]Bronze fire arrows:277
+[600]Astronomy book:552
+[626]Pink boots:838
+[628]Green boots:551
+[630]Blue boots:561
+[632]Cream boots:601
+[634]Turquoise boots:376
+[636]Pink robe top:361
+[638]Green robe top:293
+[640]Blue robe top:390
+[642]Cream robe top:387
+[644]Turquoise robe top:70
+[646]Pink robe bottoms:245
+[648]Green robe bottoms:274
+[650]Blue robe bottoms:429
+[652]Cream robe bottoms:368
+[654]Turquoise robe bottoms:128
+[656]Pink hat:683
+[658]Green hat:400
+[660]Blue hat:398
+[662]Cream hat:1,133
+[664]Turquoise hat:315
+[753]Cadava berries:5
+[800]Bronze thrownaxe:4
+[801]Iron thrownaxe:12
+[802]Steel thrownaxe:40
+[803]Mithril thrownaxe:106
+[804]Adamant thrownaxe:85
+[805]Rune thrownaxe:320
+[806]Bronze dart:37
+[807]Iron dart:35
+[808]Steel dart:37
+[809]Mithril dart:53
+[810]Adamant dart:82
+[811]Rune dart:111
+[812]Bronze dart (p):65
+[813]Iron dart (p):61
+[814]Steel dart (p):70
+[815]Mithril dart (p):79
+[816]Adamant dart (p):64
+[817]Rune dart (p):101
+[819]Bronze dart tip:39
+[820]Iron dart tip:27
+[821]Steel dart tip:64
+[822]Mithril dart tip:95
+[823]Adamant dart tip:218
+[824]Rune dart tip:422
+[825]Bronze javelin:3
+[826]Iron javelin:2
+[827]Steel javelin:18
+[828]Mithril javelin:26
+[829]Adamant javelin:39
+[830]Rune javelin:261
+[831]Bronze javelin (p):18
+[832]Iron javelin (p):19
+[833]Steel javelin (p):32
+[834]Mithril javelin (p):44
+[835]Adamant javelin (p):87
+[836]Rune javelin (p):235
+[837]Crossbow:149
+[839]Longbow:30
+[841]Shortbow:57
+[843]Oak shortbow:54
+[845]Oak longbow:74
+[847]Willow longbow:155
+[849]Willow shortbow:127
+[851]Maple longbow:346
+[853]Maple shortbow:286
+[855]Yew longbow:693
+[857]Yew shortbow:431
+[859]Magic longbow:1,446
+[861]Magic shortbow:963
+[863]Iron knife:48
+[864]Bronze knife:46
+[865]Steel knife:95
+[866]Mithril knife:147
+[867]Adamant knife:429
+[868]Rune knife:1,883
+[869]Black knife:76
+[870]Bronze knife (p):66
+[871]Iron knife (p):71
+[872]Steel knife (p):110
+[873]Mithril knife (p):180
+[874]Black knife (p):68
+[875]Adamant knife (p):449
+[876]Rune knife (p):1,998
+[877]Bronze bolts:10
+[878]Bronze bolts (p):20
+[879]Opal bolts:9
+[880]Pearl bolts:56
+[881]Barbed bolts:39
+[882]Bronze arrow:17
+[883]Bronze arrow (p):26
+[884]Iron arrow:20
+[885]Iron arrow (p):40
+[886]Steel arrow:31
+[887]Steel arrow (p):56
+[888]Mithril arrow:45
+[889]Mithril arrow (p):71
+[890]Adamant arrow:119
+[891]Adamant arrow (p):120
+[892]Rune arrow:218
+[893]Rune arrow (p):267
+[942]Bronze fire arrows:308
+[946]Knife:63
+[948]Bear fur:8
+[950]Silk:6
+[952]Spade:149
+[954]Rope:95
+[958]Grey wolf fur:38
+[960]Plank:342
+[962]Christmas cracker:969.8m
+[970]Papyrus:173
+[973]Charcoal:418
+[975]Machete:246
+[981]Disk of returning:151.5m
+[983]Brass key:370
+[985]Tooth half of a key:57.9k
+[987]Loop half of a key:12.9k
+[989]Crystal key:73.7k
+[991]Muddy key:1,641
+[993]Sinister key:75.0k
+[1005]White apron:31
+[1007]Cape:78
+[1009]Brass necklace:34
+[1011]Blue skirt:304
+[1013]Pink skirt:119
+[1015]Black skirt:16
+[1017]Wizard hat:194
+[1019]Cape:90
+[1021]Cape:174
+[1023]Cape:279
+[1025]Eye patch:77
+[1027]Cape:382
+[1029]Cape:226
+[1031]Cape:223
+[1033]Zamorak robe:3,989
+[1035]Zamorak robe:1,614
+[1038]Red partyhat:1.1b 
+[1040]Yellow partyhat:943.3m
+[1042]Blue partyhat:1.1b 
+[1044]Green partyhat:973.2m
+[1046]Purple partyhat:896.3m
+[1048]White partyhat:1.0b 
+[1050]Santa hat:77.9m
+[1053]Green h'ween mask:71.8m
+[1055]Blue h'ween mask:93.6m
+[1057]Red h'ween mask:127.1m
+[1059]Leather gloves:7
+[1061]Leather boots:159
+[1063]Leather vambraces:9
+[1065]Green d'hide vambraces:1,459
+[1067]Iron platelegs:68
+[1069]Steel platelegs:485
+[1071]Mithril platelegs:1,424
+[1073]Adamant platelegs:3,849
+[1075]Bronze platelegs:22
+[1077]Black platelegs:3,969
+[1079]Rune platelegs:38.3k
+[1081]Iron plateskirt:90
+[1083]Steel plateskirt:485
+[1085]Mithril plateskirt:1,449
+[1087]Bronze plateskirt:71
+[1089]Black plateskirt:2,105
+[1091]Adamant plateskirt:4,195
+[1093]Rune plateskirt:38.3k
+[1095]Leather chaps:4
+[1097]Studded chaps:383
+[1099]Green d'hide chaps:2,293
+[1101]Iron chainbody:118
+[1103]Bronze chainbody:21
+[1105]Steel chainbody:336
+[1107]Black chainbody:1,663
+[1109]Mithril chainbody:1,059
+[1111]Adamant chainbody:2,759
+[1113]Rune chainbody:30.0k
+[1115]Iron platebody:211
+[1117]Bronze platebody:15
+[1119]Steel platebody:1,088
+[1121]Mithril platebody:2,978
+[1123]Adamant platebody:9,821
+[1125]Black platebody:4,433
+[1127]Rune platebody:39.2k
+[1129]Leather body:36
+[1131]Hardleather body:26
+[1133]Studded body:454
+[1135]Green d'hide body:4,677
+[1137]Iron med helm:5
+[1139]Bronze med helm:15
+[1141]Steel med helm:79
+[1143]Mithril med helm:340
+[1145]Adamant med helm:1,033
+[1147]Rune med helm:11.4k
+[1149]Dragon med helm:59.7k
+[1151]Black med helm:276
+[1153]Iron full helm:115
+[1155]Bronze full helm:5
+[1157]Steel full helm:226
+[1159]Mithril full helm:748
+[1161]Adamant full helm:1,991
+[1163]Rune full helm:21.0k
+[1165]Black full helm:742
+[1167]Leather cowl:5
+[1169]Coif:48
+[1171]Wooden shield:176
+[1173]Bronze sq shield:3
+[1175]Iron sq shield:17
+[1177]Steel sq shield:235
+[1179]Black sq shield:592
+[1181]Mithril sq shield:810
+[1183]Adamant sq shield:2,182
+[1185]Rune sq shield:22.9k
+[1187]Dragon sq shield:315.6k
+[1189]Bronze kiteshield:4
+[1191]Iron kiteshield:74
+[1193]Steel kiteshield:392
+[1195]Black kiteshield:3,806
+[1197]Mithril kiteshield:1,202
+[1199]Adamant kiteshield:3,204
+[1201]Rune kiteshield:34.2k
+[1203]Iron dagger:1
+[1205]Bronze dagger:13
+[1207]Steel dagger:20
+[1209]Mithril dagger:95
+[1211]Adamant dagger:360
+[1213]Rune dagger:4,701
+[1215]Dragon dagger:18.0k
+[1217]Black dagger:82
+[1219]Iron dagger (p):78
+[1221]Bronze dagger (p):89
+[1223]Steel dagger (p):108
+[1225]Mithril dagger (p):164
+[1227]Adamant dagger (p):415
+[1229]Rune dagger (p):4,712
+[1231]Dragon dagger (p):17.1k
+[1233]Black dagger (p):167
+[1237]Bronze spear:229
+[1239]Iron spear:151
+[1241]Steel spear:94
+[1243]Mithril spear:375
+[1245]Adamant spear:1,118
+[1247]Rune spear:12.4k
+[1249]Dragon spear:38.5k
+[1251]Bronze spear (p):375
+[1253]Iron spear (p):216
+[1255]Steel spear (p):161
+[1257]Mithril spear (p):378
+[1259]Adamant spear (p):1,123
+[1261]Rune spear (p):12.4k
+[1263]Dragon spear (p):39.1k
+[1265]Bronze pickaxe:15
+[1267]Iron pickaxe:388
+[1269]Steel pickaxe:1,195
+[1271]Adamant pickaxe:1,805
+[1273]Mithril pickaxe:703
+[1275]Rune pickaxe:19.2k
+[1277]Bronze sword:2
+[1279]Iron sword:10
+[1281]Steel sword:90
+[1283]Black sword:221
+[1285]Mithril sword:385
+[1287]Adamant sword:1,131
+[1289]Rune sword:12.4k
+[1291]Bronze longsword:5
+[1293]Iron longsword:20
+[1295]Steel longsword:183
+[1297]Black longsword:447
+[1299]Mithril longsword:651
+[1301]Adamant longsword:1,800
+[1303]Rune longsword:19.1k
+[1305]Dragon longsword:62.3k
+[1307]Bronze 2h sword:15
+[1309]Iron 2h sword:59
+[1311]Steel 2h sword:470
+[1313]Black 2h sword:1,042
+[1315]Mithril 2h sword:1,418
+[1317]Adamant 2h sword:3,748
+[1319]Rune 2h sword:38.6k
+[1321]Bronze scimitar:5
+[1323]Iron scimitar:19
+[1325]Steel scimitar:136
+[1327]Black scimitar:2,859
+[1329]Mithril scimitar:503
+[1331]Adamant scimitar:1,579
+[1333]Rune scimitar:16.2k
+[1335]Iron warhammer:21
+[1337]Bronze warhammer:5
+[1339]Steel warhammer:349
+[1341]Black warhammer:644
+[1343]Mithril warhammer:1,163
+[1345]Adamant warhammer:3,089
+[1347]Rune warhammer:24.9k
+[1349]Iron hatchet:5
+[1351]Bronze hatchet:5
+[1353]Steel hatchet:20
+[1355]Mithril hatchet:200
+[1357]Adamant hatchet:663
+[1359]Rune hatchet:7,615
+[1361]Black hatchet:1,155
+[1363]Iron battleaxe:15
+[1365]Steel battleaxe:264
+[1367]Black battleaxe:677
+[1369]Mithril battleaxe:890
+[1371]Adamant battleaxe:2,450
+[1373]Rune battleaxe:25.0k
+[1375]Bronze battleaxe:3
+[1377]Dragon battleaxe:131.6k
+[1379]Staff:10
+[1381]Staff of air:820
+[1383]Staff of water:1,089
+[1385]Staff of earth:1,137
+[1387]Staff of fire:1,181
+[1389]Magic staff:58
+[1391]Battlestaff:8,282
+[1393]Fire battlestaff:9,174
+[1395]Water battlestaff:9,169
+[1397]Air battlestaff:9,146
+[1399]Earth battlestaff:9,187
+[1401]Mystic fire staff:25.5k
+[1403]Mystic water staff:25.7k
+[1405]Mystic air staff:25.6k
+[1407]Mystic earth staff:25.3k
+[1420]Iron mace:5
+[1422]Bronze mace:2
+[1424]Steel mace:36
+[1426]Black mace:2,463
+[1428]Mithril mace:233
+[1430]Adamant mace:746
+[1432]Rune mace:8,517
+[1434]Dragon mace:32.7k
+[1436]Rune essence:19
+[1438]Air talisman:172
+[1440]Earth talisman:244
+[1442]Fire talisman:2,702
+[1444]Water talisman:7,076
+[1446]Body talisman:289
+[1448]Mind talisman:134
+[1450]Blood talisman:12.2k
+[1452]Chaos talisman:211
+[1454]Cosmic talisman:232
+[1456]Death talisman:846
+[1458]Law talisman:258
+[1462]Nature talisman:622
+[1464]Archery ticket:8
+[1470]Red bead:104
+[1472]Yellow bead:102
+[1474]Black bead:250
+[1476]White bead:327
+[1478]Amulet of accuracy:3,090
+[1511]Logs:85
+[1513]Magic logs:1,427
+[1515]Yew logs:495
+[1517]Maple logs:88
+[1519]Willow logs:16
+[1521]Oak logs:61
+[1523]Lockpick:731
+[1539]Steel nails:31
+[1540]Anti-dragon shield:237
+[1550]Garlic:19
+[1592]Ring mould:153
+[1595]Amulet mould:143
+[1597]Necklace mould:147
+[1599]Holy mould:78
+[1601]Diamond:9,201
+[1603]Ruby:1,412
+[1605]Emerald:1,122
+[1607]Sapphire:368
+[1609]Opal:34
+[1611]Jade:81
+[1613]Red topaz:110
+[1615]Dragonstone:59.7k
+[1617]Uncut diamond:11.7k
+[1619]Uncut ruby:2,629
+[1621]Uncut emerald:1,727
+[1623]Uncut sapphire:701
+[1625]Uncut opal:17
+[1627]Uncut jade:47
+[1629]Uncut red topaz:139
+[1631]Uncut dragonstone:61.8k
+[1635]Gold ring:181
+[1637]Sapphire ring:546
+[1639]Emerald ring:1,455
+[1641]Ruby ring:1,221
+[1643]Diamond ring:8,875
+[1645]Dragonstone ring:56.6k
+[1654]Gold necklace:204
+[1656]Sapphire necklace:570
+[1658]Emerald necklace:768
+[1660]Ruby necklace:1,247
+[1662]Diamond necklace:8,295
+[1664]Dragon necklace:25.3k
+[1673]Gold amulet:176
+[1675]Sapphire amulet:479
+[1677]Emerald amulet:716
+[1679]Ruby amulet:1,220
+[1681]Diamond amulet:3,444
+[1683]Dragonstone ammy:68.5k
+[1692]Gold amulet:135
+[1694]Sapphire amulet:443
+[1696]Emerald amulet:687
+[1698]Ruby amulet:1,200
+[1700]Diamond amulet:2,109
+[1702]Dragonstone ammy:60.3k
+[1704]Amulet of glory:60.1k
+[1712]Amulet of glory (4):62.9k
+[1714]Unstrung symbol:153
+[1716]Unblessed symbol:36
+[1718]Holy symbol:115
+[1720]Unstrung emblem:251
+[1722]Unpowered symbol:38
+[1724]Unholy symbol:45
+[1725]Amulet of strength:1,154
+[1727]Amulet of magic:504
+[1729]Amulet of defence:702
+[1731]Amulet of power:2,112
+[1733]Needle:1
+[1734]Thread:5
+[1735]Shears:12
+[1737]Wool:77
+[1739]Cowhide:210
+[1741]Leather:259
+[1743]Hard leather:263
+[1745]Green dragon leather:2,355
+[1747]Black dragonhide:4,902
+[1765]Yellow dye:77
+[1767]Blue dye:379
+[1769]Orange dye:570
+[1771]Green dye:370
+[1773]Purple dye:113
+[1775]Molten glass:625
+[1777]Bow string:137
+[1779]Flax:55
+[1781]Soda ash:478
+[1783]Bucket of sand:282
+[1785]Glassblowing pipe:72
+[1787]Pot (unfired):110
+[1789]Pie dish (unfired):180
+[1791]Bowl (unfired):128
+[1793]Woad leaf:33
+[1794]Bronze wire:166
+[1823]Waterskin (4):332
+[1831]Waterskin (0):136
+[1833]Desert shirt:36
+[1835]Desert robe:32
+[1837]Desert boots:651
+[1859]Raw ugthanki meat:724
+[1861]Ugthanki meat:714
+[1863]Pitta dough:94
+[1865]Pitta bread:31
+[1869]Chopped tomato:79
+[1871]Chopped onion:80
+[1873]Chopped ugthanki:335
+[1875]Onion & tomato:30
+[1877]Ugthanki & onion:330
+[1879]Ugthanki & tomato:331
+[1881]Kebab mix:393
+[1883]Ugthanki kebab:1,946
+[1885]Ugthanki kebab:524
+[1887]Cake tin:54
+[1889]Uncooked cake:579
+[1891]Cake:85
+[1893]2/3 cake:63
+[1895]Slice of cake:35
+[1897]Chocolate cake:412
+[1899]2/3 chocolate cake:220
+[1915]Grog:17
+[1917]Beer:101
+[1919]Beer glass:59
+[1921]Bowl of water:79
+[1925]Bucket:27
+[1927]Bucket of milk:41
+[1929]Bucket of water:69
+[1931]Empty pot:1
+[1933]Pot of flour:141
+[1935]Jug:112
+[1937]Jug of water:175
+[1939]Swamp tar:158
+[1940]Raw swamp paste:385
+[1941]Swamp paste:1
+[1942]Potato:29
+[1944]Egg:23
+[1947]Grain:3
+[1949]Chef's hat:173
+[1951]Redberries:54
+[1953]Pastry dough:429
+[1955]Cooking apple:331
+[1957]Onion:40
+[1959]Pumpkin:176.3m
+[1961]Easter egg:75.4m
+[1963]Banana:156
+[1965]Cabbage:17
+[1978]Cup of tea:6
+[1980]Empty cup:1
+[1982]Tomato:163
+[1985]Cheese:84
+[1987]Grapes:661
+[1989]Half full wine jug:106.5m
+[1993]Jug of wine:38
+[1997]Incomplete stew:254
+[1999]Incomplete stew:403
+[2001]Uncooked stew:353
+[2003]Stew:310
+[2007]Spice:413
+[2009]Uncooked curry:1,444
+[2011]Curry:449
+[2015]Vodka:93
+[2017]Whisky:101
+[2019]Gin:135
+[2021]Brandy:95
+[2028]Premade blurb' sp.:32
+[2030]Premade choc s'dy:17
+[2032]Premade dr' dragon:34
+[2034]Premade fr' blast:53
+[2036]Premade p' punch:38
+[2038]Premade sgg:30
+[2040]Premade wiz blz'd:27
+[2048]Pineapple punch:283
+[2054]Wizard blizzard:599
+[2064]Blurberry special:4,861
+[2074]Choc saturday:245
+[2080]Short green guy:538
+[2084]Fruit blast:1,676
+[2092]Drunk dragon:367
+[2102]Lemon:30
+[2104]Lemon chunks:34
+[2106]Lemon slices:21
+[2108]Orange:425
+[2110]Orange chunks:40
+[2112]Orange slices:416
+[2114]Pineapple:60
+[2116]Pineapple chunks:68
+[2118]Pineapple ring:24
+[2120]Lime:18
+[2122]Lime chunks:13
+[2124]Lime slices:13
+[2126]Dwellberries:53
+[2128]Equa leaves:158
+[2130]Pot of cream:52
+[2132]Raw beef:61
+[2134]Raw rat meat:49
+[2136]Raw bear meat:143
+[2138]Raw chicken:91
+[2150]Swamp toad:288
+[2162]King worm:14
+[2169]Gnome spice:123
+[2171]Gianne dough:2
+[2185]Chocolate bomb:3,762
+[2187]Tangled toads' legs:1,043
+[2191]Worm hole:366
+[2195]Veg ball:395
+[2202]Raw crunchies:160
+[2205]Worm crunchies:220
+[2209]Chocchip crunchies:593
+[2213]Spicy crunchies:101
+[2217]Toad crunchies:1,264
+[2219]Premade w'm batta:129
+[2221]Premade t'd batta:129
+[2223]Premade c+t batta:136
+[2225]Premade fr't batta:128
+[2227]Premade veg batta:129
+[2229]Premade choc bomb:699
+[2231]Premade ttl:662
+[2233]Premade worm hole:221
+[2235]Premade veg ball:222
+[2237]Premade w'm crun':76
+[2239]Premade ch' crunch:85
+[2241]Premade s'y crunch:65
+[2243]Premade t'd crunch:43
+[2253]Worm batta:173
+[2255]Toad batta:258
+[2259]Cheese+tom batta:227
+[2277]Fruit batta:276
+[2281]Vegetable batta:222
+[2283]Pizza base:397
+[2285]Incomplete pizza:625
+[2287]Uncooked pizza:973
+[2289]Plain pizza:981
+[2291]1/2 plain pizza:489
+[2293]Meat pizza:807
+[2295]1/2 meat pizza:480
+[2297]Anchovy pizza:1,122
+[2299]1/2 anchovy pizza:205
+[2301]Pineapple pizza:1,061
+[2303]1/2 p'apple pizza:405
+[2307]Bread dough:52
+[2309]Bread:55
+[2313]Pie dish:163
+[2315]Pie shell:834
+[2317]Uncooked apple pie:693
+[2319]Uncooked meat pie:886
+[2321]Uncooked berry pie:805
+[2323]Apple pie:211
+[2325]Redberry pie:213
+[2327]Meat pie:393
+[2331]Half a meat pie:193
+[2333]Half a redberry pie:173
+[2335]Half an apple pie:135
+[2337]Raw oomlie:116
+[2341]Wrapped oomlie:490
+[2343]Cooked oomlie wrap:1,257
+[2347]Hammer:24
+[2349]Bronze bar:147
+[2351]Iron bar:195
+[2353]Steel bar:827
+[2355]Silver bar:224
+[2357]Gold bar:140
+[2359]Mithril bar:1,529
+[2370]Steel studs:558
+[2391]Ground bat bones:229
+[2428]Attack potion (4):312
+[2430]Restore potion (4):60
+[2432]Defence potion (4):540
+[2434]Prayer potion (4):5,921
+[2436]Super attack (4):1,992
+[2438]Fishing potion (4):69
+[2440]Super strength (4):4,291
+[2442]Super defence (4):299
+[2444]Ranging potion (4):8,283
+[2446]Antipoison (4):2,759
+[2448]Super antipoison (4):3,260
+[2450]Zamorak brew (4):707
+[2452]Antifire (4):8,313
+[2454]Antifire (3):5,797
+[2456]Antifire (2):3,537
+[2458]Antifire (1):2,139
+[2460]Flowers:629
+[2462]Red flowers:608
+[2464]Blue flowers:584
+[2466]Yellow flowers:498
+[2468]Purple flowers:531
+[2470]Orange flowers:502
+[2472]Flowers:695
+[2474]White flowers:13.3k
+[2476]Black flowers:2,863
+[2481]Clean lantadyme:8,386
+[2483]Lantadyme potion (unf):8,601
+[2485]Grimy lantadyme:8,224
+[2487]Blue d'hide vambraces:1,714
+[2489]Red d'hide vambraces:2,161
+[2491]Black d'hide vambraces:4,348
+[2493]Blue d'hide chaps:2,497
+[2495]Red d'hide chaps:7,388
+[2497]Black d'hide chaps:5,928
+[2499]Blue d'hide body:5,493
+[2501]Red d'hide body:6,970
+[2503]Black d'hide body:8,031
+[2505]Blue dragon leather:2,568
+[2532]Iron fire arrows:336
+[2533]Iron fire arrows:304
+[2534]Steel fire arrows:295
+[2535]Steel fire arrows:293
+[2536]Mithril fire arrows:69
+[2537]Mithril fire arrows:281
+[2538]Adamant fire arrows:70
+[2539]Adamant fire arrows:84
+[2540]Rune fire arrows:286
+[2541]Rune fire arrows:367
+[2550]Ring of recoil:777
+[2552]Ring of duelling (8):1,705
+[2566]Ring of duelling (1):648
+[2568]Ring of forging:1,123
+[2570]Ring of life:9,856
+[2572]Ring of wealth:16.3k
+[2577]Ranger boots:21.7m
+[2579]Wizard boots:1.8m
+[2581]Robin hood hat:4.8m
+[2583]Black platebody (t):79.2k
+[2585]Black platelegs (t):57.9k
+[2595]Black full helm (g):360.1k
+[2597]Black kiteshield (g):345.7k
+[2599]Adamant platebody (t):72.4k
+[2601]Adamant platelegs (t):24.3k
+[2603]Adamant kiteshield (t):41.5k
+[2605]Adamant full helm (t):70.2k
+[2607]Adamant platebody (g):293.6k
+[2609]Adamant platelegs (g):68.4k
+[2611]Adamant kiteshield (g):138.3k
+[2613]Adamant full helm (g):232.2k
+[2615]Rune platebody (g):485.8k
+[2617]Rune platelegs (g):217.3k
+[2619]Rune full helm (g):510.2k
+[2621]Rune kiteshield (g):391.6k
+[2623]Rune platebody (t):204.3k
+[2625]Rune platelegs (t):103.1k
+[2627]Rune full helm (t):293.6k
+[2629]Rune kiteshield (t):184.7k
+[2631]Highwayman mask:111.3k
+[2633]Blue beret:59.8k
+[2635]Black beret:195.1k
+[2637]White beret:430.2k
+[2639]Tan cavalier:15.1k
+[2641]Dark cavalier:27.8k
+[2643]Black cavalier:449.9k
+[2645]Red headband:54.6k
+[2647]Black headband:28.9k
+[2663]Saradomin platelegs:313.1k
+[2665]Saradomin full helm:1.1m
+[2667]Saradomin kiteshield:881.5k
+[2669]Guthix platebody:398.1k
+[2671]Guthix platelegs:178.8k
+[2675]Guthix kiteshield:300.3k
+[2859]Wolf bones:757
+[2861]Wolfbone arrowtips:24
+[2862]Achey tree logs:48
+[2864]Ogre arrow shaft:50
+[2865]Flighted ogre arrow:113
+[2866]Ogre arrow:29
+[2876]Raw chompy:1,833
+[2878]Cooked chompy:94
+[2890]Elemental shield:1,250
+[2894]Boots:1,364
+[2896]Robe top:850
+[2898]Robe bottoms:637
+[2900]Hat:1,061
+[2902]Gloves:316
+[2904]Boots:1,795
+[2906]Robe top:958
+[2908]Robe bottoms:836
+[2910]Hat:2,224
+[2912]Gloves:678
+[2914]Boots:1,456
+[2916]Robe top:902
+[2918]Robe bottoms:830
+[2920]Hat:886
+[2922]Gloves:1,333
+[2924]Boots:912
+[2926]Robe top:553
+[2928]Robe bottoms:794
+[2930]Hat:967
+[2932]Gloves:494
+[2934]Boots:1,279
+[2936]Robe top:883
+[2955]Moonlight mead:26
+[2961]Silver sickle:40
+[2970]Mort myre fungus:1,511
+[2972]Mort myre stem:365
+[2974]Mort myre pear:749
+[2976]Sickle mould:225
+[2997]Pirate's hook:1.5m
+[2998]Clean toadflax:5,155
+[3000]Clean snapdragon:14.7k
+[3002]Toadflax potion (unf):5,473
+[3004]Snapdragon potion (unf):14.2k
+[3008]Energy potion (4):23
+[3010]Energy potion (3):5
+[3012]Energy potion (2):9
+[3014]Energy potion (1):14
+[3016]Super energy (4):6,288
+[3018]Super energy (3):5,293
+[3020]Super energy (2):2,203
+[3022]Super energy (1):1,021
+[3024]Super restore (4):16.0k
+[3026]Super restore (3):11.8k
+[3028]Super restore (2):7,473
+[3030]Super restore (1):3,960
+[3032]Agility potion (4):99
+[3034]Agility potion (3):86
+[3036]Agility potion (2):93
+[3038]Agility potion (1):81
+[3040]Magic potion (4):10.6k
+[3042]Magic potion (3):8,303
+[3044]Magic potion (2):4,521
+[3046]Magic potion (1):2,209
+[3049]Grimy toadflax:5,068
+[3051]Grimy snapdragon:14.8k
+[3053]Lava battlestaff:10.1k
+[3054]Mystic lava staff:26.8k
+[3093]Black dart:694
+[3094]Black dart (p):725
+[3095]Bronze claws:485
+[3096]Iron claws:34
+[3097]Steel claws:23
+[3122]Granite shield:34.3k
+[3123]Shaikahan bones:1,012
+[3125]Jogre bones:845
+[3138]Potato cactus:2,841
+[3140]Dragon chainbody:5.0m
+[3142]Raw karambwan:1,829
+[3144]Cooked karambwan:1,139
+[3157]Karambwan vessel:185
+[3162]Sliced banana:21
+[3183]Monkey bones:405
+[3188]Cleaning cloth:222
+[3190]Bronze halberd:321
+[3192]Iron halberd:95
+[3194]Steel halberd:597
+[3196]Black halberd:3,124
+[3198]Mithril halberd:4,065
+[3200]Adamant halberd:4,774
+[3202]Rune halberd:79.7k
+[3204]Dragon halberd:199.6k
+[3211]Limestone:153
+[3216]Barrel:160
+[3226]Raw rabbit:393
+[3228]Cooked rabbit:40
+[3239]Bark:43
+[3325]Vampire dust:195
+[3327]Myre snelm:72
+[3329]Blood'n'tar snelm:515
+[3331]Ochre snelm:79
+[3333]Bruise blue snelm:76
+[3335]Broken bark snelm:70
+[3337]Myre snelm:79
+[3339]Blood'n'tar snelm:1,010
+[3341]Ochre snelm:75
+[3343]Bruise blue snelm:338
+[3345]Blamish myre shell:149
+[3347]Blamish red shell:595
+[3349]Blamish ochre shell:153
+[3351]Blamish blue shell:282
+[3353]Blamish bark shell:188
+[3355]Blamish myre shell:148
+[3357]Blamish red shell:930
+[3359]Blamish ochre shell:148
+[3361]Blamish blue shell:1,912
+[3363]Thin snail:1,728
+[3365]Lean snail:950
+[3367]Fat snail:809
+[3369]Thin snail meat:1,409
+[3371]Lean snail meat:196
+[3373]Fat snail meat:805
+[3377]Sample bottle:16
+[3379]Slimy eel:476
+[3381]Cooked slimy eel:305
+[3385]Splitbark helm:10.2k
+[3387]Splitbark body:70.6k
+[3389]Splitbark legs:56.6k
+[3391]Splitbark gauntlets:2,889
+[3393]Splitbark boots:11.0k
+[3396]Loar remains:27
+[3398]Phrin remains:272
+[3400]Riyl remains:265
+[3402]Asyn remains:1,601
+[3404]Fiyr remains:3,904
+[3406]Ash potion (unf):96
+[3420]Limestone brick:142
+[3422]Olive oil (4):306
+[3424]Olive oil (3):220
+[3426]Olive oil (2):152
+[3428]Olive oil (1):79
+[3430]Sacred oil (4):1,668
+[3432]Sacred oil (3):1,415
+[3434]Sacred oil (2):1,029
+[3436]Sacred oil (1):638
+[3438]Pyre logs:1,003
+[3440]Oak pyre logs:818
+[3442]Willow pyre logs:882
+[3444]Maple pyre logs:1,913
+[3446]Yew pyre logs:2,376
+[3448]Magic pyre logs:3,321
+[3470]Fine cloth:9,714
+[3472]Black plateskirt (t):7,128
+[3473]Black plateskirt (g):21.3k
+[3474]Adamant plateskirt (t):7,255
+[3475]Adamant plateskirt (g):15.4k
+[3476]Rune plateskirt (g):50.8k
+[3477]Rune plateskirt (t):39.8k
+[3478]Zamorak plateskirt:87.9k
+[3479]Saradomin plateskirt:74.5k
+[3480]Guthix plateskirt:40.9k
+[3481]Gilded platebody:2.0m
+[3483]Gilded platelegs:2.3m
+[3485]Gilded plateskirt:284.1k
+[3486]Gilded full helm:483.6k
+[3488]Gilded kiteshield:395.3k
+[3749]Archer helm:47.1k
+[3751]Berserker helm:84.5k
+[3753]Warrior helm:48.7k
+[3755]Farseer helm:49.2k
+[3759]Fremennik cape:740
+[3761]Fremennik cape:202
+[3763]Fremennik cape:526
+[3765]Fremennik cape:730
+[3767]Fremennik shirt:91
+[3769]Fremennik shirt:503
+[3771]Fremennik shirt:270
+[3773]Fremennik shirt:524
+[3775]Fremennik shirt:480
+[3777]Fremennik cape:626
+[3779]Fremennik cape:566
+[3781]Fremennik cape:555
+[3783]Fremennik cape:536
+[3785]Fremennik cape:505
+[3787]Fremennik cape:455
+[3789]Fremennik cape:637
+[3791]Fremennik boots:544
+[3793]Fremennik robe:1,150
+[3795]Fremennik skirt:881
+[3797]Fremennik hat:1,303
+[3799]Gloves:245
+[3801]Keg of beer:713
+[3803]Beer:236
+[3827]Saradomin page 1:671.4k
+[3828]Saradomin page 2:368.8k
+[3829]Saradomin page 3:220.7k
+[3830]Saradomin page 4:239.8k
+[3831]Zamorak page 1:4.3m
+[3832]Zamorak page 2:2.6m
+[3833]Zamorak page 3:2.6m
+[3853]Games necklace (8):846
+[3867]Games necklace (1):1,396
+[4087]Dragon platelegs:258.0k
+[4089]Mystic hat:14.0k
+[4091]Mystic robe top:72.3k
+[4093]Mystic robe bottom:48.2k
+[4095]Mystic gloves:5,845
+[4097]Mystic boots:6,020
+[4099]Mystic hat:16.9k
+[4101]Mystic robe top:74.3k
+[4103]Mystic robe bottom:48.7k
+[4105]Mystic gloves:9,338
+[4107]Mystic boots:43.3k
+[4109]Mystic hat:9,007
+[4111]Mystic robe top:71.4k
+[4113]Mystic robe bottom:48.5k
+[4115]Mystic gloves:110.5k
+[4117]Mystic boots:12.7k
+[4119]Bronze boots:920
+[4121]Iron boots:27.0k
+[4123]Steel boots:199
+[4125]Black boots:323
+[4127]Mithril boots:1,546
+[4129]Adamant boots:3,656
+[4131]Rune boots:40.6k
+[4151]Abyssal whip:1.6m
+[4153]Granite maul:68.8k
+[4156]Mirror shield:3,217
+[4161]Bag of salt:1
+[4162]Rock hammer:204
+[4164]Face mask:921
+[4166]Earmuffs:524
+[4168]Nose peg:411
+[4170]Slayer's staff:12.3k
+[4207]Crystal seed:57.6k
+[4212]New crystal bow:908.2k
+[4224]New crystal shield:762.2k
+[4287]Raw beef:530
+[4289]Raw chicken:478
+[4291]Cooked chicken:56
+[4293]Cooked meat:65
+[4298]H.a.m. shirt:18
+[4300]H.a.m. robe:15
+[4302]H.a.m. hood:1,235
+[4304]H.a.m. cape:240
+[4306]H.a.m. logo:35
+[4308]H.a.m. gloves:483
+[4310]H.a.m. boots:270
+[4315]Team-1 cape:865
+[4317]Team-2 cape:467
+[4319]Team-3 cape:170
+[4321]Team-4 cape:407
+[4323]Team-5 cape:452
+[4325]Team-6 cape:112
+[4327]Team-7 cape:725
+[4329]Team-8 cape:517
+[4331]Team-9 cape:461
+[4333]Team-10 cape:660
+[4335]Team-11 cape:701
+[4337]Team-12 cape:671
+[4339]Team-13 cape:344
+[4341]Team-14 cape:520
+[4343]Team-15 cape:927
+[4345]Team-16 cape:226
+[4347]Team-17 cape:592
+[4349]Team-18 cape:827
+[4351]Team-19 cape:775
+[4353]Team-20 cape:537
+[4355]Team-21 cape:590
+[4357]Team-22 cape:769
+[4359]Team-23 cape:279
+[4361]Team-24 cape:531
+[4363]Team-25 cape:851
+[4365]Team-26 cape:216
+[4367]Team-27 cape:1,017
+[4369]Team-28 cape:979
+[4371]Team-29 cape:681
+[4373]Team-30 cape:697
+[4375]Team-31 cape:457
+[4377]Team-32 cape:499
+[4379]Team-33 cape:223
+[4381]Team-34 cape:449
+[4383]Team-35 cape:523
+[4385]Team-36 cape:150
+[4387]Team-37 cape:709
+[4389]Team-38 cape:733
+[4391]Team-39 cape:295
+[4395]Team-41 cape:506
+[4397]Team-42 cape:520
+[4399]Team-43 cape:158
+[4401]Team-44 cape:448
+[4403]Team-45 cape:595
+[4405]Team-46 cape:132
+[4407]Team-47 cape:752
+[4409]Team-48 cape:886
+[4411]Team-49 cape:519
+[4413]Team-50 cape:795
+[4417]Guthix rest (4):164
+[4419]Guthix rest (3):123
+[4421]Guthix rest (2):83
+[4423]Guthix rest (1):41
+[4436]Airtight pot:183
+[4438]Unfired pot lid:17
+[4440]Pot lid:2
+[4456]Bowl of hot water:98
+[4458]Cup of water:38
+[4460]Cup of hot water:77
+[4464]Herb tea mix:12
+[4466]Herb tea mix:12
+[4468]Herb tea mix:18
+[4470]Herb tea mix:17
+[4472]Herb tea mix:16
+[4474]Herb tea mix:17
+[4476]Herb tea mix:17
+[4478]Herb tea mix:42
+[4480]Herb tea mix:40
+[4482]Herb tea mix:40
+[4517]Giant frog legs:952
+[4522]Oil lamp:1,426
+[4525]Oil lamp:5
+[4527]Candle lantern:22
+[4529]Candle lantern:206
+[4535]Oil lantern:33
+[4537]Oil lantern:283
+[4540]Oil lantern frame:14
+[4542]Lantern lens:1
+[4544]Bullseye lantern:76
+[4546]Bullseye lantern:225
+[4548]Bullseye lantern:1,354
+[4551]Spiny helmet:923
+[4580]Black spear:2,374
+[4582]Black spear (p):2,909
+[4585]Dragon plateskirt:162.2k
+[4587]Dragon scimitar:71.0k
+[4600]Willow-blackjack:229
+[4608]Super kebab:293
+[4627]Bandit's brew:784
+[4675]Ancient staff:63.4k
+[4694]Steam rune:149
+[4695]Mist rune:113
+[4696]Dust rune:9
+[4697]Smoke rune:237
+[4698]Mud rune:354
+[4699]Lava rune:25
+[4708]Ahrim's hood:67.8k
+[4710]Ahrim's staff:74.9k
+[4712]Ahrim's robetop:1.9m
+[4714]Ahrim's robeskirt:3.3m
+[4716]Dharok's helm:5.8m
+[4718]Dharok's greataxe:478.0k
+[4720]Dharok's platebody:668.0k
+[4722]Dharok's platelegs:977.1k
+[4724]Guthan's helm:1.5m
+[4726]Guthan's warspear:942.5k
+[4728]Guthan's platebody:578.9k
+[4730]Guthan's chainskirt:339.2k
+[4732]Karil's coif:32.2k
+[4734]Karil's crossbow:333.0k
+[4736]Karil's top:4.7m
+[4738]Karil's skirt:524.3k
+[4740]Bolt rack:346
+[4745]Torag's helm:388.9k
+[4747]Torag's hammers:111.4k
+[4749]Torag's platebody:640.2k
+[4751]Torag's platelegs:882.9k
+[4753]Verac's helm:2.5m
+[4755]Verac's flail:110.3k
+[4757]Verac's brassard:310.3k
+[4759]Verac's plateskirt:855.8k
+[4773]Bronze brutal:71
+[4778]Iron brutal:30
+[4783]Steel brutal:33
+[4788]Black brutal:68
+[4793]Mithril brutal:90
+[4798]Adamant brutal:143
+[4803]Rune brutal:196
+[4812]Zogre bones:1,385
+[4819]Bronze nails:11
+[4820]Iron nails:13
+[4821]Black nails:13
+[4822]Mithril nails:16
+[4823]Adamantite nails:38
+[4824]Rune nails:73
+[4825]Unstrung comp bow:383
+[4827]Comp ogre bow:118
+[4830]Fayrg bones:7,812
+[4832]Raurg bones:8,739
+[4834]Ourg bones:18.8k
+[4840]Rogue's purse potion (unf):1,555
+[4842]Relicym's balm (4):660
+[4844]Relicym's balm (3):417
+[4846]Relicym's balm (2):276
+[4848]Relicym's balm (1):140
+[4850]Ogre coffin key:2,139
+[4860]Ahrim's hood 0:30.1k
+[4866]Ahrim's staff 0:50.7k
+[4872]Ahrim's robetop 0:1.9m
+[4878]Ahrim's robeskirt 0:2.9m
+[4884]Dharok's helm 0:6.0m
+[4890]Dharok's greataxe 0:356.8k
+[4896]Dharok's platebody 0:524.3k
+[4902]Dharok's platelegs 0:838.4k
+[4908]Guthan's helm 0:1.3m
+[4914]Guthan's warspear 0:913.9k
+[4920]Guthan's platebody 0:492.1k
+[4926]Guthan's chainskirt 0:244.7k
+[4932]Karil's coif 0:8,110
+[4938]Karil's crossbow 0:238.4k
+[4944]Karil's top 0:4.7m
+[4950]Karil's skirt 0:495.2k
+[4956]Torag's helm 0:302.5k
+[4962]Torag's hammers 0:97.1k
+[4968]Torag's platebody 0:512.9k
+[4974]Torag's platelegs 0:724.4k
+[4980]Verac's helm 0:2.3m
+[4986]Verac's flail 0:95.6k
+[4992]Verac's brassard 0:214.4k
+[4998]Verac's plateskirt 0:912.1k
+[5001]Raw cave eel:385
+[5003]Cave eel:221
+[5014]Mining helmet:409
+[5016]Bone spear:248
+[5018]Bone club:321
+[5024]Woven top:755
+[5026]Woven top:950
+[5028]Woven top:1,159
+[5030]Shirt:834
+[5032]Shirt:1,043
+[5034]Shirt:1,115
+[5036]Trousers:831
+[5038]Trousers:319
+[5040]Trousers:495
+[5042]Shorts:767
+[5044]Shorts:986
+[5046]Shorts:1,546
+[5048]Skirt:721
+[5050]Skirt:1,043
+[5052]Skirt:1,141
+[5096]Marigold seed:2
+[5097]Rosemary seed:3
+[5098]Nasturtium seed:1
+[5099]Woad seed:1
+[5100]Limpwurt seed:118
+[5101]Redberry seed:1
+[5102]Cadavaberry seed:1
+[5103]Dwellberry seed:1
+[5104]Jangerberry seed:1
+[5105]Whiteberry seed:4
+[5106]Poison ivy seed:20
+[5280]Cactus seed:8
+[5281]Belladonna seed:19
+[5282]Mushroom spore:5
+[5283]Apple tree seed:3
+[5284]Banana tree seed:3
+[5285]Orange tree seed:23
+[5286]Curry tree seed:220
+[5287]Pineapple seed:6,298
+[5288]Papaya tree seed:36.9k
+[5289]Palm tree seed:114.8k
+[5290]Calquat tree seed:16.7k
+[5291]Guam seed:2
+[5292]Marrentill seed:1
+[5293]Tarromin seed:2
+[5294]Harralander seed:3
+[5295]Ranarr seed:7,392
+[5296]Toadflax seed:1,738
+[5297]Irit seed:184
+[5298]Avantoe seed:3,044
+[5299]Kwuarm seed:2,046
+[5300]Snapdragon seed:62.4k
+[5301]Cadantine seed:919
+[5302]Lantadyme seed:33.2k
+[5303]Dwarf weed seed:27.2k
+[5304]Torstol seed:404.9k
+[5305]Barley seed:1
+[5306]Jute seed:1
+[5307]Hammerstone seed:1
+[5308]Asgarnian seed:10
+[5309]Yanillian seed:7
+[5310]Krandorian seed:1
+[5311]Wildblood seed:8
+[5312]Acorn:2
+[5313]Willow seed:541
+[5314]Maple seed:26.6k
+[5315]Yew seed:78.9k
+[5316]Magic seed:314.6k
+[5318]Potato seed:1
+[5319]Onion seed:1
+[5320]Sweetcorn seed:2
+[5321]Watermelon seed:2,480
+[5324]Cabbage seed:1
+[5325]Gardening trowel:319
+[5329]Secateurs:162
+[5331]Watering can:315
+[5341]Rake:164
+[5343]Seed dibber:194
+[5345]Gardening boots:13.8k
+[5350]Plant pot:4
+[5352]Unfired plant pot:8
+[5354]Plant pot:358
+[5376]Basket:1
+[5386]Apples (5):2,481
+[5396]Oranges (5):3,237
+[5406]Strawberries (5):209
+[5416]Bananas (5):1,069
+[5418]Empty sack:3
+[5438]Potatoes (10):522
+[5458]Onions (10):383
+[5478]Cabbages (10):267
+[5504]Strawberry:12
+[5516]Elemental talisman:30.6k
+[5521]Binding necklace:756
+[5523]Tiara mould:40
+[5525]Tiara:10
+[5527]Air tiara:5
+[5529]Mind tiara:9
+[5531]Water tiara:7,125
+[5533]Body tiara:1
+[5535]Earth tiara:5
+[5537]Fire tiara:310
+[5539]Cosmic tiara:11
+[5541]Nature tiara:52
+[5543]Chaos tiara:93
+[5545]Law tiara:70
+[5547]Death tiara:904
+[5549]Blood tiara:21.3k
+[5574]Initiate sallet:3,526
+[5575]Initiate hauberk:6,248
+[5576]Initiate cuisse:4,697
+[5616]Bronze arrow (p+):120
+[5617]Iron arrow (p+):134
+[5618]Steel arrow (p+):146
+[5619]Mithril arrow (p+):157
+[5620]Adamant arrow (p+):238
+[5621]Rune arrow (p+):314
+[5622]Bronze arrow (p++):1,760
+[5623]Iron arrow (p++):1,702
+[5624]Steel arrow (p++):1,726
+[5625]Mithril arrow (p++):1,681
+[5626]Adamant arrow (p++):206
+[5627]Rune arrow (p++):1,487
+[5628]Bronze dart (p+):162
+[5629]Iron dart (p+):158
+[5630]Steel dart (p+):167
+[5631]Black dart (p+):822
+[5632]Mithril dart (p+):185
+[5633]Adamant dart (p+):220
+[5634]Rune dart (p+):399
+[5635]Bronze dart (p++):1,802
+[5639]Mithril dart (p++):1,825
+[5640]Adamant dart (p++):1,857
+[5641]Rune dart (p++):1,726
+[5642]Bronze javelin (p+):115
+[5643]Iron javelin (p+):116
+[5644]Steel javelin (p+):129
+[5645]Mithril javelin (p+):141
+[5646]Adamant javelin (p+):184
+[5647]Rune javelin (p+):321
+[5648]Bronze jav'n (p++):1,755
+[5649]Iron javelin (p++):1,756
+[5650]Steel javelin (p++):1,769
+[5651]Mithril javelin (p++):1,781
+[5652]Adamant javelin (p++):1,824
+[5653]Rune javelin (p++):1,961
+[5654]Bronze knife (p+):163
+[5655]Iron knife (p+):164
+[5656]Steel knife (p+):207
+[5657]Mithril knife (p+):279
+[5658]Black knife (p+):137
+[5659]Adamant knife (p+):529
+[5660]Rune knife (p+):2,002
+[5661]Bronze knife (p++):1,803
+[5662]Iron knife (p++):1,748
+[5663]Steel knife (p++):1,847
+[5664]Mithril knife (p++):1,897
+[5665]Black knife (p++):1,391
+[5680]Dragon dagger (p+):17.1k
+[5682]Black dagger (p+):687
+[5686]Iron dagger (p++):6,729
+[5688]Bronze dagger (p++):8,492
+[5690]Steel dagger (p++):8,374
+[5692]Mithril dagger (p++):7,684
+[5694]Adamant dagger (p++):8,697
+[5696]Rune dagger (p++):8,822
+[5698]Dragon dagger (p++):25.1k
+[5700]Black dagger (p++):8,067
+[5704]Bronze spear (p+):860
+[5706]Iron spear (p+):701
+[5708]Steel spear (p+):646
+[5710]Mithril spear (p+):893
+[5712]Adamant spear (p+):1,586
+[5714]Rune spear (p+):12.8k
+[5716]Dragon spear (p+):38.6k
+[5718]Bronze spear (p++):9,059
+[5720]Iron spear (p++):8,900
+[5722]Steel spear (p++):8,845
+[5724]Mithril spear (p++):8,916
+[5726]Adamant spear (p++):9,842
+[5728]Rune spear (p++):19.9k
+[5730]Dragon spear (p++):40.4k
+[5734]Black spear (p+):3,394
+[5736]Black spear (p++):11.6k
+[5739]Asgarnian ale (m):370
+[5741]Mature wmb:1,093
+[5743]Greenman's ale (m):39.5k
+[5745]Dragon bitter (m):2,235
+[5747]Dwarven stout (m):35.4k
+[5749]Moonlight mead (m):18
+[5751]Axeman's folly:784
+[5753]Axeman's folly (m):14.2k
+[5755]Chef's delight:5,002
+[5757]Chef's delight (m):25.8k
+[5759]Slayer's respite:34
+[5761]Slayer's respite (m):1,658
+[5763]Cider:1,718
+[5765]Mature cider:3,151
+[5767]Ale yeast:46
+[5769]Calquat keg:37
+[5771]Dwarven stout (1):1,645
+[5773]Dwarven stout (2):3,204
+[5775]Dwarven stout (3):4,762
+[5777]Dwarven stout (4):6,031
+[5779]Asgarnian ale (1):3,095
+[5781]Asgarnian ale (2):6,103
+[5783]Asgarnian ale (3):9,111
+[5785]Asgarnian ale (4):12.2k
+[5787]Greenman's ale (1):2,418
+[5789]Greenman's ale (2):4,750
+[5791]Greenman's ale (3):7,081
+[5793]Greenman's ale (4):8,688
+[5795]Mind bomb (1):1,404
+[5797]Mind bomb (2):2,721
+[5799]Mind bomb (3):4,038
+[5801]Mind bomb (4):5,337
+[5803]Dragon bitter (1):1,673
+[5805]Dragon bitter (2):3,259
+[5807]Dragon bitter (3):4,845
+[5809]Dragon bitter (4):6,309
+[5811]Moonlight mead (1):1,298
+[5813]Moonlight mead (2):2,510
+[5815]Moonlight mead (3):3,721
+[5817]Moonlight mead (4):4,934
+[5819]Axeman's folly (1):3,178
+[5821]Axeman's folly (2):6,269
+[5823]Axeman's folly (3):9,360
+[5825]Axeman's folly (4):12.0k
+[5827]Chef's delight (1):3,235
+[5829]Chef's delight (2):6,383
+[5831]Chef's delight (3):9,531
+[5833]Chef's delight (4):13.0k
+[5835]Slayer's respite (1):1,127
+[5837]Slayer's respite (2):2,168
+[5839]Slayer's respite (3):3,209
+[5841]Slayer's respite (4):4,082
+[5843]Cider (1):5,524
+[5845]Cider (2):11.0k
+[5847]Cider (3):16.4k
+[5849]Cider (4):22.1k
+[5851]Dwarven stout (m1):27.3k
+[5853]Dwarven stout (m2):52.3k
+[5855]Dwarven stout (m3):78.3k
+[5857]Dwarven stout (m4):112.7k
+[5859]Asgarnian ale (m1):1,697
+[5861]Asgarnian ale (m2):3,307
+[5863]Asgarnian ale (m3):4,917
+[5865]Asgarnian ale (m4):6,528
+[5867]Greenman's ale (m1):39.3k
+[5869]Greenman's ale (m2):78.4k
+[5871]Greenman's ale (m3):117.6k
+[5873]Greenman's ale (m4):167.1k
+[5875]Mind bomb (m1):3,032
+[5877]Mind bomb (m2):5,977
+[5879]Mind bomb (m3):8,922
+[5881]Mind bomb (m4):11.9k
+[5883]Dragon bitter (m1):2,125
+[5885]Dragon bitter (m2):4,163
+[5887]Dragon bitter (m3):6,201
+[5889]Dragon bitter (m4):8,240
+[5891]M'light mead (m1):1,315
+[5893]M'light mead (m2):2,543
+[5895]M'light mead (m3):3,771
+[5897]M'light mead (m4):5,000
+[5899]Axeman's folly (m1):12.0k
+[5901]Axeman's folly (m2):24.0k
+[5903]Axeman's folly (m3):35.9k
+[5905]Axeman's folly (m4):47.9k
+[5907]Chef's delight (m1):15.6k
+[5909]Chef's delight (m2):31.1k
+[5911]Chef's delight (m3):46.6k
+[5913]Chef's delight (m4):66.3k
+[5915]Slayer respite (m1):3,672
+[5917]Slayer respite (m2):7,258
+[5919]Slayer respite (m3):10.8k
+[5921]Slayer respite (m4):14.4k
+[5923]Cider (m1):2,966
+[5925]Cider (m2):5,845
+[5927]Cider (m3):8,724
+[5929]Cider (m4):11.6k
+[5931]Jute fibre:247
+[5933]Willow branch:692
+[5935]Coconut milk:1,266
+[5937]Weapon poison+:228
+[5940]Weapon poison++:6,430
+[5943]Antipoison+ (4):3,623
+[5945]Antipoison+ (3):5,129
+[5947]Antipoison+ (2):3,542
+[5949]Antipoison+ (1):1,885
+[5952]Antipoison++ (4):2,238
+[5954]Antipoison++ (3):2,195
+[5956]Antipoison++ (2):1,367
+[5958]Antipoison++ (1):916
+[5968]Tomatoes (5):425
+[5970]Curry leaf:101
+[5972]Papaya fruit:1,554
+[5974]Coconut:971
+[5976]Coconut:1,004
+[5978]Coconut shell:32
+[5980]Calquat fruit:51
+[5982]Watermelon:82
+[5984]Watermelon slice:25
+[5986]Sweetcorn:25
+[5988]Cooked sweetcorn:4
+[5992]Apple mush:357
+[5994]Hammerstone hops:20
+[5996]Asgarnian hops:7
+[5998]Yanillian hops:6
+[6000]Krandorian hops:10
+[6002]Wildblood hops:77
+[6004]Mushroom:198
+[6006]Barley:234
+[6008]Barley malt:245
+[6010]Marigolds:4,693
+[6012]Nasturtiums:122
+[6014]Rosemary:210
+[6016]Cactus spine:5,712
+[6018]Poison ivy berries:488
+[6020]Leaves:89
+[6022]Leaves:20
+[6024]Leaves:17
+[6026]Leaves:6
+[6028]Leaves:9
+[6030]Leaves:3
+[6032]Compost:143
+[6034]Supercompost:933
+[6036]Plant cure:171
+[6038]Magic string:5,583
+[6041]Pre-nature amulet:11.8k
+[6043]Oak roots:60
+[6045]Willow roots:43
+[6047]Maple roots:42
+[6049]Yew roots:1,157
+[6051]Magic roots:7,950
+[6061]Bronze bolts (p+):116
+[6062]Bronze bolts (p++):1,673
+[6128]Rock-shell helm:22.2k
+[6129]Rock-shell plate:37.8k
+[6130]Rock-shell legs:37.5k
+[6131]Spined helm:36.3k
+[6133]Spined body:10.1k
+[6135]Spined chaps:8,675
+[6137]Skeletal helm:38.0k
+[6139]Skeletal top:26.9k
+[6141]Skeletal bottoms:24.6k
+[6143]Spined boots:2,403
+[6145]Rock-shell boots:3,673
+[6147]Skeletal boots:35.3k
+[6149]Spined gloves:1,022
+[6151]Rock-shell gloves:2,967
+[6153]Skeletal gloves:104.1k
+[6155]Dagannoth hide:4,295
+[6157]Rock-shell chunk:8,955
+[6159]Rock-shell shard:34.0k
+[6161]Rock-shell splinter:34.1k
+[6163]Skull piece:7,085
+[6165]Ribcage piece:15.4k
+[6167]Fibula piece:13.2k
+[6169]Circular hide:26.5k
+[6171]Flattened hide:463
+[6173]Stretched hide:369
+[6211]Teak pyre logs:2,218
+[6213]Mahogany pyre log:2,687
+[6215]Broodoo shield (10):18.9k
+[6235]Broodoo shield:85.3k
+[6237]Broodoo shield (10):17.3k
+[6257]Broodoo shield:84.2k
+[6259]Broodoo shield (10):17.1k
+[6279]Broodoo shield:81.2k
+[6281]Thatch spar light:4
+[6283]Thatch spar med:3
+[6285]Thatch spar dense:13
+[6287]Snake hide:2,477
+[6289]Snakeskin:2,832
+[6291]Spider carcass:1,455
+[6293]Spider on stick:199
+[6295]Spider on shaft:100
+[6297]Spider on stick:70
+[6299]Spider on shaft:82
+[6305]Skewer stick:1
+[6306]Trading sticks:5
+[6311]Gout tuber:8,952
+[6313]Opal machete:254
+[6315]Jade machete:6,968
+[6317]Red topaz machete:8,047
+[6319]Proboscis:8,976
+[6322]Snakeskin body:30.1k
+[6324]Snakeskin chaps:946
+[6326]Snakeskin bandana:2,125
+[6328]Snakeskin boots:13.5k
+[6330]Snakeskin vambraces:8,009
+[6332]Mahogany logs:878
+[6333]Teak logs:137
+[6335]Tribal mask:14.0k
+[6337]Tribal mask:14.3k
+[6339]Tribal mask:11.5k
+[6341]Tribal top:3,389
+[6343]Villager robe:1,528
+[6345]Villager hat:2,053
+[6347]Villager armband:699
+[6349]Villager sandals:1,890
+[6351]Tribal top:3,821
+[6353]Villager robe:1,523
+[6355]Villager hat:2,488
+[6357]Villager sandals:992
+[6359]Villager armband:809
+[6361]Tribal top:2,971
+[6363]Villager robe:443
+[6365]Villager hat:2,259
+[6367]Villager sandals:1,599
+[6369]Villager armband:937
+[6371]Tribal top:3,371
+[6373]Villager robe:331
+[6375]Villager hat:2,692
+[6377]Villager sandals:2,003
+[6379]Villager armband:1,642
+[6382]Fez:537
+[6384]Desert top:281
+[6386]Desert robes:305
+[6388]Desert top:639
+[6390]Desert legs:308
+[6392]Menap headgear:362
+[6394]Menaphite top:347
+[6396]Menaphite robe:355
+[6398]Menap action kilt:253
+[6400]Menap headgear:361
+[6402]Menaphite top:319
+[6404]Menaphite robe:354
+[6406]Menap action kilt:256
+[6408]Oak blackjack (o):707
+[6410]Oak blackjack (d):700
+[6412]Willow blackjack (o):1,122
+[6414]Willow blackjack (d):1,099
+[6416]Maple blackjack:1,819
+[6418]Maple blackjack (o):1,897
+[6420]Maple blackjack (d):2,022
+[6470]Compost potion (4):7,652
+[6472]Compost potion (3):4,450
+[6474]Compost potion (2):2,782
+[6476]Compost potion (1):1,392
+[6522]Toktz-xil-ul:587
+[6523]Toktz-xil-ak:23.5k
+[6524]Toktz-ket-xil:49.5k
+[6525]Toktz-xil-ek:14.9k
+[6526]Toktz-mej-tal:23.5k
+[6527]Tzhaar-ket-em:18.3k
+[6528]Tzhaar-ket-om:30.6k
+[6562]Mud battlestaff:555.6k
+[6563]Mystic mud staff:592.2k
+[6568]Obsidian cape:36.7k
+[6571]Uncut onyx:15.3m
+[6573]Onyx:15.6m
+[6575]Onyx ring:11.4m
+[6577]Onyx necklace:3.1m
+[6581]Onyx amulet:16.7m
+[6583]Ring of stone:602.9k
+[6585]Amulet of fury:15.6m
+[6587]White claws:594
+[6589]White battleaxe:1,432
+[6591]White dagger:431
+[6593]White dagger (p):497
+[6595]White dagger (p+):982
+[6597]White dagger (p++):9,181
+[6599]White halberd:2,045
+[6601]White mace:489
+[6603]White magic staff:454
+[6605]White sword:897
+[6607]White longsword:1,233
+[6609]White 2h sword:4,655
+[6611]White scimitar:997
+[6613]White warhammer:1,164
+[6615]White chainbody:738
+[6617]White platebody:4,993
+[6619]White boots:1,227
+[6621]White med helm:752
+[6623]White full helm:1,570
+[6625]White platelegs:1,470
+[6627]White plateskirt:1,984
+[6629]White gloves:386
+[6631]White sq shield:1,330
+[6633]White kiteshield:2,039
+[6667]Fishbowl:29
+[6681]Ground guam:1
+[6683]Ground seaweed:19
+[6685]Saradomin brew (4):12.4k
+[6687]Saradomin brew (3):9,075
+[6689]Saradomin brew (2):5,581
+[6691]Saradomin brew (1):2,641
+[6693]Crushed nest:7,532
+[6697]Pat of butter:323
+[6701]Baked potato:198
+[6703]Potato with butter:703
+[6705]Potato with cheese:451
+[6724]Seercull:16.3k
+[6729]Dagannoth bones:13.5k
+[6731]Seers' ring:429.0k
+[6733]Archers' ring:2.0m
+[6735]Warrior ring:449.1k
+[6737]Berserker ring:4.4m
+[6739]Dragon hatchet:1.5m
+[6760]Guthix mjolnir:5,570
+[6762]Saradomin mjolnir:10.2k
+[6764]Zamorak mjolnir:7,106
+[6794]Choc-ice:148
+[6809]Granite legs:54.7k
+[6812]Wyvern bones:10.2k
+[6814]Fur:33
+[6889]Mages' book:5.0m
+[6908]Beginner wand:17.5k
+[6910]Apprentice wand:67.1k
+[6912]Teacher wand:964.4k
+[6914]Master wand:5.0m
+[6916]Infinity top:1.7m
+[6918]Infinity hat:3.5m
+[6920]Infinity boots:948.2k
+[6922]Infinity gloves:1.7m
+[6924]Infinity bottoms:4.7m
+[6959]Cape:112
+[6962]Triangle sandwich:57
+[6971]Sandstone (1kg):26
+[6973]Sandstone (2kg):50
+[6975]Sandstone (5kg):119
+[6977]Sandstone (10kg):348
+[6979]Granite (500g):325
+[6981]Granite (2kg):746
+[6983]Granite (5kg):1,597
+[7051]Unlit bug lantern:410
+[7054]Chilli potato:401
+[7056]Egg potato:558
+[7058]Mushroom potato:1,114
+[7060]Tuna potato:1,067
+[7062]Chilli con carne:216
+[7064]Egg and tomato:128
+[7066]Mushroom & onion:362
+[7068]Tuna and corn:433
+[7070]Minced meat:19
+[7072]Spicy sauce:60
+[7074]Chopped garlic:36
+[7076]Uncooked egg:34
+[7078]Scrambled egg:26
+[7080]Sliced mushrooms:146
+[7082]Fried mushrooms:408
+[7084]Fried onions:39
+[7086]Chopped tuna:255
+[7088]Sweetcorn:148
+[7110]Stripy pirate shirt:86
+[7112]Pirate bandana:369
+[7114]Pirate boots:1,078
+[7116]Pirate leggings:102
+[7122]Stripy pirate shirt:608
+[7124]Pirate bandana:315
+[7126]Pirate leggings:212
+[7128]Stripy pirate shirt:418
+[7130]Pirate bandana:259
+[7132]Pirate leggings:503
+[7134]Stripy pirate shirt:426
+[7136]Pirate bandana:338
+[7138]Pirate leggings:110
+[7158]Dragon 2h sword:1.4m
+[7159]Insulated boots:309
+[7162]Pie recipe book:49
+[7164]Part mud pie:59
+[7166]Part mud pie:86
+[7168]Raw mud pie:1,793
+[7170]Mud pie:1,689
+[7172]Part garden pie:40
+[7174]Part garden pie:67
+[7176]Raw garden pie:950
+[7178]Garden pie:584
+[7180]Half a garden pie:291
+[7182]Part fish pie:92
+[7184]Part fish pie:131
+[7186]Raw fish pie:1,457
+[7188]Fish pie:237
+[7190]Half a fish pie:167
+[7192]Part admiral pie:193
+[7194]Part admiral pie:643
+[7196]Raw admiral pie:2,088
+[7198]Admiral pie:165
+[7200]Half an admiral pie:129
+[7202]Part wild pie:60
+[7204]Part wild pie:332
+[7206]Raw wild pie:3,760
+[7208]Wild pie:600
+[7210]Half a wild pie:363
+[7212]Part summer pie:359
+[7214]Part summer pie:1,221
+[7216]Raw summer pie:2,037
+[7218]Summer pie:1,063
+[7220]Half a summer pie:375
+[7223]Roast rabbit:36
+[7224]Skewered rabbit:107
+[7225]Iron spit:18
+[7228]Cooked chompy:154
+[7230]Skewered chompy:272
+[7319]Red boater:30.4k
+[7321]Orange boater:21.4k
+[7323]Green boater:61.3k
+[7325]Blue boater:33.1k
+[7327]Black boater:62.0k
+[7329]Red firelighter:101
+[7330]Green firelighter:110
+[7331]Blue firelighter:132
+[7332]Black shield (h1):15.6k
+[7334]Adamant shield (h1):17.7k
+[7336]Rune shield (h1):34.2k
+[7338]Black shield (h2):8,414
+[7340]Adamant shield (h2):6,966
+[7342]Rune shield (h2):33.9k
+[7344]Black shield (h3):9,730
+[7346]Adamant shield (h3):10.2k
+[7348]Rune shield (h3):34.0k
+[7350]Black shield (h4):8,536
+[7352]Adamant shield (h4):8,317
+[7354]Rune shield (h4):32.7k
+[7356]Black shield (h5):8,795
+[7358]Adamant shield (h5):8,842
+[7360]Rune shield (h5):33.2k
+[7362]Studded body (g):94.1k
+[7364]Studded body (t):39.7k
+[7366]Studded chaps (g):135.2k
+[7368]Studded chaps (t):41.6k
+[7370]Dragonhide body (g):119.7k
+[7372]Dragonhide body (t):34.9k
+[7374]Dragonhide body (g):5,274
+[7376]Dragonhide body (t):5,331
+[7378]Dragonhide chaps (g):973.5k
+[7380]Dragonhide chaps (t):259.4k
+[7382]Dragonhide chaps (g):21.7k
+[7384]Dragonhide chaps (t):2,364
+[7386]Blue skirt (g):298.9k
+[7388]Blue skirt (t):155.7k
+[7390]Wizard robe (g):2.1m
+[7392]Wizard robe (t):445.7k
+[7394]Wizard hat (g):2.1m
+[7396]Wizard hat (t):748.4k
+[7398]Enchanted robe:116.5k
+[7399]Enchanted top:158.2k
+[7400]Enchanted hat:10.6k
+[7416]Mole claw:8,676
+[7418]Mole skin:9,025
+[7433]Wooden spoon:27
+[7435]Egg whisk:14
+[7437]Spork:205
+[7439]Spatula:1,008
+[7441]Frying pan:868
+[7443]Skewer:1,823
+[7445]Rolling pin:8,497
+[7447]Kitchen knife:4,665
+[7449]Meat tenderiser:24.8k
+[7451]Cleaver:15.2k
+[7521]Cooked crab meat:222
+[7566]Raw jubbly:487
+[7568]Cooked jubbly:951
+[7650]Silver dust:414
+[7652]Guthix balance (unf):112
+[7654]Guthix balance (unf):85
+[7656]Guthix balance (unf):58
+[7658]Guthix balance (unf):30
+[7660]Guthix balance (4):253
+[7662]Guthix balance (3):196
+[7664]Guthix balance (2):133
+[7666]Guthix balance (1):67
+[7668]Gadderhammer:1,666
+[7759]Toy soldier:2,532
+[7763]Toy doll:2,665
+[7767]Toy mouse:2,685
+[7771]Clockwork cat:3,018
+[7801]Snake hide:3,821
+[7919]Bottle of wine:179
+[7934]Field ration:186
+[7936]Pure essence:115
+[7939]Tortoise shell:13.6k
+[7944]Raw monkfish:297
+[7946]Monkfish:215
+[8007]Varrock teleport:809
+[8008]Lumbridge teleport:784
+[8009]Falador teleport:854
+[8010]Camelot teleport:732
+[8011]Ardougne teleport:1,079
+[8012]Watchtower t'port:1,013
+[8013]Teleport to house:922
+[8014]Bones to bananas:548
+[8015]Bones to peaches:866
+[8016]Enchant sapphire:561
+[8017]Enchant emerald:625
+[8018]Enchant ruby:646
+[8019]Enchant diamond:548
+[8020]Enchant dragonstn.:381
+[8021]Enchant onyx:68
+[8431]Bagged plant 1:1,378
+[8496]Crude wooden chair:1
+[8498]Wooden chair:64
+[8500]Rocking chair:3
+[8502]Oak chair:2
+[8504]Oak armchair:1
+[8506]Teak armchair:1
+[8508]Mahogany armchair:6
+[8510]Wooden bookcase:2
+[8512]Oak bookcase:1
+[8514]Mahogany b'kcase:17
+[8516]Beer barrel:2
+[8518]Cider barrel:15.6k
+[8520]Asgarnian ale:4,529
+[8522]Greenman's ale:11.8k
+[8524]Dragon bitter:12.5k
+[8526]Chef's delight:44.0k
+[8528]Wood kitchen table:1
+[8530]Oak kitchen table:1
+[8532]Teak kitchen table:1
+[8548]Wood dining table:1
+[8550]Oak dining table:1
+[8552]Carved oak table:1
+[8554]Teak table:1
+[8556]Carved teak table:245
+[8558]Mahogany table:240
+[8560]Opulent table:338.9k
+[8562]Wooden bench:24
+[8564]Oak bench:166
+[8566]Carved oak bench:2
+[8568]Teak dining bench:42
+[8570]Carved teak bench:1
+[8572]Mahogany bench:65
+[8574]Gilded bench:472.2k
+[8576]Wooden bed:2,250
+[8578]Oak bed:1,766
+[8580]Large oak bed:1,611
+[8582]Teak bed:1,696
+[8584]Large teak bed:1,724
+[8586]4-poster:1,439
+[8588]Gilded 4-poster:288.4k
+[8590]Oak clock:583
+[8592]Teak clock:877
+[8594]Gilded clock:133.6k
+[8596]Shaving stand:528
+[8598]Oak shaving stand:517
+[8600]Oak dresser:181
+[8602]Teak dresser:568
+[8604]Fancy teak dresser:514
+[8606]Mahogany dresser:418
+[8608]Gilded dresser:105.5k
+[8610]Shoe box:34
+[8612]Oak drawers:65
+[8614]Oak wardrobe:1
+[8616]Teak drawers:198
+[8618]Teak wardrobe:25
+[8620]Mahogany 'drobe:98
+[8622]Gilded wardrobe:113.0k
+[8778]Oak plank:479
+[8780]Teak plank:769
+[8782]Mahogany plank:2,354
+[8784]Gold leaf:140.6k
+[8786]Marble block:337.0k
+[8788]Magic stone:956.9k
+[8790]Bolt of cloth:1,335
+[8792]Clockwork:1,082
+[8794]Saw:131
+[8837]Timber beam:33
+[8872]Bone dagger:2,473
+[8874]Bone dagger (p):2,377
+[8876]Bone dagger (p+):2,844
+[8878]Bone dagger (p++):12.3k
+[8880]Dorgeshuun c'bow:1,622
+[8882]Bone bolts:19
+[8901]Black mask (10):548.7k
+[8921]Black mask:516.2k
+[8924]Bandana and eyepatch:426
+[8925]Bandana and eyepatch:331
+[8926]Bandana and eyepatch:296
+[8927]Bandana and eyepatch:389
+[8928]Hat and eyepatch:142.0k
+[9003]Security book:83
+[9004]Stronghold notes:11
+[9026]Ivory comb:159
+[9028]Golden scarab:548
+[9030]Stone scarab:159
+[9032]Pottery scarab:71
+[9034]Golden statuette:935
+[9036]Pottery statuette:91
+[9038]Stone statuette:186
+[9040]Gold seal:375
+[9042]Stone seal:145
+[9044]Pharaoh's sceptre (3):1.1m
+[9050]Pharaoh's sceptre:1.1m
+[9052]Locust meat:59
+[9075]Astral rune:132
+[9140]Iron bolts:38
+[9141]Steel bolts:78
+[9142]Mithril bolts:130
+[9143]Adamant bolts:223
+[9144]Runite bolts:836
+[9145]Silver bolts:10
+[9174]Bronze crossbow:18
+[9177]Iron crossbow:32
+[9179]Steel crossbow:116
+[9181]Mith crossbow:364
+[9183]Adamant crossbow:1,040
+[9185]Rune crossbow:9,907
+[9187]Jade bolt tips:1
+[9188]Topaz bolt tips:1
+[9189]Sapphire bolt tips:2
+[9190]Emerald bolt tips:97
+[9191]Ruby bolt tips:142
+[9192]Diamond bolt tips:787
+[9193]Dragon bolt tips:5,044
+[9194]Onyx bolt tips:7,749
+[9236]Opal bolts (e):19
+[9238]Pearl bolts (e):53
+[9239]Topaz bolts (e):53
+[9240]Sapphire bolts (e):112
+[9241]Emerald bolts (e):275
+[9242]Ruby bolts (e):468
+[9243]Diamond bolts (e):1,258
+[9244]Dragon bolts (e):6,128
+[9245]Onyx bolts (e):8,884
+[9287]Iron bolts (p):62
+[9288]Steel bolts (p):100
+[9289]Mithril bolts (p):140
+[9290]Adamant bolts (p):260
+[9291]Runite bolts (p):905
+[9292]Silver bolts (p):31
+[9294]Iron bolts (p+):159
+[9295]Steel bolts (p+):191
+[9296]Mithril bolts (p+):225
+[9297]Adamant bolts (p+):330
+[9298]Runite bolts (p+):991
+[9299]Silver bolts (p+):128
+[9301]Iron bolts (p++):1,709
+[9302]Steel bolts (p++):1,742
+[9303]Mithril bolts (p++):1,470
+[9304]Adamant bolts (p++):1,191
+[9305]Runite bolts (p++):1,599
+[9306]Silver bolts (p++):1,768
+[9336]Topaz bolts:73
+[9337]Sapphire bolts:98
+[9338]Emerald bolts:246
+[9339]Ruby bolts:413
+[9340]Diamond bolts:1,113
+[9341]Dragon bolts:5,974
+[9342]Onyx bolts:8,688
+[9375]Bronze bolts (unf):11
+[9377]Iron bolts (unf):20
+[9378]Steel bolts (unf):57
+[9379]Mithril bolts (unf):116
+[9380]Adamant bolts (unf):255
+[9381]Runite bolts (unf):1,344
+[9382]Silver bolts (unf):3
+[9416]Mith grapple tip:422
+[9418]Mith grapple:915
+[9419]Mith grapple:1,116
+[9420]Bronze limbs:74
+[9423]Iron limbs:56
+[9425]Steel limbs:95
+[9427]Mithril limbs:366
+[9429]Adamantite limbs:1,584
+[9431]Runite limbs:9,516
+[9434]Bolt mould:103
+[9436]Sinew:261
+[9438]Crossbow string:136
+[9440]Wooden stock:6
+[9442]Oak stock:7
+[9444]Willow stock:15
+[9446]Teak stock:22
+[9448]Maple stock:16
+[9450]Mahogany stock:44
+[9452]Yew stock:135
+[9454]Bronze c'bow (u):23
+[9457]Iron c'bow (u):36
+[9459]Steel c'bow (u):126
+[9461]Mithril c'bow (u):337
+[9463]Adamant c'bow (u):902
+[9465]Runite c'bow (u):9,633
+[9469]Grand seed pod:6,208
+[9470]Gnome scarf:1.8m
+[9472]Gnome goggles:84.8k
+[9475]Mint cake:607
+[9629]Tyras helm:1,420
+[9634]Vyrewatch top:1,319
+[9636]Vyrewatch legs:1,255
+[9638]Vyrewatch boots:1,365
+[9640]Citizen top:344
+[9642]Citizen trousers:328
+[9644]Citizen boots:328
+[9666]Pros'yte harness m:28.8k
+[9668]Initiate harness m:22.9k
+[9670]Pros'yte harness f:26.9k
+[9672]Proselyte sallet:4,643
+[9674]Proselyte hauberk:7,091
+[9676]Proselyte cuisse:6,019
+[9678]Proselyte tasset:5,936
+[9729]Elemental helmet:97
+[9731]Mind shield:7,345
+[9733]Mind helmet:1,697
+[9735]Desert goat horn:714
+[9736]Goat horn dust:841
+[9739]Combat potion (4):66
+[9741]Combat potion (3):25
+[9743]Combat potion (2):51
+[9745]Combat potion (1):72
+[9843]Oak cape rack:14
+[9844]Teak cape rack:154
+[9845]M'gany cape rack:62
+[9846]Gilded cape rack:105.9k
+[9847]Marble cape rack:326.0k
+[9848]Magical cape rack:991.9k
+[9849]Oak toy box:44
+[9850]Teak toy box:264
+[9851]Mahogany toy box:26
+[9852]Oak magic wardrobe:149
+[9853]Carved oak magic wardrobe:2
+[9854]Teak magic wardrobe:210
+[9855]Carved teak magic wardrobe:42
+[9856]Mahogany magic wardrobe:84
+[9857]Gilded magic wardrobe:130.4k
+[9858]Marble magic wardrobe:336.6k
+[9859]Oak armour case:27
+[9860]Teak armour case:52
+[9861]M'gany arm'r case:87
+[9862]Oak treasure chest:37
+[9863]Teak treas' chest:222
+[9864]M'gany treas' chest:62
+[9865]Oak costume box:84
+[9866]Teak costume box:188
+[9867]Mahogany cos box:61
+[9978]Raw bird meat:328
+[9980]Roast bird meat:23
+[9984]Skewered bird meat:125
+[9986]Raw beast meat:110
+[9988]Roast beast meat:50
+[9992]Skewered beast:95
+[9994]Spicy tomato:302
+[9996]Spicy minced meat:167
+[9998]Hunter potion (4):269
+[10000]Hunter potion (3):219
+[10002]Hunter potion (2):183
+[10004]Hunter potion (1):101
+[10006]Bird snare:2
+[10008]Box trap:208
+[10010]Butterfly net:1
+[10012]Butterfly jar:210
+[10014]Black warlock:181
+[10016]Snowy knight:309
+[10018]Sapphire glacialis:186
+[10020]Ruby harvest:1,042
+[10025]Magic box:756
+[10029]Teasing stick:1
+[10031]Rabbit snare:1
+[10033]Chinchompa:291
+[10034]Red chinchompa:710
+[10035]Kyatt legs:359
+[10037]Kyatt top:355
+[10039]Kyatt hat:9,034
+[10041]Larupia legs:2,115
+[10043]Larupia top:1,401
+[10045]Larupia hat:4,502
+[10047]Graahk legs:354
+[10049]Graahk top:221
+[10051]Graahk headdress:7,132
+[10053]Wood camo top:1,777
+[10055]Wood camo legs:2,355
+[10057]Jungle camo top:487
+[10059]Jungle camo legs:443
+[10061]Desert camo top:768
+[10063]Desert camo legs:1,048
+[10065]Polar camo top:5,689
+[10067]Polar camo legs:6,084
+[10069]Spotted cape:740
+[10071]Spottier cape:1,554
+[10075]Gloves of silence:2,350
+[10077]Spiky vambraces:48
+[10079]Green spiky vambraces:1,432
+[10081]Blue spiky vambraces:1,958
+[10083]Red spiky vambraces:2,031
+[10085]Black spiky vambraces:3,950
+[10087]Stripy feather:5
+[10088]Red feather:8
+[10089]Blue feather:13
+[10090]Yellow feather:30
+[10091]Orange feather:12
+[10093]Tatty larupia fur:969
+[10095]Larupia fur:2,561
+[10097]Tatty graahk fur:47
+[10099]Graahk fur:13.2k
+[10101]Tatty kyatt fur:37
+[10103]Kyatt fur:12.4k
+[10105]Kebbit spike:230
+[10107]Long kebbit spike:2,223
+[10109]Kebbit teeth:804
+[10111]Kebbit teeth dust:897
+[10113]Kebbit claws:137
+[10115]Dark kebbit fur:398
+[10117]Polar kebbit fur:4,007
+[10119]Feldip weasel fur:10
+[10121]Common kebbit fur:1,888
+[10123]Desert devil fur:165
+[10125]Spotted kebbit fur:18
+[10127]Dashing kebbit fur:85
+[10129]Barb-tail harpoon:76
+[10132]Strung rabbit foot:1,046
+[10134]Rabbit foot:921
+[10136]Rainbow fish:104
+[10138]Raw rainbow fish:290
+[10142]Guam tar:31
+[10143]Marrentill tar:13
+[10144]Tarromin tar:65
+[10145]Harralander tar:102
+[10146]Orange salamander:65
+[10147]Red salamander:13
+[10148]Black salamander:147
+[10149]Swamp lizard:1,831
+[10150]Noose wand:1
+[10156]Hunters' crossbow:1,105
+[10158]Kebbit bolts:39
+[10159]Long kebbit bolts:261
+[10280]Willow composite bow:395
+[10282]Yew composite bow:923
+[10284]Magic composite bow:1,322
+[10286]Rune helm (h1):24.8k
+[10288]Rune helm (h2):22.1k
+[10290]Rune helm (h3):20.9k
+[10292]Rune helm (h4):21.3k
+[10294]Rune helm (h5):20.8k
+[10296]Adamant helm (h1):34.3k
+[10298]Adamant helm (h2):16.3k
+[10300]Adamant helm (h3):15.8k
+[10302]Adamant helm (h4):19.9k
+[10304]Adamant helm (h5):18.9k
+[10306]Black helm (h1):28.1k
+[10308]Black helm (h2):15.5k
+[10310]Black helm (h3):17.5k
+[10312]Black helm (h4):18.3k
+[10314]Black helm (h5):16.1k
+[10316]Bob shirt:18.9k
+[10318]Bob shirt:32.0k
+[10320]Bob shirt:18.9k
+[10322]Bob shirt:21.0k
+[10324]Bob shirt:18.2k
+[10326]Purple firelighter:217
+[10327]White firelighter:213
+[10330]Third-age range top:42.3m
+[10332]Third-age range legs:31.3m
+[10334]Third-age range coif:7.2m
+[10336]Third-age vambraces:5.5m
+[10338]Third-age robe top:80.3m
+[10340]Third-age robe:25.7m
+[10342]Third-age mage hat:40.6m
+[10344]Third-age amulet:14.4m
+[10346]Third-age platelegs:125.9m
+[10348]Third-age platebody:117.5m
+[10350]Third-age full helmet:43.3m
+[10352]Third-age kiteshield:86.1m
+[10354]Amulet of glory (t4):281.3k
+[10362]Amulet of glory (t):252.4k
+[10364]Strength amulet (t):806.2k
+[10366]Amulet of magic (t):141.7k
+[10368]Zamorak vambraces:150.0k
+[10370]Zamorak body:416.1k
+[10372]Zamorak chaps:49.0k
+[10374]Zamorak coif:42.3k
+[10376]Guthix vambraces:3,051
+[10378]Guthix body:93.6k
+[10380]Guthix chaps:22.3k
+[10382]Guthix coif:32.6k
+[10384]Saradomin vambraces:76.8k
+[10386]Saradomin body:295.7k
+[10388]Saradomin chaps:42.4k
+[10390]Saradomin coif:33.4k
+[10392]A powdered wig:64.7k
+[10394]Flared trousers:838.5k
+[10396]Pantaloons:14.5k
+[10398]Sleeping cap:75.0k
+[10400]Black elegant shirt:1.1m
+[10402]Black elegant legs:178.9k
+[10404]Red elegant shirt:199.0k
+[10406]Red elegant legs:62.2k
+[10408]Blue elegant shirt:239.1k
+[10410]Blue elegant legs:93.0k
+[10412]Green elegant shirt:260.7k
+[10414]Green elegant legs:87.8k
+[10416]Purple elegant shirt:142.4k
+[10418]Purple elegant legs:61.7k
+[10420]White elegant blouse:595.2k
+[10422]White elegant skirt:44.6k
+[10424]Red elegant blouse:28.1k
+[10426]Red elegant skirt:13.1k
+[10428]Blue elegant blouse:41.3k
+[10430]Blue elegant skirt:16.9k
+[10432]Green elegant blouse:31.2k
+[10434]Green elegant skirt:16.0k
+[10436]Purple elegant blouse:32.3k
+[10438]Purple elegant skirt:11.2k
+[10440]Saradomin crozier:2,870
+[10442]Guthix crozier:2,902
+[10444]Zamorak crozier:2,945
+[10446]Saradomin cape:1.0m
+[10448]Guthix cape:420.5k
+[10450]Zamorak cape:1.0m
+[10452]Saradomin mitre:195.7k
+[10454]Guthix mitre:133.0k
+[10456]Zamorak mitre:243.5k
+[10458]Saradomin robe top:183.6k
+[10460]Zamorak robe top:273.6k
+[10462]Guthix robe top:127.1k
+[10464]Saradomin robe legs:283.8k
+[10466]Guthix robe legs:232.7k
+[10468]Zamorak robe legs:420.8k
+[10470]Saradomin stole:23.3k
+[10472]Guthix stole:6,693
+[10474]Zamorak stole:35.7k
+[10476]Purple sweets:15.0k
+[10564]Granite body:122.9k
+[10589]Granite helm:28.1k
+[10808]Arctic pyre logs:2,498
+[10810]Arctic pine logs:74
+[10812]Split log:57
+[10814]Hair:115
+[10816]Raw yak meat:66
+[10818]Yak-hide:244
+[10820]Cured yak-hide:372
+[10822]Yak-hide armour:202
+[10824]Yak-hide armour:173
+[10826]Fremennik round shield:279
+[10828]Helm of neitiznot:40.2k
+[10891]Wooden cat:668
+[10909]Mixture - step 1 (4):8,665
+[10911]Mixture - step 1 (3):6,500
+[10913]Mixture - step 1 (2):4,335
+[10915]Mixture - step 1 (1):2,168
+[10917]Mixture - step 2 (4):8,665
+[10919]Mixture - step 2 (3):6,500
+[10921]Mixture - step 2 (2):4,335
+[10923]Mixture - step 2 (1):2,168
+[10925]Sanfew serum (4):26.7k
+[10927]Sanfew serum (3):22.1k
+[10929]Sanfew serum (2):14.3k
+[10931]Sanfew serum (1):7,145
+[10937]Nail beast nails:2,986
+[10952]Slayer bell:158
+[10954]Frog-leather body:1,427
+[10956]Frog-leather chaps:437
+[10958]Frog-leather boots:725
+[10973]Light orb:112
+[10978]Swamp weed:425
+[10981]Cave goblin wire:660
+[11037]Brine sabre:77.1k
+[11061]Ancient mace:3,143
+[11065]Bracelet mould:250
+[11069]Gold bracelet:242
+[11072]Sapphire bracelet:587
+[11074]Bracelet of clay:660
+[11076]Emerald bracelet:845
+[11079]Castle wars brace (3):1,049
+[11083]Castle wars brace (1):1,424
+[11085]Ruby bracelet:1,304
+[11088]Inoculation brace:1,439
+[11090]Phoenix necklace:10.4k
+[11092]Diamond bracelet:4,044
+[11095]Forinthry brace (5):9,106
+[11103]Forinthry brace (1):4,259
+[11105]Skills necklace (4):17.9k
+[11113]Skills necklace:15.9k
+[11115]Dragon bracelet:48.2k
+[11118]Combat bracelet (4):49.9k
+[11126]Combat bracelet:44.7k
+[11128]Berserker necklace:2.8m
+[11130]Onyx bracelet:791.5k
+[11133]Regen bracelet:187.1k
+[11159]Hunter kit:1
+[11200]Dwarven helmet:43.2k
+[11205]Shrunk ogleroot:26
+[11212]Dragon arrow:2,104
+[11217]Dragon fire arrows:1,967
+[11222]Dragon fire arrows:2,036
+[11227]Dragon arrow (p):1,836
+[11228]Dragon arrow (p+):1,919
+[11229]Dragon arrow (p++):3,059
+[11230]Dragon dart:260
+[11231]Dragon dart (p):433
+[11232]Dragon dart tip:446
+[11233]Dragon dart (p+):489
+[11234]Dragon dart (p++):1,566
+[11235]Dark bow:686.6k
+[11237]Dragon arrowtips:1,888
+[11238]Baby impling jar:1,452
+[11240]Young impling jar:1,323
+[11242]Gourm' impling jar:1,242
+[11244]Earth impling jar:1,532
+[11246]Ess' impling jar:1,647
+[11248]Eclectic impling jar:2,232
+[11250]Nature impling jar:7,576
+[11252]Magpie impling jar:24.7k
+[11254]Ninja impling jar:22.1k
+[11256]Dragon impling jar:347.7k
+[11260]Impling jar:1,082
+[11262]Imp repellent:1,321
+[11264]Anchovy oil:923
+[11266]Anchovy paste:68
+[11280]Cavalier and mask:627.2k
+[11284]Dragonfire shield:18.7m
+[11286]Draconic visage:19.1m
+[11324]Roe:8
+[11326]Caviar:401
+[11328]Leaping trout:13
+[11330]Leaping salmon:8
+[11332]Leaping sturgeon:238
+[11334]Fish offcuts:1
+[11335]Dragon full helm:39.5m
+[11367]Bronze hasta:215
+[11369]Iron hasta:28
+[11371]Steel hasta:83
+[11373]Mithril hasta:372
+[11375]Adamant hasta:1,094
+[11377]Rune hasta:12.3k
+[11379]Bronze hasta (p):290
+[11382]Bronze hasta (p+):775
+[11384]Bronze hasta (p++):8,974
+[11386]Iron hasta (p):99
+[11389]Iron hasta (p+):584
+[11391]Iron hasta (p++):8,783
+[11393]Steel hasta (p):151
+[11396]Steel hasta (p+):636
+[11398]Steel hasta (p++):8,835
+[11400]Mithril hasta (p):440
+[11403]Mithril hasta (p+):925
+[11405]Mithril hasta (p++):9,124
+[11407]Adamant hasta (p):1,154
+[11410]Adamant hasta (p+):1,639
+[11412]Adamant hasta (p++):9,838
+[11414]Rune hasta (p):12.3k
+[11417]Rune hasta (p+):12.8k
+[11419]Rune hasta (p++):19.7k
+[11429]Attack mix (2):27
+[11431]Attack mix (1):16
+[11433]Antipoison mix (2):1,041
+[11435]Antipoison mix (1):545
+[11437]Relicym's mix (2):261
+[11439]Relicym's mix (1):131
+[11441]Strength mix (1):171
+[11443]Strength mix (2):317
+[11445]Combat mix (2):595
+[11447]Combat mix (1):313
+[11449]Restore mix (2):38
+[11451]Restore mix (1):22
+[11453]Energy mix (2):401
+[11455]Energy mix (1):209
+[11457]Defence mix (2):1,448
+[11459]Defence mix (1):794
+[11461]Agility mix (2):682
+[11463]Agility mix (1):385
+[11465]Prayer mix (2):3,295
+[11467]Prayer mix (1):2,019
+[11469]Superattack mix (2):883
+[11471]Superattack mix (1):546
+[11473]Anti-p supermix (2):1,689
+[11475]Anti-p supermix (1):957
+[11477]Fishing mix (2):164
+[11479]Fishing mix (1):85
+[11481]Sup. energy mix (2):1,128
+[11483]Sup. energy mix (1):549
+[11485]Sup. str. mix (2):1,846
+[11487]Sup. str. mix (1):1,141
+[11489]Magic ess. mix (2):841
+[11491]Magic ess. mix (1):415
+[11493]Sup. restore mix (2):5,143
+[11495]Sup. restore mix (1):2,978
+[11497]Sup. def. mix (2):128
+[11499]Sup. def. mix (1):77
+[11501]Antidote+ mix (2):2,257
+[11503]Antidote+ mix (1):1,119
+[11505]Antifire mix (2):3,110
+[11507]Antifire mix (1):1,382
+[11509]Ranging mix (2):3,881
+[11511]Ranging mix (1):1,521
+[11513]Magic mix (2):2,441
+[11515]Magic mix (1):1,689
+[11517]Hunting mix (2):166
+[11519]Hunting mix (1):84
+[11521]Zamorak mix (2):696
+[11523]Zamorak mix (1):339
+[11525]Wimpy feather:420
+[11656]Glassblowing book:334
+[11686]Godsword shards:300.1k
+[11688]Godsword shards:300.7k
+[11690]Godsword blade:484.7k
+[11692]Godsword shards:299.9k
+[11694]Armadyl godsword:50.8m
+[11696]Bandos godsword:9.9m
+[11698]Saradomin godsword:34.1m
+[11700]Zamorak godsword:12.7m
+[11702]Armadyl hilt:51.9m
+[11704]Bandos hilt:9.4m
+[11706]Saradomin hilt:34.7m
+[11708]Zamorak hilt:12.7m
+[11710]Godsword shard 1:151.4k
+[11712]Godsword shard 2:152.1k
+[11714]Godsword shard 3:152.4k
+[11716]Zamorakian spear:3.1m
+[11718]Armadyl helmet:2.4m
+[11720]Armadyl chestplate:13.4m
+[11722]Armadyl chainskirt:14.8m
+[11724]Bandos chestplate:19.5m
+[11726]Bandos tassets:21.5m
+[11728]Bandos boots:406.1k
+[11730]Saradomin sword:5.9m
+[11732]Dragon boots:242.2k
+[11736]Steam battlestaff:177.1k
+[11738]Mystic steam staff:162.3k
+[11814]Bronze armour set (lg):513
+[11816]Bronze armour set (sk):417
+[11818]Iron armour set (lg):1,812
+[11820]Iron armour set (sk):1,712
+[11822]Steel armour set (lg):4,009
+[11824]Steel armour set (sk):3,545
+[11826]Black armour set (lg):17.4k
+[11828]Black armour set (sk):14.7k
+[11830]Mithril armour set (lg):9,153
+[11832]Mithril armour set (sk):11.0k
+[11834]Adamant armour set (lg):22.7k
+[11836]Adamant armour set (sk):23.5k
+[11838]Rune armour set (lg):135.2k
+[11840]Rune armour set (sk):139.5k
+[11842]Dragon chain armour set (lg):5.4m
+[11844]Dragon chain armour set (sk):5.3m
+[11846]Barrows - ahrim's set:5.4m
+[11848]Barrows - dharok's set:8.3m
+[11850]Barrows - guthan's set:3.5m
+[11852]Barrows - karil's set:5.8m
+[11854]Barrows - torag's set:2.1m
+[11856]Barrows - verac's set:3.8m
+[11858]Third-age melee set:347.8m
+[11860]Third-age ranger set:72.6m
+[11862]Third-age mage set:122.8m
+[11864]Green dragonhide set:9,065
+[11866]Blue dragonhide set:10.4k
+[11868]Red dragonhide set:19.8k
+[11870]Black dragonhide set:20.2k
+[11872]Mystic robes set:162.9k
+[11874]Infinity robes set:12.8m
+[11876]Splitbark armour set:214.4k
+[11878]Black trimmed armour set (lg):425.7k
+[11880]Black trimmed armour set (sk):303.4k
+[11882]Black gold-trimmed armour set (lg):1.6m
+[11884]Black gold-trimmed armour set (sk):1.1m
+[11886]Adamant trimmed armour set (lg):318.7k
+[11888]Adamant trimmed armour set (sk):261.8k
+[11890]Adamant gold-trimmed armour set (lg):845.7k
+[11892]Adamant gold-trimmed armour set (sk):670.1k
+[11894]Rune trimmed armour set (lg):878.2k
+[11896]Rune trimmed armour set (sk):895.3k
+[11898]Rune gold-trimmed armour set (lg):1.7m
+[11900]Rune gold-trimmed armour set (sk):1.6m
+[11902]Enchanted set:431.0k
+[11904]Trimmed blue wizard set:1.5m
+[11906]Gold-trimmed blue wizard set:4.7m
+[11908]Trimmed leather armour set:100.2k
+[11910]Gold-trimmed leather armour set:243.8k
+[11912]Green d'hide trimmed set:354.4k
+[11914]Green d'hide gold-trimmed set:1.2m
+[11916]Blue d'hide trimmed set:12.7k
+[11918]Blue d'hide gold-trimmed set:52.4k
+[11920]Green d'hide blessed set:326.0k
+[11922]Blue d'hide blessed set:736.6k
+[11924]Red d'hide blessed set:995.0k
+[11926]Guthix armour set (lg):1.4m
+[11928]Saradomin armour set (lg):4.0m
+[11930]Zamorak armour set (lg):2.5m
+[11932]Guthix armour set (sk):1.3m
+[11934]Saradomin armour set (sk):3.8m
+[11936]Zamorak armour set (sk):2.4m
+[11938]Gilded armour set (lg):5.3m
+[11940]Gilded armour set (sk):2.9m
+[11942]Rock-shell armour set:199.7k
+[11944]Spined armour set:92.9k
+[11946]Skeletal armour set:295.4k
+[11960]Light mystic robes set:411.3k
+[11962]Dark mystic robes set:221.5k
+[11967]Dwarf cannon set:725.8k
+[12007]Spirit terrorbird pouch:363
+[12009]Granite crab pouch:278
+[12011]Praying mantis pouch:2,942
+[12013]Giant ent pouch:2,156
+[12015]Spirit cobra pouch:2,023
+[12017]Spirit dagannoth pouch:144
+[12019]Thorny snail pouch:339
+[12021]Beaver pouch:1,271
+[12023]Karam. overlord pouch:2,501
+[12025]Hydra pouch:2,218
+[12027]Spirit jelly pouch:2,619
+[12029]Bunyip pouch:1,969
+[12031]War tortoise pouch:15.0k
+[12033]Fruit bat pouch:2,304
+[12035]Abyssal parasite pouch:2,912
+[12037]Abyssal lurker pouch:7,360
+[12039]Unicorn stallion pouch:2,444
+[12041]Magpie pouch:1,548
+[12043]Dreadfowl pouch:291
+[12045]Stranger plant pouch:2,223
+[12047]Spirit wolf pouch:305
+[12049]Desert wyrm pouch:863
+[12051]Evil turnip pouch:1,807
+[12053]Vampire bat pouch:1,422
+[12055]Spirit scorpion pouch:1,033
+[12057]Arctic bear pouch:377
+[12059]Spirit spider pouch:367
+[12061]Bloated leech pouch:2,043
+[12063]Spirit kalphite pouch:2,681
+[12065]Honey badger pouch:1,466
+[12067]Albino rat pouch:1,908
+[12069]Granite lobster pouch:2,921
+[12071]Macaw pouch:1,367
+[12073]Bronze minotaur pouch:1,905
+[12075]Iron minotaur pouch:2,178
+[12077]Steel minotaur pouch:2,429
+[12079]Mithril minotaur pouch:2,669
+[12081]Adamant minotaur pouch:2,513
+[12083]Rune minotaur pouch:795
+[12085]Smoke devil pouch:2,459
+[12087]Bull ant pouch:388
+[12089]Wolpertinger pouch:3,505
+[12091]Compost mound pouch:883
+[12093]Pack yak pouch:4,401
+[12095]Sp. cockatrice pouch:1,538
+[12097]Sp. guthatrice pouch:1,517
+[12099]Sp. saratrice pouch:1,527
+[12101]Sp. zamatrice pouch:1,510
+[12103]Sp. pengatrice pouch:1,527
+[12105]Sp. coraxatrice pouch:7,836
+[12107]Sp. vulatrice pouch:6,230
+[12109]Cockatrice egg:339
+[12111]Guthatrice egg:1,383
+[12113]Saratrice egg:2,084
+[12115]Zamatrice egg:1,774
+[12117]Pengatrice egg:2,755
+[12119]Coraxatrice egg:6,034
+[12121]Vulatrice egg:13.5k
+[12123]Barker toad pouch:346
+[12125]Flies:150
+[12127]Beetle bits:230
+[12129]Ground fishing bait:1
+[12130]Nuts:526
+[12134]Evil turnip:5,989
+[12136]2/3 evil turnip:173
+[12138]1/3 evil turnip:18
+[12140]Summoning potion (4):4,097
+[12142]Summoning potion (3):2,841
+[12144]Summoning potion (2):1,836
+[12146]Summoning potion (1):1,346
+[12148]Evil turnip seed:182
+[12153]Carved evil turnip:6,750
+[12155]Pouch:2
+[12156]Honeycomb:59
+[12172]Clean spirit weed:3,916
+[12174]Grimy spirit weed:3,929
+[12176]Spirit weed seed:656
+[12181]Spirit weed potion (unf):3,766
+[12183]Spirit shards:24
+[12204]Antlers:42
+[12207]Lizard skull:413
+[12210]Feather headdress:137
+[12213]Feather headdress:685
+[12216]Feather headdress:150
+[12219]Feather headdress:127
+[12222]Feather headdress:171
+[12422]Herbcall scroll:91
+[12423]Fruitfall scroll:270
+[12424]Fish rain scroll:142
+[12425]Howl scroll:15
+[12426]Thieving fingers scroll:88
+[12427]Abyssal stealth scroll:485
+[12428]Egg spawn scroll:62
+[12429]Multichop scroll:95
+[12430]Cheese feast scroll:204
+[12431]Unburden scroll:14
+[12432]Venom shot scroll:70
+[12433]Insane ferocity scroll:94
+[12434]Healing aura scroll:281
+[12435]Winter storage scroll:504
+[12436]Oph. incubation scroll:163
+[12437]Magic focus scroll:434
+[12438]Swallow whole scroll:203
+[12439]Testudo scroll:331
+[12440]Generate compost scroll:47
+[12441]Tireless run scroll:25
+[12442]Regrowth scroll:169
+[12443]Call to arms scroll:613
+[12444]Blood drain scroll:137
+[12445]Dreadfowl strike scroll:6
+[12446]Sandstorm scroll:285
+[12447]Vampire touch scroll:90
+[12448]Evil flames scroll:114
+[12449]Crushing claw scroll:210
+[12450]Mantis strike scroll:201
+[12451]Arctic blast scroll:13
+[12452]Toad bark scroll:10
+[12453]Dissolve scroll:191
+[12454]Abyssal drain scroll:123
+[12455]Doomsphere scroll:183
+[12456]Spike shot scroll:14
+[12457]Acorn missile scroll:136
+[12458]Petrifying gaze scroll:87
+[12459]Slime spray scroll:10
+[12460]Electric lash scroll:46
+[12461]Bronze bull rush scroll:124
+[12462]Iron bull rush scroll:157
+[12463]Steel bull rush scroll:185
+[12464]Mith bull rush scroll:184
+[12465]Addy bull rush scroll:194
+[12466]Rune bull rush scroll:198
+[12467]Poisonous blast scroll:162
+[12468]Dust cloud scroll:163
+[12531]Ibis pouch:1,916
+[12533]Stony shell scroll:5
+[12535]Raw pawya meat:9,814
+[12539]Grenwall spikes:1,634
+[12559]Ogre wig:949
+[12561]Ogre kilt:234
+[12563]Ogre top:340
+[12565]Ogre boots:307
+[12567]Diseased kebbit fur:1,414
+[12568]Davy kebbit hat:2,161
+[12570]Ogre club:283
+[12572]Lavender:7
+[12574]Fever grass:18
+[12576]Tansymum:5
+[12581]Eucalyptus logs:450
+[12583]Eucalyptus pyre logs:2,220
+[12588]Primweed:5
+[12590]Stinkbloom:12
+[12608]Amulet of farming (1):202
+[12622]Amulet of farming (8):171
+[12776]Swamp titan pouch:2,606
+[12778]Spirit mosquito pouch:185
+[12780]Void spinner pouch:15.0k
+[12782]Forge regent pouch:2,458
+[12784]Spirit larupia pouch:3,056
+[12786]Geyser titan pouch:3,892
+[12788]Lava titan pouch:3,870
+[12790]Steel titan pouch:5,059
+[12792]Obsidian golem pouch:3,422
+[12794]Talon beast pouch:3,193
+[12796]Abyssal titan pouch:3,042
+[12798]Void torcher pouch:12.3k
+[12800]Giant chinchompa pouch:2,000
+[12802]Fire titan pouch:3,554
+[12804]Moss titan pouch:3,523
+[12806]Ice titan pouch:7,560
+[12808]Spirit tz-kih pouch:1,125
+[12810]Spirit graahk pouch:26.2k
+[12812]Spirit kyatt pouch:19.5k
+[12814]Void shifter pouch:8,526
+[12816]Pyrelord pouch:1,943
+[12818]Void ravager pouch:7,596
+[12820]Ravenous locust pouch:1,385
+[12822]Iron titan pouch:3,444
+[12824]Titan's con. scroll:362
+[12825]Steel of legends scroll:567
+[12826]Volcanic str. scroll:243
+[12827]Essence shipment scroll:378
+[12828]Iron within scroll:332
+[12829]Immense heat scroll:145
+[12830]Famine scroll:137
+[12831]Deadly claw scroll:336
+[12832]Swamp plague scroll:183
+[12833]Boil scroll:283
+[12834]Explode scroll:93
+[12835]Goad scroll:282
+[12836]Ambush scroll:2,099
+[12837]Ebon thunder scroll:285
+[12838]Pester scroll:4
+[12839]Fireball assault scroll:70
+[12840]Rending scroll:189
+[12841]Inferno scroll:160
+[12871]Battle hood 0:51.4k
+[12878]Battle robe top 0:881.3k
+[12885]Battle robe bottom 0:607.7k
+[12892]Druidic mage hood 0:48.8k
+[12899]Druidic mage top 0:39.7k
+[12906]Druidic mage bottom 0:51.3k
+[12913]Adamant spikeshield 0:3,243
+[12920]Adamant berserker shield 0:29.4k
+[12927]Rune spikeshield 0:67.6k
+[12934]Rune berserker shield 0:112.3k
+[12941]Green d'hide coif 0:49.7k
+[12948]Blue d'hide coif 0:137.1k
+[12955]Red d'hide coif 0:196.4k
+[12962]Black d'hide coif 0:144.8k
+[12969]Combat hood 0:14.9k
+[12976]Combat robe top 0:53.7k
+[12983]Combat robe bottom 0:22.2k
+[12986]Worn-out bronze gauntlets:1,677
+[12989]Worn-out iron gauntlets:11.5k
+[12992]Worn-out steel gauntlets:18.9k
+[12995]Worn-out black gauntlets:29.3k
+[12998]Worn-out mithril gauntlets:38.2k
+[13001]Worn-out adamant gauntlets:49.6k
+[13004]Worn-out rune gauntlets:88.2k
+[13007]Worn-out dragon gauntlets:200.0k
+[13081]Black crossbow:335
+[13083]Black bolts:81
+[13084]Black bolts (p):118
+[13085]Black bolts (p+):211
+[13086]Black bolts (p++):1,851
+[13095]Black cane:105.1k
+[13097]Adamant cane:14.0k
+[13099]Rune cane:11.4k
+[13101]Top hat:127.5k
+[13103]Pith helmet:48.6k
+[13105]Spiked helmet:77.7k
+[13107]Sheep mask:612.8k
+[13109]Penguin mask:962.2k
+[13111]Bat mask:662.6k
+[13113]Cat mask:1.2m
+[13115]Wolf mask:1.7m
+[13278]Broad arrow heads:96
+[13279]Unfinished broad bolts:87
+[13280]Broad-tipped bolts:115
+[13290]Leaf-bladed sword:42.3k
+[13337]Pirate impling jar:5,886
+[13355]Left eyepatch:128
+[13358]Stripy pirate shirt:2,572
+[13360]Stripy pirate shirt:5,386
+[13362]Stripy pirate shirt:197
+[13364]Pirate leggings:3,564
+[13366]Pirate leggings:719
+[13368]Pirate leggings:222
+[13370]Bandana:684
+[13372]Bandana:1,022
+[13374]Bandana:214
+[13431]Crayfish cage:10
+[13433]Crayfish:10
+[13435]Raw crayfish:13
+[13563]Button mushroom:171
+[13734]Spirit shield:97.8k
+[13736]Blessed spirit shield:1.7m
+[13738]Arcane spirit shield:71.6m
+[13740]Divine spirit shield:897.1m
+[13742]Elysian spirit shield:630.1m
+[13744]Spectral spirit shield:52.7m
+[13746]Arcane sigil:52.3m
+[13748]Divine sigil:825.0m
+[13750]Elysian sigil:529.5m
+[13752]Spectral sigil:44.5m
+[13754]Holy elixir:1.8m
+[13858]Zuriel's robe top:735.3k
+[13861]Zuriel's robe bottom:613.5k
+[13864]Zuriel's hood:175.2k
+[13867]Zuriel's staff:1.2m
+[13870]Morrigan's leather body:997.9k
+[13873]Morrigan's leather chaps:388.5k
+[13876]Morrigan's coif:162.9k
+[13879]Morrigan's javelin:270.6k
+[13880]Morrigan's javelin (p):102.4k
+[13881]Morrigan's javelin (p+):98.1k
+[13882]Morrigan's javelin (p++):210.5k
+[13883]Morrigan's throwing axe:151.5k
+[13884]Statius's platebody:2.2m
+[13887]Vesta's chainbody:4.1m
+[13890]Statius's platelegs:2.8m
+[13893]Vesta's plateskirt:2.9m
+[13896]Statius's full helm:1.1m
+[13899]Vesta's longsword:24.1m
+[13902]Statius's warhammer:11.9m
+[13905]Vesta's spear:2.4m
+[13908]Corrupt statius's platebody:1.9m
+[13911]Corrupt vesta's chainbody:2.9m
+[13914]Corrupt statius's platelegs:2.2m
+[13917]Corrupt vesta's plateskirt:2.3m
+[13920]Corrupt statius's full helm:703.2k
+[13923]Corrupt vesta's longsword:6.4m
+[13926]Corrupt statius's warhammer:3.8m
+[13929]Corrupt vesta's spear:949.5k
+[13932]Corrupt zuriel's robe top:258.7k
+[13935]Corrupt zuriel's robe bottom:169.2k
+[13938]Corrupt zuriel's hood:63.8k
+[13941]Corrupt zuriel's staff:740.1k
+[13944]Corrupt morrigan's leather body:488.5k
+[13947]Corrupt morrigan's leather chaps:173.6k
+[13950]Corrupt morrigan's coif:86.5k
+[13953]Corrupt morrigan's javelin:23.6k
+[13954]C. morrigan's javelin (p):12.6k
+[13955]C. morrigan's javelin (p+):10.5k
+[13956]C. morrigan's javelin (p++):16.7k
+[13957]C. morrigan's throwing axe:22.8k
+[13958]Corrupt dragon chainbody:411.3k
+[13961]Corrupt dragon med helm:106.5k
+[13964]Corrupt dragon sq shield:174.4k
+[13967]Corrupt dragon plateskirt:116.2k
+[13970]Corrupt dragon platelegs:135.5k
+[13973]Corrupt dragon battleaxe:3.1m
+[13976]Corrupt dragon dagger:117.0k
+[13979]Corrupt dragon scimitar:3.2m
+[13982]Corrupt dragon longsword:1.5m
+[13985]Corrupt dragon mace:269.9k
+[13988]Corrupt dragon spear:200.9k
+[14472]Ruined dragon armour lump:2.0m
+[14474]Ruined dragon armour slice:2.9m
+[14476]Ruined dragon armour shard:2.3m
+[14479]Dragon platebody:9.1m
+[14484]Dragon claws:21.7m
+[14490]Elite black platelegs:48.3k
+[14492]Elite black platebody:54.7k
+[14494]Elite black full helm:31.8k
+[14497]Dagon'hai robe top:92.1k
+[14499]Dagon'hai hat:59.4k
+[14501]Dagon'hai robe bottom:130.0k
+[14525]Dagon'hai robes set:335.2k
+[14527]Elite black armour set:162.1k
+[14529]Dragon plate armour set (lg):46.7m
+[14531]Dragon plate armour set (sk):41.6m
+[14616]Phoenix quill:2,303
+[14622]Rise from the ashes scroll:205
+[14623]Phoenix pouch:2,883
+[14679]Granite mace:25.2k
+[14793]Ourg bones:14.0k
+[14836]Grimy wergali:2,191
+[14838]Crafting potion (4):1,389
+[14840]Crafting potion (3):1,194
+[14842]Crafting potion (2):932
+[14844]Crafting potion (1):547
+[14846]Fletching potion (4):111
+[14848]Fletching potion (3):87
+[14850]Fletching potion (2):94
+[14852]Fletching potion (1):55
+[14854]Clean wergali:2,311
+[14856]Wergali potion (unf):2,082
+[14859]Empty seaweed net:95
+[14870]Wergali seed:146
+[15119]Ranger's aid:243
+[15121]Ranger's aid (m):259
+[15123]Skewered kebab:94
+[15126]Amulet of ranging:786.4k
+[15241]Hand cannon:221.0k
+[15243]Hand cannon shot:233
+[15259]Dragon pickaxe:10.0m
+[15263]Living minerals:475
+[15264]Raw cavefish:495
+[15266]Cavefish:551
+[15270]Raw rocktail:1,536
+[15272]Rocktail:1,610
+[15486]Staff of light:2.5m
+[15488]Hexcrest:50.2k
+[15490]Focus sight:347.6k
+[15503]Royal shirt:72.8k
+[15505]Royal leggings:64.1k
+[15507]Royal sceptre:60.4k
+[15509]Royal crown:495.0k
+[15511]Royal amulet:60.3k
+[15513]Spirit impling jar:2,410
+[15515]Zombie impling jar:14.4k
+[15517]Kingly impling jar:644.0k
+[18691]Body shield:12.0k
+[18693]Body helmet:5,633
+[18695]Body body:4,262
+[18697]Mind body:40.4k
+[18699]Elemental body:9,087
+[18832]Frost dragon bones:19.2k
+[19143]Saradomin bow:6.0m
+[19146]Guthix bow:4.8m
+[19149]Zamorak bow:5.6m
+[19152]Saradomin arrows:720
+[19157]Guthix arrows:701
+[19162]Zamorak arrows:850
+[19167]Black platebody (h1):132.8k
+[19169]Black platelegs (h1):66.1k
+[19171]Black plateskirt (h1):19.3k
+[19173]Adamant platebody (h1):129.1k
+[19175]Adamant platelegs (h1):64.5k
+[19177]Adamant plateskirt (h1):22.8k
+[19179]Rune platebody (h1):45.8k
+[19182]Rune platelegs (h1):45.5k
+[19185]Rune plateskirt (h1):38.6k
+[19188]Black platebody (h2):127.2k
+[19190]Black platelegs (h2):56.6k
+[19192]Black plateskirt (h2):18.5k
+[19194]Adamant platebody (h2):128.0k
+[19196]Adamant platelegs (h2):57.6k
+[19198]Adamant plateskirt (h2):20.6k
+[19200]Rune platebody (h2):39.8k
+[19203]Rune platelegs (h2):40.0k
+[19206]Rune plateskirt (h2):38.3k
+[19209]Black platebody (h3):137.3k
+[19211]Black platelegs (h3):63.8k
+[19213]Black plateskirt (h3):20.7k
+[19215]Adamant platebody (h3):125.2k
+[19217]Adamant platelegs (h3):68.0k
+[19219]Adamant plateskirt (h3):20.8k
+[19221]Rune platebody (h3):39.2k
+[19224]Rune platelegs (h3):39.2k
+[19227]Rune plateskirt (h3):38.2k
+[19230]Black platebody (h4):122.5k
+[19232]Black platelegs (h4):64.4k
+[19234]Black plateskirt (h4):19.0k
+[19236]Adamant platebody (h4):129.9k
+[19238]Adamant platelegs (h4):65.0k
+[19240]Adamant plateskirt (h4):21.7k
+[19242]Rune platebody (h4):39.2k
+[19245]Rune platelegs (h4):39.4k
+[19248]Rune plateskirt (h4):38.8k
+[19251]Black platebody (h5):118.2k
+[19253]Black platelegs (h5):62.4k
+[19255]Black plateskirt (h5):18.2k
+[19257]Adamant platebody (h5):136.2k
+[19259]Adamant platelegs (h5):63.0k
+[19261]Adamant plateskirt (h5):27.7k
+[19263]Rune platebody (h5):43.0k
+[19266]Rune platelegs (h5):39.0k
+[19269]Rune plateskirt (h5):38.1k
+[19272]Fox mask:410.9k
+[19275]White unicorn mask:206.9k
+[19278]Black unicorn mask:196.0k
+[19281]Green dragon mask:737.2k
+[19284]Blue dragon mask:1.1m
+[19287]Red dragon mask:1.7m
+[19290]Black dragon mask:19.6m
+[19293]Frost dragon mask:15.2m
+[19296]Bronze dragon mask:7.1m
+[19299]Iron dragon mask:6.8m
+[19302]Steel dragon mask:7.3m
+[19305]Mithril dragon mask:6.6m
+[19308]Third-age druidic staff:27.0m
+[19311]Third-age druidic cape:88.6m
+[19314]Third-age druidic wreath:101.4m
+[19317]Third-age druidic robe top:157.6m
+[19320]Third-age druidic robe bottom:76.3m
+[19323]Dragon staff:1.7m
+[19325]Penguin staff:257.3k
+[19327]Bat staff:305.4k
+[19329]Wolf staff:325.3k
+[19331]Cat staff:227.6k
+[19333]Fury ornament kit:26.0m
+[19346]Dragon full helm ornament kit (or):589.9k
+[19348]Dragon platelegs/skirt ornament kit (or):6.5m
+[19350]Dragon platebody ornament kit (or):7.4m
+[19352]Dragon sq shield ornament kit (or):1.8m
+[19354]Dragon full helm ornament kit (sp):242.0k
+[19356]Dragon platelegs/skirt ornament kit (sp):1.9m
+[19358]Dragon platebody ornament kit (sp):1.1m
+[19360]Dragon sq shield ornament kit (sp):456.3k
+[19362]Armadyl crozier:124.5k
+[19364]Bandos crozier:81.8k
+[19366]Ancient crozier:118.5k
+[19368]Armadyl cape:370.4k
+[19370]Bandos cape:380.3k
+[19372]Ancient cape:312.6k
+[19374]Armadyl mitre:50.9k
+[19376]Bandos mitre:44.6k
+[19378]Ancient mitre:46.6k
+[19380]Armadyl robe top:292.8k
+[19382]Ancient robe top:286.3k
+[19384]Bandos robe top:129.9k
+[19386]Armadyl robe legs:234.7k
+[19388]Bandos robe legs:136.1k
+[19390]Ancient robe legs:285.2k
+[19392]Armadyl stole:601.3k
+[19394]Bandos stole:345.6k
+[19396]Ancient stole:311.6k
+[19398]Ancient platebody:505.1k
+[19401]Ancient platelegs:203.3k
+[19404]Ancient plateskirt:193.0k
+[19407]Ancient full helm:314.2k
+[19410]Ancient kiteshield:321.4k
+[19413]Armadyl platebody:486.3k
+[19416]Armadyl platelegs:230.3k
+[19419]Armadyl plateskirt:108.9k
+[19422]Armadyl full helm:407.2k
+[19425]Armadyl kiteshield:408.7k
+[19428]Bandos platebody:517.9k
+[19431]Bandos platelegs:258.8k
+[19434]Bandos plateskirt:108.9k
+[19437]Bandos full helm:400.8k
+[19440]Bandos kiteshield:386.9k
+[19443]Ancient vambraces:120.7k
+[19445]Ancient body:1.4m
+[19447]Ancient chaps:706.0k
+[19449]Ancient coif:215.7k
+[19451]Bandos vambraces:368.8k
+[19453]Bandos body:729.2k
+[19455]Bandos chaps:364.9k
+[19457]Bandos coif:264.7k
+[19459]Armadyl vambraces:902.9k
+[19461]Armadyl body:2.8m
+[19463]Armadyl chaps:1.8m
+[19465]Armadyl coif:699.9k
+[19475]Nardah teleport:2,026
+[19476]Bandit camp teleport:26.0k
+[19477]Miscellania teleport:6,011
+[19478]Phoenix lair teleport:601
+[19479]Tai bwo wannai teleport:4,248
+[19480]Lumber yard teleport:4,145
+[19520]Black heraldic armour set 1 (lg):336.1k
+[19522]Black heraldic armour set 2 (lg):282.9k
+[19524]Black heraldic armour set 3 (lg):304.7k
+[19526]Black heraldic armour set 4 (lg):295.8k
+[19528]Black heraldic armour set 5 (lg):291.3k
+[19530]Black heraldic armour set 1 (sk):250.5k
+[19532]Black heraldic armour set 2 (sk):221.8k
+[19534]Black heraldic armour set 3 (sk):244.8k
+[19536]Black heraldic armour set 4 (sk):233.0k
+[19538]Black heraldic armour set 5 (sk):223.6k
+[19540]Adamant heraldic armour set 1 (lg):344.3k
+[19542]Adamant heraldic armour set 2 (lg):283.0k
+[19544]Adamant heraldic armour set 3 (lg):302.9k
+[19546]Adamant heraldic armour set 4 (lg):293.7k
+[19548]Adamant heraldic armour set 5 (lg):305.5k
+[19550]Adamant heraldic armour set 1 (sk):271.9k
+[19552]Adamant heraldic armour set 2 (sk):227.8k
+[19554]Adamant heraldic armour set 3 (sk):237.7k
+[19556]Adamant heraldic armour set 4 (sk):234.2k
+[19558]Adamant heraldic armour set 5 (sk):253.3k
+[19560]Rune heraldic armour set 1 (lg):310.6k
+[19562]Rune heraldic armour set 2 (lg):225.6k
+[19564]Rune heraldic armour set 3 (lg):225.4k
+[19566]Rune heraldic armour set 4 (lg):226.1k
+[19568]Rune heraldic armour set 5 (lg):263.2k
+[19570]Rune heraldic armour set 1 (sk):199.2k
+[19572]Rune heraldic armour set 2 (sk):178.4k
+[19574]Rune heraldic armour set 3 (sk):177.6k
+[19576]Rune heraldic armour set 4 (sk):174.2k
+[19578]Rune heraldic armour set 5 (sk):183.9k
+[19580]Third-age prayer set:254.3m
+[19582]Dyed brown d'hide blessed set:2.3m
+[19584]Dyed purple d'hide blessed set:3.7m
+[19586]Dyed silver d'hide blessed set:6.7m
+[19588]Armadyl armour set (lg):2.4m
+[19590]Armadyl armour set (sk):2.5m
+[19592]Bandos armour set (lg):2.3m
+[19594]Bandos armour set (sk):2.6m
+[19596]Ancient armour set (lg):2.1m
+[19598]Ancient armour set (sk):2.3m
+[19600]Bandos page 1:289.5k
+[19601]Bandos page 2:234.3k
+[19602]Bandos page 3:306.9k
+[19603]Bandos page 4:313.6k
+[19604]Armadyl page 1:470.9k
+[19605]Armadyl page 2:333.9k
+[19606]Armadyl page 3:351.8k
+[19607]Armadyl page 4:399.8k
+[19608]Ancient page 1:846.7k
+[19609]Ancient page 2:632.1k
+[19610]Ancient page 3:458.6k
+[19611]Ancient page 4:542.3k
+[19621]Fetch casket scroll:35
+[19622]Meerkats pouch:1,663
+[19830]Sling:16
+[19922]Red blossom seed:54
+[19927]Blue blossom seed:55
+[19932]Green blossom seed:55
+[19965]Marasamaw plant:80
+[19967]Juju teleport spiritbag:2,457
+[19994]Juju vial of water:1
+[19996]Juju vial:15
+[20052]Clay ring (unfired):79
+[20053]Clay ring:163
+[20070]Cyclopean helmet:1,737

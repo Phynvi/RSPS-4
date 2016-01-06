@@ -1624,35 +1624,39 @@ WORLDMAP 2: (not-walk able places)
 						//Defence
 
 						int hitDiff = misc.random(_maxHit);
-						int npcBonus = npcs[NPCID].MaxHP/2;
-						int playerBonus = c.playerLevel[c.playerDefence];
+						int npcBonus = npcs[NPCID].MaxHP;
 						
-						if (c.isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
-						
-						if (hitDiff > 0){
 							if (NPCFightType == 1){ //melee
-								hitDiff -= c.playerMeleeDefBonus();
 								if (c.PMelee)
 									hitDiff = 0;
+								else{
+									int playerBonus = c.playerLevel[c.playerDefence] + c.getPlayerMeleeDefEquipmentBonus();
+									if (c.isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+								}
 							}
 							//TODO - add projectiles
 							if (NPCFightType == 2){ //range
-								hitDiff -= c.playerMeleeDefBonus(); 
 								if (c.PRange)
 									hitDiff = 0;
+								else{
+									int playerBonus = c.playerLevel[c.playerDefence] + c.getPlayerRangeDefEquipmentBonus();
+									if (c.isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+								}
 							}
 							if (NPCFightType == 3){ //mage
-								hitDiff -= c.playerMagicDefBonus(); //formula for defence reduction, includes magic reduction
 								if (c.PMage)
 									hitDiff = 0;
+								else{
+									int playerBonus = c.playerLevel[c.playerDefence] + c.getPlayerMagicDefEquipmentBonus();
+									if (c.isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+								}
 							}
-						}
 
+							
 						if (maxHitOverride){
 							hitDiff = hitDiffOverride;
 							hitDiffOverride = 0;
 							maxHitOverride = false;
-							hitDiff -= c.playerMeleeDefBonus(); //formula for defence reduction
 							if(NPCFightType != 4){
 								if(NPCFightType == 1)
 									if(c.PMelee) hitDiff = 0;

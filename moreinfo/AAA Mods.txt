@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160004
+character-lastlogintime = 20160006
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -16,7 +16,7 @@ character-height = 0
 character-torag = 0
 character-verac = 0
 character-guthan = 0
-character-ahrim = 0
+character-ahrim = 1
 character-karil = 0
 character-dharok = 0
 character-bandit = 0
@@ -33,7 +33,7 @@ character-inprison = 0
 character-dragcharge = 50
 character-beta = 1
 slayerNPC = 1615
-slayerCount = 4
+slayerCount = 2
 specialDelay = 10
 masteries = 21
 pirate = 11
