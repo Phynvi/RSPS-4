@@ -1,6 +1,7 @@
 
 public class NPCAnim {
 
+	//TODO - Attack animations
 	public static int getAttackAnimation(int npcID){
 
 		int SLASH = 451;
@@ -8,6 +9,24 @@ public class NPCAnim {
 		int POKE = 412;
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
+		
+		case 502:
+		case 90://Skeleton
+			return 5485;
+		
+		case 609: //fortress guard (spear)
+			return POKE;
+			
+		case 1030: //wolfman
+		case 1031: //wolfman
+		case 1032: //wolfman
+		case 1033: //wolfwoman
+		case 1034: //wolfwoman
+		case 1035: //wolfwoman
+			return 1080;
+			
+		case 1608: //Kurask
+			return 1512;
 		
 		//skeletal wyverns
 		case 3068:
@@ -615,6 +634,7 @@ public class NPCAnim {
 			return 711;
 
 		case 103://Ghost
+		case 104: //Ghost
 		case 655://Tree Spirit
 			return 123;
 
@@ -640,11 +660,9 @@ public class NPCAnim {
 		case 1643://Infernal Mage
 			return 7183;
 
+		case 1617:
 		case 1616://Basilisk
 			return 1546;
-
-		case 90://Skeleton
-			return 5485;
 
 		case 53://Red Dragon
 		case 54://Black Dragon
@@ -697,12 +715,14 @@ public class NPCAnim {
 		case 101://Goblin
 			return 6184;	
 
+		case 1691:
 		case 81://Cow
 			return 0x03B;
 
 		case 21://Hero
 			return 451;	
 
+		case 1692:
 		case 41://Chicken
 			return 55;	
 
@@ -762,9 +782,24 @@ public class NPCAnim {
 
 	}
 
+	
+	//TODO - Block animations
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+		case 1030: //wolfman
+		case 1031: //wolfman
+		case 1032: //wolfman
+		case 1033: //wolfwoman
+		case 1034: //wolfwoman
+		case 1035: //wolfwoman
+			return 1081;
+		
+		case 2783:
+			return 2730;
+		
+		case 1608: //Kurask
+			return -1;
 
 		//skeletal wyverns
 		case 3068:
@@ -808,6 +843,7 @@ public class NPCAnim {
 		case 3001://Kree
 			return 6974;
 
+		case 1617:
 		case 1616://Basilisk
 			return 1547;
 
@@ -843,10 +879,23 @@ public class NPCAnim {
 
 
 	}
-
+	
+	
+	//TODO - Dead animations
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
 
+		case 1030: //wolfman
+		case 1031: //wolfman
+		case 1032: //wolfman
+		case 1033: //wolfwoman
+		case 1034: //wolfwoman
+		case 1035: //wolfwoman
+			return 1082;
+		
+		case 1608: //Kurask
+			return 1513;
+		
 		//skeletal wyverns
 		case 3068:
 		case 3069:
@@ -1220,9 +1269,11 @@ public class NPCAnim {
 		case 101://Goblin
 			return 6182;
 
+		case 1691:
 		case 81://Cow
 			return 0x03E;
 
+		case 1692:
 		case 41://Chicken
 			return 57;
 
@@ -1251,6 +1302,7 @@ public class NPCAnim {
 		case 1632://Turoth
 			return 1597;
 
+		case 1617:
 		case 1616://Basilisk
 			return 1548;
 

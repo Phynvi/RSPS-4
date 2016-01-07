@@ -535,13 +535,7 @@ c.makeGlobalObject(3356, 3344, 354, 1, 10);//Crates
 c.makeGlobalObject(2658, 3163, 354, 1, 10);//Crates
 c.makeGlobalObject(2648, 3166, 354, 1, 10);//Crates
 c.makeGlobalObject(2648, 3165, 354, 1, 10);//Crates
-c.makeGlobalObject(3698, 3476, 354, 1, 10);//Crates
-c.makeGlobalObject(3699, 3476, 354, 1, 10);//Crates
-c.makeGlobalObject(3690, 3491, 354, 1, 10);//Crates
-c.makeGlobalObject(3689, 3491, 354, 1, 10);//Crates
-c.makeGlobalObject(3685, 3503, 354, 1, 10);//Crates
-c.makeGlobalObject(3685, 3502, 354, 1, 10);//Crates
-c.makeGlobalObject(3491, 3465, 354, 1, 10);//Crates
+
 c.makeGlobalObject(2828, 3350, 354, 1, 10);//Crates
 c.makeGlobalObject(3047, 3929, 354, 1, 10);//Crates
 

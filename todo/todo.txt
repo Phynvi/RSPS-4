@@ -12,8 +12,4 @@
 	
 -Run energy subtracts
 
--Populate Morytania with better NPCs and monsters
-
--Populate Canifis with actual NPCs
-
 -PEST CONTROL FOUND

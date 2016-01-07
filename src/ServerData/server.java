@@ -59,8 +59,8 @@ public static final String SERVERNAME = "SarimScape";
 			npcHandler.process();
 			itemHandler.process();
 			shopHandler.process();
-			antilag.process();
-			itemspawnpoints.process();
+			//antilag.process();
+			//itemspawnpoints.process();
 
 			System.gc();
 			// doNpcs()		// all npc related stuff
@@ -74,7 +74,7 @@ public static final String SERVERNAME = "SarimScape";
 				timeSpent = cycleTime;
 				if(++waitFails > 100) {
 					//shutdownServer = true;
-					misc.println("[KERNEL]: machine is too slow to run this server!");
+					misc.println("[KERNEL]: machine is operating too slow. Time to run processes: "+(System.currentTimeMillis() - lastTicks));
 				}
 			}
 			try {

@@ -1,16 +1,16 @@
 [ACCOUNT]
-character-username = aaa mods
+character-username = AAA Mods
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2861
-character-posy = 9738
+character-posx = 3500
+character-posy = 3488
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160006
+character-lastconnection = 192.168.1.100
+character-lastlogin = 20160007
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -19,7 +19,7 @@ character-gamecount = 0
 character-equip = 0	14860	1	
 character-equip = 1	15150	1	
 character-equip = 2	6585	1	
-character-equip = 3	13308	1	
+character-equip = 3	4151	1	
 character-equip = 4	14512	1	
 character-equip = 5	3631	1	
 character-equip = 6	-1	0	
@@ -40,24 +40,24 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	27476000
+character-skill = 0	99	28016600
 character-skill = 1	99	16267980
 character-skill = 2	99	35586600
-character-skill = 3	99	51932860
+character-skill = 3	99	52473460
 character-skill = 4	99	19686280
-character-skill = 5	99	16433988
-character-skill = 6	99	19416428
+character-skill = 5	99	16438788
+character-skill = 6	99	19547108
 character-skill = 7	99	16184120
 character-skill = 8	99	16055705
 character-skill = 9	99	14749475
 character-skill = 10	99	17047610
-character-skill = 11	99	14091575
+character-skill = 11	99	14092025
 character-skill = 12	99	14585523
 character-skill = 13	99	14267272
 character-skill = 14	99	15406300
 character-skill = 15	99	14159467
 character-skill = 16	99	21929980
-character-skill = 17	99	16190396
+character-skill = 17	99	16196396
 character-skill = 18	99	17422595
 character-skill = 19	99	15970650
 character-skill = 20	99	15235458
@@ -67,20 +67,23 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	555	9944
-character-item = 1	556	10000
-character-item = 2	557	9960
-character-item = 3	558	10000
+character-item = 0	555	9909
+character-item = 1	556	9996
+character-item = 2	557	9904
+character-item = 3	558	9966
 character-item = 4	559	10000
 character-item = 5	560	10000
-character-item = 6	561	10000
+character-item = 6	561	9993
 character-item = 7	562	10000
 character-item = 8	563	10000
-character-item = 9	564	10000
+character-item = 9	564	9988
 character-item = 10	565	10000
-character-item = 11	566	9992
+character-item = 11	566	9987
 character-item = 12	567	10000
-character-item = 13	9095	1
+character-item = 13	13309	1
+character-item = 14	140	1
+character-item = 15	996	115230
+character-item = 16	591	1
 
 [BANK]
 character-bank = 0	7807	5003

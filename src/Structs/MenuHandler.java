@@ -134,11 +134,6 @@ public class MenuHandler {
 
 	public String[] rangeMenu(){
 		return new String[]{"@gre@Range Guide", "","",
-				"Your ranged bonus is determined separate from ",
-				"your displayed Ranged bonus in your equipment tab.",
-				"",
-				"@gre@Your current Ranged bonus is : +"+c.BOWHANDLER.getBonus(),
-				"",
 				"@whi@Bows",
 				"Level 1 - Shortbow, Longbow",
 				"Level 5 - Oak Shortbow, Oak Longbow",
@@ -164,10 +159,6 @@ public class MenuHandler {
 	
 	public String[] magicMenu(){
 		return new String[]{"@gre@Magic Guide", "","",
-				"Magic bonus is determined separate from your",
-				"displayed magic bonus in the equipment tab. ",
-				"@gre@Your current gear's Magic bonus : +"+c.MAGICDATAHANDLER.getMagicBonusDamage(),
-				"Note: 16 is currently the highest possible bonus.",
 				"",
 				"The Ancients spellbook is available by completing Dwarf Problems Part II.",
 				"",};
@@ -343,13 +334,12 @@ public class MenuHandler {
 				"My current Slayer task : @gre@"+c.SLAYER.getTaskName(c.slayerNPC),
 				"",
 				"@whi@Monsters",
-				"Level 15 - Aberrant Specter",
-				"Level 30 - Battle Mage",
-				"Level 40 - Riyl Shade",
-				"Level 50 - Dust Devil",
-				"Level 65 - Asyn Shade",
+				"Level 40 - Fever Spider",
+				"Level 45 - Riyl Shade",
+				"Level 60 - Aberrant Spectre",
+				"Level 65 - Dust Devil, Fiyr Shade",
+				"Level 70 - Battle Mage, Kurask",
 				"Level 72 - Skeletal Wyvern",
-				"Level 75 - Fiyr Shade",
 				"Level 85 - Abyssal Demon",
 				"Level 90 - Dark Beast"};
 	}

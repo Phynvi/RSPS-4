@@ -117,7 +117,7 @@ public class PlayerLoginData {
 		sendQuest("A single target strong blood attack", 12914);
 		sendQuest("Level 82 : Ice Blitz", 12873);
 		sendQuest("A single target strong ice attack", 12874);
-		sendQuest("@gre@Teleport - Barrows", 13081);
+		sendQuest("@gre@Teleport - Port Phasmatys", 13081);
 		sendQuest("", 13082);
 		sendQuest("Level 86 : Smoke Barrage", 12977);
 		sendQuest("A multi-target strong smoke attack", 12978);
@@ -185,7 +185,7 @@ public class PlayerLoginData {
 		sendQuest("A medium level Wind missile", 1369);
 		sendQuest("Level 43 - Superheat Item", 1375);
 		sendQuest("Smelt ore without a furnace", 1376);
-		sendQuest("@gre@Teleport - Mort'ton", 1382);
+		sendQuest("@gre@Teleport - Canifis", 1382);
 		sendQuest("", 1383);
 		sendQuest("Level 47 - Water Blast", 1389);
 		sendQuest("A medium level Water missile", 1390);

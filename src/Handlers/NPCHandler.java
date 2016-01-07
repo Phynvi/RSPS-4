@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST aggressiveNPCS = new BST(1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(3068,3069,3070,3071,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
-	public static BST ignoreCombatLevel = new BST(2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
+	public static BST ignoreCombatLevel = new BST(103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
 	
 	private static int NPCFightType; 
@@ -15,7 +15,6 @@ public class NPCHandler {
 	public static int hitDiff = 0;
 	public static int maxNPCs = 10000;
 	public static int maxListedNPCs = 10000;
-	public static int maxNPCDrops = 10000;
 	public NPC npcs[] = new NPC[maxNPCs];
 	public NPCListBST npcList2 = new NPCListBST();
 	
@@ -322,6 +321,7 @@ public class NPCHandler {
 			npcs[i].clearUpdateFlags();
 		}
 		for (int i = 0; i < maxNPCs; i++) {
+			if (npcs[i] == null) continue;
 			if (npcs[i] != null) {
 				if (npcs[i].actionTimer > 0) {
 					npcs[i].actionTimer--;
@@ -331,38 +331,7 @@ public class NPCHandler {
 				if(npcs[i].PoisonClear >= 15)
 					npcs[i].PoisonDelay = 9999999;
 				if (npcs[i].IsDead == false) {
-					if (npcs[i].npcType == 1268 || npcs[i].npcType == 1266) {
-						for (int j = 1; j < server.playerHandler.maxPlayers; j++) {
-							if (server.playerHandler.players[j] != null) {
-								if (GoodDistance(npcs[i].absX, npcs[i].absY, server.playerHandler.players[j].absX, server.playerHandler.players[j].absY, 2) == true && npcs[i].IsClose == false) {
-									npcs[i].actionTimer = 10;
-									npcs[i].IsClose = true;
-								}
-							}
-						}
-						
-						if (npcs[i].actionTimer == 0 && npcs[i].IsClose == true) {
-							for (int j = 1; j < server.playerHandler.maxPlayers; j++) {
-								if (server.playerHandler.players[j] != null) {
-									server.playerHandler.players[j].RebuildNPCList = true;
-								}
-							}
-							if(npcs[i].Respawns) {
-								int old1 = (npcs[i].npcType - 1);
-								int old2 = npcs[i].makeX;
-								int old3 = npcs[i].makeY;
-								int old4 = npcs[i].heightLevel;
-								int old5 = npcs[i].moverangeX1;
-								int old6 = npcs[i].moverangeY1;
-								int old7 = npcs[i].moverangeX2;
-								int old8 = npcs[i].moverangeY2;
-								int old9 = npcs[i].walkingType;
-								int old10 = npcs[i].MaxHP;
-								npcs[i] = null;
-								newNPC(old1, old2, old3, old4, old5, old6, old7, old8, old9, old10, true);
-							}
-						}
-					} else if (npcs[i].RandomWalk == true && misc.random2(10) == 1 && npcs[i].moverangeX1 > 0 && npcs[i].moverangeY1 > 0 && npcs[i].moverangeX2 > 0 && npcs[i].moverangeY2 > 0) { //Move NPC
+					if (npcs[i].RandomWalk == true && misc.random2(10) == 1 && npcs[i].moverangeX1 > 0 && npcs[i].moverangeY1 > 0 && npcs[i].moverangeX2 > 0 && npcs[i].moverangeY2 > 0) { //Move NPC
 						int MoveX = misc.random(1);
 						int MoveY = misc.random(1);
 						int Rnd = misc.random2(4);
@@ -399,7 +368,6 @@ public class NPCHandler {
 					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply){
 						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
 						Player attackingPlayer = server.playerHandler.players[npcs[i].StartKilling];
-						client c = (client) attackingPlayer;
 						if(attackingPlayer != null){
 							if((attackingPlayer.distanceToPoint(npcs[i].absX, npcs[i].absY) < 7) && attackingPlayer.heightLevel == npcs[i].heightLevel){
 								npcs[i].RandomWalk = false;
@@ -424,10 +392,10 @@ public class NPCHandler {
 							}
 						}
 					} 					
-
 					
 					boolean exitFor = false; //checks to see if is standing on top of another npc
 					for(int k = 0; k < maxNPCs && !exitFor; k++){
+						if(npcs[k] == null) continue;
 						if(npcs[k] != null && npcs[k] != npcs[i]){
 							if(npcs[k].absX == npcs[i].absX && npcs[k].absY == npcs[i].absY){
 								int rX = misc.random(1);
@@ -444,10 +412,8 @@ public class NPCHandler {
 							}
 						}
 					}
-
 					
-					
-					if (npcs[i].npcType == 81 || npcs[i].npcType == 397 || npcs[i].npcType == 1766 || npcs[i].npcType == 1767 || npcs[i].npcType == 1768) {
+					if (npcs[i].npcType == 1691 || npcs[i].npcType == 81 || npcs[i].npcType == 397 || npcs[i].npcType == 1766 || npcs[i].npcType == 1767 || npcs[i].npcType == 1768) {
 						if (misc.random2(50) == 1) {
 							npcs[i].updateRequired = true;
 							npcs[i].textUpdateRequired = true;
@@ -516,13 +482,6 @@ public class NPCHandler {
 							npcs[i].updateRequired = true;
 							npcs[i].textUpdateRequired = true;
 							npcs[i].textUpdate = "Death awaits you.";
-						}
-					}
-					if (npcs[i].npcType == 1698) {
-						if (misc.random2(22) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Turn back!";
 						}
 					}
 					if (npcs[i].npcType == 1696) {
@@ -733,6 +692,7 @@ public class NPCHandler {
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 		
+		case 1692:
 		case 41: //chicken
 			ItemHandler.addItem(314, npcs[NPCID].absX, npcs[NPCID].absY, (misc.random(45)+15), GetNpcKiller(NPCID), false);
 			dropItem(NPCID, DropList.BONES);
@@ -1557,17 +1517,6 @@ WORLDMAP 2: (not-walk able places)
 							}
 							break;
 
-						case 1616:
-							switch (misc.random(3)+1){
-							case 1: case 3: case 4:
-								melee(30);
-								break;
-							case 2:
-								magic(40);
-								c.stillgfx(293, c.absY, c.absX);
-								break;
-							}
-							break;
 						case 124: //earth warrior, health 75
 							melee(13);
 							npcs[NPCID].animNumber = 406;
@@ -1624,7 +1573,7 @@ WORLDMAP 2: (not-walk able places)
 						//Defence
 
 						int hitDiff = misc.random(_maxHit);
-						int npcBonus = npcs[NPCID].MaxHP;
+						int npcBonus = npcs[NPCID].MaxHP+_maxHit;
 						
 							if (NPCFightType == 1){ //melee
 								if (c.PMelee)

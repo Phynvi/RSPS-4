@@ -61,6 +61,20 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(1042,"Some of these folks here look rather strange.","Rumor has it, they have fangs for teeth.",
+			"But, me personally, I ain't seen any.");
+			add(1038, "Fresh, dank, meat.");
+			add(1041,"I hate the smell of the swamp.");
+			add(1039, "Please take a look at my fine wares.");
+			add(1054,"They gave me a big responsibility,","to make sure this gate is guarded.");
+			add(1701,"Strange how we died and could not rest,","yet, the cows do it year after year.");
+			add(1703,"'Ere I watch the waters for eternity.");
+			add(1699, "Are you scared of Ghosts?");
+			add(1700,"Greetings, care for a room?","Or, are you here to fix the roof?");
+			add(1697, "I don't remember dying.");
+			add(1686, "We worship the Ectofuntus.");
+			add(1685, "I've been protesting for so long","that I've forgotten why I am protesting.");
+			add(1684,"Do you like what I've built?","It's glorious... I call it the Ectofuntus...");
 			add(1385,"Far East of here lies the compounds of","the demigods for the God Wars.","Kill their minions to gain entrance to their","domain.",
 					"The demigods may be found in the pass","which stretches through Death Plateau.","The more kills you have of their minions","means the rewards will be greater.");
 			add(1284,"A stout is all I've ever needed.");
@@ -196,8 +210,7 @@ import java.util.Queue;
 			
 			add( "Strange Caretaker",2024, "I can feel their presence...");
 			add("Town Local", 214, "Port Sarim is one of the largest", "ports in the land... it's", "pretty sad...");
-			add("Shop Owner",531,  "Need fresh food?", "Well, we all do.");
-			
+			add("Shop Owner",531,  "Welcome to my store.");
 			
 			//System.out.println("npcDialogueBST : NPC Dialogue Lists loaded in "+(System.currentTimeMillis()-starting)+" ms");
 		}

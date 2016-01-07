@@ -87,7 +87,7 @@ public class EventManager{
 
 			case 2: //Called every 30 seconds
 				if(c.idleTimer > 0) c.idleTimer -= 1;
-				if(c.idleTimer == 0) 
+				if(c.idleTimer == 0 && !c.IsAttacking && !c.IsAttackingNPC) 
 					if(c.playerRights < 1) c.disconnectPlayerAndSave("Idle");
 				
 				if (c.specialDelay < 10){
@@ -146,12 +146,12 @@ public class EventManager{
 				}
 
 
-				if(c.walkingToNPC){
+				if(c.walkingToNPC != 0){
 					if(c.GoodDistance(c.walkingToNPC_X, c.walkingToNPC_Y, c.absX, c.absY, 1)){
-						c.walkingToNPC = false;
 						c.walkingToNPC_X = -1;
 						c.walkingToNPC_Y = -1;
-						c.npcFirstClick(c.walkingToNPC_slotID);
+						if(c.walkingToNPC == 1) c.npcFirstClick(c.walkingToNPC_slotID);
+						if(c.walkingToNPC == 2) c.npcSecondClick(c.walkingToNPC_slotID);
 					}
 				}
 

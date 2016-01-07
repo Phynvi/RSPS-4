@@ -31,8 +31,8 @@ public class client extends Player implements Runnable {
 			if(absX == x1 && absY == y1){
 				teleport(x2, y2);
 				if(dmg && misc.random(chance) == 0){
-					damagePlayer(playerId, misc.random(amount));
-					sendMessage("You injure yourself.");
+//					damagePlayer(playerId, misc.random(amount));
+//					sendMessage("You injure yourself.");
 				}
 				startAnimation(emote);
 				return true;
@@ -40,8 +40,8 @@ public class client extends Player implements Runnable {
 			if(absX == x2 && absY == y2){
 				teleport(x1,y1);
 				if(dmg && misc.random(chance) == 0){
-					damagePlayer(playerId, misc.random(amount));
-					sendMessage("You injure yourself.");
+//					damagePlayer(playerId, misc.random(amount));
+//					sendMessage("You injure yourself.");
 				}
 				startAnimation(emote);
 				return true;
@@ -1010,6 +1010,203 @@ public class client extends Player implements Runnable {
 	}
 
 	/**
+	 * Handles second click of NPCs
+	 * @param slotID Slot ID to search for NPC in npcs server list
+	 */
+	public void npcSecondClick(int slotID){
+		int NPCID = 0;
+		int npcX = 0;
+		int npcY = 0;
+		walkingToNPC = 0;
+		try{
+			NPCID = server.npcHandler.npcs[slotID].npcType;
+			npcX = server.npcHandler.npcs[slotID].absX;
+			npcY = server.npcHandler.npcs[slotID].absY;
+		}
+		catch(Exception e){
+			error("npcSecondClick : "+e.toString());
+			return;
+		}		
+		faceNPC(slotID);
+		debug("npcSecondClick: NPCID is "+NPCID);			
+		
+		if(!GoodDistance(npcX, npcY, absX, absY, 1)){
+			walkingToNPC_slotID = slotID;
+			walkingToNPC = 2;
+			walkingToNPC_X = npcX;
+			walkingToNPC_Y = npcY;
+			return;
+		}
+
+		/* Shops */
+		switch(NPCID){
+		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
+			openUpBank();
+			return;
+
+		case 522: case 523:
+			openUpShop(1); //Weapons
+			return;
+
+		case 526: case 527: case 2356:
+			openUpShop(2); //Range Shop
+			return;
+
+		case 553:
+			openUpShop(3); //Magic Shop
+			return;
+
+		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571:
+			openUpShop(4); //General store
+			return;
+
+		case 580:
+			openUpShop(5); //PK Shop
+			return;
+
+		case 538: case 1301: case 2353: case 1039:
+			openUpShop(6); //Clothes
+			return;
+
+		case 546:
+			openUpShop(7); //Food 
+			return;
+
+		case 548:
+			openUpShop(8); //Herblore
+			return;
+
+		case 551: case 552:
+			openUpShop(9); //Fletching
+			return;
+			
+		case 1038:
+			openUpShop(10); //Raw meat store
+			return;
+
+		case 1315: case 1282: case 2357:
+			openUpShop(11); //Store?
+			return;
+
+		case 584:
+			openUpShop(12); //Crafting
+			return;
+
+		case 1860:
+			openUpShop(16); //Pickaxe
+			return;
+
+		case 558: case 561:
+			openUpShop(18); //Fishing Supplies
+			return;
+
+		case 519:
+			openUpShop(23); //Basic Weapons
+			return;
+
+		case 524: case 525: case 1041:
+			openUpShop(26); //Armor
+			return;
+
+		case 536:
+			openUpShop(36); //Hatchet Shop
+			return;
+
+		case 933:
+			openUpShop(37); //Barrows
+			return;
+
+		case 1780: case 1784:
+			openUpShop(39); //Travelling Merchant
+			return;
+
+		case 1778:
+			openUpShop(42); //Fishing Supplies
+			return;
+
+		case 1303:
+			openUpShop(46); //Graveyard Shop
+			return;
+
+		case 793: case 1300: case 1042:
+			openUpShop(51); //Tavern Shop
+			return;
+
+		case 588:
+			openUpShop(52); //Jewelry Shop
+			return;		
+		}
+		
+		/* Second Click, not Shops */
+		switch(NPCID){
+
+		case 171: 
+			if (RM < 4){
+				npcdialogue("Brimstail", 171, "I can't teleport you anywhere.");
+			}
+			else if (RM >= 4){
+			heightLevel = 0;
+			updateRequired = true; 
+			appearanceUpdateRequired = true;
+			teleportToX = 2911;
+			teleportToY = 4833;
+			}
+			return;
+			
+		/* Pickpocketing */	
+		case 1: case 2: case 3: case 4: case 5: case 6: 
+			Thieving.pickpocket(1, 4, 200, 120, this);
+			return;
+			
+		case 7:	//farmer
+			Thieving.pickpocket(15, 7, 1200, 220, this); 
+			return;
+			
+		case 9: case 10: case 32: case 678: case 812: case 887: //guards
+			Thieving.pickpocket(35, 10, 1600, 400, this); 
+			return;			
+			
+		case 34: //watchman
+			Thieving.pickpocket(60, 18, 2000, 650, this); 
+			return;
+			
+		case 646: // Stealing for talisman
+			if (freeSlots() > 1){
+				sendMessage("You steal a talisman.");
+				startAnimation(881);
+				addItem(1438,1);
+			}
+			else
+				sendMessage("Your inventory is full.");
+			return;
+			
+		case 20: //Paladin
+			Thieving.pickpocket(75, 25, 2500, 1500, this); 
+			return;
+			
+		case 21: //Hero
+			Thieving.pickpocket(85, 30, 3500, 2000, this); 
+			return;
+		
+		/* End Pickpocketing */
+			
+		case 1055:
+			ticketexchange2 = true;
+			selectoption2("Rewards", "100 Tickets-"+(playerLevel[16]*10000)+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel");
+			return;
+			
+		default:
+			if(DIALOGUEHANDLER.exists(NPCID)){ //dialogue handler
+				startDialogue(NPCID);
+			}
+			
+		}
+		
+		error("Unhandled second click NPC ID : "+NPCID);
+		return;
+	}
+	
+	/**
 	 * Handles first click of NPCs
 	 * @param slotID - Slot ID to search for NPC for in server list
 	 */
@@ -1017,8 +1214,8 @@ public class client extends Player implements Runnable {
 		int NPCID = 0;
 		int npcX = 0;
 		int npcY = 0;
+		walkingToNPC = 0;
 		try{
-			walkingToNPC = false;
 			NPCID = server.npcHandler.npcs[slotID].npcType;
 			npcX = server.npcHandler.npcs[slotID].absX;
 			npcY = server.npcHandler.npcs[slotID].absY;
@@ -1032,7 +1229,7 @@ public class client extends Player implements Runnable {
 
 		if(!GoodDistance(npcX, npcY, absX, absY, 1)){
 			walkingToNPC_slotID = slotID;
-			walkingToNPC = true;
+			walkingToNPC = 1;
 			walkingToNPC_X = npcX;
 			walkingToNPC_Y = npcY;
 			return;
@@ -1055,6 +1252,12 @@ public class client extends Player implements Runnable {
 		
 		case 162: //gnome trainer
 			WanneShop = 1;
+			break;
+			
+		case 1705: //ghost captain
+			if(isInArea(3705,3495,3711,3498))
+				selectOptionTravel2("Travel to Rellekka?", "Yes", 2620,3681, "No", -1, -1);
+			else selectOptionTravel2("Travel to Port Phasmatys?", "Yes", 3705,3496, "No", -1, -1);
 			break;
 			
 		case 350: //omart
@@ -1212,7 +1415,9 @@ public class client extends Player implements Runnable {
 			skillMaster(NPCID, "Shop Keeper", 14082,14083,14084, "Ranged", playerRanged, new String[]{"I sell Ranged equipment."});
 			break;
 
-		case 1208: //quartermaster for slayer
+		case 1596:
+		case 1208: //slayer
+			slayerMaster = NPCID;
 			slayer4Options = true;
 			selectoption2("Hello", "I need a new Slayer task", "How much is left of my current task?", "Can I purchase a Slayer Crystal?", "(Click here for more options)");
 			break;
@@ -1746,11 +1951,6 @@ public class client extends Player implements Runnable {
 			else npcdialogue("Ehoric", 1080, "Swamps as far as the eye can see...");
 			break;
 
-		case 219:
-			if(freeSlots() >= 1) npcdialogue("Fisherman", 219, "Here, have some tar.", "I don't want it.");
-			else npcdialogue("Fisherman", 219, "I'd give you some tar. But", "your inventory is full.", "I hate this stuff.");
-			break;
-
 		case 1675:
 			if(IsItemInBag(681)){
 				if(eastergift == 1){
@@ -1794,10 +1994,6 @@ public class client extends Player implements Runnable {
 				if(easterevent == 0) easterevent = 1;
 			}
 			if(easterevent >= 4) npcdialogue("Old Man", 1696, "I heard you had helped out the village.");						
-			break;
-
-		case 492:
-			sendMessage("The ghost just points south...");
 			break;
 
 		default:
@@ -3354,51 +3550,6 @@ public void AddObject(int objectX, int objectY, int NewObjectID, int Face) {
 		}
 		outStream.endFrameVarSizeWord();
 	}
-/*FIREMAKING*/
-	public boolean firemaking() {
-		if (playerLevel[playerFiremaking] >= firemaking[1]) {
-			if (actionTimer == 0 && IsMakingFire == false) {
-				actionAmount++;
-				sendMessage("You attemp to light a fire...");
-				OriginalWeapon = playerEquipment[playerWeapon];
-				OriginalShield = playerEquipment[playerShield];
-				playerEquipment[playerWeapon] = 590;
-				playerEquipment[playerShield] = -1;
-				actionTimer = 5;
-				if (actionTimer < 1) {
-					actionTimer = 1;
-				}
-				setAnimation(0x2DD);
-				IsMakingFire = true;
-			}
-			if (actionTimer == 0 && IsMakingFire == true) {
-				addSkillXP((firemaking[2] * firemaking[3]), playerFiremaking);
-				server.itemHandler.DroppedItemsSDelay[firemaking[4]] = server.itemHandler.MaxDropShowDelay + 1;
-				sendMessage("You light a fire.");
-				playerEquipment[playerWeapon] = OriginalWeapon;
-				OriginalWeapon = -1;
-				resetAnimation();
-				IsMakingFire = false;
-				resetFM();
-			}
-		} else {
-			sendMessage("You need "+firemaking[1]+" "+statName[playerFiremaking]+" to light these logs.");
-			resetFM();
-			return false;
-		}
-		return true;
-	}
-	public boolean resetFM() {
-		firemaking[0] = 0;
-		firemaking[1] = 0;
-		firemaking[2] = 0;
-		firemaking[4] = 0;
-		skillX = -1;
-		skillY = -1;
-		IsUsingSkill = false;
-		IsMakingFire = false;
-		return true;
-	}
 
 /*WALKING TO OBJECT BEFORE DOING ACTION*/
 
@@ -3529,6 +3680,25 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		break;
 	case 6969: //Mort'ton Swamp Boat to Mort Myre Swamp
 		selectOptionTravel2("Take the boat into Mort Myre Swamp?", "Yes", 3500, 3380, "No", -1, -1);
+		break;
+		
+	case 3795: //poison wastes swamp paste
+		sendMessage("You take some Swamp Paste.");
+		addItem(1940);
+		break;
+		
+	case 5259:
+		
+		if(agilityObstacle(3659, 3509, 3659, 3507, 841, 0, 0, false, false, 0, "") || agilityObstacle(3660, 3509, 3660, 3507, 841, 0, 0, false, false, 0, "") ||
+				agilityObstacle(3653, 3485, 3651, 3485, 841, 0, 0, false, false, 0, "") || agilityObstacle(3653, 3486, 3651, 3486, 841, 0, 0, false, false, 0, ""))
+			sendMessage("You pass through the barrier.");
+		else sendMessage("Stand directly in front of the barrier to use it.");
+		break;
+		
+	case 5005:
+		sendMessage("You cross the bridge.");
+		if(isInArea(3500, 3423, 3504, 3426)) teleport(3502,3432);
+		else teleport(3502,3425);
 		break;
 		
 	case 5106:	
@@ -5758,7 +5928,7 @@ case 19:
 case 20:
 	sendMessage("You have gained a level.");
 	stillgfx(199, absY, absX);
-	if (skill >= 99){
+	if (playerLevel[skill] >= 99){
 		masteries += 1;
 		sendMessage("Congratulations on skill mastery. Skill capes and hoods are");
 		sendMessage("available at their respective skill masters.");
@@ -8336,10 +8506,10 @@ showInterface(5454);
 sendFrame126("@whi@Welcome to "+server.SERVERNAME,5558);
 
 sendFrame126("@gre@Your PK Points : "+pkpoints,18786);
-sendFrame126("@gre@",18787);
-sendFrame126("@gre@",18788);
-sendFrame126("@gre@",18789);
-sendFrame126("@gre@",18790);
+sendFrame126("@gre@1",18787);
+sendFrame126("@gre@2",18788);
+sendFrame126("@gre@3",18789);
+sendFrame126("@gre@4",18790);
 
 sendFrame126(server.SERVERNAME+" is a working project of AAA Mods",18791);
 sendFrame126("Click here to continue",5544);
@@ -9490,7 +9660,7 @@ sendQuest(""+getLevelForXP(playerXP[19])+"", 13927);
 	private int slash = 1;
 	private int crush = 2;
 	private int magic = 3;
-	private int range = 5;
+	private int range = 4;
 	private int[] atkBonus = {0,1,2,3,4};
 	private int[] defBonus = {5,6,7,8,9};
 	private int strength = 10;
@@ -12558,7 +12728,7 @@ refreshSkills();
 		for(int i = 83; i <= 100; i++)
 			frame36(i,0); //disabling all prayer sprites
 		
-		if(!newUser)
+		if(!newUser) 
 			loginscreen();
 		else showInterface(3559);
 			
@@ -13229,34 +13399,6 @@ sbtimer -= 1;
 			WildernessWarning = true;
 		}
 
-
-		//check stairs
-		if (stairs > 0) {
-			if (GoodDistance(skillX, skillY, absX, absY, stairDistance) == true) {
-				stairs(stairs, absX, absY);
-			}
-		}
-
-		//check banking
-		if (WanneBank > 0) {
-			if (GoodDistance(skillX, skillY, absX, absY, WanneBank) == true) {
-				openUpBank();
-				WanneBank = 0;
-			}
-		}
-		//check shopping
-		if (WanneShop > 0) {
-			if (GoodDistance(skillX, skillY, absX, absY, 1) == true) {
-				openUpShop(WanneShop);
-				WanneShop = 0;
-			}
-		}
-		//woodcutting check
-		if (woodcutting[0] > 0) {
-			if (GoodDistance(skillX, skillY, absX, absY, woodcutting[5]) == true) {
-				woodcutting();
-			}
-		}
 		//Pick Up Item Check
 		if (WannePickUp == true && IsUsingSkill == false) {
 			if (pickUpItem(PickUpID, PickUpAmount) == true) {
@@ -13315,13 +13457,6 @@ sbtimer -= 1;
 
 
 		CheckBar();
-
-		//firemaking check
-		if (firemaking[0] > 0) {
-			if (GoodDistance(skillX, skillY, absX, absY, 0) == true) {
-				firemaking();
-			}
-		}
 
 		if (isKicked) { disconnected = true; outStream.createFrame(109); };
 		
@@ -13710,272 +13845,8 @@ case 192:
 				return;
 			
 			case 17: //second Click npc
-				boolean FishingGo = false;
-				boolean PutNPCCoords = false;
 				NPCSlot = inStream.readUnsignedWordBigEndianA();
-				int NPCID = server.npcHandler.npcs[NPCSlot].npcType;
-                                faceNPC(NPCSlot);
-				FishingGo = false;
-				PutNPCCoords = false;
-				if (debugmode == true)
-					System.out.println("NPC ID is "+NPCID);
-				if (NPCID == 494 || NPCID == 495 || NPCID == 496 || NPCID == 497 || NPCID == 2355 || NPCID == 2354 || NPCID == 166) { /*Banking*/
-					skillX = server.npcHandler.npcs[NPCSlot].absX;
-					skillY = server.npcHandler.npcs[NPCSlot].absY;
-					WanneBank = 2;
-					}
-				 else if (NPCID == 575) { //Joey
-					PutNPCCoords = true;
-					WanneShop = 50; //Joey
-				} 
-				 else if (NPCID == 553) { //Joey
-					PutNPCCoords = true;
-					WanneShop = 3; //Joey
-				} else if (NPCID == 522 || NPCID == 523) { //Joey
-					PutNPCCoords = true;
-					WanneShop = 1; //Joey
-				} else if (NPCID == 526 || NPCID == 527) { //Joey
-					PutNPCCoords = true;
-					WanneShop = 2; //Joey
-				} else if (NPCID == 577) {
-					if (pkpoints >= 100) {
-					PutNPCCoords = true;
-					WanneShop = 4; //Joey
-					}
-					else if (pkpoints < 100){
-						npcdialogue("Cassie", 577, "You need at least 100 PK Points if", "you want to buy anything from my shop.");
-					}
-				} else if (NPCID == 580) { 
-					PutNPCCoords = true;
-					WanneShop = 5; 
-				}else if (NPCID == 1315) { 
-					PutNPCCoords = true;
-					WanneShop = 11; 
-				}
-				else if (NPCID == 538) {
-					PutNPCCoords = true;
-					WanneShop = 6; 					
-				} else if (NPCID == 546) { 
-					PutNPCCoords = true;
-					WanneShop = 7; 
-				} else if (NPCID == 548) { 
-					PutNPCCoords = true;
-					WanneShop = 8; 
-				} else if (NPCID == 551 || NPCID == 552) { 
-					PutNPCCoords = true;
-					WanneShop = 9; 
-				} else if (NPCID == 584) { //Crafting Shop
-					PutNPCCoords = true;
-					WanneShop = 12; //Crafting Shop
-				} else if (NPCID == 581) { //Wayne
-					PutNPCCoords = true;
-					WanneShop = 13; //Falador Chainmail Shop
-				} else if (NPCID == 585) { //Rommik
-					PutNPCCoords = true;
-					WanneShop = 14; //Rimmington Crafting Shop
-				} else if (NPCID == 531 || NPCID == 530) { //Shop Keeper + Assistant
-					PutNPCCoords = true;
-					WanneShop = 15; //Rimmington General Store
-				} else if (NPCID == 1860) { //Brian
-					PutNPCCoords = true;
-					WanneShop = 16; //Rimmington Archery Shop
-				} else if (NPCID == 557) { //Wydin
-					PutNPCCoords = true;
-					WanneShop = 4; //General Store
-				} else if (NPCID == 558) { //Gerrant
-					PutNPCCoords = true;
-					WanneShop = 18; //Port Sarim Fishing Shop
-				} else if (NPCID == 559) { //Brian
-					PutNPCCoords = true;
-					WanneShop = 19; //Port Sarim Battleaxe Shop
-				} else if (NPCID == 556) { //Grum
-					PutNPCCoords = true;
-					WanneShop = 20; //Port Sarim Jewelery Shop
-				} else if (NPCID == 583) { //Betty
-					PutNPCCoords = true;
-					WanneShop = 21; //Port Sarim Magic Shop
-				} else if (NPCID == 520 || NPCID == 521) { //Shop Keeper + Assistant
-					PutNPCCoords = true;
-					WanneShop = 22; //Lumbridge General Store
-				} else if (NPCID == 519) { //Bob
-					PutNPCCoords = true;
-					WanneShop = 23; //Lumbridge Axe Shop
-				} else if (NPCID == 541) { //Zeke
-					PutNPCCoords = true;
-					WanneShop = 24; //Al-Kharid Scimitar Shop
-				} else if (NPCID == 545) { //Dommik
-					PutNPCCoords = true;
-					WanneShop = 4; //General Store
-				} else if (NPCID == 524 || NPCID == 525) { //Shop Keeper + Assistant
-					PutNPCCoords = true;
-					WanneShop = 26; //Al-Kharid General Store
-				} else if (NPCID == 542) { //Louie Legs
-					PutNPCCoords = true;
-					WanneShop = 27; //Al-Kharid Legs Shop
-				} else if (NPCID == 544) { //Ranael
-					PutNPCCoords = true;
-					WanneShop = 28; //Al-Kharid Skirt Shop
-				} else if (NPCID == 2621) { //Hur-Koz
-					PutNPCCoords = true;
-					WanneShop = 41; //TzHaar Shop Weapons,Amour
-				} else if (NPCID == 2622) { //Hur-Lek
-					PutNPCCoords = true;
-					WanneShop = 30; //TzHaar Shop Runes
-				} else if (NPCID == 2620) { //Hur-Tel
-					PutNPCCoords = true;
-					WanneShop = 31; //TzHaar Shop General Store
-				} else if (NPCID == 692) { //Throwing shop
-					PutNPCCoords = true;
-					WanneShop = 32;  //Authentic Throwing Weapons
-				} else if (NPCID == 683) { //Bow and arrows
-					PutNPCCoords = true;
-					WanneShop = 33; //Dargaud's Bow and Arrows
-				} else if (NPCID == 682) { //Archer's Armour
-					PutNPCCoords = true;
-					WanneShop = 34;  //Aaron's Archery Appendages
-				} else if (NPCID == 537) { //Scavvo
-					PutNPCCoords = true;
-					WanneShop = 35;  //Champion's Rune shop
-				} else if (NPCID == 536) { //Valaine
-					PutNPCCoords = true;
-					WanneShop = 36;  //Champion's guild shop
-				} else if (NPCID == 933) { //Legend's Shop
-					PutNPCCoords = true;
-					WanneShop = 37;  //Legend's Shop
-				} else if (NPCID == 932) { //Legends General Store
-					PutNPCCoords = true;
-					WanneShop = 38;  //Legend's Gen. Store
-				} else if (NPCID == 1780 || NPCID == 1784) { //Traveling Merchant
-					PutNPCCoords = true;
-					WanneShop = 39; 
-				} else if (NPCID == 1282) { //sigmund the merchant
-					PutNPCCoords = true;
-					WanneShop = 11; 
-				} else if (NPCID == 1301) { //yrsa
-					PutNPCCoords = true;
-					WanneShop = 6; 
-				} else if (NPCID == 1778) { //Fishing Supplies
-					PutNPCCoords = true;
-					WanneShop = 42;
-				} 
-
-				if (NPCID == 692) { //Fishing Supplies
-					PutNPCCoords = true;
-					WanneShop = 45;
-				}
-
-				if (NPCID == 1303) { //Disk of Return
-					PutNPCCoords = true;
-					WanneShop = 46;
-				}
-				
-				if(NPCID == 2352){ //PVP elf general store
-					PutNPCCoords = true;
-					WanneShop = 4;
-				}
-				if(NPCID == 2353){ //PVP elf clothing shope
-					PutNPCCoords = true;
-					WanneShop = 6;
-				}
-				if(NPCID == 2356){ //PVP elf range shop
-					PutNPCCoords = true;
-					WanneShop = 2;
-				}
-				if(NPCID == 2357){ //PVP elf range shop
-					PutNPCCoords = true;
-					WanneShop = 11;
-				}
-				if(NPCID == 561){ //tutorial island shop for fishing
-					PutNPCCoords = true;
-					WanneShop = 18;
-				}
-				if(NPCID == 570 || NPCID == 571){ //gem merchant and baker in ardy square
-					PutNPCCoords = true;
-					WanneShop = 4;
-				}
-
-				if(NPCID == 793 || NPCID == 1300){ //alfonse the waiter in brimhaven, thora the barkeep in rellekka
-					PutNPCCoords = true;
-					WanneShop = 51; //tavern shop
-				}
-				if(NPCID == 588){ //davon in brimhaven
-					PutNPCCoords = true;
-					WanneShop = 52;
-				}
-
-		if (NPCID == 171){
-		if (RM < 4){
-			npcdialogue("Brimstail", 171, "I can't teleport you anywhere.");
-		}
-		else if (RM >= 4){
-		heightLevel = 0;
-		updateRequired = true; 
-		appearanceUpdateRequired = true;
-		teleportToX = 2911;
-		teleportToY = 4833;
-		}
-		}
-
-
-//pickpocketing
-		if (NPCID == 1 || NPCID == 2 || NPCID == 3 || NPCID == 4 || NPCID == 5 || NPCID == 6){
-		Thieving.pickpocket(1, 4, 200, 120, this);
-		}
-
-		if (NPCID == 7){ // farmer
-		Thieving.pickpocket(15, 7, 1200, 220, this); 
-		}
-
-		if (NPCID == 9 || NPCID == 10 || NPCID == 32 || NPCID == 678 || NPCID == 812 || NPCID == 887){ // guard
-		Thieving.pickpocket(35, 10, 1600, 400, this); 
-		}
-
-		if (NPCID == 34){ // watchmen
-		Thieving.pickpocket(60, 18, 2000, 650, this); 
-		}
-		
-		if (NPCID == 646){ // Stealing for talisman
-			if (freeSlots() > 1){
-				sendMessage("You steal a talisman.");
-				startAnimation(881);
-				addItem(1462,1);
-			}
-			else
-				sendMessage("Your inventory is full.");
-		}		
-
-		if (NPCID == 20){ // Paladin
-		Thieving.pickpocket(75, 25, 2500, 1500, this); 
-		}
-
-		if (NPCID == 21){ // Hero
-		Thieving.pickpocket(85, 30, 3500, 2000, this); 
-		}
-
-if (NPCID == 2271) { 
-	npcdialogue("Banker", 2271, "Welcome to the bank.");
-}
-
-if (NPCID == 1055){
-int exprec = playerLevel[16]*10000;
-ticketexchange2 = true;
-selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel");
-}
-
-
-				else if(debugmode){
-					debug("atNPC 2: "+NPCID);
-				}
-
-				if (FishingGo == true) {
-					IsUsingSkill = true;
-					PutNPCCoords = true;
-					fishing[0] = 1;
-				}
-				if (PutNPCCoords == true) {
-					skillX = server.npcHandler.npcs[NPCSlot].absX;
-					skillY = server.npcHandler.npcs[NPCSlot].absY;
-				}
+				npcSecondClick(NPCSlot);
 				break;
 
 
@@ -14256,12 +14127,6 @@ selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void
 					poimiY = firstStepY;
 					poimiX = firstStepX;
 
-					//stairs check
-					if (stairs > 0) {
-						resetStairs();
-					}
-
-
 					//pick up item check
 					if (WannePickUp == true) {
 						PickUpID = 0;
@@ -14408,16 +14273,16 @@ break;
 
 				if (lists.objectDest1.exists(objectID))
 					destinationRange = 1;
-				
+
 				if(objectID == 3340)
 					destinationRange = 8;
-				
+
 				if(lists.objectDest3.exists(objectID))
 					destinationRange = 3;
 
 				if(debugmode == true)
 					sendMessage("ObjectID: "+objectID+" and dest: "+destinationRange+".");
-				
+
 
 				if(GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
 					viewTo(objectX, objectY);
@@ -14434,42 +14299,7 @@ break;
 					destinationID = objectID;
 					WalkingTo = true;
 				}
-
-				if (objectID == 1738 && (objectX == 3204) && (objectY == 3207)) //Lumby Castle Staircase Up
-                    	{
- 					if (absY == 3209){
-					  if (heightLevel == 0) { 
-                   			teleportToX = 3205;
-                   			teleportToY = 3209;
-						heightLevel = 1;
-              			}
-				   }
-				}
-				if (objectID == 1739 && (objectX == 3204) && (objectY == 3207)) //Lumby Castle Staircase Down
-                    	{
- 					if (absY == 3209){
-					   if (heightLevel == 0) { 
-                   			teleportToX = 3205;
-                   			teleportToY = 3209;
-						heightLevel = 0;
-              			}
-				   }
-				}
-
-				
-		
-	
-
-
-			if ((objectID == 3193) || (objectID == 2213) || (objectID == 2214) || (objectID == 3045)
-					|| (objectID == 5276) || (objectID == 6084) || (objectID == 14367) || (objectID == 11758)) {
-					skillX = objectX;
-					skillY = objectY;
-					WanneBank = 1;
-			}
-
-
-                                break;
+				break;
 
 
 
@@ -15954,11 +15784,11 @@ case 1097:
 					slayer4Options = false;
 					if(slayerCount < 10){
 						this.SLAYER.generateTask();
-						npcdialogue("Quartermaster", 1208, "You want to help us rid the world", "of annoying monsters?", "I am fine with this.", "Sure, I'll give you a task.",
+						npcdialogue(getNpcName(slayerMaster), slayerMaster, "You want to help us rid the world", "of annoying monsters?", "I am fine with this.", "Sure, I'll give you a task.",
 								"I want you to slay "+slayerCount+" "+this.SLAYER.getTaskName(slayerNPC)+"s.");
 					}
 					else
-						npcdialogue("Quartermaster", 1208, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
+						npcdialogue(getNpcName(slayerMaster), slayerMaster, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
 					break;
 				}
 
@@ -16135,14 +15965,14 @@ case 32018: //2nd option
 		 if(slayerCount > 1)
 			 npcName += "s";
 		 if(slayerNPC == 0){
-			 npcdialogue("Quartermaster", 1208, "You currently have no task.");
+			 npcdialogue(getNpcName(slayerMaster), slayerMaster, "You currently have no task.");
 			 break;
 		 }
 		 if(slayerCount <= 0){
-			 npcdialogue("Quartermaster", 1208, "You have completed your Slayer task.");
+			 npcdialogue(getNpcName(slayerMaster), slayerMaster, "You have completed your Slayer task.");
 			 break;
 		 }
-		 npcdialogue("Quartermaster", 1208, "From the looks of it...", "You have "+slayerCount+" "+npcName+" left.");
+		 npcdialogue(getNpcName(slayerMaster), slayerMaster, "From the looks of it...", "You have "+slayerCount+" "+npcName+" left.");
 		 break;
 	 }		
 	
@@ -16446,7 +16276,10 @@ case 32020: //4th option
 	
 	if(slayer4Options){
 		slayer4Options = false;
-		skillMaster(1208, "Quartermaster", 14112,14113,14114, "Slayer", playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
+		if(slayerMaster == 1208)
+			skillMaster(slayerMaster, getNpcName(slayerMaster), 14112,14113,14114, "Slayer", playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
+		if(slayerMaster == 1596)
+			skillMaster(slayerMaster, getNpcName(slayerMaster), 14112,14113,14114, "Slayer", playerSlayer, new String[]{"Take care as you travel South,","naught but foulness infests those lands."});
 		break;
 	}
 
@@ -16927,16 +16760,16 @@ if(slayer2Options){
 	slayer2Options = false;
 	if(playerHasItemAmount(995, 100000)){
 		if(freeSlots() < 1){
-			npcdialogue("Quartermaster", 1208, "I'd be happy to take your money,", "but your inventory is full.");
+			npcdialogue(getNpcName(slayerMaster), slayerMaster, "I'd be happy to take your money,", "but your inventory is full.");
 		}
 		else{
-			npcdialogue("Quartermaster", 1208, "I'll take that 100k.", "Using the Crystal will tell you", "your current task and the remaining amount.");
+			npcdialogue(getNpcName(slayerMaster), slayerMaster, "I'll take that 100k.", "Using the Crystal will tell you", "your current task and the remaining amount.");
 			deleteItem(995, getItemSlot(995), 100000);
 			addItem(611,1);
 		}
 	}
 	else
-		npcdialogue("Quartermaster", 1208, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
+		npcdialogue(getNpcName(slayerMaster), slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
 break;
 }
 
@@ -16992,7 +16825,7 @@ break;
 
               	 if(slayer2Options){
               		 slayer2Options = false;
-              		 npcdialogue("Quartermaster", 1208, "Alright, I'll be seeing ya.");
+              		 npcdialogue(getNpcName(slayerMaster), slayerMaster, "Alright, I'll be seeing ya.");
               	 }
               	 
 if (fletchingoption){
@@ -17228,7 +17061,7 @@ case 51013: //Karamja
 case 51023: //Barrows
 	if(this.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
 		this.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-		isteleporting2(392, 1161, 20, 3540,3310, 0);
+		isteleporting2(392, 1161, 20, 3662,3495, 0);
 		addSkillXP(60*rate, playerMagic);
 	}
 	break;
@@ -17260,7 +17093,7 @@ case 29031: //tree gnome stronghold
 case 4150: //mort'ton teleport
 	if(this.MAGICDATAHANDLER.checkMagicRunes(4150)){
 		this.MAGICDATAHANDLER.removeMagicRunes(4150);
-		isteleporting2(409, 1818, 15, 3487, 3287, 0);
+		isteleporting2(409, 1818, 15, 3497,3489, 0);
 		addSkillXP(40*rate, playerMagic);
 	}
 break;
@@ -17433,107 +17266,6 @@ parseIncomingPackets2();
 		}
 	}
 	private int somejunk;
-
-	public boolean stairs(int stairs, int teleX, int teleY) {
-		if (IsStair == false) {
-			IsStair = true;
-			if (stairs == 1) {
-				heightLevel += 1;
-			} else if (stairs == 2) {
-				heightLevel -= 1;
-			} else if (stairs == 21) {
-				heightLevel += 1;
-			} else if (stairs == 22) {
-				heightLevel -= 1;
-			}
-			teleportToX = teleX;
-			teleportToY = teleY;
-			if (stairs == 3 || stairs == 5 || stairs == 9) {
-				teleportToY += 6400;
-			} else if (stairs == 4 || stairs == 6 || stairs == 10) {
-				teleportToY -= 6400;
-			} else if (stairs == 7) {
-				teleportToX = 3104;
-				teleportToY = 9576;
-			} else if (stairs == 8) {
-				teleportToX = 3105;
-				teleportToY = 3162;
-			} else if (stairs == 11) {
-				teleportToX = 2856;
-				teleportToY = 9570;
-			} else if (stairs == 12) {
-				teleportToX = 2857;
-				teleportToY = 3167;
-			} else if (stairs == 13) {
-				heightLevel += 3;
-				teleportToX = skillX;
-				teleportToY = skillY;
-			} else if (stairs == 15) {
-				teleportToY += (6400 - (stairDistance + stairDistanceAdd));
-			} else if (stairs == 14) {
-				teleportToY -= (6400 - (stairDistance + stairDistanceAdd));
-			} else if (stairs == 16) {
-				teleportToX = 2828;
-				teleportToY = 9772;
-			} else if (stairs == 17) {
-				teleportToX = 3494;
-				teleportToY = 3465;
-			} else if (stairs == 18) {
-				teleportToX = 3477;
-				teleportToY = 9845;
-			} else if (stairs == 19) {
-				teleportToX = 3543;
-				teleportToY = 3463;
-			} else if (stairs == 20) {
-				teleportToX = 3549;
-				teleportToY = 9865;
-			} else if (stairs == 21) {
-				teleportToY += (stairDistance + stairDistanceAdd);
-			} else if (stairs == 22) {
-				teleportToY -= (stairDistance + stairDistanceAdd);
-			} else if (stairs == 23) {
-				teleportToX = 2480;
-				teleportToY = 5175;
-			} else if (stairs == 24) {
-				teleportToX = 2862;
-				teleportToY = 9572;
-			} else if (stairs == 25) {
-				Essence = (heightLevel / 4);
-				heightLevel = 0;
-				teleportToX = EssenceMineRX[Essence];
-				teleportToY = EssenceMineRY[Essence];
-			} else if (stairs == 26) {
-				int EssenceRnd = misc.random3(EssenceMineX.length);
-				teleportToX = EssenceMineX[EssenceRnd];
-				teleportToY = EssenceMineY[EssenceRnd];
-				heightLevel = (Essence * 4);
-			} else if (stairs == 27) {
-				teleportToX = 2453;
-				teleportToY = 4468;
-			} else if (stairs == 28) {
-				teleportToX = 3201;
-				teleportToY = 3169;
-			}
-			if (stairs == 5 || stairs == 10) {
-				teleportToX += (stairDistance + stairDistanceAdd);
-			}
-			if (stairs == 6 || stairs == 9) {
-				teleportToX -= (stairDistance - stairDistanceAdd);
-			}
-		}
-		resetStairs();
-		return true;
-	}
-	public boolean resetStairs() {
-		stairs = 0;
-		skillX = -1;
-		skillY = -1;
-		stairDistance = 1;
-		stairDistanceAdd = 0;
-		IsUsingSkill = false;
-		return true;
-	}
-
 	
 	public boolean IsInWilderness(int coordX, int coordY, int Type) {
 		if (Type == 1) {
@@ -19618,11 +19350,9 @@ private void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord
 				addItem(playerEquipment[playerArrows], 1);
 				sendMessage("The accumulator has attracted an arrow.");
 			}
-			else{ 
-				ItemHandler.addItem(playerEquipment[playerArrows], XCoord, YCoord, 1, playerId, false);
-				DeleteArrow();
-			}
+			else ItemHandler.addItem(playerEquipment[playerArrows], XCoord, YCoord, 1, playerId, false);
 		}
+		DeleteArrow();
 	}
 }
 
@@ -20539,163 +20269,11 @@ public boolean MageHit(int index) {
 		smithing[2] = 0;
 		smithing[4] = -1;
 		smithing[5] = 0;
-		skillX = -1;
-		skillY = -1;
 		IsUsingSkill = false;
 		return true;
 	}
-/*WOODCUTTING*/
-    public boolean woodcutting()
-    {
-        int WCAxe = 0;
-        if(IsCutting == true){
-            WCAxe = 1; //If Cutting -> Go trough loop, passby WCCheckAxe to prevent originalweapon loss, 1 to tell you got axe, no function left for WCAxe if cutting, so 1 is enough.
-        }
-        else{
-            WCAxe = WCCheckAxe();
-        }
-        if(WCAxe > 0){
-            if(playerLevel[playerWoodcutting] >= woodcutting[1]){
-                if(freeSlots() > 0){
-                    if(actionTimer == 0 && IsCutting == false){
-                        actionAmount++;
-                        sendMessage("You swing your axe at the tree...");
-                        actionTimer = (int) ((woodcutting[0] + 10) - WCAxe);
-                        if(actionTimer < 1){
-                            actionTimer = 1;
-                        }
-                        setAnimation(0x284);
-                        IsCutting = true;
-                    }
-                    if(actionTimer == 0 && IsCutting == true){
-                        addSkillXP((woodcutting[2] * woodcutting[3]), playerWoodcutting);
-                        addItem(woodcutting[4], 1);
-                        sendMessage("You get some logs.");
-                        playerEquipment[playerWeapon] = OriginalWeapon;
-                        OriginalWeapon = -1;
-                        resetAnimation();
-                        IsCutting = false;
-                        resetWC();
-                    }
-                }
-                else{
-                    sendMessage("Inventory is full.");
-                    resetWC();
-                    return false;
-                }
-            }
-            else{
-                sendMessage("You need " + woodcutting[1] + " " + statName[playerWoodcutting] + " to cut those logs.");
-                resetWC();
-                return false;
-            }
-        }
-        else{
-            sendMessage("You need an Axe to cut logs.");
-            resetWC();
-            return false;
-        }
-        return true;
-    }
-
-    public boolean resetWC()
-    {
-        woodcutting[0] = 0;
-        woodcutting[1] = 0;
-        woodcutting[2] = 0;
-        woodcutting[4] = 0;
-        woodcutting[5] = 2;
-        skillX = -1;
-        skillY = -1;
-        IsCutting = false;
-        IsUsingSkill = false;
-        return true;
-    }
-
-    public int WCCheckAxe()
-    {
-        int Hand;
-        int Shield;
-        int Bag;
-        int Axe;
-        Hand = playerEquipment[playerWeapon];
-        Shield = playerEquipment[playerShield];
-        Axe = 0;
-        switch(Hand){
-            case 1351: //Bronze Axe
-                Axe = 1;
-                break;
-            case 1349: //Iron Axe
-                Axe = 2;
-                break;
-            case 1353: //Steel Axe
-                Axe = 3;
-                break;
-            case 1361: //Black Axe
-                Axe = 4;
-                break;
-            case 1355: //Mithril Axe
-                Axe = 5;
-                break;
-            case 1357: //Adamant Axe
-                Axe = 6;
-                break;
-            case 1359: //Rune Axe
-                Axe = 7;
-                break;
-            case 6739: //Dragon Axe
-                 Axe = 8; 
-		    break;
-        }
-        if(Axe > 0){
-            OriginalWeapon = Hand;
-            OriginalShield = Shield;
-            playerEquipment[playerShield] = -1;
-            return Axe;
-        }
-        Bag = -1;
-        for(int i = 0; i < playerItems.length; i++){
-            Bag = playerItems[i];
-            Bag -= 1; //Only to fix the ID !
-            if(Bag == 1351 || Bag == 1349 || Bag == 1353 || Bag == 1361 || Bag == 1355 || Bag == 1357 ||
-               Bag == 1359 /* || Bag == X*/){
-                break;
-            }
-        }
-        switch(Bag){
-            case 1351: //Bronze Axe
-                Axe = 1;
-                break;
-            case 1349: //Iron Axe
-                Axe = 2;
-                break;
-            case 1353: //Steel Axe
-                Axe = 3;
-                break;
-            case 1361: //Black Axe
-                Axe = 4;
-                break;
-            case 1355: //Mithril Axe
-                Axe = 5;
-                break;
-            case 1357: //Adamant Axe
-                Axe = 6;
-                break;
-            case 1359: //Rune Axe
-                Axe = 7;
-                break;
-            case 6739: //Dragon Axe
-                 Axe = 8; 
-		    break;
-        }
-        if(Axe > 0){
-            OriginalWeapon = Hand;
-            OriginalShield = Shield;
-            playerEquipment[playerShield] = -1;
-            playerEquipment[playerWeapon] = Bag;
-        }
-        return Axe;
-    }
+	
+	
 /*TRADING*/
 	public void AcceptTrade() {
 		sendFrame248(3323, 3321); //trading window + bag

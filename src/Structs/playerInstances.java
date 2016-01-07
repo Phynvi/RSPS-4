@@ -37,13 +37,13 @@ class playerInstances {
 	public final int SPAMAMOUNT = 2000;
 	public int noClickTimeout;
 	public Slayer SLAYER;
-	public int slayerNPC,slayerCount;
+	public int slayerNPC,slayerCount,slayerMaster;
 	public boolean slayer4Options, slayer2Options;
 	public Prayer PRAY;
 	public int attEffect = 0;
 	public int strEffect = 0;
 	public int defEffect = 0;
-	public boolean walkingToNPC = false;	
+	public int walkingToNPC = 0;	
 	public int walkingToNPC_X,walkingToNPC_Y, walkingToNPC_slotID;
 
 	public Farming FARM;	
@@ -531,8 +531,6 @@ public int idleTimer = 0;
 	public int stairDistance = 1;
 	public int stairDistanceAdd = 0;
 	public int doors = -1;
-	public int skillX = -1;
-	public int skillY = -1;
 	public int PickUpID = 0;
 	public int PickUpAmount = 0;
 	public int PickUpDelete = 0;
