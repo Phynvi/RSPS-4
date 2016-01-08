@@ -52,6 +52,8 @@ class playerInstances {
 	public boolean optionsMenu = false;
 	public int oX1,oX2,oX3,oY1,oY2,oY3,oX4,oY4;
 
+	public Fishing FISHING;
+	public Agility AGILITY;
 	public Runecrafting RUNECRAFTING;
 	public Crafting CRAFT;
 	public boolean cycleItems = false;	
@@ -202,11 +204,6 @@ public int idleTimer = 0;
 	public int smithitem = 0;
 	//Furnace
 
-	//Rc
-	public boolean RCon = false;
-	//RC
-
-
 	public int apickupid = -1;
 	public int apickupx = -1;
 	public int apickupy = -1;
@@ -243,8 +240,6 @@ public int idleTimer = 0;
 
 	public int barrowscount;
 	public boolean superRestore = false;
-	public static boolean AutoSave = false; 
-	public int savecounter = 0;
 
 	public boolean AnimationReset;
 	public static boolean LoggingClicks = false;
@@ -537,12 +532,11 @@ public int idleTimer = 0;
 	public int PickUpDelete = 0;
 	public int CombatExpRate = 1;
 	public int SkillID = 0;
-	public boolean WildernessWarning = false;
+
 	public long LogoutDelay = 0;
 	public int PkingDelay = 0;
 	public int LoopAttDelay = 0;
-	public int NpcAttDelay = 0;
-	public int MonsterDelay = 0;
+
 	public int PoisonDelay = 9999999;
 	public int PoisonClear = 0;
 	public int Poison = 0;
@@ -569,11 +563,7 @@ public int idleTimer = 0;
 	public boolean s1 = false;
 	public boolean s2 = false;
 	public static int getprize[] = {1,2};
-	public int resetanim = 8;
-	public int sbtimer = 0;
-	public int sb = 0;
-	public boolean sbloop = false;
-	public boolean sbscan = false;
+
 	public boolean travelboat1 = false;
 	public boolean travelboat2 = false;
 	public int traveltime = 0;
@@ -626,6 +616,5 @@ public int idleTimer = 0;
 	public int keepItemAmount4 = 0;
 	public int Tradecompete = 0;
 	public int Publicchat = 0;
-	public int spellID = 1152; //wind strike by default
-	public int healTimer;
+	public int spellID = 1152; //wind strike by defaulthealTimer;
 }

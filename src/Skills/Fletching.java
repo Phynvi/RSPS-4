@@ -1,18 +1,54 @@
 
 public class Fletching {
 	private client c;
-	
+
 	public Fletching(client pc){
 		c = pc;
 	}
-	
+
+	public void fletchingTimers(){
+
+		if (c.fletchingprocessshort > 1){
+			if ((c.playerHasItemAmount(c.fletchingremove, 1)==true && c.playerHasItemAmount(946, 1)==true) && c.stringing == false){
+				c.fletchingprocessshort -= 1;
+			}
+			else if ((c.playerHasItemAmount(c.fletchingremove, 1)==true && c.playerHasItemAmount(1777, 1)==true) && c.stringing == true){
+				c.stringing = true;
+				c.fletchingprocessshort -= 1;
+			}
+			else if ((c.playerHasItemAmount(c.fletchingremove, 1)==false || c.playerHasItemAmount(946, 1)==false) && c.stringing == false){
+				c.fletchingprocessshort = 0;
+			}
+			else if ((c.playerHasItemAmount(c.fletchingremove, 1)==false || c.playerHasItemAmount(1777, 1)==false) && c.stringing == true){
+				c.stringing = false;
+				c.fletchingprocessshort = 0;
+			}
+		}
+
+		if (c.fletchingprocessshort == 1){
+			c.addSkillXP(c.fletchingexp*c.rate, 9);
+			if (c.stringing == false){
+				c.startAnimation(1248);
+			}
+			else if (c.stringing == true){
+				c.startAnimation(712);
+				c.deleteItem(1777, c.getItemSlot(1777), 1);
+			}
+			c.deleteItem(c.fletchingremove, c.getItemSlot(c.fletchingremove), 1);
+			if(c.fletchingitem != 52)
+				c.addItem(c.fletchingitem, 1);
+			else c.addItem(c.fletchingitem, 15); //arrowshafts
+			c.fletchingprocessshort = 5;
+		}
+	}
+
 	private boolean fletchingCheckLevel(int _level){
 		if(c.checkLevel(c.playerFletching, _level))
 			return true;
 		c.sendMessage("You need "+_level+" Fletching to do that.");
 		return false;
 	}
-	
+
 
 	public void fletchArrow(){
 		if(c.freeSlots() >= 1 || c.playerHasItem(53)){
@@ -31,7 +67,7 @@ public class Fletching {
 			}
 		}
 	}
-	
+
 	private void fletchFullArrow(int tipID, int finishedArrow, int EXP){
 		c.startAnimation(1238);
 		if(c.freeSlots() >= 1 || c.playerHasItem(finishedArrow)){
@@ -56,9 +92,9 @@ public class Fletching {
 			}
 		}
 	}
-	
+
 	public void fletchingMakeArrow(int tipID){
-		
+
 		switch(tipID){
 		case 39: //bronze
 			if(fletchingCheckLevel(0))
@@ -85,7 +121,7 @@ public class Fletching {
 				fletchFullArrow(tipID, 892,200);
 			return;
 		}
-		
+
 	}
-	
+
 }

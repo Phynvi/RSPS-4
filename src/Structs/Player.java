@@ -228,7 +228,6 @@ public abstract class Player extends playerInstances {
 	public int pkpoints = 0;
 	public String lastKill = "";
 	public int ancients = 0;
-	public int inprison = 0;
 
 	public int torag = 0;
 	public int guthan = 0;
@@ -1325,7 +1324,6 @@ public abstract class Player extends playerInstances {
 	public int playerEnergy;
 	public int playerEnergyGian;
 	public int playerLook[] = new int[6];
-	public boolean IsUsingSkill = false;
 	public int playerBonus[] = new int[12];
 	public int StrPotion = 0;
 	public int StrPrayer = 0;

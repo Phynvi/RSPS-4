@@ -29,6 +29,25 @@ public class Fishing{
 		c.IsFishing = true;
 	}
 
+	public void fishingTimers(client c){
+		if (--c.FishingTimer > 0){}
+		if(c.spinningTimer > 0){
+			c.spinningTimer -= 1;
+			if(c.spinningTimer == 0){
+				if(c.playerHasItem(1779)){
+					c.spinningTimer = 4;
+					c.deleteItem(1779, c.getItemSlot(1779), 1);
+					c.addItem(1777, 1);
+					c.addSkillXP(25*c.rate, c.playerCrafting);
+				}
+				else{
+					c.spinningTimer = -1;
+					c.stopAnim();
+				}
+			}
+		}
+	}
+
 	public static void fishingSwitch(int objectID, int objectX, int objectY, int face, int face2, int GateID, client c){
 		switch (objectID){
 		case 2030: //Shrimp

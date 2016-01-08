@@ -1,6 +1,6 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = 192.168.1.100
+character-lastlogin = 192.168.1.103
 character-lastlogintime = 20160007
 character-ancients = 12
 character-starter = 1
@@ -29,12 +29,11 @@ character-chickenleave = 0
 character-ST = 6
 character-STC = 1
 character-RM = 4
-character-inprison = 0
 character-dragcharge = 50
 character-beta = 1
 slayerNPC = 1624
 slayerCount = 23
-specialDelay = 10
+specialDelay = 1
 masteries = 21
 pirate = 11
 homeTeleportTimer = 0

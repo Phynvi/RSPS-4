@@ -152,7 +152,7 @@ public class client extends Player implements Runnable {
 		System.out.println(playerName+" disconnected reason : "+reason);
 	}
 	
-	private boolean teleArea(){
+	protected boolean teleArea(){
 		if((isInArea(3644,2937,3716,3011) && pirate < 10) || isInPKZone() || isInArea(3455,9470,3522,9536) || (absX >=2002  && absX <=2035 && absY >=4814  && absY <=4833) || (absX >=3121  && absX <=3125 && absY >=3240  && absY <=3243) || (absX >=3138  && absX <=3186 && absY >=3718  && absY <=3748))
 			return false;
 		return true;
@@ -688,6 +688,8 @@ public class client extends Player implements Runnable {
 		this.MINE = new Mining(this);   
 		this.FARM = new Farming(this);
 		this.RUNECRAFTING = new Runecrafting(this);
+		this.FISHING = new Fishing();
+		this.AGILITY = new Agility(this);
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
 		this.Events.EventStart(1000, 1, this); //Calls event index 1 every second
 		this.Events.EventStart(30*1000, 2, this); //Called every 30 seconds
@@ -1373,7 +1375,14 @@ public class client extends Player implements Runnable {
 			break;
 		
 		case 646: 
-			skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", playerRunecrafting, new String[]{"Using one of my talisman on the", "mysterious ruins will teleport you", "to a source of power which allows", "you to runethis.CRAFT."});
+			if(isInArea(2853,3375,2862,3383)){
+				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", playerRunecrafting, 
+						new String[]{"You must use a talisman on this altar","to craft runes.",
+						"My studies show that this altar can","craft Nature, Law, Death,","Blood, and Soul runes."});
+			}
+			skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", playerRunecrafting, 
+					new String[]{"You must use a talisman on this altar","to craft runes.",
+					"My studies show that this altar can","craft Air, Mind, Water, Earth,","Fire, Body, Cosmic, and Chaos runes."});
 			break;
 		
 		case 358:
@@ -2417,44 +2426,6 @@ public void smithingvoid2(int xp, String name, int lvl, int item, int delete, in
 	sendMessage("A smithing level of at least "+smithlevel+" is required to do that.");  
   }
 }
-//RC Voids
-
-public void RC2()
-{
-	RCon = true;
-}
-
-public void RCProcess()
-{
-	if (IsItemInBag(1436) == false){
-	RCon = false;
-	sendMessage("You have no rune essence to craft!");
-	resetAnimation();
-	}
-	if (actionTimer == 0)
-	{
-	if (IsItemInBag(1436) == true){
-		int amount = 1;
-		if (playerLevel[20] < 4){
-		amount = 1;
-		}
-		else if (playerLevel[20] >= 4){
-		amount = playerLevel[20]/4;
-		}
-		int rcexp = playerLevel[20] * amount * rate;
-		sendMessage("You craft "+amount+" fire and "+amount+" nature runes!");
-		deleteItem(1436, getItemSlot(1436), 1);
-		deleteItem(1436, getItemSlot(1436), 1);
-		addItem (554, amount);
-		addItem (561, amount);
-		addSkillXP(rcexp, 20);
-		}
-	}
-}
-
-
-
-//RC Voids
 
 
 public void scanPickup()
@@ -2638,10 +2609,6 @@ ReplaceObject2(objectX, objectY, 6951, -1, 0);
 public void deletethatobject(int objectX, int objectY) { 
 	ReplaceObject2(objectX, objectY, 6951, -1, 10);
 	}
-
-
-// Specials
-long lastProcess = System.currentTimeMillis();    
 
 
 public void DragonBaxeSpecial(){        
@@ -5452,7 +5419,7 @@ public boolean isInGodWars(){
 	return (isInArea(2576,3586,2821,3717) || isInArea(2773,3553,2935,3653));
 }
 
-public void WriteWildyLevel(){
+public void createAreaDisplayType(){
 	if(isInGodWars()){
 		outStream.createFrame(208); 
 		outStream.writeWordBigEndian_dup(11479);
@@ -9767,6 +9734,12 @@ public void customCommand(String command) {
 			}
 		}
 		
+		if(command.startsWith("delay")){
+			if(!server.showDelay)
+				server.showDelay = true;
+			else server.showDelay = false;
+		}
+		
 		if(command.startsWith("test") && playerRights >= 2){
 			setSidebarInterface(0, 1764); 
 			sendFrame246(1765, 200, playerEquipment[playerWeapon]);
@@ -10585,58 +10558,6 @@ if (command.startsWith("pickup") && playerRights >= 2) {
 	
 	else if (command.equalsIgnoreCase("rules")) 
 		menu(this.menuHandler.Rules());
-	
-	if (command.startsWith("unjail") && (playerRights >= 1))
-	{
-		try{
-		String otherPName = command.substring(7);
-		int otherPIndex = PlayerHandler.getPlayerID(otherPName);
-		if(otherPIndex != -1) {
-			client p = (client) server.playerHandler.players[otherPIndex];
-			p.inprison = 0;
-		//	PlayerHandler.messageToAdmins = "Player UnJailed: "+playerName+" has released "+p.playerName+".";
-			p.sendMessage("You have been unjailed!");
-p.teleportToX = 3024;
-p.teleportToY = 3206;
-p.updateRequired = true; 
-p.appearanceUpdateRequired = true;
-p.heightLevel = 0;
-			}
-
-			else { sendMessage("The name doesnt exist."); } 
-		}
-			catch(Exception e) { sendMessage("Try entering a name you want to jail"); 
-		}
-}
-	if (command.startsWith("prison") && (playerRights >= 1))
-	{
-inprison = 0;
-teleportToX = 3126;
-teleportToY = 3243;
-updateRequired = true; 
-appearanceUpdateRequired = true;
-heightLevel = 0;
-}
-
-	if (command.startsWith("jail") && (playerRights >= 1))
-	{
-		try{
-		String otherPName = command.substring(5);
-		int otherPIndex = PlayerHandler.getPlayerID(otherPName);
-		if(otherPIndex != -1) {
-			client p = (client) server.playerHandler.players[otherPIndex];
-			p.inprison = 1;
-		//	PlayerHandler.messageToAdmins = "Player Jailed: "+playerName+" has jailed "+p.playerName+".";
-			p.sendMessage("You have been jailed! Now shutup and listen!");
-			}
-			else { sendMessage("The name doesnt exist."); } 
-		}
-			catch(Exception e) { sendMessage("Try entering a name you want to jail"); 
-		}
-}
-
-
-
  	
 	if (command.startsWith("xteletome") && (playerRights >= 1)) {
 		updatePlayers(); 
@@ -11849,7 +11770,7 @@ if (debugmode)sendMessage("You recieved "+amount+" exp in Skill "+skill);
 	public int itemAmount(int itemID) {
 		int tempAmount = 0;
 		for (int i = 0; i < playerItems.length; i++) {
-			if (playerItems[i] == itemID+1) {
+			if (playerItems[i] == itemID) {
 				tempAmount += playerItemsN[i];
 			}
 		}
@@ -12697,7 +12618,7 @@ sendQuest(""+playerXP[19]+"", 13921);
 setconfig(304, 0); //sets to swap
 setconfig(115, 0); //sets to item
 
-WriteWildyLevel();
+createAreaDisplayType();
 
 		// first packet sent 
 		outStream.createFrame(249);
@@ -12981,550 +12902,155 @@ public static int Weather[] = {1,1,3,3,3,3,3,3,3,3,3,5};
     	return Weather[(int)(Math.random()*Weather.length)];
     }	
 
+/**
+ * Called by event manager to check trade stuff every 500ms
+ */
+protected void tradeCheckTimers(){
 
-
-
-
-public boolean process() { 	// is being called regularily every 500ms	
-
-if (FishingTimer > 0){
---FishingTimer;
-}
-
-scanPickup();
-
-int mageDiff = 0;
-int rangeDiff = 0;	
-int mageXP = 0;	
-int fishing2 = 0;
-
-long timeSpent = System.currentTimeMillis()-lastProcess; //stop rapid clicking to speed up timers
-if(timeSpent >= server.cycleTime) {
-	timeSpent = server.cycleTime;
-	lastProcess = System.currentTimeMillis();
-}
-if (actionTimer > 0){
-actionTimer -= 1;
-}
-if (smithingtimer > 1){
-smithingtimer -= 1;
-}
-if (smithingtimer == 1){
-startAnimation(899);
-smithingvoid();
-}
-
-if (absX == 2798 && absY == 9579){
-    walkingemote3(2750, 2802, 9579, 4, 0, 500);
-    sendMessage("You hop over the pressure pads.");
-    }       
-if (absX == 2801 && absY == 9579){
-    walkingemote3(2750, 2797, 9579, -4, 0, 500);
-    sendMessage("You hop over the pressure pads.");
-    }           
-if (absX == 2787 && absY == 9579){
-    createNewTileObject(2788, 9579, 3567, 1, 10);  
-    walkingemote3(2750, 2791, 9579, 4, 0, 500);
-    sendMessage("You jump the blade!");
-    }       
-if (absX == 2790 && absY == 9579){
-    createNewTileObject(2788, 9579, 3567, 1, 10);  
-    walkingemote3(2750, 2786, 9579, -4, 0, 500);
-    sendMessage("You jump the blade!");
-    }           
-if (absX == 2783 && absY == 9575){
-if (System.currentTimeMillis() - obstacle >= 3000) {
-    walkingemote(844, 2783, 9571);
-    WalkTo(0, -4);
-    addSkillXP(500, 16);
-    sendMessage("You carefully crawl underneath the spinning blade.");
-    }  
-    }
-if (absX == 2783 && absY == 9572){
-if (System.currentTimeMillis() - obstacle >= 3000) {
-    walkingemote(844, 2783, 9577);
-    WalkTo(0, 4);
-    addSkillXP(500, 16);
-    sendMessage("You carefully crawl underneath the spinning blade.");
-    }  
-    }   
-if (absX == 2779 && absY == 9557){
-if (System.currentTimeMillis() - obstacle >= 3000) {
-    walkingemote(844, 2775, 9557);
-    WalkTo(-4, 0);
-    addSkillXP(500, 16);
-    sendMessage("You carefully crawl underneath the spinning blade.");
-    }
-    }     
-if (absX == 2776 && absY == 9557){
-if (System.currentTimeMillis() - obstacle >= 3000) {
-    walkingemote(844, 2780, 9557);
-    WalkTo(4, 0);
-    addSkillXP(500, 16);
-    sendMessage("You carefully crawl underneath the spinning blade.");
-    }
-    }     
-if (absX == 2772 && absY == 9550){
-    createNewTileObject(2772, 9551, 2305, 0, 10);  
-    createNewTileObject(2772, 9552, 2305, 0, 10);  
-    walkingemote3(3067, 2772, 9554, 0, 4, 500);
-    sendMessage("You jump the spikes!");
-    }
-if (absX == 2772 && absY == 9553){
-    createNewTileObject(2772, 9551, 2305, 0, 10);  
-    createNewTileObject(2772, 9552, 2305, 0, 10); 
-    walkingemote3(3067, 2772, 9549, 0, -4, 500);
-    sendMessage("You jump the spikes!");
-    }
-if (absX == 2798 && absY == 9568){
-    createNewTileObject(2800, 9568, 2305, 0, 10);  
-    createNewTileObject(2799, 9568, 2305, 0, 10); 
-    walkingemote3(3067, 2802, 9568, 4, 0, 500);
-    sendMessage("You jump the spikes!");
-    }
-if (absX == 2801 && absY == 9568){
-    createNewTileObject(2800, 9568, 2305, 0, 10);  
-    createNewTileObject(2799, 9568, 2305, 0, 10); 
-    walkingemote3(3067, 2797, 9568, -4, 0, 500);
-    sendMessage("You jump the spikes!");
-    }    
-if (absX == 2761 && absY == 9583){
-    createNewTileObject(2761, 9584, 3567, 0, 10);  
-    walkingemote3(2750, 2761, 9587, 0, 4, 500);
-    sendMessage("You jump the blade!");
-    }
-if (absX == 2761 && absY == 9586){
-    createNewTileObject(2761, 9584, 3567, 0, 10);  
-    walkingemote3(2750, 2761, 9582, 0, -4, 500);
-    sendMessage("You jump the blade!");
-    }       
-if (absX == 2783 && absY == 9550){
-    createNewTileObject(2783, 9551, 3567, 0, 10);  
-    walkingemote3(2750, 2783, 9554, 0, 4, 500);
-    sendMessage("You jump the blade!");
-    }    
-if (absX == 2783 && absY == 9553){
-    createNewTileObject(2783, 9551, 3567, 0, 10);  
-    walkingemote3(2750, 2783, 9549, 0, -4, 500);
-    sendMessage("You jump the blade!");
-    }    
-if (absX == 2798 && absY == 9557){
-    walkingemote3(2750, 2802, 9557, 4, 0, 500);
-    sendMessage("You hop over the pressure pads.");
-    }       
-if (absX == 2801 && absY == 9557){
-    walkingemote3(2750, 2797, 9557, -4, 0, 500);
-    sendMessage("You hop over the pressure pads.");
-    }         
-if (absX == 2772 && absY == 9583){
-    walkingemote3(2750, 2772, 9587, 0, 4, 500);
-    sendMessage("You hop over the pressure pads.");
-    }        
-if (absX == 2772 && absY == 9586){
-    walkingemote3(2750, 2772, 9582, 0, -4, 500);
-    sendMessage("You hop over the pressure pads.");
-    }   
-
-if (absX == agilX && absY == agilY){
-	if (wasrunning == true){
-		isRunning2 = true;
-		wasrunning = false;}
-	else if (wasrunning == false){
-		isRunning2 = false;
-		wasrunning = false;}
-	else if (running == true){
-		setAnimation(runningemote);
-		isRunning2 = false;
-		running = false;
+	if (tradeRequest > 0 && PlayerHandler.players[tradeRequest] != null) {
+		sendMessage(PlayerHandler.players[tradeRequest].playerName+":tradereq:");
+		tradeRequest = 0;
 	}
-	playerSE = GetStandAnim(playerWeapon);
-	playerSEW = GetWalkAnim(playerWeapon);
-	playerSER = GetRunAnim(playerWeapon);
-	agilX = 0;
-	agilY = 0;
-	ticket = System.currentTimeMillis();
-}
-
-
-if (fletchingprocessshort > 1){
-if ((playerHasItemAmount(fletchingremove, 1)==true && playerHasItemAmount(946, 1)==true) && stringing == false){
-fletchingprocessshort -= 1;
-}
-else if ((playerHasItemAmount(fletchingremove, 1)==true && playerHasItemAmount(1777, 1)==true) && stringing == true){
-stringing = true;
-fletchingprocessshort -= 1;
-}
-else if ((playerHasItemAmount(fletchingremove, 1)==false || playerHasItemAmount(946, 1)==false) && stringing == false){
-fletchingprocessshort = 0;
-}
-else if ((playerHasItemAmount(fletchingremove, 1)==false || playerHasItemAmount(1777, 1)==false) && stringing == true){
-stringing = false;
-fletchingprocessshort = 0;
-}
-}
-
-if (fletchingprocessshort == 1){
-addSkillXP(fletchingexp*rate, 9);
-if (stringing == false){
-startAnimation(1248);
-}
-else if (stringing == true){
-startAnimation(712);
-deleteItem(1777, getItemSlot(1777), 1);
-}
-deleteItem(fletchingremove, getItemSlot(fletchingremove), 1);
-if(fletchingitem != 52)
-	addItem(fletchingitem, 1);
-else addItem(fletchingitem, 15); //arrowshafts
-fletchingprocessshort = 5;
-}
-
-if (AnimDelay > 10){
-AnimDelay -= 1;
-}
-
-if (AnimDelay <=10 && AnimDelay != 0){
-RC2();
-AnimDelay = 0;
-}
-
-if (isteleporting > 10)
-	isteleporting -= 1;
-
-if (isteleporting <= 10 && isteleporting != 0){
-	if(!teleArea()){
-		sendMessage("You can't teleport out of here!");
-		isteleporting = 0;
+	if (tradeOtherDeclined == true) {
+		if (PlayerHandler.players[tradeWith] != null) {
+			sendMessage(PlayerHandler.players[tradeWith].playerName+" Declined NOOB");
+		} else {
+			sendMessage("Other player declined the trade.");
+		}
+		RemoveAllWindows();
+		DeclineTrade();
+		tradeOtherDeclined = false;
 	}
-	else if (!isInPKZone()){
-		teleportToX = isteleportingx;
-		teleportToY = isteleportingy;
-		requirePlayerUpdate();
-		heightLevel = ithl;
-		isteleporting = 0;
-	} //
-}
-
-if (IsFishing == true){
-Fishing.FishingProcess(this);
-}
-
-if (CatchST == true){
-Fishing.CatchingSTProcess(this);
-}
-
-if (cookingon == true){
-Cooking.cookingProcess(this);
-}
-
-if (RCon == true){
-	RCProcess();
-}
-
-if (inprison == 1 && !(absX >=3121  && absX <=3125 && absY >=3240  && absY <=3243)){
-teleportToX = 3123;
-teleportToY = 3242;
-updateRequired = true; 
-appearanceUpdateRequired = true;
-heightLevel = 0;
-sendMessage("You're really funny for trying to get out, it makes me laugh!");
-}
-
-if (inprison == 0 && (absX >=3121  && absX <=3125 && absY >=3240  && absY <=3243)){
-inprison = 2;
-}
-
-		if(savecounter >= 120 && AutoSave == false) {
-			AutoSave = true;
-			savefile = true;
-			savecounter = 0;
+	if (tradeWaitingTime > 0) {
+		tradeWaitingTime--;
+		if (tradeWaitingTime <= 0) {
+			sendMessage("Trade request suspended.");
+			resetTrade();
 		}
-		
-		if (healTimer > 0) {
-			healTimer -= 1;
-		}
-
-        PkingDelay -= 1;
-        LoopAttDelay -= 1;
-        NpcAttDelay -= 1;
-        MonsterDelay -= 1;
-        PoisonDelay -= 1;
-        resetanim -= 1;
-        newAnimDelay -= 1;
-
-
-
-
-        if(sidebarChangeTimer >= 0 && sidebarChanging)
-        sidebarChangeTimer -= 1;
-
-if(sidebarChangeTimer == 0 && sidebarChanging) {
-frame106(sidebarChange);
-sidebarChange = 0;
-sidebarChangeTimer = 0;
-sidebarChanging = false;
-}
-
-if(newAnimRequired && newAnimDelay < 1) {
-outStream.createFrame(1); // Xerozcheez: Resets animation so we can do another one
-startAnimation(newAnim);
-newAnimRequired = false;
-}
-			pEmote = playerSE;
-			
-
-updateRequired = true;
-appearanceUpdateRequired = true;
-
-
-int oldtotal = totalz;
-totalz = (getLevelForXP(playerXP[0]) + getLevelForXP(playerXP[1]) + getLevelForXP(playerXP[2]) + getLevelForXP(playerXP[3]) + getLevelForXP(playerXP[4]) + getLevelForXP(playerXP[5]) + getLevelForXP(playerXP[6]) + getLevelForXP(playerXP[7]) + getLevelForXP(playerXP[8]) + getLevelForXP(playerXP[9]) + getLevelForXP(playerXP[10]) + getLevelForXP(playerXP[0]) + getLevelForXP(playerXP[11]) + getLevelForXP(playerXP[12]) + getLevelForXP(playerXP[13]) + getLevelForXP(playerXP[14]) + getLevelForXP(playerXP[15]) + getLevelForXP(playerXP[6]) + getLevelForXP(playerXP[17]) + getLevelForXP(playerXP[18]) + getLevelForXP(playerXP[19]) + getLevelForXP(playerXP[20]));
-if(oldtotal != totalz)
-sendFrame126("Total Lvl: "+totalz, 3984);
-
-if(stoprunning)
-{
-setconfig(173, 0);
-isRunning2 = false;
-stoprunning = false;
-}
-
-WriteWildyLevel();
-
-if(sbloop == true)
-{
-if(sbtimer <= 1 && sbscan == false)
-{
-setSidebarInterface(7, sb);
-sb += 1;
-sbtimer = 6;
-sendMessage("Current interface: "+sb);
-}
-if(sbtimer <= 1 && sbscan== true)
-{
-setSidebarInterface(7, sb);
-sb += 1;
-sbtimer = 2;
-sendMessage("Current interface: "+sb);
-}
-sbtimer -= 1;
-}
-
-//appendPos();
-
-                
-		AddDroppedItems();
-
-		//GameTime
-		//Shop
-		if (UpdateShop == true) {
-			resetItems(3823);
-			resetShop(MyShopID);
-		}
-		//Energy
-		if (playerEnergy < 100) {
-			if (playerEnergyGian >= server.EnergyRegian) {
-				playerEnergy += 1;
-				playerEnergyGian = 0;
-			}
-			playerEnergyGian++;
-			if (playerEnergy >= 0) {
-				WriteEnergy();
-			}
-		}
-		//Trade Check
-		if (tradeRequest > 0 && PlayerHandler.players[tradeRequest] != null) {
-			sendMessage(PlayerHandler.players[tradeRequest].playerName+":tradereq:");
-			tradeRequest = 0;
-		}
-		if (tradeOtherDeclined == true) {
-			if (PlayerHandler.players[tradeWith] != null) {
-				sendMessage(PlayerHandler.players[tradeWith].playerName+" Declined NOOB");
-			} else {
-				sendMessage("Other player declined the trade.");
-			}
-			RemoveAllWindows();
-			DeclineTrade();
-			tradeOtherDeclined = false;
-		}
-		if (tradeWaitingTime > 0) {
-			tradeWaitingTime--;
-			if (tradeWaitingTime <= 0) {
-				sendMessage("Trade request suspended.");
+	}
+	if (AntiTradeScam == true) {
+		sendFrame126("", 3431);
+		AntiTradeScam = false;
+	}
+	if (tradeWith > 0) {
+		if (PlayerHandler.players[tradeWith] != null) {
+			if (tradeStatus == 5) {
+				if (PlayerHandler.players[tradeWith].TradeConfirmed == true) {
+					PlayerHandler.players[tradeWith].tradeStatus = 5;
+				}
 				resetTrade();
-			}
-		}
-		if (AntiTradeScam == true) {
-			sendFrame126("", 3431);
-			AntiTradeScam = false;
-		}
-		if (tradeWith > 0) {
-			if (PlayerHandler.players[tradeWith] != null) {
-				if (tradeStatus == 5) {
-					if (PlayerHandler.players[tradeWith].TradeConfirmed == true) {
-						PlayerHandler.players[tradeWith].tradeStatus = 5;
+			} else {
+				int OtherStatus = PlayerHandler.players[tradeWith].tradeStatus;
+				if (OtherStatus == 1) {
+					PlayerHandler.players[tradeWith].tradeStatus = 2;
+					tradeStatus = 2;
+					AcceptTrade();
+					PlayerHandler.players[tradeWith].tradeWaitingTime = 0;
+					tradeWaitingTime = 0;
+				} else if (OtherStatus == 3) {
+					if (tradeStatus == 2) {
+						sendFrame126("Other player has Accepted.", 3431);				
+					} else if (tradeStatus == 3) {
+						TradeGoConfirm();
 					}
-					resetTrade();
-				} else {
-					int OtherStatus = PlayerHandler.players[tradeWith].tradeStatus;
-					if (OtherStatus == 1) {
-						PlayerHandler.players[tradeWith].tradeStatus = 2;
-						tradeStatus = 2;
-						AcceptTrade();
-						PlayerHandler.players[tradeWith].tradeWaitingTime = 0;
-						tradeWaitingTime = 0;
-					} else if (OtherStatus == 3) {
-						if (tradeStatus == 2) {
-							sendFrame126("Other player has Accepted.", 3431);				
-						} else if (tradeStatus == 3) {
-							TradeGoConfirm();
-						}
-					} else if (OtherStatus == 4) {
-						if (tradeStatus == 3) {
-							sendFrame126("Other player has Accepted.", 3535);				
-						} else if (tradeStatus == 4) {
-							ConfirmTrade();
-							if (PlayerHandler.players[tradeWith].TradeConfirmed == true) {
-								PlayerHandler.players[tradeWith].tradeStatus = 5;
-							}
+				} else if (OtherStatus == 4) {
+					if (tradeStatus == 3) {
+						sendFrame126("Other player has Accepted.", 3535);				
+					} else if (tradeStatus == 4) {
+						ConfirmTrade();
+						if (PlayerHandler.players[tradeWith].TradeConfirmed == true) {
+							PlayerHandler.players[tradeWith].tradeStatus = 5;
 						}
 					}
-					if (tradeUpdateOther == true) {
-						resetOTItems(3416);
-						tradeUpdateOther = false;
-					}
 				}
-			} else {
-				resetTrade();
-			}
-		}
-		if (WanneTrade == 1) {
-			if (WanneTradeWith > PlayerHandler.maxPlayers) {
-				resetTrade();
-			} else if (PlayerHandler.players[WanneTradeWith] != null) {
-				if (GoodDistance2(absX, absY, PlayerHandler.players[WanneTradeWith].absX, PlayerHandler.players[WanneTradeWith].absY ,1) == true) {
-					int tt1 = PlayerHandler.players[WanneTradeWith].tradeStatus;
-					int tt2 = tradeStatus;
-					if (tt1 <= 0 && tt2 <= 0 && PlayerHandler.players[WanneTradeWith].tradeWaitingTime == 0) {
-						tradeWith = WanneTradeWith;
-						tradeWaitingTime = 40;
-						PlayerHandler.players[tradeWith].tradeRequest = playerId;
-						sendMessage("Sending trade request");
-					} else if (tt1 <= 0 && tt2 <= 0 && PlayerHandler.players[WanneTradeWith].tradeWaitingTime > 0) {
-						tradeWith = WanneTradeWith;
-						tradeStatus = 1;
-						AcceptTrade();
-					}
-					WanneTrade = 0;
-					WanneTradeWith = 0;
+				if (tradeUpdateOther == true) {
+					resetOTItems(3416);
+					tradeUpdateOther = false;
 				}
-			} else {
-				resetTrade();
 			}
-		} else if (WanneTrade == 2) {
-			if (WanneTradeWith > PlayerHandler.maxPlayers) {
-				resetTrade();
-			} else if (PlayerHandler.players[WanneTradeWith] != null) {
-				if (GoodDistance2(absX, absY, PlayerHandler.players[WanneTradeWith].absX, PlayerHandler.players[WanneTradeWith].absY ,1) == true) {
-					if (PlayerHandler.players[WanneTradeWith].tradeWith == playerId && PlayerHandler.players[WanneTradeWith].tradeWaitingTime > 0) {
-						tradeWith = WanneTradeWith;
-						tradeStatus = 1;
-						AcceptTrade();
-					} else {
-						tradeWith = WanneTradeWith;
-						tradeWaitingTime = 40;
-						PlayerHandler.players[tradeWith].tradeRequest = playerId;
-						//sendMessage("Trading with "+playerId+".");
-						sendMessage("Sending trade request...");
-					}
-					WanneTrade = 0;
-					WanneTradeWith = 0;
+		} else {
+			resetTrade();
+		}
+	}
+	if (WanneTrade == 1) {
+		if (WanneTradeWith > PlayerHandler.maxPlayers) {
+			resetTrade();
+		} else if (PlayerHandler.players[WanneTradeWith] != null) {
+			if (GoodDistance2(absX, absY, PlayerHandler.players[WanneTradeWith].absX, PlayerHandler.players[WanneTradeWith].absY ,1) == true) {
+				int tt1 = PlayerHandler.players[WanneTradeWith].tradeStatus;
+				int tt2 = tradeStatus;
+				if (tt1 <= 0 && tt2 <= 0 && PlayerHandler.players[WanneTradeWith].tradeWaitingTime == 0) {
+					tradeWith = WanneTradeWith;
+					tradeWaitingTime = 40;
+					PlayerHandler.players[tradeWith].tradeRequest = playerId;
+					sendMessage("Sending trade request");
+				} else if (tt1 <= 0 && tt2 <= 0 && PlayerHandler.players[WanneTradeWith].tradeWaitingTime > 0) {
+					tradeWith = WanneTradeWith;
+					tradeStatus = 1;
+					AcceptTrade();
 				}
-			} else {
-				resetTrade();
+				WanneTrade = 0;
+				WanneTradeWith = 0;
 			}
+		} else {
+			resetTrade();
 		}
-		//wilderness check
-		if (isInPKZone() || duelStatus == 3) {
-			outStream.createFrameVarSize(104);
-			outStream.writeByteC(3);		// command slot (does it matter which one?)
-			outStream.writeByteA(1);		// 0 or 1; 1 if command should be placed on top in context menu
-			outStream.writeString("Attack");
-			outStream.endFrameVarSize();
-			IsInWilderness = true;
-		} 
-		if (IsInWilderness(absX, absY, 2) == false && WildernessWarning == true) {
-			WildernessWarning = false;
-		} else if (IsInWilderness(absX, absY, 2) == true && WildernessWarning == false) {
-			//sendFrame248(1908, 3213);
-			WildernessWarning = true;
-		}
-
-		//Pick Up Item Check
-		if (WannePickUp == true && IsUsingSkill == false) {
-			if (pickUpItem(PickUpID, PickUpAmount) == true) {
-				PickUpID = 0;
-				PickUpAmount = 0;
-				PickUpDelete = 0;
-				WannePickUp = false;
-			}
-		}
-		//Attacking in wilderness
-
-		if (IsAttacking == true && IsDead == false && duelStatus != 3) {
-			if (PlayerHandler.players[AttackingOn] != null) {
-				if (PlayerHandler.players[AttackingOn].IsDead == false) {
-					Attack();
+	} else if (WanneTrade == 2) {
+		if (WanneTradeWith > PlayerHandler.maxPlayers) {
+			resetTrade();
+		} else if (PlayerHandler.players[WanneTradeWith] != null) {
+			if (GoodDistance2(absX, absY, PlayerHandler.players[WanneTradeWith].absX, PlayerHandler.players[WanneTradeWith].absY ,1) == true) {
+				if (PlayerHandler.players[WanneTradeWith].tradeWith == playerId && PlayerHandler.players[WanneTradeWith].tradeWaitingTime > 0) {
+					tradeWith = WanneTradeWith;
+					tradeStatus = 1;
+					AcceptTrade();
 				} else {
-					ResetAttack();
+					tradeWith = WanneTradeWith;
+					tradeWaitingTime = 40;
+					PlayerHandler.players[tradeWith].tradeRequest = playerId;
+					//sendMessage("Trading with "+playerId+".");
+					sendMessage("Sending trade request...");
 				}
+				WanneTrade = 0;
+				WanneTradeWith = 0;
+			}
+		} else {
+			resetTrade();
+		}
+	}
+}
+
+
+public void attackLoops(){
+
+	if (IsAttacking == true && IsDead == false && duelStatus != 3) {
+		if (PlayerHandler.players[AttackingOn] != null) {
+			if (PlayerHandler.players[AttackingOn].IsDead == false) {
+				Attack();
 			} else {
 				ResetAttack();
 			}
+		} else {
+			ResetAttack();
 		}
-		//Attacking an NPC
-		if (IsAttackingNPC == true && IsDead == false) {
-			if (server.npcHandler.npcs[attacknpc] != null) {
-				if (server.npcHandler.npcs[attacknpc].IsDead == false) {
-					AttackNPC();
-				} else {
-					ResetAttackNPC();
-				}
+	}
+	//Attacking an NPC
+	if (IsAttackingNPC == true && IsDead == false) {
+		if (server.npcHandler.npcs[attacknpc] != null) {
+			if (server.npcHandler.npcs[attacknpc].IsDead == false) {
+				AttackNPC();
 			} else {
 				ResetAttackNPC();
 			}
+		} else {
+			ResetAttackNPC();
 		}
+	}
+	
+}
 
-		//If killed apply dead
-		if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
-			startAnimation(2304);
-			if(this.PRAY.Retribution)
-				attackNPCSWithin(437, (getLevelForXP(playerXP[playerPrayer])/4), 3); //max dmg = 25% of player's prayer level, 3x3 square
-			deadAnimTimer = 5;
-		}
-		
+public boolean process() { 	// is being called regularily every 500ms	
 
-		//update correct hp in stat screen
-		if (NewHP < 136) {
-			playerLevel[playerHitpoints] = NewHP;
-			setSkillLevel(playerHitpoints, NewHP, playerXP[playerHitpoints]);
-			NewHP = playerLevel[3];
-		}
-
-		//healing check
-		if (healing[0] > 0) {
-			healing();
-		}
-
-
-		CheckBar();
-
-		if (isKicked) { disconnected = true; outStream.createFrame(109); };
-		
-		if (globalMessage.length() > 0) {
-			sendMessage(globalMessage);
-			globalMessage = "";
-		}
 		return packetProcess();
 	}
 
@@ -13705,8 +13231,8 @@ case 192:
 		break;
 	}
 	
-	if(atObjectID == 2452){
-		RUNECRAFTING.craftRunes(useItemID);
+	if(atObjectID == 2452 || atObjectID == 2459){
+		RUNECRAFTING.craftRunes(atObjectID, useItemID);
 		break;
 	}
 	
@@ -14127,7 +13653,6 @@ case 192:
 				//resetAnimation();
 				stopAnim();
 				spinningTimer = -1;
-				RCon = false;
 				smithingtimer = 0;
 				CatchST = false;
 				cookingon = false;
@@ -15563,17 +15088,20 @@ case 131: //Magic on NPCs
 				interfaceID = inStream.readUnsignedWord();
 				removeID = inStream.readUnsignedWordA();
 
-				//println_debug("RemoveItem all: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );
+				debug("RemoveItem all: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );
 
 				if (interfaceID == 5064) { //remove from bag to bank
 					if (Item.itemStackable[removeID] == true) {
 						bankItem(playerItems[removeSlot] , removeSlot, playerItemsN[removeSlot]);
-					} else {
+					} 
+					else {
 						bankItem(playerItems[removeSlot] , removeSlot, itemAmount(playerItems[removeSlot]));
 					}
-				} else if (interfaceID == 5382) { //remove from bank
+				} 
+				else if (interfaceID == 5382) { //remove from bank
 					fromBank(bankItems[removeSlot] , removeSlot, bankItemsN[removeSlot]);
-				} else if (interfaceID == 3322 && duelStatus != 1) { //remove from bag to trade window
+				} 
+				else if (interfaceID == 3322 && duelStatus != 1) { //remove from bag to trade window
                                         if(isUntradable(removeID)) 
                                         sendMessage("You cannot trade this item"); 
                                         else
@@ -17332,38 +16860,7 @@ parseIncomingPackets2();
 		}
 	}
 	private int somejunk;
-	
-	public boolean IsInWilderness(int coordX, int coordY, int Type) {
-		if (Type == 1) {
-			if (coordY >= 3520 && coordY <= 3967 && coordX <= 3392 && coordX >= 2942) {
-				return true;
-			}
-		} else if (Type == 2) {
-			if (coordY >= 3512 && coordY <= 3967 && coordX <= 3392 && coordX >= 2942) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean IsInCW(int coordX, int coordY) {
-		if(coordY >= 3068 && coordY <= 3143 && coordX <= 2436 && coordX >= 2365){
-				return true;
-
-		} else {
-		return false;
-	}
-}
-	public boolean IsInTz(int coordX, int coordY) {
-		if(coordY >= 5129 && coordY <= 5167 && coordX <= 2418 && coordX >= 2375){
-				return true;
-
-		} else {
-		return false;
-	}
-}
-
-	
+		
 	public boolean isBow(){
 		return lists.bows.exists(playerEquipment[playerWeapon]);
 	}
@@ -17482,7 +16979,7 @@ parseIncomingPackets2();
 		/* Melee */
 		if(distance == 1 && !autocast) { 
 			if(lists.halberd.exists(playerEquipment[playerWeapon])){
-				PkingDelay = 9;
+				PkingDelay = 7;
 				distance = 2;
 			}
 			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
@@ -17491,7 +16988,7 @@ parseIncomingPackets2();
 					return false;
 				}
 
-				PkingDelay = 7; //default delay
+				PkingDelay = 5; //default delay
 
 				setAnimation(GetWepAnim());
 				
@@ -17521,7 +17018,6 @@ parseIncomingPackets2();
 					opponentClient.stillgfxz(369, opponentClient.absY, opponentClient.absX, 0, 20);
 				}
 
-				//PkingDelay = wepdelay;
 				addCombatXP(damage);
 				return updateDelayAndDamagePlayer(AttackingOn, damage);
 			}
@@ -17567,8 +17063,6 @@ parseIncomingPackets2();
 	public boolean ResetAttack() {
 		IsAttacking = false;
 		AttackingOn = 0;
-		//resetAnimation();
-		IsUsingSkill = false;
     pEmote = playerSE;
 		requirePlayerUpdate();
 		return true;
@@ -18292,12 +17786,6 @@ sendMessage("You open the box and recieve an item!");
 				sendMessage("Nothing interesting is happening.");
 				if(debugmode)debug("Unhandled Item - ItemID: "+Item);
 				return false;
-		}
-		if (healing[1] > 0) {
-      setAnimation(829);
-			healing[0] = 1;
-			healing[4] = Item;
-      healing();
 		}
 		return true;
 	}
@@ -19077,9 +18565,7 @@ public int checkSpecials(int original, int Y, int X){
 		litBar = false;
 		specialDelay -= 5;
 		if (original <= 20){ //always heals for minimum of 10
-			NewHP = (playerLevel[playerHitpoints] + 10);
-			if (NewHP > getLevelForXP(playerXP[playerHitpoints])) 
-				NewHP = getLevelForXP(playerXP[playerHitpoints]);
+			heal((playerLevel[playerHitpoints] + 10));
 
 			playerLevel[5] += 5; //always restores for minimum of 5 prayer
 
@@ -19089,12 +18575,9 @@ public int checkSpecials(int original, int Y, int X){
 			sendFrame126(""+playerLevel[5]+"", 4012);
 			updateRequired = true;
 			appearanceUpdateRequired = true;
-			resetHE();
 		}
 		if (original >= 20){ //heals for half the hit, prayer for 1/4
-			NewHP = (playerLevel[playerHitpoints] + (original/2));
-			if (NewHP > getLevelForXP(playerXP[playerHitpoints])) 
-				NewHP = getLevelForXP(playerXP[playerHitpoints]);
+			heal(playerLevel[playerHitpoints] + (original/2));
 
 			playerLevel[5] += (original/4); //always restores for minimum of 5 prayer
 
@@ -19104,7 +18587,6 @@ public int checkSpecials(int original, int Y, int X){
 			sendFrame126(""+playerLevel[5]+"", 4012);
 			updateRequired = true;
 			appearanceUpdateRequired = true;
-			resetHE();
 		}
 		return original;
 	}    
@@ -19443,7 +18925,7 @@ public boolean AttackNPC() {
 
 	if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
 
-		PkingDelay = 5;
+		PkingDelay = this.get;
 		//resetanim = 5;
 
 		int distance = ifHasBowAndAmmoUpdateDelay();
@@ -19863,86 +19345,7 @@ public boolean MageHit(int index) {
 		}
 		return false;
 	}
-	
-	
-
-	public boolean resetCO() {
-		cooking[0] = 0;
-		cooking[1] = 0;
-		cooking[2] = 0;
-		cooking[4] = -1;
-		IsUsingSkill = false;
-		return true;
-	}
-	
-//delete this
-
-	public boolean resetCR() {
-		crafting[0] = 0;
-		crafting[1] = 0;
-		crafting[2] = 0;
-		crafting[4] = -1;
-		useitems[0] = -1;
-		useitems[1] = -1;
-		useitems[2] = -1;
-		useitems[3] = -1;
-		IsUsingSkill = false;
-		return true;
-	}
-	
-/*HEALING*/
-
-	public boolean healing() {
-	if (healTimer != 0){
-	return false;
-	}
-		if (healTimer == 0 && healing[0] == 1 && playerEquipment[playerWeapon] >= -1) {
-			OriginalShield = playerEquipment[playerShield];
-			OriginalWeapon = playerEquipment[playerWeapon];
-			playerEquipment[playerShield] = -1;
-			playerEquipment[playerWeapon] = -1;
-			//setAnimation(0x33D);
-                        setAnimation(829);
-			healing[0] = 2;
-		}
-		if (healTimer == 0 && healing[0] == 2) {
-			deleteItem(healing[4], GetItemSlot(healing[4]), 1);
-			int Heal = healing[1];
-			int HealDiff = (healing[2] - healing[1]);
-			if (HealDiff > 0) {
-				Heal += misc.random(HealDiff);
-			}
-			if (healing[3] != -1) {
-				addItem(healing[3], 1);
-			}
-			NewHP = (playerLevel[playerHitpoints] + Heal);
-			if (NewHP > getLevelForXP(playerXP[playerHitpoints])) {
-				NewHP = getLevelForXP(playerXP[playerHitpoints]);
-			}
-			sendMessage("You eat the "+getItemName(healing[4])+".");
-			playerEquipment[playerWeapon] = OriginalWeapon;
-			playerEquipment[playerShield] = OriginalShield;
-			OriginalWeapon = -1;
-			OriginalShield = -1;
-			resetAnimation();
-      updateRequired = true;
-			resetHE();
-		}
-			healTimer = 5;
-		
-		return true;
-	}
-	public boolean resetHE() {
-		healing[0] = 0;
-		healing[1] = 0;
-		healing[2] = 0;
-		healing[3] = -1;
-		healing[4] = -1;
-		IsUsingSkill = false;
-		return true;
-	}
-
-	
+			
 	public boolean CheckSmelting(int ItemID, int ItemSlot) {
 		boolean GoFalse = false;
 		switch (ItemID) {
@@ -20335,7 +19738,6 @@ public boolean MageHit(int index) {
 		smithing[2] = 0;
 		smithing[4] = -1;
 		smithing[5] = 0;
-		IsUsingSkill = false;
 		return true;
 	}
 	
@@ -21219,9 +20621,7 @@ public int loadmoreinfo() {
 						    pkpoints = Integer.parseInt(token2);
 						} else if (token.equals("character-RM")) {
 						    RM = Integer.parseInt(token2);
-						} else if (token.equals("character-inprison")) {
-						    inprison = Integer.parseInt(token2);
-						}         
+						} 
 						else if (token.equals("slayerNPC")){
 							slayerNPC = Integer.parseInt(token2);
 						}
@@ -21464,9 +20864,6 @@ characterfile.write("[MOREINFO]", 0, 10);
 			characterfile.newLine();
 			characterfile.write("character-RM = ", 0, 15);
 			characterfile.write(Integer.toString(RM), 0, Integer.toString(RM).length());
-			characterfile.newLine();
-			characterfile.write("character-inprison = ", 0, 21);
-			characterfile.write(Integer.toString(inprison), 0, Integer.toString(inprison).length());
 			characterfile.newLine();
 			characterfile.write("character-dragcharge = ", 0, 23);
 			characterfile.write(Integer.toString(dragcharge), 0, Integer.toString(dragcharge).length());

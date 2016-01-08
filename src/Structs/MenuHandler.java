@@ -289,12 +289,27 @@ public class MenuHandler {
 	
 	public static String[] runecraftingMenu(){
 		return new String[]{"@gre@Runecrafting Guide", "", "",
-				"To start runecrafting, speak with the Curator",
-				"on the Northern half of Entrana.",
+				"Using a Talisman on a Rune altar will craft the",
+				"appropriate runes of that type. You will need",
+				"Rune Essence to convert into runes.",
 				"",
-				"Since magic does not require any runes, runecrafting",
-				"will only craft fire and nature runes.",
-				"To craft runes, use a rune essence on the altar."};
+				"@gre@The altar North of Port Sarim can craft:",
+				"@bla@Air, Mind, Water, Earth, Fire, Body, Cosmic, and Chaos.",
+				"@gre@The altar on Northern Entrana can craft:",
+				"@bla@Nature, Law, Death, Blood, and Soul.",
+				"",
+				"@gre@Levels",
+				"@bla@Level 1 - Air, Mind",
+				"Level 5 - Water",
+				"Level 9 - Earth",
+				"Level 14 - Fire",
+				"Level 20 - Body",
+				"Level 27 - Cosmic",
+				"Level 35 - Chaos",
+				"Level 44 - Nature",
+				"Level 54 - Law",
+				"Level 65 - Death",
+				"Level 80 - Blood, Soul"};
 	}
 	
 	public static String[] prayerMenu(){

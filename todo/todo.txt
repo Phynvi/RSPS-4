@@ -1,8 +1,6 @@
 
 -Level gain sprites
 
--Runecrafting
-
 -NPC projectiles
 
 -NPC poison/player poison
@@ -13,3 +11,5 @@
 -Run energy subtracts
 
 -PEST CONTROL FOUND
+
+-Weapon delays

@@ -9,6 +9,22 @@ public class Prayer {
 	private boolean ThickSkin,BurstOfStrength,ClarityOfThought,RockSkin,SuperhumanStrength,ImprovedReflexes,SteelSkin,UltimateStrength,IncredibleReflexes;
 	public boolean RapidRestore,RapidHeal,Retribution,Redemption,Smite,ProtectItem;
 
+	public void prayTimers(){
+		if(c.PRAY.Redemption){
+			int hpLvl = c.getLevelForXP(c.playerXP[3]); //player's full HP
+			hpLvl = hpLvl/10;
+			if(c.playerLevel[3] < hpLvl){ //plaer is below 10%
+				int heal = c.getLevelForXP(c.playerXP[c.playerPrayer]);
+				heal = heal/4;
+				c.NewHP += heal;
+				if(c.NewHP > c.getLevelForXP(c.playerXP[3])) 
+					c.NewHP = c.getLevelForXP(c.playerXP[3]);
+				c.PRAY.Redemption = false;
+				c.playerLevel[c.playerPrayer] = 1;
+			}
+		}
+	}
+	
 	public boolean checkLevel(int xp){
 		if(c.playerLevel[5] <= 0) return false;
 		if(c.playerXP[5] >= xp)

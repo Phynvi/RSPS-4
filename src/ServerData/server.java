@@ -23,6 +23,7 @@ public static final String SERVERNAME = "SarimScape";
 	public static int updateSeconds = 180; //180 because it doesnt make the time jump at the start :P
 	public static long startTime;
 	public static long upTime;
+	public static boolean showDelay = false;
 	
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
@@ -46,6 +47,7 @@ public static final String SERVERNAME = "SarimScape";
 		long lastTicks = System.currentTimeMillis();
 		long totalTimeSpentProcessing = 0;
 		int cycle = 0;
+		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0;
 		int printOutDelay = 0;
 		while(!shutdownServer) {
 			if(updateServer)
@@ -57,13 +59,13 @@ public static final String SERVERNAME = "SarimScape";
 			// This way we avoid all the sync'in issues
 			// The rough outline could look like:
 			playerHandler.process();			// updates all player related stuff
-//			long playerTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			if(showDelay) playerTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			npcHandler.process();
-//			long npcTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			if(showDelay) npcTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			itemHandler.process();
-//			long itemTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			if(showDelay) itemTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			shopHandler.process();
-//			long shopTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			if(showDelay) shopTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			//antilag.process();
 			//itemspawnpoints.process();
 
@@ -75,12 +77,12 @@ public static final String SERVERNAME = "SarimScape";
 			// taking into account the time spend in the processing code for more accurate timing
 			long timeSpent = System.currentTimeMillis() - lastTicks;
 			totalTimeSpentProcessing += timeSpent;
-//			if(++printOutDelay == 10){
-//				printOutDelay = 0;
-//				System.out.println("[KERNEL] : Process time spent report:");
-//				System.out.println("player:"+playerTimeSpentProcessing+", npc:"+npcTimeSpentProcessing+
-//						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing);
-//			}
+			if(showDelay && ++printOutDelay == 10){
+				printOutDelay = 0;
+				System.out.println("[KERNEL] : Process time spent report:");
+				System.out.println("	 player:"+playerTimeSpentProcessing+", npc:"+npcTimeSpentProcessing+
+						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing);
+			}
 			if(timeSpent >= cycleTime) {
 				timeSpent = cycleTime;
 				if(++waitFails > 100) {

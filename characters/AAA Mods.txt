@@ -4,14 +4,14 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 3633
-character-posy = 3510
+character-posx = 3621
+character-posy = 3508
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.100
+character-lastconnection = 192.168.1.103
 character-lastlogin = 20160007
-character-energy = 100
+character-energy = 101
 character-gametime = 0
 character-gamecount = 0
 
@@ -25,11 +25,11 @@ character-equip = 5	3631	1
 character-equip = 6	-1	0	
 character-equip = 7	14511	1	
 character-equip = 8	-1	0	
-character-equip = 9	-1	0	
+character-equip = 9	12003	1	
 character-equip = 10	15350	1	
 character-equip = 11	-1	0	
 character-equip = 12	6737	1	
-character-equip = 13	892	21636	
+character-equip = 13	-1	0	
 
 [LOOK]
 character-look = 0	0
@@ -40,13 +40,13 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	28059600
+character-skill = 0	99	28130400
 character-skill = 1	99	16267980
 character-skill = 2	99	35586600
-character-skill = 3	99	52516460
+character-skill = 3	94	52587260
 character-skill = 4	99	19686280
 character-skill = 5	99	16438788
-character-skill = 6	99	19548428
+character-skill = 6	99	19549868
 character-skill = 7	99	16184120
 character-skill = 8	99	16055705
 character-skill = 9	99	14749475
@@ -56,11 +56,11 @@ character-skill = 12	99	14585523
 character-skill = 13	99	14267272
 character-skill = 14	99	15406300
 character-skill = 15	99	14159467
-character-skill = 16	99	21929980
+character-skill = 16	99	21951864
 character-skill = 17	99	16196396
 character-skill = 18	99	17422595
 character-skill = 19	99	15970650
-character-skill = 20	99	15238818
+character-skill = 20	99	15250578
 character-skill = 21	99	14000000
 character-skill = 22	99	14000000
 character-skill = 23	99	14000000
@@ -80,6 +80,7 @@ character-item = 9	564	9998
 character-item = 10	565	10000
 character-item = 11	566	10000
 character-item = 12	567	9998
+character-item = 13	11338	1
 
 [BANK]
 character-bank = 0	7807	5003
@@ -131,7 +132,7 @@ character-bank = 45	6919	102
 character-bank = 46	14097	301
 character-bank = 47	4159	100
 character-bank = 48	3141	202
-character-bank = 49	1437	688990
+character-bank = 49	1437	688954
 character-bank = 50	14103	101
 character-bank = 51	15196	408
 character-bank = 52	14133	101
@@ -153,7 +154,7 @@ character-bank = 67	6112	201
 character-bank = 68	15157	401
 character-bank = 69	14090	204
 character-bank = 70	14126	101
-character-bank = 71	6740	302
+character-bank = 71	6740	5
 character-bank = 72	14141	300
 character-bank = 73	15235	202
 character-bank = 74	4727	401
@@ -406,12 +407,13 @@ character-bank = 320	565	1000
 character-bank = 321	561	855
 character-bank = 322	563	1925
 character-bank = 323	4741	40685
-character-bank = 324	567	986
+character-bank = 324	567	1010
 character-bank = 325	558	96
 character-bank = 326	564	1084
 character-bank = 327	556	1923
 character-bank = 328	566	917
 character-bank = 329	4040	1
+character-bank = 330	1443	1
 
 [FRIENDS]
 character-friend = 0	487891978

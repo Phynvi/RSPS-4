@@ -167,16 +167,6 @@ public class PlayerHandler {
 		         server.npcHandler.npcs[i2].IsDead = true;
                                 } 
                                 }
-
-				if(client.AutoSave == true) {
-				if(saveGame(players[i])) {
-					//System.out.println("Game saved for player "+players[i].playerName);
-				} else {
-					//System.out.println("Game saved for player "+players[i].playerName);
-				};
-				client.AutoSave = false;
-			}
-
 				
 				if (players[i].savefile == true) {
 					if(saveGame(players[i])){

@@ -89,7 +89,7 @@ public class EventManager{
 				if(c.idleTimer > 0) c.idleTimer -= 1;
 				if(c.idleTimer == 0 && !c.IsAttacking && !c.IsAttackingNPC) 
 					if(c.playerRights < 1) c.disconnectPlayerAndSave("Idle");
-				
+
 				if (c.specialDelay < 10){
 					c.specialDelay += 1;
 					c.getFilling();		
@@ -97,40 +97,148 @@ public class EventManager{
 				break;
 
 			case 3: //called every 500ms
-				if(c.spinningTimer > 0){
-					c.spinningTimer -= 1;
-					if(c.spinningTimer == 0){
-						if(c.playerHasItem(1779)){
-							c.spinningTimer = 4;
-							c.deleteItem(1779, c.getItemSlot(1779), 1);
-							c.addItem(1777, 1);
-							c.addSkillXP(25*c.rate, c.playerCrafting);
-						}
-						else{
-							c.spinningTimer = -1;
-							c.stopAnim();
-						}
-					}
+				c.attackLoops();
+				c.scanPickup();
+				c.createAreaDisplayType();
+				c.AddDroppedItems();
+				c.tradeCheckTimers();
+				
+				c.FLETCHING.fletchingTimers();
+				c.AGILITY.agilityTimers();
+				c.FISHING.fishingTimers(c);
+				c.PRAY.prayTimers();
+				
+				c.CheckBar();
+				c.getFilling();
+
+				if (c.IsFishing) Fishing.FishingProcess(c);
+
+				if (c.CatchST) Fishing.CatchingSTProcess(c);
+
+				if (c.cookingon) Cooking.cookingProcess(c);
+
+				if(c.actionTimer > 0) c.actionTimer -= 1; 
+
+				c.PkingDelay -= 1;
+				c.LoopAttDelay -= 1;
+				c.PoisonDelay -= 1;
+				c.newAnimDelay -= 1;
+
+				if (c.smithingtimer > 1)
+					c.smithingtimer -= 1;
+
+				if (c.smithingtimer == 1){
+					c.startAnimation(899);
+					c.smithingvoid();
+				}		
+				
+				//If killed apply dead
+				if (c.IsDead == true && c.NewHP <= 0 && c.deadAnimTimer == -1){ 
+					c.startAnimation(2304);
+					if(c.PRAY.Retribution)
+						c.attackNPCSWithin(437, (c.getLevelForXP(c.playerXP[c.playerPrayer])/4), 3); //max dmg = 25% of player's prayer level, 3x3 square
+					c.deadAnimTimer = 5;
+				}
+
+				//update correct hp in stat screen
+				if (c.NewHP < 136) {
+					c.playerLevel[c.playerHitpoints] = c.NewHP;
+					c.setSkillLevel(c.playerHitpoints, c.NewHP, c.playerXP[c.playerHitpoints]);
+					c.NewHP = c.playerLevel[3];
 				}
 				
+				if (c.UpdateShop) {
+					c.resetItems(3823);
+					c.resetShop(c.MyShopID);
+				}
+				//Energy
+				if (c.playerEnergy < 100) {
+					if (c.playerEnergyGian >= server.EnergyRegian) {
+						c.playerEnergy += 1;
+						c.playerEnergyGian = 0;
+					}
+					c.playerEnergyGian++;
+					if (c.playerEnergy >= 0) {
+						c.WriteEnergy();
+					}
+				}
+				//Trade Check
+				//wilderness check
+				if (c.isInPKZone() || c.duelStatus == 3) {
+					c.outStream.createFrameVarSize(104);
+					c.outStream.writeByteC(3);		// command slot (does it matter which one?)
+					c.outStream.writeByteA(1);		// 0 or 1; 1 if command should be placed on top in context menu
+					c.outStream.writeString("Attack");
+					c.outStream.endFrameVarSize();
+					c.IsInWilderness = true;
+				} 
+
+				//Pick Up Item Check
+				if (c.WannePickUp) {
+					if (c.pickUpItem(c.PickUpID, c.PickUpAmount) == true) {
+						c.PickUpID = 0;
+						c.PickUpAmount = 0;
+						c.PickUpDelete = 0;
+						c.WannePickUp = false;
+					}
+				}
+				//Attacking in wilderness
+
+				int oldtotal = c.totalz;
+				c.totalz = 0;
+				for(int i = 0; i <= 20; i++)
+					c.totalz += c.getLevelForXP(c.playerXP[i]);
+				if(oldtotal != c.totalz)
+					c.sendFrame126("Total Lvl: "+c.totalz, 3984);
+
+				if(c.stoprunning){
+					c.setconfig(173, 0);
+					c.isRunning2 = false;
+					c.stoprunning = false;
+				}
+
+				if(c.sidebarChangeTimer >= 0 && c.sidebarChanging)
+					c.sidebarChangeTimer -= 1;
+
+				if(c.sidebarChangeTimer == 0 && c.sidebarChanging) {
+					c.frame106(c.sidebarChange);
+					c.sidebarChange = 0;
+					c.sidebarChangeTimer = 0;
+					c.sidebarChanging = false;
+				}
+
+				if(c.newAnimRequired && c.newAnimDelay < 1) {
+					c.outStream.createFrame(1); // Xerozcheez: Resets animation so we can do another one
+					c.startAnimation(c.newAnim);
+					c.newAnimRequired = false;
+				}
+				c.pEmote = c.playerSE;
+
+				if (c.AnimDelay > 10)
+					c.AnimDelay -= 1;
+
+				if (c.AnimDelay <=10 && c.AnimDelay != 0)
+					c.AnimDelay = 0;
+
+				if (c.isteleporting <= 10 && c.isteleporting != 0){
+					if(!c.teleArea()){
+						c.sendMessage("You can't teleport out of here!");
+						c.isteleporting = 0;
+					}
+					else if (!c.isInPKZone()){
+						c.teleportToX = c.isteleportingx;
+						c.teleportToY = c.isteleportingy;
+						c.requirePlayerUpdate();
+						c.heightLevel = c.ithl;
+						c.isteleporting = 0;
+					} //
+				}
+
+
 				if(c.configiToggle){
 					c.sendMessage("Configi is "+c.configi);
 					c.setconfig(c.configi, 1);
-				c.configi += 1;
-				}
-				
-				if(c.PRAY.Redemption){
-					int hpLvl = c.getLevelForXP(c.playerXP[3]); //player's full HP
-					hpLvl = hpLvl/10;
-					if(c.playerLevel[3] < hpLvl){ //plaer is below 10%
-						int heal = c.getLevelForXP(c.playerXP[c.playerPrayer]);
-						heal = heal/4;
-						c.NewHP += heal;
-						if(c.NewHP > c.getLevelForXP(c.playerXP[3])) 
-							c.NewHP = c.getLevelForXP(c.playerXP[3]);
-						c.PRAY.Redemption = false;
-						c.playerLevel[c.playerPrayer] = 1;
-					}
+					c.configi += 1;
 				}
 
 				if(c.deadAnimTimer >= 0){ //reduces timer to -1
@@ -184,7 +292,7 @@ public class EventManager{
 				if (c.SpecTimer > 0)
 					c.SpecTimer -= 1;
 				if (c.SpecTimer == 1 && (c.IsAttackingNPC || c.IsAttacking)){
-					
+
 					if (c.playerEquipment[c.playerWeapon] == 4153){ // g maul
 						c.CalculateMaxHit();
 						if (c.IsAttackingNPC){
@@ -198,7 +306,7 @@ public class EventManager{
 						}
 						c.setAnimation(1667);
 					}
-					
+
 					//drag daggers
 					if (c.playerEquipment[c.playerWeapon] == 5698 || c.playerEquipment[c.playerWeapon] == 1215 || c.playerEquipment[c.playerWeapon] == 1231 || c.playerEquipment[c.playerWeapon] == 5680){
 						c.CalculateMaxHit();
@@ -210,7 +318,7 @@ public class EventManager{
 							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 					}
-					
+
 					if(c.playerEquipment[c.playerWeapon] == 861){ //magic shortbow
 						c.setAnimation(426);
 						c.CalculateRange();
@@ -235,7 +343,7 @@ public class EventManager{
 							c.damagePlayer(c.AttackingOn, dmg); 
 						}
 					}
-					
+
 				}
 				if (c.DClawsHit1 == true && (c.IsAttackingNPC || c.IsAttacking) && c.DClawsTimer == 8){
 					if (c.DClawsDmg > 0){
@@ -299,6 +407,20 @@ public class EventManager{
 						c.damagePlayer(c.AttackingOn, dmg); 
 					}
 				}
+				
+				if (c.isKicked) { 
+					c.disconnected = true; 
+					c.outStream.createFrame(109); 
+					}
+				
+				if (c.globalMessage.length() > 0) {
+					c.sendMessage(c.globalMessage);
+					c.globalMessage = "";
+				}
+
+				c.updateRequired = true;
+				c.appearanceUpdateRequired = true;
+
 				break;
 
 			case 4: //called every 15 seconds for stat restoration	//TODO - take prayer out of stat restoration
@@ -335,7 +457,7 @@ public class EventManager{
 					int amountToDrain = c.prayerAmount-c.getPlayerPrayerEquipmentBonus()/2;
 					if (amountToDrain < 1) amountToDrain = 1;
 					c.playerLevel[5] -= amountToDrain;
-					
+
 					if(c.playerLevel[5] <= 0){
 						c.playerLevel[5] = 0;
 						c.PRAY.disableAllPrayer();
