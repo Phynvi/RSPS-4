@@ -6,173 +6,18 @@ public class MagicDataHandler {
 		c = pc;
 	}
 
-	public int getMagicBonusDamage(){
-		int bonus = (int)Math.floor((double)(getStaffBonus()+getEquipmentBonus())/2.0);
-		c.debug("Magic bonus damage : "+bonus);
-		return bonus;
-	}
-
 	/**
 	 * Calculate's a player's maximum possible damage for a spell.
-	 * Calculations based off of magic level, max damage of spell, and equipment.
-	 * @param maxDamage Maximum Damage of the spell
+	 * Calculations based off of magic level, max damage of spell, and spell level.
 	 * @return Calculate max damage possible for the player
 	 */
-	public int calculateMagicMaxHit(int maxDamage){
-		double p = ((double)c.playerLevel[c.playerMagic]+1)/100.0;
+	public int calculateMagicMaxHit(int maxDamage, int spellLevel){
+		if(maxDamage == 0) return 0;
+		double p = ((double)c.playerLevel[c.playerMagic]+1)/spellLevel;
 		double f = p*maxDamage;
 		int calc = (int)(Math.ceil(f)); //calculating max hit
-		calc += misc.random(getMagicBonusDamage()+c.playerLevel[c.playerMagic]/9);
-		calc = misc.random(calc);
 		if(calc > maxDamage) calc = maxDamage;
 		return calc;
-	}
-
-	private int getStaffBonus(){
-		int weap = c.playerEquipment[c.playerWeapon];
-		switch(weap){
-		case 1383: //normal staffs
-		case 1385:
-		case 1387:
-		case 1381:
-			return 2;
-
-		case 1393: //battle staffs
-		case 1395:
-		case 1397:
-		case 1399:
-			return 4;
-
-		case 2415: //saradomin staff
-		case 2416: //guthix staff
-		case 2417: //zamorak staff
-		case 1403: //mystic staff
-		case 1401: //mystic staff
-		case 1405: //mystic staff
-		case 1407: //mystic staff
-			return 5;
-
-		case 4675: //Ancient Staff
-			return 7;
-
-		case 4710://Ahrim's Staff
-		case 13308: //Staff from quest
-			return 9;
-
-		default:
-			if(lists.basicMagicStaffs.exists(weap))
-				return 2;
-		}
-		return 0;
-	}
-
-	public int getEquipmentBonus(){
-		int total = 0;
-
-		//offhand
-		switch(c.playerEquipment[c.playerShield]){ 
-		case 6889: //mage book
-		case 3840: case 3842: case 3844: //holy books
-			total += 2;
-			break;			
-		case 3839: case 3841: case 3843: //damaged holy books
-		case 3633: // spirit shield
-			total += 1;
-			break;
-		case 3627: //Arcane Spirit Shield
-			total += 8;
-			break;
-		case 3629: case 3637: case 3631: //Spectral, Elysian, and Divine spirit shields
-			total += 5;
-			break;
-		case 3635: //blessed spirit shield
-			total += 2;
-			break;
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerShield]))
-				total += 1;
-		}
-
-		//Hat
-		switch(c.playerEquipment[c.playerHat]){ 
-		case 14090: //magic hood
-		case 14509: //3rd age
-			total += 4;
-			break;
-
-		case 14497: //dagon hai bottom
-		case 15217: //draconic bottom
-		case 4708: //ahrim's
-			total += 3;
-			break;
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerHat]))
-				total += 1;
-		}
-
-		//Chest
-		switch(c.playerEquipment[c.playerChest]){ 
-		case 14507: //3rd age
-			total += 4;
-			break;
-		case 14497: //dagon hai
-		case 15215: //draconic chest
-		case 4712: //ahrim
-			total += 3;
-			break;
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerChest]))
-				total += 1;
-		}
-
-		//Legs
-		switch(c.playerEquipment[c.playerLegs]){ 
-		case 14508: //3rd age
-			total += 4;
-			break;
-		case 15216: //draconic bottom
-		case 14501: //dagon hai
-		case 4714: //ahrim
-			total += 3;
-			break;
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerLegs]))
-				total += 1;
-		}
-
-		//Feet
-		switch(c.playerEquipment[c.playerFeet]){ 
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerFeet]))
-				total += 1;
-		}
-
-		//Cape
-		switch(c.playerEquipment[c.playerCape]){ 
-		case 14088: //magic skillcape
-		case 14089: //magic skillcape
-			total += 4;
-			break;
-
-		case 2412: //saradomin cape
-		case 2413: //guthix cape
-		case 2414: //zamorak cape
-			total += 2;
-			break;
-
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerCape]))
-				total += 1;
-		}
-
-		//Gloves
-		switch(c.playerEquipment[c.playerHands]){
-		default:
-			if(lists.basicMagicGear.exists(c.playerEquipment[c.playerCape]))
-				total += 1;
-		}
-
-		return total;
 	}
 
 	private void hasMagicRunesAndRemove(int ... amountThenItem){

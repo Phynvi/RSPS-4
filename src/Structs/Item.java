@@ -47,6 +47,67 @@ public class Item {
 	static final int CRYSTALBOW = 4212;
 	static final int DARKBOW = 15156;
 	static final int KARILSCROSSBOW = 4734;
+	static final int ARMADYL_GODSWORD = 15333;
+	static final int BANDOS_GODSWORD = 15334;
+	static final int SARADOMIN_GODSWORD = 15335;
+	static final int ZAMORAK_GODSWORD = 15336;
+	static final int ACCURATE = -100;
+	static final int RAPID = -200;
+	static final int LONGRANGE = -300;
+	static final int MAGIC = -400;
+	
+	/**
+	 * Gets the delay for the item passed in
+	 * @return Weapon delay to be used with combat, 3.2 seconds by default
+	 */
+	public static int getItemDelay(int itemID){
+		double rawDelay = getItemDelayInSeconds(itemID);
+		return (int)rawDelay*10;
+	}
+	
+	/**
+	 * Helper method for getItemDelay
+	 */
+	private static double getItemDelayInSeconds(int itemID){
+		switch(itemID){
+		case RAPID: case 4151: case 11337: //abby whip, dragon claws
+			return 2.4;
+		case ARMADYL_GODSWORD: case BANDOS_GODSWORD: case SARADOMIN_GODSWORD: case ZAMORAK_GODSWORD:
+			return 3.6;	
+		case ACCURATE:
+			return 3.5;
+		case MAGIC:
+			return 3.0;
+		case LONGRANGE: default:
+			return 4.0;
+		}
+	}
+	
+	/**
+	 * Checks to see if the player has a bow and ammo equipped
+	 * Will modify PkingDelay if a bow is equipped
+	 * @return The distance of what they have equipped, depending on type of fight style.
+	 * Returns -1 if a bow is equipped with no ammo.
+	 * Returns 1 as default if no bow is equipped.
+	 */
+	public static int ifHasBowAndAmmoUpdateDelay(client c){
+		if(lists.bows.exists(c.playerEquipment[c.playerWeapon])){ //Check to see if a bow is equipped
+			if(!c.BOWHANDLER.checkAmmo())
+				return -1;
+			switch (c.FightType) {
+				case 1:
+					c.PkingDelay = getItemDelay(ACCURATE); 
+					return 4;
+				case 2: //rapid
+					c.PkingDelay = getItemDelay(RAPID); 
+					return 3;
+				case 3:
+					c.PkingDelay = getItemDelay(LONGRANGE); 
+					return 6;
+			}		
+		}
+		return 1; //default distance, no bow equipped
+	}
 	
 	public static boolean[] itemStackable = new boolean[17000];
 	public static boolean[] itemIsNote = new boolean[17000];

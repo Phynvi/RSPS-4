@@ -97,7 +97,6 @@ public class EventManager{
 				break;
 
 			case 3: //called every 500ms
-				c.attackLoops();
 				c.scanPickup();
 				c.createAreaDisplayType();
 				c.AddDroppedItems();
@@ -119,8 +118,6 @@ public class EventManager{
 
 				if(c.actionTimer > 0) c.actionTimer -= 1; 
 
-				c.PkingDelay -= 1;
-				c.LoopAttDelay -= 1;
 				c.PoisonDelay -= 1;
 				c.newAnimDelay -= 1;
 
@@ -135,8 +132,10 @@ public class EventManager{
 				//If killed apply dead
 				if (c.IsDead == true && c.NewHP <= 0 && c.deadAnimTimer == -1){ 
 					c.startAnimation(2304);
-					if(c.PRAY.Retribution)
-						c.attackNPCSWithin(437, (c.getLevelForXP(c.playerXP[c.playerPrayer])/4), 3); //max dmg = 25% of player's prayer level, 3x3 square
+					if(c.PRAY.Retribution){
+						c.attackNPCSWithin((c.getLevelForXP(c.playerXP[c.playerPrayer])/4), 3); //max dmg = 25% of player's prayer level, 3x3 square
+						c.gfx100(437);
+					}
 					c.deadAnimTimer = 5;
 				}
 
@@ -220,6 +219,9 @@ public class EventManager{
 				if (c.AnimDelay <=10 && c.AnimDelay != 0)
 					c.AnimDelay = 0;
 
+				if(c.isteleporting > 10)
+					c.isteleporting -= 1;
+				
 				if (c.isteleporting <= 10 && c.isteleporting != 0){
 					if(!c.teleArea()){
 						c.sendMessage("You can't teleport out of here!");
@@ -442,14 +444,8 @@ public class EventManager{
 				break;
 
 			case 5: //called every 100ms
-				if(c.cycleItems){
-					if(c.addItem(c.currentItem, 1)){
-						c.sendMessage("Item ID "+c.currentItem);
-						c.currentItem += 1;
-					}
-					else
-						c.removeAllItems();
-				}
+				c.LoopAttDelay -= 1;
+				c.attackLoops();
 				break;
 
 			case 6: //called every 3 seconds

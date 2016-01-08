@@ -11,5 +11,3 @@
 -Run energy subtracts
 
 -PEST CONTROL FOUND
-
--Weapon delays

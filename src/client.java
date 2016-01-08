@@ -271,8 +271,7 @@ public class client extends Player implements Runnable {
 	}
 	
 	private boolean magicOnNPC(int npcIndex){
-
-		if(LoopAttDelay > 1)
+		if(LoopAttDelay > 0)
 			return false;
 
 		teleportToX = absX;
@@ -308,10 +307,14 @@ public class client extends Player implements Runnable {
 			return false;
 		}
 
+		
 		if((server.npcHandler.npcs[npcIndex] != null) && (server.npcHandler.npcs[npcIndex].followPlayer < 1 || server.npcHandler.npcs[npcIndex].followPlayer == playerId)) {
 			//MageAttackIndex = npcIndex+1;
 			{					
 				try {
+					int distanceBetweenMeAndMyEnemy = distanceBetweenPoints(EnemyX2, EnemyY2, absX, absY);
+					if (distanceBetweenMeAndMyEnemy > 6) return false;
+					
 					server.npcHandler.npcs[npcIndex].StartKilling = playerId;
 					server.npcHandler.npcs[npcIndex].RandomWalk = false;
 					server.npcHandler.npcs[npcIndex].IsUnderAttack = true;
@@ -326,129 +329,129 @@ public class client extends Player implements Runnable {
 					inCombat();
 					this.MAGICDATAHANDLER.removeMagicRunes(spellID);
 
-					LoopAttDelay = 17;
+					PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
 
 					switch(spellID){ 
 					case 1152: //Wind Strike
-						hitDiff = ProjectileSpell(90, 95, 92, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 2);
+						hitDiff = ProjectileSpell(90, 95, 92, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 2,1);
 						break;
 
 					case 1154: //Water Strike
-						hitDiff = ProjectileSpell(93, 94, 95, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 5);
+						hitDiff = ProjectileSpell(93, 94, 95, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 4,5);
 						break;
 
 					case 1156: //Earth Strike
-						hitDiff = ProjectileSpell(96, 97, 98, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 9);
+						hitDiff = ProjectileSpell(96, 97, 98, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 6,9);
 						break;
 
 					case 1158: //Fire Strike
-						hitDiff = ProjectileSpell(99, 100, 101, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 13);
+						hitDiff = ProjectileSpell(99, 100, 101, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 8,13);
 						break;
 
 					case 1160: //Wind Bolt
-						hitDiff = ProjectileSpell(117, 118, 119, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17);
+						hitDiff = ProjectileSpell(117, 118, 119, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 9,17);
 						break;
 					case 1163: //thing
-						hitDiff = ProjectileSpell(120, 121, 122, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 23);
+						hitDiff = ProjectileSpell(120, 121, 122, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 10,23);
 						break;
 
 					case 1166: //Earth Bolt
-						hitDiff = ProjectileSpell(123, 124, 125, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 29); 
+						hitDiff = ProjectileSpell(123, 124, 125, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 11,29); 
 						break;
 
 					case 1169: //Fire Bolt
-						hitDiff = ProjectileSpell(126, 127, 128, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 35);
+						hitDiff = ProjectileSpell(126, 127, 128, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 12,35);
 						break;
 
 					case 1172: //Wind Blast
-						hitDiff = ProjectileSpell(132, 133, 134, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 41);
+						hitDiff = ProjectileSpell(132, 133, 134, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 13,41);
 						break;
 
 					case 1175: //Water Blast
-						hitDiff = ProjectileSpell(135, 136, 137, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 47);
+						hitDiff = ProjectileSpell(135, 136, 137, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14,47);
 						break;
 
 					case 1177: //Earth Blast
-						hitDiff = ProjectileSpell(138, 139, 140, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 53);
+						hitDiff = ProjectileSpell(138, 139, 140, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15,53);
 						break;
 
 					case 1181: //Fire Blast
-						hitDiff = ProjectileSpell(129, 130, 131, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 59);
+						hitDiff = ProjectileSpell(129, 130, 131, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16,59);
 						break;
 
 					case 1183: //Wind Wave
-						hitDiff = ProjectileSpell(158, 159, 160, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 26);
+						hitDiff = ProjectileSpell(158, 159, 160, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17,62);
 						break;
 
 					case 1185: //Water Wave
-						hitDiff = ProjectileSpell(161, 162, 163, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 27);
+						hitDiff = ProjectileSpell(161, 162, 163, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 18,65);
 						break;
 
 					case 1188: //Earth Wave
-						hitDiff = ProjectileSpell(164, 165, 166, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 28);
+						hitDiff = ProjectileSpell(164, 165, 166, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 19,70);
 						break;
 
 					case 1189: //Fire Wave
-						hitDiff = ProjectileSpell(155, 156, 157, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 30);
+						hitDiff = ProjectileSpell(155, 156, 157, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 20,75);
 						break;
 
 					case 12861: //Ice Rush - Level 58
-						hitDiff = ancientsProjectileSpell(360, 360, 361, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17);
+						hitDiff = ancientsProjectileSpell(360, 360, 361, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17,58);
 						break;
 
 					case 12881: //Ice Burst - Level 70
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,363,22,BURST);					
+						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,363,22,BURST,70);					
 						return true;
 
 					case 12871: //Ice Blitz - Level 82
-						hitDiff = ancientsProjectileSpell(366, 367, 368, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 26);
+						hitDiff = ancientsProjectileSpell(366, 367, 368, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 26,82);
 						break;
 
 					case 12891: //Ice Barrage - Level 94
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,369,30,BARRAGE);					
+						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94);					
 						return true;
 
 					case 12939: // Smoke Rush - Level 50
-						hitDiff = ancientsProjectileSpell(384, 384, 385, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14);
+						hitDiff = ancientsProjectileSpell(384, 384, 385, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14,50);
 						break;
 
 					case 12963: // Smoke Burst - Level 62
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,389,18,BURST);		
+						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,389,18,BURST,62);		
 						return true;
 
 					case 12951: //Smoke Blitz - Level 74
-						hitDiff = ancientsProjectileSpell(386, 386, 387, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 23);
+						hitDiff = ancientsProjectileSpell(386, 386, 387, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 23,74);
 						break;
 
 					case 12975: //Smoke Barrage - Level 86
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,391,27,BARRAGE);
+						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86);
 						return true;
 
 					case 12987: //Shadow Rush - Level 52
-						hitDiff = ancientsProjectileSpell(378, 378, 379, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15);
+						hitDiff = ancientsProjectileSpell(378, 378, 379, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15,52);
 						break;
 
 					case 13011: //Shadow Burst - Level 64
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,382,19,BURST);
+						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,382,19,BURST,64);
 						return true;
 
 					case 12999: //Shadow Blitz - Level 76
-						hitDiff = ancientsProjectileSpell(380, 380, 381, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 24);
+						hitDiff = ancientsProjectileSpell(380, 380, 381, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 24,76);
 						break;
 
 					case 13023: //Shadow Barrage - Level 88
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,383,28,BARRAGE);
+						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88);
 						return true;
 
 					case 12901: //Blood Rush - Level 56
-						hitDiff = ancientsProjectileSpell(372, 372, 373, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16);
+						hitDiff = ancientsProjectileSpell(372, 372, 373, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16,56);
 						NewHP += hitDiff/4;
 						if(NewHP > getLevelForXP(playerXP[3])) 
 							NewHP = getLevelForXP(playerXP[3]);
 						break;
 
 					case 12919: //Blood Burst - Level 68
-						int total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,376,21,BURST)/4;
+						int total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,376,21,BURST,68)/4;
 						if(total > 7) total = 7; //greatest amount that can be healed is 7
 						NewHP += total;
 						if(NewHP > getLevelForXP(playerXP[3])) 
@@ -456,7 +459,7 @@ public class client extends Player implements Runnable {
 						return true;
 
 					case 12911: //Blood Blitz - Level 80
-						hitDiff = ancientsProjectileSpell(374, 374, 375, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 25);
+						hitDiff = ancientsProjectileSpell(374, 374, 375, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 25,80);
 						total = hitDiff/4;
 						if(total > 7) total = 7; //greatest amount that can be healed is 7
 						NewHP += total;
@@ -465,7 +468,7 @@ public class client extends Player implements Runnable {
 						break;
 
 					case 12929: //Blood Barrage - Level 92
-						total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,377,29,BARRAGE)/4;
+						total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92)/4;
 						if(total > 8) total = 8; //greatest amount to heal is 8
 						NewHP += total;
 						if(NewHP > getLevelForXP(playerXP[3])) 
@@ -478,22 +481,11 @@ public class client extends Player implements Runnable {
 					}
 
 					if(!MageHitNPC(npcIndex)) hitDiff = 0;
-
-					if ((EnemyHP2 - hitDiff) < 0) 
-						hitDiff = EnemyHP2;					
-
-					hitDelayTimer = System.currentTimeMillis();
-					server.npcHandler.npcs[npcIndex].hitDiff = hitDiff;
-					server.npcHandler.npcs[npcIndex].Killing[playerId] += hitDiff;
-					server.npcHandler.npcs[npcIndex].updateRequired = true;
-					server.npcHandler.npcs[npcIndex].hitUpdateRequired = true;
-					server.npcHandler.npcs[npcIndex].animNumber = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcIndex].npcType);
-					server.npcHandler.npcs[npcIndex].updateAttackingPlayers(playerId, hitDiff);
-					return true;
+					
+					return updateDelayAndHitNPC(npcIndex, hitDiff);
 				}
 				catch(Exception e) {
-					debug("Error at magic on npcs!");
-					debug(e.toString());
+					error("In magic on NPCs, "+e.toString());
 					return false;
 				}
 
@@ -5916,17 +5908,7 @@ public void attackPlayersWithin2(int gfx, int maxDamage, int range) {
        if(person.distanceToPoint(absX, absY) <= range && person.playerId != playerId)
         {
          int damage = misc.random(maxDamage);
-         person.stillgfx(gfx, person.absY, person.absX);
-         if (person.playerLevel[3] - damage < 0) 
-         damage = person.playerLevel[3];
-          if (person.PRange == true){
-              person.hitDiff = damage/4;
-              }
-          else if (person.PRange == false){
-          person.hitDiff = damage;
-          }
-	 person.updateRequired = true;
-	 person.hitUpdateRequired = true;
+					updateDelayAndDamagePlayer(person.playerId, damage);
         }
       }
     }
@@ -5943,26 +5925,15 @@ public void attackPlayersWithin(int gfx, int maxDamage, int range) {
       {
        if(person.distanceToPoint(absX, absY) <= range && person.playerId != playerId)
         {
-         int damage = this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage);
-         person.stillgfx(gfx, person.absY, person.absX);
-         if (person.playerLevel[3] - damage < 0) 
-         damage = person.playerLevel[3];
-          if (person.PMage == true){
-              person.hitDiff = damage/4;
-              }
-          else if (person.PMage == false){
-          person.hitDiff = damage;
-          }
-	 person.KillerId = playerId;
-	 person.updateRequired = true;
-	 person.hitUpdateRequired = true;
+         int damage = misc.random(maxDamage);
+					updateDelayAndDamagePlayer(person.playerId, damage);
         }
       }
     }
   }
 }
 
-public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range) {
+public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range, int level) {
 	setAnimation(1979);
 	int totalDamage = 0;
 	for (Player p : server.playerHandler.players){
@@ -5974,20 +5945,9 @@ public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int
 						maxDamage = 0;
 						gfx = 339;
 					}
-					int damage = this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage);
+					int damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
 					person.stillgfx(gfx, person.absY, person.absX);
-					if (person.playerLevel[3] - damage < 0) 
-						damage = person.playerLevel[3];
-					if (person.PMage == true) 
-						person.hitDiff = (int)((double)person.hitDiff*0.6); //40% reduction if player protect from mage
-					if(damage > 0 && applySnare > 0)
-						person.frozen(applySnare);
-					applySnare = -1;
-					totalDamage += damage;
-					person.hitDiff = damage;
-					person.KillerId = playerId;
-					person.updateRequired = true;
-					person.hitUpdateRequired = true;
+					updateDelayAndDamagePlayer(person.playerId, damage);
 				}
 			}
 		}
@@ -6003,27 +5963,21 @@ public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int
  * Will attack NPCs within a range and display the GFX on them, used for ancient spellbook
  * @param maxDamage Randomizes this damage
  */
-private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int range) {
+private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int range, int level) {
 	setAnimation(1979);
 	int totalDamage = 0;
-	for (int i = 0; i <= server.npcHandler.maxNPCs-1; i++)
-	{
+	for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
+		if(server.npcHandler.npcs[i] == null) break;
 		if(server.npcHandler.npcs[i] != null) 
 		{
 			if(distanceBetweenPoints(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y) <= range && !server.npcHandler.npcs[i].IsDead)
 			{				
-				int damage = this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage);
+				int damage = 0;
+				if(MageHitNPC(i)) damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
+				else gfx = 339;
 				totalDamage += damage;
 				stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
-				if (server.npcHandler.npcs[i].HP - damage < 0) 
-					damage = server.npcHandler.npcs[i].HP;
-				server.npcHandler.npcs[i].StartKilling = playerId;
-				server.npcHandler.npcs[i].RandomWalk = false;
-				server.npcHandler.npcs[i].IsUnderAttack = true;
-				server.npcHandler.npcs[i].hitDiff = damage;
-				server.npcHandler.npcs[i].updateRequired = true;
-				server.npcHandler.npcs[i].hitUpdateRequired = true;
-				server.npcHandler.npcs[i].updateAttackingPlayers(playerId, damage);
+				updateDelayAndHitNPC(i, damage);
 			}
 		}
 	}
@@ -6036,25 +5990,18 @@ private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int r
  * Will attack NPCs within a range and display the GFX on them
  * @param maxDamage Randomizes this damage
  */
-public void attackNPCSWithin(int gfx, int maxDamage, int range) {
- for (int i = 0; i <= server.npcHandler.maxNPCs-1; i++)
-  {
-   if(server.npcHandler.npcs[i] != null) 
-    {
+public void attackNPCSWithin(int gfx, int maxDamage, int range, int level) {
+ for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
+   if(server.npcHandler.npcs[i] != null){
       if(distanceToPoint(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY) <= range && !server.npcHandler.npcs[i].IsDead)
        {
-        int damage = misc.random(maxDamage);
+      	int damage = 0;
+				if(MageHitNPC(i)) damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
         stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
-        if (server.npcHandler.npcs[i].HP - damage < 0) 
-        damage = server.npcHandler.npcs[i].HP;
-        server.npcHandler.npcs[i].StartKilling = playerId;
-	server.npcHandler.npcs[i].RandomWalk = false;
-	server.npcHandler.npcs[i].IsUnderAttack = true;
-	server.npcHandler.npcs[i].hitDiff = damage;
-	server.npcHandler.npcs[i].updateRequired = true;
-	server.npcHandler.npcs[i].hitUpdateRequired = true;
+				updateDelayAndHitNPC(i, damage);
       }
     }
+   else break;
   }
 }
 
@@ -6063,23 +6010,15 @@ public void attackNPCSWithin(int gfx, int maxDamage, int range) {
  * @param maxDamage Randomizes this damage
  */
 public void attackNPCSWithin(int maxDamage, int range) {
-	 for (int i = 0; i <= server.npcHandler.maxNPCs-1; i++)
-	  {
-	   if(server.npcHandler.npcs[i] != null) 
-	    {
+	 for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
+	   if(server.npcHandler.npcs[i] != null){
 	      if(distanceToPoint(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY) <= range && !server.npcHandler.npcs[i].IsDead)
 	       {
 	        int damage = misc.random(maxDamage);
-	        if (server.npcHandler.npcs[i].HP - damage < 0) 
-	        	damage = server.npcHandler.npcs[i].HP;
-	    server.npcHandler.npcs[i].StartKilling = playerId;
-	    server.npcHandler.npcs[i].RandomWalk = false;
-	    server.npcHandler.npcs[i].IsUnderAttack = true;    
-		server.npcHandler.npcs[i].hitDiff = damage;
-		server.npcHandler.npcs[i].updateRequired = true;
-		server.npcHandler.npcs[i].hitUpdateRequired = true;
+					updateDelayAndHitNPC(i, damage);
 	      }
 	    }
+	   else break;
 	  }
 	}
 
@@ -6295,18 +6234,18 @@ public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int
    GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
  }	
 	
-public int ProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int magicHit) {
+public int ProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
 		setAnimation(711);
 		projectileOnNPC(startID, movingID, finishID, casterY, casterX, offsetY,offsetX,index,enemyY,enemyX,95);
-   int hit = this.MAGICDATAHANDLER.calculateMagicMaxHit(magicHit);
+   int hit = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
    addSkillXP((hit * mageXP2)*rate, 6);
    return hit;   
  }
 
-public int ancientsProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int magicHit) {
+public int ancientsProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
 	setAnimation(1978);
 	projectileOnNPC(startID, movingID, finishID, casterY, casterX, offsetY,offsetX,index,enemyY,enemyX,95);
- int hit = this.MAGICDATAHANDLER.calculateMagicMaxHit(magicHit);
+ int hit = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
  addSkillXP((hit * mageXP2)*rate, 6);
  return hit;   
 }
@@ -6328,14 +6267,14 @@ public void ProjectileSpellPlayer2(int startID, int movingID, int finishID, int 
  }
 
  
-public int ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg) {
+public int ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
 		setAnimation(711);
 		if(!MageHit(index-1)){
 			maxDmg = 0;
 			finishID = 339;
 		}
    GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
-   return this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg);
+   return misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
  }
 
 public void ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX) {
@@ -6343,14 +6282,14 @@ public void ProjectileSpellPlayer(int startID, int movingID, int finishID, int c
  return;
 }
 
-public int ancientsProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg) {
+public int ancientsProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
 	setAnimation(1978);
 	if(!MageHit(index-1)){
 		maxDmg = 0;
 		finishID = 339;
 	}
  GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
- return this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg);
+ return misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
 }
  
 
@@ -13050,7 +12989,6 @@ public void attackLoops(){
 }
 
 public boolean process() { 	// is being called regularily every 500ms	
-
 		return packetProcess();
 	}
 
@@ -13446,14 +13384,18 @@ case 192:
 			case 72: //Click to attack
 				if(isNPCSpamming()) break;
 				spamtimer = System.currentTimeMillis();
-				
-				//playerLevel[18] is slayer
 				if(attacknpc > 0) {
 					sendMessage("You are already attacking an npc!");
 					break;
 				}
 				else {
 					attacknpc = inStream.readUnsignedWordA();
+					if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
+						if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[attacknpc].npcType) && slayerNPC != server.npcHandler.npcs[attacknpc].npcType){
+							sendMessage("You need a higher Slayer level to do that.");
+							break;
+						}
+					}
 					if(server.npcHandler.npcs[attacknpc].moveToSpawn) break;
 					boolean Cant = false;
 					if(server.npcHandler.npcs[attacknpc].attacknpc > 0) {
@@ -16917,7 +16859,7 @@ parseIncomingPackets2();
 	private boolean updateDelayAndDamagePlayer(int playerID, int damage){
 		client opponentClient = (client) PlayerHandler.players[playerID];
 		
-		LoopAttDelay = PkingDelay+7;
+		LoopAttDelay = PkingDelay;
 		debug("LoopAttDelay : "+LoopAttDelay);
 		playerSpamTimer = System.currentTimeMillis();
 		faceNPC = 32768+playerID;
@@ -16965,7 +16907,7 @@ parseIncomingPackets2();
 		if(!canAttackOpponent(opponentClient))
 			return false;
 
-		int distance = ifHasBowAndAmmoUpdateDelay();
+		int distance = Item.ifHasBowAndAmmoUpdateDelay(this);
 		if(distance == -1){
 			sendMessage("You need ammo to use this ranged weapon.");
 			refreshPlayerPosition();
@@ -16978,17 +16920,17 @@ parseIncomingPackets2();
 
 		/* Melee */
 		if(distance == 1 && !autocast) { 
-			if(lists.halberd.exists(playerEquipment[playerWeapon])){
-				PkingDelay = 7;
+			
+			if(lists.halberd.exists(playerEquipment[playerWeapon]))
 				distance = 2;
-			}
+			
 			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
 				if (PlayerHandler.players[AttackingOn].IsDead == true) {
 					ResetAttack();
 					return false;
 				}
 
-				PkingDelay = 5; //default delay
+				PkingDelay = Item.getItemDelay(playerEquipment[playerWeapon]);
 
 				setAnimation(GetWepAnim());
 				
@@ -18291,7 +18233,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 	int applySnare = -1;
 	
 	private boolean AttackPlayerMagic(int index) {
-		if(LoopAttDelay > 1)
+		if(LoopAttDelay > 0)
 			return false;
 		
 		applySnare = -1;
@@ -18328,7 +18270,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 		if (distanceBetweenMeAndMyEnemy <= 6){				
 			if(debugmode) debug("playerIndex: "+playerIndex+" spellID: "+spellID);
 			
-			PkingDelay = 4+(distanceBetweenMeAndMyEnemy/2);
+			PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
 			
 			refreshPlayerPosition();
 			
@@ -18349,129 +18291,129 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 			switch(spellID){ 
 			
 			case 1152: //Wind Strike
-				damage = ProjectileSpellPlayer(90, 95, 92, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 2);
+				damage = ProjectileSpellPlayer(90, 95, 92, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 2,1);
 				break;
 
 			case 1154: //Water Strike
-				damage = ProjectileSpellPlayer(93, 94, 95, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 5);
+				damage = ProjectileSpellPlayer(93, 94, 95, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 4,5);
 				break;
 
 			case 1156: //Earth Strike
-				damage = ProjectileSpellPlayer(96, 97, 98, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 9);
+				damage = ProjectileSpellPlayer(96, 97, 98, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 6,9);
 				break;
 
 			case 1158: //Fire Strike
-				damage = ProjectileSpellPlayer(99, 100, 101, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 13);
+				damage = ProjectileSpellPlayer(99, 100, 101, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 8,13);
 				break;
 
 			case 1160: //Wind Bolt
-				damage = ProjectileSpellPlayer(117, 118, 119, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17);
+				damage = ProjectileSpellPlayer(117, 118, 119, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 9,17);
 				break;
 			case 1163: //thing
-				damage = ProjectileSpellPlayer(120, 121, 122, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23);
+				damage = ProjectileSpellPlayer(120, 121, 122, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 10,23);
 				break;
 
 			case 1166: //Earth Bolt
-				damage = ProjectileSpellPlayer(123, 124, 125, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 29); 
+				damage = ProjectileSpellPlayer(123, 124, 125, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 11,29); 
 				break;
 
 			case 1169: //Fire Bolt
-				damage = ProjectileSpellPlayer(126, 127, 128, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 35);
+				damage = ProjectileSpellPlayer(126, 127, 128, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 12,35);
 				break;
 
 			case 1172: //Wind Blast
-				damage = ProjectileSpellPlayer(132, 133, 134, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 41);
+				damage = ProjectileSpellPlayer(132, 133, 134, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 13,41);
 				break;
 
 			case 1175: //Water Blast
-				damage = ProjectileSpellPlayer(135, 136, 137, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 47);
+				damage = ProjectileSpellPlayer(135, 136, 137, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14,47);
 				break;
 
 			case 1177: //Earth Blast
-				damage = ProjectileSpellPlayer(138, 139, 140, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 53);
+				damage = ProjectileSpellPlayer(138, 139, 140, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15,53);
 				break;
 
 			case 1181: //Fire Blast
-				damage = ProjectileSpellPlayer(129, 130, 131, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 59);
+				damage = ProjectileSpellPlayer(129, 130, 131, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16,59);
 				break;
 
 			case 1183: //Wind Wave
-				damage = ProjectileSpellPlayer(158, 159, 160, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26);
+				damage = ProjectileSpellPlayer(158, 159, 160, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17,62);
 				break;
 
 			case 1185: //Water Wave
-				damage = ProjectileSpellPlayer(161, 162, 163, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 27);
+				damage = ProjectileSpellPlayer(161, 162, 163, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 18,65);
 				break;
 
 			case 1188: //Earth Wave
-				damage = ProjectileSpellPlayer(164, 165, 166, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 28);
+				damage = ProjectileSpellPlayer(164, 165, 166, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 19,70);
 				break;
 
 			case 1189: //Fire Wave
-				damage = ProjectileSpellPlayer(155, 156, 157, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 30);
+				damage = ProjectileSpellPlayer(155, 156, 157, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 20,75);
 				break;
 
 			case 12861: //Ice Rush - Level 58
 				applySnare = 5;
-				damage = ancientsProjectileSpellPlayer(360, 360, 361, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17);
+				damage = ancientsProjectileSpellPlayer(360, 360, 361, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17,58);
 				break;
 
 			case 12881: //Ice Burst - Level 70
 				applySnare = 10;
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST);					
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST,70);					
 				return true;
 
 			case 12871: //Ice Blitz - Level 82
 				applySnare = 15;
-				damage = ancientsProjectileSpellPlayer(366, 367, 368, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26);
+				damage = ancientsProjectileSpellPlayer(366, 367, 368, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26,82);
 				break;
 
 			case 12891: //Ice Barrage - Level 94
 				applySnare = 20;
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE);					
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94);					
 				return true;
 
 			case 12939: // Smoke Rush - Level 50
-				damage = ancientsProjectileSpellPlayer(384, 384, 385, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14);
+				damage = ancientsProjectileSpellPlayer(384, 384, 385, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14,50);
 				break;
 
 			case 12963: // Smoke Burst - Level 62
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST);		
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST,62);		
 				return true;
 
 			case 12951: //Smoke Blitz - Level 74
-				damage = ancientsProjectileSpellPlayer(386, 386, 387, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23);
+				damage = ancientsProjectileSpellPlayer(386, 386, 387, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23,74);
 				break;
 
 			case 12975: //Smoke Barrage - Level 86
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE);
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86);
 				return true;
 
 			case 12987: //Shadow Rush - Level 52
-				damage = ancientsProjectileSpellPlayer(378, 378, 379, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15);
+				damage = ancientsProjectileSpellPlayer(378, 378, 379, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15,52);
 				break;
 
 			case 13011: //Shadow Burst - Level 64
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST);
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST,64);
 				return true;
 
 			case 12999: //Shadow Blitz - Level 76
-				damage = ancientsProjectileSpellPlayer(380, 380, 381, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 24);
+				damage = ancientsProjectileSpellPlayer(380, 380, 381, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 24,76);
 				break;
 
 			case 13023: //Shadow Barrage - Level 88
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE);
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88);
 				return true;
 
 			case 12901: //Blood Rush - Level 56
-				damage = ancientsProjectileSpellPlayer(372, 372, 373, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16);
+				damage = ancientsProjectileSpellPlayer(372, 372, 373, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16,56);
 				NewHP += damage/4;
 				if(NewHP > getLevelForXP(playerXP[3])) 
 					NewHP = getLevelForXP(playerXP[3]);
 				break;
 				
 			case 12919: //Blood Burst - Level 68
-				int total = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,376,21,BURST);
+				int total = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,376,21,BURST,68);
 				if(total > 7) total = 7; //greatest amount that can be healed is 7
 				NewHP += total;
 				if(NewHP > getLevelForXP(playerXP[3])) 
@@ -18479,7 +18421,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				return true;
 
 			case 12911: //Blood Blitz - Level 80
-				damage = ancientsProjectileSpellPlayer(374, 374, 375, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 25);
+				damage = ancientsProjectileSpellPlayer(374, 374, 375, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 25,80);
 				int total2 = damage/4;
 				if(total2 > 7) total2 = 7; //greatest amount that can be healed is 7
 				NewHP += total2;
@@ -18488,7 +18430,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 12929: //Blood Barrage - Level 92
-				int total3 = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,377,29,BARRAGE);
+				int total3 = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92);
 				if(total3 > 8) total3 = 8; //greatest amount that can be healed is 8
 				NewHP += total3;
 				if(NewHP > getLevelForXP(playerXP[3])) 
@@ -18790,33 +18732,6 @@ public int checkSpecials(int original, int Y, int X){
 	return original;
 } 
 
-
-/**
- * Checks to see if the player has a bow and ammo equipped
- * Will modify PkingDelay if a bow is equipped
- * @return The distance of what they have equipped, depending on type of fight style.
- * Returns -1 if a bow is equipped with no ammo.
- * Returns 1 as default if no bow is equipped.
- */
-private int ifHasBowAndAmmoUpdateDelay(){
-	if(lists.bows.exists(playerEquipment[playerWeapon])){ //Check to see if a bow is equipped
-		if(!this.BOWHANDLER.checkAmmo())
-			return -1;
-		switch (FightType) {
-			case 1:
-				PkingDelay = 7;
-				return 4;
-			case 2: //rapid
-				PkingDelay = 5;
-				return 3;
-			case 3:
-				PkingDelay = 10;
-				return 6;
-		}		
-	}
-	return 1; //default distance, no bow equipped
-}
-
 private boolean hitNPC(int npcID, int damage){
 	try{
 		if ( (server.npcHandler.npcs[npcID].HP-damage) < 0)
@@ -18847,7 +18762,7 @@ private boolean hitNPC(int npcID, int damage){
  * @return True if the hit was successful, false otherwise
  */
 private boolean updateDelayAndHitNPC(int npcID, int damage){
-	LoopAttDelay = PkingDelay+10;
+	LoopAttDelay = PkingDelay;
 	hitDelayTimer = System.currentTimeMillis();
 	return hitNPC(attacknpc, damage);
 }
@@ -18906,17 +18821,14 @@ private void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord
 
 public boolean AttackNPC() {
 	
-	if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
-		if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[attacknpc].npcType) && slayerNPC != server.npcHandler.npcs[attacknpc].npcType){
-			sendMessage("You need a higher Slayer level to do that.");
-			return false;
-		}
-	}
+	if(LoopAttDelay > 0)
+		return false;
 	
-	if (server.npcHandler.npcs[attacknpc].IsDead == true){
+	if (server.npcHandler.npcs[attacknpc].IsDead){
 		ResetAttackNPC();
 		return false;
 	}
+	
 	int EnemyX = server.npcHandler.npcs[attacknpc].absX;
 	int EnemyY = server.npcHandler.npcs[attacknpc].absY;
 	int hitDiff = 0;
@@ -18925,26 +18837,21 @@ public boolean AttackNPC() {
 
 	if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
 
-		PkingDelay = this.get;
-		//resetanim = 5;
-
-		int distance = ifHasBowAndAmmoUpdateDelay();
+		int distance = Item.ifHasBowAndAmmoUpdateDelay(this);
 		if(distance == -1){
 			sendMessage("You need ammo to use this ranged weapon.");
 			refreshPlayerPosition();
 			ResetAttackNPC();
 			return false;
 		}
-				
-		if(LoopAttDelay > 1)
-			return false;
 		
 		/* Melee */
 		if(distance == 1 && !autocast) { 
-			if(lists.halberd.exists(playerEquipment[playerWeapon])){
-				PkingDelay = 7;
+			
+			if(lists.halberd.exists(playerEquipment[playerWeapon]))
 				distance = 2;
-			}
+			
+			PkingDelay = Item.getItemDelay(playerEquipment[playerWeapon]);
 			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
 				if(distance > 1)
 					refreshPlayerPosition();
@@ -18990,7 +18897,7 @@ public boolean AttackNPC() {
 				
 		/* Magic */
 		if(autocast){
-			final int AUTOCASTDISTANCE = 5;
+			final int AUTOCASTDISTANCE = 6;
 			if (GoodDistance(EnemyX, EnemyY, absX, absY, AUTOCASTDISTANCE)){ 
 				if(magicOnNPC(attacknpc))
 					return true;
