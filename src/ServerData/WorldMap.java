@@ -73,7 +73,7 @@ RandomAccessFile in = null;
 				e2.printStackTrace();
 			}
 		}
-
+		generateWalkableGrid();
    }
 
 // prepareDatabaseFile() by Phate/WinterLove, renamed & edit by WhiteFang 
@@ -175,24 +175,77 @@ RandomAccessFile in = null;
       cWorldMap2++;
    }
 
- public static boolean isWalkAble(int height, int absX, int absY, int toAbsX, int toAbsY) {
-      if (absX == toAbsX && absY == toAbsY) return true;
-      int direction1 = getDirection(absX, absY, toAbsX, toAbsY);
-      int direction2 = getOppositeDirection(absX, absY, toAbsX, toAbsY);
-      if (direction1 == -1 || direction2 == -1) {
-         misc.println("Direction Bug from(" + absX + "," + absY + ") to (" + toAbsX + "," + toAbsY + ") Height(" + height + ") abs(" + toAbsX + "," + toAbsY + ")");
-         return false;
-      }
-      for (int i = 0; i < maxObjects; i++) {
-        if (objectId[i] == -1) continue;
-         if (objectHeight[i] != height) continue;
-         if (objectType[i] == 22) continue;
-         if (objectX[i] == toAbsX && objectY[i] == toAbsY && height == objectHeight[i]) 
-		return false;
-
-	  }
-	  return true;
+   //NOTE : three dimensional array made my computer cap memory at 4gb and CPU at 98%
+   private static int[][] walkableGridHeight0 = new int[4000][11000];
+   private static int[][] walkableGridHeight1 = new int[4000][11000];
+   private static int[][] walkableGridHeight2 = new int[4000][11000];
+   private static int[][] walkableGridHeight3 = new int[4000][11000];
+   
+   private static int[][] getWalkableGridAtHeight(int height){
+  	 switch(height){
+  	 case 0:
+  		 return walkableGridHeight0;
+  	 case 1:
+  		 return walkableGridHeight1;
+  	 case 2:
+  		 return walkableGridHeight2;
+  	 case 3:
+  		 return walkableGridHeight3;
+  	 }
+  	 System.out.println("[Error] - In WorldMap, walkable grid at height "+height+" called.");
+  		return null;
    }
+   
+   public static void generateWalkableGrid(){
+  	 for (int i = 0; i < maxObjects; i++) {
+  		 try{
+  		 if (objectId[i] == -1) continue;
+  		 int x = objectX[i];
+  		 int y = objectY[i];
+  		 if (objectType[i] == 22){
+  			 getWalkableGridAtHeight(objectHeight[i])[x][y] = i;
+  		 }
+  		 else{
+  			 getWalkableGridAtHeight(objectHeight[i])[x][y] = -1;
+  		 }
+  			 
+  		 }
+  		 catch(Exception e){
+  			 System.out.println("[Error] : in generateWalkableGrid in WorldMap.");
+  			 System.out.println("object coordinates, height : "+objectX[i]+","+objectY[i]+", h:"+objectHeight[i]);
+  		 }
+  	 }
+   }
+
+   public static boolean isWalkAble(int height, int absX, int absY, int toAbsX, int toAbsY) {
+  	 if (absX == toAbsX && absY == toAbsY) return true;
+  	 int direction1 = getDirection(absX, absY, toAbsX, toAbsY);
+  	 int direction2 = getOppositeDirection(absX, absY, toAbsX, toAbsY);
+  	 if (direction1 == -1 || direction2 == -1) {
+  		 misc.println("Direction Bug from(" + absX + "," + absY + ") to (" + toAbsX + "," + toAbsY + ") Height(" + height + ") abs(" + toAbsX + "," + toAbsY + ")");
+  		 return false;
+  	 }
+  	 return(getWalkableGridAtHeight(height)[toAbsX][toAbsY] != -1);
+   }
+   
+//   public static boolean isWalkAble(int height, int absX, int absY, int toAbsX, int toAbsY) {
+//  	 if (absX == toAbsX && absY == toAbsY) return true;
+//  	 int direction1 = getDirection(absX, absY, toAbsX, toAbsY);
+//  	 int direction2 = getOppositeDirection(absX, absY, toAbsX, toAbsY);
+//  	 if (direction1 == -1 || direction2 == -1) {
+//  		 misc.println("Direction Bug from(" + absX + "," + absY + ") to (" + toAbsX + "," + toAbsY + ") Height(" + height + ") abs(" + toAbsX + "," + toAbsY + ")");
+//  		 return false;
+//  	 }
+//  	 for (int i = 0; i < maxObjects; i++) {
+//  		 if (objectId[i] == -1) continue;
+//  		 if (objectHeight[i] != height) continue;
+//  		 if (objectType[i] == 22) continue;
+//  		 if (objectX[i] == toAbsX && objectY[i] == toAbsY && height == objectHeight[i]) 
+//  			 return false;
+//
+//  	 }
+//  	 return true;
+//   }
 
    public static int getOppositeDirection(int absX, int absY, int toAbsX, int toAbsY) {
 // we must reverse direction, walking north will require object to stand south

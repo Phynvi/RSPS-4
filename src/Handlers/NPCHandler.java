@@ -316,12 +316,14 @@ public class NPCHandler {
 		}
 	}
 	public void process() {
-		for (int i = 0; i < maxNPCs; i++) {
-			if (npcs[i] == null) continue;
+		for (int i = 1; i < maxNPCs; i++) {
+			if (npcs[i] == null)
+				break;
 			npcs[i].clearUpdateFlags();
 		}
-		for (int i = 0; i < maxNPCs; i++) {
-			if (npcs[i] == null) continue;
+		for (int i = 1; i < maxNPCs; i++) {
+			if (npcs[i] == null)
+				break;
 			if (npcs[i] != null) {
 				if (npcs[i].actionTimer > 0) {
 					npcs[i].actionTimer--;
@@ -343,7 +345,7 @@ public class NPCHandler {
 						} else if (Rnd == 3) {
 							MoveY = -(MoveY);
 						}
-						if (IsInRange(i, MoveX, MoveY) == true && WorldMap.isWalkAble(npcs[i].heightLevel, npcs[i].absX, npcs[i].absY, npcs[i].absX+MoveX, npcs[i].absY+MoveY)) {
+						if (IsInRange(i, MoveX, MoveY) == true && server.WorldMap.isWalkAble(npcs[i].heightLevel, npcs[i].absX, npcs[i].absY, npcs[i].absX+MoveX, npcs[i].absY+MoveY)) {
 								npcs[i].moveX = MoveX;
 								npcs[i].moveY = MoveY;
 								npcs[i].getNextNPCMovement();
@@ -394,8 +396,9 @@ public class NPCHandler {
 					} 					
 					
 					boolean exitFor = false; //checks to see if is standing on top of another npc
-					for(int k = 0; k < maxNPCs && !exitFor; k++){
-						if(npcs[k] == null) continue;
+					for(int k = 1; k < maxNPCs && !exitFor; k++){
+						if(npcs[k] == null)
+							break;
 						if(npcs[k] != null && npcs[k] != npcs[i]){
 							if(npcs[k].absX == npcs[i].absX && npcs[k].absY == npcs[i].absY){
 								int rX = misc.random(1);

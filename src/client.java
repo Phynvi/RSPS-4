@@ -687,6 +687,7 @@ public class client extends Player implements Runnable {
 		this.WC = new Woodcutting(this);
 		this.MINE = new Mining(this);   
 		this.FARM = new Farming(this);
+		this.RUNECRAFTING = new Runecrafting(this);
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
 		this.Events.EventStart(1000, 1, this); //Calls event index 1 every second
 		this.Events.EventStart(30*1000, 2, this); //Called every 30 seconds
@@ -6400,7 +6401,42 @@ public boolean HasItemAmount(int itemID, int itemAmount) {
 	return false;
 }
 
- 
+public void replaceAllItemsOfTypeWith(int itemID, int withID){
+	if(!Item.itemStackable[itemID+1]){
+		for(int i = 0; i < playerItems.length; i++){
+			if(playerItems[i] == itemID+1)
+				playerItems[i] = withID+1;
+		}
+	}
+	else{
+		int amount = 0;
+		int slot = 0;
+		for(int i = playerItems.length-1; i >= 0; i--){
+			if(playerItems[i] == itemID+1){
+				slot = i;
+				amount += playerItemsN[i];
+				playerItems[i] = 0;
+				playerItemsN[i] = 0;
+			}
+		}
+		playerItems[slot] = withID+1;
+		playerItemsN[slot] = amount;
+	}
+	for(int i = 0; i < playerItems.length; i++){
+		outStream.createFrameVarSizeWord(34);
+		outStream.writeWord(3214);
+		outStream.writeByte(i);
+		outStream.writeWord(playerItems[i]);
+		if (playerItemsN[i] > 254) {
+			outStream.writeByte(255);
+			outStream.writeDWord(playerItemsN[i]);
+		} else {
+			outStream.writeByte(playerItemsN[i]); //amount	
+		}
+		outStream.endFrameVarSizeWord();
+	}
+}
+
 
     public boolean Has2Items(int itemID, int amount, int itemID2, int amount2){
    if(HasItemAmount(itemID, amount)) {
@@ -10136,14 +10172,39 @@ if (Donar == 0){
 if(command.startsWith("resetanimation"))
 	resetAnimation();
 
+if(command.startsWith("aitem") && playerRights >= 2){
+	String itemName = command.substring(6);
+	boolean foundItem = false;
+	for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
+		if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.contains(itemName) ){
+			sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
+			addItem(i);
+			foundItem = true;
+		}
+	}
+	if (!foundItem)
+		sendMessage("Could not find any item containing "+itemName);
+}
+
 if (command.startsWith("item") && playerRights >= 2) {
 	try {
 		int newitem = Integer.parseInt(command.substring(5));
 		currentItem = newitem;
 		addItem(newitem, 1);
 	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as :item #");
+	catch(NumberFormatException e) {
+		String itemName = command.substring(5);
+		boolean foundItem = false;
+		for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
+			if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
+				sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
+				addItem(i);
+				foundItem = true;
+				break;
+			}
+		}
+		if (!foundItem)
+			sendMessage("Could not find item "+itemName);
 	}
 }
 
@@ -11787,8 +11848,8 @@ if (debugmode)sendMessage("You recieved "+amount+" exp in Skill "+skill);
 	}
 	public int itemAmount(int itemID) {
 		int tempAmount = 0;
-        	for (int i = 0; i < playerItems.length; i++) {
-			if (playerItems[i] == itemID) {
+		for (int i = 0; i < playerItems.length; i++) {
+			if (playerItems[i] == itemID+1) {
 				tempAmount += playerItemsN[i];
 			}
 		}
@@ -13641,6 +13702,11 @@ case 192:
 	if(useItemID == 1779 && atObjectID == 8748){
 		spinning = true;
 		selectoption("Options", "Make all Bowstrings", "Cancel", "...");
+		break;
+	}
+	
+	if(atObjectID == 2452){
+		RUNECRAFTING.craftRunes(useItemID);
 		break;
 	}
 	

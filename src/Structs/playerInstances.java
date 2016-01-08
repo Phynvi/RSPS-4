@@ -52,6 +52,7 @@ class playerInstances {
 	public boolean optionsMenu = false;
 	public int oX1,oX2,oX3,oY1,oY2,oY3,oX4,oY4;
 
+	public Runecrafting RUNECRAFTING;
 	public Crafting CRAFT;
 	public boolean cycleItems = false;	
 	public Woodcutting WC;

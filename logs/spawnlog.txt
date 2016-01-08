@@ -786,3 +786,4 @@ AAA Mods: 995Amount:99000
 AAA Mods: 995Amount:100000000
 aaa mods: 995Amount:10000000
 AAA Mods: 995Amount:100000
+AAA Mods: 1437Amount:10000

@@ -4,24 +4,91 @@ public class Runecrafting {
 	private client c;
 	
 //runes
-	private int FIRE = 554;
-	private int WATER = 555;
-	private int AIR = 556;
-	private int EARTH = 557;
-	private int MIND = 558;
-	private int BODY = 559;
-	private int DEATH = 560;
-	private int NATURE = 561;
-	private int CHAOS = 562;
-	private int LAW = 563;
-	private int COSMIC = 564;
-	private int BLOOD = 565;
-	private int SOUL = 566;
+	private final int FIRE_RUNE = 554;
+	private final int WATER_RUNE = 555;
+	private final int AIR_RUNE = 556;
+	private final int EARTH_RUNE = 557;
+	private final int MIND_RUNE = 558;
+	private final int BODY_RUNE = 559;
+	private final int DEATH_RUNE = 560;
+	private final int NATURE_RUNE = 561;
+	private final int CHAOS_RUNE = 562;
+	private final int LAW_RUNE = 563;
+	private final int COSMIC_RUNE = 564;
+	private final int BLOOD_RUNE = 565;
+	private final int SOUL_RUNE = 566;
+	
+	private final int RUNE_ESSENCE = 1436;
+	
+	private final int AIR_TALISMAN = 1438;
+	private final int EARTH_TALISMAN = 1440;
+	private final int FIRE_TALISMAN = 1442;
+	private final int WATER_TALISMAN = 1444;
+	private final int BODY_TALISMAN = 1446;
+	private final int MIND_TALISMAN = 1448;
+	private final int BLOOD_TALISMAN = 1450;
+	private final int CHAOS_TALISMAN = 1452;
+	private final int COSMIC_TALISMAN = 1454;
+	private final int DEATH_TALISMAN = 1456;
+	private final int LAW_TALISMAN = 1458;
+	private final int SOUL_TALISMAN = 1460;
+	private final int NATURE_TALISMAN = 1462;
 	
 	//Talismans
 	
 	public Runecrafting(client playerC){
 		this.c = playerC;
+	}
+	
+	private boolean checkRequirementsAndCraft(int level, double exp, int rune, int multi){
+		if(c.playerLevel[c.playerRunecrafting] < level){
+			c.sendMessage("You need at least "+level+" Runecrafting to do that.");
+			return false;
+		}
+		if(!c.HasItemAmount(RUNE_ESSENCE, 1)){
+			c.sendMessage("You do not have any Rune Essence to craft this with.");
+			return false;
+		}
+		double runesToCraft = c.itemAmount(RUNE_ESSENCE);
+		int extraRunes = 0;
+		if(multi != -1)
+			extraRunes = (int)(runesToCraft*Math.ceil((double)c.playerLevel[c.playerRunecrafting]/(double)multi));
+
+		exp = Math.ceil(exp*(runesToCraft+extraRunes)*c.rate);
+		c.addSkillXP((int)exp, c.playerRunecrafting);
+		c.replaceAllItemsOfTypeWith(RUNE_ESSENCE, rune);
+		c.addItem(rune, extraRunes);
+		c.startAnimation(791);
+		c.gfx100(186);
+		return false;
+	}
+	
+	public boolean craftRunes(int talismanID){
+		switch(talismanID){
+		case AIR_TALISMAN:
+			return checkRequirementsAndCraft(1,5,AIR_RUNE,11);
+		case MIND_TALISMAN:
+			return checkRequirementsAndCraft(1,5.5,MIND_RUNE,14); 
+		case WATER_TALISMAN:
+			return checkRequirementsAndCraft(5,6,WATER_RUNE,19); 
+		case EARTH_TALISMAN:
+			return checkRequirementsAndCraft(9,6.5,EARTH_RUNE,26); 
+		case FIRE_TALISMAN:
+			return checkRequirementsAndCraft(14,7,FIRE_RUNE,35); 
+		case BODY_TALISMAN:
+			return checkRequirementsAndCraft(20,7.5,BODY_RUNE,46); 
+		case COSMIC_TALISMAN:
+			return checkRequirementsAndCraft(27,8,COSMIC_RUNE,0); 
+		case CHAOS_TALISMAN:
+			return checkRequirementsAndCraft(35,8.5,CHAOS_RUNE,0); 
+		case NATURE_TALISMAN:
+			return checkRequirementsAndCraft(44,9,NATURE_RUNE,0); 
+		case LAW_TALISMAN:
+			return checkRequirementsAndCraft(54,9.5,LAW_RUNE,0); 
+		case DEATH_TALISMAN:
+			return checkRequirementsAndCraft(65,10,LAW_RUNE,0); 
+		}
+		return false;
 	}
 	
 	
