@@ -54,6 +54,8 @@ public abstract class Player extends playerInstances {
 	public String[] clanMembers = new String[17]; //19 total
 	public int[] CCID = { 11941, 4287, 4288, 4289, 4290, 11134, 4291, 4292, 4293, 4294, 4295, 4296, 8935, 4297, 4298, 4299, 4300 };
 	public int clanRights = 0;
+	
+	public boolean ignoreCombat = false;
 
 
 	/**
@@ -1335,7 +1337,6 @@ public abstract class Player extends playerInstances {
 	public int StrPotion = 0;
 	public int StrPrayer = 0;
 	public int FightType = 1;
-	public int playerMaxHit = 0;
 	public int playerSE = 0x328; //SE = Standard Emotion
 	public int playerSEW = 0x333; //SEW = Standard Emotion Walking
 	public int playerSER = 0x338; //SER = Standard Emotion Run

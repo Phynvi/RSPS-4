@@ -10,7 +10,7 @@ public class lists {
 	public static BST patchList = new BST();
 	public static BST craftingList = new BST();
 	public static BST prayerList = new BST();
-	public static BST doorOpen = new BST(2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
@@ -51,6 +51,10 @@ public class lists {
 	public static BST godSwords = new BST(15333,15334,15335,15336);
 	
 	public static BST axes = new BST(6739, 1359, 1357, 1355, 1361, 1353, 1349, 1351);
+
+	public static BST pestControlNPCs = new BST();
+
+	public static int[] PCArray = misc.createArrayInRange(3727, 3782);
 	
 	public lists(){
 		generateLists();
@@ -60,6 +64,8 @@ public class lists {
 	public static void generateLists(){
 		//System.out.println("BST : Loading lists ... ");
 		long starting = System.currentTimeMillis();
+		
+		pestControlNPCs.buildBalancedTree(PCArray, 0, PCArray.length-1);
 		
 		twoHanded.add(godSwords.toArray());
 		twoHanded.add(halberd.toArray());

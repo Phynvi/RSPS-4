@@ -16,6 +16,15 @@
 			}
 		}
 		
+		public void buildBalancedTree(int[] entries, int start, int end){
+			if(start > end)
+				return;
+			int mid = (start+end)/2;
+			this.add(entries[mid]);
+			buildBalancedTree(entries, start, mid-1);
+			buildBalancedTree(entries, mid+1,end);
+		}
+		
 		/**
 		 * Will add all integers INCLUSIVE to the two values given
 		 * I.E. - addrange(8151,8155) will add 8151,8152,8153,8154, and 8155.

@@ -10,10 +10,10 @@
 	
 -Run energy subtracts
 
--PEST CONTROL FOUND
-
--New area?
-
 -Teleport in ardougne (elena) is open
 
--find dialogue max npc
+-Finish pest control
+
+-Add in follow other player feature
+
+-Move commands to separate handler

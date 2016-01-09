@@ -22,6 +22,7 @@ public class NPCHandler {
 		for(int i = 0; i < maxNPCs; i++) {
 			npcs[i] = null;
 		}
+		ignoreCombatLevel.buildBalancedTree(lists.PCArray, 0, lists.PCArray.length-7); //3727-3776 are aggressive
 		loadNPCList("npc.cfg");
 		loadAutoSpawn("autospawn.cfg");
 	}
@@ -367,7 +368,8 @@ public class NPCHandler {
 					if(npcs[i].isOutsideSpawn()) //if the npc has wandered too far
 						npcs[i].reset();
 					
-					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply){
+					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply && npcs[i].npcType != 3778 && npcs[i].npcType != 3779 && 
+							npcs[i].npcType != 3780 && npcs[i].npcType != 3777){
 						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
 						Player attackingPlayer = server.playerHandler.players[npcs[i].StartKilling];
 						if(attackingPlayer != null){
@@ -384,6 +386,7 @@ public class NPCHandler {
 							continue;
 						client person = (client) server.playerHandler.players[j];
 						if (person != null) {
+							if(person.ignoreCombat) continue;
 							int dist = npcs[i].agroRange;
 							if ((npcs[i].isAggressive || npcs[i].isAggressiveIgnoreCombatLevel) && person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= dist && 
 									person.heightLevel == npcs[i].heightLevel && ( !person.IsAttackingNPC || person.isInMultiCombat() ) && 
@@ -555,22 +558,30 @@ public class NPCHandler {
 
 						} 
 						else {
-							npcs[i].animNumber = NPCAnim.getDeadAnimation(npcs[i].npcType); //human dead by default
+							int deadAnim = NPCAnim.getDeadAnimation(npcs[i].npcType); //human dead by default
+							if(deadAnim != -1){
+								npcs[i].animNumber = deadAnim;
+								npcs[i].animUpdateRequired = true;
+							}
 						}
 						npcs[i].updateRequired = true;
-						npcs[i].animUpdateRequired = true;
 						npcs[i].DeadApply = true;
 						npcs[i].actionTimer = 10;
 					} else if (npcs[i].actionTimer == 0 && npcs[i].DeadApply == true && npcs[i].NeedRespawn == false && npcs[i] != null) {
-						MonsterDropItem(i);
-						npcs[i].NeedRespawn = true;
-						npcs[i].actionTimer = 120;
-						npcs[i].absX = npcs[i].makeX;
-						npcs[i].absY = npcs[i].makeY;
-						npcs[i].animNumber = 0x328;
-						npcs[i].HP = npcs[i].MaxHP;
-						npcs[i].updateRequired = true;
-						npcs[i].animUpdateRequired = true;
+						if(npcs[i].npcType == 3780 || npcs[i].npcType == 3779 || npcs[i].npcType == 3778 || npcs[i].npcType == 3777){ //portals
+							server.pestControlHandler.portalRespawnChecks(i);
+						}
+						else{
+							MonsterDropItem(i);
+							npcs[i].NeedRespawn = true;
+							npcs[i].actionTimer = 120;
+							npcs[i].absX = npcs[i].makeX;
+							npcs[i].absY = npcs[i].makeY;
+							npcs[i].animNumber = 0x328;
+							npcs[i].HP = npcs[i].MaxHP;
+							npcs[i].updateRequired = true;
+							npcs[i].animUpdateRequired = true;
+						}
 
 					} else if (npcs[i].actionTimer == 0 && npcs[i].NeedRespawn == true) {
 						for (int j = 1; j < server.playerHandler.maxPlayers; j++) {
@@ -579,27 +590,32 @@ public class NPCHandler {
 							}
 						}
 						if(npcs[i].Respawns) {
-							int old1 = npcs[i].npcType;
-							if (old1 == 1267 ||old1 == 1265) {
-								old1 += 1;
+							if(lists.pestControlNPCs.exists(npcs[i].npcType))
+								server.pestControlHandler.pestControlRandomRespawn(i);
+							else{
+								int old1 = npcs[i].npcType;
+								if (old1 == 1267 ||old1 == 1265) {
+									old1 += 1;
+								}
+								int old2 = npcs[i].makeX;
+								int old3 = npcs[i].makeY;
+								int old4 = npcs[i].heightLevel;
+								int old5 = npcs[i].moverangeX1;
+								int old6 = npcs[i].moverangeY1;
+								int old7 = npcs[i].moverangeX2;
+								int old8 = npcs[i].moverangeY2;
+								int old9 = npcs[i].walkingType;
+								int old10 = npcs[i].MaxHP;
+								npcs[i] = null;
+								newNPC(old1, old2, old3, old4, old5, old6, old7, old8, old9, old10, true);
 							}
-							int old2 = npcs[i].makeX;
-							int old3 = npcs[i].makeY;
-							int old4 = npcs[i].heightLevel;
-							int old5 = npcs[i].moverangeX1;
-							int old6 = npcs[i].moverangeY1;
-							int old7 = npcs[i].moverangeX2;
-							int old8 = npcs[i].moverangeY2;
-							int old9 = npcs[i].walkingType;
-							int old10 = npcs[i].MaxHP;
-							npcs[i] = null;
-							newNPC(old1, old2, old3, old4, old5, old6, old7, old8, old9, old10, true);
 						}
 					}
 				}
 			}
 		}
 	}	
+	
 	
 	private void giveSlayerEXP(client c, int npcID){
 		//if(c.debugmode) c.sendMessage("npcID is "+npcID+", slayerNPC is "+c.slayerNPC+", slayerCount is "+c.slayerCount);
@@ -672,10 +688,11 @@ public class NPCHandler {
 
 	public static boolean IsDropping = false;
 	public void MonsterDropItem(int NPCID){
+		int npcID = npcs[NPCID].npcType;
+		if(lists.pestControlNPCs.exists(npcID)) return;
 		int playerId = npcs[NPCID].getPlayerAgroID();
 		client c = (client) server.playerHandler.players[playerId];
 		Player p = (Player) server.playerHandler.players[playerId];
-		int npcID = npcs[NPCID].npcType;
 		
 		giveSlayerEXP(c,npcID);
 		
@@ -1685,47 +1702,6 @@ WORLDMAP 2: (not-walk able places)
 		NPCFightType = 3;
 	}
 	
-	public boolean AttackNPC(int NPCID) {
-		if(server.npcHandler.npcs[npcs[NPCID].attacknpc] != null) {
-			int EnemyX = server.npcHandler.npcs[npcs[NPCID].attacknpc].absX;
-			int EnemyY = server.npcHandler.npcs[npcs[NPCID].attacknpc].absY;
-			int EnemyHP = server.npcHandler.npcs[npcs[NPCID].attacknpc].HP;
-			int hitDiff = 0;
-			int Npchitdiff = 0;
-			int wepdelay = 0;
-			hitDiff = misc.random(npcs[NPCID].MaxHit);
-			if (GoodDistance(EnemyX, EnemyY, npcs[NPCID].absX, npcs[NPCID].absY, 1) == true) {
-				if (server.npcHandler.npcs[npcs[NPCID].attacknpc].IsDead == true) {
-					ResetAttackNPC(NPCID);
-					//npcs[NPCID].textUpdate = "Oh yeah I win bitch!";
-					//npcs[NPCID].textUpdateRequired = true;
-					npcs[NPCID].animNumber = 2103;
-					npcs[NPCID].animUpdateRequired = true;
-					npcs[NPCID].updateRequired = true;
-				} else  {
-					if ((EnemyHP - hitDiff) < 0) {
-						hitDiff = EnemyHP;
-					}
-					if(npcs[NPCID].npcType == 9)
-						npcs[NPCID].animNumber = 386;
-					if(npcs[NPCID].npcType == 3200)
-						npcs[NPCID].animNumber = 0x326; // drags: chaos ele emote ( YESSS ) 
-					if(npcs[NPCID].npcType == 1605) {
-						npcs[NPCID].animNumber = 386; // drags: abberant spector death ( YAY )
-					} 
-					npcs[NPCID].animUpdateRequired = true;
-					npcs[NPCID].updateRequired = true;
-					server.npcHandler.npcs[npcs[NPCID].attacknpc].hitDiff = hitDiff;
-					server.npcHandler.npcs[npcs[NPCID].attacknpc].attacknpc = NPCID;
-					server.npcHandler.npcs[npcs[NPCID].attacknpc].updateRequired = true;
-					server.npcHandler.npcs[npcs[NPCID].attacknpc].hitUpdateRequired = true;
-					npcs[NPCID].actionTimer = 7;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 	public boolean ResetAttackNPC(int NPCID) {
 		npcs[NPCID].IsUnderAttackNpc = false;
 		npcs[NPCID].IsAttackingNPC = false;
@@ -1824,8 +1800,8 @@ WORLDMAP 2: (not-walk able places)
 		return false;
 	}
 
-	public int getHP(int npcID){
-		if(npcList2.exists(npcID))
+	public int getHP(int npcTypeID){
+		if(npcList2.exists(npcTypeID))
 			return npcList2.getHealth();
 		else return -1;
 	}

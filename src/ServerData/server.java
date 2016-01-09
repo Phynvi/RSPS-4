@@ -42,12 +42,13 @@ public static final String SERVERNAME = "SarimScape";
 		itemspawnpoints = new itemspawnpoints();
 		GraphicsHandler = new GraphicsHandler();
 		skillHandler = new SkillHandler();
+		pestControlHandler = new PestControlHandler();
 		//dialogueHandler = new DialogueHandler(); 
 		int waitFails = 0;
 		long lastTicks = System.currentTimeMillis();
 		long totalTimeSpentProcessing = 0;
 		int cycle = 0;
-		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0;
+		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0,pestControlTimeSpentProcessing=0;
 		int printOutDelay = 0;
 		while(!shutdownServer) {
 			if(updateServer)
@@ -66,6 +67,8 @@ public static final String SERVERNAME = "SarimScape";
 			if(showDelay) itemTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			shopHandler.process();
 			if(showDelay) shopTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			pestControlHandler.process();
+			if(showDelay) pestControlTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			//antilag.process();
 			//itemspawnpoints.process();
 
@@ -81,7 +84,7 @@ public static final String SERVERNAME = "SarimScape";
 				printOutDelay = 0;
 				System.out.println("[KERNEL] : Process time spent report:");
 				System.out.println("	 player:"+playerTimeSpentProcessing+", npc:"+npcTimeSpentProcessing+
-						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing);
+						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing+", PC:"+pestControlTimeSpentProcessing);
 			}
 			if(timeSpent >= cycleTime) {
 				timeSpent = cycleTime;
@@ -137,6 +140,7 @@ public static int stradd = 2;
       public static GraphicsHandler GraphicsHandler = null;
 
       public static SkillHandler skillHandler = null;
+      public static PestControlHandler pestControlHandler = null;
       //public static DialogueHandler dialogueHandler = null; 
 
 	public static void calcTime() {

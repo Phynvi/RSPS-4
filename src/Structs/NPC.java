@@ -28,6 +28,10 @@ public class NPC {
 	public boolean textUpdateRequired;
       public boolean faceToUpdateRequired;
       public boolean moveToSpawn = false;
+      
+      public int focusPointX, focusPointY;
+      public boolean turnUpdateRequired; 
+      
 	public String textUpdate;
 	private ArrayList<playerDamage> attackingPlayers = new ArrayList<playerDamage>();
 	
@@ -52,6 +56,36 @@ public class NPC {
 		}
 		
 	}
+	
+	private void appendSetFocusDestination(stream str) {
+    str.writeWordBigEndian(focusPointX);
+    str.writeWordBigEndian(focusPointY);
+}
+	
+	public void face(String dir){
+		dir = dir.toLowerCase();
+		switch(dir){
+		case "north":
+			this.turnNpc(this.absX, this.absY+1);
+			return;
+		case "south":	
+			this.turnNpc(this.absX, this.absY-1);
+			return;
+		case "east":	
+			this.turnNpc(this.absX+1, this.absY);
+			return;
+		case "west":	
+			this.turnNpc(this.absX-1, this.absY);
+			return;
+		}
+	}
+	
+	private void turnNpc(int i, int j) {
+    focusPointX = 2 * i + 1;
+    focusPointY = 2 * j + 1;
+    updateRequired = true;
+    turnUpdateRequired = true;
+}
 	
 	public boolean isOutsideSpawn(){
 		return (distanceToPoint(spawnX, spawnY) > 8);
@@ -202,6 +236,7 @@ public class NPC {
 		if(hitUpdateRequired) updateMask |= 0x40;
 		if(dirUpdateRequired) updateMask |= 0x20;
 		if(faceToUpdateRequired) updateMask |= 0x20;
+		if(turnUpdateRequired) updateMask |= 4;
 boolean faceUp = false;
 		if(faceUpdateRequired && updateMask == 0){ //Only if there is no other updates to do, ive tested other ways but this seems the best.
 		updateMask |= 0x20;
@@ -227,6 +262,7 @@ boolean faceUp = false;
 		if (dirUpdateRequired) appendDirUpdate(str);
                 if (faceToUpdateRequired) appendFaceToUpdate(str);
 if (faceUpdateRequired && faceUp) updateface(str);
+if(turnUpdateRequired) appendSetFocusDestination(str);		
 		// TODO: add the various other update blocks
 	}
 
@@ -240,6 +276,9 @@ if (faceUpdateRequired && faceUp) updateface(str);
 		moveX = 0;
 		moveY = 0;
 		direction = -1;
+		focusPointX = -1; 
+		focusPointY = -1; 
+		turnUpdateRequired = false;
 	}
 
 	// returns 0-7 for next walking direction or -1, if we're not moving

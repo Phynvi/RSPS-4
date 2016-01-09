@@ -10,6 +10,70 @@ public class NPCAnim {
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
 		
+		case 3727: //Splatter
+		case 3728: //Splatter
+		case 3729: //Splatter
+		case 3730: //Splatter
+		case 3731: //Splatter
+			return 3891;
+		
+		case 3732: //shifter
+		case 3733: //shifter
+		case 3734: //shifter
+		case 3735: //shifter
+		case 3736: //shifter
+		case 3737: //shifter
+		case 3738: //shifter
+		case 3739: //shifter
+		case 3740: //shifter
+		case 3741: //shifter
+			return 3901;
+			
+		case 3742: //Ravager
+		case 3743: //Ravager
+		case 3744: //Ravager
+		case 3745: //Ravager
+		case 3746: //Ravager
+			return 3915;
+			
+		case 3747: //Spinner	
+		case 3748: //Spinner
+		case 3749: //Spinner
+		case 3750: //Spinner
+		case 3751: //Spinner
+			return 3908;
+			
+		case 3752: //Torcher
+		case 3753: //Torcher
+		case 3754: //Torcher
+		case 3755: //Torcher
+		case 3756: //Torcher
+		case 3757: //Torcher
+		case 3758: //Torcher
+		case 3759: //Torcher
+		case 3760: //Torcher
+		case 3761: //Torcher
+			return 412;
+			
+		case 3762: //Defiler
+		case 3763: //Defiler
+		case 3764: //Defiler
+		case 3765: //Defiler
+		case 3766: //Defiler
+		case 3767: //Defiler
+		case 3768: //Defiler
+		case 3769: //Defiler
+		case 3770: //Defiler
+		case 3771: //Defiler
+			return 3920;
+			
+		case 3772: //Brawler
+		case 3773: //Brawler
+		case 3774: //Brawler
+		case 3775: //Brawler
+		case 3776: //Brawler
+			return 3897;
+		
 		case 502:
 		case 90://Skeleton
 			return 5485;
@@ -647,7 +711,6 @@ public class NPCAnim {
 		case 2783://Dark Beast
 			return 2733;
 
-		case 3732: //shifter test
 		case 1615://Abyssal Demon
 			return 1537;
 
@@ -788,6 +851,73 @@ public class NPCAnim {
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+
+		case 3727: //Splatter
+		case 3728: //Splatter
+		case 3729: //Splatter
+		case 3730: //Splatter
+		case 3731: //Splatter
+			return 3890;
+		
+		case 3732: //shifter
+		case 3733: //shifter
+		case 3734: //shifter
+		case 3735: //shifter
+		case 3736: //shifter
+		case 3737: //shifter
+		case 3738: //shifter
+		case 3739: //shifter
+		case 3740: //shifter
+		case 3741: //shifter
+			return 3902;
+			
+		case 3742: //Ravager
+		case 3743: //Ravager
+		case 3744: //Ravager
+		case 3745: //Ravager
+		case 3746: //Ravager
+			return 3916;
+			
+		case 3747: //Spinner	
+		case 3748: //Spinner
+		case 3749: //Spinner
+		case 3750: //Spinner
+		case 3751: //Spinner
+			return 3909;
+			
+		case 3752: //Torcher
+		case 3753: //Torcher
+		case 3754: //Torcher
+		case 3755: //Torcher
+		case 3756: //Torcher
+		case 3757: //Torcher
+		case 3758: //Torcher
+		case 3759: //Torcher
+		case 3760: //Torcher
+		case 3761: //Torcher
+			return 3880;
+			
+		case 3762: //Defiler
+		case 3763: //Defiler
+		case 3764: //Defiler
+		case 3765: //Defiler
+		case 3766: //Defiler
+		case 3767: //Defiler
+		case 3768: //Defiler
+		case 3769: //Defiler
+		case 3770: //Defiler
+		case 3771: //Defiler
+			return 3921;
+			
+		case 3772: //Brawler
+		case 3773: //Brawler
+		case 3774: //Brawler
+		case 3775: //Brawler
+		case 3776: //Brawler
+			//return 3894;
+			return -1;
+		
+		
 		case 1030: //wolfman
 		case 1031: //wolfman
 		case 1032: //wolfman
@@ -848,7 +978,6 @@ public class NPCAnim {
 		case 1616://Basilisk
 			return 1547;
 
-		case 3732: //shifter test
 		case 1615://aby demon
 			return 1536;
 
@@ -887,6 +1016,77 @@ public class NPCAnim {
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
 
+		case 3780: //PC portals
+		case 3779:
+		case 3778:
+		case 3777: 
+			return -1;
+
+		case 3727: //Splatter
+		case 3728: //Splatter
+		case 3729: //Splatter
+		case 3730: //Splatter
+		case 3731: //Splatter
+			return 3888;
+		
+		case 3732: //shifter
+		case 3733: //shifter
+		case 3734: //shifter
+		case 3735: //shifter
+		case 3736: //shifter
+		case 3737: //shifter
+		case 3738: //shifter
+		case 3739: //shifter
+		case 3740: //shifter
+		case 3741: //shifter
+			return 3903;
+			
+		case 3742: //Ravager
+		case 3743: //Ravager
+		case 3744: //Ravager
+		case 3745: //Ravager
+		case 3746: //Ravager
+			return 3917;
+			
+		case 3747: //Spinner	
+		case 3748: //Spinner
+		case 3749: //Spinner
+		case 3750: //Spinner
+		case 3751: //Spinner
+			return 3910;
+			
+		case 3752: //Torcher
+		case 3753: //Torcher
+		case 3754: //Torcher
+		case 3755: //Torcher
+		case 3756: //Torcher
+		case 3757: //Torcher
+		case 3758: //Torcher
+		case 3759: //Torcher
+		case 3760: //Torcher
+		case 3761: //Torcher
+			return 3881;
+			
+		case 3762: //Defiler
+		case 3763: //Defiler
+		case 3764: //Defiler
+		case 3765: //Defiler
+		case 3766: //Defiler
+		case 3767: //Defiler
+		case 3768: //Defiler
+		case 3769: //Defiler
+		case 3770: //Defiler
+		case 3771: //Defiler
+			return 3922;
+			
+		case 3772: //Brawler
+		case 3773: //Brawler
+		case 3774: //Brawler
+		case 3775: //Brawler
+		case 3776: //Brawler
+			return 3895;
+		
+		
 		case 1030: //wolfman
 		case 1031: //wolfman
 		case 1032: //wolfman
@@ -1342,7 +1542,6 @@ public class NPCAnim {
 		case 2783://Dark Beast
 			return 2732;
 
-		case 3732: //shifter test
 		case 1615://Abyssal Demon
 			return 1538;
 

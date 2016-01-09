@@ -627,6 +627,13 @@ public class client extends Player implements Runnable {
 		teleport(x,y,0);
 	}
 	
+	public void teleportWithoutUpdatingOthers(int x, int y){
+		teleportToX = x;
+		teleportToY = y;
+		heightLevel = heightLevel;
+		requirePlayerUpdate();
+	}
+	
 	public void teleport(int x, int y, int h){
 		if(Math.abs(absX-x) <= 50 && Math.abs(absY-y) <= 50){
 			teleportToX = x;
@@ -2576,6 +2583,10 @@ isRunning2 = true;
 
 //agility walk to!
 
+	public void makeLocalObject(int x, int y, int typeID, int orientation, int tileObjectType){ //Makes Global objects
+		if(distanceToPoint(x, y) <= 60)
+			createNewTileObject(x, y, typeID, orientation, tileObjectType);
+	}	
 
 public void makeGlobalObject(int x, int y, int typeID, int orientation, int tileObjectType){ //Makes Global objects
 		for (Player p : server.playerHandler.players){
@@ -2625,8 +2636,7 @@ public void Dragon2hSpecial(){
 		litBar = false;
 		stillgfxz(246, absY, absX, 0, 50);	
         setAnimation(3157);
-        CalculateMaxHit();
-        attackNPCSWithin(playerMaxHit, 2); 
+        attackNPCSWithin(getMaxMeleeHit(), 2); 
         AnimationReset = true;
         teleportToX = absX;
   			teleportToY = absY;
@@ -3663,6 +3673,13 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		
 	case 2492: //portal from rune essence mine
 		teleport(3007,3309);
+		break;
+		
+	case 14315:
+		teleport(2661,2639);
+		break;
+	case 14314:
+		teleport(2657,2639);
 		break;
 		
 		//warewolf agility entrance and exit
@@ -5415,6 +5432,7 @@ public void createAreaDisplayType(){
 		sendQuest("@red@PK", 199);
 		return;
 	}
+	if(isInArea(2621, 2557, 2689, 2622) || isInArea(2660,2638,2663,2643)) return;
 	outStream.createFrame(208); 
 	outStream.writeWordBigEndian_dup(197);
 	sendQuest("@gre@Safe", 199);
@@ -9143,8 +9161,8 @@ outStream.writeWord(0);//Time before casting the graphic
 
 
         outStream.createFrameVarSize(104);
-        outStream.writeByteC(4); // command slot (does it matter which one?)
-        outStream.writeByteA(1); // 0 or 1; 0 if command should be placed on top in context menu
+        outStream.writeByteC(1); // command slot (does it matter which one?)
+        outStream.writeByteA(0); // 0 or 1; 0 if command should be placed on top in context menu
         outStream.writeString("Trade with");
         outStream.endFrameVarSize();
 
@@ -9655,12 +9673,20 @@ public void customCommand(String command) {
 				server.showDelay = true;
 			else server.showDelay = false;
 		}
-		
-		if(command.startsWith("test") && playerRights >= 2){
-			setSidebarInterface(0, 1764); 
-			sendFrame246(1765, 200, playerEquipment[playerWeapon]);
-			sendFrame126(getItemName(playerEquipment[playerWeapon]), 1767);
-			litBarCheck(7561);
+
+		if(command.startsWith("face") && playerRights >= 2){
+			try{
+				for(int i = 1; i < server.npcHandler.npcs.length; i++){
+					if(server.npcHandler.npcs[i] == null) break;
+					if(server.npcHandler.npcs[i].npcType == Integer.parseInt(command.substring(4))){
+						sendMessage("NPC at X : "+server.npcHandler.npcs[i].absX+", Y : "+server.npcHandler.npcs[i].absY+", face north");
+						server.npcHandler.npcs[i].face("north");
+					}					
+				}
+			}
+			catch(Exception e){
+				sendMessage("Invalid entry.");
+			}
 		}
 		
 		if(command.startsWith("npcsize")){
@@ -10083,6 +10109,12 @@ if(command.startsWith("aitem") && playerRights >= 2){
 	}
 	if (!foundItem)
 		sendMessage("Could not find any item containing "+itemName);
+}
+
+if(command.startsWith("ignorecombat")){
+	if(ignoreCombat) ignoreCombat = false;
+	else ignoreCombat = true;
+	sendMessage("Ignore combat is now : "+ignoreCombat);
 }
 
 if (command.startsWith("item") && playerRights >= 2) {
@@ -10914,9 +10946,6 @@ if (debugmode)sendMessage("You recieved "+amount+" exp in Skill "+skill);
 		}
 		setSkillLevel(skill, playerLevel[skill], playerXP[skill]);
                 	refreshSkills();
-		if (skill == 2) {
-			CalculateMaxHit();
-		}
 		return true;
 	}
 
@@ -13178,13 +13207,12 @@ public boolean process() { 	// is being called regularily every 500ms
 	if (SpecTimer == 1 && (IsAttackingNPC || IsAttacking)){
 
 		if (playerEquipment[playerWeapon] == 4153){ // g maul
-			CalculateMaxHit();
 			if (IsAttackingNPC){
-				SpecDamgNPC(playerMaxHit);	
+				SpecDamgNPC(getMaxMeleeHit());	
 				stillgfxz(337, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX, 100, 10);
 			}
 			if (IsAttacking){
-				int dmg = misc.random(playerMaxHit);
+				int dmg = misc.random(getMaxMeleeHit());
 				if(PMelee) dmg = (int)(dmg*0.6);
 				damagePlayer(AttackingOn, dmg); 
 			}
@@ -13193,11 +13221,10 @@ public boolean process() { 	// is being called regularily every 500ms
 
 		//drag daggers
 		if (playerEquipment[playerWeapon] == 5698 || playerEquipment[playerWeapon] == 1215 || playerEquipment[playerWeapon] == 1231 || playerEquipment[playerWeapon] == 5680){
-			CalculateMaxHit();
 			if (IsAttackingNPC)
-				SpecDamgNPC(playerMaxHit + misc.random(playerLevel[playerAttack]/11));	
+				SpecDamgNPC(getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11));	
 			if (IsAttacking){
-				int dmg = misc.random(playerMaxHit + misc.random(playerLevel[playerAttack]/11));
+				int dmg = misc.random(getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11));
 				if(PMelee) dmg = (int)(dmg*0.6);
 				damagePlayer(AttackingOn, dmg); 
 			}
@@ -13205,24 +13232,24 @@ public boolean process() { 	// is being called regularily every 500ms
 
 		if(playerEquipment[playerWeapon] == 861){ //magic shortbow
 			setAnimation(426);
-			CalculateRange();
 			if(IsAttackingNPC){
-				SpecDamgNPC(playerMaxHit + misc.random(playerLevel[playerAttack]/25));	
+				SpecDamgNPC(getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25));	
 			}
 			if (IsAttacking){
-				int dmg = misc.random(playerMaxHit + misc.random(playerLevel[playerAttack]/25));
+				int dmg = misc.random(getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25));
 				if (PRange) dmg = (int)(dmg*0.6);
 				damagePlayer(AttackingOn, dmg); 
 			}
 		}
 		if(playerEquipment[playerWeapon] == Item.DARKBOW){ 
 			setAnimation(426);
-			CalculateRange();
 			if(IsAttackingNPC){
-				SpecDamgNPC(playerMaxHit + (int)(playerMaxHit*0.3) );	
+				int maxHit = getMaxRangedHit();
+				SpecDamgNPC(maxHit + (int)(maxHit*0.3) );	
 			}
 			if (IsAttacking){
-				int dmg = misc.random(playerMaxHit + (int)(playerMaxHit*0.3) );
+				int maxHit = getMaxRangedHit();
+				int dmg = misc.random(maxHit + (int)(maxHit*0.3) );
 				if (PRange) dmg = (int)(dmg*0.6);
 				damagePlayer(AttackingOn, dmg); 
 			}
@@ -13244,8 +13271,7 @@ public boolean process() { 	// is being called regularily every 500ms
 		}
 
 		if (DClawsDmg == 0){ //if zero damage dealt on first hit
-			CalculateMaxHit(); //Calculates max 2nd hit
-			DClawsHit2 = misc.random(playerMaxHit);
+			DClawsHit2 = misc.random(getMaxMeleeHit());
 			if (IsAttackingNPC) //if attacking NPC
 				SpecDamgNPC2(DClawsHit2); //directly dmg
 			if (IsAttacking){ //if attacking player
@@ -13253,16 +13279,14 @@ public boolean process() { 	// is being called regularily every 500ms
 				if(PMelee) dmg = (int)(dmg*0.6);
 				damagePlayer(AttackingOn, dmg); 
 			}
-			if (DClawsHit2 == 0){//if zero damage dealt on second hit
-				CalculateMaxHit(); //Calculates max hit
-				DClawsHit3 = misc.random(playerMaxHit); //3rd is normal hit	
+			if (DClawsHit2 == 0){ //if zero damage dealt on second hit
+				int maxHit = getMaxMeleeHit();
+				DClawsHit3 = misc.random(maxHit); //3rd is normal hit	
 				if (DClawsHit3 == 0){ //if 3rd hit is zero
-					CalculateMaxHit(); //Calculates max hit
-					DClawsHit4 = misc.random(playerMaxHit); //4th is normal hit + 50% damage boost
-					DClawsHit4 = DClawsHit4 + (int)((double)playerMaxHit/2);
+					DClawsHit4 = misc.random(maxHit); //4th is normal hit + 50% damage boost
+					DClawsHit4 = DClawsHit4 + (int)((double)maxHit/2);
 				}		
 				if (DClawsHit3 > 0){ //if 3rd hit is greater than zero
-					CalculateMaxHit(); //Calculates max hit
 					DClawsHit4 = DClawsHit3; //4th is normal hit	
 				}
 			}
@@ -17253,9 +17277,7 @@ parseIncomingPackets2();
 
 				setAnimation(GetWepAnim());
 				
-				int damage = CalculateMaxHit(); //updates playerMaxHit as well
-				damage = misc.random( damage + (int)Math.ceil((attEffect/100.0)*damage) );
-				if(damage > playerMaxHit) damage = playerMaxHit;
+				int damage = getMaxMeleeHit(); 
 
 				if(litBar){
 					damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
@@ -17290,7 +17312,7 @@ parseIncomingPackets2();
 			//setAnimation(playerSEA);
 			refreshPlayerPosition();
 
-			int damage = misc.random(CalculateRange());
+			int damage = misc.random(getMaxRangedHit());
 
 			if(litBar){
 				damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
@@ -18899,10 +18921,8 @@ public int checkSpecials(int original, int Y, int X){
 		updateRequired = true;
 		appearanceUpdateRequired = true;
 		stillgfxz(341, Y, X, 100, 25);
-		if (original == 0){ //if hit is zero
-			int c = misc.random(1); //50% chance to hit and recalculate
-			CalculateMaxHit();
-			int c2 = misc.random(playerMaxHit);
+		if (original == 0 && misc.random(1) == 0){ //if hit is zero, 50% chance to recalculate
+			int c2 = misc.random(getMaxMeleeHit());
 			if (c2 == 0) // if player hits zero again
 				return 0;
 			original = c2;
@@ -19176,10 +19196,8 @@ public boolean AttackNPC() {
 					refreshPlayerPosition();
 				
 				setAnimation(GetWepAnim());
-				CalculateMaxHit();
-				int eff = playerMaxHit + (int)Math.ceil((attEffect/100.0)*playerMaxHit);
-				hitDiff = misc.random(eff);
-				if(hitDiff > playerMaxHit) hitDiff = playerMaxHit;
+				
+				hitDiff = misc.random(getMaxMeleeHit());
 				
 				if(!HitNPCMelee(attacknpc)) hitDiff = 0;
 				
@@ -19195,8 +19213,8 @@ public boolean AttackNPC() {
 		if(distance > 1 && !autocast){
 			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
 				refreshPlayerPosition();
-				CalculateRange();
-				hitDiff = misc.random(playerMaxHit);
+				
+				hitDiff = misc.random(getMaxRangedHit());
 
 				if(!RangeHitNPC(attacknpc)) hitDiff = 0;
 
@@ -19378,7 +19396,6 @@ public boolean AttackNPC() {
 			}
 			sendFrame126(send, (1675+i+offset));
 		}
-		CalculateMaxHit();
 		/*for (int i = 4000; i <= 7000; i++) {
 			sendFrame126("T"+i, i);
 			println_debug("Sended: Test"+i);
@@ -19388,31 +19405,64 @@ public boolean AttackNPC() {
 	/**
 	 * Calculates a player's max hit based on global variables
 	 */
-	public int CalculateMaxHit() {
-    double MaxHit = 0;
-    
-		double StrBonus = playerBonus[10]; //Strength Bonus
-		double Strength = playerLevel[playerStrength]; //Strength
-		if(strEffect > 0) Strength += Strength*((double)strEffect/100.0); 
-		if (FightType == 1 || FightType == 4) { //Accurate & Defensive
-			MaxHit += (double)(1 + (double)((StrBonus * Strength) * 0.00515));
-			//MaxHit += (double)(1.25 + (double)((double)(StrBonus * Strength) * 0.00515));
-		} else if (FightType == 2) { //Aggresive
-			MaxHit += (double)(1 + (double)((StrBonus * Strength) * 0.00515));
-			//MaxHit += (double)(1.25 + (double)((double)(StrBonus * Strength) * 0.00515));
-		} else if (FightType == 3) { //Controlled
-			MaxHit += (double)(1 + (double)((StrBonus * Strength) * 0.00515));
-			//MaxHit += (double)(1.25 + (double)((double)(StrBonus * Strength) * 0.00515));
-		}
-		if (StrPotion == 1) { //Strength Potion
-			MaxHit += (Strength * 0.0014);
-		} else if (StrPotion == 2) { //Super Strength Potion
-			MaxHit += (Strength * 0.0205);
-		}
-		playerMaxHit = (int)Math.floor(MaxHit);
-		return playerMaxHit;
-}
+//	public int CalculateMaxHit() {
+//    double MaxHit = 0;
+//    
+//		double StrBonus = playerBonus[10]; //Strength Bonus
+//		double Strength = playerLevel[playerStrength]; //Strength
+//		if(strEffect > 0) Strength += Strength*((double)strEffect/100.0); 
+//		if (FightType == 1 || FightType == 4) { //Accurate & Defensive
+//			MaxHit += (double)(1 + (double)((StrBonus * Strength) * 0.00515));
+//			//MaxHit += (double)(1.25 + (double)((double)(StrBonus * Strength) * 0.00515));
+//		} else if (FightType == 2) { //Aggresive
+//			MaxHit += (double)(1 + (double)((StrBonus * Strength) * 0.00515));
+//			//MaxHit += (double)(1.25 + (double)((double)(StrBonus * Strength) * 0.00515));
+//		} else if (FightType == 3) { //Controlled
+//			MaxHit += (double)(1 + (double)((StrBonus * Strength) * 0.00515));
+//			//MaxHit += (double)(1.25 + (double)((double)(StrBonus * Strength) * 0.00515));
+//		}
+//		if (StrPotion == 1) { //Strength Potion
+//			MaxHit += (Strength * 0.0014);
+//		} else if (StrPotion == 2) { //Super Strength Potion
+//			MaxHit += (Strength * 0.0205);
+//		}
+//		playerMaxHit = (int)Math.floor(MaxHit);
+//		return playerMaxHit;
+//}
 	
+	private int getMaxRangedHit(){
+		double max = 0;
+		double A = playerLevel[playerRanged];
+		double B = 1.0;
+		double prayerBonuses = strEffect*0.01;
+		double C = Math.floor(A*B); //effective strength
+		if(FightType == 1) C += 3; //accurate
+		
+		double D = playerBonus[atkBonus[range]];
+		
+		max = 0.8 + (C/10.0) + (C*D)/640.0;
+		max = (C+8)*(D+64)/640.0;
+		
+		return (int)Math.floor(max);
+	}
+	
+	
+	private int getMaxMeleeHit(){
+		double max = 0;
+		double A = playerLevel[playerStrength];
+		double B = 1.0;
+		double prayerBonuses = strEffect*0.01;
+		double C = Math.floor(A*B); //effective strength
+		if(FightType == 3) C += 3; //aggressive
+		if(FightType == 1) C += 1; //controlled
+		
+		double D = playerBonus[strength];
+		
+		max = 0.8 + (C/10.0) + (C*D)/640.0;
+		max = (C+8)*(D+64)/640.0;
+		
+		return (int)Math.floor(max);
+	}
 
 
 	public boolean FullDharokEquipped() {
@@ -19440,16 +19490,16 @@ public boolean FullGuthanEquipped() {
 return (playerEquipment[playerHat] == 4724 && playerEquipment[playerChest] == 4728 && playerEquipment[playerLegs] == 4730 && playerEquipment[playerWeapon] == 4726);			
 }
 
-public int CalculateRange() {
-	double MaxHit = 0;
-	int RangeBonus = playerBonus[5]; //Range Bonus
-	int Range = playerLevel[4]; //Range
-	MaxHit += (double)(1.00 + (double)((double)(RangeBonus * Range) * 0.00095));
-	MaxHit += (double)(Range * 0.085);
-	playerMaxHit = (int)Math.floor(MaxHit);
-	playerMaxHit += misc.random(this.BOWHANDLER.getBonus());
-	return playerMaxHit;
-}
+//public int CalculateRange() {
+//	double MaxHit = 0;
+//	int RangeBonus = playerBonus[5]; //Range Bonus
+//	int Range = playerLevel[4]; //Range
+//	MaxHit += (double)(1.00 + (double)((double)(RangeBonus * Range) * 0.00095));
+//	MaxHit += (double)(Range * 0.085);
+//	playerMaxHit = (int)Math.floor(MaxHit);
+//	playerMaxHit += misc.random(this.BOWHANDLER.getBonus());
+//	return playerMaxHit;
+//}
 
 public boolean MageHitNPC(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
@@ -19480,9 +19530,14 @@ public boolean HitNPCMelee(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
 	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 	int enemyBonus = npcMaxHP;
+	
 	int maxAtkBonus = Math.max(playerBonus[atkBonus[stab]], playerBonus[atkBonus[slash]]);
 	maxAtkBonus = Math.max(maxAtkBonus, playerBonus[atkBonus[crush]]);
-	int myBonus = playerLevel[playerAttack]+maxAtkBonus;
+	
+	int myPrayerBonus = (int)(attEffect*0.01);
+	
+	int myBonus = playerLevel[playerAttack]+maxAtkBonus+myPrayerBonus;
+	
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }
 
@@ -19520,7 +19575,9 @@ public boolean Hit(int index){
 	int myBonusEquipment = Math.max(playerBonus[atkBonus[stab]], playerBonus[atkBonus[slash]]);
 	myBonusEquipment = Math.max(playerBonus[atkBonus[slash]], myBonusEquipment);
 	
-	int myBonus = playerLevel[playerAttack]+myBonusEquipment;
+	int myPrayerBonus = (int)(attEffect*0.01);
+	
+	int myBonus = playerLevel[playerAttack]+myBonusEquipment+myPrayerBonus;
 	
 	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 }

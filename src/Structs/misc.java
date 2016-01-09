@@ -69,6 +69,18 @@ public class misc {
 		return temp.toUpperCase().trim();
 	}
 
+	/**
+	 * Creates inclusive array from start to end
+	 */
+	public static int[] createArrayInRange(int start, int end){
+		int size = end-start+1;
+		int[] a = new int[size];
+		for(int i = start, index = 0; i <= end; i++, index++){
+			a[index] = i;
+		}
+		return a;
+	}
+	
 	public static int HexToInt(byte data[], int offset, int len)
 	{
 		int temp = 0;

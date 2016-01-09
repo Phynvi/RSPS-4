@@ -1,0 +1,5 @@
+c.makeGlobalObject(2656, 2585, 107, 0, 10);
+c.makeGlobalObject(2656, 2584, 6951, 1, 10);
+c.makeGlobalObject(2655, 2584, 6951, 1, 10);
+c.makeGlobalObject(2655, 2585, 6951, 1, 10);
+c.makeGlobalObject(2656, 2585, 6951, 1, 10);
