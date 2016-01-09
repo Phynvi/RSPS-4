@@ -29,20 +29,20 @@ public class Fishing{
 		c.IsFishing = true;
 	}
 
-	public void fishingTimers(client c){
-		if (--c.FishingTimer > 0){}
-		if(c.spinningTimer > 0){
-			c.spinningTimer -= 1;
-			if(c.spinningTimer == 0){
-				if(c.playerHasItem(1779)){
-					c.spinningTimer = 4;
-					c.deleteItem(1779, c.getItemSlot(1779), 1);
-					c.addItem(1777, 1);
-					c.addSkillXP(25*c.rate, c.playerCrafting);
+	public static void fishingTimers(client playerClient){
+		if (--playerClient.FishingTimer > 0){}
+		if(playerClient.spinningTimer > 0){
+			playerClient.spinningTimer -= 1;
+			if(playerClient.spinningTimer == 0){
+				if(playerClient.playerHasItem(1779)){
+					playerClient.spinningTimer = 4;
+					playerClient.deleteItem(1779, playerClient.getItemSlot(1779), 1);
+					playerClient.addItem(1777, 1);
+					playerClient.addSkillXP(25*playerClient.rate, playerClient.playerCrafting);
 				}
 				else{
-					c.spinningTimer = -1;
-					c.stopAnim();
+					playerClient.spinningTimer = -1;
+					playerClient.stopAnim();
 				}
 			}
 		}

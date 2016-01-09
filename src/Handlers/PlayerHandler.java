@@ -21,7 +21,7 @@ public class PlayerHandler {
 	// Remark: the player structures are just a temporary solution for now
 	// Later we will avoid looping through all the players for each player
 	// by making use of a hash table maybe based on map regions (8x8 granularity should be ok)
-	public static final int maxPlayers = 1000;
+	public static final int maxPlayers = 100;
 	public static Player players[] = new Player[maxPlayers];
 	public int playerSlotSearchStart = 1;			// where we start searching at when adding a new player
 	public static String kickNick = "";
@@ -266,16 +266,21 @@ public class PlayerHandler {
 		}
 
 		// iterate through all npcs to check whether there's new npcs to add
-		for(int i = 0; i < NPCHandler.maxNPCs; i++) {
-			if(server.npcHandler.npcs[i] != null) {
-				int id = server.npcHandler.npcs[i].npcId;
-				if (plr.RebuildNPCList == false && (plr.npcInListBitmap[id>>3]&(1 << (id&7))) != 0) {
-					// npc already in npcList
-				} else if (plr.withinDistance(server.npcHandler.npcs[i]) == false) {
-					// out of sight
-				} else {
-					plr.addNewNPC(server.npcHandler.npcs[i], str, updateBlock);
-				}
+
+		
+		for(int i = 1; i < NPCHandler.maxNPCs; i++) {
+			if (server.npcHandler.npcs[i] == null)
+				break;
+			int id = server.npcHandler.npcs[i].npcId;
+			if (plr.RebuildNPCList == false && (plr.npcInListBitmap[id>>3]&(1 << (id&7))) != 0) {
+				// npc already in npcList
+			}
+			else if (plr.withinDistance(server.npcHandler.npcs[i]) == false) {
+				// out of sight
+			} 
+			else 
+			{
+				plr.addNewNPC(server.npcHandler.npcs[i], str, updateBlock);
 			}
 		}
 		
@@ -348,7 +353,7 @@ public class PlayerHandler {
 		}
 
 		if(updateBlock.currentOffset > 0) {
-			str.writeBits(11, 2047);	// magic EOF - needed only when player updateblock follows
+			str.writeBits(11, 2047);	// magic EOF - needed only when player updateblock follows //TODO - used to be 11, 2047
 			str.finishBitAccess();
 
 			// append update block

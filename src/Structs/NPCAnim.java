@@ -647,6 +647,7 @@ public class NPCAnim {
 		case 2783://Dark Beast
 			return 2733;
 
+		case 3732: //shifter test
 		case 1615://Abyssal Demon
 			return 1537;
 
@@ -847,6 +848,7 @@ public class NPCAnim {
 		case 1616://Basilisk
 			return 1547;
 
+		case 3732: //shifter test
 		case 1615://aby demon
 			return 1536;
 
@@ -1340,6 +1342,7 @@ public class NPCAnim {
 		case 2783://Dark Beast
 			return 2732;
 
+		case 3732: //shifter test
 		case 1615://Abyssal Demon
 			return 1538;
 

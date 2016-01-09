@@ -1,35 +1,35 @@
 [ACCOUNT]
-character-username = AAA Mods
+character-username = aaa mods
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2803
-character-posy = 3186
+character-posx = 3509
+character-posy = 3480
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.100
-character-lastlogin = 20160007
+character-lastconnection = WRT610N
+character-lastlogin = 20160008
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
 [EQUIPMENT]
-character-equip = 0	14860	1	
-character-equip = 1	15150	1	
-character-equip = 2	6585	1	
-character-equip = 3	4151	1	
-character-equip = 4	14512	1	
-character-equip = 5	3631	1	
+character-equip = 0	-1	0	
+character-equip = 1	-1	0	
+character-equip = 2	-1	0	
+character-equip = 3	-1	0	
+character-equip = 4	-1	0	
+character-equip = 5	-1	0	
 character-equip = 6	-1	0	
-character-equip = 7	14511	1	
+character-equip = 7	-1	0	
 character-equip = 8	-1	0	
 character-equip = 9	-1	0	
-character-equip = 10	15350	1	
+character-equip = 10	-1	0	
 character-equip = 11	-1	0	
-character-equip = 12	6737	1	
-character-equip = 13	892	21636	
+character-equip = 12	-1	0	
+character-equip = 13	-1	0	
 
 [LOOK]
 character-look = 0	0
@@ -40,13 +40,13 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	28059600
+character-skill = 0	99	28332600
 character-skill = 1	99	16267980
 character-skill = 2	99	35586600
-character-skill = 3	99	52516460
-character-skill = 4	99	19686280
+character-skill = 3	99	52795260
+character-skill = 4	99	19692080
 character-skill = 5	99	16438788
-character-skill = 6	99	19549508
+character-skill = 6	99	19915508
 character-skill = 7	99	16184120
 character-skill = 8	99	16055705
 character-skill = 9	99	14749475
@@ -56,8 +56,8 @@ character-skill = 12	99	14585523
 character-skill = 13	99	14267272
 character-skill = 14	99	15406300
 character-skill = 15	99	14159467
-character-skill = 16	99	21929980
-character-skill = 17	99	16196396
+character-skill = 16	99	21951864
+character-skill = 17	99	16198616
 character-skill = 18	99	17422595
 character-skill = 19	99	15970650
 character-skill = 20	99	15250578
@@ -67,19 +67,6 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	555	9997
-character-item = 1	556	10000
-character-item = 2	557	9998
-character-item = 3	558	10000
-character-item = 4	559	10000
-character-item = 5	560	10000
-character-item = 6	561	10000
-character-item = 7	562	10000
-character-item = 8	563	10000
-character-item = 9	564	9998
-character-item = 10	565	10000
-character-item = 11	566	10000
-character-item = 12	567	10000
 
 [BANK]
 character-bank = 0	7807	5003

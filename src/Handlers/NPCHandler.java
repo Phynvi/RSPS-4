@@ -37,9 +37,9 @@ public class NPCHandler {
 		}
 
 		if(slot == -1) return;		// no free slot found
-		if(HP <= 0) { // This will cause client crashes if we don't use this :) - xero
-			HP = 100;
-		}
+		if(HP <= 0)  // This will cause client crashes if we don't use this :) - xero
+			HP = 1;
+
 		NPC newNPC = new NPC(slot, npcType);
 		newNPC.spawnX = x;
 		newNPC.spawnY = y;
@@ -379,12 +379,14 @@ public class NPCHandler {
 						}
 					}					
 
-					for (Player p : server.playerHandler.players) {
-						client person = (client) p;
-						if (p != null && person != null) {
+					for (int j = 0; j < server.playerHandler.players.length; j++) {
+						if(server.playerHandler.players[j] == null)
+							continue;
+						client person = (client) server.playerHandler.players[j];
+						if (person != null) {
 							int dist = npcs[i].agroRange;
 							if ((npcs[i].isAggressive || npcs[i].isAggressiveIgnoreCombatLevel) && person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= dist && 
-									p.heightLevel == npcs[i].heightLevel && ( !p.IsAttackingNPC || person.isInMultiCombat() ) && 
+									person.heightLevel == npcs[i].heightLevel && ( !person.IsAttackingNPC || person.isInMultiCombat() ) && 
 									npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn) {
 								if((getCombat(npcs[i].npcType)*2) > person.combat || npcs[i].isAggressiveIgnoreCombatLevel){
 									npcs[i].StartKilling = person.playerId;
@@ -601,6 +603,7 @@ public class NPCHandler {
 	
 	private void giveSlayerEXP(client c, int npcID){
 		//if(c.debugmode) c.sendMessage("npcID is "+npcID+", slayerNPC is "+c.slayerNPC+", slayerCount is "+c.slayerCount);
+		if(c == null) return;
 		if(c.slayerNPC == npcID && c.slayerCount > 0){
 			int amount = c.SLAYER.generateEXP(npcID);
 			c.sendMessage("For killing your current Slayer task, you receive "+amount+" EXP.");

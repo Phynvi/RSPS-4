@@ -1,16 +1,16 @@
 [ACCOUNT]
-character-username = Beta Test
+character-username = beta test
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 3021
-character-posy = 3208
+character-posx = 3006
+character-posy = 3326
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.100
-character-lastlogin = 20160006
+character-lastconnection = WRT610N
+character-lastlogin = 20160008
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -40,10 +40,10 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	14709000
+character-skill = 0	99	14744000
 character-skill = 1	83	2687400
 character-skill = 2	91	6499600
-character-skill = 3	99	24190155
+character-skill = 3	99	24225155
 character-skill = 4	62	343000
 character-skill = 5	84	3241320
 character-skill = 6	97	11455515
@@ -278,6 +278,7 @@ character-bank = 204	1593	1
 character-bank = 205	142	3
 
 [FRIENDS]
+character-friend = 0	97229002984747107
 
 [IGNORES]
 

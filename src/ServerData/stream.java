@@ -1,5 +1,13 @@
 public class stream {
 
+  public void allocate(int i) {
+    if (buffer.length < currentOffset + i) {
+        byte[] tmp = new byte[currentOffset + i];
+        System.arraycopy(buffer, 0, tmp, 0, buffer.length);
+        buffer = tmp;
+    }
+}
+	
 	public stream() {
 	}
 
@@ -229,11 +237,18 @@ public class stream {
 		buffer[currentOffset++] = (byte)(int)l;
 	}
 
-	public void writeString(java.lang.String s) {
-		s.getBytes(0, s.length(), buffer, currentOffset);
-		currentOffset += s.length();
-		buffer[currentOffset++] = 10;
-	}
+//	public void writeString(java.lang.String s) {
+//		s.getBytes(0, s.length(), buffer, currentOffset);
+//		currentOffset += s.length();
+//		buffer[currentOffset++] = 10;
+//	}
+	
+  public void writeString(String s)
+  {
+      System.arraycopy(s.getBytes(), 0, buffer, currentOffset, s.length());
+      currentOffset += s.length();
+      buffer[currentOffset++] = 10;
+  }
 
 	public void writeBytes(byte abyte0[], int i, int j) {
 		for(int k = j; k < j + i; k++)

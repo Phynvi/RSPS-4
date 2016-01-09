@@ -1,16 +1,16 @@
 [ACCOUNT]
-character-username = Beta Test
+character-username = beta test
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 3021
+character-posx = 3025
 character-posy = 3208
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.100
-character-lastlogin = 20160006
+character-lastconnection = WRT610N
+character-lastlogin = 20160008
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -278,6 +278,7 @@ character-bank = 204	1593	1
 character-bank = 205	142	3
 
 [FRIENDS]
+character-friend = 0	97229002984747107
 
 [IGNORES]
 

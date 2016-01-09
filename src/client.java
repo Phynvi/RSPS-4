@@ -685,7 +685,7 @@ public class client extends Player implements Runnable {
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
 		this.Events.EventStart(1000, 1, this); //Calls event index 1 every second
 		this.Events.EventStart(30*1000, 2, this); //Called every 30 seconds
-		this.Events.EventStart(500, 3, this); //Called every 500 ms
+//		this.Events.EventStart(500, 3, this); //Called every 500 ms
 		this.Events.EventStart(15*1000, 4, this); //Called every 15 seconds
 		this.Events.EventStart(100, 5, this); //Called every 100ms
 		this.Events.EventStart(3*1000, 6, this); //Called every 3 seconds
@@ -1210,15 +1210,9 @@ public class client extends Player implements Runnable {
 		int npcX = 0;
 		int npcY = 0;
 		walkingToNPC = 0;
-		try{
 			NPCID = server.npcHandler.npcs[slotID].npcType;
 			npcX = server.npcHandler.npcs[slotID].absX;
 			npcY = server.npcHandler.npcs[slotID].absY;
-		}
-		catch(Exception e){
-			println("Exception type : "+e.toString()+", at npcFirstClick, slotID :"+slotID);
-			return;
-		}
 		faceNPC(slotID);
 		debug("Case 155: NPCID is "+NPCID);				
 
@@ -1246,7 +1240,7 @@ public class client extends Player implements Runnable {
 			break;
 		
 		case 162: //gnome trainer
-			WanneShop = 1;
+			openUpShop(1);
 			break;
 			
 		case 1705: //ghost captain
@@ -1288,7 +1282,7 @@ public class client extends Player implements Runnable {
 			break;
 		
 		case 715: //Elena
-			selectOptionTravel2("Travel to King Black Dragon?", "Yes", 3033,3851, "No", -1, -1);
+			selectOptionTravel2("Sorry, under construction", "n/a", -1,-1, "n/a", -1, -1);
 			break;
 		
 		case 1207:
@@ -1372,9 +1366,11 @@ public class client extends Player implements Runnable {
 						new String[]{"You must use a talisman on this altar","to craft runes.",
 						"My studies show that this altar can","craft Nature, Law, Death,","Blood, and Soul runes."});
 			}
-			skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", playerRunecrafting, 
+			else{
+				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", playerRunecrafting, 
 					new String[]{"You must use a talisman on this altar","to craft runes.",
 					"My studies show that this altar can","craft Air, Mind, Water, Earth,","Fire, Body, Cosmic, and Chaos runes."});
+			}
 			break;
 		
 		case 358:
@@ -3367,16 +3363,6 @@ teleportToY = 3206;
 		}
 	}
 public int totalz = (getLevelForXP(playerXP[0]) + getLevelForXP(playerXP[1]) + getLevelForXP(playerXP[2]) + getLevelForXP(playerXP[3]) + getLevelForXP(playerXP[4]) + getLevelForXP(playerXP[5]) + getLevelForXP(playerXP[6]) + getLevelForXP(playerXP[7]) + getLevelForXP(playerXP[8]) + getLevelForXP(playerXP[9]) + getLevelForXP(playerXP[10]) + getLevelForXP(playerXP[0]) + getLevelForXP(playerXP[11]) + getLevelForXP(playerXP[12]) + getLevelForXP(playerXP[13]) + getLevelForXP(playerXP[14]) + getLevelForXP(playerXP[15]) + getLevelForXP(playerXP[6]) + getLevelForXP(playerXP[17]) + getLevelForXP(playerXP[18]) + getLevelForXP(playerXP[19]) + getLevelForXP(playerXP[20]) + getLevelForXP(playerXP[21]));
-	public void debug(String str) {
-		if(debugmode)
-			System.out.println("[DEBUG-"+playerId+"-"+playerName+"]: "+str);
-	}
-	public void println(String str) {
-		System.out.println("[client-"+playerId+"-"+playerName+"]: "+str);
-	}
-	public void error(String str) {
-		System.out.println("[client-"+playerId+"-"+playerName+"] [ERROR] : "+str);
-	}
 	
 	
         public void updateCharAppearance(int[] styles, int[] colors) {
@@ -3551,7 +3537,7 @@ public void ResetWalkTo() {
 }
 
 public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
-		debug("atObject: "+objectX+","+objectY+" objectID: "+objectID+"\nObject hashcode is "+objectID.hashCode()); 
+		debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
 
 	if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
@@ -3673,6 +3659,10 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 				sendMessage("You cut your way through.");
 		}
 		else sendMessage("I need an axe to do that.");
+		break;
+		
+	case 2492: //portal from rune essence mine
+		teleport(3007,3309);
 		break;
 		
 		//warewolf agility entrance and exit
@@ -4830,8 +4820,9 @@ break;*/
 		break;
 
 		//Mining by AAA Mods
-	case 2111: //Rune ess
-		this.MINE.mineRock(objectID, 0, objectX, objectY);
+	case 2491: //Rune ess
+		if(isInArea(2924,4847,2930,4853) || isInArea(2890,4846,2896,4852) || isInArea(2926,4813,2932,4819) || isInArea(2892,4811,2898,4817))
+			this.MINE.mineRock(objectID, 0, objectX, objectY);
 		break;
 	case 9709:
 	case 9710:
@@ -8624,7 +8615,6 @@ public void sendQuest(String s, int id)
 		flushOutStream();
 	}
 	
-
 public void selectoption2(String question, String s1, String s2, String s3, String s4) {
             sendFrame171(1, 2465);
             sendFrame171(0, 2468);
@@ -8677,23 +8667,10 @@ private void selectOptionTravel2(String question, String place1, int x1, int y1,
 	private int XremoveSlot = 0;
 	private int XinterfaceID = 0;
 	private int XremoveID = 0;
-	private long lastPickup = 0;
-	private int emotes = 0;	
-	private int woodcutting[] = {0,0,0,1,-1,2};
-	private int fletching[] = {0,0,0,1,-1,0,-1};
-	private int mining[] = {0,0,0,1,-1};
 	private int smelting[] = {0,0,0,-1,-1,-1,0};
 	private int smithing[] = {0,0,0,1,-1,0};
-	private int crafting[] = {0,0,0,1,-1};
 	private int useitems[] = {-1,-1,-1,-1};
-	private int fishing[] = {0,0,0,1,-1,-1,-1,0,0};
-
-	private int cooking[] = {0,0,0,1,-1,-1,-1};
-	private int healing[] = {0,0,0,-1,-1};
-        private int firemaking[] = {0,0,0,1,-1};
         public int KillerId = playerId;
-	private int WanneBank = 0;
-	private int WanneShop = 0;
 	private java.net.Socket mySock;
 	private java.io.InputStream in;
 	private java.io.OutputStream out;
@@ -9177,11 +9154,11 @@ outStream.writeWord(0);//Time before casting the graphic
 		outStream.writeString("Duel");
 		outStream.endFrameVarSize();*/
 		
-		outStream.createFrameVarSize(104);
-		outStream.writeByteC(5);		// command slot
-		outStream.writeByteA(0);		// 0 or 1; 1 if command should be placed on top in context menu
-		outStream.writeString("TEST");
-		outStream.endFrameVarSize();
+//		outStream.createFrameVarSize(104);
+//		outStream.writeByteC(5);		// command slot
+//		outStream.writeByteA(0);		// 0 or 1; 1 if command should be placed on top in context menu
+//		outStream.writeString("TEST");
+//		outStream.endFrameVarSize();
 
 //if(playerRights >= 0)
 //{		
@@ -9684,6 +9661,16 @@ public void customCommand(String command) {
 			sendFrame246(1765, 200, playerEquipment[playerWeapon]);
 			sendFrame126(getItemName(playerEquipment[playerWeapon]), 1767);
 			litBarCheck(7561);
+		}
+		
+		if(command.startsWith("npcsize")){
+			for(int i = 0; i < server.npcHandler.npcs.length; i++){
+				if(server.npcHandler.npcs[i] != null){
+					if( i%10 == 0 )System.out.print("\n");
+					System.out.print(i+",");
+				}
+			}
+			System.out.println();
 		}
 		
 		if(command.startsWith("runes") && playerRights > 0){
@@ -12648,7 +12635,7 @@ refreshSkills();
 
 		for(int i = 83; i <= 100; i++)
 			frame36(i,0); //disabling all prayer sprites
-		
+
 		if(!newUser) 
 			loginscreen();
 		else showInterface(3559);
@@ -12989,6 +12976,335 @@ public void attackLoops(){
 }
 
 public boolean process() { 	// is being called regularily every 500ms	
+
+	scanPickup();
+	createAreaDisplayType();
+	AddDroppedItems();
+	tradeCheckTimers();
+	try{
+		Fletching.fletchingTimers(this);
+		Agility.agilityTimers(this);
+		Fishing.fishingTimers(this);
+		Prayer.prayTimers(this);
+	}
+	catch(Exception e){} //timers reference stuff that is not instantiated initially until after an iteration
+
+	CheckBar();
+	getFilling();
+
+	if (IsFishing) Fishing.FishingProcess(this);
+
+	if (CatchST) Fishing.CatchingSTProcess(this);
+
+	if (cookingon) Cooking.cookingProcess(this);
+
+	if(actionTimer > 0) actionTimer -= 1; 
+
+	PoisonDelay -= 1;
+	newAnimDelay -= 1;
+
+	if (smithingtimer > 1)
+		smithingtimer -= 1;
+
+	if (smithingtimer == 1){
+		startAnimation(899);
+		smithingvoid();
+	}		
+
+	//If killed apply dead
+	if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
+		startAnimation(2304);
+		if(PRAY.Retribution){
+			attackNPCSWithin((getLevelForXP(playerXP[playerPrayer])/4), 3); //max dmg = 25% of player's prayer level, 3x3 square
+			gfx100(437);
+		}
+		deadAnimTimer = 5;
+	}
+
+	//update correct hp in stat screen
+	if (NewHP < 136) {
+		playerLevel[playerHitpoints] = NewHP;
+		setSkillLevel(playerHitpoints, NewHP, playerXP[playerHitpoints]);
+		NewHP = playerLevel[3];
+	}
+
+	if (UpdateShop) {
+		resetItems(3823);
+		resetShop(MyShopID);
+	}
+	//Energy
+	if (playerEnergy < 100) {
+		if (playerEnergyGian >= server.EnergyRegian) {
+			playerEnergy += 1;
+			playerEnergyGian = 0;
+		}
+		playerEnergyGian++;
+		if (playerEnergy >= 0) {
+			WriteEnergy();
+		}
+	}
+	//Trade Check
+	//wilderness check
+	if (isInPKZone() || duelStatus == 3) {
+		outStream.createFrameVarSize(104);
+		outStream.writeByteC(3);		// command slot (does it matter which one?)
+		outStream.writeByteA(1);		// 0 or 1; 1 if command should be placed on top in context menu
+		outStream.writeString("Attack");
+		outStream.endFrameVarSize();
+		IsInWilderness = true;
+	} 
+
+	//Pick Up Item Check
+	if (WannePickUp) {
+		if (pickUpItem(PickUpID, PickUpAmount) == true) {
+			PickUpID = 0;
+			PickUpAmount = 0;
+			PickUpDelete = 0;
+			WannePickUp = false;
+		}
+	}
+	//Attacking in wilderness
+
+	int oldtotal = totalz;
+	totalz = 0;
+	for(int i = 0; i <= 20; i++)
+		totalz += getLevelForXP(playerXP[i]);
+	if(oldtotal != totalz)
+		sendFrame126("Total Lvl: "+totalz, 3984);
+
+	if(stoprunning){
+		setconfig(173, 0);
+		isRunning2 = false;
+		stoprunning = false;
+	}
+
+	if(sidebarChangeTimer >= 0 && sidebarChanging)
+		sidebarChangeTimer -= 1;
+
+	if(sidebarChangeTimer == 0 && sidebarChanging) {
+		frame106(sidebarChange);
+		sidebarChange = 0;
+		sidebarChangeTimer = 0;
+		sidebarChanging = false;
+	}
+
+	if(newAnimRequired && newAnimDelay < 1) {
+		outStream.createFrame(1); // Xerozcheez: Resets animation so we can do another one
+		startAnimation(newAnim);
+		newAnimRequired = false;
+	}
+	pEmote = playerSE;
+
+	if (AnimDelay > 10)
+		AnimDelay -= 1;
+
+	if (AnimDelay <=10 && AnimDelay != 0)
+		AnimDelay = 0;
+
+	if(isteleporting > 10)
+		isteleporting -= 1;
+
+	if (isteleporting <= 10 && isteleporting != 0){
+		if(!teleArea()){
+			sendMessage("You can't teleport out of here!");
+			isteleporting = 0;
+		}
+		else if (!isInPKZone()){
+			teleportToX = isteleportingx;
+			teleportToY = isteleportingy;
+			requirePlayerUpdate();
+			heightLevel = ithl;
+			isteleporting = 0;
+		} //
+	}
+
+
+	if(configiToggle){
+		sendMessage("Configi is "+configi);
+		setconfig(configi, 1);
+		configi += 1;
+	}
+
+	if(deadAnimTimer >= 0){ //reduces timer to -1
+		deadAnimTimer -= 1;
+		if(deadAnimTimer == 0)
+			ApplyDead();
+	}
+
+	if(noClickTimeout > 0){
+		if(noClickTimeout == 1)
+			noClick = false;
+		noClickTimeout -= 1;
+	}
+
+
+	if(walkingToNPC != 0){
+		if(GoodDistance(walkingToNPC_X, walkingToNPC_Y, absX, absY, 1)){
+			walkingToNPC_X = -1;
+			walkingToNPC_Y = -1;
+			if(walkingToNPC == 1) npcFirstClick(walkingToNPC_slotID);
+			if(walkingToNPC == 2) npcSecondClick(walkingToNPC_slotID);
+		}
+	}
+
+	if (noClick){
+		if (absX == shouldbeX && absY == shouldbeY){
+			noClick = false;
+			noClickTimeout = 0;
+		}
+	}
+
+	if(WalkingTo) {
+		if(GoodDistance(absX, absY, destinationX, destinationY, destinationRange) && objWalkTimer <= 0) {
+			objWalkTimer = -1;
+			DoAction();
+			ResetWalkTo();
+		}
+	}
+	if (objWalkTimer > -1)
+		objWalkTimer -= 1;
+	if (animDelay > 0 && animRepeat == true)
+		animDelay -= 1;
+	if (animDelay == 0 && animRepeat == true){
+		startAnimation(currentAnim);
+		animDelay = animDelay2;
+	}
+
+
+	if (DClawsTimer > 0)
+		DClawsTimer -= 1;
+	if (SpecTimer > 0)
+		SpecTimer -= 1;
+	if (SpecTimer == 1 && (IsAttackingNPC || IsAttacking)){
+
+		if (playerEquipment[playerWeapon] == 4153){ // g maul
+			CalculateMaxHit();
+			if (IsAttackingNPC){
+				SpecDamgNPC(playerMaxHit);	
+				stillgfxz(337, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX, 100, 10);
+			}
+			if (IsAttacking){
+				int dmg = misc.random(playerMaxHit);
+				if(PMelee) dmg = (int)(dmg*0.6);
+				damagePlayer(AttackingOn, dmg); 
+			}
+			setAnimation(1667);
+		}
+
+		//drag daggers
+		if (playerEquipment[playerWeapon] == 5698 || playerEquipment[playerWeapon] == 1215 || playerEquipment[playerWeapon] == 1231 || playerEquipment[playerWeapon] == 5680){
+			CalculateMaxHit();
+			if (IsAttackingNPC)
+				SpecDamgNPC(playerMaxHit + misc.random(playerLevel[playerAttack]/11));	
+			if (IsAttacking){
+				int dmg = misc.random(playerMaxHit + misc.random(playerLevel[playerAttack]/11));
+				if(PMelee) dmg = (int)(dmg*0.6);
+				damagePlayer(AttackingOn, dmg); 
+			}
+		}
+
+		if(playerEquipment[playerWeapon] == 861){ //magic shortbow
+			setAnimation(426);
+			CalculateRange();
+			if(IsAttackingNPC){
+				SpecDamgNPC(playerMaxHit + misc.random(playerLevel[playerAttack]/25));	
+			}
+			if (IsAttacking){
+				int dmg = misc.random(playerMaxHit + misc.random(playerLevel[playerAttack]/25));
+				if (PRange) dmg = (int)(dmg*0.6);
+				damagePlayer(AttackingOn, dmg); 
+			}
+		}
+		if(playerEquipment[playerWeapon] == Item.DARKBOW){ 
+			setAnimation(426);
+			CalculateRange();
+			if(IsAttackingNPC){
+				SpecDamgNPC(playerMaxHit + (int)(playerMaxHit*0.3) );	
+			}
+			if (IsAttacking){
+				int dmg = misc.random(playerMaxHit + (int)(playerMaxHit*0.3) );
+				if (PRange) dmg = (int)(dmg*0.6);
+				damagePlayer(AttackingOn, dmg); 
+			}
+		}
+
+	}
+	if (DClawsHit1 == true && (IsAttackingNPC || IsAttacking) && DClawsTimer == 8){
+		if (DClawsDmg > 0){
+			DClawsHit2 = DClawsDmg/2; //2nd hit is first hit divided by 2
+			if (IsAttackingNPC) //if attacking NPC
+				SpecDamgNPC2(DClawsHit2); //directly dmg
+			if (IsAttacking){ //if attacking player
+				int dmg = DClawsHit2;
+				if(PMelee) dmg = (int)(dmg*0.6);
+				damagePlayer(AttackingOn, dmg); 
+			}
+			DClawsHit3 = (DClawsHit2/2)-misc.random(2); //3rd and 4th hit add up to 2nd hit
+			DClawsHit4 = DClawsHit2-DClawsHit3;
+		}
+
+		if (DClawsDmg == 0){ //if zero damage dealt on first hit
+			CalculateMaxHit(); //Calculates max 2nd hit
+			DClawsHit2 = misc.random(playerMaxHit);
+			if (IsAttackingNPC) //if attacking NPC
+				SpecDamgNPC2(DClawsHit2); //directly dmg
+			if (IsAttacking){ //if attacking player
+				int dmg = DClawsHit2;
+				if(PMelee) dmg = (int)(dmg*0.6);
+				damagePlayer(AttackingOn, dmg); 
+			}
+			if (DClawsHit2 == 0){//if zero damage dealt on second hit
+				CalculateMaxHit(); //Calculates max hit
+				DClawsHit3 = misc.random(playerMaxHit); //3rd is normal hit	
+				if (DClawsHit3 == 0){ //if 3rd hit is zero
+					CalculateMaxHit(); //Calculates max hit
+					DClawsHit4 = misc.random(playerMaxHit); //4th is normal hit + 50% damage boost
+					DClawsHit4 = DClawsHit4 + (int)((double)playerMaxHit/2);
+				}		
+				if (DClawsHit3 > 0){ //if 3rd hit is greater than zero
+					CalculateMaxHit(); //Calculates max hit
+					DClawsHit4 = DClawsHit3; //4th is normal hit	
+				}
+			}
+			if (DClawsHit2 > 0){ //if 2nd hit is valid	
+				DClawsHit3 = DClawsHit2/2;
+				DClawsHit4 = DClawsHit2/2; //3rd and 4th hit are half of 2nd			
+			}
+		}
+		DClawsHit1= false;
+	}
+	if ((IsAttackingNPC || IsAttacking) && DClawsTimer == 7){
+		if (IsAttackingNPC) //if attacking NPC
+			SpecDamgNPC2(DClawsHit3); //directly dmg
+		if (IsAttacking){ //if attacking player
+			int dmg = DClawsHit3;
+			if(PMelee) dmg = (int)(dmg*0.6);
+			damagePlayer(AttackingOn, dmg); 
+		}
+	}
+	if ((IsAttackingNPC || IsAttacking) && DClawsTimer == 6){
+		if (IsAttackingNPC) //if attacking NPC
+			SpecDamgNPC2(DClawsHit4); //directly dmg
+		if (IsAttacking){ //if attacking player
+			int dmg = DClawsHit4;
+			if(PMelee) dmg = (int)(dmg*0.6);
+			damagePlayer(AttackingOn, dmg); 
+		}
+	}
+
+	if (isKicked) { 
+		disconnected = true; 
+		outStream.createFrame(109); 
+	}
+
+	if (globalMessage.length() > 0) {
+		sendMessage(globalMessage);
+		globalMessage = "";
+	}
+
+	updateRequired = true;
+	appearanceUpdateRequired = true;
+
 		return packetProcess();
 	}
 
@@ -13370,8 +13686,13 @@ case 192:
 				break;
 			
 			case 155: //first Click npc
-				int NPCSlot = (misc.HexToInt(inStream.buffer, 0, packetSize) / 1000);
+				int NPCSlot = inStream.readSignedWordBigEndian();//(misc.HexToInt(inStream.buffer, 0, packetSize) / 1000);
+				try{
 				npcFirstClick(NPCSlot);
+				}
+				catch(Exception e){
+					error("Exception type : "+e.toString()+", at npcFirstClick, slotID :"+NPCSlot+", packetSize : "+packetSize);
+				}
 				return;
 			
 			case 17: //second Click npc
@@ -13434,16 +13755,14 @@ case 192:
 				break;
 
 			
+				//loading please wait
 			case 121:
 				// we could use this to make the char appear for other players only until
 				// this guys loading is done. Also wait with regular player updates
 				// until we receive this command.
 				//println_debug("Loading finished.");
 				hasntLoggedin = true;
-				objects.Deleteobjects(this);
-				objects.Deleteobjects2(this);
-				objects.Deletewalls(this);
-				objects.NewObjects(this);
+				objects.newObjects(this);
 				break;
 
 			case 122:	// Call for burying bones
@@ -13807,7 +14126,7 @@ break;
 				if (lists.objectDest1.exists(objectID))
 					destinationRange = 1;
 
-				if(objectID == 3340)
+				if(objectID == 3340 || objectID == 2491)
 					destinationRange = 8;
 
 				if(lists.objectDest3.exists(objectID))
@@ -15241,7 +15560,7 @@ break;
 
 case 73104:
 sendMessage("X: "+absX+" Y: "+absY);
-debug("X: "+absX+" Y: "+absY);
+println("X: "+absX+" Y: "+absY);
 break;
 
 case 73108:

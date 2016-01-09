@@ -6,140 +6,140 @@ public class Agility {
 		this.c = input;
 	}
 
-	public void agilityTimers(){
+	public static void agilityTimers(client playerClient){
 
 
-		if (c.absX == c.agilX && c.absY == c.agilY){
-			if (c.wasrunning == true){
-				c.isRunning2 = true;
-				c.wasrunning = false;}
-			else if (c.wasrunning == false){
-				c.isRunning2 = false;
-				c.wasrunning = false;}
-			else if (c.running == true){
-				c.setAnimation(c.runningemote);
-				c.isRunning2 = false;
-				c.running = false;
+		if (playerClient.absX == playerClient.agilX && playerClient.absY == playerClient.agilY){
+			if (playerClient.wasrunning == true){
+				playerClient.isRunning2 = true;
+				playerClient.wasrunning = false;}
+			else if (playerClient.wasrunning == false){
+				playerClient.isRunning2 = false;
+				playerClient.wasrunning = false;}
+			else if (playerClient.running == true){
+				playerClient.setAnimation(playerClient.runningemote);
+				playerClient.isRunning2 = false;
+				playerClient.running = false;
 			}
-			c.playerSE = c.GetStandAnim(c.playerWeapon);
-			c.playerSEW = c.GetWalkAnim(c.playerWeapon);
-			c.playerSER = c.GetRunAnim(c.playerWeapon);
-			c.agilX = 0;
-			c.agilY = 0;
+			playerClient.playerSE = playerClient.GetStandAnim(playerClient.playerWeapon);
+			playerClient.playerSEW = playerClient.GetWalkAnim(playerClient.playerWeapon);
+			playerClient.playerSER = playerClient.GetRunAnim(playerClient.playerWeapon);
+			playerClient.agilX = 0;
+			playerClient.agilY = 0;
 		}
 
 		//Brimhaven Agility
-		if(c.isInArea(2753, 9535, 2814, 9600)){
-			c.ticket = System.currentTimeMillis();
-			if (c.absX == 2798 && c.absY == 9579){
-				c.walkingemote3(2750, 2802, 9579, 4, 0, 500);
-				c.sendMessage("You hop over the pressure pads.");
+		if(playerClient.isInArea(2753, 9535, 2814, 9600)){
+			playerClient.ticket = System.currentTimeMillis();
+			if (playerClient.absX == 2798 && playerClient.absY == 9579){
+				playerClient.walkingemote3(2750, 2802, 9579, 4, 0, 500);
+				playerClient.sendMessage("You hop over the pressure pads.");
 			}       
-			if (c.absX == 2801 && c.absY == 9579){
-				c.walkingemote3(2750, 2797, 9579, -4, 0, 500);
-				c.sendMessage("You hop over the pressure pads.");
+			if (playerClient.absX == 2801 && playerClient.absY == 9579){
+				playerClient.walkingemote3(2750, 2797, 9579, -4, 0, 500);
+				playerClient.sendMessage("You hop over the pressure pads.");
 			}           
-			if (c.absX == 2787 && c.absY == 9579){
-				c.createNewTileObject(2788, 9579, 3567, 1, 10);  
-				c.walkingemote3(2750, 2791, 9579, 4, 0, 500);
-				c.sendMessage("You jump the blade!");
+			if (playerClient.absX == 2787 && playerClient.absY == 9579){
+				playerClient.createNewTileObject(2788, 9579, 3567, 1, 10);  
+				playerClient.walkingemote3(2750, 2791, 9579, 4, 0, 500);
+				playerClient.sendMessage("You jump the blade!");
 			}       
-			if (c.absX == 2790 && c.absY == 9579){
-				c.createNewTileObject(2788, 9579, 3567, 1, 10);  
-				c.walkingemote3(2750, 2786, 9579, -4, 0, 500);
-				c.sendMessage("You jump the blade!");
+			if (playerClient.absX == 2790 && playerClient.absY == 9579){
+				playerClient.createNewTileObject(2788, 9579, 3567, 1, 10);  
+				playerClient.walkingemote3(2750, 2786, 9579, -4, 0, 500);
+				playerClient.sendMessage("You jump the blade!");
 			}           
-			if (c.absX == 2783 && c.absY == 9575){
-				if (System.currentTimeMillis() - c.obstacle >= 3000) {
-					c.walkingemote(844, 2783, 9571);
-					c.WalkTo(0, -4);
-					c.addSkillXP(500, 16);
-					c.sendMessage("You carefully crawl underneath the spinning blade.");
+			if (playerClient.absX == 2783 && playerClient.absY == 9575){
+				if (System.currentTimeMillis() - playerClient.obstacle >= 3000) {
+					playerClient.walkingemote(844, 2783, 9571);
+					playerClient.WalkTo(0, -4);
+					playerClient.addSkillXP(500, 16);
+					playerClient.sendMessage("You carefully crawl underneath the spinning blade.");
 				}  
 			}
-			if (c.absX == 2783 && c.absY == 9572){
-				if (System.currentTimeMillis() - c.obstacle >= 3000) {
-					c.walkingemote(844, 2783, 9577);
-					c.WalkTo(0, 4);
-					c.addSkillXP(500, 16);
-					c.sendMessage("You carefully crawl underneath the spinning blade.");
+			if (playerClient.absX == 2783 && playerClient.absY == 9572){
+				if (System.currentTimeMillis() - playerClient.obstacle >= 3000) {
+					playerClient.walkingemote(844, 2783, 9577);
+					playerClient.WalkTo(0, 4);
+					playerClient.addSkillXP(500, 16);
+					playerClient.sendMessage("You carefully crawl underneath the spinning blade.");
 				}  
 			}   
-			if (c.absX == 2779 && c.absY == 9557){
-				if (System.currentTimeMillis() - c.obstacle >= 3000) {
-					c.walkingemote(844, 2775, 9557);
-					c.WalkTo(-4, 0);
-					c.addSkillXP(500, 16);
-					c.sendMessage("You carefully crawl underneath the spinning blade.");
+			if (playerClient.absX == 2779 && playerClient.absY == 9557){
+				if (System.currentTimeMillis() - playerClient.obstacle >= 3000) {
+					playerClient.walkingemote(844, 2775, 9557);
+					playerClient.WalkTo(-4, 0);
+					playerClient.addSkillXP(500, 16);
+					playerClient.sendMessage("You carefully crawl underneath the spinning blade.");
 				}
 			}     
-			if (c.absX == 2776 && c.absY == 9557){
-				if (System.currentTimeMillis() - c.obstacle >= 3000) {
-					c.walkingemote(844, 2780, 9557);
-					c.WalkTo(4, 0);
-					c.addSkillXP(500, 16);
-					c.sendMessage("You carefully crawl underneath the spinning blade.");
+			if (playerClient.absX == 2776 && playerClient.absY == 9557){
+				if (System.currentTimeMillis() - playerClient.obstacle >= 3000) {
+					playerClient.walkingemote(844, 2780, 9557);
+					playerClient.WalkTo(4, 0);
+					playerClient.addSkillXP(500, 16);
+					playerClient.sendMessage("You carefully crawl underneath the spinning blade.");
 				}
 			}     
-			if (c.absX == 2772 && c.absY == 9550){
-				c.createNewTileObject(2772, 9551, 2305, 0, 10);  
-				c.createNewTileObject(2772, 9552, 2305, 0, 10);  
-				c.walkingemote3(3067, 2772, 9554, 0, 4, 500);
-				c.sendMessage("You jump the spikes!");
+			if (playerClient.absX == 2772 && playerClient.absY == 9550){
+				playerClient.createNewTileObject(2772, 9551, 2305, 0, 10);  
+				playerClient.createNewTileObject(2772, 9552, 2305, 0, 10);  
+				playerClient.walkingemote3(3067, 2772, 9554, 0, 4, 500);
+				playerClient.sendMessage("You jump the spikes!");
 			}
-			if (c.absX == 2772 && c.absY == 9553){
-				c.createNewTileObject(2772, 9551, 2305, 0, 10);  
-				c.createNewTileObject(2772, 9552, 2305, 0, 10); 
-				c.walkingemote3(3067, 2772, 9549, 0, -4, 500);
-				c.sendMessage("You jump the spikes!");
+			if (playerClient.absX == 2772 && playerClient.absY == 9553){
+				playerClient.createNewTileObject(2772, 9551, 2305, 0, 10);  
+				playerClient.createNewTileObject(2772, 9552, 2305, 0, 10); 
+				playerClient.walkingemote3(3067, 2772, 9549, 0, -4, 500);
+				playerClient.sendMessage("You jump the spikes!");
 			}
-			if (c.absX == 2798 && c.absY == 9568){
-				c.createNewTileObject(2800, 9568, 2305, 0, 10);  
-				c.createNewTileObject(2799, 9568, 2305, 0, 10); 
-				c.walkingemote3(3067, 2802, 9568, 4, 0, 500);
-				c.sendMessage("You jump the spikes!");
+			if (playerClient.absX == 2798 && playerClient.absY == 9568){
+				playerClient.createNewTileObject(2800, 9568, 2305, 0, 10);  
+				playerClient.createNewTileObject(2799, 9568, 2305, 0, 10); 
+				playerClient.walkingemote3(3067, 2802, 9568, 4, 0, 500);
+				playerClient.sendMessage("You jump the spikes!");
 			}
-			if (c.absX == 2801 && c.absY == 9568){
-				c.createNewTileObject(2800, 9568, 2305, 0, 10);  
-				c.createNewTileObject(2799, 9568, 2305, 0, 10); 
-				c.walkingemote3(3067, 2797, 9568, -4, 0, 500);
-				c.sendMessage("You jump the spikes!");
+			if (playerClient.absX == 2801 && playerClient.absY == 9568){
+				playerClient.createNewTileObject(2800, 9568, 2305, 0, 10);  
+				playerClient.createNewTileObject(2799, 9568, 2305, 0, 10); 
+				playerClient.walkingemote3(3067, 2797, 9568, -4, 0, 500);
+				playerClient.sendMessage("You jump the spikes!");
 			}    
-			if (c.absX == 2761 && c.absY == 9583){
-				c.createNewTileObject(2761, 9584, 3567, 0, 10);  
-				c.walkingemote3(2750, 2761, 9587, 0, 4, 500);
-				c.sendMessage("You jump the blade!");
+			if (playerClient.absX == 2761 && playerClient.absY == 9583){
+				playerClient.createNewTileObject(2761, 9584, 3567, 0, 10);  
+				playerClient.walkingemote3(2750, 2761, 9587, 0, 4, 500);
+				playerClient.sendMessage("You jump the blade!");
 			}
-			if (c.absX == 2761 && c.absY == 9586){
-				c.createNewTileObject(2761, 9584, 3567, 0, 10);  
-				c.walkingemote3(2750, 2761, 9582, 0, -4, 500);
-				c.sendMessage("You jump the blade!");
+			if (playerClient.absX == 2761 && playerClient.absY == 9586){
+				playerClient.createNewTileObject(2761, 9584, 3567, 0, 10);  
+				playerClient.walkingemote3(2750, 2761, 9582, 0, -4, 500);
+				playerClient.sendMessage("You jump the blade!");
 			}       
-			if (c.absX == 2783 && c.absY == 9550){
-				c.createNewTileObject(2783, 9551, 3567, 0, 10);  
-				c.walkingemote3(2750, 2783, 9554, 0, 4, 500);
-				c.sendMessage("You jump the blade!");
+			if (playerClient.absX == 2783 && playerClient.absY == 9550){
+				playerClient.createNewTileObject(2783, 9551, 3567, 0, 10);  
+				playerClient.walkingemote3(2750, 2783, 9554, 0, 4, 500);
+				playerClient.sendMessage("You jump the blade!");
 			}    
-			if (c.absX == 2783 && c.absY == 9553){
-				c.createNewTileObject(2783, 9551, 3567, 0, 10);  
-				c.walkingemote3(2750, 2783, 9549, 0, -4, 500);
-				c.sendMessage("You jump the blade!");
+			if (playerClient.absX == 2783 && playerClient.absY == 9553){
+				playerClient.createNewTileObject(2783, 9551, 3567, 0, 10);  
+				playerClient.walkingemote3(2750, 2783, 9549, 0, -4, 500);
+				playerClient.sendMessage("You jump the blade!");
 			}    
-			if (c.absX == 2798 && c.absY == 9557){
-				c.walkingemote3(2750, 2802, 9557, 4, 0, 500);
-				c.sendMessage("You hop over the pressure pads.");
+			if (playerClient.absX == 2798 && playerClient.absY == 9557){
+				playerClient.walkingemote3(2750, 2802, 9557, 4, 0, 500);
+				playerClient.sendMessage("You hop over the pressure pads.");
 			}       
-			if (c.absX == 2801 && c.absY == 9557){
-				c.walkingemote3(2750, 2797, 9557, -4, 0, 500);
-				c.sendMessage("You hop over the pressure pads.");
+			if (playerClient.absX == 2801 && playerClient.absY == 9557){
+				playerClient.walkingemote3(2750, 2797, 9557, -4, 0, 500);
+				playerClient.sendMessage("You hop over the pressure pads.");
 			}         
-			if (c.absX == 2772 && c.absY == 9583){
-				c.walkingemote3(2750, 2772, 9587, 0, 4, 500);
-				c.sendMessage("You hop over the pressure pads.");
+			if (playerClient.absX == 2772 && playerClient.absY == 9583){
+				playerClient.walkingemote3(2750, 2772, 9587, 0, 4, 500);
+				playerClient.sendMessage("You hop over the pressure pads.");
 			}        
-			if (c.absX == 2772 && c.absY == 9586){
-				c.walkingemote3(2750, 2772, 9582, 0, -4, 500);
-				c.sendMessage("You hop over the pressure pads.");
+			if (playerClient.absX == 2772 && playerClient.absY == 9586){
+				playerClient.walkingemote3(2750, 2772, 9582, 0, -4, 500);
+				playerClient.sendMessage("You hop over the pressure pads.");
 			}   
 
 		}

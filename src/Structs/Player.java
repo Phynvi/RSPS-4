@@ -3,6 +3,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public abstract class Player extends playerInstances {
+	
+	public boolean hasLoadedAllNPCs = false;
 
 
 	public int distanceTo(Player other) {
@@ -11,6 +13,18 @@ public abstract class Player extends playerInstances {
 	public int distanceToPoint(int pointX,int pointY) {
 		return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
 	}	
+	
+	public void debug(String str) {
+		if(debugmode)
+			System.out.println("[DEBUG-"+playerId+"-"+playerName+"]: "+str);
+	}
+	public void println(String str) {
+		System.out.println("[client-"+playerId+"-"+playerName+"]: "+str);
+	}
+	public boolean error(String str) {
+		System.out.println("[client-"+playerId+"-"+playerName+"] [ERROR] : "+str);
+		return false;
+	}
 
 	public Player(){}
 
@@ -29,14 +43,7 @@ public abstract class Player extends playerInstances {
 		str.writeWordBigEndianA(FocusPointX);
 		str.writeWordBigEndian(FocusPointY);
 	}
-	public void debug(String str)
-	{
-		System.out.println("[player-"+playerId+"]: "+str);
-	}
-	public void println(String str)
-	{
-		System.out.println("[player-"+playerId+"]: "+str);
-	}
+
 	public boolean newhptype = false;
 
 	public int hptype = 0;
@@ -685,7 +692,7 @@ public abstract class Player extends playerInstances {
 		npcInListBitmap[id >> 3] |= 1 << (id&7);	// set the flag
 		npcList[npcListSize++] = npc;
 
-		str.writeBits(14, id);	// client doesn't seem to like id=0
+		str.writeBits(14, id);	// client doesn't seem to like id=0 //TODO - used to be 14
 
 		int z = npc.absY-absY;
 		if(z < 0) z += 32;
@@ -695,7 +702,7 @@ public abstract class Player extends playerInstances {
 		str.writeBits(5, z);	// x coordinate relative to thisPlayer
 
 		str.writeBits(1, 0); //something??
-		str.writeBits(12, npc.npcType);
+		str.writeBits(14, npc.npcType); //TODO - used to be 12
 
 		boolean savedUpdateRequired = npc.updateRequired;
 		npc.updateRequired = true;
