@@ -9,59 +9,74 @@ public class NPC {
 	public int npcId;
 	public int npcType;
 	public boolean attackable = true;
-      public int PoisonDelay = 999999;
-      public int PoisonClear = 0;
+	public int PoisonDelay = 999999;
+	public int PoisonClear = 0;
 	public int absX, absY;
 	public int heightLevel;
 	public int makeX, makeY, moverangeX1, moverangeY1, moverangeX2, moverangeY2, moveX, moveY, direction, directionz, walkingType, attacknpc, followPlayer;
 	public int spawnX, spawnY;
-      public int viewX, viewY;
-	public int HP, MaxHP, hitDiff, MaxHit, animNumber, actionTimer, StartKilling, enemyX, enemyY;
+	public int viewX, viewY;
+	public int HP, MaxHP, MaxHit, animNumber, actionTimer, StartKilling, enemyX, enemyY;
 	public boolean IsDead, DeadApply, NeedRespawn, IsUnderAttack, IsClose, Respawns, IsUnderAttackNpc, IsAttackingNPC, poisondmg, walkingToPlayer, followingPlayer;
 	public int[] Killing = new int[server.playerHandler.maxPlayers];
 	public String followName = "";
 	public boolean RandomWalk;
 	public boolean dirUpdateRequired;
 	public boolean animUpdateRequired;
-	public boolean hitUpdateRequired;
+	private boolean hitUpdateRequired;
+	private int hitDiff;
 	public boolean updateRequired;
 	public boolean textUpdateRequired;
-      public boolean faceToUpdateRequired;
-      public boolean moveToSpawn = false;
-      
-      public int focusPointX, focusPointY;
-      public boolean turnUpdateRequired; 
-      
+	public boolean faceToUpdateRequired;
+	public boolean moveToSpawn = false;
+
+	public int focusPointX, focusPointY;
+	public boolean turnUpdateRequired; 
+
 	public String textUpdate;
 	private ArrayList<playerDamage> attackingPlayers = new ArrayList<playerDamage>();
-	
+
 	private class playerDamage{
 		private int playerID, totalDamage;
-		
+
 		public playerDamage(int pID, int tDamage){
 			playerID = pID;
 			totalDamage = tDamage;
 		}
-		
+
 		public void addDamage(int amount){
 			totalDamage += amount;
 		}
-		
+
 		public int getDamage(){
 			return totalDamage;
 		}
-		
+
 		public int getPlayerID(){
 			return playerID;
 		}
-		
+
+	}		
+
+	/**
+	 * Will inflict damage to this NPC
+	 * @param amount Amount of damage to inflict
+	 */
+	public void damageNPC(int amount){
+		hitDiff = amount;
+		if (hitDiff > HP) hitDiff = HP;
+		hitUpdateRequired = true;
+		HP -= hitDiff;
+		if (HP <= 0) {
+			IsDead = true;
+		}
 	}
-	
+
 	private void appendSetFocusDestination(stream str) {
-    str.writeWordBigEndian(focusPointX);
-    str.writeWordBigEndian(focusPointY);
-}
-	
+		str.writeWordBigEndian(focusPointX);
+		str.writeWordBigEndian(focusPointY);
+	}
+
 	public void face(String dir){
 		dir = dir.toLowerCase();
 		switch(dir){
@@ -79,35 +94,35 @@ public class NPC {
 			return;
 		}
 	}
-	
+
 	private void turnNpc(int i, int j) {
-    focusPointX = 2 * i + 1;
-    focusPointY = 2 * j + 1;
-    updateRequired = true;
-    turnUpdateRequired = true;
-}
-	
+		focusPointX = 2 * i + 1;
+		focusPointY = 2 * j + 1;
+		updateRequired = true;
+		turnUpdateRequired = true;
+	}
+
 	public boolean isOutsideSpawn(){
 		return (distanceToPoint(spawnX, spawnY) > 8);
 	}
-	
+
 	public int distanceToPoint(int pointX,int pointY) {
 		return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
 	}	
-	
+
 	/**
 	 * Clears the current list of attacking players
 	 */
 	public void resetAttackingPlayers(){
 		attackingPlayers.clear();
 	}
-	
-/**
- * Updates the attacking player list, if the player is not in the list, will add the player
- * @param playerID - player ID to update
- * @param damage - damage to add
- * @return true if player was updated or added, false if not found
- */
+
+	/**
+	 * Updates the attacking player list, if the player is not in the list, will add the player
+	 * @param playerID - player ID to update
+	 * @param damage - damage to add
+	 * @return true if player was updated or added, false if not found
+	 */
 	public boolean updateAttackingPlayers(int playerID, int damage){
 		for(playerDamage pD : attackingPlayers){
 			if(pD.getPlayerID() == playerID){ //player is attacking, update
@@ -117,7 +132,7 @@ public class NPC {
 		}
 		return attackingPlayers.add(new playerDamage(playerID, damage));
 	}
-	
+
 	/**
 	 * Sets the NPC's startkilling variable to player with most damage accumulation
 	 */
@@ -133,7 +148,7 @@ public class NPC {
 		if (highest == -1) return;
 		this.StartKilling = pID;
 	}
-	
+
 	/**
 	 * Gets player who has the most damage on the current NPC
 	 * @return Player ID of whoever has accumulated most damage
@@ -141,7 +156,7 @@ public class NPC {
 	public int getPlayerAgroID(){
 		return getPlayerAgroID(this.StartKilling);
 	}	
-	
+
 	/**
 	 * Gets player who has the most damage on the current NPC
 	 * @param originalID Original startkilling ID
@@ -159,7 +174,7 @@ public class NPC {
 		if (highest == -1) return originalID;
 		return pID;
 	}
-	
+
 	public NPC(int _npcId, int _npcType) {
 		npcId = _npcId;
 		npcType = _npcType;
@@ -175,7 +190,7 @@ public class NPC {
 			Killing[i] = 0;
 		}
 	}
-	
+
 	public void reset(){
 		followPlayer = 0;
 		IsUnderAttack = false;
@@ -231,16 +246,16 @@ public class NPC {
 		if(!updateRequired) return ;		// nothing required
 		int updateMask = 0;
 		if(animUpdateRequired) updateMask |= 0x10;
-                //if(hitUpdateRequired) updateMask |= 0x8;
+		//if(hitUpdateRequired) updateMask |= 0x8;
 		if(textUpdateRequired) updateMask |= 1;
 		if(hitUpdateRequired) updateMask |= 0x40;
 		if(dirUpdateRequired) updateMask |= 0x20;
 		if(faceToUpdateRequired) updateMask |= 0x20;
 		if(turnUpdateRequired) updateMask |= 4;
-boolean faceUp = false;
+		boolean faceUp = false;
 		if(faceUpdateRequired && updateMask == 0){ //Only if there is no other updates to do, ive tested other ways but this seems the best.
-		updateMask |= 0x20;
-		faceUp = true;
+			updateMask |= 0x20;
+			faceUp = true;
 		}
 
 		/*if(updateMask >= 0x100) {
@@ -249,7 +264,7 @@ boolean faceUp = false;
 			str.writeByte(updateMask & 0xFF);
 			str.writeByte(updateMask >> 8);
 		} else {*/
-			str.writeByte(updateMask);
+		str.writeByte(updateMask);
 		//}
 
 		// now writing the various update blocks itself - note that their order crucial
@@ -260,9 +275,9 @@ boolean faceUp = false;
 		if (hitUpdateRequired) appendHitUpdate(str);
 		if (dirUpdateRequired) appendFaceEntity(str);
 		if (dirUpdateRequired) appendDirUpdate(str);
-                if (faceToUpdateRequired) appendFaceToUpdate(str);
-if (faceUpdateRequired && faceUp) updateface(str);
-if(turnUpdateRequired) appendSetFocusDestination(str);		
+		if (faceToUpdateRequired) appendFaceToUpdate(str);
+		if (faceUpdateRequired && faceUp) updateface(str);
+		if(turnUpdateRequired) appendSetFocusDestination(str);		
 		// TODO: add the various other update blocks
 	}
 
@@ -292,9 +307,9 @@ if(turnUpdateRequired) appendSetFocusDestination(str);
 			if (dir == -1)
 				return -1;
 			dir >>= 1;
-			absX += moveX;
-			absY += moveY;
-			return dir;
+		absX += moveX;
+		absY += moveY;
+		return dir;
 		} else if(WalkingCheck.tiles.get(currentTile.getH() << 28 | currentTile.getX() << 14 | currentTile.getY()) == true) {
 			return -1;
 		} else {
@@ -309,10 +324,6 @@ if(turnUpdateRequired) appendSetFocusDestination(str);
 
 	protected void appendHitUpdate(stream str) {		
 		try {
-			HP -= hitDiff;
-			if (HP <= 0) {
-				IsDead = true;
-			}
 			str.writeByteC(hitDiff); // What the perseon got 'hit' for
 			if (hitDiff > 0 && !poisondmg) {
 				str.writeByteS(1); // 0: red hitting - 1: blue hitting
@@ -323,11 +334,15 @@ if(turnUpdateRequired) appendSetFocusDestination(str);
 			}
 			str.writeByteS(HP); // Their current hp, for HP bar
 			str.writeByteC(MaxHP); // Their max hp, for HP bar
-                        poisondmg = false;
+			poisondmg = false;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Dont use this?
+	 * @param str
+	 */
 	protected void appendHitUpdate2(stream str) {		
 		try {
 			HP -= hitDiff;
@@ -344,7 +359,7 @@ if(turnUpdateRequired) appendSetFocusDestination(str);
 			}
 			str.writeByteS(HP); // Their current hp, for HP bar
 			str.writeByte(MaxHP); // Their max hp, for HP bar
-                        poisondmg = false;
+			poisondmg = false;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -361,9 +376,9 @@ if(turnUpdateRequired) appendSetFocusDestination(str);
 	public void appendDirUpdate(stream str){
 		str.writeWord(direction);
 	}
-        
-        public void appendFaceToUpdate(stream str) {
-                str.writeWordBigEndian(viewX);
-                str.writeWordBigEndian(viewY);
-        }
+
+	public void appendFaceToUpdate(stream str) {
+		str.writeWordBigEndian(viewX);
+		str.writeWordBigEndian(viewY);
+	}
 }

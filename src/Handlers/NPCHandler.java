@@ -23,6 +23,8 @@ public class NPCHandler {
 			npcs[i] = null;
 		}
 		ignoreCombatLevel.buildBalancedTree(lists.PCArray, 0, lists.PCArray.length-7); //3727-3776 are aggressive
+		rangedNPC.buildBalancedTree(lists.pestControlMagicNPCs, 0, lists.pestControlMagicNPCs.length-1);
+		rangedNPC.buildBalancedTree(lists.pestControlRangedNPCs, 0, lists.pestControlRangedNPCs.length-1);
 		loadNPCList("npc.cfg");
 		loadAutoSpawn("autospawn.cfg");
 	}
@@ -40,7 +42,13 @@ public class NPCHandler {
 		if(slot == -1) return;		// no free slot found
 		if(HP <= 0)  // This will cause client crashes if we don't use this :) - xero
 			HP = 1;
-
+		
+		boolean pestControlRandomSpawn = false;
+		if(lists.pestControlNPCs.exists(npcType) && npcType != 3782 && npcType != 3781 && npcType != 3780 && npcType != 3779 && npcType != 3778 && npcType != 3777){
+			npcType = server.pestControlHandler.getPestControlRandomRespawnNPCIDAny();
+			pestControlRandomSpawn = true;
+		}
+		
 		NPC newNPC = new NPC(slot, npcType);
 		newNPC.spawnX = x;
 		newNPC.spawnY = y;
@@ -54,8 +62,10 @@ public class NPCHandler {
 		newNPC.moverangeY2 = rangey2;
 		newNPC.walkingType = WalkingType;
 		newNPC.HP = HP;
-		newNPC.MaxHP = HP;
-		newNPC.MaxHit = (int)Math.floor((HP / 10));
+		if(pestControlRandomSpawn) newNPC.MaxHP = this.getHP(npcType);
+		else newNPC.MaxHP = HP;
+		if(pestControlRandomSpawn) newNPC.MaxHit = (int)Math.floor((HP / 10))+3; //pest control hits hard?
+		else newNPC.MaxHit = (int)Math.floor((HP / 10));
 		if (newNPC.MaxHit < 1) 
 			newNPC.MaxHit = 1;
 		newNPC.heightLevel = heightLevel;
@@ -309,9 +319,8 @@ public class NPCHandler {
 		if(npcs[NPCID].PoisonDelay <= 1) {
 			int hitDiff = 3 + misc.random(1);
 			npcs[NPCID].poisondmg = true;
-			server.npcHandler.npcs[NPCID].hitDiff = hitDiff;
 			server.npcHandler.npcs[NPCID].updateRequired = true;
-			server.npcHandler.npcs[NPCID].hitUpdateRequired = true;
+			server.npcHandler.npcs[NPCID].damageNPC(hitDiff);
 			npcs[NPCID].PoisonClear++;
 			npcs[NPCID].PoisonDelay = 40;
 		}
@@ -574,13 +583,12 @@ public class NPCHandler {
 						else{
 							MonsterDropItem(i);
 							npcs[i].NeedRespawn = true;
-							npcs[i].actionTimer = 120;
+							if(lists.pestControlNPCs.exists(npcs[i].npcType)) npcs[i].actionTimer = 30;
+							else npcs[i].actionTimer = 120;
 							npcs[i].absX = npcs[i].makeX;
 							npcs[i].absY = npcs[i].makeY;
-							npcs[i].animNumber = 0x328;
 							npcs[i].HP = npcs[i].MaxHP;
 							npcs[i].updateRequired = true;
-							npcs[i].animUpdateRequired = true;
 						}
 
 					} else if (npcs[i].actionTimer == 0 && npcs[i].NeedRespawn == true) {
@@ -1229,6 +1237,34 @@ WORLDMAP 2: (not-walk able places)
 						
 						switch (_npcID){
 						
+							//Magic
+						case 3752: //Torcher
+						case 3753: //Torcher
+						case 3754: //Torcher
+						case 3755: //Torcher
+						case 3756: //Torcher
+						case 3757: //Torcher
+						case 3758: //Torcher
+						case 3759: //Torcher
+						case 3760: //Torcher
+						case 3761: //Torcher
+							magic(npcs[NPCID].MaxHit);
+							break;
+							
+							//Ranged
+						case 3762: //Defiler
+						case 3763: //Defiler
+						case 3764: //Defiler
+						case 3765: //Defiler
+						case 3766: //Defiler
+						case 3767: //Defiler
+						case 3768: //Defiler
+						case 3769: //Defiler
+						case 3770: //Defiler
+						case 3771: //Defiler
+							range(npcs[NPCID].MaxHit);
+							break;
+							
 						case 2361: //""
 						case 2362: //elf warrior
 							range(11);
@@ -1259,16 +1295,6 @@ WORLDMAP 2: (not-walk able places)
 							}
 							else range(13);
 							break;
-							
-						case 2373: //testing clipping
-							melee(0);
-							break;
-						
-						case 3067: //testing agro
-							melee(0);
-							npcs[NPCID].animNumber = 0x326;
-							break;
-							
 						
 						case 3001: //Kree
 							npcs[NPCID].animNumber = 6976;
@@ -1596,7 +1622,7 @@ WORLDMAP 2: (not-walk able places)
 						//Defence
 
 						int hitDiff = misc.random(_maxHit);
-						int npcBonus = npcs[NPCID].MaxHP+_maxHit;
+						int npcBonus = npcs[NPCID].MaxHP*2+_maxHit;
 						
 							if (NPCFightType == 1){ //melee
 								if (c.PMelee)

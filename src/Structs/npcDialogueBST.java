@@ -61,6 +61,7 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(1704,"I used to captain one of the finer vessels","that ported here.");
 			add(1042,"Some of these folks here look rather strange.","Rumor has it, they have fangs for teeth.",
 			"But, me personally, I ain't seen any.");
 			add(1038, "Fresh, dank, meat.");

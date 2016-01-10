@@ -56,6 +56,7 @@ public abstract class Player extends playerInstances {
 	public int clanRights = 0;
 	
 	public boolean ignoreCombat = false;
+	public boolean roundTimerFrameCreated = false;
 
 
 	/**
@@ -223,7 +224,7 @@ public abstract class Player extends playerInstances {
 	public int hint = 0;
 
 	public int actionTimer = 0;
-	public int actionAmount = 0;
+
 	public String actionName = "";
 
 	public int theifTimer = 0;

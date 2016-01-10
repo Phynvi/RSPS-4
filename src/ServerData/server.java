@@ -27,6 +27,7 @@ public static final String SERVERNAME = "SarimScape";
 	
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
+		pestControlHandler = new PestControlHandler();
 		WorldMap = new WorldMap();
 		WorldMap.loadWorldMap();
 		clientHandler = new server();
@@ -42,7 +43,6 @@ public static final String SERVERNAME = "SarimScape";
 		itemspawnpoints = new itemspawnpoints();
 		GraphicsHandler = new GraphicsHandler();
 		skillHandler = new SkillHandler();
-		pestControlHandler = new PestControlHandler();
 		//dialogueHandler = new DialogueHandler(); 
 		int waitFails = 0;
 		long lastTicks = System.currentTimeMillis();

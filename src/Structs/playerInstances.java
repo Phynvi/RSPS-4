@@ -123,7 +123,8 @@ public int idleTimer = 0;
 	public boolean tokenexchange2 = false;
 	public boolean startleave = false;
 	public int spellbook;
-
+	public int pestControlPoints;
+	
 	//Fletching Ints
 	public String fletchinglogs = "";
 	public int fletchingremove = 0;
@@ -167,10 +168,6 @@ public int idleTimer = 0;
 	long lastYell = 20001;
 	public int shopname = 0;
 
-	public int absXM = 0;
-	public int absYM = 0;
-	public int absXA = 0;
-	public int absYA = 0;
 	public int rate = 6;
 	public int mageXP2 = 50;
 	public int timer1 = 50;

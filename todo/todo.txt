@@ -12,8 +12,4 @@
 
 -Teleport in ardougne (elena) is open
 
--Finish pest control
-
 -Add in follow other player feature
-
--Move commands to separate handler

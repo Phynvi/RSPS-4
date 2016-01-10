@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160009
+character-lastlogintime = 20160010
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -43,6 +43,7 @@ armadyl = 0
 prevarmadyl = 0
 prevbandos = 21
 spellbook = 0
+pestcontrolpoints = 1
 
 [QUESTS]
 character-questpoints = 0
@@ -52,7 +53,7 @@ character-quest_3 = 0
 
 [LOOK]
 character-look = 0	0
-character-head = 0
+character-head = 7
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -61,7 +62,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 1	0
-character-head = 0
+character-head = 7
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -70,7 +71,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 2	0
-character-head = 0
+character-head = 7
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -79,7 +80,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 3	0
-character-head = 0
+character-head = 7
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -88,7 +89,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 4	0
-character-head = 0
+character-head = 7
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -97,7 +98,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 5	0
-character-head = 0
+character-head = 7
 character-torso = 18
 character-arms = 26
 character-hands = 33

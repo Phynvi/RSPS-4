@@ -55,6 +55,8 @@ public class lists {
 	public static BST pestControlNPCs = new BST();
 
 	public static int[] PCArray = misc.createArrayInRange(3727, 3782);
+	public static int[] pestControlRangedNPCs = misc.createArrayInRange(3762, 3771);
+	public static int[] pestControlMagicNPCs = misc.createArrayInRange(3752, 3761);
 	
 	public lists(){
 		generateLists();

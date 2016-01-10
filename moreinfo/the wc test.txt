@@ -43,6 +43,7 @@ armadyl = 0
 prevarmadyl = 0
 prevbandos = 0
 spellbook = 0
+pestcontrolpoints = 1
 
 [QUESTS]
 character-questpoints = 0

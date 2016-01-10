@@ -145,8 +145,6 @@ public class PlayerHandler {
 		for(int i = 0; i < maxPlayers; i++) {
 			if(players[i] == null || !players[i].isActive) continue;
 
-			players[i].actionAmount--;
-
 			players[i].preProcessing();
 			while(players[i].process());
 			players[i].postProcessing();

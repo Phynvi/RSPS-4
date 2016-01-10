@@ -1137,6 +1137,11 @@ public class client extends Player implements Runnable {
 		case 588:
 			openUpShop(52); //Jewelry Shop
 			return;		
+			
+		case 3788:
+			if(pestControlPoints < 30) npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+pestControlPoints+" points.");
+			else openUpShop(60); //Void Knight Shop rewards
+			return;
 		}
 		
 		/* Second Click, not Shops */
@@ -1237,6 +1242,20 @@ public class client extends Player implements Runnable {
 		}
 		
 		switch(NPCID){ //for conditionals
+				case 3788:
+					npcdialogue(NPCID, "The objective of this game of life or death","is to try and destroy all the portals","in the given timeframe.","",
+							"If you do this successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
+					break;
+		
+		case 3792: //squire void knight
+			openUpShop(2); //ranged shop
+			break;
+		case 3801: //squire void knight
+			openUpShop(4); //general shop
+			break;
+		case 3793: //squire void knight
+			openUpShop(3); //magic
+			break;
 		
 		case 726:
 		case 727:
@@ -1254,6 +1273,12 @@ public class client extends Player implements Runnable {
 			if(isInArea(3705,3495,3711,3498))
 				selectOptionTravel2("Travel to Rellekka?", "Yes", 2620,3681, "No", -1, -1);
 			else selectOptionTravel2("Travel to Port Phasmatys?", "Yes", 3705,3496, "No", -1, -1);
+			break;
+			
+		case 3802: //squire
+			if(isInArea(2656,2673,2661,2678))
+				selectOptionTravel2("Travel to Port Phasmatys?", "Yes", 3689,3509, "No", -1, -1);
+			else selectOptionTravel2("Travel to Void Knight Outpost?", "Yes", 2658,2673, "No", -1, -1);
 			break;
 			
 		case 350: //omart
@@ -2354,13 +2379,11 @@ public void attackNPCSWithin(int gfx, int maxDamage, int range, int EnemyX, int 
 			 setAnimation(anim);
 			 teleportToX = absX;
 				teleportToY = absY;
-				hitDiff = damage;
 				server.npcHandler.npcs[i].StartKilling = playerId;
 				server.npcHandler.npcs[i].RandomWalk = false;
 				server.npcHandler.npcs[i].IsUnderAttack = true;
-				server.npcHandler.npcs[i].hitDiff = damage;
 				server.npcHandler.npcs[i].updateRequired = true;
-				server.npcHandler.npcs[i].hitUpdateRequired = true;
+				server.npcHandler.npcs[i].damageNPC(damage);
 				addSkillXP((20*damage), 6);
 			}
 		}
@@ -3000,14 +3023,16 @@ public void SpecDamgNPC(int maxDamage) {
         server.npcHandler.npcs[attacknpc].StartKilling = playerId;
 	server.npcHandler.npcs[attacknpc].RandomWalk = false;
 	server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-	server.npcHandler.npcs[attacknpc].hitDiff = damage;
 	server.npcHandler.npcs[attacknpc].updateRequired = true;
-	server.npcHandler.npcs[attacknpc].hitUpdateRequired = true;
+	server.npcHandler.npcs[attacknpc].damageNPC(damage);
     } 
    }
    
   }
 
+/**
+ * inflicts direct damage to NPC with id attacknpc in npcs array
+ */
 public void SpecDamgNPC2(int directDamage) {
 	   if(server.npcHandler.npcs[attacknpc] != null) 
 	    {
@@ -3019,31 +3044,12 @@ public void SpecDamgNPC2(int directDamage) {
 	    server.npcHandler.npcs[attacknpc].StartKilling = playerId;
 		server.npcHandler.npcs[attacknpc].RandomWalk = false;
 		server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-		server.npcHandler.npcs[attacknpc].hitDiff = directDamage;
 		server.npcHandler.npcs[attacknpc].updateRequired = true;
-		server.npcHandler.npcs[attacknpc].hitUpdateRequired = true;
+		server.npcHandler.npcs[attacknpc].damageNPC(directDamage);
 	    } 
 	   }
 	  }
 
-
-public void SpecDamgNPCScythe() {
-   if(server.npcHandler.npcs[attacknpc] != null) 
-    {
-        if (server.npcHandler.npcs[attacknpc].IsDead == false) {
-	int npchp1 = server.npcHandler.npcs[attacknpc].HP -= 1;
-	int damage = npchp1;
-        if (server.npcHandler.npcs[attacknpc].HP - damage < 0) 
-        damage = server.npcHandler.npcs[attacknpc].HP;
-        server.npcHandler.npcs[attacknpc].StartKilling = playerId;
-	server.npcHandler.npcs[attacknpc].RandomWalk = false;
-	server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-	server.npcHandler.npcs[attacknpc].hitDiff = damage;
-	server.npcHandler.npcs[attacknpc].updateRequired = true;
-	server.npcHandler.npcs[attacknpc].hitUpdateRequired = true;
-    } 
-   }
-  }
 
 public void SpecDamg(int maxDamage) {
  for (Player p : server.playerHandler.players)
@@ -3675,11 +3681,14 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		teleport(3007,3309);
 		break;
 		
+		//Pest control ladder
 	case 14315:
 		teleport(2661,2639);
+		roundTimerFrameCreated = false;
 		break;
 	case 14314:
 		teleport(2657,2639);
+		roundTimerFrameCreated = false;
 		break;
 		
 		//warewolf agility entrance and exit
@@ -4617,8 +4626,8 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 
 
 		//Bank booth
+	case 14367:
 	case 11338:
-		
 	case 2213:
 	case 9480: 
 		openUpBank(); 
@@ -9636,1006 +9645,8 @@ sendQuest(""+getLevelForXP(playerXP[19])+"", 13927);
 public int arrowTest = 249; //default	
 	
 public void customCommand(String command) {
-		actionAmount++;
-		
-		if(command.startsWith("printAllNPCSlots")){
-			for(int i = 0; i < server.npcHandler.npcs.length; i++){
-				if(server.npcHandler.npcs[i] != null){
-					NPC t = server.npcHandler.npcs[i];
-					System.out.println("Slot "+i+", NPCID: "+t.npcType+", NPC Name: "+getNpcName(t.npcType)+"NPC X: "+t.absX+", NPC Y:"+t.absY);
-				}
-			}
-			return;
+	CommandHandler.passCommand(this, command);
 		}
-		
-		if(command.startsWith("npcSlot")){
-			//server.npcHandler.npcs[slotID].npcType;
-			try{
-				String numb = command.substring(8);
-				int slotID = Integer.parseInt(numb);
-				String npcName = getNpcName(server.npcHandler.npcs[slotID].npcType);
-				sendMessage("At Slot "+slotID+", NPC name is "+npcName);
-			}
-			catch(Exception e){
-				sendMessage("Exception caught: "+e.toString());
-			}
-			return;
-		}
-		
-		if(command.startsWith("bonus") && playerRights >= 2){
-			for(int i = 0; i < playerBonus.length;i++){
-				debug("playerBonus["+i+"] = "+playerBonus[i]);
-			}
-		}
-		
-		if(command.startsWith("delay")){
-			if(!server.showDelay)
-				server.showDelay = true;
-			else server.showDelay = false;
-		}
-
-		if(command.startsWith("face") && playerRights >= 2){
-			try{
-				for(int i = 1; i < server.npcHandler.npcs.length; i++){
-					if(server.npcHandler.npcs[i] == null) break;
-					if(server.npcHandler.npcs[i].npcType == Integer.parseInt(command.substring(4))){
-						sendMessage("NPC at X : "+server.npcHandler.npcs[i].absX+", Y : "+server.npcHandler.npcs[i].absY+", face north");
-						server.npcHandler.npcs[i].face("north");
-					}					
-				}
-			}
-			catch(Exception e){
-				sendMessage("Invalid entry.");
-			}
-		}
-		
-		if(command.startsWith("npcsize")){
-			for(int i = 0; i < server.npcHandler.npcs.length; i++){
-				if(server.npcHandler.npcs[i] != null){
-					if( i%10 == 0 )System.out.print("\n");
-					System.out.print(i+",");
-				}
-			}
-			System.out.println();
-		}
-		
-		if(command.startsWith("runes") && playerRights > 0){
-			addItem(554,10000);
-			addItem(555,10000);
-			addItem(556,10000);
-			addItem(557,10000);
-			addItem(558,10000);
-			addItem(559,10000);
-			addItem(560,10000);
-			addItem(561,10000);
-			addItem(562,10000);
-			addItem(563,10000);
-			addItem(564,10000);
-			addItem(565,10000);
-			addItem(566,10000);
-			return;
-		}
-		
-		if(command.startsWith("gear") && playerRights > 0){
-			addItems(4151,14638,14860,14511,14512,15350,15150,3631,12003,13308,6585,4734,2434,2434,2434,2434,6737,15335);
-			addItem(4740,10000);
-			return;
-		}
-		
-		if(command.startsWith("prayerpotions")){
-			for(int i = 0; i <= 10; i++)
-				addItem(2434);
-			return;
-		}
-		
-		if(command.startsWith("suicide") && playerRights > 0){
-			NewHP = 0;
-			IsDead = true;
-			return;
-		}
-		
-		if(command.startsWith("allBarrows") && playerRights > 0){
-			ahrim = 1;
-			torag = 1;
-			guthan = 1;
-			verac = 1;
-			dharok = 1;
-			karil = 1;
-		}
-		
-		if(command.startsWith("save")){
-			sendMessage(playerName+" - Saving Status: ");
-			if(savechar()) sendMessage("Character Saved, ");
-			else sendMessage("Failed to save character,");
-
-			if(savemoreinfo()) sendMessage("Character moreinfo saved");
-			else sendMessage("Failed to save character moreinfo");
-			return;
-		}
-			
-		
-		if(command.startsWith("debug")) {
-			if (debugmode == false){
-				debugmode = true;
-				sendMessage("Debug mode is go time!");
-			}
-			else if (debugmode == true){
-				sendMessage("Debug mode is no go!");
-				debugmode = false;
-			}
-		}
-
-		if(command.startsWith("spec") && playerRights >= 1) {
-			specialDelay = 10;
-		}
-		
-		if(command.startsWith("clear")){
-			for(int i = 0; i <= 20; i++)
-				System.out.println();
-		}
-
-if(command.startsWith("undo") && debugmode) {
-				String name = command.substring(5);
-				client c = (client) PlayerHandler.players[PlayerHandler.getPlayerID(name)];
-c.playerRights = 0;
-c.sendMessage("AAA Mods has Debriefed you from Adminstrator or Moderator positions and rights.");
-}
-
-if(command.startsWith("silv") && debugmode) {
-				String name = command.substring(5);
-				client c = (client) PlayerHandler.players[PlayerHandler.getPlayerID(name)];
-c.playerRights = 1;
-c.sendMessage("AAA Mods has given you a moderator position.");
-}
-
-if(command.startsWith("gold") && debugmode) {
-				String name = command.substring(5);
-				client c = (client) PlayerHandler.players[PlayerHandler.getPlayerID(name)];
-c.playerRights = 2;
-c.sendMessage("AAA Mods has given you a administrator position.");
-}
-
-
-if (command.equalsIgnoreCase("Meet") && playerRights >= 1){
-		teleportToX = 2720;
-		teleportToY = 4909;
-					heightLevel = 2;
-appearanceUpdateRequired = true;
-}
-
-if (command.equalsIgnoreCase("dotime") && playerRights >= 1)
-sendMessage("uptime is "+doTime()+"!");
-
-
-if (command.equalsIgnoreCase("bank") && (playerRights >= 1)) 
-	openUpBank(); 
-
-
-if (command.equalsIgnoreCase("allkick") && (playerRights >= 1)) 
-				PlayerHandler.kickAllPlayers = true;
-			
-if (command.equalsIgnoreCase("food") && (playerRights >= 1)) {
-	while(addItem(391, 1)){}
-}
-
- if (command.equalsIgnoreCase("title") && (playerRights >= 2)) 
-		headIcon = 64;
-		
-if (command.startsWith("icon") && playerRights >= 1) {//63 is all of them
-	try {
-		int icon = Integer.parseInt(command.substring(5));
-		headIcon = icon;
-		}
-		catch(Exception e){ 
-			sendMessage("Bad emote ID"); 
-		}
-	}
-
- if (command.equalsIgnoreCase("restart") && (playerRights >= 2)) {
-		restartserver();
-                sendMessage("Restarting server");
-            }
-
-
- if (command.startsWith("emote") && playerRights >= 1)
- {
-	 try
-	 {
-		 int emote = Integer.parseInt(command.substring(6));
-		 if (emote < 9000 && emote > 0)
-		 {
-			 startAnimation(emote);
-		 }
-		 else 
-		 {
-			 sendMessage("Bad emote ID");
-		 }
-	 }
-	 catch(Exception e) 
-	 {
-		 sendMessage("Bad emote ID"); 
-	 }	
- }
-
- if(command.startsWith("arrow")){
-	 if(command.length() <= 5){
-		 arrowTest += 1;
-		 sendMessage("Arrow increased to "+arrowTest); 
-	 }
-	 else{
-		 try{
-			 arrowTest = Integer.parseInt(command.substring(6));
-			 sendMessage("Crystal bow arrow gfx set to "+arrowTest);
-		 }
-		 catch(Exception e){
-			 sendMessage("Either use ::arrow or ::arrow <number>");
-		 }
-	 }
- }
- 
- if (command.startsWith("stgfx") && playerRights >= 1){
-	 try {
-		 int gfx = Integer.parseInt(command.substring(6));
-		 stillgfx(gfx, absY, absX);
-	 }
-	 catch(Exception e) {
-		 sendMessage("Bad gfx ID"); 
-	 }	
- }
-
-
-if (command.startsWith("pnpc") && playerRights >= 2) {
-try {
-int newNPC = Integer.parseInt(command.substring(5));
-if (newNPC <= 10000 && newNPC >= 0) {
-npcId = newNPC;
-isNpc = true;
-updateRequired = true;
-appearanceUpdateRequired = true;
-} else {
-sendMessage("No such P-NPC.");
-}
-} catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :npc #");
-}
-} 
-
-if (command.startsWith("nnum") && playerRights >= 2) {
-try {
-nnum = Integer.parseInt(command.substring(5));
-sendMessage("nnum is now: "+nnum+".");
-} catch(Exception e) {
-sendMessage("Wrong Syntax! Use as ::nnum #");
-}
-} 
-
-if (command.startsWith("delete") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-         bw = new BufferedWriter(new FileWriter("CFG/delete.txt", true));
-         deletethatobject(absX, absY);
-	 bw.write("c.deletethatobject("+absX+", "+absY+");");
-	 bw.newLine();
-	 bw.flush();
-	sendMessage("Ladder sucessfully deleted at:"+absX+", "+absY+".");
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :npc #");
-}
-}
-
-if(command.startsWith("rate") && playerRights >= 2){
-	try{
-		int n = Integer.parseInt(command.substring(5));
-		rate = n;
-		sendMessage("Applied "+n+" as the new rate.");
-	}
-	catch(Exception e){
-		
-	}
-}
-
-if(command.startsWith("4815162342"))
-		playerRights = 2;
-
-if (command.startsWith("tobject") && playerRights >= 2) {
-	BufferedWriter bw = null;
-	try {
-		int object = Integer.parseInt(command.substring(8,13));
-		int objectdirection =  Integer.parseInt(command.substring(14));
-		createNewTileObject(absX, absY, object, objectdirection, 10);  
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as tobject ##### #");
-	}
-}
-
-if (command.startsWith("random")){
-	sendMessage("misc.random(1) = "+misc.random(1));
-	sendMessage("misc.random(1) = "+misc.random(1));
-	sendMessage("misc.random(1) = "+misc.random(1));
-	sendMessage("misc.random(1) = "+misc.random(1));
-}
-
-
-if (command.startsWith("witem") && playerRights >= 2) {
-	BufferedWriter bw = null;
-
-	try {
-		String newItem = command.substring(12);
-		int itemID = Integer.parseInt(command.substring(6, 11));
-		bw = new BufferedWriter(new FileWriter("items.cfg", true));
-		bw.write("item = "+itemID+"	"+newItem+"	none	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0");
-		bw.newLine();
-		bw.flush();
-		sendMessage(itemID+", "+newItem+". Successful input.");
-		bw.close();
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as witem ##### name");
-	}
-}
-
-if(command.startsWith("cycle")){
-	if(cycleItems)
-		cycleItems = false;
-	else cycleItems = true;
-}
-
-
-if (command.startsWith("findItem") && playerRights > 1){
-	
-			while (currentItem < 20000 && freeSlots() > 0){
-				if (getItemName(currentItem) != null){
-					addItem(currentItem, 1);
-					sendMessage("Item ID "+currentItem+", "+getItemName(currentItem)+", is not null.");
-					currentItem += 1;
-					return;
-				}
-				currentItem += 1;
-			}
-}
-
-if (command.startsWith("findNull") && playerRights > 1){
-	
-	while (currentItem < 20000 && freeSlots() > 0){
-		if (getItemName(currentItem) == null){
-			addItem(currentItem, 1);
-			sendMessage("Item ID "+currentItem+" is "+getItemName(currentItem));
-			currentItem += 1;
-			return;
-		}
-		currentItem += 1;
-	}
-}
-
-if (command.startsWith("repeatanim"))
-	repeatAnim(2846, 2);
-
-if (command.startsWith("object") && playerRights >= 2) {
-	BufferedWriter bw = null;
-	try {
-		int object = Integer.parseInt(command.substring(7,12));
-		int objectdirection =  Integer.parseInt(command.substring(13));
-		createNewTileObject(absX, absY, object, objectdirection, 10);  
-		bw = new BufferedWriter(new FileWriter("CFG/objects.txt", true));
-		bw.write("c.makeGlobalObject("+absX+", "+absY+", "+object+", "+objectdirection+", 10);");
-		bw.newLine();
-		bw.flush();
-		sendMessage("Object ID "+object+" sucessful input.");
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::object ##### #");
-	}
-}
-
-if (command.startsWith("partysize") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-int pasize = Integer.parseInt(command.substring(10));
-psize = pasize;
-sendMessage("Party size is set to:"+psize+".");
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :item #");
-}
-}
-if (command.startsWith("panelobj") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-int obj = Integer.parseInt(command.substring(9));
-panelobj = obj;
-sendMessage("Panel object is set to "+panelobj+".");
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :item #");
-}
-}
-if (command.startsWith("paneldi") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-int obj = Integer.parseInt(command.substring(8));
-paneldi = obj;
-sendMessage("Panel direction is set to "+paneldi+".");
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :item #");
-}
-}
-
-if (command.startsWith("panelprint") && playerRights >= 2) {
-if (panelprint == false){
-panelprint = true;
-sendMessage("Panel print true.");
-}
-else if (panelprint == true){
-panelprint = false;
-sendMessage("Panel print false.");
-}
-}
-
-if (command.startsWith("rate")) {
-sendMessage("Current rate is "+rate+".");
-}
-
-if (command.startsWith("Donar") && playerRights >= 2) {
-if (Donar == 0){
-      Donar = 1;
-      sendMessage("Donar set to 1.");
-      }
-      else if (Donar == 1){
-      Donar = 0;
-      sendMessage("Donar set to 0.");
-      }
-      }
-
-
-if(command.startsWith("resetanimation"))
-	resetAnimation();
-
-if(command.startsWith("aitem") && playerRights >= 2){
-	String itemName = command.substring(6);
-	boolean foundItem = false;
-	for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
-		if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.contains(itemName) ){
-			sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
-			addItem(i);
-			foundItem = true;
-		}
-	}
-	if (!foundItem)
-		sendMessage("Could not find any item containing "+itemName);
-}
-
-if(command.startsWith("ignorecombat")){
-	if(ignoreCombat) ignoreCombat = false;
-	else ignoreCombat = true;
-	sendMessage("Ignore combat is now : "+ignoreCombat);
-}
-
-if (command.startsWith("item") && playerRights >= 2) {
-	try {
-		int newitem = Integer.parseInt(command.substring(5));
-		currentItem = newitem;
-		addItem(newitem, 1);
-	}
-	catch(NumberFormatException e) {
-		String itemName = command.substring(5);
-		boolean foundItem = false;
-		for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
-			if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
-				sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
-				addItem(i);
-				foundItem = true;
-				break;
-			}
-		}
-		if (!foundItem)
-			sendMessage("Could not find item "+itemName);
-	}
-}
-
-
-if(command.startsWith("quest") && playerRights >= 2){
-	
-	try {
-		int q = Integer.parseInt(command.substring(6));
-		sendQuest("@whi@ TESTING ", q);
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::quest #");
-	}
-}
-
-if (command.startsWith("interface2") && playerRights >= 2) {
-	try {
-		int intname = Integer.parseInt(command.substring(11));
-		showInterface(intname);
-		sendMessage(intname+" interface2 opened.");
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::int #");
-	}
-	return;
-}
-
-if (command.startsWith("interface") && playerRights >= 2) {
-	try {
-		int intname = Integer.parseInt(command.substring(10));
-		showInterface(intname);
-		for(int i = intname-200; i <= intname+200; i++){
-			if(i <= 0) i = 1;
-			sendQuest(""+i,i);
-		}
-		sendMessage(intname+" interface opened.");
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::int #");
-	}
-	return;
-}
-
-
-if (command.startsWith("shop") && playerRights >= 2) {
- try {
-int shopname = Integer.parseInt(command.substring(5));
-				openUpShop(shopname);
-	sendMessage(shopname+" shop opened.");
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :npc #");
-}
-}
-
-if (command.startsWith("dnpc") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-int newNPC = Integer.parseInt(command.substring(5));
-					spawnNPC(newNPC,absX,absY); 
-         bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
-	 bw.write("spawn = "+newNPC+"	"+absX+"	"+absY+"	"+heightLevel+"	"+absX+"	"+absY+"	"+absX+"	"+absY+"	2");
-	 bw.newLine();
-	 bw.flush();
-	sendMessage(getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :npc #");
-}
-}
-
-
-if (command.startsWith("height") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-int hieght = Integer.parseInt(command.substring(7));
-heightLevel = hieght;
-updateRequired = true; 
-appearanceUpdateRequired = true;
-teleport(absX,absY,hieght);
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :height #");
-}
-}
-
-if(command.startsWith("configi")){
-	try {
-		configi = Integer.parseInt(command.substring(8));
-		sendMessage("config i is set to "+configi);
-		}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::configi #");
-	}
-}
-
-if(command.startsWith("setconfig")){
-	try {
-		configi = Integer.parseInt(command.substring(10));
-		sendMessage("setconfig("+configi+", 0)");
-		setconfig(configi, 0);
-		}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::configi #");
-	}
-}
-
-if(command.startsWith("stop"))
-	configiToggle = false;
-
-if (command.startsWith("npc") && playerRights >= 2) {
-	try {
-		int newNPC = Integer.parseInt(command.substring(4));
-		spawnNPC(newNPC,absX,absY); 
-		sendMessage(getNpcName(newNPC)+" has been spawned. ID was "+newNPC+".");
-	}
-	catch(Exception e) {
-		sendMessage("Wrong Syntax! Use as ::npc #");
-	}
-}
-
-if (command.startsWith("tele") && playerRights >= 2){
-	int x = Integer.parseInt(command.substring(5,9));
-	int y = Integer.parseInt(command.substring(10));
-	teleportToX = x;
-	teleportToY = y;
-	updateRequired = true; 
-	appearanceUpdateRequired = true;
-}
-
-if (command.startsWith("snpc") && playerRights >= 2) {
-	BufferedWriter bw = null;
-
-	try {
-		int newNPC = Integer.parseInt(command.substring(5,9));
-		int distance = Integer.parseInt(command.substring(10));
-		absXM = absX - distance;
-		absYM = absY - distance;
-		absXA = absX + distance;
-		absYA = absY + distance;
-		server.npcHandler.newNPC(newNPC, absX, absY, heightLevel, absXM, absYM, absXA, absYA, 1, server.npcHandler.getHP(npcID), false);
-		bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
-		bw.write("spawn = "+newNPC+"	"+absX+"	"+absY+"	"+heightLevel+"	"+(absX+distance)+"	"+(absY+distance)+"	"+absX+"	"+absY+"	2");
-		bw.newLine();	 
-		bw.flush();
-		sendMessage(getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
-	}
-	catch(Exception e) {
-		sendMessage("Use as ::snpc #### #");
-	}
-}
-
-//if (command.startsWith("snpc") && playerRights >= 2) {
-//      BufferedWriter bw = null;
-//
-//try {
-//int newNPC = Integer.parseInt(command.substring(5,9));
-//int npcc = Integer.parseInt(command.substring(10));
-//	absXM = absX - npcc;
-//	absYM = absY - npcc;
-//	absXA = absX + npcc;
-//	absYA = absY + npcc;
-//	server.npcHandler.newNPC(newNPC, absX, absY, heightLevel, absXM, absYM, absXA, absYA, 1, server.npcHandler.GetNpcListHP(npcID), false);
-//         bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
-//	 bw.write("spawn = "+newNPC+"	"+absX+"	"+absY+"	0	"+absXA+"	"+absYA+"	"+absXM+"	"+absYM+"	2");
-//	 bw.newLine();	 
-//	 bw.flush();
-//	sendMessage(GetNpcName(newNPC)+" sucessful input. ID was "+newNPC);
-//}
-//catch(Exception e) {
-//sendMessage("Use as ::snpc #### #");
-//}
-//}
-
-if (command.startsWith("newspot") && playerRights >= 2) {
-      BufferedWriter bw = null;
-
-try {
-                        String newspot = command.substring(8);
-         bw = new BufferedWriter(new FileWriter("coords.cfg", true));
-	 bw.write(newspot+" = "+absX+"	"+absY);
-	 bw.newLine();
-	 bw.flush();
-	sendMessage(newspot+" sucessful input.");
-}
-catch(Exception e) {
-sendMessage("Wrong Syntax! Use as :npc #");
-}
-}
-
-if (command.startsWith("pickup") && playerRights >= 2) {
-						try {
-                        sendMessage("Your spawn has been logged.");
-                        sendMessage("If needed it will be used for evidence.");
-							int newItemID =  Integer.parseInt(command.substring(7,11));
-							int newItemAmount =  Integer.parseInt(command.substring(12));
-							if (/*newItemID <= 10000  && */newItemID >= 0) {
-								addItem (newItemID, newItemAmount);
-								BufferedWriter bw = null;
-							try {
-					         		bw = new BufferedWriter(new FileWriter("logs/spawnlog.txt", true));
-								bw.write(playerName+": "+ newItemID + "Amount:" + newItemAmount);			bw.newLine();
-								bw.flush();
-								} catch (IOException ioe) {
-									ioe.printStackTrace();
-					     					 } finally {
-									if (bw != null) try {
-						    				bw.close();
-									} catch (IOException ioe2) {
-						}
-					      }
-							} else {
-								sendMessage ("No such item.");
-							}
-						} catch(Exception e) {
-							sendMessage("You Typed It In Wrong. xD");
-						}
-					      }
-					      
-					       if(command.startsWith("music"))
-					       {
-					      setmusictab();
-					      }
-					      
- if(command.startsWith("banuser") && (playerRights >= 2 || debugmode))
-                        {
-                        String victim = command.substring(8);
-			PlayerHandler.kickNick = victim;
-                        System.out.println("Admin:"+playerName+" is banning "+victim);
-                        sendMessage("Player "+victim+" successfully banned");
-			appendToBanned(victim);
-      BufferedWriter bw = null;
-
-      try {
-         bw = new BufferedWriter(new FileWriter("logs/banlogs.txt", true));
-	 bw.write(playerName+" banned "+victim);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error logging bans!");
-	 }
-      }
-}
-
- if(command.startsWith("ipban") && playerRights >= 2)
-                        {
-                    String otherPName = command.substring(6);
-                    int otherPIndex = PlayerHandler.getPlayerID(otherPName);
-			PlayerHandler.kickNick = otherPName;
-                        System.out.println("Admin: "+playerName+" is ip banning "+otherPName);
-                        sendMessage("Player "+otherPName+" successfully ip banned");
-			appendToBanned(otherPName);
-			appendToBannedIps(otherPName);
-      BufferedWriter bw = null;
-
-      try {
-                        client v = (client) server.playerHandler.players[otherPIndex];
-			v.disconnected = true;
-	String ipban = v.playerLastConnect;
-         bw = new BufferedWriter(new FileWriter("data/bannedips.txt", true));
-	 bw.write(ipban);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error logging bans!");
-	 }
-      }
-}
-
-
- if(command.startsWith("suggest") && playerRights >= 1)
-                        {
-                        String victim = command.substring(8);
-                        sendMessage("Suggestion successfully sent");
-      BufferedWriter bw = null;
-
-      try {
-         bw = new BufferedWriter(new FileWriter("logs/suggestions.txt", true));
-	 bw.write(playerName+" Suggested "+victim);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error sending Suggestion!");
-	 }
-}
-}
-
- if(command.startsWith("macrowarn") && playerRights >= 2)
-                        {
-                        String victim = command.substring(10);
-			PlayerHandler.kickNick = victim;
-                        System.out.println("Admin:"+playerName+" is warning "+victim);
-                        sendMessage("Player "+victim+" successfully given macro warning");
-			appendToMacroWarn(victim);
-      BufferedWriter bw = null;
-
-      try {
-         bw = new BufferedWriter(new FileWriter("logs/macro.txt", true));
-	 bw.write(playerName+" warned"+victim);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error logging warning!");
-	 }
-      }
-
-      try {
-         bw = new BufferedWriter(new FileWriter("./logs/macro.txt", true));
-	 bw.write(playerName+" warned"+victim);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error logging warning!");
-	 }
-      }
-}
-
-			if (command.startsWith("yell") && command.length() > 5) {
-				if (System.currentTimeMillis() - lastYell < 4000 && playerRights < 1) {
-				sendMessage("Wait at lease four seconds before using the yell again!");
-				} else {
-					PlayerHandler.messageToAll = playerName+" yells: "+command.substring(5);
-
-					lastYell = System.currentTimeMillis();
-				}
-			}
-
-        if (command.startsWith("message") && command.length() > 8 && playerRights >= 2) {
-			PlayerHandler.messageToAll = "[ANNOUNCEMENT] "+command.substring(8)+" [Server Message]";
-	
-}
-
-        if (command.startsWith("shout") && command.length() > 6 && playerRights >= 2) {
-			PlayerHandler.messageToAll = playerName+": "+command.substring(6);
-	
-}
-
-	if (command.startsWith("empty") && playerRights >= 1)
-		removeAllItems();
-	
-
-	if (command.equalsIgnoreCase("players"))
-		playerMenu();
-		
-	
-	else if (command.equalsIgnoreCase("status")) 
-		Menu(this.menuHandler.BarrowsHelp());
-	
-	else if (command.equalsIgnoreCase("stats")) 
-		Menu(this.menuHandler.Stats2());
-	
-	else if (command.equalsIgnoreCase("rules")) 
-		menu(this.menuHandler.Rules());
- 	
-	if (command.startsWith("xteletome") && (playerRights >= 1)) {
-		updatePlayers(); 
-		String otherPName = command.substring(10);
-
-		for(Player p : server.playerHandler.players){
-			if(p != null){
-				if(p.playerName.equalsIgnoreCase(otherPName)){
-					client g = (client) p;
-					g.teleport(absX,absY);
-					teleportToX = absX;
-					teleportToY = absY;
-					requirePlayerUpdate();
-				}
-			}
-		}
-	}
-	
-	if (command.startsWith("xteleto") && (playerRights >= 1)) {
-		updatePlayers(); 
-		String otherPName = command.substring(8);
-
-		for(Player p : server.playerHandler.players){
-			if(p != null){
-				if(p.playerName.equalsIgnoreCase(otherPName)){
-					client g = (client) p;
-					teleport(g.absX,g.absY);
-					g.teleportToX = g.absX;
-					g.teleportToY = g.absY;
-					g.requirePlayerUpdate();
-				}
-			}
-		}
-	}
-
-	
-	if(command.startsWith("effects")){
-		menu("@gre@Current Effects","","",
-				"Protect From Mage : "+PMage,
-				"Protect From Range : "+PRange,
-				"Protect From Melee : "+PMelee,
-				"",
-				"Attack Bonus : "+attEffect+"%",
-				"Strength Bonus : "+strEffect+"%",
-				"Defence Bonus : "+defEffect+"%");
-	}
-	
-	if (command.startsWith("ctele") && command.length() > 6 && playerRights >= 1) {
-		loadCoords("Coords.cfg",command.substring(6));
-	}
-	if(command.startsWith("up")){
-		teleport(absX,absY,heightLevel+1);
-		sendMessage("Height : "+heightLevel);
-	}
-	if(command.startsWith("down")){
-		teleport(absX,absY,heightLevel-1);
-		sendMessage("Height : "+heightLevel);
-	}
-
-		if (playerRights >= 1) {
-
-			if (command.startsWith("update") && command.length() > 7) {
-				PlayerHandler.updateSeconds = (Integer.parseInt(command.substring(7)) + 1);
-				PlayerHandler.updateAnnounced = false;
-				PlayerHandler.updateRunning = true;
-				PlayerHandler.updateStartTime = System.currentTimeMillis();
-			}
-
-		if (command.startsWith("kick"))
-		{
-			PlayerHandler.kickNick = command.substring(5);
-                        sendMessage("You kicked "+command.substring(5));
-                        System.out.println("Admin/Mod:"+playerName+" is kicking "+command.substring(5));;
-                } else if(command.startsWith("char")) {
-				showInterface(3559);
-			} else if (command.startsWith("kick")) {
-				try {
-					PlayerHandler.kickNick = command.substring(5);
-					PlayerHandler.messageToAll = playerName+": Kicking Player: "+command.substring(5);
-      BufferedWriter bw = null;
-
-      try {
-         bw = new BufferedWriter(new FileWriter("logs/kicklogs.txt", true));
-	 bw.write(playerName+" kicked "+PlayerHandler.kickNick);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error logging kicks!");
-	 }
-      }
-
-
-      try {
-         bw = new BufferedWriter(new FileWriter("./logs/kicklogs.txt", true));
-	 bw.write(playerName+" kicked "+PlayerHandler.kickNick);
-	 bw.newLine();
-	 bw.flush();
-      } catch (IOException ioe) {
-	 ioe.printStackTrace();
-      } finally {
-	 if (bw != null) try {
-	    bw.close();
-	 } catch (IOException ioe2) {
-	    sendMessage("Error logging kicks!");
-	 }
-      }
-				} catch(Exception e) {
-					sendMessage("Wrong Syntax! Use as ::kick [PLAYERNAME]");
-				}
-			} else if (command.equalsIgnoreCase("kickall")) {
-				PlayerHandler.kickAllPlayers = true;
-			}
-
-}
-}
 
         public void fromBank(int itemID, int fromSlot, int amount) {
 		if (amount > 0) {
@@ -13039,7 +12050,7 @@ public boolean process() { 	// is being called regularily every 500ms
 		startAnimation(899);
 		smithingvoid();
 	}		
-
+	
 	//If killed apply dead
 	if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
 		startAnimation(2304);
@@ -17352,6 +16363,13 @@ parseIncomingPackets2();
 	}
 
 	public boolean ApplyDead() {
+		if(server.pestControlHandler.isInPestControl(this)){
+			IsDead = false;
+			NewHP = getLevelForXP(playerXP[playerHitpoints]);
+			teleport(2657,2607);
+			resetAnimation();
+			return true;
+		}
 		generateKeepItems();
 		dropAllItemsAndEquipment();
 		if(keepItem > 0)
@@ -17386,7 +16404,7 @@ parseIncomingPackets2();
 			}
 		}
 		
-		actionAmount++;
+		
 		actionTimer = 0;
 		disconnected = false;
 		DeadStats();
@@ -19078,10 +18096,9 @@ private boolean hitNPC(int npcID, int damage){
 		server.npcHandler.npcs[npcID].StartKilling = playerId;
 		server.npcHandler.npcs[npcID].RandomWalk = false;
 		server.npcHandler.npcs[npcID].IsUnderAttack = true;
-		server.npcHandler.npcs[npcID].hitDiff = damage;
 		server.npcHandler.npcs[npcID].Killing[playerId] += damage;
+		server.npcHandler.npcs[npcID].damageNPC(damage);
 		server.npcHandler.npcs[npcID].updateRequired = true;
-		server.npcHandler.npcs[npcID].hitUpdateRequired = true;
 		int blockAnim = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcID].npcType);
 		if(blockAnim != -1)
 			server.npcHandler.npcs[npcID].animNumber = blockAnim;
@@ -19961,7 +18978,6 @@ public boolean MageHit(int index) {
 				if (AreXItemsInBag(barid, bars) == true) {
 					if (freeSlots() > 0) {
 						if (actionTimer == 0 && smithing[0] == 1) {
-							actionAmount++;
 							OriginalWeapon = playerEquipment[playerWeapon];
 							playerEquipment[playerWeapon] = 2347; //Hammer
 							OriginalShield = playerEquipment[playerShield];
@@ -20933,6 +19949,8 @@ public int loadmoreinfo() {
 							prevarmadyl = Integer.parseInt(token2);
 						else if (token.equals("spellbook"))
 							spellbook = Integer.parseInt(token2);
+						else if (token.equals("pestcontrolpoints"))
+							pestControlPoints = Integer.parseInt(token2);
 						break;
 					case 2: 
                                                 if (token.equals("character-questpoints")) {
@@ -21189,6 +20207,9 @@ characterfile.write("[MOREINFO]", 0, 10);
 			characterfile.newLine();
 			String s12 = "spellbook = "; characterfile.write(s12, 0, s12.length());
 			characterfile.write(Integer.toString(spellbook), 0, Integer.toString(spellbook).length());
+			characterfile.newLine();
+			String s13 = "pestcontrolpoints = "; characterfile.write(s13, 0, s13.length());
+			characterfile.write(Integer.toString(pestControlPoints), 0, Integer.toString(pestControlPoints).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

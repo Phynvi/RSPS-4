@@ -45,11 +45,13 @@ public class DropList {
 	public static int[] armadylSet = {15346, 15347}; //armadyl armor set
 	public static int[] bandosSet = {15348, 15349, 15350};
 	public static int[] spiritShields = {3627, 3629, 3631, 3633, 3635, 3637};
-	public static int[] rareWeapons = {4212,15156, 15234, 35, 13310, 3757, 4675, 4151}; //rare weapons: cbow, darkbow, excal, slayer sword, prom 2h, frem sword, ancient staff, whip
+	public static int[] rareWeapons = {9100,4212,15156, 15234, 35, 13310, 3757, 4675, 4151}; 
+	//rare weapons: cbow, darkbow, excal, slayer sword, prom 2h, frem sword, ancient staff, whip,
+	//zamorak crozier,
 	
-	public static int[] rareGear = {4224,3633,3635,3840,3842,3844,14860, 11342, 14638, 15352, 15195, 9099,3749,3751,3753,3755,2491,2497,2503,2581}; 
+	public static int[] rareGear = {9101,9096,9097,9098,9004,4224,3633,3635,3840,3842,3844,14860, 11342, 14638, 15352, 15195, 9099,3749,3751,3753,3755,2491,2497,2503,2581}; 
 	//rare gear: helm of neiz, ava's, fighter torso, drag boots, drag helm, zammy cape, archer helm, serker helm, warrior helm, farseer helm, black d'hide stuff, ranger hat, mage books
-	//spirit shield, blessed spirit shield, crystal shield
+	//spirit shield, blessed spirit shield, crystal shield, monkey bag, zamorak robes and stole
 
 	public static int[] PRESENT = {6199};
 	public static int[] DFS = {13361};

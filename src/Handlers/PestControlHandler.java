@@ -7,6 +7,15 @@ public class PestControlHandler {
 	private int timeUntilNextRound = 0;
 	private boolean everyOther = false;
 	
+	public void disableTimers(){
+		roundTimer = -1;
+		timeUntilNextRound = -1;
+	}
+	
+	public boolean isInPestControl(client c){
+		return c.isInArea(2621, 2557, 2689, 2622);
+	}
+	
 	public void process(){
 		try{
 		if(everyOther){
@@ -23,8 +32,11 @@ public class PestControlHandler {
 					if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
 						c.ResetAttackNPC();
 						c.teleportWithoutUpdatingOthers(2657,2639);
+						c.roundTimerFrameCreated = false;
+						c.sendMessage("You are not awarded any pest control points.");
 					}
 				}
+				resetRoundTimers();
 			}
 			if(timeUntilNextRound == 0){
 				for(Player p : server.playerHandler.players){
@@ -35,22 +47,26 @@ public class PestControlHandler {
 						c.teleportWithoutUpdatingOthers(c.absX-4,c.absY-30);
 					}
 				}
-				timeUntilNextRound = 60;
-				roundTimer = 30;
 			}
 			for(Player p : server.playerHandler.players){
 				if(p == null) continue;
 				client c = (client)p;
 				if(c == null) continue;
 				if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
-					c.outStream.createFrame(208); 
-					c.outStream.writeWordBigEndian_dup(11479);
-					c.sendQuest("Time left in this round: "+roundTimer, 11480);
+					if(!c.roundTimerFrameCreated){
+						c.outStream.createFrame(208); 
+						c.outStream.writeWordBigEndian_dup(11479);
+						c.roundTimerFrameCreated = true;
+					}
+					c.sendQuest("Time left in this round: "+roundTimer+", Portals alive : "+portalsAlive, 11480);
 				}
 				if(c.isInArea(2660,2638,2663,2643)){ //on boat
-					c.outStream.createFrame(208); 
-					c.outStream.writeWordBigEndian_dup(11479);
-					c.sendQuest("Time until next round: "+timeUntilNextRound, 11480);
+					if(!c.roundTimerFrameCreated){
+						c.outStream.createFrame(208); 
+						c.outStream.writeWordBigEndian_dup(11479);
+						c.roundTimerFrameCreated = true;
+					}
+					c.sendQuest("Time until next departure: "+timeUntilNextRound, 11480);
 				}
 			}
 		}
@@ -59,6 +75,11 @@ public class PestControlHandler {
 		catch(Exception e){
 			System.out.println("[Error] in PestControlHandler : "+e.toString());
 		}
+	}
+	
+	private void resetRoundTimers(){
+		roundTimer = 180+misc.random(30);
+		timeUntilNextRound = roundTimer+30;
 	}
 	
 	public void portalRespawnChecks(int i){
@@ -72,8 +93,22 @@ public class PestControlHandler {
 			if (portalsAlive == 0){
 				portalsAlive = 4;
 				for(int j = 0; j < portals.length; j++){
-					server.npcHandler.npcs[portals[j]].actionTimer = 40;
+					server.npcHandler.npcs[portals[j]].actionTimer = 20;
 				}
+				for(Player p : server.playerHandler.players){
+					if(p == null) continue;
+					client c = (client)p;
+					if(c == null) continue;
+					if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
+						c.ResetAttackNPC();
+						c.teleportWithoutUpdatingOthers(2657,2639);
+						c.roundTimerFrameCreated = false;
+						c.sendMessage("You are awarded 3 Pest Control Points.");
+						c.pestControlPoints += 1;
+						c.savemoreinfo();
+					}
+				}
+				resetRoundTimers();
 			}
 		}
 	}
@@ -81,19 +116,20 @@ public class PestControlHandler {
 	private int[] portals = new int[4];
 	private int portalsAlive = 4;
 	
-	public void pestControlRandomRespawn(int npcIndex){
-		if(server.npcHandler.npcs[npcIndex] == null) return;
-		int old1 = 0;
-		
-		switch(server.npcHandler.npcs[npcIndex].npcType){
+	public int getPestControlRandomRespawnNPCIDAny(){
+		return 3727+misc.random(3776-3727);
+	}
+	
+	public int getPestControlRandomRespawnNPCID(int npcType){
+
+		switch(npcType){
 			
 		case 3727: //Splatter
 		case 3728: //Splatter
 		case 3729: //Splatter
 		case 3730: //Splatter
 		case 3731: //Splatter
-			old1 = 3727+misc.random(4);
-		break;
+			return 3727+misc.random(4);
 		
 		case 3732: //shifter
 		case 3733: //shifter
@@ -105,24 +141,21 @@ public class PestControlHandler {
 		case 3739: //shifter
 		case 3740: //shifter
 		case 3741: //shifter
-			old1 = 3732+misc.random(9);
-		break;
+			return 3732+misc.random(9);
 			
 		case 3742: //Ravager
 		case 3743: //Ravager
 		case 3744: //Ravager
 		case 3745: //Ravager
 		case 3746: //Ravager
-			old1 = 3742+misc.random(4);
-		break;
+			return 3742+misc.random(4);
 			
 		case 3747: //Spinner	
 		case 3748: //Spinner
 		case 3749: //Spinner
 		case 3750: //Spinner
 		case 3751: //Spinner
-			old1 = 3747+misc.random(4);
-		break;
+			return 3747+misc.random(4);
 			
 		case 3752: //Torcher
 		case 3753: //Torcher
@@ -134,8 +167,7 @@ public class PestControlHandler {
 		case 3759: //Torcher
 		case 3760: //Torcher
 		case 3761: //Torcher
-			old1 = 3752+misc.random(9);
-		break;
+			return 3752+misc.random(9);
 			
 		case 3762: //Defiler
 		case 3763: //Defiler
@@ -147,20 +179,23 @@ public class PestControlHandler {
 		case 3769: //Defiler
 		case 3770: //Defiler
 		case 3771: //Defiler
-			old1 = 3762+misc.random(9);
-		break;
+			return 3762+misc.random(9);
 			
 		case 3772: //Brawler
 		case 3773: //Brawler
 		case 3774: //Brawler
 		case 3775: //Brawler
 		case 3776: //Brawler
-			old1 = 3772+misc.random(4);			
-			break;
+			return 3772+misc.random(4);			
 			
 		default:
-			old1 = server.npcHandler.npcs[npcIndex].npcType;
+			return npcType;
 		}
+	}
+	
+	public void pestControlRandomRespawn(int npcIndex){
+		if(server.npcHandler.npcs[npcIndex] == null) return;
+		int old1 = getPestControlRandomRespawnNPCID(server.npcHandler.npcs[npcIndex].npcType);
 		int old2 = server.npcHandler.npcs[npcIndex].makeX;
 		int old3 = server.npcHandler.npcs[npcIndex].makeY;
 		int old4 = server.npcHandler.npcs[npcIndex].heightLevel;
