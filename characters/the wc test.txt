@@ -1,16 +1,16 @@
 [ACCOUNT]
-character-username = the wc test
+character-username = The Wc Test
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2095
-character-posy = 3192
+character-posx = 2663
+character-posy = 2654
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160009
+character-lastconnection = 192.168.1.103
+character-lastlogin = 20160010
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0

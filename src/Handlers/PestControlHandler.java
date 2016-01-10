@@ -31,7 +31,7 @@ public class PestControlHandler {
 					if(c == null) continue;
 					if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
 						c.ResetAttackNPC();
-						c.teleportWithoutUpdatingOthers(2657,2639);
+						c.teleport(2657,2639);
 						c.roundTimerFrameCreated = false;
 						c.sendMessage("You are not awarded any pest control points.");
 					}
@@ -44,7 +44,7 @@ public class PestControlHandler {
 					client c = (client)p;
 					if(c == null) continue;
 					if(c.isInArea(2660,2638,2663,2643)){ //on boat
-						c.teleportWithoutUpdatingOthers(c.absX-4,c.absY-30);
+						c.teleport(c.absX-4,c.absY-30);
 					}
 				}
 			}
@@ -101,7 +101,7 @@ public class PestControlHandler {
 					if(c == null) continue;
 					if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
 						c.ResetAttackNPC();
-						c.teleportWithoutUpdatingOthers(2657,2639);
+						c.teleport(2657,2639);
 						c.roundTimerFrameCreated = false;
 						c.sendMessage("You are awarded 3 Pest Control Points.");
 						c.pestControlPoints += 1;

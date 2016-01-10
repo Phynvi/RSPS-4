@@ -4,8 +4,8 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2662
-character-posy = 2650
+character-posx = 2663
+character-posy = 2654
 character-rights = 2
 character-ismember = 1
 character-messages = 0
@@ -43,7 +43,7 @@ character-look = 5	0
 character-skill = 0	99	29590000
 character-skill = 1	99	16267980
 character-skill = 2	99	35586600
-character-skill = 3	42	54052660
+character-skill = 3	59	54052660
 character-skill = 4	99	19692080
 character-skill = 5	99	16438788
 character-skill = 6	99	19917608

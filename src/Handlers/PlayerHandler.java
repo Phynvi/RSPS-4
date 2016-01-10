@@ -319,35 +319,47 @@ public class PlayerHandler {
 
 		// update/remove players that are already in the playerList
 		plr.playerListSize = 0;		// we're going to rebuild the list right away
-		for(int i = 0; i < size; i++) {
-			// this update packet does not support teleporting of other players directly
-			// instead we're going to remove this player here and readd it right away below
-			if(plr.didTeleport == false && plr.withinDistance(plr.playerList[i]) == true) {
+		
+		//Obtained the following from http://www.rune-server.org/runescape-development/rs2-server/help/352749-teleport-doesnt-update.html
+		//Fixed local player teleport/updating
+		for (int i = 0; i < size; i++) {
+			// this update packet does not support teleporting
+			// of other players directly
+			// instead we're going to remove this player here
+			// and readd it right away below
+			if (!plr.playerList[i].didTeleport
+			                    && plr.withinDistance(plr.playerList[i])) {
 				plr.playerList[i].updatePlayerMovement(str);
 				plr.playerList[i].appendPlayerUpdateBlock(updateBlock);
 				plr.playerList[plr.playerListSize++] = plr.playerList[i];
 			} else {
 				int id = plr.playerList[i].playerId;
-				plr.playerInListBitmap[id>>3] &= ~(1 << (id&7));		// clear the flag
+				plr.playerInListBitmap[id >> 3] &= ~(1 << (id & 7)); // clear
+									   // the
+									   // flag
 				str.writeBits(1, 1);
-				str.writeBits(2, 3);		// tells client to remove this char from list
+				str.writeBits(2, 3); // tells client to
+						 // remove this char
+						 // from list
 			}
 		}
 
-		// iterate through all players to check whether there's new players to add
-		for(int i = 0; i < maxPlayers; i++) {
-			if(players[i] == null || players[i].isActive == false || players[i] == plr) {
-				//not existing, not active or you are that player
-			} else {
-				int id = players[i].playerId;
-				if(plr.didTeleport == false && (plr.playerInListBitmap[id>>3]&(1 << (id&7))) != 0) {
-					// player already in playerList
-				} else if(plr.withinDistance(players[i]) == false) {
-					// out of sight
-				} else {
-					plr.addNewPlayer(players[i], str, updateBlock);
-				}
+		// iterate through all players to check whether there's new
+		// players to add
+		for (int i = 0; i < maxPlayers; i++) {
+			if (players[i] == null || !players[i].isActive
+			                    || players[i] == plr) {
+				continue;
 			}
+			int id = players[i].playerId;
+			if ((plr.playerInListBitmap[id >> 3] & (1 << (id & 7))) != 0) {
+				continue; // player already in
+					// playerList
+			}
+			if (!plr.withinDistance(players[i])) {
+				continue; // out of sight
+			}
+			plr.addNewPlayer(players[i], str, updateBlock);
 		}
 
 		if(updateBlock.currentOffset > 0) {

@@ -627,42 +627,13 @@ public class client extends Player implements Runnable {
 		teleport(x,y,0);
 	}
 	
-	public void teleportWithoutUpdatingOthers(int x, int y){
-		teleportToX = x;
-		teleportToY = y;
-		heightLevel = heightLevel;
-		requirePlayerUpdate();
-	}
-	
 	public void teleport(int x, int y, int h){
-		if(Math.abs(absX-x) <= 50 && Math.abs(absY-y) <= 50){
-			teleportToX = x;
-			teleportToY = y;
-			heightLevel = h;
-			updatePlayersAround();
-		}
-		else{
 			teleportToX = x;
 			teleportToY = y;
 			heightLevel = h;
 			requirePlayerUpdate();
-		}
-		//savechar();
 	}
 	
-
-	public void updatePlayersAround(){
-		for(Player p : server.playerHandler.players) {
-			if(p != null && p.playerId != playerId){
-				if(p.isInArea(absX-50, absY-50, absX+50, absY+50)){
-					p.teleportToX = p.absX;
-					p.teleportToY = p.absY;
-					p.requirePlayerUpdate();
-				}
-			}
-		}
-	}
-
 	
 	public void populate(LinkedList<Drop> list, Drop ... drops){
 		for(int i = 0; i < drops.length; i++){
@@ -8419,28 +8390,6 @@ int Farmingxp = playerXP[19];
 		}
 
 
-public void updatePlayers()
-	{
-        //PlayerHandler.getPlayerCount()
-	PrintStream MyOutput = null;
-	try {
-       		MyOutput = new PrintStream(new FileOutputStream("./stats/players.CFG"));
-       		MyOutput = new PrintStream(new FileOutputStream("./stats/players.CFG"));
-  	 } catch (IOException e) {
-      	//System.out.println("OOps");
-   	 }
-	if (MyOutput != null) {
-	for(int i=0;i<20;i++) {
-             	MyOutput.print(PlayerHandler.getPlayerCount() +"\n");
-                updateRequired = true;
-             	 }
-      		 MyOutput.close();
-     	  } else {
-       //System.out.println("No output file written");
-     	  		}
-		}
-
-
 public void playerMenu() {
 clearQuestInterface();
 for(int i = 0; i < server.playerHandler.maxPlayers; i++) {
@@ -9138,7 +9087,6 @@ loadmoreinfo();
 loadquestinterface();
 appendConnected();
 loggedinpm();
-updatePlayers(); 
 NewHP = playerLevel[3];
 //setmusictab();
 //PlayerHandler.messageToAll = playerName+" has logged in! There is now "+PlayerHandler.getPlayerCount() + " players.";

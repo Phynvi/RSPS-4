@@ -591,6 +591,7 @@ public abstract class Player extends playerInstances {
 			str.writeBits(1, (updateRequired) ? 1 : 0);
 			str.writeBits(7, currentY);
 			str.writeBits(7, currentX);
+			didTeleport = false;
 			return ;
 		}
 
