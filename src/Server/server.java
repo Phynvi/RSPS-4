@@ -39,10 +39,8 @@ public static final String SERVERNAME = "SarimScape";
 		itemHandler = new ItemHandler();
 		shopHandler = new ShopHandler();
 		muteHandler = new MuteHandler();
-		antilag = new antilag();
 		itemspawnpoints = new itemspawnpoints();
 		GraphicsHandler = new GraphicsHandler();
-		skillHandler = new SkillHandler();
 		//dialogueHandler = new DialogueHandler(); 
 		int waitFails = 0;
 		long lastTicks = System.currentTimeMillis();
@@ -143,11 +141,9 @@ public static int stradd = 2;
 	public static ItemHandler itemHandler = null;
 	public static ShopHandler shopHandler = null;
 	public static MuteHandler muteHandler = null;
-      public static antilag antilag = null;
       public static itemspawnpoints itemspawnpoints = null;
       public static GraphicsHandler GraphicsHandler = null;
 
-      public static SkillHandler skillHandler = null;
       public static PestControlHandler pestControlHandler = null;
       //public static DialogueHandler dialogueHandler = null; 
 

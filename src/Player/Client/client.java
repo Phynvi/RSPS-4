@@ -2346,18 +2346,6 @@ public void fletchingvoid(String logname, int remove, int fshort, int slvl, int 
 						stringing = stringon;
 }
 
-private final ActionFloodProtector flood = new ActionFloodProtector();
-
- public void example()   {
-        if(flood.canDoAction(this)) {
-            // code here
-            flood.addPlayer(this);
-        } else {
-            return;
-        }
-    }
-
-
  public void StillMagicGFX(int id, int Y, int X, int time, int height)
  {
 	 for (Player p : server.playerHandler.players)
