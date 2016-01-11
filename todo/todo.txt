@@ -1,15 +1,20 @@
 
--Level gain sprites
+-Partition client into separate classes
+
+- South of Tree Gnome, observatory
+
+- follow run
+
+-Finish specials, add in promethius 2h, rune claws, 
+	-Custom karil special, attacks all npcs in area of 4, projectile to each one
+
+-Find new free teleport
 
 -NPC projectiles
 
 -NPC poison/player poison
 
--Finish specials, add in promethius 2h, rune claws, 
-	-Custom karil special, attacks all npcs in area of 4, projectile to each one
-	
--Run energy subtracts
+-Level gain sprites
 
 -Teleport in ardougne (elena) is open
 
--Add in follow other player feature

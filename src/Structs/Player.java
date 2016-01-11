@@ -44,6 +44,23 @@ public abstract class Player extends playerInstances {
 		str.writeWordBigEndian(FocusPointY);
 	}
 
+	double runningEnergy = 100;
+
+	public double getRunningEnergy() {
+		return runningEnergy;
+	}
+
+	public void setRunningEnergy(int energy) {
+		runningEnergy = energy;
+	}
+
+	client c = (client) this;
+
+	public void setRunningEnergy(double runningEnergy) {
+		this.runningEnergy = runningEnergy;
+		c.getPlayerMethodHandler().sendEnergy();
+	}
+	
 	public boolean newhptype = false;
 
 	public int hptype = 0;
@@ -534,8 +551,10 @@ public abstract class Player extends playerInstances {
 			dir1 = getNextWalkingDirection();
 			if(dir1 == -1) return;		// standing
 
-			if(isRunning) {
-				dir2 = getNextWalkingDirection();
+			boolean canRun = getRunningEnergy() > 0;
+			if (isRunning) {
+				if (canRun)
+					dir2 = getNextWalkingDirection();
 			}
 
 			// check, if we're required to change the map region
@@ -591,7 +610,6 @@ public abstract class Player extends playerInstances {
 			str.writeBits(1, (updateRequired) ? 1 : 0);
 			str.writeBits(7, currentY);
 			str.writeBits(7, currentX);
-			didTeleport = false;
 			return ;
 		}
 
@@ -628,12 +646,6 @@ public abstract class Player extends playerInstances {
 				str.writeBits(3, misc.xlateDirectionToClient[dir2]);
 				if(updateRequired) str.writeBits(1, 1);		// tell client there's an update block appended at the end
 				else str.writeBits(1, 0);
-				if (playerEnergy > 0) {
-					playerEnergy -= 1;
-				} else {
-					isRunning2 = false;
-					stoprunning = true;
-				}
 			} 
 		}
 
@@ -995,6 +1007,7 @@ public abstract class Player extends playerInstances {
 
 	// is being called regularily every 500ms - do any automatic player actions herein
 	public abstract boolean process();
+	public abstract boolean packetProcess();
 	public boolean following = false;
 	public void postProcessing()
 	{
@@ -1332,7 +1345,7 @@ public abstract class Player extends playerInstances {
 	public int playerMessages;
 	public String playerLastConnect;
 	public int playerLastLogin;
-	public int playerEnergy;
+
 	public int playerEnergyGian;
 	public int playerLook[] = new int[6];
 	public int playerBonus[] = new int[12];

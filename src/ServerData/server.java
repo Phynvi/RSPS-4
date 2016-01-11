@@ -4,7 +4,7 @@ import java.util.*;
 
 public class server implements Runnable {
 	
-public static WorldMap WorldMap = null;	
+public static WorldMap worldMap = null;	
 
 
 public static ArrayList<String> connectedList = new ArrayList<String>();
@@ -28,8 +28,8 @@ public static final String SERVERNAME = "SarimScape";
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
 		pestControlHandler = new PestControlHandler();
-		WorldMap = new WorldMap();
-		WorldMap.loadWorldMap();
+		worldMap = new WorldMap();
+		worldMap.loadWorldMap();
 		clientHandler = new server();
 		(new Thread(clientHandler)).start();			// launch server listener
 		playerHandler = new PlayerHandler();
@@ -50,6 +50,8 @@ public static final String SERVERNAME = "SarimScape";
 		int cycle = 0;
 		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0,pestControlTimeSpentProcessing=0;
 		int printOutDelay = 0;
+		int averages = 0;
+		long totals = 0;
 		while(!shutdownServer) {
 			if(updateServer)
 				calcTime();
@@ -85,6 +87,12 @@ public static final String SERVERNAME = "SarimScape";
 				System.out.println("[KERNEL] : Process time spent report:");
 				System.out.println("	 player:"+playerTimeSpentProcessing+", npc:"+npcTimeSpentProcessing+
 						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing+", PC:"+pestControlTimeSpentProcessing);
+				totals += (playerTimeSpentProcessing+npcTimeSpentProcessing+itemTimeSpentProcessing+shopTimeSpentProcessing+pestControlTimeSpentProcessing)/4;
+				averages += 1;
+				if(averages%10 == 0){
+					System.out.println("[KERNEL] : Processes Averages : "+(totals/10));
+					totals = 0;
+				}
 			}
 			if(timeSpent >= cycleTime) {
 				timeSpent = cycleTime;

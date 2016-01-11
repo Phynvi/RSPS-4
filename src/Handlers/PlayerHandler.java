@@ -145,9 +145,22 @@ public class PlayerHandler {
 		for(int i = 0; i < maxPlayers; i++) {
 			if(players[i] == null || !players[i].isActive) continue;
 
-			players[i].preProcessing();
-			while(players[i].process());
-			players[i].postProcessing();
+			
+//OLD PROCESS			
+//			players[i].preProcessing();
+//			while(players[i].process());
+//			players[i].postProcessing();
+			
+			try { 
+				players[ i ].preProcessing();
+				players[ i ].process();
+				int PacketLimit = 10;
+				while(players[ i ].packetProcess() && PacketLimit-- >= 0);
+				players[ i ].postProcessing();
+			} catch(Exception e) { 
+				players[ i ].error("In packet processing, "+e.toString());
+				players[ i ].disconnected = true; //originally was there
+				}
 			Firemaking.process();
 
 			players[i].getNextPlayerMovement();
@@ -433,7 +446,7 @@ public boolean savechar(Player plr) {
 			characterfile.write(Integer.toString(plr.playerLastLogin), 0, Integer.toString(plr.playerLastLogin).length());
 			characterfile.newLine();
 			characterfile.write("character-energy = ", 0, 19);
-			characterfile.write(Integer.toString(plr.playerEnergy), 0, Integer.toString(plr.playerEnergy).length());
+			characterfile.write(Integer.toString((int)plr.runningEnergy), 0, Integer.toString((int)plr.runningEnergy).length());
 			characterfile.newLine();
 			characterfile.write("character-gametime = ", 0, 21);
 			characterfile.write(Integer.toString(plr.playerGameTime), 0, Integer.toString(plr.playerGameTime).length());

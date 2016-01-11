@@ -65,11 +65,11 @@ public class NPC {
 	public void damageNPC(int amount){
 		hitDiff = amount;
 		if (hitDiff > HP) hitDiff = HP;
-		hitUpdateRequired = true;
 		HP -= hitDiff;
 		if (HP <= 0) {
 			IsDead = true;
 		}
+		hitUpdateRequired = true;
 	}
 
 	private void appendSetFocusDestination(stream str) {

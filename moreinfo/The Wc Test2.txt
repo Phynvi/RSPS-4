@@ -1,10 +1,7 @@
 [MOREINFO]
-character-clueid = 0
 character-muteright0
-character-cluelevel = 0
-character-cluestage = 0
-character-lastlogin = AP-DESKTOP.frozenbrain.com
-character-lastlogintime = 20150020
+character-lastlogin = 192.168.1.103
+character-lastlogintime = 20160010
 character-ancients = 0
 character-starter = 0
 character-easterevent = 0
@@ -32,9 +29,20 @@ character-chickenleave = 0
 character-ST = 0
 character-STC = 0
 character-RM = 0
-character-inprison = 0
 character-dragcharge = 0
 character-beta = 0
+slayerNPC = 0
+slayerCount = 0
+specialDelay = 0
+masteries = 0
+pirate = 0
+homeTeleportTimer = 0
+bandos = 0
+armadyl = 0
+prevarmadyl = 0
+prevbandos = 0
+spellbook = 0
+pestcontrolpoints = 0
 
 [QUESTS]
 character-questpoints = 0

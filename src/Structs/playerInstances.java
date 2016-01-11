@@ -25,7 +25,6 @@ class playerInstances {
 	public int skillcape, skillcapeTrimmed, skillHood, skillMasterID, skill99ID;
 	protected int masteries = 0;
 	protected int homeTeleportTimer = 0;
-	protected int skillsTeleportTimer = 0;
 	public DropList DROPHANDLER = new DropList();
 	public Fletching FLETCHING;
 	public boolean starter4Options = false;
@@ -171,6 +170,8 @@ public int idleTimer = 0;
 	public int rate = 6;
 	public int mageXP2 = 50;
 	public int timer1 = 50;
+	
+	public int followingPlayerID = -1;
 
 	//Fishing
 	public boolean IsFishing = false;

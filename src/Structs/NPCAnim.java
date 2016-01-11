@@ -10,6 +10,31 @@ public class NPCAnim {
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
 		
+		//Ogre animations 359-361
+		//zogres and skogres
+		case 374: //ogre
+		case 852: //ogre chieften
+		case 2044:
+		case 2045:
+		case 2046:
+		case 2047:
+		case 2048:
+		case 2049:
+		case 2050:
+		case 2051:
+		case 2052:
+		case 2053:
+		case 2054:
+		case 2055:
+		case 2056:
+		case 2057:
+		case 873: case 874: case 875: case 876: //ogre traders
+		case 871: //ogre shaman
+		case 114: //Ogre 
+		case 115: //Ogre
+		case 270: //khazard ogre
+			return 359;
+		
 		case 3727: //Splatter
 		case 3728: //Splatter
 		case 3729: //Splatter
@@ -125,7 +150,6 @@ public class NPCAnim {
 		case 1203:
 		case 1204:
 			return 440;
-
 		case 164: //gnome melee
 			return 192;
 
@@ -803,6 +827,8 @@ public class NPCAnim {
 		case 19://White Knight
 			return 451;
 
+		case 116: //cyclops
+		case 113: //Jogre
 		case 110://Fire Giant
 		case 111://Ice Giant
 		case 112://Moss Giant
@@ -852,6 +878,31 @@ public class NPCAnim {
 
 		switch(npcID){
 
+		//Ogre animations 359-361
+		//zogres and skogres
+		case 374: //ogre
+		case 852: //ogre chieften
+		case 2044:
+		case 2045:
+		case 2046:
+		case 2047:
+		case 2048:
+		case 2049:
+		case 2050:
+		case 2051:
+		case 2052:
+		case 2053:
+		case 2054:
+		case 2055:
+		case 2056:
+		case 2057:
+		case 873: case 874: case 875: case 876: //ogre traders
+		case 871: //ogre shaman
+		case 114: //Ogre 
+		case 115: //Ogre
+		case 270: //khazard ogre
+			return 360;
+			
 		case 3727: //Splatter
 		case 3728: //Splatter
 		case 3729: //Splatter
@@ -997,6 +1048,8 @@ public class NPCAnim {
 		case 941:
 			return 89;
 
+		case 116: //cyclops
+		case 113: //Jogre
 		case 110://Fire Giant
 		case 111://Ice Giant
 		case 112://Moss Giant
@@ -1016,6 +1069,31 @@ public class NPCAnim {
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
 
+		//Ogre animations 359-361
+		//zogres and skogres
+		case 374: //ogre
+		case 852: //ogre chieften
+		case 2044:
+		case 2045:
+		case 2046:
+		case 2047:
+		case 2048:
+		case 2049:
+		case 2050:
+		case 2051:
+		case 2052:
+		case 2053:
+		case 2054:
+		case 2055:
+		case 2056:
+		case 2057:
+		case 873: case 874: case 875: case 876: //ogre traders
+		case 871: //ogre shaman
+		case 114: //Ogre 
+		case 115: //Ogre
+		case 270: //khazard ogre
+			return 361;
+			
 		case 3780: //PC portals
 		case 3779:
 		case 3778:
@@ -1302,6 +1380,8 @@ public class NPCAnim {
 		case 7480://Tumeken's Shadow
 			return 11629;
 
+		case 116: //cyclops
+		case 113: //Jogre
 		case 110://Fire Giant
 		case 111://Ice Giant
 		case 112://Moss Giant

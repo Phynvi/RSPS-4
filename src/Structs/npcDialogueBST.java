@@ -61,6 +61,36 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(479,"Those Khazard bastards have been sieging us","for months now.");
+			add(480,"They may seem like the stronger enemy, but what","we lack in strength, we make up for","with intelligence.");
+			add(279,"Welcome to the Monastery!","Strange to build such a holy","place just north of the Fight Arena, eh?");
+			add(281,"Bless you.");
+			add(259,"No Khazard armor, no beer.");
+			add(2332,"Mighty fine lookin hops patch, isn't it?");
+			add(669,"Many years ago, I helped design","the Grand Tree... The structure"," and monument to my peoples.");
+			add(3109,"Talk to tha' hand coz thish face ain't lishtnin.");
+			add(593,"You call yourself a cook?");
+			add(878,"Yanille needs to be heavily fortified and watched","at all times. The threats of","undead ogres lurk just West of us.",
+					"That Wizard thinks his magic can save","this town? No way, it's through","strength in arms that we survive.");
+			add(3108, "I've found some weird stuff in my","Sandbox before...");
+			add(732,"People tend to just and drink","away their memories.");
+			add(462,"Welcome to the Wizard's Guild!","I do hope you enjoy your stay.");
+			add(461,"I do enjoy runes so much.");
+			add(2059,"The Watchtower Wizard always brags","about his accomplishments. But, between","you and I, it wouldn't have","been possible without my research.",
+					"I risked my life killing Zogres to","learn about their magical abilities.");
+			add(872,"If it was not for me, we'd all be dead.","I helped the Ogres in Gu'Tanoth","by creating a defensive crystal","which protects their city from the Zogres.",
+					"Now, if I did not do that, they would","have been overrun. We would","have easily been next.");
+			add(852,"The lands West of here are where","a great battle happened between Ogres.","Some foul wizard has cursed that area,","bringing to life all undead ogres.");
+			add(873,"Do not be shy, take a look","at what I am selling.");			
+			add(874,"By being so large I can usually","bargain for the right price.");
+			add(875,"Can I help you?");
+			add(876,"Your weapons are so tiny.");
+			add(858,"I like when humans look up to me.");
+			add(859,"No funny stuff, okay?");
+			add(860,"I eat animals larger than you.");
+			add(861,"Mind the other guards, some of them","can be rather mean.");
+			add(857, "I make sure the Gnome pilot does not get attacked","by any of the surrounding Jogres.");
+			add(1526,"I'm sorry, but at the moment","we just can't afford","to run the Castle Wars game.");
 			add(1704,"I used to captain one of the finer vessels","that ported here.");
 			add(1042,"Some of these folks here look rather strange.","Rumor has it, they have fangs for teeth.",
 			"But, me personally, I ain't seen any.");
@@ -152,9 +182,6 @@ import java.util.Queue;
 			
 			
 			add(1216, "Pete", "Weather's hot and sticky up here.", "At least the poor structure of my", "house offers a breeze.");
-			
-			for(int i = 0; i <= 6; i++)
-				add("Citizen", i,"Hello there.");		
 			
 			add("Banker", 494, "I can assist you with banking.");
 			add("Banker", 495, "I can assist you with banking.");

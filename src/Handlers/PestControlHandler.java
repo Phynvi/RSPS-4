@@ -16,6 +16,18 @@ public class PestControlHandler {
 		return c.isInArea(2621, 2557, 2689, 2622);
 	}
 	
+	public void shortTimers(){
+		roundTimer = 15;
+		timeUntilNextRound = 30;
+	}
+	
+	private void sendPlayerBackToOutpostAndHeal(client c){
+		c.ResetAttackNPC();
+		c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);
+		c.teleport(2657,2639);
+		c.PRAY.disableAllPrayer();
+	}
+	
 	public void process(){
 		try{
 		if(everyOther){
@@ -30,13 +42,12 @@ public class PestControlHandler {
 					client c = (client)p;
 					if(c == null) continue;
 					if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
-						c.ResetAttackNPC();
-						c.teleport(2657,2639);
+						sendPlayerBackToOutpostAndHeal(c);
 						c.roundTimerFrameCreated = false;
 						c.sendMessage("You are not awarded any pest control points.");
 					}
 				}
-				resetRoundTimers();
+				if(portalsAlive < 4) resetPortals();
 			}
 			if(timeUntilNextRound == 0){
 				for(Player p : server.playerHandler.players){
@@ -47,6 +58,7 @@ public class PestControlHandler {
 						c.teleport(c.absX-4,c.absY-30);
 					}
 				}
+				resetRoundTimers();
 			}
 			for(Player p : server.playerHandler.players){
 				if(p == null) continue;
@@ -82,6 +94,27 @@ public class PestControlHandler {
 		timeUntilNextRound = roundTimer+30;
 	}
 	
+	private void resetPortals(){
+		if (portalsAlive == 4) return;
+		for(int i = 0; i < portals.length; i++){
+			if(server.npcHandler.npcs[portals[i]] != null){
+				int old1 = server.npcHandler.npcs[portals[i]].npcType;
+				int old2 = server.npcHandler.npcs[portals[i]].makeX;
+				int old3 = server.npcHandler.npcs[portals[i]].makeY;
+				int old4 = server.npcHandler.npcs[portals[i]].heightLevel;
+				int old5 = server.npcHandler.npcs[portals[i]].moverangeX1;
+				int old6 = server.npcHandler.npcs[portals[i]].moverangeY1;
+				int old7 = server.npcHandler.npcs[portals[i]].moverangeX2;
+				int old8 = server.npcHandler.npcs[portals[i]].moverangeY2;
+				int old9 = server.npcHandler.npcs[portals[i]].walkingType;
+				int old10 = server.npcHandler.npcs[portals[i]].MaxHP;
+				server.npcHandler.npcs[portals[i]] = null;
+				server.npcHandler.newNPC(old1, old2, old3, old4, old5, old6, old7, old8, old9, old10, true);
+			}
+		}
+		portalsAlive = 4;
+	}
+	
 	public void portalRespawnChecks(int i){
 		if(portalsAlive > 0){
 			portalsAlive -= 1;
@@ -100,8 +133,7 @@ public class PestControlHandler {
 					client c = (client)p;
 					if(c == null) continue;
 					if(c.isInArea(2621, 2557, 2689, 2622)){ //in pest control
-						c.ResetAttackNPC();
-						c.teleport(2657,2639);
+						sendPlayerBackToOutpostAndHeal(c);
 						c.roundTimerFrameCreated = false;
 						c.sendMessage("You are awarded 3 Pest Control Points.");
 						c.pestControlPoints += 1;

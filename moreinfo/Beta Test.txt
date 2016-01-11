@@ -1,15 +1,15 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = cpe-184-59-18-101.wi.res.rr.com
+character-lastlogin = WRT610N
 character-lastlogintime = 20160010
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
 character-eastergift = 4
 character-hasegg = 0
-character-hasset = 0
-character-pkpoints = 0
-character-killcount = 0
+character-hasset = 1
+character-pkpoints = 1
+character-killcount = 1
 character-deathcount = 0
 character-mutedate = 0
 character-height = 0
@@ -33,11 +33,10 @@ character-dragcharge = 50
 character-beta = 1
 slayerNPC = 1246
 slayerCount = 0
-specialDelay = 10
+specialDelay = 8
 masteries = 2
 pirate = 11
 homeTeleportTimer = 0
-skillsTeleportTimer = 0
 bandos = 0
 armadyl = 0
 prevarmadyl = 0
@@ -109,6 +108,7 @@ character-beard = 10
 
 [FRIENDS]
 character-friend = 0	97229002984747107
+character-friend = 1	29488836083
 
 [IGNORES]
 

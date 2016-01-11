@@ -1,6 +1,6 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = WRT610N
+character-lastlogin = 192.168.1.103
 character-lastlogintime = 20160010
 character-ancients = 12
 character-starter = 1
@@ -37,13 +37,12 @@ specialDelay = 10
 masteries = 21
 pirate = 11
 homeTeleportTimer = 0
-skillsTeleportTimer = 0
-bandos = 12
-armadyl = 0
+bandos = 1
+armadyl = 1
 prevarmadyl = 0
-prevbandos = 21
+prevbandos = 38
 spellbook = 0
-pestcontrolpoints = 1
+pestcontrolpoints = 2
 
 [QUESTS]
 character-questpoints = 0

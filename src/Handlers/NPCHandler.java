@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST aggressiveNPCS = new BST(172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(3068,3069,3070,3071,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
@@ -355,7 +355,7 @@ public class NPCHandler {
 						} else if (Rnd == 3) {
 							MoveY = -(MoveY);
 						}
-						if (IsInRange(i, MoveX, MoveY) == true && server.WorldMap.isWalkAble(npcs[i].heightLevel, npcs[i].absX, npcs[i].absY, npcs[i].absX+MoveX, npcs[i].absY+MoveY)) {
+						if (IsInRange(i, MoveX, MoveY) == true && server.worldMap.isWalkAble(npcs[i].heightLevel, npcs[i].absX, npcs[i].absY, npcs[i].absX+MoveX, npcs[i].absY+MoveY)) {
 								npcs[i].moveX = MoveX;
 								npcs[i].moveY = MoveY;
 								npcs[i].getNextNPCMovement();
@@ -705,7 +705,31 @@ public class NPCHandler {
 		giveSlayerEXP(c,npcID);
 		
 		switch (npcID){
-
+		case 374: //ogre
+		case 852: //ogre chieften
+		case 2044:
+		case 2045:
+		case 2046:
+		case 2047:
+		case 2048:
+		case 2049:
+		case 2050:
+		case 2051:
+		case 2052:
+		case 2053:
+		case 2054:
+		case 2055:
+		case 2056:
+		case 2057:
+		case 873: case 874: case 875: case 876: //ogre traders
+		case 871: //ogre shaman
+		case 114: //Ogre 
+		case 115: //Ogre
+		case 270: //khazard ogre
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, DropList.BIGBONES);
+			break;
+			
 		//Dark Beast
 		case 2783:
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.darkBeastDrop));
@@ -1332,12 +1356,14 @@ WORLDMAP 2: (not-walk able places)
 							//int offsetY = (npcs[NPCID].absY - c.absY) * -1;
 							//c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 80, 11, 43, 31, c.playerId+1); //does not guarnatee work
 							break;
-						
+													
 						case 1157: //Kalphite Guardian magic
 							magic(16);
 							c.stillgfx(134, c.absY, c.absX);
 							break;
-						
+
+						case 172: //dark wizard
+						case 173: //necromancer
 						case 14: //druid - mage npc
 							magic(npcs[NPCID].MaxHit);
 							npcs[NPCID].animNumber = 711;

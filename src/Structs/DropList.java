@@ -9,6 +9,7 @@ public class DropList {
 	public static final int BABYDRAGONBONES = 534;
 	public static final int DRAGONBONES = 536;
 	public static final int WYVERNBONES = 6812;
+	public static final int ZOGREBONES = 4812;
 	
 	public static int[] basicArmorAndItemsNoTrim = {1075, 1087, 1103, 1117, 1139, 1155, 1173, 1189, 1205, 1237, 1277, 1291, 1307, 1321, 1337, 1351, 1375, 1422, 2349, 3095, 3190, 4119, 440, 1067, 
 												1081, 1101, 1115, 1137, 1153, 1175, 1191, 1203, 1239, 1279, 1293, 1309, 1323, 1335, 1349, 1363, 1420, 2351, 3096, 3192, 4121, 778, 1069, 1083, 

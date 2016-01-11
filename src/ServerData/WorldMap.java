@@ -176,12 +176,16 @@ RandomAccessFile in = null;
    }
 
    //NOTE : three dimensional array made my computer cap memory at 4gb and CPU at 98%
-   private static int[][] walkableGridHeight0 = new int[4000][11000];
-   private static int[][] walkableGridHeight1 = new int[4000][11000];
-   private static int[][] walkableGridHeight2 = new int[4000][11000];
-   private static int[][] walkableGridHeight3 = new int[4000][11000];
+   private static int[][] walkableGridHeight0 = new int[5000][11000];
+   private static int[][] walkableGridHeight1 = new int[5000][11000];
+   private static int[][] walkableGridHeight2 = new int[5000][11000];
+   private static int[][] walkableGridHeight3 = new int[5000][11000];
    
-   private static int[][] getWalkableGridAtHeight(int height){
+   /**
+    * 
+    * @return if the array returns -1, it is NOT walkable
+    */
+   public static int[][] getWalkableGridAtHeight(int height){
   	 switch(height){
   	 case 0:
   		 return walkableGridHeight0;
@@ -202,10 +206,10 @@ RandomAccessFile in = null;
   		 if (objectId[i] == -1) continue;
   		 int x = objectX[i];
   		 int y = objectY[i];
-  		 if (objectType[i] == 22){
+  		 if (objectType[i] == 22){ //walkable
   			 getWalkableGridAtHeight(objectHeight[i])[x][y] = i;
   		 }
-  		 else{
+  		 else{ //non walkable
   			 getWalkableGridAtHeight(objectHeight[i])[x][y] = -1;
   		 }
   			 

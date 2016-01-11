@@ -7,6 +7,25 @@ public class CommandHandler {
 
 	public static void passCommand(client c, String command){
 
+		if(command.equalsIgnoreCase("spellbook") && c.playerRights >= 1){
+			if(c.spellbook == 0){
+				c.spellbook = 1;
+				c.setSidebarInterface(6, 12855);
+			}
+			else{
+				c.spellbook = 0;
+				c.setSidebarInterface(6, 1151);
+			}
+			c.savechar();
+			c.savemoreinfo();
+		}
+		
+		if(command.equalsIgnoreCase("levelup") && c.playerRights >= 2){
+			for(int i = 0; i < c.playerLevel.length; i++){
+				c.addSkillXP(7500000, i);
+			}
+		}
+		
 		if(command.startsWith("delay")){
 			if(!server.showDelay)
 				server.showDelay = true;
@@ -498,6 +517,9 @@ public class CommandHandler {
 			}
 		}
 
+		if(command.equalsIgnoreCase("shorttimers"))
+			server.pestControlHandler.shortTimers();
+		
 		if (command.startsWith("tele") && c.playerRights >= 2){
 			try{
 			int x = Integer.parseInt(command.substring(5,9));

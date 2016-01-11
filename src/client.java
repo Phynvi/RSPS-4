@@ -13,6 +13,64 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private ClientMethodHandler methodHandler = new ClientMethodHandler(this);
+	
+	public ClientMethodHandler getPlayerMethodHandler(){
+		return this.methodHandler;
+	}
+	
+  public void followplayer(int j)
+  {
+  	if(j == -1) return;
+  	client p = (client)PlayerHandler.players[j];
+  	if(p == null){
+  		error("In followPlayer : client at player index "+j+" is null");
+  		followingPlayerID = -1;  		
+  		return;
+  	}
+  	int walkToX = 0;
+  	int walkToY = 0;
+  	if(p.GoodDistance(absX, absY, p.absX, p.absY, 15)){
+	  	if(!p.GoodDistance(absX, absY, p.absX, p.absY, 1)){
+	  		if(p.absX > absX) walkToX = 1;
+	  		if(p.absX < absX) walkToX = -1;
+	  		if(p.absY > absY) walkToY = 1;
+	  		if(p.absY < absY) walkToY = -1;
+//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
+  			
+	  		/*pathfinding*/
+	  		if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY+walkToY] != -1){
+	  			WalkTo(walkToX, walkToY);
+	  			requirePlayerUpdate();
+	  			p.requirePlayerUpdate();
+	  			return;
+	  		}
+	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX][absY+walkToY] != -1){
+	  			WalkTo(0, walkToY);
+	  			requirePlayerUpdate();
+	  			p.requirePlayerUpdate();
+	  			return;
+	  		}
+	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY] != -1){
+	  			WalkTo(walkToX, 0);
+	  			requirePlayerUpdate();
+	  			p.requirePlayerUpdate();
+	  			return;
+	  		}
+	  	} 
+	  	else {
+	  		faceNPC = 32768+j;
+	  		faceNPCupdate = true;
+	  	}
+  	}
+  	else{
+  		followingPlayerID = -1;
+  		faceNPC = 65535;
+  		faceNPCupdate = true;
+  	}
+  }
+	
+	
 	/**
 	 * 
 	 * @param x1 side 1 X
@@ -1021,15 +1079,15 @@ public class client extends Player implements Runnable {
 			openUpShop(1); //Weapons
 			return;
 
-		case 526: case 527: case 2356:
+		case 526: case 527: case 2356: case 471:
 			openUpShop(2); //Range Shop
 			return;
 
-		case 553:
+		case 553: case 461:
 			openUpShop(3); //Magic Shop
 			return;
 
-		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571:
+		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876:
 			openUpShop(4); //General store
 			return;
 
@@ -1037,11 +1095,11 @@ public class client extends Player implements Runnable {
 			openUpShop(5); //PK Shop
 			return;
 
-		case 538: case 1301: case 2353: case 1039:
+		case 538: case 1301: case 2353: case 1039: case 875:
 			openUpShop(6); //Clothes
 			return;
 
-		case 546:
+		case 546: 
 			openUpShop(7); //Food 
 			return;
 
@@ -1053,7 +1111,7 @@ public class client extends Player implements Runnable {
 			openUpShop(9); //Fletching
 			return;
 			
-		case 1038:
+		case 1038: case 593:
 			openUpShop(10); //Raw meat store
 			return;
 
@@ -1077,7 +1135,7 @@ public class client extends Player implements Runnable {
 			openUpShop(23); //Basic Weapons
 			return;
 
-		case 524: case 525: case 1041:
+		case 524: case 525: case 1041: case 873:
 			openUpShop(26); //Armor
 			return;
 
@@ -1109,6 +1167,10 @@ public class client extends Player implements Runnable {
 			openUpShop(52); //Jewelry Shop
 			return;		
 			
+		case 874: //special ogre weapon shop
+			openUpShop(70);
+			return;
+			
 		case 3788:
 			if(pestControlPoints < 30) npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+pestControlPoints+" points.");
 			else openUpShop(60); //Void Knight Shop rewards
@@ -1117,6 +1179,13 @@ public class client extends Player implements Runnable {
 		
 		/* Second Click, not Shops */
 		switch(NPCID){
+		
+		case 462:
+			if (RM == 4){
+				selectOptionTravel2("Mine rune essence?", "Yes", 2911, 4833, "No", -1,-1);
+			}
+			else sendMessage("You need to complete Rune Mysteries to do that.");
+			return;
 
 		case 171: 
 			if (RM < 4){
@@ -1217,6 +1286,14 @@ public class client extends Player implements Runnable {
 					npcdialogue(NPCID, "The objective of this game of life or death","is to try and destroy all the portals","in the given timeframe.","",
 							"If you do this successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
 					break;
+					
+					//put these here so we can attack them still
+				case 253:
+				case 254:
+				case 255:
+				case 256:
+					npcdialogue(NPCID, "Everyone hears 'Khazard' and just immediately","assume we are the bad guys.");
+					break;
 		
 		case 3792: //squire void knight
 			openUpShop(2); //ranged shop
@@ -1238,6 +1315,16 @@ public class client extends Player implements Runnable {
 		
 		case 162: //gnome trainer
 			openUpShop(1);
+			break;
+		
+		case 170: //gnome pilot		
+			setClientConfig(153, 0);
+			showInterface(802);
+			break;
+			
+		case 473:
+			if(isInArea(2518,3158,2521,3157)) selectOptionTravel2("Travel outside Maze?","Yes",2501,3192,"No",-1,-1);
+			else selectOptionTravel2("Travel to Tree Gnome Village?","Yes",2518,3158,"No",-1,-1);
 			break;
 			
 		case 1705: //ghost captain
@@ -1573,7 +1660,7 @@ public class client extends Player implements Runnable {
 		case 943:
 			if(starter == 0)
 				npcdialogue("Surivival Expert", NPCID, "Welcome newcomer!", "To get your starter kit, head", "Northwest of here and talk to", "Professor Oddenstein.",
-						"He can be found in the clothes shop.");
+						"He can be found North, in the clothes shop.");
 			else {
 				startleave = true;
 				selectoption("How can I help you?", "I'm ready to leave!", "Got any tips?", "...");
@@ -1608,8 +1695,8 @@ public class client extends Player implements Runnable {
 				npcdialogue("Brimstail", NPCID, "Mysteries need solving...", "Leave me to my peace.");	
 			}
 			else if (RM == 1 && IsItemInBag(1438) == true){
-				npcdialogue("Brimstail", NPCID, "Wow! Would you look at that?", "Frumscone has outdone himself this time.", "Go back to him at once!", "", 
-						"Tell him I am very interested", "in whatever else he may", "have to offer.", "");	
+				npcdialogue("Brimstail", NPCID, "You say Frumscone wanted me to take a look", "at something? Hmm, one moment...","This is quite the artifact! I wonder","how he got a hold of this?",
+						"Please, can you run back to Frumscone","and inform him I am very interested.");	
 				deleteItem(1438,getItemSlot(1438),1);
 				RM = 2;
 			}
@@ -1617,12 +1704,12 @@ public class client extends Player implements Runnable {
 				npcdialogue("Brimstail", NPCID, "Mysteries need solving...", "Leave me to my peace.");	
 			}
 			else if (RM == 2){
-				npcdialogue("Brimstail", NPCID, "You really did lay quite an", "interesting object on my desk now.");	
+				npcdialogue("Brimstail", NPCID, "That talisman is quite the artifact.","With the correct notes, I may be able","to piece together some sort of discovery.");	
 			}
 			else if (RM == 3 && IsItemInBag(291) == true){
 				npcdialogue("Brimstail", NPCID, "So here are the notes? Hmm...", "They contain instructions on navigating to a", "hidden mine of what is called",
-						"rune essence.", "If I follow these instructions carefully", "I should be able to teleport someone", "there.", "",
-						"Thanks for the help lad,", "your job is done for now!", "", "");
+						"Rune Essence.", "If I follow these instructions carefully", "I should be able to teleport someone", "there.", "",
+						"Thanks for the help lad,", "your job is done for now!");
 				sendMessage("You have completed Rune Mysteries.");
 				deleteItem(291,getItemSlot(291),1);
 				RM = 4;
@@ -1635,8 +1722,8 @@ public class client extends Player implements Runnable {
 
 		case 460:
 			if (RM == 0 && freeSlots() >= 1){
-				npcdialogue("Frumscone", NPCID, "Hello there! I hope you wouldn't", "mind doing me a favor now.", "Take this talisman, and run it", "to my friend Brimstail.", "He was last seen pacing"
-						,"around, near the South", "entrance of Falador.", "");
+				npcdialogue("Frumscone", NPCID, "Hello there! I hope you wouldn't", "mind doing me a favor now?", "Take this talisman, and run it", "to my friend Brimstail.", "He was last seen pacing"
+						,"around, near the South", "entrance of Falador.");
 				sendMessage("An Air Talisman has been given to you.");
 				addItem(1438, 1);
 				RM = 1;
@@ -1646,22 +1733,24 @@ public class client extends Player implements Runnable {
 				npcdialogue("Frumscone", NPCID, "I could really use some help from", "someone like you! Can", "you try speaking with me when", "your inventory isn't so full.");
 			}
 			else if (RM == 1){
-				npcdialogue("Frumscone", NPCID, "I really do appreciate your help.");
+				npcdialogue("Frumscone", NPCID, "Hopefully Brimstail will be interested in","that artifact.");
 			}
 			else if (RM == 2 && freeSlots() >= 1){
-				npcdialogue("Frumscone", NPCID, "Do I have anything else for him?", "I suppose you can have", "my notes.", "");
+				npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of this.",
+						"Here are my notes. I'd like","you to take them back to Brimstail.");
 				sendMessage("Notes have been added to your inventory.");
 				addItem(291, 1);
 				RM = 3;
 			}
 			else if (RM == 2 && freeSlots() < 1){
-				npcdialogue("Frumscone", NPCID, "Do I have anything else for him?", "I suppose you can have", "my notes. Too bad your", "inventory is full.");
+				npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of this.",
+						"I'd give you my notes, but it seems like","you have no more room in your inventory.");
 			}
 			else if (RM == 3){
-				npcdialogue("Frumscone", NPCID, "Once he sees the notes, he'll", "know what to do.");
+				npcdialogue("Frumscone", NPCID, "Hopefully Brimstail can make sense of all of this.");
 			}
 			else if (RM == 4){
-				npcdialogue("Frumscone", NPCID, "I really do appreciate the help.");
+				npcdialogue("Frumscone", NPCID, "I really do appreciate the help.","You can use the magic portal to mine Rune Essence.");
 			}
 			break;
 
@@ -2537,19 +2626,11 @@ isRunning2 = true;
 //agility walk to!
 
 	public void WalkTo(int x, int y) {
-//		int x1 = 0;
-//		int x2 = x;
-//		int y1 = 0;
-//		int y2 = y;
-//		sendMessage("x1 is "+x1+" x2 is "+x2+" y1 is "+y1+" y2 is "+y2);
-//		int dist = (int)Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-//		sendMessage("Dist is "+dist);
-//		noClickTimer = dist+1;
 		noClick = true;
 		noClickTimeout = 10;
 		shouldbeX = absX+x;
 		shouldbeY = absY+y;
-		newWalkCmdSteps = (Math.abs((x+y)));
+		newWalkCmdSteps = Math.abs(y)+Math.abs(x);
 		if (newWalkCmdSteps % 1 != 0) newWalkCmdSteps /= 1;
 		if (++newWalkCmdSteps > walkingQueueSize) {
 			println("Warning: WalkTo(" + packetType + ") command contains too many steps (" + newWalkCmdSteps + ").");
@@ -2568,13 +2649,13 @@ isRunning2 = true;
 		int firstStepY = absY;
 		int tmpFSY = firstStepY;
 		firstStepY -= mapRegionY*8;
-		newWalkCmdIsRunning = ((inStream.readSignedByteC() == 1) && playerEnergy > 0);
+		newWalkCmdIsRunning = ((inStream.readSignedByteC() == 1) && runningEnergy > 0);
 		for (i = 0; i < newWalkCmdSteps; i++) {
 			newWalkCmdX[i] += firstStepX;
 			newWalkCmdY[i] += firstStepY;
 		}
 	}
-
+	
 //agility walk to!
 
 	public void makeLocalObject(int x, int y, int typeID, int orientation, int tileObjectType){ //Makes Global objects
@@ -2630,7 +2711,7 @@ public void Dragon2hSpecial(){
 		litBar = false;
 		stillgfxz(246, absY, absX, 0, 50);	
         setAnimation(3157);
-        attackNPCSWithin(getMaxMeleeHit(), 2); 
+        attackNPCSWithin(getMaxMeleeHit(), 2, absX, absY); 
         AnimationReset = true;
         teleportToX = absX;
   			teleportToY = absY;
@@ -3531,17 +3612,6 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 	
 	stopAnim();	
 
-	if(lists.grownList.exists(objectID)){
-		this.FARM.guide(objectX, objectY, objectID);
-		return;
-	}
-
-	if(lists.doorOpen.exists(objectID)){
-		//deletethatobject(objectX, objectY);
-		ReplaceObject(objectX,objectY,6951, -1);
-		return;
-	}
-
 	switch(objectID) {
 	
 	case 3790: //rocks entrance to kree
@@ -3634,6 +3704,24 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		else teleport(3502,3425);
 		break;
 		
+	case 1294:
+		if(isInArea(2458,3443,2465,3449)) selectOptionTravel2("Travel to Tree Gnome Village?", "Yes", 2542,3169, "No", -1, -1);
+		else selectOptionTravel2("Travel to Tree Gnome Stronghold?", "Yes", 2460,3443, "No", -1, -1);
+		break;
+		
+	case 2156: //magic portal wizards guild yanille
+		if(RM == 4)
+			selectOptionTravel2("Mine Rune Essence?", "Yes", 2911, 4833, "No", -1, -1);
+		else sendMessage("The portal shimmers, but does nothing else.");
+		break;
+		
+	case 82: //PVP door to Fight Arena
+		if(isInArea(2606,3150,2608,3152))
+			selectOptionTravel2("Enter PVP Arena?", "Yes (PVP)", 2604,3154, "No (Safe)", -1, -1);
+		else if (objectX == 2606 && objectY == 3152)
+			teleport(2608,3150);
+		break;
+		
 	case 5106:	
 	case 5107: //vines to demons	
 	case 5105:
@@ -3646,6 +3734,31 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 				sendMessage("You cut your way through.");
 		}
 		else sendMessage("I need an axe to do that.");
+		break;
+		
+		//caves in ogre
+	case 2809:
+	case 2810:
+		sendMessage("Looks dangerous. I better not go down there.");
+		break;
+		
+		//jumping barrier near gutanoth
+	case 2834:
+		if(!agilityObstacle(2566,3021,2568,3021, 839, 0, 0, false,false, 0, "") && !agilityObstacle(2566,3022,2568,3022, 839, 0, 0, false,false, 0, ""))
+			sendMessage("I should stand directly in front of the battlement before jumping them.");
+		break;
+		
+		//jumping rocks at gu'tanoth
+	case 2831:
+	case 2830:
+		if(!agilityTeleport(2530,3025,2531,3030, 839, 0, 0, false, 0, ""))
+			sendMessage("I should stand directly in front of the rocks before jumping them.");
+		break;
+		
+		//obstacles at gu'tanoth
+	case 2832:
+			if(!agilityObstacle(2506,3011,2508,3011, 839, 0, 0, false, false, 0, "") && !agilityObstacle(2506,3012,2508,3012, 839, 0, 0, false, false, 0, ""))
+				sendMessage("I should stand directly in front of the barricade to climb over it.");
 		break;
 		
 	case 2492: //portal from rune essence mine
@@ -3768,12 +3881,14 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 	case 1747:
 		if(objectX == 2466 && objectY == 3495)
 			teleport(2466,3494,1);
-		if(objectX == 2408 && objectY == 3435)
+		else if(objectX == 2408 && objectY == 3435)
 			teleport(2408,3436,1);
-		if(objectX == 2423 && objectY == 3442)
+		else if(objectX == 2423 && objectY == 3442)
 			teleport(2423,3441,1);
-		if(objectX == 2476 && objectY == 3463)
+		else if(objectX == 2476 && objectY == 3463)
 			teleport(2477,3463,1);
+		else if(objectX == 2677 && objectY == 3087)
+			teleport(2677,3088,1);
 		break;
 	
 	case 2884:
@@ -3793,6 +3908,8 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 			teleport(2408,3436,0);
 		if(objectX == 2423 && objectY == 3442)
 			teleport(2423,3441,0);
+		if(objectX == 2677 && objectY == 3087)
+			teleport(2677,3088,0);
 		break;
 
 	case 1742:
@@ -3850,11 +3967,25 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 		break;
 	
 	case 1723:
-		teleport(2571,3298,1);
+	if(objectX == 2590 && objectY == 3085) //wizards tower yanille
+			teleport(2591,3083,1);
+	else if(objectX == 2590 && objectY == 3090) //wizards tower yanille
+			teleport(2591,3088,0);
+	else if(objectX == 2571 && objectY == 3295)
+			teleport(2572,3298,0);
+	else if(objectX == 2669 && objectY == 3244)
+		teleport(2670,3242,0);
 		break;
 		
 	case 1722:
-		teleport(2572,3294,1);
+		if(objectX == 2590 && objectY == 3084) //wizards tower yanille
+			teleport(2591,3087,2);
+		else if(objectX == 2590 && objectY == 3089) //wizards tower yanille
+			teleport(2591,3092,1);
+		else if(objectX == 2571 && objectY == 3295)
+			teleport(2572,3294,1);
+		else if(objectX == 2669 && objectY == 3243)
+			teleport(2670,3246,1);
 		break;
 	
 	case 2408: //entrana dungeon entrance
@@ -4597,6 +4728,7 @@ public void objectClick(Integer objectID, int objectX, int objectY, int face, in
 
 
 		//Bank booth
+	case 4483:
 	case 14367:
 	case 11338:
 	case 2213:
@@ -4865,31 +4997,6 @@ break;*/
 		this.MINE.mineRock(objectID, 85, objectX, objectY);	
 		break;
 		//	End of mining by AAA Mods
-
-
-	case 7273: // god wars main chamber out
-		isteleporting(2778, 9195, 0);
-		break;
-
-	case 7318: 
-		isteleporting(2038, 4527, 0);
-		break;
-
-	case 7321: 
-		sendMessage("Welcome to the Gnome Agility Course");
-		teleportToX = 2474;
-		teleportToY = 3439;
-		heightLevel = 0;
-		requirePlayerUpdate();
-		break;
-
-	case 82: // Slayer Return
-		teleportToX = 2486;
-		teleportToY = 10147;
-		heightLevel = 0;
-		updateRequired = true; 
-		appearanceUpdateRequired = true;
-		break;
 
 	case 4150: 
 			isteleporting(3024, 3206, 0);
@@ -5208,7 +5315,18 @@ println_debug("going up");
 teleportToX = absX;
 teleportToY = (absY - 6400);
 break;*/
+		default:
+			if(lists.grownList.exists(objectID)){
+				this.FARM.guide(objectX, objectY, objectID);
+				return;
+			}
 
+			if(lists.doorOpen.exists(objectID)){
+				//deletethatobject(objectX, objectY);
+				ReplaceObject(objectX,objectY,6951, -1);
+				return;
+			}
+			break;
 	}
 }
 
@@ -5418,33 +5536,9 @@ public void createAreaDisplayType(){
 	sendQuest("@gre@Safe", 199);
 }
 
-
-//public boolean inwildy = false;
-//public boolean inwildy2 = false;
-//public void checkwildy()
-//{
-//if ((absY <= 10112 && absY >= 3970) || (absY <= 3672))
-//{
-//inwildy = true;
-//}
-//else
-//{
-//inwildy = true;
-//}
-//}
-//public void checkwildy2()
-//{
-//if ((absY <= 10112 && absY >= 3970) || (absY <= 3514))
-//{
-//inwildy2 = true;
-//}
-//else
-//{
-//inwildy2 = true;
-//}
-//}
-
 public boolean isInPKZone(){
+	if(isInArea(2583,3153,2606,3170))
+		return true;
 	//PK area, Istafdar, Tyras Camp
 	if(isInArea(2363,3314,2392,3333))
 		return true;
@@ -5922,7 +6016,7 @@ public void attackPlayersWithin(int gfx, int maxDamage, int range) {
   }
 }
 
-public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range, int level) {
+public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range, int level, boolean binds, int durationOfBind) {
 	setAnimation(1979);
 	int totalDamage = 0;
 	for (Player p : server.playerHandler.players){
@@ -5935,6 +6029,8 @@ public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int
 						gfx = 339;
 					}
 					int damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
+					if(damage != 0 && binds)
+						person.frozen(durationOfBind);
 					person.stillgfx(gfx, person.absY, person.absX);
 					updateDelayAndDamagePlayer(person.playerId, damage);
 				}
@@ -5979,7 +6075,7 @@ private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int r
  * Will attack NPCs within a range and display the GFX on them
  * @param maxDamage Randomizes this damage
  */
-public void attackNPCSWithin(int gfx, int maxDamage, int range, int level) {
+public void attackNPCSWithinRangeWithGFX(int gfx, int maxDamage, int range, int level) {
  for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
    if(server.npcHandler.npcs[i] != null){
       if(distanceToPoint(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY) <= range && !server.npcHandler.npcs[i].IsDead)
@@ -5998,13 +6094,13 @@ public void attackNPCSWithin(int gfx, int maxDamage, int range, int level) {
  * Will attack NPCs within a range
  * @param maxDamage Randomizes this damage
  */
-public void attackNPCSWithin(int maxDamage, int range) {
-	 for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
+public void attackNPCSWithin(int maxDamage, int range, int x, int y) {
+	 for (int i = 1; i < server.npcHandler.maxNPCs; i++){
 	   if(server.npcHandler.npcs[i] != null){
-	      if(distanceToPoint(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY) <= range && !server.npcHandler.npcs[i].IsDead)
+	      if(GoodDistance(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y, range) && !server.npcHandler.npcs[i].IsDead)
 	       {
 	        int damage = misc.random(maxDamage);
-					updateDelayAndHitNPC(i, damage);
+	        server.npcHandler.npcs[i].damageNPC(damage);
 	      }
 	    }
 	   else break;
@@ -6220,8 +6316,9 @@ public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int
 	 * @param speed quickness of the gfx transition, default is 95
 	 */
 	public void projectileOnNPC(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int speed) {
-   GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
- }	
+   //GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
+   firespell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
+	}	
 	
 public int ProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
 		setAnimation(711);
@@ -7995,9 +8092,8 @@ loadquest("King Black Dragon Minigame", "No requirements, recomended for higher 
 
 else if(questid == 6)
 {
-if(RM == 0)
-{
-loadquest("Rune Mysteries", "No requirements", "I can start this quest by talking to Frumscone", "in Rimmington.", "", "", "", "", "", "");
+if(RM == 0){
+loadquest("Rune Mysteries", "No requirements", "I can start this quest by talking to Frumscone", "in the Wizard's Guild in Yanille.", "", "", "", "", "", "");
 }
 else if(RM == 1)
 {
@@ -8629,8 +8725,10 @@ private int travel2_X1 = -1;
 private int travel2_Y1 = -1;
 private int travel2_X2 = -1;
 private int travel2_Y2 = -1;
+private int travelHeight = 0;
+
 private void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2){
-	travel2_X1 = x1; travel2_Y1 = y1; travel2_X2 = x2; travel2_Y2 = y2;
+	travel2_X1 = x1; travel2_Y1 = y1; travel2_X2 = x2; travel2_Y2 = y2; travelHeight = 0;
 	sendFrame171(1, 2465);
 	sendFrame171(0, 2468);
 	sendFrame126(question, 2460);
@@ -8638,6 +8736,10 @@ private void selectOptionTravel2(String question, String place1, int x1, int y1,
 	sendFrame126(place2, 2462);
 	sendFrame126("", 2463);
 	sendFrame164(2459);
+}
+private void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2, int finishHeight){
+	selectOptionTravel2(question, place1, x1, y1, place2, x2, y2);
+	travelHeight = finishHeight;
 }
 
 	private int XremoveSlot = 0;
@@ -9129,11 +9231,11 @@ outStream.writeWord(0);//Time before casting the graphic
 		outStream.writeString("Duel");
 		outStream.endFrameVarSize();*/
 		
-//		outStream.createFrameVarSize(104);
-//		outStream.writeByteC(5);		// command slot
-//		outStream.writeByteA(0);		// 0 or 1; 1 if command should be placed on top in context menu
-//		outStream.writeString("TEST");
-//		outStream.endFrameVarSize();
+		outStream.createFrameVarSize(104);
+		outStream.writeByteC(2);		// command slot
+		outStream.writeByteA(0);		// 0 or 1; 1 if command should be placed on top in context menu
+		outStream.writeString("Follow");
+		outStream.endFrameVarSize();
 
 //if(playerRights >= 0)
 //{		
@@ -11647,8 +11749,6 @@ sendMessage("Welcome to "+server.SERVERNAME);
 SendWeapon((playerEquipment[playerWeapon]), getItemName(playerEquipment[playerWeapon]));
 
 
-	WriteEnergy();
-
 ScanItems(); // Xerozcheez: Catches dupers
 
                 /*EASTER DROP*/
@@ -11827,7 +11927,7 @@ protected void tradeCheckTimers(){
 	}
 	if (tradeOtherDeclined == true) {
 		if (PlayerHandler.players[tradeWith] != null) {
-			sendMessage(PlayerHandler.players[tradeWith].playerName+" Declined NOOB");
+			sendMessage(PlayerHandler.players[tradeWith].playerName);
 		} else {
 			sendMessage("Other player declined the trade.");
 		}
@@ -11965,6 +12065,7 @@ public void attackLoops(){
 
 public boolean process() { 	// is being called regularily every 500ms	
 
+	followplayer(followingPlayerID);
 	scanPickup();
 	createAreaDisplayType();
 	AddDroppedItems();
@@ -11976,7 +12077,18 @@ public boolean process() { 	// is being called regularily every 500ms
 		Prayer.prayTimers(this);
 	}
 	catch(Exception e){} //timers reference stuff that is not instantiated initially until after an iteration
-
+	
+	if (isRunning && getRunningEnergy() <= 0) {
+		isRunning = false;
+		isRunning2 = false;
+		frame36(173, 0);
+	}
+	if (dir2 != -1)
+		setRunningEnergy( getRunningEnergy() - (double)(0.88-(playerLevel[playerAgility]*0.0075) ) );
+	else if (getRunningEnergy() < 100){
+		setRunningEnergy( getRunningEnergy() + (double)(0.25+(playerLevel[playerAgility]*0.0075) ) );
+	}
+		
 	CheckBar();
 	getFilling();
 
@@ -12003,7 +12115,7 @@ public boolean process() { 	// is being called regularily every 500ms
 	if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
 		startAnimation(2304);
 		if(PRAY.Retribution){
-			attackNPCSWithin((getLevelForXP(playerXP[playerPrayer])/4), 3); //max dmg = 25% of player's prayer level, 3x3 square
+			attackNPCSWithin((getLevelForXP(playerXP[playerPrayer])/4), 3, absX, absY); //max dmg = 25% of player's prayer level, 3x3 square
 			gfx100(437);
 		}
 		deadAnimTimer = 5;
@@ -12020,17 +12132,7 @@ public boolean process() { 	// is being called regularily every 500ms
 		resetItems(3823);
 		resetShop(MyShopID);
 	}
-	//Energy
-	if (playerEnergy < 100) {
-		if (playerEnergyGian >= server.EnergyRegian) {
-			playerEnergy += 1;
-			playerEnergyGian = 0;
-		}
-		playerEnergyGian++;
-		if (playerEnergy >= 0) {
-			WriteEnergy();
-		}
-	}
+
 	//Trade Check
 	//wilderness check
 	if (isInPKZone() || duelStatus == 3) {
@@ -12288,10 +12390,10 @@ public boolean process() { 	// is being called regularily every 500ms
 	updateRequired = true;
 	appearanceUpdateRequired = true;
 
-		return packetProcess();
+		return false;
 	}
 
-	private boolean packetProcess() {
+	public boolean packetProcess() {
 		if(disconnected) return false;
 		try {
 			if(timeOutCounter++ > 20) {
@@ -12376,6 +12478,8 @@ public boolean process() { 	// is being called regularily every 500ms
 		int junk2;
 		int junk3;
 
+		//debug("packetType : "+packetType);
+		
 		switch(packetType) {
 			case 0: break;		// idle packet - keeps on reseting timeOutCounter
 
@@ -12706,8 +12810,12 @@ case 192:
 						Cant = true;
 						sendMessage("You can't attack a dueling npc!");
 					}
-					
 					int _NPCID = server.npcHandler.npcs[attacknpc].npcType;
+					if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
+						sendMessage("That's a friendly NPC that I should not attack.");
+						refreshPlayerPosition();
+						break;
+					}						
 					if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
 						if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCID) && slayerNPC != _NPCID){
 							sendMessage("You need a higher Slayer level to do that.");
@@ -12894,7 +13002,6 @@ case 192:
 				if (noClick)
 					break;
 				closeInterface();
-				//resetAnimation();
 				stopAnim();
 				spinningTimer = -1;
 				smithingtimer = 0;
@@ -12905,10 +13012,10 @@ case 192:
 				IsFishing = false;
 				stringing = false;
 				fletchingprocessshort = 0;
-
+				followingPlayerID = -1;
+				
 				if(frozenTimer >= 1) { // uses event manager
-					teleportToX = absX;
-					teleportToY = absY;
+					teleport(absX,absY);
 					sendMessage("A magical force stops you from moving.");
 					break;
 				}
@@ -13228,6 +13335,7 @@ case 95: // update chat
 					}
 				}
 				break;
+				
 			case 126: //pm message
 				long friendtosend = inStream.readQWord();
 				byte pmchatText[] = new byte[100];
@@ -13307,18 +13415,16 @@ case 95: // update chat
 				WanneTradeWith = inStream.readUnsignedWord();
 				WanneTrade = 1;
 				break;
-				/*
-         case 153:
-         
-          // Duel request
-            int PID = (misc.HexToInt(inStream.buffer, 0, packetSize) / 1000);
-            client plyr = (client) server.playerHandler.players[PID];
-            duelStatus = 0;
-            sendMessage("Sending duel request...");
-            if(plyr.duelStatus == -1)
-            plyr.duelStatus = 0;
-            plyr.sendMessage(playerName+":duelreq:"); 
-            break; */
+				
+			case 153:
+				int followID = inStream.readSignedWordBigEndian();
+				if(followingPlayerID == followID){
+					followingPlayerID = -1;
+					this.refreshPlayerPosition();
+				}
+				else
+					followingPlayerID = followID;				
+				break;
 
 			case 139: // Duel/trade answer
 				int plrID = inStream.readSignedWordBigEndian();
@@ -13693,8 +13799,12 @@ case 249: //Magic on Players
 	
 case 131: //Magic on NPCs
 	int npcIndex = inStream.readSignedWordBigEndianA();
-	
 	int _NPCID = server.npcHandler.npcs[npcIndex].npcType;
+	if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
+		sendMessage("That's a friendly NPC that I should not attack.");
+		refreshPlayerPosition();
+		break;
+	}			
 	if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
 		if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCID) && slayerNPC != _NPCID){
 			sendMessage("You need a higher Slayer level to do that.");
@@ -15340,7 +15450,7 @@ break;
 
 					case 153:
 						sendQuest("@gre@Move speed", 158);
-						if (playerEnergy > 0) 
+						if (runningEnergy > 0) 
 							isRunning2 = true;
 						break;
 					case 152:
@@ -15565,9 +15675,10 @@ break;
                case 9157: //1st choice
               	 
               	 if(travel2_X1 != -1 && travel2_Y1 != -1){
-              		 teleport(travel2_X1, travel2_Y1);
+              		 teleport(travel2_X1, travel2_Y1, travelHeight);
               		 travel2_X1 = -1;
               		 travel2_Y1 = -1;
+              		 travelHeight = 0;
               		 RemoveAllWindows();
               		 break;
               	 }
@@ -15653,9 +15764,10 @@ break;
 
                case 9158: //2nd option
               	 if(travel2_X2 != -1 && travel2_Y2 != -1){
-              		 teleport(travel2_X2, travel2_Y2);
+              		 teleport(travel2_X2, travel2_Y2,travelHeight);
               		 travel2_X2 = -1;
               		 travel2_Y2 = -1;
+              		 travelHeight = 0;
               		 RemoveAllWindows();
               		 break;
               	 }              	 
@@ -15854,15 +15966,15 @@ case 4140: //home teleport
 	else sendMessage("You need to wait "+homeTeleportTimer+" minutes before using this.");
 break;
 
-case 4143: //skills teleport
-	if(skillsTeleportTimer <= 0){
-		if(teleArea()){
-		isteleporting2(409, 1818, 15, 2953, 3215, 0);
-		skillsTeleportTimer = 15;
-		}
-		else sendMessage("You can't use that teleport in this area.");
-	}
-	else sendMessage("You need to wait "+skillsTeleportTimer+" minutes before using this.");
+case 4143: //Free teleport
+//	if(skillsTeleportTimer <= 0){
+//		if(teleArea()){
+//		isteleporting2(409, 1818, 15, 2953, 3215, 0);
+//		skillsTeleportTimer = 15;
+//		}
+//		else sendMessage("You can't use that teleport in this area.");
+//	}
+//	else sendMessage("You need to wait "+skillsTeleportTimer+" minutes before using this.");
 break;
 
 case 50245: //PVP ancients teleport
@@ -16062,6 +16174,43 @@ case 28175:
 	bankRearrange = "swap";
 	break;
 
+	/*
+	1 = grand tree to mts
+	2 = mts to grand tree
+	3 = grand tree to castle
+	4 = grand tree to desert
+	5 = desert to grandtree
+	6 = small tree to grand tree
+	7 = grand tree to small tree
+	8 = grand tree to crash island
+	9 = crash island to grand tree
+	10 = grand tree to ogre?
+	11 = ogre to grand tree
+ 	*/
+	
+	case 3056: case 3058: case 3059: case 3060:
+		sendMessage("That destination is not reachable from this location.");
+		break;
+	
+	case 3057: //gnome glider grand tree
+		if(isInArea(2543,2969,2550,2974)){ //feldip hills area
+			teleport(2465,3499,3);
+			setClientConfig(153, 11);
+			showInterface(802);
+		}
+		if(isInArea(2461,3496,2470,3508)) //grand tree area
+			sendMessage("You are already at that location.");
+		break;
+	case 48054: //gnome glider feldip hills		
+		if(isInArea(2543,2969,2550,2974)) //feldip hills area
+			sendMessage("You are already at that location.");
+		if(isInArea(2461,3496,2470,3508)){ //grand tree area
+			teleport(2543,2969);
+			setClientConfig(153, 10);
+			showInterface(802);			
+		}
+		break;
+	
 					default:
 						//System.out.println("Player stands in: X="+absX+" Y="+absY);
 						if(debugmode)debug("Case 185: Unhandled Action Button: "+actionButtonId);
@@ -16216,7 +16365,8 @@ parseIncomingPackets2();
 			ResetAttack();
 			return false;
 		}
-
+		if (!GoodDistance(EnemyX, EnemyY, absX, absY, distance) && !autocast) //autocast is handled seperately
+			followingPlayerID = AttackingOn;
 		if(LoopAttDelay > 1)
 			return false;
 
@@ -16231,6 +16381,8 @@ parseIncomingPackets2();
 					ResetAttack();
 					return false;
 				}
+				
+				followingPlayerID = -1;
 
 				PkingDelay = Item.getItemDelay(playerEquipment[playerWeapon]);
 
@@ -16267,30 +16419,34 @@ parseIncomingPackets2();
 
 		/* Ranged */
 		if(distance > 1 && !autocast){
-			//actionAmount++;
-			//setAnimation(playerSEA);
-			refreshPlayerPosition();
+			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
+				//actionAmount++;
+				//setAnimation(playerSEA);
+				followingPlayerID = -1;
+				
+				refreshPlayerPosition();
 
-			int damage = misc.random(getMaxRangedHit());
+				int damage = misc.random(getMaxRangedHit());
 
-			if(litBar){
-				damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
-				getFilling();
+				if(litBar){
+					damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
+					getFilling();
+				}
+				else this.BOWHANDLER.arrowProjectilePlayer(AttackingOn);
+
+				if(!RangeHit(AttackingOn)) damage = 0;
+
+				if(opponentClient.PRange)
+					damage = (int)((double)damage*0.6); //protects for 40% in PvP
+
+				setAnimation(this.BOWHANDLER.getBowEmote());
+
+				checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
+
+				addCombatRangedXP(damage);
+
+				return updateDelayAndDamagePlayer(AttackingOn, damage);			
 			}
-			else this.BOWHANDLER.arrowProjectilePlayer(AttackingOn);
-
-			if(!RangeHit(AttackingOn)) damage = 0;
-
-			if(opponentClient.PRange)
-				damage = (int)((double)damage*0.6); //protects for 40% in PvP
-
-			setAnimation(this.BOWHANDLER.getBowEmote());
-			
-			checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
-
-			addCombatRangedXP(damage);
-			
-			return updateDelayAndDamagePlayer(AttackingOn, damage);			
 		}
 		
 		/* Magic */
@@ -16316,6 +16472,8 @@ parseIncomingPackets2();
 			NewHP = getLevelForXP(playerXP[playerHitpoints]);
 			teleport(2657,2607);
 			resetAnimation();
+			sendMessage("Oh dear, you are dead.");
+			this.PRAY.disableAllPrayer();
 			return true;
 		}
 		generateKeepItems();
@@ -16524,57 +16682,49 @@ case 952://spade
 	break;
 
 case 3014:
-playerEnergy += 10;
-WriteEnergy();
+	runningEnergy += 10;
 setAnimation(829);
 deleteItem(3014, GetItemSlot(3014), 1);
 addItem(229, 1);
 break;
 case 3012:
-playerEnergy += 10;
-WriteEnergy();
+	runningEnergy += 10;
 setAnimation(829);
 deleteItem(3012, GetItemSlot(3012), 1);
 addItem(3014, 1);
 break;
 case 3010:
-playerEnergy += 10;
-WriteEnergy();
+	runningEnergy += 10;
 setAnimation(829);
 deleteItem(3010, GetItemSlot(3010), 1);
 addItem(3012, 1);
 break;
 case 3008:
-playerEnergy += 10;
-WriteEnergy();
+	runningEnergy += 10;
 setAnimation(829);
 deleteItem(3008, GetItemSlot(3008), 1);
 addItem(3010, 1);
 break;
 case 3022:
-playerEnergy += 20;
-WriteEnergy();
+	runningEnergy += 20;
 setAnimation(829);
 deleteItem(3022, GetItemSlot(3022), 1);
 addItem(229, 1);
 break;
 case 3020:
-playerEnergy += 20;
-WriteEnergy();
+	runningEnergy += 20;
 setAnimation(829);
 deleteItem(3020, GetItemSlot(3020), 1);
 addItem(3022, 1);
 break;
 case 3018:
-playerEnergy += 20;
-WriteEnergy();
+	runningEnergy += 20;
 setAnimation(829);
 deleteItem(3018, GetItemSlot(3018), 1);
 addItem(3020, 1);
 break;
 case 3016:
-playerEnergy += 20;
-WriteEnergy();
+	runningEnergy += 20;
 setAnimation(829);
 deleteItem(3016, GetItemSlot(3016), 1);
 addItem(3018, 1);
@@ -17540,6 +17690,11 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 	int applySnare = -1;
 	
 	private boolean AttackPlayerMagic(int index) {
+		int magicDistance = 6;
+		
+		if (!GoodDistance(server.playerHandler.players[index].absX, server.playerHandler.players[index].absY, absX, absY, magicDistance))
+			followingPlayerID = AttackingOn;
+		
 		if(LoopAttDelay > 0)
 			return false;
 		
@@ -17574,8 +17729,10 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 		int distanceBetweenMeAndMyEnemy = distanceBetweenPoints(EnemyX2, EnemyY2, absX, absY);
 		
 		//inStream.readSignedWordA();
-		if (distanceBetweenMeAndMyEnemy <= 6){				
-			if(debugmode) debug("playerIndex: "+playerIndex+" spellID: "+spellID);
+		if (distanceBetweenMeAndMyEnemy <= magicDistance){				
+			debug("playerIndex: "+playerIndex+" spellID: "+spellID);
+			
+			followingPlayerID = -1;
 			
 			PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
 			
@@ -17666,8 +17823,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 12881: //Ice Burst - Level 70
-				applySnare = 10;
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST,70);					
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST,70,true,10);					
 				return true;
 
 			case 12871: //Ice Blitz - Level 82
@@ -17676,8 +17832,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 12891: //Ice Barrage - Level 94
-				applySnare = 20;
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94);					
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94,true,20);					
 				return true;
 
 			case 12939: // Smoke Rush - Level 50
@@ -17685,7 +17840,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 12963: // Smoke Burst - Level 62
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST,62);		
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST,62,false,-1);		
 				return true;
 
 			case 12951: //Smoke Blitz - Level 74
@@ -17693,7 +17848,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 12975: //Smoke Barrage - Level 86
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86);
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86,false,-1);
 				return true;
 
 			case 12987: //Shadow Rush - Level 52
@@ -17701,7 +17856,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 13011: //Shadow Burst - Level 64
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST,64);
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST,64,false,-1);
 				return true;
 
 			case 12999: //Shadow Blitz - Level 76
@@ -17709,7 +17864,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 13023: //Shadow Barrage - Level 88
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88);
+				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88,false,-1);
 				return true;
 
 			case 12901: //Blood Rush - Level 56
@@ -17720,7 +17875,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 				
 			case 12919: //Blood Burst - Level 68
-				int total = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,376,21,BURST,68);
+				int total = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,376,21,BURST,68,false,-1);
 				if(total > 7) total = 7; //greatest amount that can be healed is 7
 				NewHP += total;
 				if(NewHP > getLevelForXP(playerXP[3])) 
@@ -17737,7 +17892,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 				break;
 
 			case 12929: //Blood Barrage - Level 92
-				int total3 = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92);
+				int total3 = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92,false,-1);
 				if(total3 > 8) total3 = 8; //greatest amount that can be healed is 8
 				NewHP += total3;
 				if(NewHP > getLevelForXP(playerXP[3])) 
@@ -17766,6 +17921,7 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 
 			return updateDelayAndDamagePlayer(playerIndex, damage);			
 		}
+		else followplayer(playerIndex);
 		return false;
 	}
 	
@@ -17893,7 +18049,7 @@ public int checkSpecials(int original, int Y, int X){
 				return 0;
 			original = c2;
 		}
-		playerEnergy += original/10; //adds 10% of hit to energy
+		runningEnergy += original/10; //adds 10% of hit to energy
 		return original; //return hit
 	}    
 	if (playerEquipment[playerWeapon] == 7158){ //Dragon 2h
@@ -17901,7 +18057,7 @@ public int checkSpecials(int original, int Y, int X){
 		specialDelay -= 6;
 		stillgfxz(246, absY, absX, 0, 20);
 		if (IsAttackingNPC)
-			attackNPCSWithin(original, 2);    		
+			attackNPCSWithin(original, 2, absX, absY);    		
 		return original; //
 	} 
 	if (playerEquipment[playerWeapon] == 3204){
@@ -18054,7 +18210,7 @@ private boolean hitNPC(int npcID, int damage){
 		return true;
 	}
 	catch(Exception e){
-		error("In hitNPC : "+e.getMessage());
+		error("In hitNPC : "+e.toString());
 		return false;
 	}
 }
@@ -18315,10 +18471,6 @@ public boolean AttackNPC() {
 		return 0;
 	}
 
-	public void WriteEnergy() {
-			playerEnergy = 100;
-		sendFrame126(playerEnergy + "%", 149);
-	}
 	public void appendPos() {
 		try {
 		ponline();
@@ -18465,6 +18617,8 @@ return (playerEquipment[playerHat] == 4724 && playerEquipment[playerChest] == 47
 //	playerMaxHit += misc.random(this.BOWHANDLER.getBonus());
 //	return playerMaxHit;
 //}
+
+
 
 public boolean MageHitNPC(int npcIndex){
 	if(server.npcHandler.npcs[npcIndex] == null) return false;
@@ -19678,7 +19832,7 @@ public boolean MageHit(int index) {
 		playerMessages = 0;
 		playerLastConnect = "";
 		playerLastLogin = 20050101;
-		playerEnergy = 100;
+		runningEnergy = 100;
 		playerEnergyGian = 0;
 		playerFollowID = -1;
 		playerGameTime = 0;
@@ -19885,8 +20039,6 @@ public int loadmoreinfo() {
 							pirate = Integer.parseInt(token2);
 						else if (token.equals("homeTeleportTimer"))
 							homeTeleportTimer = Integer.parseInt(token2);
-						else if (token.equals("skillsTeleportTimer"))
-							skillsTeleportTimer = Integer.parseInt(token2);
 						else if (token.equals("bandos"))
 							bandos = Integer.parseInt(token2);
 						else if (token.equals("armadyl"))
@@ -20138,9 +20290,6 @@ characterfile.write("[MOREINFO]", 0, 10);
 			String s6 = "homeTeleportTimer = "; characterfile.write(s6, 0, s6.length());
 			characterfile.write(Integer.toString(homeTeleportTimer), 0, Integer.toString(homeTeleportTimer).length());
 			characterfile.newLine();
-			String s7 = "skillsTeleportTimer = "; characterfile.write(s7, 0, s7.length());
-			characterfile.write(Integer.toString(skillsTeleportTimer), 0, Integer.toString(skillsTeleportTimer).length());
-			characterfile.newLine();
 			String s8 = "bandos = "; characterfile.write(s8, 0, s8.length());
 			characterfile.write(Integer.toString(bandos), 0, Integer.toString(bandos).length());
 			characterfile.newLine();
@@ -20374,7 +20523,7 @@ public int loadGame(String playerName, String playerPass) {
 						} else if (token.equals("character-lastlogin")) {
 							playerLastLogin = Integer.parseInt(token2);
 						} else if (token.equals("character-energy")) {
-							playerEnergy = Integer.parseInt(token2);
+							runningEnergy = Integer.parseInt(token2);
 						} else if (token.equals("character-gametime")) {
 							playerGameTime = Integer.parseInt(token2);
 						} else if (token.equals("character-gamecount")) {
@@ -20484,7 +20633,7 @@ public boolean savechar() {
 			characterfile.write(Integer.toString(playerLastLogin), 0, Integer.toString(playerLastLogin).length());
 			characterfile.newLine();
 			characterfile.write("character-energy = ", 0, 19);
-			characterfile.write(Integer.toString(playerEnergy), 0, Integer.toString(playerEnergy).length());
+			characterfile.write(Integer.toString((int)runningEnergy), 0, Integer.toString((int)runningEnergy).length());
 			characterfile.newLine();
 			characterfile.write("character-gametime = ", 0, 21);
 			characterfile.write(Integer.toString(playerGameTime), 0, Integer.toString(playerGameTime).length());
@@ -20654,7 +20803,7 @@ public boolean savecharbackup() {
 			characterfile.write(Integer.toString(playerLastLogin), 0, Integer.toString(playerLastLogin).length());
 			characterfile.newLine();
 			characterfile.write("character-energy = ", 0, 19);
-			characterfile.write(Integer.toString(playerEnergy), 0, Integer.toString(playerEnergy).length());
+			characterfile.write(Integer.toString((int)runningEnergy), 0, Integer.toString((int)runningEnergy).length());
 			characterfile.newLine();
 			characterfile.write("character-gametime = ", 0, 21);
 			characterfile.write(Integer.toString(playerGameTime), 0, Integer.toString(playerGameTime).length());
@@ -20851,7 +21000,7 @@ public int loadcharbackup() {
 						} else if (token.equals("character-lastlogin")) {
 							playerLastLogin = Integer.parseInt(token2);
 						} else if (token.equals("character-energy")) {
-							playerEnergy = Integer.parseInt(token2);
+							runningEnergy = Integer.parseInt(token2);
 						} else if (token.equals("character-gametime")) {
 							playerGameTime = Integer.parseInt(token2);
 						} else if (token.equals("character-gamecount")) {

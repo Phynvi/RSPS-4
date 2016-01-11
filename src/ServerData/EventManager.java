@@ -49,8 +49,6 @@ public class EventManager{
 					c.heal(1);				
 				if(c.homeTeleportTimer > 0)
 					c.homeTeleportTimer -= 1;
-				if(c.skillsTeleportTimer > 0)
-					c.skillsTeleportTimer -= 1;
 				c.NewHP = (c.playerLevel[c.playerHitpoints] + 1);
 				if (c.NewHP > c.getLevelForXP(c.playerXP[c.playerHitpoints])) 
 					c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);	
