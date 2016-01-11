@@ -16,7 +16,7 @@ class playerInstances {
 	public int spinningTimer = 0;
 	public static npcDialogueBST DIALOGUEHANDLER;
 	public String bankRearrange = "swap"; //default
-	public miscStructs MISCSTRUCTS;
+	public FoodHandler MISCSTRUCTS;
 	public long itemTimer = 0;
 	public String[] skillMasterDialogue;
 	public String skillMasterName, skillName;

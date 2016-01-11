@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.security.*;
 
-
 public class client extends Player implements Runnable {
 	
 	private ClientMethodHandler methodHandler = new ClientMethodHandler(this);
@@ -704,7 +703,7 @@ public class client extends Player implements Runnable {
 	public void StartVariables(){
 		this.Events = new EventManager();
 		DIALOGUEHANDLER = new npcDialogueBST();
-		this.MISCSTRUCTS = new miscStructs(this);
+		this.MISCSTRUCTS = new FoodHandler(this);
 		this.FLETCHING = new Fletching(this);
 		this.MAGICDATAHANDLER = new MagicDataHandler(this);
 		this.BOWHANDLER = new RangeDataHandler(this);

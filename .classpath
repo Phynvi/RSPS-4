@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="Handlers/|Structs/|Skills/|Skills/|ServerData/|ServerData/" kind="src" path="src"/>
+	<classpathentry excluding="Structs/|Skills/|Skills/|ServerData/|ServerData/|Handlers/client/|Handlers/|Handlers/|Handlers/clientHandlers/|Handlers/player/|Handlers/NPC/|Handlers/player/skills/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/Handlers/player/skills"/>
+	<classpathentry kind="src" path="src/Handlers/NPC"/>
+	<classpathentry excluding="skills/" kind="src" path="src/Handlers/player"/>
+	<classpathentry kind="src" path="src/Handlers/clientHandlers"/>
+	<classpathentry excluding="clientHandlers/|player/|NPC/|player/skills/" kind="src" path="src/Handlers"/>
 	<classpathentry kind="src" path="src/ServerData"/>
-	<classpathentry kind="src" path="src/Skills"/>
-	<classpathentry kind="src" path="src/Handlers"/>
 	<classpathentry kind="src" path="src/Structs"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="bin"/>
