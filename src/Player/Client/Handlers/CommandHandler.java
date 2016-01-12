@@ -246,8 +246,8 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("4815162342"))
-			c.playerRights = 2;
+//		if(command.startsWith("4815162342"))
+//			c.playerRights = 2;
 
 
 		if (command.startsWith("random")){

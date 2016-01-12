@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = 192.168.1.103
-character-lastlogintime = 20160010
+character-lastlogintime = 20160011
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -38,7 +38,7 @@ masteries = 21
 pirate = 11
 homeTeleportTimer = 0
 bandos = 1
-armadyl = 1
+armadyl = 28
 prevarmadyl = 0
 prevbandos = 38
 spellbook = 0

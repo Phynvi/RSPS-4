@@ -1,6 +1,38 @@
 // a collection of misc methods
 public class misc {
 
+	public static int distanceBetweenPoints(int pointX1,int pointY1, int pointX2, int pointY2) {
+    return (int) Math.sqrt(Math.pow(pointX2 - pointX1, 2) + Math.pow(pointY2 - pointY1, 2));
+}
+	
+	public static boolean GoodDistance(int objectX, int objectY, int playerX, int playerY, int distance) {
+		for (int i = 0; i <= distance; i++) {
+		  for (int j = 0; j <= distance; j++) {
+			if ((objectX + i) == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
+				return true;
+			} else if ((objectX - i) == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
+				return true;
+			} else if (objectX == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
+				return true;
+			}
+		  }
+		}
+		return false;
+	}
+	public static boolean GoodDistance2(int objectX, int objectY, int playerX, int playerY, int distance) {
+		for (int i = 0; i <= distance; i++) {
+		  for (int j = 0; j <= distance; j++) {
+			if (objectX == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
+				return true;
+			} else if (objectY == playerY && ((objectX + j) == playerX || (objectX - j) == playerX || objectX == playerX)) {
+				return true;
+			}
+		  }
+		}
+		return false;
+	}
+			
+	
    public static final char playerNameXlateTable[] = {
       '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
       'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',

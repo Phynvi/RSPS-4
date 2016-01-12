@@ -12,187 +12,40 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private Combat combatHandler = new Combat(this);
+	
+	public Combat getCombatHandler(){
+		return this.combatHandler;
+	}
+	
+	private ObjectClick objectClickHandler = new ObjectClick(this);
+	
+	public ObjectClick getObjectClickHandler(){
+		return this.objectClickHandler;
+	}
+	
+	private InventoryHandler inventoryHandler = new InventoryHandler(this);
+	
+	public InventoryHandler getInventoryHandler(){
+		return this.inventoryHandler;
+	}
+	
 	private ClientMethodHandler methodHandler = new ClientMethodHandler(this);
 	
-	public ClientMethodHandler getPlayerMethodHandler(){
+	public ClientMethodHandler getClientMethodHandler(){
 		return this.methodHandler;
 	}
 	
-  public void followplayer(int j)
-  {
-  	if(j == -1) return;
-  	client p = (client)PlayerHandler.players[j];
-  	if(p == null){
-  		error("In followPlayer : client at player index "+j+" is null");
-  		followingPlayerID = -1;  		
-  		return;
-  	}
-  	int walkToX = 0;
-  	int walkToY = 0;
-  	if(p.GoodDistance(absX, absY, p.absX, p.absY, 15)){
-	  	if(!p.GoodDistance(absX, absY, p.absX, p.absY, 1)){
-	  		if(p.absX > absX) walkToX = 1;
-	  		if(p.absX < absX) walkToX = -1;
-	  		if(p.absY > absY) walkToY = 1;
-	  		if(p.absY < absY) walkToY = -1;
-//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
-  			
-	  		/*pathfinding*/
-	  		if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY+walkToY] != -1){
-	  			WalkTo(walkToX, walkToY);
-	  			requirePlayerUpdate();
-	  			p.requirePlayerUpdate();
-	  			return;
-	  		}
-	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX][absY+walkToY] != -1){
-	  			WalkTo(0, walkToY);
-	  			requirePlayerUpdate();
-	  			p.requirePlayerUpdate();
-	  			return;
-	  		}
-	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY] != -1){
-	  			WalkTo(walkToX, 0);
-	  			requirePlayerUpdate();
-	  			p.requirePlayerUpdate();
-	  			return;
-	  		}
-	  	} 
-	  	else {
-	  		faceNPC = 32768+j;
-	  		faceNPCupdate = true;
-	  	}
-  	}
-  	else{
-  		followingPlayerID = -1;
-  		faceNPC = 65535;
-  		faceNPCupdate = true;
-  	}
-  }
+	private FrameMethods frameMethodHandler = new FrameMethods(this);
 	
+	public FrameMethods getFrameMethodHandler(){
+		return this.frameMethodHandler;
+	}
 	
-	/**
-	 * 
-	 * @param x1 side 1 X
-	 * @param y1 side 1 Y
-	 * @param x2 side 2 X
-	 * @param y2 side 2 Y
-	 * @param emote Emote to use during obstacle
-	 * @param level Required to use obstacle
-	 * @param exp experience given, multiplied by rate
-	 * @param isFast Set to True if running during emote
-	 * @return
-	 */
-	private boolean agilityTeleport(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean dmg, int amount, String msg){
-		if(playerLevel[playerAgility] >= level){
-			int chance = playerLevel[playerAgility]-level;		
-			if(absX == x1 && absY == y1){
-				teleport(x2, y2);
-				if(dmg && misc.random(chance) == 0){
-//					damagePlayer(playerId, misc.random(amount));
-//					sendMessage("You injure yourself.");
-				}
-				startAnimation(emote);
-				return true;
-			}
-			if(absX == x2 && absY == y2){
-				teleport(x1,y1);
-				if(dmg && misc.random(chance) == 0){
-//					damagePlayer(playerId, misc.random(amount));
-//					sendMessage("You injure yourself.");
-				}
-				startAnimation(emote);
-				return true;
-			}
-			return false;
-		}
-		else {
-			sendMessage("You need "+level+" agility to do that.");
-			return false;
-		}
-	}	
-	
-	/**
-	 * 
-	 * @param x1 side 1 X
-	 * @param y1 side 1 Y
-	 * @param x2 side 2 X
-	 * @param y2 side 2 Y
-	 * @param emote Emote to use during obstacle
-	 * @param level Required to use obstacle
-	 * @param exp experience given, multiplied by rate
-	 * @param isFast Set to True if running during emote
-	 * @return
-	 */
-	private boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, String msg){
-		if(playerLevel[playerAgility] >= level){
-			int chance = playerLevel[playerAgility]-level;	
-			if(absX == x1 && absY == y1){
-				walkingemote(emote, x2, y2, exp, isFast);
-				if(dmg && misc.random(chance) == 0){
-					damagePlayer(playerId, misc.random(amount));
-					sendMessage("You injure yourself.");
-				}
-				return true;
-			}
-			if(absX == x2 && absY == y2){
-				walkingemote(emote, x1, y1, exp, isFast);
-				if(dmg && misc.random(chance) == 0){
-					damagePlayer(playerId, misc.random(amount));
-					sendMessage("You injure yourself.");
-				}
-				return true;
-			}
-			return false;
-		}
-		else {
-			sendMessage("You need "+level+" agility to do that.");
-			return false;
-		}
+	public Agility getAgilityHandler(){
+		return this.AGILITY;
 	}
 		
-	private int getSpecAmount(){
-		switch(playerEquipment[playerWeapon]){
-		case Item.KARILSCROSSBOW:
-		case 1434: //dargon mace? 
-			return 2;
-			
-		case 1215: //dragon dagger
-		case 1231: //dragon dagger
-		case 5680: //dragon dagger
-		case 5698: //dragon dagger
-		case 3204: //dragon halberd
-			return 3;
-			
-		case 1305: //Dragon Longsword
-			return 4;
-		
-		case 861: //magic shortbow
-		case 4153: //gmaul
-		case 4151: //abby whip
-		case 15333: //Armadyl Godsword
-		case 15335: //Saradomin Godsword
-			return 5;
-			
-		case Item.DARKBOW:
-		case 4587: //Dragon Scimitar
-		case 15336: //Zaradomin Godsword
-			return 6;	
-			
-		case Item.CRYSTALBOW:	
-		case 6739: //dragon mace ?	
-		case 1377: //Dragon battleaxe		
-		case 11337: //Dragon Claws
-		case 15351: //Saradomin Sword
-		case 15334: //Bandos Godsword
-		case 35: //Excalibur
-			return 10;
-		
-		
-			default:
-				sendMessage("This weapon does not have a special.");
-				return -1;
-		}
-	}
 	
 	public void updateIdle(){
 		idleTimer = 6;
@@ -208,348 +61,7 @@ public class client extends Player implements Runnable {
 		savechar();
 		System.out.println(playerName+" disconnected reason : "+reason);
 	}
-	
-	protected boolean teleArea(){
-		if((isInArea(3644,2937,3716,3011) && pirate < 10) || isInPKZone() || isInArea(3455,9470,3522,9536) || (absX >=2002  && absX <=2035 && absY >=4814  && absY <=4833) || (absX >=3121  && absX <=3125 && absY >=3240  && absY <=3243) || (absX >=3138  && absX <=3186 && absY >=3718  && absY <=3748))
-			return false;
-		return true;
-	}
-	
-	public boolean eat(int itemID, int slotID){
-		startAnimation(1191);
-		heal(this.MISCSTRUCTS.getFoodHealAmount(itemID));
-		deleteItem(itemID, slotID, 1);
-		return true;
-	}
-	
-	public int playerMagicDefBonus(){
-		double defBonus = (double)playerLevel[playerMagic]/9.0;
-		double defBonusEffect = ((double)playerLevel[playerMagic]/9.0)*(double)defEffect/100.0;
-		double levelBonus = defBonus+defBonusEffect;
-		int defrandom = (int)levelBonus;
-		int defrandom2 = (playerLevel[playerMagic]+1)/25 + getShieldMagicDefBonus(); //static defence given
-		int defTotal = misc.random(defrandom+defrandom2);
-		return defTotal;
-	}
-	
-	public int playerMagicDefBonusStatic(){
-		double defBonus = (double)playerLevel[playerMagic]/9.0;
-		double defBonusEffect = ((double)playerLevel[playerMagic]/9.0)*(double)defEffect/100.0;
-		double levelBonus = defBonus+defBonusEffect;
-		int defrandom = (int)levelBonus;
-		int defrandom2 = (playerLevel[playerMagic]+1)/25 + getShieldMagicDefBonus(); //static defence given
-		return defrandom+defrandom2;
-	}
-	
-	/**
-	 * Can get deductions as high as ~15
-	 * @return amount to be deducted from hit on player
-	 */
-	public int playerMeleeDefBonus(){
-		double defBonus = (double)playerLevel[1]/9.0;
-		double defBonusEffect = ((double)playerLevel[1]/9.0)*(double)defEffect/100.0;
-		double levelBonus = defBonus+defBonusEffect;
-		int defrandom = (int)levelBonus;
-		int defrandom2 = (playerLevel[1]+1)/25 + getShieldDefBonus();
-		int defTotal = misc.random(defrandom+defrandom2);
-		return defTotal;
-	}
-	
-	public int playerMeleeDefBonusStatic(){
-		double defBonus = (double)playerLevel[1]/9.0;
-		double defBonusEffect = ((double)playerLevel[1]/9.0)*(double)defEffect/100.0;
-		double levelBonus = defBonus+defBonusEffect;
-		int defrandom = (int)levelBonus;
-		int defrandom2 = (playerLevel[1]+1)/25 + getShieldDefBonus();
-		return defrandom+defrandom2;
-	}
-	
-	public boolean ElysianSpiritShield(){
-		return(playerEquipment[playerShield] == 3637);
-	}
-	
-	public boolean DivineSpiritShield(){
-		return(playerEquipment[playerShield] == 3631);
-	}
-	
-	
-	public int getShieldDefBonus(){
-		if(hasDFS()) return getDFSBonus();
-		switch(playerEquipment[playerShield]){
-		default:
-			return 0;
-		}
-	}
-	
-	public int getShieldMagicDefBonus(){
-		if(hasDFS()) return getDFSBonus();
-		switch(playerEquipment[playerShield]){
-		case 3629: //Spectral Spirit Shield
-			return 6;
-		case 3635: case 3637: case 3627: case 3631: //all other high level spirit shields
-			return 4;
-		default:
-			return 0;
-		}
-	}
-	
-	public int getDFSBonus(){
-			return dragcharge/10;
-	}
-	
-	/**
-	 * Heals player by amount
-	 * @return True by default
-	 */
-	public boolean heal(int amount){
-		NewHP += amount;
-		if(NewHP > getLevelForXP(playerXP[3])) 
-			NewHP = getLevelForXP(playerXP[3]);
-		return true;
-	}
-
-	private boolean setAutocast(int magicID){
-		int lvl = this.MAGICDATAHANDLER.checkMagicLevel(magicID);
-		if(playerLevel[playerMagic] >= lvl){
-			if(!this.MAGICDATAHANDLER.checkMagicRunes(magicID)){
-				setSidebarInterface(0, 328);
-				return false;
-			}
 			
-			setSidebarInterface(0, 328);
-			spellID = magicID;
-			autocast = true;
-			sendMessage("Autocast has been activated.");
-			return true;
-		}
-		sendMessage("You need at least "+lvl+" Magic to do that.");
-		setSidebarInterface(0, 328);
-		return false;
-	}
-	
-	private boolean magicOnNPC(int npcIndex){
-		if(LoopAttDelay > 0)
-			return false;
-
-		teleportToX = absX;
-		teleportToY = absY;
-
-		if(!server.npcHandler.npcs[npcIndex].attackable) return false;
-
-		debug("npcIndex: "+npcIndex+" magicID: "+spellID);
-
-		int npcID = server.npcHandler.npcs[npcIndex].npcType;             
-		if( (DIALOGUEHANDLER.exists(npcID) || lists.safeNPCs.exists(npcID)) && npcID != 1 && npcID != 2 && npcID != 3 &&
-				npcID != 4 && npcID != 5 && npcID != 6 && npcID != 7)
-			return false;
-
-		int required = this.MAGICDATAHANDLER.checkMagicLevel(spellID);
-		if(playerLevel[playerMagic] < required){
-			sendMessage("You need "+required+" Magic to do that.");
-			return false;
-		}
-
-		if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID))
-			return false;
-
-		int EnemyX2 = server.npcHandler.npcs[npcIndex].absX;
-		int EnemyY2 = server.npcHandler.npcs[npcIndex].absY;
-		int EnemyHP2 = server.npcHandler.npcs[npcIndex].HP;
-		int hitDiff = 0;
-		if(EnemyX2 != absX && EnemyY2 != absY)
-			faceNPC(npcIndex);
-
-		if(server.npcHandler.npcs[npcIndex].attacknpc > 0) {
-			sendMessage("You can't attack a dueling npc");
-			return false;
-		}
-
-		
-		if((server.npcHandler.npcs[npcIndex] != null) && (server.npcHandler.npcs[npcIndex].followPlayer < 1 || server.npcHandler.npcs[npcIndex].followPlayer == playerId)) {
-			//MageAttackIndex = npcIndex+1;
-			{					
-				try {
-					int distanceBetweenMeAndMyEnemy = distanceBetweenPoints(EnemyX2, EnemyY2, absX, absY);
-					if (distanceBetweenMeAndMyEnemy > 6) return false;
-					
-					server.npcHandler.npcs[npcIndex].StartKilling = playerId;
-					server.npcHandler.npcs[npcIndex].RandomWalk = false;
-					server.npcHandler.npcs[npcIndex].IsUnderAttack = true;
-
-					int casterX = absX;
-					int casterY = absY;
-					int offsetX = (casterX - EnemyX2) * -1;
-					int offsetY = (casterY - EnemyY2) * -1;
-
-					int BURST = 2;
-					int BARRAGE = 3;
-					inCombat();
-					this.MAGICDATAHANDLER.removeMagicRunes(spellID);
-
-					PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
-
-					switch(spellID){ 
-					case 1152: //Wind Strike
-						hitDiff = ProjectileSpell(90, 95, 92, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 2,1);
-						break;
-
-					case 1154: //Water Strike
-						hitDiff = ProjectileSpell(93, 94, 95, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 4,5);
-						break;
-
-					case 1156: //Earth Strike
-						hitDiff = ProjectileSpell(96, 97, 98, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 6,9);
-						break;
-
-					case 1158: //Fire Strike
-						hitDiff = ProjectileSpell(99, 100, 101, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 8,13);
-						break;
-
-					case 1160: //Wind Bolt
-						hitDiff = ProjectileSpell(117, 118, 119, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 9,17);
-						break;
-					case 1163: //thing
-						hitDiff = ProjectileSpell(120, 121, 122, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 10,23);
-						break;
-
-					case 1166: //Earth Bolt
-						hitDiff = ProjectileSpell(123, 124, 125, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 11,29); 
-						break;
-
-					case 1169: //Fire Bolt
-						hitDiff = ProjectileSpell(126, 127, 128, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 12,35);
-						break;
-
-					case 1172: //Wind Blast
-						hitDiff = ProjectileSpell(132, 133, 134, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 13,41);
-						break;
-
-					case 1175: //Water Blast
-						hitDiff = ProjectileSpell(135, 136, 137, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14,47);
-						break;
-
-					case 1177: //Earth Blast
-						hitDiff = ProjectileSpell(138, 139, 140, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15,53);
-						break;
-
-					case 1181: //Fire Blast
-						hitDiff = ProjectileSpell(129, 130, 131, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16,59);
-						break;
-
-					case 1183: //Wind Wave
-						hitDiff = ProjectileSpell(158, 159, 160, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17,62);
-						break;
-
-					case 1185: //Water Wave
-						hitDiff = ProjectileSpell(161, 162, 163, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 18,65);
-						break;
-
-					case 1188: //Earth Wave
-						hitDiff = ProjectileSpell(164, 165, 166, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 19,70);
-						break;
-
-					case 1189: //Fire Wave
-						hitDiff = ProjectileSpell(155, 156, 157, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 20,75);
-						break;
-
-					case 12861: //Ice Rush - Level 58
-						hitDiff = ancientsProjectileSpell(360, 360, 361, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17,58);
-						break;
-
-					case 12881: //Ice Burst - Level 70
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,363,22,BURST,70);					
-						return true;
-
-					case 12871: //Ice Blitz - Level 82
-						hitDiff = ancientsProjectileSpell(366, 367, 368, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 26,82);
-						break;
-
-					case 12891: //Ice Barrage - Level 94
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94);					
-						return true;
-
-					case 12939: // Smoke Rush - Level 50
-						hitDiff = ancientsProjectileSpell(384, 384, 385, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14,50);
-						break;
-
-					case 12963: // Smoke Burst - Level 62
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,389,18,BURST,62);		
-						return true;
-
-					case 12951: //Smoke Blitz - Level 74
-						hitDiff = ancientsProjectileSpell(386, 386, 387, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 23,74);
-						break;
-
-					case 12975: //Smoke Barrage - Level 86
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86);
-						return true;
-
-					case 12987: //Shadow Rush - Level 52
-						hitDiff = ancientsProjectileSpell(378, 378, 379, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15,52);
-						break;
-
-					case 13011: //Shadow Burst - Level 64
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,382,19,BURST,64);
-						return true;
-
-					case 12999: //Shadow Blitz - Level 76
-						hitDiff = ancientsProjectileSpell(380, 380, 381, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 24,76);
-						break;
-
-					case 13023: //Shadow Barrage - Level 88
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88);
-						return true;
-
-					case 12901: //Blood Rush - Level 56
-						hitDiff = ancientsProjectileSpell(372, 372, 373, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16,56);
-						NewHP += hitDiff/4;
-						if(NewHP > getLevelForXP(playerXP[3])) 
-							NewHP = getLevelForXP(playerXP[3]);
-						break;
-
-					case 12919: //Blood Burst - Level 68
-						int total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,376,21,BURST,68)/4;
-						if(total > 7) total = 7; //greatest amount that can be healed is 7
-						NewHP += total;
-						if(NewHP > getLevelForXP(playerXP[3])) 
-							NewHP = getLevelForXP(playerXP[3]);
-						return true;
-
-					case 12911: //Blood Blitz - Level 80
-						hitDiff = ancientsProjectileSpell(374, 374, 375, absY, absX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 25,80);
-						total = hitDiff/4;
-						if(total > 7) total = 7; //greatest amount that can be healed is 7
-						NewHP += total;
-						if(NewHP > getLevelForXP(playerXP[3])) 
-							NewHP = getLevelForXP(playerXP[3]);
-						break;
-
-					case 12929: //Blood Barrage - Level 92
-						total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92)/4;
-						if(total > 8) total = 8; //greatest amount to heal is 8
-						NewHP += total;
-						if(NewHP > getLevelForXP(playerXP[3])) 
-							NewHP = getLevelForXP(playerXP[3]);
-						return true;
-
-					default:
-						debug("Unhandled magicID : "+spellID);
-						return false;
-					}
-
-					if(!MageHitNPC(npcIndex)) hitDiff = 0;
-					
-					return updateDelayAndHitNPC(npcIndex, hitDiff);
-				}
-				catch(Exception e) {
-					error("In magic on NPCs, "+e.toString());
-					return false;
-				}
-
-			} 
-		}
-		return false;
-	}
 
 	
 	/**
@@ -656,16 +168,6 @@ public class client extends Player implements Runnable {
 	 * Checks spamtimer to current system millis
 	 * @return true if method was called within 2000 MS
 	 */
-	public boolean isObjSpamming(){
-		if (System.currentTimeMillis() - objtimer < SPAMAMOUNT)
-			return true;
-		return false;
-	}
-	
-	/**
-	 * Checks spamtimer to current system millis
-	 * @return true if method was called within 2000 MS
-	 */
 	public boolean isItemSpamming(){
 		if (System.currentTimeMillis() - itemTimer < 750)
 			return true;
@@ -675,20 +177,6 @@ public class client extends Player implements Runnable {
 	public void selectoptions(String optName, String opt1, int x1, int y1, String opt2, int x2, int y2, String opt3, int x3, int y3, String opt4, int x4, int y4){
 		optionsMenu = true;		oX1 = x1;		oX2 = x2;		oX3 = x3;		oX4 = x4;		oY1 = y1;		oY2 = y2;		oY3 = y3;		oY4 = y4;				
 		selectoption2(optName, opt1, opt2, opt3, opt4);		
-	}
-	
-	/**
-	 * Is the common teleport method to call when changing x and y
-	 */
-	public void teleport(int x, int y){
-		teleport(x,y,0);
-	}
-	
-	public void teleport(int x, int y, int h){
-			teleportToX = x;
-			teleportToY = y;
-			heightLevel = h;
-			requirePlayerUpdate();
 	}
 	
 	
@@ -2121,35 +1609,7 @@ public void allSdisable(){
 	
 public client(){}
 
-/**
- * Tolkenizes and prints to screen by # character
- * @param s Text to print to screen, returns by # character
- */
-public void Menu(String s){
-	clearQuestInterface();
-	String s2 = "";
-	int start = 0;
-	int end = 0;
-	end = s.indexOf('#');
 
-	for (int i = 0; end != -1; ++i){
-		try{
-			s2 = s.substring(start, end);
-			//println_debug("s2 is : "+s2);
-			sendFrame126(s2, (8144+i));
-		}
-		catch (NullPointerException e){
-
-		} 
-		start = end+1;
-		end = s.indexOf('#', start);
-	}				
-
-	sendQuestSomething(8139);
-	showInterface(8134);
-	flushOutStream();		
-
-}
 
 public void menu(String ... lines){
 	if(lines.length == 1){ //should be handled by other method
@@ -2517,106 +1977,10 @@ apickupy = -1;
 }
 }
 
-public boolean ItemInBagOrEquipped(int id){
-if (IsItemInBag(id) == true || playerEquipment[playerWeapon] == id || playerEquipment[playerLegs] == id || playerEquipment[playerChest] == id ||
- playerEquipment[playerRing] == id || playerEquipment[playerArrows] == id || playerEquipment[playerAmulet] == id ||
-  playerEquipment[playerShield] == id || playerEquipment[playerHands] == id || playerEquipment[playerFeet] == id || 
-   playerEquipment[playerHat] == id || playerEquipment[playerCape] == id){
-  return true;
-  }
-return false;
-}
-
-public boolean ItemInBagOrEquipped(int ... id){
-	for(int i = 0; i < id.length; i++){
-		if (IsItemInBag(id[i]) == true || playerEquipment[playerWeapon] == id[i] || playerEquipment[playerLegs] == id[i] || playerEquipment[playerChest] == id[i] ||
-				playerEquipment[playerRing] == id[i] || playerEquipment[playerArrows] == id[i] || playerEquipment[playerAmulet] == id[i] ||
-				playerEquipment[playerShield] == id[i] || playerEquipment[playerHands] == id[i] || playerEquipment[playerFeet] == id[i] || 
-				playerEquipment[playerHat] == id[i] || playerEquipment[playerCape] == id[i]){
-			return true;
-		}
-	}
-	return false;
-}
-
-
-/**
- * 
- * @param emote Emote to do until finished
- * @param agilX2 Destination X
- * @param agilY2 Destination Y
- * @param exp Exp to give, multiplied by rate
- * @param isFast set to True if you want to run
- */
-public void walkingemote(int emote, int agilX2, int agilY2, int exp, boolean isFast){
-obstacle = System.currentTimeMillis();
-
-
-if(isRunning2) wasrunning = true;
-else wasrunning = false;
-
-if(isFast) isRunning2 = true;
-else isRunning2 = false;
-
-agilX = agilX2;
-agilY = agilY2;
-playerSEW = emote;
-playerSER = emote;
-int X = agilX2-absX;
-int Y = agilY2-absY;
-    WalkTo(X, Y);
-    addSkillXP(exp*rate, 16);
-}
-
-public void walkingemote4(int emote, int agilX2, int agilY2, int X, int Y, int exp){
-obstacle = System.currentTimeMillis();
-if (isRunning2 == true){
-isRunning2 = false;
-wasrunning = true;
-}
-agilX = agilX2;
-agilY = agilY2;
-playerSEW = emote;
-playerSER = emote;
-    WalkTo(X, Y);
-    addSkillXP(exp, 16);
-}
-public void walkingemote(int emote, int agilX2, int agilY2){
-obstacle = System.currentTimeMillis();
-if (isRunning2 == true){
-isRunning2 = false;
-wasrunning = true;
-}
-agilX = agilX2;
-agilY = agilY2;
-playerSEW = emote;
-playerSER = emote;
-}
-
-public void walkingemote3(int emote, int agilX2, int agilY2, int X, int Y, int exp){
-obstacle = System.currentTimeMillis();
-if (isRunning2 == true){
-wasrunning = true;
-}
-else if (isRunning2 == false){
-wasrunning = false;
-isRunning2 = true;
-}
-    playerSEW = emote;
-    playerSER = emote;
-    agilX = agilX2;
-    agilY = agilY2;
-    WalkTo(X, Y);
-    addSkillXP(exp, 16);
-}
-
+	
 //agility walk to!
 
-	public void WalkTo(int x, int y) {
-		noClick = true;
-		noClickTimeout = 10;
-		shouldbeX = absX+x;
-		shouldbeY = absY+y;
+	public void walkTo(int x, int y) {
 		newWalkCmdSteps = Math.abs(y)+Math.abs(x);
 		if (newWalkCmdSteps % 1 != 0) newWalkCmdSteps /= 1;
 		if (++newWalkCmdSteps > walkingQueueSize) {
@@ -2644,33 +2008,6 @@ isRunning2 = true;
 	}
 	
 //agility walk to!
-
-	public void makeLocalObject(int x, int y, int typeID, int orientation, int tileObjectType){ //Makes Global objects
-		if(distanceToPoint(x, y) <= 60)
-			createNewTileObject(x, y, typeID, orientation, tileObjectType);
-	}	
-
-public void makeGlobalObject(int x, int y, int typeID, int orientation, int tileObjectType){ //Makes Global objects
-		for (Player p : server.playerHandler.players){
-			if(p != null){
-				client person = (client)p;
-			if((person.playerName != null || person.playerName != "null")){
-				if(person.distanceToPoint(x, y) <= 60){
-					person.createNewTileObject(x, y, typeID, orientation, tileObjectType);
-				}
-			}
-		}
-	}
-}
-
-public void deletethatwall(int objectX, int objectY) {
-ReplaceObject2(objectX, objectY, 6951, -1, 0);
-}
-
-public void deletethatobject(int objectX, int objectY) { 
-	ReplaceObject2(objectX, objectY, 6951, -1, 10);
-	}
-
 
 public void DragonBaxeSpecial(){        
         litBar = false;
@@ -3438,21 +2775,6 @@ public int totalz = (getLevelForXP(playerXP[0]) + getLevelForXP(playerXP[1]) + g
 		}
 	}
 	
-	public int distanceBetweenPoints(int pointX1,int pointY1, int pointX2, int pointY2) {
-    return (int) Math.sqrt(Math.pow(pointX2 - pointX1, 2) + Math.pow(pointY2 - pointY1, 2));
-}
-
-	public int getItemSlot(int itemID)
-	{
-		for (int slot=0; slot < playerItems.length; slot++)
-		{
-			if (playerItems[slot] == (itemID +1))
-			{
-				return slot;
-			}
-		}
-		return -1;
-	}
 	public void setconfig(int settingID, int value) {	
 		outStream.createFrame(36);
 		outStream.writeWordBigEndian(settingID);
@@ -3486,42 +2808,6 @@ public boolean isUntradable(int item) {
 
 /* OBJECTS MAIN */
 
-
-	public void ReplaceObject(int objectX, int objectY, int NewObjectID, int Face) {
-		outStream.createFrameVarSizeWord(60);
-		outStream.writeByte(objectY - (mapRegionY * 8));
-		outStream.writeByteC(objectX - (mapRegionX * 8));
-		/*DELETE OBJECT*/
- 		outStream.writeByte(101);
-		outStream.writeByteC(0);
-		outStream.writeByte(0);
-		/*CREATE OBJECT*/
-		if (NewObjectID > -1) {
-			outStream.writeByte(151);
-			outStream.writeByteS(0);
-			outStream.writeWordBigEndian(NewObjectID);
-			outStream.writeByteA(Face); //0= WEST | -1 = NORTH | -2 = EAST | -3 = SOUTH
-		}
-		outStream.endFrameVarSizeWord();
-                }
-	public void ReplaceObject2(int objectX, int objectY, int NewObjectID, int Face, int ObjectType) {
-		outStream.createFrame(85);
-		outStream.writeByteC(objectY - (mapRegionY * 8));
-		outStream.writeByteC(objectX - (mapRegionX * 8));
-
-		outStream.createFrame(101);
-		outStream.writeByteC((ObjectType<<2) + (Face&3));
-		outStream.writeByte(0);
-
-		if (NewObjectID != -1) {
-			outStream.createFrame(151);
-			outStream.writeByteS(0);
-			outStream.writeWordBigEndian(NewObjectID);
-			outStream.writeByteS((ObjectType<<2) + (Face&3));
-			//FACE: 0= WEST | -1 = NORTH | -2 = EAST | -3 = SOUTH
-			//ObjectType: 0-3 wall objects, 4-8 wall decoration, 9: diag. walls, 10-11 world objects, 12-21: roofs, 22: floor decoration
-		}
-	}
 	public void AddGlobalObj(int objectX, int objectY, int NewObjectID, int Face, int ObjectType) {
          for (Player p : server.playerHandler.players)
           {
@@ -3590,6 +2876,7 @@ public void ResetWalkTo() {
 	destinationRange = 1;
 	WalkingTo = false;
 }
+
 
 public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
 		debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
@@ -5523,399 +4810,11 @@ public void createAreaDisplayType(){
 	sendQuest("@gre@Safe", 199);
 }
 
-public boolean isInPKZone(){
-	if(isInArea(2583,3153,2606,3170))
-		return true;
-	//PK area, Istafdar, Tyras Camp
-	if(isInArea(2363,3314,2392,3333))
-		return true;
-	
-	if(isInArea(2169,3072,2366,3344) && !isInArea(2319,3150,2359,3194) && !isInArea(2174,3131,2201,3163) && !isInArea(2204,3257,2209,3259)) //pk camps
-		return true;	
-	
-//	if(isInArea(2111,4893,2160,4931) && !isInArea(2128,4904,2137,4910)) //old pk zone - draynor 
-//		return true;
-	
-	return false;
-}
-
 public void checkWildRange(int pcombat){
 	if(((combat + WildyLevel >= pcombat) && (pcombat >= combat)) || ((combat - WildyLevel <= pcombat) && (pcombat <= combat)))
 		inWildRange = true;
 	else inWildRange = true; //default false
 }
-
-/*TESTING FRAMES*/
-
-// anInt1008 frames:
-public void frame60(int i1, int i2, int i3)
-{
-outStream.createFrame(60);
-outStream.writeByte(i1);
-outStream.writeByteC(i2);
-outStream.writeByte(i3);
-}
-public void frame60rename(int cameraX, int cameraY, int jFrame)
-{
-outStream.createFrame(60);
-outStream.writeByte(cameraX);
-outStream.writeByteC(cameraY);
-outStream.writeByte(jFrame);
-}
-public void frame8(int i1, int i2) // worked out what it does, but it doesn't seem to do anything wtfz XD
-{
-outStream.createFrame(8);
-outStream.writeWordBigEndianA(i1); // interface
-outStream.writeWord(i2); // weapon id being drawn
-}
-public void frame64(int i1, int i2) // tested, found nothing, apparently something to do with dropped items
-{
-outStream.createFrame(64);
-outStream.writeByteS(i1);
-outStream.writeByteA(i2);
-}
-public void frame72(int i1) // logs you out :S
-{
-outStream.createFrame(72);
-outStream.writeWordBigEndian(i1);
-}
-public void frame74(int i1) // MUSIC!
-{
-outStream.createFrame(74);
-outStream.writeWordBigEndian(i1);
-}
-public void frame121(int i1, int i2) // MUSIC! this one used alot less often though :D
-{
-outStream.createFrame(121);
-outStream.writeWord(i1);
-outStream.writeByteS(i2);
-}
-public void frame122(int i1, int i2) // colour changing on interface :O!
-{
-outStream.createFrame(122);
-outStream.writeWordBigEndianA(i1); // interface
-outStream.writeWordBigEndianA(i2); // colour stuff
-}
-public void frame166(int i1, int i2, int i3, int i4, int i5) // CAMERA STUFF!!!!! 0 on all makes it lock on that place, make last over 100 to make it go black!! - xerozcheez
-{
-outStream.createFrame(166); 
-outStream.writeByte(i1); // X coord where camera will end within the region
-outStream.writeByte(i2); // Y coord where camera will end within the region
-outStream.writeWord(i3); // the camera height where it will end
-outStream.writeByte(i4); // the camera moving speed
-outStream.writeByte(i5); // if this goes above 100 it does something? :O
-}
-
-
-public void frame177(int i1, int i2, int i3, int i4, int i5)  // similar to 166, a good combo: f177 041 033 014 011 005 - xerozcheez
-{
-outStream.createFrame(177);
-outStream.writeByte(i1); // X coord within the region middle of your screen will view to
-outStream.writeByte(i2); // Y coord within the region middle of your screen will view to
-outStream.writeWord(i3); // the height it will be viewing to
-outStream.writeByte(i4); // the camera speed? movement? dunno yet
-outStream.writeByte(i5); // if this goes above 100 it does something? :O
-}
-
-
-public void frame70(int i1, int i2, int i3) // interface thing, not sure
-{
-outStream.createFrame(70); // THIS FRAME IS FOR SPECIAL ATTACK BAR MOFOS!
-outStream.writeWord(i1); // offset X
-outStream.writeWordBigEndian(i2); // offset Y
-outStream.writeWordBigEndian(i3); // interface, definatly.
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void framevar70(int i1, int i2, int i3) // no idea
-{
-outStream.createFrameVarSize(70);
-outStream.writeWord(i1);
-outStream.writeWordBigEndian(i2);
-outStream.writeWordBigEndian(i3);
-}
-
-public void frame240(int i1) // doesn't logout so it's valid, but doesn't do anything hmm?
-{
-outStream.createFrame(240);
-outStream.writeWord(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-
-
-public void frame110(int i1) // doesn't logout so it's valid, but doesn't do anything hmm? Also the sidebar select stuff is used
-{
-outStream.createFrame(110);
-outStream.writeByte(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame106(int i1) // changes selected sidebar!
-{
-outStream.createFrame(106);
-outStream.writeByteC(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame24(int i1) // Xero: flashes sidebar tab icons!, i1 must be 0 to -12 to work ;) make a command to test em out
-{
-outStream.createFrame(24);
-outStream.writeByteA(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame142(int i1) // FINALLY FOUND: using ::f142 makes all disappear, similar to frame 248 except it doesn't show a normal interface - xero
-{
-outStream.createFrame(142);
-outStream.writeWordBigEndian(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame142d(int i1)
-{
-outStream.createFrame(142);
-outStream.writeWordBigEndian_dup(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame254(int i1, int i2, int i3, int i4, int i5)
-{
-outStream.createFrame(254); 
-outStream.writeByte(i1);
-if(i1 == 1)
-{
-outStream.writeWord(i2); 
-}
-if(i1 >= 2 && i1 <= 6)
-{
-outStream.writeWord(i3); 
-outStream.writeWord(i4); 
-outStream.writeByte(i5); 
-}
-if(i1 == 10)
-{
-outStream.writeWord(i2);
-}
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame254skull(int i1, int i2)
-{
-outStream.createFrame(254);
-outStream.writeByte(i1);
-outStream.writeWord(i2);
-}
-
-public void frame35(int i1, int i2, int i3, int i4) // earthquake
-{
-outStream.createFrame(35);
-outStream.writeByte(i1);
-outStream.writeByte(i2);
-outStream.writeByte(i3);
-outStream.writeByte(i4);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame114(int i1) // system update
-{
-outStream.createFrame(114);
-outStream.writeWordBigEndian(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame174(int i1, int i2, int i3) // another thing, tested doesn't logout, looks like something to do with music
-{
-outStream.createFrame(174);
-outStream.writeWord(i1);
-outStream.writeByte(i2);
-outStream.writeWord(i3);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame246(int i1, int i2, int i3) // doesn't kick you, so it's right, but doesn't do anything?
-{
-outStream.createFrame(246);
-outStream.writeWordBigEndian(i1);
-outStream.writeWord(i2);
-outStream.writeWord(i3);
-flushOutStream();
-}
-
-public void frame171(int i1, int i2)
-{
-outStream.createFrame(171);
-outStream.writeByte(i1);
-outStream.writeWord(i2);
-flushOutStream();
-}
-
-public void frame99(int i1) // makes minimap nonclickable etc.!!! 0 = unlock  2 = black above 2 = locked - xerozcheez
-{
-outStream.createFrame(99);
-outStream.writeByte(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame218(int i1) // writes interface over chat, 1 shows all sendmessage stuff lolz
-{
-outStream.createFrame(218);
-outStream.writeWordBigEndianA(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame61(int i1) // resets head icons, shame 317 head icons are fucked.
-{
-outStream.createFrame(61);
-outStream.writeByte(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame87(int i1, int i2) // can't go into 7500+ hmm - links with 36
-{
-outStream.createFrame(87);
-outStream.writeWordBigEndian(i1);
-outStream.writeDWord_v2(i2);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-
-public void frame36(int i1, int i2) // can't go into 7500+ hmm - links with 87
-{
-outStream.createFrame(36);
-outStream.writeWordBigEndian(i1);
-outStream.writeByte(i2);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame214(long i1) // replaces every name on the ignore list with the one sent to client :O
-{
-outStream.createFrame(214);
-outStream.writeQWord(i1);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame187() // loads enter name interface
-{
-outStream.createFrame(187);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame27() // loads enter amount interface
-{
-outStream.createFrame(27);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame65() // npc updating frame ;)
-{
-outStream.createFrame(65);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame68() // turns split private chat off
-{
-outStream.createFrame(68);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame78() // tested, not a fucking clue =\
-{
-outStream.createFrame(78);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame81() // player updating r0fl
-{
-outStream.createFrame(81);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame1() // cancels all player and npc emotes within area!
-{
-outStream.createFrame(1);
-requirePlayerUpdate();
-}
-// j frames:
-
-public void frame160(int i1, int i2, int i3) // objects according to whitefang, dunno what though hmm
-{
-outStream.createFrame(85);
-outStream.writeByteC(currentY & ~7);	// packetTileCoordY
-outStream.writeByteC(currentX & ~7);	// packetTileCoordX
-outStream.createFrame(160);
-outStream.writeByteA(i1);
-outStream.writeByteA(i2);
-outStream.writeWordA(i3);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame117(int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10, int i11) // moving graphics
-{
-outStream.createFrame(85);
-outStream.writeByteC(currentY & ~7);	// packetTileCoordY
-outStream.writeByteC(currentX & ~7);	// packetTileCoordX
-outStream.createFrame(117); 
-outStream.writeByte(i1);
-outStream.writeByte(i2);
-outStream.writeByte(i3);
-outStream.writeWord(i4);
-outStream.writeWord(i5);
-outStream.writeByte(i6);
-outStream.writeByte(i7);
-outStream.writeWord(i8);
-outStream.writeWord(i9);
-outStream.writeByte(i10);
-outStream.writeByte(i11);
-updateRequired = true;
-appearanceUpdateRequired = true;
-}
-public void frame105(int v1, int v2, int v3) 
-{
-outStream.createFrame(85);
-outStream.writeByteC(currentY & ~7);	// packetTileCoordY
-outStream.writeByteC(currentX & ~7);	// packetTileCoordX
-outStream.createFrame(105);
-outStream.writeByte(v1);
-outStream.writeWord(v2); // array packet
-outStream.writeByte(v3);
-}
-public void frame105_60(int v1, int v2, int v3) 
-{
-outStream.createFrameVarSizeWord(60);
-outStream.writeByte(105);
-outStream.writeByte(v1);
-outStream.writeWord(v2); // array packet
-outStream.writeByte(v3);
-outStream.endFrameVarSizeWord();
-}
-public void frame44(int i1, int i2, int i3)
-{
-outStream.createFrame(85);
-outStream.writeByteC(currentY & ~7);	// packetTileCoordY
-outStream.writeByteC(currentX & ~7);	// packetTileCoordX
-outStream.createFrame(44);
-outStream.writeWordBigEndianA(i1);
-outStream.writeWord(i2);
-outStream.writeByte(i3);
-}
-public void frame44_60(int i1, int i2, int i3)
-{
-outStream.createFrameVarSizeWord(60);
-outStream.writeByte(44);
-outStream.writeWordBigEndianA(i1);
-outStream.writeWord(i2);
-outStream.writeByte(i3);
-outStream.endFrameVarSizeWord();
-}
-/*END OF TESTING FRAMES*/
 
 public void Teleblock()
 {
@@ -5931,296 +4830,6 @@ stillgfx(345, absY, absX);
 	}
 
 
-public void levelup(int skill)
-{
-switch(skill)  
-{
-case 0:
-case 1:
-case 2:
-case 3:
-case 4:
-case 5:
-case 6:
-case 7:
-case 8:
-case 9:
-case 10:
-case 11:
-case 12:
-case 13:
-case 14:
-case 15:
-case 16:
-case 17:
-case 18:
-case 19:
-case 20:
-	sendMessage("You have gained a level.");
-	stillgfx(199, absY, absX);
-	if (playerLevel[skill] >= 99){
-		masteries += 1;
-		sendMessage("Congratulations on skill mastery. Skill capes and hoods are");
-		sendMessage("available at their respective skill masters.");
-	}
-	break;
-}
-}
-
-public void attackPlayersWithin2(int gfx, int maxDamage, int range) {
- for (Player p : server.playerHandler.players)
-  {
-   if(p != null) 
-    {
-     client person = (client)p;
-     if((person.playerName != null || person.playerName != "null"))
-      {
-       if(person.distanceToPoint(absX, absY) <= range && person.playerId != playerId)
-        {
-         int damage = misc.random(maxDamage);
-					updateDelayAndDamagePlayer(person.playerId, damage);
-        }
-      }
-    }
-  }
-}
-
-public void attackPlayersWithin(int gfx, int maxDamage, int range) {
- for (Player p : server.playerHandler.players)
-  {
-   if(p != null) 
-    {
-     client person = (client)p;
-     if((person.playerName != null || person.playerName != "null"))
-      {
-       if(person.distanceToPoint(absX, absY) <= range && person.playerId != playerId)
-        {
-         int damage = misc.random(maxDamage);
-					updateDelayAndDamagePlayer(person.playerId, damage);
-        }
-      }
-    }
-  }
-}
-
-public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range, int level, boolean binds, int durationOfBind) {
-	setAnimation(1979);
-	int totalDamage = 0;
-	for (Player p : server.playerHandler.players){
-		if(p != null) {
-			client person = (client)p;
-			if((person.playerName != null || person.playerName != "null")) {
-				if(person.distanceToPoint(x, y) <= range && person.playerId != playerId) {
-					if(!MageHit(person.playerId)){
-						maxDamage = 0;
-						gfx = 339;
-					}
-					int damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
-					if(damage != 0 && binds)
-						person.frozen(durationOfBind);
-					person.stillgfx(gfx, person.absY, person.absX);
-					updateDelayAndDamagePlayer(person.playerId, damage);
-				}
-			}
-		}
-	}
-	teleportToX = absX;
-	teleportToY = absY;
-  requirePlayerUpdate();
-	addSkillXP((totalDamage * mageXP2)*rate, 6);
-	return totalDamage;
-}
-
-/**
- * Will attack NPCs within a range and display the GFX on them, used for ancient spellbook
- * @param maxDamage Randomizes this damage
- */
-private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int range, int level) {
-	setAnimation(1979);
-	int totalDamage = 0;
-	for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
-		if(server.npcHandler.npcs[i] == null) break;
-		if(server.npcHandler.npcs[i] != null) 
-		{
-			if(distanceBetweenPoints(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y) <= range && !server.npcHandler.npcs[i].IsDead)
-			{				
-				int damage = 0;
-				if(MageHitNPC(i)) damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
-				else gfx = 339;
-				totalDamage += damage;
-				stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
-				updateDelayAndHitNPC(i, damage);
-			}
-		}
-	}
-	addSkillXP((totalDamage * mageXP2)*rate, 6);
-	return totalDamage;
-}
-
-
-/**
- * Will attack NPCs within a range and display the GFX on them
- * @param maxDamage Randomizes this damage
- */
-public void attackNPCSWithinRangeWithGFX(int gfx, int maxDamage, int range, int level) {
- for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
-   if(server.npcHandler.npcs[i] != null){
-      if(distanceToPoint(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY) <= range && !server.npcHandler.npcs[i].IsDead)
-       {
-      	int damage = 0;
-				if(MageHitNPC(i)) damage = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
-        stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
-				updateDelayAndHitNPC(i, damage);
-      }
-    }
-   else break;
-  }
-}
-
-/**
- * Will attack NPCs within a range
- * @param maxDamage Randomizes this damage
- */
-public void attackNPCSWithin(int maxDamage, int range, int x, int y) {
-	 for (int i = 1; i < server.npcHandler.maxNPCs; i++){
-	   if(server.npcHandler.npcs[i] != null){
-	      if(GoodDistance(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y, range) && !server.npcHandler.npcs[i].IsDead)
-	       {
-	        int damage = misc.random(maxDamage);
-	        server.npcHandler.npcs[i].damageNPC(damage);
-	      }
-	    }
-	   else break;
-	  }
-	}
-
-
-public void playerGfx(int id, int delay) {
-mask100var1 = id;
-mask100var2 = delay;
-mask100update = true;
-updateRequired = true;
-}
-
-public void stillgfxz(int id, int Y, int X, int height, int time)
-{
-for (Player p : server.playerHandler.players)
-{
-if(p != null) 
-{
-client person = (client)p;
-if((person.playerName != null || person.playerName != "null"))
-{
-if(person.distanceToPoint(X, Y) <= 60)
-{
-person.stillgfxz2(id, Y, X, height, time);
-}
-}
-}
-}
-}
-public void stillgfxz2(int id, int Y, int X, int height, int time)
-{
-outStream.createFrame(85);
-outStream.writeByteC(Y - (mapRegionY * 8));
-outStream.writeByteC(X - (mapRegionX * 8));
-outStream.createFrame(4);
-outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
-outStream.writeWord(id);//Graphic id
-outStream.writeByte(height);//height of the spell above it's basic place, i think it's written in pixels 100 pixels higher
-outStream.writeWord(time);//Time before casting the graphic
-}
-
-public void stillgfx(int id, int Y, int X)
-{
-for (Player p : server.playerHandler.players)
-{
-if(p != null) 
-{
-client person = (client)p;
-if((person.playerName != null || person.playerName != "null"))
-{
-if(person.distanceToPoint(X, Y) <= 60)
-{
-person.stillgfx2(id, Y, X);
-}
-}
-}
-}
-}
-public void stillgfx2(int id, int Y, int X)
-{
-outStream.createFrame(85);
-outStream.writeByteC(Y - (mapRegionY * 8));
-outStream.writeByteC(X - (mapRegionX * 8));
-outStream.createFrame(4);
-outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
-outStream.writeWord(id);//Graphic id
-outStream.writeByte(0);//height of the spell above it's basic place, i think it's written in pixels 100 pixels higher
-outStream.writeWord(0);//Time before casting the graphic
-}
-
-public void multiTargetGfx(int id, int targetY, int targetX) {
- for (Player p : server.playerHandler.players) {
-  if(p != null) {
-   client person = (client)p;
-   if((person.playerName != null || person.playerName != "null"))
-    {
-     if(person.distanceToPoint(targetX, targetY) <= 60)
-    {
-     person.stillgfx2(id, person.absY, person.absX);
-    }
-   }
-  }
- }
-}
-
-public boolean firespell(int castID, int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int movegfxID,int startHeight, int endHeight, int finishID, int enemyY,int enemyX, int Lockon) 
-{
-fcastid = castID;
-fcasterY = casterY;
-fcasterX = casterX;
-foffsetY = offsetY;
-foffsetX = offsetX;
-fangle = angle;
-fspeed = speed;
-fmgfxid = movegfxID;
-fsh = startHeight;
-feh = endHeight;
-ffinishid = finishID;
-fenemyY = enemyY;
-fenemyX = enemyX;
-fLockon = Lockon;
-
-actionTimer = 0;
-
-    //Casts Spell In Hands
-    if(cast == false && actionTimer <= 0) {
-        stillgfxz(castID, casterY, casterX, 100, 0);
-        cast = true;
-        firingspell = true;
-        }
-    //Fires Projectile
-    if(cast == true && fired == false && actionTimer <= 0) {
-        createProjectile(casterY, casterX, offsetY, offsetX, angle, speed, movegfxID, startHeight, endHeight, Lockon);
-        fired = true;
-        }
-    //Finishes Spell
-    if(fired == true && actionTimer <= 0) {
-        stillgfxz(finishID, enemyY, enemyX, 100, 95);
-        resetGFX(castID, enemyX, enemyY);
-        return false;
-        }
-        return true;
-    }
-
-public void resetGFX(int id, int X, int Y)
-{
-GraphicsHandler.removeGFX(id, X, Y);
-firingspell = false;
-cast = false;
-fired = false;
-}
 
 public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
 		int startHeight, int endHeight, int lockon,int delay) {
@@ -6295,76 +4904,6 @@ public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int
 		outStream.writeByte(64);			//	Phate:	Type of shot possibly? All shoots seemed to be 64
 		flushOutStream();
 	}
-
-	
-	
-	
-	/**
-	 * @param speed quickness of the gfx transition, default is 95
-	 */
-	public void projectileOnNPC(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int speed) {
-   //GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
-   firespell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
-	}	
-	
-public int ProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
-		setAnimation(711);
-		projectileOnNPC(startID, movingID, finishID, casterY, casterX, offsetY,offsetX,index,enemyY,enemyX,95);
-   int hit = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
-   addSkillXP((hit * mageXP2)*rate, 6);
-   return hit;   
- }
-
-public int ancientsProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
-	setAnimation(1978);
-	projectileOnNPC(startID, movingID, finishID, casterY, casterX, offsetY,offsetX,index,enemyY,enemyX,95);
- int hit = misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
- addSkillXP((hit * mageXP2)*rate, 6);
- return hit;   
-}
-
-
-public void ProjectileSpellPlayer2(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int lvlReq) {
- if(playerLevel[6] < lvlReq) {
-   sendMessage("You need a magic level of "+lvlReq+" to cast this spell");
- }
- else if(playerLevel[6] >= lvlReq) {
-   //GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, index+1);
-	 teleportToX = absX;
-		teleportToY = absY;
-   server.playerHandler.players[index].hitDiff = hitDiff;
-   server.playerHandler.players[index].updateRequired = true;
-   server.playerHandler.players[index].hitUpdateRequired = true;
-   GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
-  }
- }
-
- 
-public int ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
-		setAnimation(711);
-		if(!MageHit(index-1)){
-			maxDmg = 0;
-			finishID = 339;
-		}
-   GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
-   return misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
- }
-
-public void ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX) {
- GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
- return;
-}
-
-public int ancientsProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
-	setAnimation(1978);
-	if(!MageHit(index-1)){
-		maxDmg = 0;
-		finishID = 339;
-	}
- GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
- return misc.random(this.MAGICDATAHANDLER.calculateMagicMaxHit(maxDmg, level));
-}
- 
 
 public boolean HasItemAmount(int itemID, int itemAmount) {
 	int playerItemAmountCount = 0;
@@ -6615,41 +5154,6 @@ public void ReplaceItems(int newID, int oldID, int newAmount, int oldAmount) {
  }
 }
 
-public void isteleporting(int x, int y, int h){
-teleportToX = x;
-teleportToY = y;
-heightLevel = h;
-updateRequired = true; 
-appearanceUpdateRequired = true;
-}
-
-public void isteleporting2(int gfx, int anim, int time, int x, int y, int h){
-stillgfx(gfx, absY, absX);
-setAnimation(anim);
-isteleporting = time;
-isteleportingx = x;
-isteleportingy = y;
-ithl = h;
-}
-public void isteleporting5(int gfx, int anim, int time, int x, int y, int h, int level){
-if (playerLevel[6] >= level){
-stillgfx(gfx, absY, absX);
-setAnimation(anim);
-isteleporting = time;
-isteleportingx = x;
-isteleportingy = y;
-ithl = h;
-}
-else {sendMessage("You need at least "+level+" magic to use that teleport!");}
-}
-
-public void isteleporting3(int anim, int time, int x, int y, int h){
-setAnimation(anim);
-isteleporting = time;
-isteleportingx = x;
-isteleportingy = y;
-ithl = h;
-}
 
 	public boolean hasItem(int itemID, int slot)
 	{
@@ -8137,19 +6641,6 @@ flushOutStream();
 
 /*MENUS ETC. - from cheezscape*/
 
-
-	public void createNewTileObject(int x, int y, int typeID, int orientation, int tileObjectType)
-	{
-		outStream.createFrame(85);
-                outStream.writeByteC(y - (mapRegionY * 8)); 
-                outStream.writeByteC(x - (mapRegionX * 8)); 
-
-		outStream.createFrame(151);
-		//outStream.writeByteA(((x&7) << 4) + (y&7));
-                outStream.writeByteA(0);
-		outStream.writeWordBigEndian(typeID);
-		outStream.writeByteS((tileObjectType<<2) +(orientation&3));
-	}	
 	    public void playerRank() {
         try {
 if(playerRights == 4){
@@ -8205,110 +6696,7 @@ sendQuest("", 15240);
 sendQuest("", 15242);
 sendQuest("", 15243);
 }
-public void loadquestinterface()
-{
-sendQuest("@whi@"+server.SERVERNAME+"'s Quests", 663);
-sendQuest(server.SERVERNAME, 640);
-sendQuest(server.SERVERNAME, 682); // 2848,3109
-sendQuest("", 3985);
-/*1337*/
-if (easterevent == 0){sendQuest("@red@Bandit Trouble", 7333);} else if (easterevent > 0 && eastergift != 4){ sendQuest("@yel@Bandit Trouble", 7333);} else if (eastergift == 4){sendQuest("@gre@Bandit Trouble", 7333);}
-if (ST == 0){sendQuest("@red@The Famous Catch", 7334);} else if (ST > 0 && ST < 6){sendQuest("@yel@The Famous Catch", 7334);} else if (ST == 6){sendQuest("@gre@The Famous Catch", 7334);}
-if (ancients <= 8){sendQuest("@red@Dwarf Problems II", 7383);}
-else if (ancients > 8 && ancients < 12){sendQuest("@yel@Dwarf Problems II", 7383);}
-else if (ancients >= 12){sendQuest("@gre@Dwarf Problems II", 7383);}
-if (ancients == 0){sendQuest("@red@Dwarf Problems I", 7336);}
-else if (ancients >= 1 && ancients < 8){sendQuest("@yel@Dwarf Problems I", 7336);}
-else if (ancients >= 8){sendQuest("@gre@Dwarf Problems I", 7336);}
-if (RM == 0){sendQuest("@red@Rune Mysteries", 7339);}else if (RM < 4 && RM > 0){sendQuest("@yel@Rune Mysteries", 7339);}else if (RM >= 4){sendQuest("@gre@Rune Mysteries", 7339);}
-if (wb == 0){sendQuest("@red@Witch's Brew", 7332);}else if (wb > 0 && wb < 6){sendQuest("@yel@Witch's Brew", 7332);}else if (wb == 6){sendQuest("@gre@Witch's Brew", 7332);}
 
-String pString = "@yel@New Beginnings";
-if(pirate >= 10) pString = "@gre@New Beginnings";
-sendQuest(pString, 7338);
-
-sendQuest("", 7340);
-sendQuest("", 7346);
-sendQuest("@whi@-INFORMATION-", 7341);
-sendQuest("@whi@Training Combat", 7342);
-sendQuest("@whi@Training Skills", 7337);
-sendQuest("@whi@Bosses", 7343);
-sendQuest("", 7335);
-sendQuest("", 7344);
-sendQuest("", 7345);
-sendQuest("", 7347);
-sendQuest("", 7348);
-
-/*Members Quests*/
-sendQuest("", 12772);
-// unknown id
-sendQuest("", 7352);
-sendQuest("", 12129);
-sendQuest("", 8438);
-sendQuest("", 12852);
-sendQuest("", 7354);
-sendQuest("", 7355);
-sendQuest("", 7356);
-sendQuest("", 8679);
-sendQuest("", 7459);
-sendQuest("", 7357);
-sendQuest("", 12836);
-sendQuest("", 7358);
-sendQuest("", 7359);
-sendQuest("", 14169);
-sendQuest("", 10115);
-sendQuest("", 14604);
-sendQuest("", 7360);
-sendQuest("", 12282);
-sendQuest("", 13577);
-sendQuest("", 12839);
-sendQuest("", 7361);
-sendQuest("", 11857);
-sendQuest("", 7362);
-sendQuest("", 7363);
-sendQuest("", 7364);
-sendQuest("", 10135);
-sendQuest("", 4508);
-sendQuest("", 11907);
-sendQuest("", 7365);
-sendQuest("", 7366);
-sendQuest("", 7367);
-sendQuest("", 13389);
-sendQuest("", 7368);
-sendQuest("", 11132);
-sendQuest("", 7369);
-sendQuest("", 12389);
-sendQuest("", 13974);
-sendQuest("", 7370);
-sendQuest("", 8137);
-sendQuest("", 7371);
-sendQuest("", 12345);
-sendQuest("", 7372);
-sendQuest("", 8115);
-// unknown id
-sendQuest("", 8576);
-sendQuest("", 12139);
-sendQuest("", 7373);
-sendQuest("", 7374);
-sendQuest("", 8969);
-sendQuest("", 7375);
-sendQuest("", 7376);
-sendQuest("", 1740);
-sendQuest("", 3278);
-sendQuest("", 7378);
-sendQuest("", 6518);
-sendQuest("", 7379);
-sendQuest("", 7380);
-sendQuest("", 7381);
-sendQuest("", 11858);
-// unknown id
-sendQuest("", 9927);
-sendQuest("", 7349);
-sendQuest("", 7350);
-sendQuest("", 7351);
-sendQuest("", 13356);
-/*END OF ALL QUESTS*/
-}
 
 public void ReportAbuse(String report, int rule, int mute)
 {
@@ -8547,10 +6935,6 @@ public int amountOfItem(int itemID)
 		return i1;
 	}
 
-public void inCombat(){
-LogoutDelay = System.currentTimeMillis();
-}
-
 /**
  * @param seconds Seconds to be frozen for
  */
@@ -8561,173 +6945,13 @@ teleportToY = absY;
 updateRequired = true; 
 appearanceUpdateRequired = true;
 }
-
-
-public void sendQuest(String s, int id)
-	{
-		outStream.createFrameVarSizeWord(126);
-		outStream.writeString(s);
-		outStream.writeWordA(id);
-		outStream.endFrameVarSizeWord();
-	}
-
-	public void setAnimation(int i) {
-		//pEmote = i;
-		//updateRequired = true;
-		//appearanceUpdateRequired = true;
-		startAnimation(i);
-	}
-	public void resetAnimation() {
-		pEmote = playerSE;
-		requirePlayerUpdate();
-		frame1(); //resets animation
-	}
 	
-	public void randomize(int o,int oo,int ooo,int oooo) {
-		outStream.createFrame(53);
-		outStream.writeWord(o);
-		outStream.writeWord(oo);
-		outStream.writeByte(ooo);
-		outStream.writeWordBigEndianA(oooo);
-		flushOutStream();
-	}
-	
-	public void sendFrame126(String s, int id) {
-		if(s == null)
-			s = "";
-		outStream.createFrameVarSizeWord(126);
-		outStream.writeString(s);
-		outStream.writeWordA(id);
-		outStream.endFrameVarSizeWord();
-		flushOutStream();
-	}
 
-	public void sendFrame248(int MainFrame, int SubFrame) {
-		outStream.createFrame(248);
-		outStream.writeWordA(MainFrame);
-		outStream.writeWord(SubFrame);
-		flushOutStream();
-	}
-
-	public void sendFrame200(int MainFrame, int SubFrame) {
-		outStream.createFrame(200);
-		outStream.writeWord(MainFrame);
-		outStream.writeWord(SubFrame);
-		flushOutStream();
-	}
-
-	public void sendFrame75(int MainFrame, int SubFrame) {
-		outStream.createFrame(75);
-		outStream.writeWordBigEndianA(MainFrame);
-		outStream.writeWordBigEndianA(SubFrame);
-		flushOutStream();
-	}
-
-	public void sendFrame164(int Frame) {
-		outStream.createFrame(164);
-		outStream.writeWordBigEndian_dup(Frame);
-		flushOutStream();
-	}
-
-	public void sendFrame246(int MainFrame, int SubFrame, int SubFrame2) {
-		outStream.createFrame(246);
-		outStream.writeWordBigEndian(MainFrame);
-		outStream.writeWord(SubFrame);
-		outStream.writeWord(SubFrame2);
-		flushOutStream();
-	}
-
-	public void sendFrame185(int Frame) {
-		outStream.createFrame(185);
-		outStream.writeWordBigEndianA(Frame);
-		flushOutStream();
-	}
-	
-	public void sendFrame171(int MainFrame, int SubFrame) {
-		outStream.createFrame(171);
-		outStream.writeByte(MainFrame);
-		outStream.writeWord(SubFrame);
-		flushOutStream();
-	}
-
-	public void RemoveAllWindows() {
-		outStream.createFrame(219);
-		flushOutStream();
-	}
-
-	public void sendQuestSomething(int id) {
-		outStream.createFrame(79);
-		outStream.writeWordBigEndian(id);
-		outStream.writeWordA(0);
-		flushOutStream();
-	}
-
-	public void clearQuestInterface() {
-		for(int x = 0; x < QuestInterface.length; x++) {
-			sendFrame126("", QuestInterface[x]);
-		}
-	}
-	public void showInterface(int interfaceid) {
-                resetAnimation();
-		outStream.createFrame(97);
-		outStream.writeWord(interfaceid);
-		flushOutStream();
-	}
-	
-public void selectoption2(String question, String s1, String s2, String s3, String s4) {
-            sendFrame171(1, 2465);
-            sendFrame171(0, 2468);
-            sendFrame126(question, 8208);
-            sendFrame126(s1, 8209);
-            sendFrame126(s2, 8210);
-            sendFrame126(s3, 8211);
-            sendFrame126(s4, 8212);
-            sendFrame164(8207);
-}
-
-
-public void selectoption(String question, String s1, String s2, String s3)
-{
-sendFrame171(1, 2465);
-sendFrame171(0, 2468);
-sendFrame126(question, 2460);
-sendFrame126(s1, 2461);
-sendFrame126(s2, 2462);
-sendFrame126(s3, 2463);
-sendFrame164(2459);
-}
-
-public void selectoption(String question, String s1, String s2)
-{
-sendFrame171(1, 2465);
-sendFrame171(0, 2468);
-sendFrame126(question, 2460);
-sendFrame126(s1, 2461);
-sendFrame126(s2, 2462);
-sendFrame126("", 2463);
-sendFrame164(2459);
-}
-
-private int travel2_X1 = -1;
-private int travel2_Y1 = -1;
-private int travel2_X2 = -1;
-private int travel2_Y2 = -1;
-private int travelHeight = 0;
-
-private void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2){
-	travel2_X1 = x1; travel2_Y1 = y1; travel2_X2 = x2; travel2_Y2 = y2; travelHeight = 0;
-	sendFrame171(1, 2465);
-	sendFrame171(0, 2468);
-	sendFrame126(question, 2460);
-	sendFrame126(place1, 2461);
-	sendFrame126(place2, 2462);
-	sendFrame126("", 2463);
-	sendFrame164(2459);
-}
-private void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2, int finishHeight){
-	selectOptionTravel2(question, place1, x1, y1, place2, x2, y2);
-	travelHeight = finishHeight;
-}
+protected int travel2_X1 = -1;
+protected int travel2_Y1 = -1;
+protected int travel2_X2 = -1;
+protected int travel2_Y2 = -1;
+protected int travelHeight = 0;
 
 	private int XremoveSlot = 0;
 	private int XinterfaceID = 0;
@@ -8905,12 +7129,9 @@ public void appendConnected() {
 
    }
 
-
 	// writes any data in outStream to the relaying buffer
 	public void flushOutStream() {
 		if(disconnected || outStream.currentOffset == 0) return;
-		
-
 		synchronized(this) {
 			int maxWritePtr = (readPtr+bufferSize-2) % bufferSize;
 			for(int i = 0; i < outStream.currentOffset; i++) {
@@ -8924,7 +7145,6 @@ public void appendConnected() {
 				}
           		}
 			outStream.currentOffset = 0;
-
 			notify();
 		}
    	 }
@@ -9528,127 +7748,14 @@ disconnected = true;
 
                }
 	// sends a game message of trade/duelrequests: "PlayerName:tradereq:" or "PlayerName:duelreq:"
-	public void sendMessage(String s) {
-		outStream.createFrameVarSize(253);
-		outStream.writeString(s);
-		outStream.endFrameVarSize();
+	public void sendMessage(String msg){
+		getFrameMethodHandler().sendMessage(msg);
 	}
 
-	public void setSidebarInterface(int menuId, int form) {
-		outStream.createFrame(71);
-		outStream.writeWord(form);
-		outStream.writeByteA(menuId);
-	}
-
-	public void setSkillLevel(int skillNum, int currentLevel, int XP) {
-              if(skillNum == 0) {
-sendQuest(""+playerLevel[0]+"", 4004);
-sendQuest(""+getLevelForXP(playerXP[0])+"", 4005);
-              }
-              if(skillNum == 2) {
-sendQuest(""+playerLevel[2]+"", 4006);
-sendQuest(""+getLevelForXP(playerXP[2])+"", 4007);
-              }
-              if(skillNum == 1) {
-sendQuest(""+playerLevel[1]+"", 4008);
-sendQuest(""+getLevelForXP(playerXP[1])+"", 4009);
-              }
-              if(skillNum == 4) {
-sendQuest(""+playerLevel[4]+"", 4010);
-sendQuest(""+getLevelForXP(playerXP[4])+"", 4011);
-              }
-              if(skillNum == 5) {
-sendQuest(""+playerLevel[5]+"", 4012);
-sendQuest(""+getLevelForXP(playerXP[5])+"", 4013);
-              }
-              if(skillNum == 6) {
-sendQuest(""+playerLevel[6]+"", 4014);
-sendQuest(""+getLevelForXP(playerXP[6])+"", 4015);
-              }
-              if(skillNum == 3) {
-sendQuest(""+playerLevel[3]+"", 4016);
-sendQuest(""+getLevelForXP(playerXP[3])+"", 4017);
-              }
-              if(skillNum == 16) {
-sendQuest(""+playerLevel[16]+"", 4018);
-sendQuest(""+getLevelForXP(playerXP[16])+"", 4019);
-              }
-              if(skillNum == 15) {
-sendQuest(""+playerLevel[15]+"", 4020);
-sendQuest(""+getLevelForXP(playerXP[15])+"", 4021);
-              }
-              if(skillNum == 17) {
-sendQuest(""+playerLevel[17]+"", 4022);
-sendQuest(""+getLevelForXP(playerXP[17])+"", 4023);
-              }
-              if(skillNum == 12) {
-sendQuest(""+playerLevel[12]+"", 4024);
-sendQuest(""+getLevelForXP(playerXP[12])+"", 4025);
-              }
-              if(skillNum == 9) {
-sendQuest(""+playerLevel[9]+"", 4026);
-sendQuest(""+getLevelForXP(playerXP[9])+"", 4027);
-              }
-              if(skillNum == 14) {
-sendQuest(""+playerLevel[14]+"", 4028);
-sendQuest(""+getLevelForXP(playerXP[14])+"", 4029);
-              }
-              if(skillNum == 13) {
-sendQuest(""+playerLevel[13]+"", 4030);
-sendQuest(""+getLevelForXP(playerXP[13])+"", 4031);
-              }
-              if(skillNum == 10) {
-sendQuest(""+playerLevel[10]+"", 4032);
-sendQuest(""+getLevelForXP(playerXP[10])+"", 4033);
-              }
-              if(skillNum == 7) {
-sendQuest(""+playerLevel[7]+"", 4034);
-sendQuest(""+getLevelForXP(playerXP[7])+"", 4035);
-              }
-              if(skillNum == 11) {
-sendQuest(""+playerLevel[11]+"", 4036);
-sendQuest(""+getLevelForXP(playerXP[11])+"", 4037);
-              }
-              if(skillNum == 8) {
-sendQuest(""+playerLevel[8]+"", 4038);
-sendQuest(""+getLevelForXP(playerXP[8])+"", 4039);
-              }
-              if(skillNum == 20) {
-sendQuest(""+playerLevel[20]+"", 4152);
-sendQuest(""+getLevelForXP(playerXP[20])+"", 4153);
-              }
-              if(skillNum == 18) {
-sendQuest(""+playerLevel[18]+"", 12166);
-sendQuest(""+getLevelForXP(playerXP[18])+"", 12167);
-              }
-              if(skillNum == 19) {
-sendQuest(""+playerLevel[19]+"", 13926);
-sendQuest(""+getLevelForXP(playerXP[19])+"", 13927);
-              }
-              else {
-		outStream.createFrame(134);
-		outStream.writeByte(skillNum);
-		outStream.writeDWord_v1(XP);
-		outStream.writeByte(currentLevel);
-               }
-	}
-		
 	public void logout(){
 		outStream.createFrame(109);
 	}
-//----------------------------------------------------------------------\\
-//---------------------------CUSTOM COMMANDS----------------------------\\
-//----------------------------------------------------------------------\\
-	private int stab = 0;
-	private int slash = 1;
-	private int crush = 2;
-	private int magic = 3;
-	private int range = 4;
-	private int[] atkBonus = {0,1,2,3,4};
-	private int[] defBonus = {5,6,7,8,9};
-	private int strength = 10;
-	private int prayer = 11;	
-	
+		
 	public int getPlayerPrayerEquipmentBonus(){
 		return this.playerBonus[prayer];
 	}
@@ -9813,189 +7920,8 @@ public void customCommand(String command) {
 		return 0;
 	}
 
-	public int getLevelForXP(int exp) {
-		int points = 0;
-		int output = 0;
-		
-		if(exp >= 13034431) return 99;
-		
-		for (int lvl = 1; lvl <= 99; lvl++) {
-			points += Math.floor((double)lvl + 300.0 * Math.pow(2.0, (double)lvl / 7.0));
-			output = (int)Math.floor(points / 4);
-			if (output >= exp) {
-				return lvl;
-			}
-		}
-		return 99;
-	}
 
-public boolean addSkillXP(int amount, int skill){
-if (debugmode)sendMessage("You recieved "+amount+" exp in Skill "+skill);
-
- 	  int Attack = getLevelForXP(playerXP[0]); 
-      int Defence = getLevelForXP(playerXP[1]);      
-      int Strength = getLevelForXP(playerXP[2]);
-      int Hitpoints = getLevelForXP(playerXP[3]);
-      int Ranging = getLevelForXP(playerXP[4]);
-      int Prayer = getLevelForXP(playerXP[5]);
-      int Magic = getLevelForXP(playerXP[6]);
-      int Cooking = getLevelForXP(playerXP[7]);
-      int Woodcutting = getLevelForXP(playerXP[8]);
-      int Fletching = getLevelForXP(playerXP[9]);
-      int Fishing = getLevelForXP(playerXP[10]);
-      int Firemaking = getLevelForXP(playerXP[11]);
-      int Crafting = getLevelForXP(playerXP[12]);
-      int Smithing = getLevelForXP(playerXP[13]);
-      int Mining = getLevelForXP(playerXP[14]);
-      int Herblore = getLevelForXP(playerXP[15]);
-      int Agility = getLevelForXP(playerXP[16]);
-      int Thieving = getLevelForXP(playerXP[17]);
-      int Slayer = getLevelForXP(playerXP[18]);
-      int Farming = getLevelForXP(playerXP[19]);
-      int Runecrafting = getLevelForXP(playerXP[20]);
-		if ((amount + playerXP[skill]) < 0 || playerXP[skill] > 2000000000) {
-			sendMessage("Max XP value reached");
-			return false;
-		}
-
-		int oldLevel = getLevelForXP(playerXP[skill]);
-		playerXP[skill] += amount;
-		if (oldLevel < getLevelForXP(playerXP[skill])) {
- if (Attack < getLevelForXP(playerXP[0])) {
-            playerLevel[0] = getLevelForXP(playerXP[0]);
-            levelup(0);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Defence < getLevelForXP(playerXP[1])) {
-            playerLevel[1] = getLevelForXP(playerXP[1]);
-            levelup(2);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Strength < getLevelForXP(playerXP[2])) {
-            playerLevel[2] = getLevelForXP(playerXP[2]);
-            levelup(1);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Hitpoints < getLevelForXP(playerXP[3])) {
-            playerLevel[3] = getLevelForXP(playerXP[3]);
-            levelup(3);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Ranging < getLevelForXP(playerXP[4])) {
-            playerLevel[4] = getLevelForXP(playerXP[4]);
-            levelup(4);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Prayer< getLevelForXP(playerXP[5])) {
-            playerLevel[5] = getLevelForXP(playerXP[5]);
-            levelup(5);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Magic < getLevelForXP(playerXP[6])) {
-            playerLevel[6] = getLevelForXP(playerXP[6]);
-            levelup(6);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Cooking < getLevelForXP(playerXP[7])) {
-            playerLevel[7] = getLevelForXP(playerXP[7]);
-            levelup(7);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Woodcutting < getLevelForXP(playerXP[8])) {
-            playerLevel[8] = getLevelForXP(playerXP[8]);
-            levelup(8);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Fletching < getLevelForXP(playerXP[9])) {
-            playerLevel[9] = getLevelForXP(playerXP[9]);
-            levelup(9);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Fishing < getLevelForXP(playerXP[10])) {
-            playerLevel[10] = getLevelForXP(playerXP[10]);
-            levelup(10);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Firemaking < getLevelForXP(playerXP[11])) {
-            playerLevel[11] = getLevelForXP(playerXP[11]);
-            levelup(11);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Crafting < getLevelForXP(playerXP[12])) {
-            playerLevel[12] = getLevelForXP(playerXP[12]);
-            levelup(12);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Smithing < getLevelForXP(playerXP[13])) {
-            playerLevel[13] = getLevelForXP(playerXP[13]);
-            levelup(13);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Mining < getLevelForXP(playerXP[14])) {
-            playerLevel[14] = getLevelForXP(playerXP[14]);
-            levelup(14);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Herblore < getLevelForXP(playerXP[15])) {
-            playerLevel[15] = getLevelForXP(playerXP[15]);
-            levelup(15);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }   
-         if (Agility < getLevelForXP(playerXP[16])) {
-            playerLevel[16] = getLevelForXP(playerXP[16]);
-            levelup(16);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Thieving < getLevelForXP(playerXP[17])) {
-            playerLevel[17] = getLevelForXP(playerXP[17]);
-            levelup(17);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }      
-         if (Slayer < getLevelForXP(playerXP[18])) {
-            playerLevel[18] = getLevelForXP(playerXP[18]);
-            levelup(18);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Farming < getLevelForXP(playerXP[19])) {
-            playerLevel[19] = getLevelForXP(playerXP[19]);
-            levelup(19);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-         if (Runecrafting < getLevelForXP(playerXP[20])) {
-            playerLevel[20] = getLevelForXP(playerXP[20]);
-            levelup(20);
-            updateRequired = true;
-            appearanceUpdateRequired = true;
-         }
-
-			playerLevel[skill] = getLevelForXP(playerXP[skill]);
-			updateRequired = true;
-			appearanceUpdateRequired = true;
-		}
-		setSkillLevel(skill, playerLevel[skill], playerXP[skill]);
-                	refreshSkills();
-		return true;
-	}
+	
 
 	public boolean bankItem(int itemID, int fromSlot, int amount) {
 		if (playerItemsN[fromSlot] <= 0) {
@@ -10401,24 +8327,7 @@ if (debugmode)sendMessage("You recieved "+amount+" exp in Skill "+skill);
 		}
 		resetItems(3214);
 	}
-	public void resetItems(int WriteFrame) {
-		outStream.createFrameVarSizeWord(53);
-		outStream.writeWord(WriteFrame);
-		outStream.writeWord(playerItems.length);
-		for (int i = 0; i < playerItems.length; i++) {
-			if (playerItemsN[i] > 254) {
-				outStream.writeByte(255); 						// item's stack count. if over 254, write byte 255
-				outStream.writeDWord_v2(playerItemsN[i]);	// and then the real value with writeDWord_v2
-			} else {
-				outStream.writeByte(playerItemsN[i]);
-			}
-			if (playerItems[i] > 17000 || playerItems[i] < 0) {
-				playerItems[i] = 17000;
-			}
-			outStream.writeWordBigEndianA(playerItems[i]); //item id
-		}
-		outStream.endFrameVarSizeWord();
-	}
+
 	public void sendClueReward() {
 		outStream.createFrameVarSizeWord(53);
 		outStream.writeWord(6960);
@@ -10788,15 +8697,6 @@ if (debugmode)sendMessage("You recieved "+amount+" exp in Skill "+skill);
 		}
 		return freeS;
 	}
-	public int freeSlots() {
-		int freeS = 0;
-        	for (int i = 0; i < playerItems.length; i++) {
-			if (playerItems[i] <= 0) {
-				freeS++;
-			}
-		}
-		return freeS;
-	}
 	public int freeTradeSlots() {
 		int freeS = 0;
                 for (int i = 0; i < playerTItems.length; i++) {
@@ -10911,80 +8811,6 @@ public boolean pickUpItem(int item, int amount){
 		MyShopID = ShopID;
 	}
 	
-	public boolean addItems(int ... items){
-		for(int i = 0; i < items.length; i++)
-			if(!addItem(items[i], 1)) return false;
-		
-		return true;
-	}
-	
-	public boolean addItem(int itemID){
-		return addItem(itemID, 1);
-	}
-
-	public boolean addItem(int item, int amount) {
-                if(item == -1)
-                return false;
-		if (!Item.itemStackable[item] || amount < 1) {
-			amount = 1;
-		}
-
-		if ((freeSlots() >= amount && !Item.itemStackable[item]) || freeSlots() > 0 || Item.itemStackable[item]) {
-			for (int i = 0; i < playerItems.length; i++) {
-				if (playerItems[i] == (item+1) && Item.itemStackable[item] && playerItems[i] > 0) {
-					playerItems[i] = (item + 1);
-					if ((playerItemsN[i] + amount) < maxItemAmount && (playerItemsN[i] + amount) > -1) {
-						playerItemsN[i] += amount;
-					} else {
-						playerItemsN[i] = maxItemAmount;
-					}
-					outStream.createFrameVarSizeWord(34);
-					outStream.writeWord(3214);
-					outStream.writeByte(i);
-					outStream.writeWord(playerItems[i]);
-					if (playerItemsN[i] > 254) {
-						outStream.writeByte(255);
-						outStream.writeDWord(playerItemsN[i]);
-					} else {
-						outStream.writeByte(playerItemsN[i]); //amount	
-					}
-					outStream.endFrameVarSizeWord();
-					i = 30;
-					return true;
-				}
-			}
-	                for (int i = 0; i < playerItems.length; i++) {
-				if (playerItems[i] <= 0) {
-					playerItems[i] = item+1;
-					if (amount < maxItemAmount && amount > -1) {
-						playerItemsN[i] = amount;
-					} else {
-						playerItemsN[i] = maxItemAmount;
-					}
-					outStream.createFrameVarSizeWord(34);
-					outStream.writeWord(3214);
-					outStream.writeByte(i);
-					outStream.writeWord(playerItems[i]);
-					if (playerItemsN[i] > 254) {
-						outStream.writeByte(255);
-						outStream.writeDWord(playerItemsN[i]);
-					} else {
-						outStream.writeByte(playerItemsN[i]); //amount	
-					}
-					outStream.endFrameVarSizeWord();
-					i = 30;
-					return true;
-				}
-			}
-			return false;
-		} else {
-			//sendMessage("Inventory is full.");
-			apickupid = -1;
-      apickupx = -1;
-      apickupy = -1;
-			return false;
-		}
-	}
 
 public void dropItem(int droppedItem, int slot) {
 	//	misc.printlnTag("droppeditem ["+playerItems[slot]+"] which is ["+(droppedItem+1)+"]");
@@ -11016,24 +8842,7 @@ public void dropItem(int droppedItem, int slot) {
 		outStream.writeWord(itemID);	// Phate: Item ID
 	//	misc.printlnTag("RemoveGroundItem "+itemID+" "+(itemX - 8 * mapRegionX)+","+(itemY - 8 * mapRegionY));
 	}
-	public boolean deleteItem(int id, int slot, int amount) {
-		if (slot > -1 && slot < playerItems.length) {
-			if ((playerItems[slot] - 1) == id) {
-				if (playerItemsN[slot] > amount) {
-					playerItemsN[slot] -= amount;
-				} else {
-					playerItemsN[slot] = 0;
-					playerItems[slot] = 0;
-				}
-				resetItems(3214);
-                                return true;
-			}
-		} else {
-			return false;
-		}
-                return false;
-	}
-
+	
 	public void setEquipment(int wearID, int amount, int targetSlot) {
 		int Stat = playerDefence;
 		if (targetSlot == playerWeapon) {
@@ -11533,85 +9342,17 @@ SendWeapon((playerEquipment[playerWeapon]), getItemName(playerEquipment[playerWe
 		return (calc - Date);
 	}
  
- 
-        public void refreshSkills() {
 
-sendQuest("Prayer: "+playerLevel[5]+"/"+getLevelForXP(playerXP[5])+"", 687);//Prayer frame
-//sendQuest("testing this field length to see how much it can hold", 687);
-        	
-sendQuest(""+playerLevel[0]+"", 4004);
-sendQuest(""+playerLevel[2]+"", 4006);
-sendQuest(""+playerLevel[1]+"", 4008);
-sendQuest(""+playerLevel[4]+"", 4010);
-sendQuest(""+playerLevel[5]+"", 4012);
-sendQuest(""+playerLevel[6]+"", 4014);
-sendQuest(""+playerLevel[3]+"", 4016);
-sendQuest(""+playerLevel[16]+"", 4018);
-sendQuest(""+playerLevel[15]+"", 4020);
-sendQuest(""+playerLevel[17]+"", 4022);
-sendQuest(""+playerLevel[12]+"", 4024);
-sendQuest(""+playerLevel[9]+"", 4026);
-sendQuest(""+playerLevel[14]+"", 4028);
-sendQuest(""+playerLevel[13]+"", 4030);
-sendQuest(""+playerLevel[10]+"", 4032);
-sendQuest(""+playerLevel[7]+"", 4034);
-sendQuest(""+playerLevel[11]+"", 4036);
-sendQuest(""+playerLevel[8]+"", 4038);
-sendQuest(""+playerLevel[20]+"", 4152);
-sendQuest(""+playerLevel[18]+"", 12166);
-sendQuest(""+playerLevel[19]+"", 13926);
-
-sendQuest(""+getLevelForXP(playerXP[0])+"", 4005);
-sendQuest(""+getLevelForXP(playerXP[2])+"", 4007);
-sendQuest(""+getLevelForXP(playerXP[1])+"", 4009);
-sendQuest(""+getLevelForXP(playerXP[4])+"", 4011);
-sendQuest(""+getLevelForXP(playerXP[5])+"", 4013);
-sendQuest(""+getLevelForXP(playerXP[6])+"", 4015);
-sendQuest(""+getLevelForXP(playerXP[3])+"", 4017);
-sendQuest(""+getLevelForXP(playerXP[16])+"", 4019);
-sendQuest(""+getLevelForXP(playerXP[15])+"", 4021);
-sendQuest(""+getLevelForXP(playerXP[17])+"", 4023);
-sendQuest(""+getLevelForXP(playerXP[12])+"", 4025);
-sendQuest(""+getLevelForXP(playerXP[9])+"", 4027);
-sendQuest(""+getLevelForXP(playerXP[14])+"", 4029);
-sendQuest(""+getLevelForXP(playerXP[13])+"", 4031);
-sendQuest(""+getLevelForXP(playerXP[10])+"", 4033);
-sendQuest(""+getLevelForXP(playerXP[7])+"", 4035);
-sendQuest(""+getLevelForXP(playerXP[11])+"", 4037);
-sendQuest(""+getLevelForXP(playerXP[8])+"", 4039);
-sendQuest(""+getLevelForXP(playerXP[20])+"", 4153);
-sendQuest(""+getLevelForXP(playerXP[18])+"", 12167);
-sendQuest(""+getLevelForXP(playerXP[19])+"", 13927);
-
-sendQuest(""+playerXP[0]+"", 4044);
-sendQuest(""+playerXP[2]+"", 4050);
-sendQuest(""+playerXP[1]+"", 4056);
-sendQuest(""+playerXP[4]+"", 4062);
-sendQuest(""+playerXP[5]+"", 4068);
-sendQuest(""+playerXP[6]+"", 4074);
-sendQuest(""+playerXP[3]+"", 4080);
-sendQuest(""+playerXP[16]+"", 4086);
-sendQuest(""+playerXP[15]+"", 4092);
-sendQuest(""+playerXP[17]+"", 4098);
-sendQuest(""+playerXP[12]+"", 4104);
-sendQuest(""+playerXP[9]+"", 4110);
-sendQuest(""+playerXP[14]+"", 4116);
-sendQuest(""+playerXP[13]+"", 4122);
-sendQuest(""+playerXP[10]+"", 4128);
-sendQuest(""+playerXP[7]+"", 4134);
-sendQuest(""+playerXP[11]+"", 4140);
-sendQuest(""+playerXP[8]+"", 4146);
-sendQuest(""+playerXP[20]+"", 4157);
-sendQuest(""+playerXP[18]+"", 12171);
-sendQuest(""+playerXP[19]+"", 13921);
-
-}
+	private PlayerLoginData PLD = new PlayerLoginData(this);
+	
+	public PlayerLoginData getPlayerLoginData(){
+		return this.PLD;
+	}
 
 	// upon connection of a new client all the info has to be sent to client prior to starting the regular communication
 	public void initialize()
 	{
-	PlayerLoginData PLD = new PlayerLoginData();
-	PLD.sendQuests(this);
+	PLD.sendQuests();
 	PLD = null;
 		
 		//outStream.createFrame(68);	
@@ -12182,7 +9923,7 @@ public boolean process() { 	// is being called regularily every 500ms
 		isteleporting -= 1;
 
 	if (isteleporting <= 10 && isteleporting != 0){
-		if(!teleArea()){
+		if(!canPlayersTeleportInThisArea()){
 			sendMessage("You can't teleport out of here!");
 			isteleporting = 0;
 		}
@@ -12377,10 +10118,10 @@ public boolean process() { 	// is being called regularily every 500ms
 	updateRequired = true;
 	appearanceUpdateRequired = true;
 
-		return false;
+		return false; //used to return packetProcess()
 	}
 
-	public boolean packetProcess() {
+	public boolean packetProcess() { //used to be private boolean packetProcess()
 		if(disconnected) return false;
 		try {
 			if(timeOutCounter++ > 20) {
@@ -12800,7 +10541,7 @@ case 192:
 					int _NPCID = server.npcHandler.npcs[attacknpc].npcType;
 					if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
 						sendMessage("That's a friendly NPC that I should not attack.");
-						refreshPlayerPosition();
+						updatePlayerPosition();
 						break;
 					}						
 					if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
@@ -13407,7 +11148,7 @@ case 95: // update chat
 				int followID = inStream.readSignedWordBigEndian();
 				if(followingPlayerID == followID){
 					followingPlayerID = -1;
-					this.refreshPlayerPosition();
+					this.updatePlayerPosition();
 				}
 				else
 					followingPlayerID = followID;				
@@ -13789,7 +11530,7 @@ case 131: //Magic on NPCs
 	int _NPCID = server.npcHandler.npcs[npcIndex].npcType;
 	if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
 		sendMessage("That's a friendly NPC that I should not attack.");
-		refreshPlayerPosition();
+		updatePlayerPosition();
 		break;
 	}			
 	if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
@@ -15933,7 +13674,7 @@ break;
 
 case 50235: //Ancients teleport home
 	if(homeTeleportTimer <= 0){
-		if(teleArea()){
+		if(canPlayersTeleportInThisArea()){
 		homeTeleportTimer = 15;
 		isteleporting2(392, 1161, 20, 3023,3206, 0);
 		}
@@ -15944,7 +13685,7 @@ break;
 
 case 4140: //home teleport
 	if(homeTeleportTimer <= 0){
-		if(teleArea()){
+		if(canPlayersTeleportInThisArea()){
 		homeTeleportTimer = 15;
 		isteleporting2(409, 1818, 15, 3024, 3206, 0);
 		}
@@ -15966,7 +13707,7 @@ break;
 
 case 50245: //PVP ancients teleport
 case 4146: //PVP normal teleport
-	if(teleArea())
+	if(canPlayersTeleportInThisArea())
 		selectoptions("PVP Teleports", "Lletya [PVP]",2331,3170,"Tyras Camp [PVP]", 2187,3148, "Elf Camp [PVP]", 2207,3258, "Cancel",-1,-1);
 	else sendMessage("You cannot activate teleports in this area.");
 break;
@@ -16245,28 +13986,7 @@ parseIncomingPackets2();
 		return lists.bows.exists(playerEquipment[playerWeapon]);
 	}
 
-	
-	private void opponentAutoAttack(client opp){
-		opp.IsAttacking = true;
-		opp.AttackingOn = playerId;
-		opp.Attack();
-	}
-	
-	public boolean canAttackOpponent(client opp){
-		if(!isInPKZone()){
-			sendMessage("You are in a safe zone.");
-			ResetAttack();
-			return false;
-		}
-		if(!opp.isInPKZone()){
-			sendMessage("That player is in a safe zone.");
-			ResetAttack();
-			return false;
-		}
-		return true;
-	}
-
-	
+		
 	private void applyBandosSpecial(client opponentClient, int damage){
 		if(damage <= 0) return;
 		
@@ -16288,170 +14008,7 @@ parseIncomingPackets2();
 		
 	}
 	
-	/**
-	 * Private helper method for PVP combat. Will update attack delay as well.
-	 * @param playerID Player ID in players array
-	 * @param damage damage to inflict to player
-	 * @return true if damage inflicted successfully
-	 */
-	private boolean updateDelayAndDamagePlayer(int playerID, int damage){
-		client opponentClient = (client) PlayerHandler.players[playerID];
-		
-		LoopAttDelay = PkingDelay;
-		debug("LoopAttDelay : "+LoopAttDelay);
-		playerSpamTimer = System.currentTimeMillis();
-		faceNPC = 32768+playerID;
-		faceNPCupdate = true;
-		PlayerHandler.players[playerID].faceNPC = 32768+AttackingOn;
-		PlayerHandler.players[playerID].faceNPCupdate = true;
-		opponentClient.KillerId = playerId;
-		opponentClient.inCombat();
-		if(opponentClient.autoRetaliate == 1 && !opponentClient.IsAttacking) //1 means on
-			opponentAutoAttack(opponentClient);
-		inCombat();
-		if (opponentClient.SpecEmoteTimer == 0)
-			opponentClient.setAnimation(GetBlockAnim(opponentClient.playerEquipment[opponentClient.playerWeapon]));
-		return damagePlayer(playerID, damage);
-	}
 	
-	public boolean damagePlayer(int playerID, int damage){
-		try{
-			int playerHP = PlayerHandler.players[playerID].playerLevel[playerHitpoints];
-			if (damage > playerHP) damage = playerHP;
-			if (damage < 0) damage = 0;
-			PlayerHandler.players[playerID].hitDiff = damage;
-			PlayerHandler.players[playerID].hitUpdateRequired = true;
-			PlayerHandler.players[playerID].updateRequired = true;
-			PlayerHandler.players[playerID].appearanceUpdateRequired = true;
-			return true;
-		}
-		catch(Exception e){
-			error("In damagePlayer : "+e.getMessage());
-			return false;
-		}
-	}
-	
-	public boolean Attack() {
-		isPVP = true;
-		int EnemyX = PlayerHandler.players[AttackingOn].absX;
-		int EnemyY = PlayerHandler.players[AttackingOn].absY;
-		int EnemyHPExp = PlayerHandler.players[AttackingOn].playerXP[playerHitpoints];
-		client opponentClient = (client) server.playerHandler.players[AttackingOn]; //opponent's client
-		if (opponentClient == null){
-			error("In Attack, opponent client is null");
-			return false;
-		}
-			
-		if(!canAttackOpponent(opponentClient))
-			return false;
-
-		int distance = Item.ifHasBowAndAmmoUpdateDelay(this);
-		if(distance == -1){
-			sendMessage("You need ammo to use this ranged weapon.");
-			refreshPlayerPosition();
-			ResetAttack();
-			return false;
-		}
-		if (!GoodDistance(EnemyX, EnemyY, absX, absY, distance) && !autocast) //autocast is handled seperately
-			followingPlayerID = AttackingOn;
-		if(LoopAttDelay > 1)
-			return false;
-
-		/* Melee */
-		if(distance == 1 && !autocast) { 
-			
-			if(lists.halberd.exists(playerEquipment[playerWeapon]))
-				distance = 2;
-			
-			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
-				if (PlayerHandler.players[AttackingOn].IsDead == true) {
-					ResetAttack();
-					return false;
-				}
-				
-				followingPlayerID = -1;
-
-				PkingDelay = Item.getItemDelay(playerEquipment[playerWeapon]);
-
-				setAnimation(GetWepAnim());
-				
-				int damage = getMaxMeleeHit(); 
-
-				if(litBar){
-					damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
-					getFilling();
-				}
-
-				damage -= opponentClient.playerMeleeDefBonus(); //accounts for opponent's defence level
-
-				if(!Hit(AttackingOn)) damage = 0;
-
-				if(opponentClient.PMelee)
-					damage = (int)((double)damage*0.6); //protects for 40% in PvP
-
-				if(usedBandosSpecial){
-					usedBandosSpecial = false;
-					applyBandosSpecial(opponentClient, damage);
-				}
-				if(usedZamorakSpecial){
-					usedZamorakSpecial = false;
-					opponentClient.frozen(20);
-					opponentClient.stillgfxz(369, opponentClient.absY, opponentClient.absX, 0, 20);
-				}
-
-				addCombatXP(damage);
-				return updateDelayAndDamagePlayer(AttackingOn, damage);
-			}
-		}
-
-		/* Ranged */
-		if(distance > 1 && !autocast){
-			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
-				//actionAmount++;
-				//setAnimation(playerSEA);
-				followingPlayerID = -1;
-				
-				refreshPlayerPosition();
-
-				int damage = misc.random(getMaxRangedHit());
-
-				if(litBar){
-					damage = checkSpecials(damage, opponentClient.absY, opponentClient.absX);
-					getFilling();
-				}
-				else this.BOWHANDLER.arrowProjectilePlayer(AttackingOn);
-
-				if(!RangeHit(AttackingOn)) damage = 0;
-
-				if(opponentClient.PRange)
-					damage = (int)((double)damage*0.6); //protects for 40% in PvP
-
-				setAnimation(this.BOWHANDLER.getBowEmote());
-
-				checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
-
-				addCombatRangedXP(damage);
-
-				return updateDelayAndDamagePlayer(AttackingOn, damage);			
-			}
-		}
-		
-		/* Magic */
-		if(autocast){
-			return AttackPlayerMagic(AttackingOn);
-		}	
-
-		isPVP = false;
-		return false;
-	}
-
-	public boolean ResetAttack() {
-		IsAttacking = false;
-		AttackingOn = 0;
-    pEmote = playerSE;
-		requirePlayerUpdate();
-		return true;
-	}
 
 	public boolean ApplyDead() {
 		if(server.pestControlHandler.isInPestControl(this)){
@@ -17176,15 +14733,7 @@ sendMessage("You open the box and recieve an item!");
 		return true;
 	}
 	
-	
-	public boolean IsItemInBag(int ItemID) {
-		for (int i = 0; i < playerItems.length; i++) {
-			if ((playerItems[i] - 1) == ItemID) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 	public boolean AreXItemsInBag(int ItemID, int Amount) {
 		int ItemCount = 0;
 		for (int i = 0; i < playerItems.length; i++) {
@@ -17676,241 +15225,6 @@ public void pmstatus(int status) { //status: loading = 0  connecting = 1  fine =
 
 	int applySnare = -1;
 	
-	private boolean AttackPlayerMagic(int index) {
-		int magicDistance = 6;
-		
-		if (!GoodDistance(server.playerHandler.players[index].absX, server.playerHandler.players[index].absY, absX, absY, magicDistance))
-			followingPlayerID = AttackingOn;
-		
-		if(LoopAttDelay > 0)
-			return false;
-		
-		applySnare = -1;
-		int required = this.MAGICDATAHANDLER.checkMagicLevel(spellID);
-		if(playerLevel[playerMagic] < required){
-			sendMessage("You need a Magic level of at least "+required+" to do that.");
-			refreshPlayerPosition();
-			return false;
-		}
-		
-		if(!this.MAGICDATAHANDLER.checkMagicRunes(spellID)){
-			refreshPlayerPosition();
-			return false;
-		}
-		
-		int playerIndex = index;
-		client castOnPlayer = (client) server.playerHandler.players[playerIndex];
-		
-		if(!canAttackOpponent(castOnPlayer)){
-			refreshPlayerPosition();
-			return false;
-		}
-		
-		int EnemyX2 = server.playerHandler.players[playerIndex].absX;
-		int EnemyY2 = server.playerHandler.players[playerIndex].absY;
-		int EnemyHP = server.playerHandler.players[playerIndex].playerLevel[playerHitpoints];
-		int heal = 0;
-		int myHP = playerLevel[playerHitpoints];
-		int damage = 0;	
-		
-		int distanceBetweenMeAndMyEnemy = distanceBetweenPoints(EnemyX2, EnemyY2, absX, absY);
-		
-		//inStream.readSignedWordA();
-		if (distanceBetweenMeAndMyEnemy <= magicDistance){				
-			debug("playerIndex: "+playerIndex+" spellID: "+spellID);
-			
-			followingPlayerID = -1;
-			
-			PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
-			
-			refreshPlayerPosition();
-			
-			int offsetX = (absX - EnemyX2) * -1;
-			int offsetY = (absY - EnemyY2) * -1;
-			int BURST = 2; int BARRAGE = 3;
-			
-			int X3 = PlayerHandler.players[index].absX;
-			int Y3 = PlayerHandler.players[index].absY;
-			int offsetX3 = (absX - X3) * -1;
-			int offsetY3 = (absY - Y3) * -1;
-			
-			if(castOnPlayer.autoRetaliate == 1 && !castOnPlayer.IsAttacking) //1 means on
-				opponentAutoAttack(castOnPlayer);
-			
-			this.MAGICDATAHANDLER.removeMagicRunes(spellID);
-			
-			switch(spellID){ 
-			
-			case 1152: //Wind Strike
-				damage = ProjectileSpellPlayer(90, 95, 92, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 2,1);
-				break;
-
-			case 1154: //Water Strike
-				damage = ProjectileSpellPlayer(93, 94, 95, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 4,5);
-				break;
-
-			case 1156: //Earth Strike
-				damage = ProjectileSpellPlayer(96, 97, 98, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 6,9);
-				break;
-
-			case 1158: //Fire Strike
-				damage = ProjectileSpellPlayer(99, 100, 101, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 8,13);
-				break;
-
-			case 1160: //Wind Bolt
-				damage = ProjectileSpellPlayer(117, 118, 119, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 9,17);
-				break;
-			case 1163: //thing
-				damage = ProjectileSpellPlayer(120, 121, 122, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 10,23);
-				break;
-
-			case 1166: //Earth Bolt
-				damage = ProjectileSpellPlayer(123, 124, 125, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 11,29); 
-				break;
-
-			case 1169: //Fire Bolt
-				damage = ProjectileSpellPlayer(126, 127, 128, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 12,35);
-				break;
-
-			case 1172: //Wind Blast
-				damage = ProjectileSpellPlayer(132, 133, 134, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 13,41);
-				break;
-
-			case 1175: //Water Blast
-				damage = ProjectileSpellPlayer(135, 136, 137, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14,47);
-				break;
-
-			case 1177: //Earth Blast
-				damage = ProjectileSpellPlayer(138, 139, 140, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15,53);
-				break;
-
-			case 1181: //Fire Blast
-				damage = ProjectileSpellPlayer(129, 130, 131, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16,59);
-				break;
-
-			case 1183: //Wind Wave
-				damage = ProjectileSpellPlayer(158, 159, 160, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17,62);
-				break;
-
-			case 1185: //Water Wave
-				damage = ProjectileSpellPlayer(161, 162, 163, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 18,65);
-				break;
-
-			case 1188: //Earth Wave
-				damage = ProjectileSpellPlayer(164, 165, 166, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 19,70);
-				break;
-
-			case 1189: //Fire Wave
-				damage = ProjectileSpellPlayer(155, 156, 157, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 20,75);
-				break;
-
-			case 12861: //Ice Rush - Level 58
-				applySnare = 5;
-				damage = ancientsProjectileSpellPlayer(360, 360, 361, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 17,58);
-				break;
-
-			case 12881: //Ice Burst - Level 70
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST,70,true,10);					
-				return true;
-
-			case 12871: //Ice Blitz - Level 82
-				applySnare = 15;
-				damage = ancientsProjectileSpellPlayer(366, 367, 368, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 26,82);
-				break;
-
-			case 12891: //Ice Barrage - Level 94
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94,true,20);					
-				return true;
-
-			case 12939: // Smoke Rush - Level 50
-				damage = ancientsProjectileSpellPlayer(384, 384, 385, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 14,50);
-				break;
-
-			case 12963: // Smoke Burst - Level 62
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST,62,false,-1);		
-				return true;
-
-			case 12951: //Smoke Blitz - Level 74
-				damage = ancientsProjectileSpellPlayer(386, 386, 387, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 23,74);
-				break;
-
-			case 12975: //Smoke Barrage - Level 86
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86,false,-1);
-				return true;
-
-			case 12987: //Shadow Rush - Level 52
-				damage = ancientsProjectileSpellPlayer(378, 378, 379, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 15,52);
-				break;
-
-			case 13011: //Shadow Burst - Level 64
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST,64,false,-1);
-				return true;
-
-			case 12999: //Shadow Blitz - Level 76
-				damage = ancientsProjectileSpellPlayer(380, 380, 381, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 24,76);
-				break;
-
-			case 13023: //Shadow Barrage - Level 88
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88,false,-1);
-				return true;
-
-			case 12901: //Blood Rush - Level 56
-				damage = ancientsProjectileSpellPlayer(372, 372, 373, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 16,56);
-				NewHP += damage/4;
-				if(NewHP > getLevelForXP(playerXP[3])) 
-					NewHP = getLevelForXP(playerXP[3]);
-				break;
-				
-			case 12919: //Blood Burst - Level 68
-				int total = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,376,21,BURST,68,false,-1);
-				if(total > 7) total = 7; //greatest amount that can be healed is 7
-				NewHP += total;
-				if(NewHP > getLevelForXP(playerXP[3])) 
-					NewHP = getLevelForXP(playerXP[3]);
-				return true;
-
-			case 12911: //Blood Blitz - Level 80
-				damage = ancientsProjectileSpellPlayer(374, 374, 375, absY, absX, offsetY, offsetX, index+1, EnemyY2, EnemyX2, 25,80);
-				int total2 = damage/4;
-				if(total2 > 7) total2 = 7; //greatest amount that can be healed is 7
-				NewHP += total2;
-				if(NewHP > getLevelForXP(playerXP[3])) 
-					NewHP = getLevelForXP(playerXP[3]);
-				break;
-
-			case 12929: //Blood Barrage - Level 92
-				int total3 = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92,false,-1);
-				if(total3 > 8) total3 = 8; //greatest amount that can be healed is 8
-				NewHP += total3;
-				if(NewHP > getLevelForXP(playerXP[3])) 
-					NewHP = getLevelForXP(playerXP[3]);
-				return true;				
-				
-			default:
-				debug("Unhandled spellID when casting on player : "+spellID);
-				break;
-
-			}
-			
-			//if(!doesMySpellHitMyEnemy(playerIndex)) damage = 0;
-			
-			//damage -= misc.random(   ( (client) server.playerHandler.players[playerIndex] ).playerMagicDefBonusStatic()    );
-			
-			if(castOnPlayer.PMage)
-				damage = (int)((double)damage*0.6); //reduce by 40% in pvp
-			
-			if(damage > 0 && applySnare > 0)
-				castOnPlayer.frozen(applySnare);
-			
-			int exp = damage*4*CombatExpRate;
-			if (exp < 0) exp = 4*CombatExpRate;
-			addSkillXP(exp, 6);
-
-			return updateDelayAndDamagePlayer(playerIndex, damage);			
-		}
-		else followplayer(playerIndex);
-		return false;
-	}
 	
 	public int getSpecialDamageAndModifySpecialDelay(int damage){
 		if (litBar){
@@ -18202,56 +15516,6 @@ private boolean hitNPC(int npcID, int damage){
 	}
 }
 
-/**
- * Will set the loop attack delay, hit delay timer, and call hitNPC
- * @param npcID - NPC ID in the array of current NPCs
- * @param damage - Damage to inflict
- * @return True if the hit was successful, false otherwise
- */
-private boolean updateDelayAndHitNPC(int npcID, int damage){
-	LoopAttDelay = PkingDelay;
-	hitDelayTimer = System.currentTimeMillis();
-	return hitNPC(attacknpc, damage);
-}
-
-private void addCombatXP(int damage){
-	if(damage != 0){
-		double TotalExp = 0;
-		if (FightType != 3) {
-			TotalExp = (double)(200 * damage);
-			TotalExp = (double)(TotalExp * CombatExpRate);
-			addSkillXP((int)(TotalExp), SkillID);
-		}
-		else {
-			TotalExp = (double)(200 * damage);
-			TotalExp = (double)(TotalExp * CombatExpRate);
-			addSkillXP((int)(TotalExp), playerAttack);
-			addSkillXP((int)(TotalExp), playerDefence);
-			addSkillXP((int)(TotalExp), playerStrength);
-		}
-		TotalExp = (double)(200 * damage);
-		TotalExp = (double)(TotalExp * CombatExpRate);
-		addSkillXP((int)(TotalExp), playerHitpoints);
-	}
-}
-
-private void addCombatRangedXP(int damage){
-	if(damage != 0){
-		double TotalExp = 0;
-		TotalExp = (double)(200 * damage);
-		TotalExp = (double)(TotalExp * CombatExpRate);
-		addSkillXP((int)(TotalExp), playerRanged);
-		TotalExp = (double)(200 * damage);
-		TotalExp = (double)(TotalExp * CombatExpRate);
-		addSkillXP((int)(TotalExp), playerHitpoints);
-	}
-}
-
-private void refreshPlayerPosition(){
-	teleportToX = absX;
-	teleportToY = absY;
-	requirePlayerUpdate();
-}
 
 private void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord){
 	if(playerEquipment[playerWeapon] != Item.CRYSTALBOW && playerEquipmentN[playerArrows] != 0){ //if not cbow and if there are arrows
@@ -18266,113 +15530,6 @@ private void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord
 	}
 }
 
-public boolean AttackNPC() {
-	
-	if(LoopAttDelay > 0)
-		return false;
-	
-	if (server.npcHandler.npcs[attacknpc].IsDead){
-		ResetAttackNPC();
-		return false;
-	}
-	
-	int EnemyX = server.npcHandler.npcs[attacknpc].absX;
-	int EnemyY = server.npcHandler.npcs[attacknpc].absY;
-	int hitDiff = 0;
-
-	faceNPC(attacknpc);
-
-	if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
-
-		int distance = Item.ifHasBowAndAmmoUpdateDelay(this);
-		if(distance == -1){
-			sendMessage("You need ammo to use this ranged weapon.");
-			refreshPlayerPosition();
-			ResetAttackNPC();
-			return false;
-		}
-		
-		/* Melee */
-		if(distance == 1 && !autocast) { 
-			
-			if(lists.halberd.exists(playerEquipment[playerWeapon]))
-				distance = 2;
-			
-			PkingDelay = Item.getItemDelay(playerEquipment[playerWeapon]);
-			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
-				if(distance > 1)
-					refreshPlayerPosition();
-				
-				setAnimation(GetWepAnim());
-				
-				hitDiff = misc.random(getMaxMeleeHit());
-				
-				if(!HitNPCMelee(attacknpc)) hitDiff = 0;
-				
-				hitDiff = getSpecialDamageAndModifySpecialDelay(hitDiff);
-				
-				addCombatXP(hitDiff);
-				inCombat(); 
-			
-				return updateDelayAndHitNPC(attacknpc, hitDiff);
-			}			
-		}
-		/* Ranged */
-		if(distance > 1 && !autocast){
-			if (GoodDistance(EnemyX, EnemyY, absX, absY, distance)) {
-				refreshPlayerPosition();
-				
-				hitDiff = misc.random(getMaxRangedHit());
-
-				if(!RangeHitNPC(attacknpc)) hitDiff = 0;
-
-				if (litBar){
-					hitDiff = checkSpecials(hitDiff, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX);
-					getFilling();
-				}
-				else this.BOWHANDLER.arrowProjectile(attacknpc);
-
-				checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
-
-				addCombatRangedXP(hitDiff);
-				setAnimation(this.BOWHANDLER.getBowEmote());
-				return updateDelayAndHitNPC(attacknpc, hitDiff);
-			}
-		}
-				
-		/* Magic */
-		if(autocast){
-			final int AUTOCASTDISTANCE = 6;
-			if (GoodDistance(EnemyX, EnemyY, absX, absY, AUTOCASTDISTANCE)){ 
-				if(magicOnNPC(attacknpc))
-					return true;
-				else{
-					refreshPlayerPosition();
-					ResetAttackNPC();
-					return false;
-				}
-			}
-		}
-		
-	}
-	else {
-		error("In AttackNPC");
-	}
-	return false;
-}
-
-	public boolean ResetAttackNPC() {
-		ResetAttack();
-		if (attacknpc > -1 && attacknpc < server.npcHandler.maxNPCs) {
-			server.npcHandler.npcs[attacknpc].IsUnderAttack = false;
-		}
-		IsAttackingNPC = false;
-		attacknpc = -1;
-    pEmote = playerSE;
-    faceNPC = 65535;
-    faceNPCupdate = true;
-		return true;
-	}
 	public void ManipulateDirection() {
 		//playerMD = misc.direction(absX, absY, skillX, skillY);
 		if (playerMD != -1) {
@@ -18393,12 +15550,6 @@ public boolean AttackNPC() {
 			}
 		}
 		return 1;
-	}
-	public String getNpcName(int npcID) {
-		if(server.npcHandler.npcList2.exists(npcID))
-			return server.npcHandler.npcList2.getName();
-		debug("NPC Name for "+npcID+" not found.");
-		return null;
 	}
 	
 	public String getItemName(int ItemID) {
@@ -18607,134 +15758,7 @@ return (playerEquipment[playerHat] == 4724 && playerEquipment[playerChest] == 47
 
 
 
-public boolean MageHitNPC(int npcIndex){
-	if(server.npcHandler.npcs[npcIndex] == null) return false;
-	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
-	int enemyBonus = npcMaxHP;
-	int myBonus = playerLevel[playerMagic]+playerBonus[atkBonus[magic]];
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
-}
 
-public boolean doesMySpellHitMyEnemy(int playerIndex){
-	client playerClient = (client) server.playerHandler.players[playerIndex];
-	if(playerClient == null) return false;
-	int enemyMagicDefEquipmentBonus = playerClient.playerBonus[defBonus[magic]];
-	int enemyBonus = playerClient.playerLevel[playerMagic]+enemyMagicDefEquipmentBonus;
-	int myBonus = playerLevel[playerMagic]+playerBonus[atkBonus[magic]];
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
-}
-
-public boolean RangeHitNPC(int npcIndex){
-	if(server.npcHandler.npcs[npcIndex] == null) return false;
-	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
-	int enemyBonus = npcMaxHP;
-	int myBonus = playerLevel[playerRanged]+playerBonus[atkBonus[range]];
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
-}
-
-public boolean HitNPCMelee(int npcIndex){
-	if(server.npcHandler.npcs[npcIndex] == null) return false;
-	int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
-	int enemyBonus = npcMaxHP;
-	
-	int maxAtkBonus = Math.max(playerBonus[atkBonus[stab]], playerBonus[atkBonus[slash]]);
-	maxAtkBonus = Math.max(maxAtkBonus, playerBonus[atkBonus[crush]]);
-	
-	int myPrayerBonus = (int)(attEffect*0.01);
-	
-	int myBonus = playerLevel[playerAttack]+maxAtkBonus+myPrayerBonus;
-	
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
-}
-
-
-public int CheckBestBonus() {
-
-if(playerBonus[1] > playerBonus[2] && playerBonus[1] > playerBonus[3])
-return 1;
-if(playerBonus[2] > playerBonus[1] && playerBonus[2] > playerBonus[3])
-return 2;
-if(playerBonus[3] > playerBonus[2] && playerBonus[3] > playerBonus[1])
-return 3;
-
-return 1;
-}
-
-public boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
-	if(enemyBonus < 2) enemyBonus = 2;
-	if(myBonus < 2) myBonus = 2; 
-	int myRandom = misc.random(myBonus); //declaring for debugging purposes
-	int eRandom = misc.random(enemyBonus);
-	debug("myBonus : "+myBonus+" enemyBonus : "+enemyBonus);
-	return (myRandom > eRandom);
-}
-
-public boolean Hit(int index){
-	if(server.playerHandler.players[index] == null) return false;
-	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	
-	int enemyBonusEquipment = Math.max(enemy.playerBonus[defBonus[stab]], enemy.playerBonus[defBonus[slash]]);
-	enemyBonusEquipment = Math.max(enemyBonusEquipment, enemy.playerBonus[defBonus[crush]]);
-	
-	int enemyBonus = enemy.playerLevel[playerDefence]+enemyBonusEquipment;
-	
-	int myBonusEquipment = Math.max(playerBonus[atkBonus[stab]], playerBonus[atkBonus[slash]]);
-	myBonusEquipment = Math.max(playerBonus[atkBonus[slash]], myBonusEquipment);
-	
-	int myPrayerBonus = (int)(attEffect*0.01);
-	
-	int myBonus = playerLevel[playerAttack]+myBonusEquipment+myPrayerBonus;
-	
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
-}
-
-public boolean RangeHit(int index){
-	if(server.playerHandler.players[index] == null) return false;
-	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonusEquipment = enemy.playerBonus[defBonus[range]];
-	int enemyBonus = enemy.playerLevel[playerDefence]+enemyBonusEquipment;
-	int myBonus = playerLevel[playerRanged]+playerBonus[atkBonus[range]];
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
-}
-
-public boolean MageHit(int index) {
-	if(server.playerHandler.players[index] == null){ 
-		error("In MageHit, given Null index");
-		return false;
-	}
-	client enemy = (client) server.playerHandler.players[index]; //opponent's client
-	int enemyBonus = enemy.playerLevel[playerDefence]+enemy.playerBonus[defBonus[magic]];
-	int myBonus = playerLevel[playerMagic]+playerBonus[atkBonus[magic]];
-	return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);	
-}
-
-	public boolean GoodDistance(int objectX, int objectY, int playerX, int playerY, int distance) {
-		for (int i = 0; i <= distance; i++) {
-		  for (int j = 0; j <= distance; j++) {
-			if ((objectX + i) == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
-				return true;
-			} else if ((objectX - i) == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
-				return true;
-			} else if (objectX == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
-				return true;
-			}
-		  }
-		}
-		return false;
-	}
-	public boolean GoodDistance2(int objectX, int objectY, int playerX, int playerY, int distance) {
-		for (int i = 0; i <= distance; i++) {
-		  for (int j = 0; j <= distance; j++) {
-			if (objectX == playerX && ((objectY + j) == playerY || (objectY - j) == playerY || objectY == playerY)) {
-				return true;
-			} else if (objectY == playerY && ((objectX + j) == playerX || (objectX - j) == playerX || objectX == playerX)) {
-				return true;
-			}
-		  }
-		}
-		return false;
-	}
-			
 	public boolean CheckSmelting(int ItemID, int ItemSlot) {
 		boolean GoFalse = false;
 		switch (ItemID) {
@@ -19484,43 +16508,12 @@ public boolean MageHit(int index) {
 		}
 		return true;
 	}
-/*NPC Talking*/
 	
-	public void npcdialogue(int id, String ... lines){
-		npcLines.clear();
-		npcID = id;
-		npcName = getNpcName(id);
-		for(int i = 0; i < lines.length; i++)
-			npcLines.add(lines[i]);
-		npcChat();
-	}	
-	
-	public void npcdialogue(String name, int id, String ... lines){
-		npcLines.clear();
-		npcID = id;
-		npcName = name;
-		for(int i = 0; i < lines.length; i++)
-			npcLines.add(lines[i]);
-		npcChat();
-	}	
+
 	
 	public String npcName;
 	public int npcID;
 	public Queue<String> npcLines = new LinkedList<String>();
-	
-	/**
-	 * Used to load the npcLines queue from dialogueHandler
-	 * @param npcID
-	 */
-	public void startDialogue(int n){
-		npcLines.clear();
-		npcID = n;
-		npcName = DIALOGUEHANDLER.getName();
-		String[] lines = DIALOGUEHANDLER.getLines();
-		for(int i = 0; i < lines.length; i++)
-			npcLines.add(lines[i]);
-		npcChat();
-	}
 	
 	/**
 	 * Relies on global variables npcID and npcName being up to date
@@ -19533,6 +16526,8 @@ public boolean MageHit(int index) {
 				lines[0] = "";
 				i = 1;
 		}
+		
+		
 		
 		while(i < 4){
 			lines[i] = npcLines.poll();

@@ -5,8 +5,7 @@ import java.util.GregorianCalendar;
 public abstract class Player extends playerInstances {
 	
 	public boolean hasLoadedAllNPCs = false;
-
-
+	
 	public int distanceTo(Player other) {
 		return (int) Math.sqrt(Math.pow(absX - other.absX, 2) + Math.pow(absY - other.absY, 2));
 	}
@@ -34,6 +33,26 @@ public abstract class Player extends playerInstances {
 		FocusPointY = 2*pointY+1;
 	}		
 	
+	/**
+	 * Is the common teleport method to call when changing x and y
+	 */
+	public void teleport(int x, int y){
+		teleport(x,y,0);
+	}
+	
+	public void teleport(int x, int y, int h){
+		teleportToX = x;
+		teleportToY = y;
+		heightLevel = h;
+		requirePlayerUpdate();
+	}
+	
+	public void updatePlayerPosition(){
+		teleportToX = absX;
+		teleportToY = absY;
+		requirePlayerUpdate();
+	}
+	
 	public void requirePlayerUpdate(){
 		updateRequired = true;
 		appearanceUpdateRequired = true;
@@ -44,6 +63,16 @@ public abstract class Player extends playerInstances {
 		str.writeWordBigEndian(FocusPointY);
 	}
 
+	/**
+	 * Checks if the player is in the current area, paramatized with two pts
+	 * Checks if the player x and y coords are greater than x, y, and less than x2, y2
+	 */
+	public boolean isInArea(int x, int y, int x2, int y2) {
+		if ((c.absX >= x && c.absX <= x2) && (c.absY >= y && c.absY <= y2)) return true;
+		if ((c.absX >= x2 && c.absX <= x) && (c.absY >= y2 && c.absY <= y)) return true;
+		return false;
+	}
+	
 	double runningEnergy = 100;
 
 	public double getRunningEnergy() {
@@ -54,11 +83,11 @@ public abstract class Player extends playerInstances {
 		runningEnergy = energy;
 	}
 
-	client c = (client) this;
+	private client c = (client) this;
 
 	public void setRunningEnergy(double runningEnergy) {
 		this.runningEnergy = runningEnergy;
-		c.getPlayerMethodHandler().sendEnergy();
+		c.getClientMethodHandler().sendEnergy();
 	}
 	
 	public boolean newhptype = false;
@@ -74,18 +103,6 @@ public abstract class Player extends playerInstances {
 	
 	public boolean ignoreCombat = false;
 	public boolean roundTimerFrameCreated = false;
-
-
-	/**
-	 * Checks if the player is in the current area, paramatized with two pts
-	 * Checks if the player x and y coords are greater than x, y, and less than x2, y2
-	 */
-	public boolean isInArea(int x, int y, int x2, int y2) {
-		if ((absX >= x && absX <= x2) && (absY >= y && absY <= y2)) return true;
-		if ((absX >= x2 && absX <= x) && (absY >= y2 && absY <= y)) return true;
-		return false;
-	}
-
 
 	// some remarks: one map region is 8x8
 	// a 7-bit (i.e. 128) value thus ranges over 16 such regions
@@ -410,8 +427,6 @@ public abstract class Player extends playerInstances {
 	public int playerSlayer = 18;
 	public int playerFarming = 19;
 	public int playerRunecrafting = 20;
-
-	public int i = 0;
 
 	public int[] playerLevel = new int[25];
 	public int[] playerXP = new int[25];
@@ -1204,6 +1219,56 @@ public abstract class Player extends playerInstances {
 
 
 
+  public void followplayer(int j)
+  {
+  	if(j == -1) return;
+  	client p = (client)PlayerHandler.players[j];
+  	if(p == null){
+  		error("In followPlayer : client at player index "+j+" is null");
+  		followingPlayerID = -1;  		
+  		return;
+  	}
+  	int walkToX = 0;
+  	int walkToY = 0;
+  	if(misc.GoodDistance(absX, absY, p.absX, p.absY, 15)){
+	  	if(!misc.GoodDistance(absX, absY, p.absX, p.absY, 1)){
+	  		if(p.absX > absX) walkToX = 1;
+	  		if(p.absX < absX) walkToX = -1;
+	  		if(p.absY > absY) walkToY = 1;
+	  		if(p.absY < absY) walkToY = -1;
+//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
+  			
+	  		/*pathfinding*/
+	  		if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY+walkToY] != -1){
+	  			c.getClientMethodHandler().walkTo(walkToX, walkToY);
+	  			requirePlayerUpdate();
+	  			p.requirePlayerUpdate();
+	  			return;
+	  		}
+	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX][absY+walkToY] != -1){
+	  			c.getClientMethodHandler().walkTo(0, walkToY);
+	  			requirePlayerUpdate();
+	  			p.requirePlayerUpdate();
+	  			return;
+	  		}
+	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY] != -1){
+	  			c.getClientMethodHandler().walkTo(walkToX, 0);
+	  			requirePlayerUpdate();
+	  			p.requirePlayerUpdate();
+	  			return;
+	  		}
+	  	} 
+	  	else {
+	  		faceNPC = 32768+j;
+	  		faceNPCupdate = true;
+	  	}
+  	}
+  	else{
+  		followingPlayerID = -1;
+  		faceNPC = 65535;
+  		faceNPCupdate = true;
+  	}
+  }
 
 
 	public int getLevelForXP(int exp) {
@@ -1246,6 +1311,9 @@ public abstract class Player extends playerInstances {
 		faceNPCupdate = true;
 		updateRequired = true;
 	}
+	public void inCombat(){
+		LogoutDelay = System.currentTimeMillis();
+		}
 	protected boolean faceNPCupdate = false;
 	public int faceNPC = -1;
 	public void appendFaceNPCUpdate(stream str) {

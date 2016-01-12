@@ -8,7 +8,12 @@ public class FoodHandler {
 	}
 	
 	
-	
+	public boolean eat(int itemID, int slotID){
+		c.startAnimation(1191);
+		c.getClientMethodHandler().heal(c.MISCSTRUCTS.getFoodHealAmount(itemID));
+		c.getInventoryHandler().deleteItem(itemID, slotID, 1);
+		return true;
+	}
 	
 	
 	public int getFoodHealAmount(int itemID){

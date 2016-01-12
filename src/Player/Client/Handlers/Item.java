@@ -83,6 +83,8 @@ public class Item {
 		}
 	}
 	
+
+	
 	/**
 	 * Checks to see if the player has a bow and ammo equipped
 	 * Will modify PkingDelay if a bow is equipped
@@ -210,236 +212,278 @@ public class Item {
 		}
 	}	
 
+	public static boolean ElysianSpiritShield(Player p){
+		return(p.playerEquipment[p.playerShield] == 3637);
+	}
+	
+	public static boolean DivineSpiritShield(Player p){
+		return(p.playerEquipment[p.playerShield] == 3631);
+	}
+	
+	public static int getDFSBonus(Player p){
+			return p.dragcharge/10;
+	}
+
+	/**
+	 * Returns -1 if the itemID does not have a special
+	 */
+	private static int getSpecAmount(int itemID){
+		switch(itemID){
+		case KARILSCROSSBOW:
+		case 1434: //dargon mace? 
+			return 2;
+			
+		case 1215: //dragon dagger
+		case 1231: //dragon dagger
+		case 5680: //dragon dagger
+		case 5698: //dragon dagger
+		case 3204: //dragon halberd
+			return 3;
+			
+		case 1305: //Dragon Longsword
+			return 4;
+		
+		case 861: //magic shortbow
+		case 4153: //gmaul
+		case 4151: //abby whip
+		case 15333: //Armadyl Godsword
+		case 15335: //Saradomin Godsword
+			return 5;
+			
+		case DARKBOW:
+		case 4587: //Dragon Scimitar
+		case 15336: //Zaradomin Godsword
+			return 6;	
+			
+		case CRYSTALBOW:	
+		case 6739: //dragon mace ?	
+		case 1377: //Dragon battleaxe		
+		case 11337: //Dragon Claws
+		case 15351: //Saradomin Sword
+		case 15334: //Bandos Godsword
+		case 35: //Excalibur
+			return 10;
+	
+			default:
+				return -1;
+		}
+	}
+	
 	public static void capeEmote(client c) {
 
 		if (c.playerEquipment[c.playerCape] == 14074) { //attack
-			c.stillgfx(480, c.absY, c.absX);
-			c.stillgfx(484, c.absY, c.absX -1);
-			c.stillgfx(484, c.absY, c.absX +1);
-			c.stillgfx(484, c.absY -1, c.absX);
-			c.stillgfx(484, c.absY +1, c.absX);
-			c.stillgfx(484, c.absY +1, c.absX +1);
-			c.stillgfx(484, c.absY -1, c.absX -1);
-			c.stillgfx(484, c.absY +1, c.absX -1);
-			c.stillgfx(484, c.absY -1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(480, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(484, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(484, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(484, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(484, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(484, c.absY +1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(484, c.absY -1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(484, c.absY +1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(484, c.absY -1, c.absX +1);
 		}
 
 		if (c.playerEquipment[c.playerCape] == 14073) { //attack
 			c.startAnimation(1670);
-			c.stillgfx(60, c.absY, c.absX -1);
-			c.stillgfx(287, c.absY, c.absX);
-			c.stillgfx(60, c.absY, c.absX +1);
-			c.stillgfx(60, c.absY -1, c.absX);
-			c.stillgfx(60, c.absY +1, c.absX);
-			c.stillgfx(84, c.absY, c.absX);
-			c.stillgfx(263, c.absY, c.absX);
-			c.stillgfx(264, c.absY, c.absX);
-			c.stillgfx(426, c.absY, c.absX);
-			c.stillgfx(199, c.absY, c.absX -1);
-			c.stillgfx(199, c.absY, c.absX +1);
-			c.stillgfx(199, c.absY -1, c.absX);
-			c.stillgfx(199, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(60, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(287, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(60, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(60, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(60, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(84, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(263, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(264, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(426, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(199, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(199, c.absY +1, c.absX);
 
 		}
 
 		if (c.playerEquipment[c.playerCape] == 14077) { //strength
 			c.startAnimation(1914);
-			c.stillgfx(76, c.absY, c.absX -1);
-			c.stillgfx(76, c.absY, c.absX +1);
-			c.stillgfx(76, c.absY -1, c.absX);
-			c.stillgfx(76, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(76, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(76, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(76, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(76, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14080) { //defence
 			c.startAnimation(403);
-			c.stillgfx(1, c.absY, c.absX -1);
-			c.stillgfx(1, c.absY, c.absX +1);
-			c.stillgfx(1, c.absY -1, c.absX);
-			c.stillgfx(1, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(1, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(1, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(1, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(1, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14095) { //hitpoints
 			c.startAnimation(1914);
-			c.stillgfx(444, c.absY, c.absX);
-			c.stillgfx(574, c.absY, c.absX);
-			c.stillgfx(199, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(444, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(574, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14083) { //ranging
 			c.startAnimation(250);
-			c.stillgfx(474, c.absY, c.absX);
-			c.stillgfx(474, c.absY, c.absX);
-			c.stillgfx(472, c.absY, c.absX -1);
-			c.stillgfx(472, c.absY, c.absX +1);
-			c.stillgfx(472, c.absY -1, c.absX);
-			c.stillgfx(472, c.absY +1, c.absX);
-			c.stillgfx(472, c.absY +1, c.absX +1);
-			c.stillgfx(472, c.absY -1, c.absX -1);
-			c.stillgfx(472, c.absY +1, c.absX -1);
-			c.stillgfx(472, c.absY -1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(474, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(474, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(472, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(472, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(472, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(472, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(472, c.absY +1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(472, c.absY -1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(472, c.absY +1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(472, c.absY -1, c.absX +1);
 		}
 		if (c.playerEquipment[c.playerCape] == 14086) { //prayer
-			c.stillgfx(520, c.absY, c.absX+1);
-			c.stillgfx(520, c.absY, c.absX-1);
-			c.stillgfx(520, c.absY-1, c.absX);
-			c.stillgfx(520, c.absY+1, c.absX);
-			c.stillgfx(263, c.absY, c.absX);
-			c.stillgfx(264, c.absY, c.absX);
-			c.stillgfx(199, c.absY, c.absX -1);
-			c.stillgfx(199, c.absY, c.absX +1);
-			c.stillgfx(199, c.absY -1, c.absX);
-			c.stillgfx(199, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(520, c.absY, c.absX+1);
+			c.getFrameMethodHandler().stillgfx(520, c.absY, c.absX-1);
+			c.getFrameMethodHandler().stillgfx(520, c.absY-1, c.absX);
+			c.getFrameMethodHandler().stillgfx(520, c.absY+1, c.absX);
+			c.getFrameMethodHandler().stillgfx(263, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(264, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(199, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(199, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14089) { //magic
 			c.startAnimation(811);
-			c.stillgfx(540, c.absY, c.absX -1);
-			c.stillgfx(540, c.absY, c.absX +1);
-			c.stillgfx(540, c.absY -1, c.absX);
-			c.stillgfx(540, c.absY +1, c.absX);
-			c.stillgfx(540, c.absY +1, c.absX +1);
-			c.stillgfx(540, c.absY -1, c.absX -1);
-			c.stillgfx(540, c.absY +1, c.absX -1);
-			c.stillgfx(540, c.absY -1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(540, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(540, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(540, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(540, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(540, c.absY +1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(540, c.absY -1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(540, c.absY +1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(540, c.absY -1, c.absX +1);
 		}
 		if (c.playerEquipment[c.playerCape] == 15150) { //Hunter
 
 		}
 		if (c.playerEquipment[c.playerCape] == 14128) { //cooking
 			c.startAnimation(883);
-			c.stillgfx(563, c.absY, c.absX -1);
-			c.stillgfx(563, c.absY, c.absX +1);
-			c.stillgfx(563, c.absY -1, c.absX);
-			c.stillgfx(563, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(563, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(563, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(563, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(563, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14134) { //woodcutting
 			c.startAnimation(875);
-			c.stillgfx(83, c.absY, c.absX -1);
-			c.stillgfx(83, c.absY, c.absX +1);
-			c.stillgfx(83, c.absY -1, c.absX);
-			c.stillgfx(83, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(83, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(83, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(83, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(83, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14110) { //fletching
-			c.stillgfx(588, c.absY, c.absX -1);
-			c.stillgfx(588, c.absY, c.absX +1);
-			c.stillgfx(588, c.absY -1, c.absX);
-			c.stillgfx(588, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(588, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(588, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(588, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(588, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14125) { //fish
 			c.startAnimation(618);
-			c.stillgfx(267, c.absY, c.absX);
-			c.stillgfx(176, c.absY, c.absX -1);
-			c.stillgfx(176, c.absY, c.absX +1);
-			c.stillgfx(176, c.absY -1, c.absX);
-			c.stillgfx(176, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(267, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(176, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(176, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(176, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(176, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14131) { //firemaking
-			c.stillgfx(453, c.absY, c.absX -1);
-			c.stillgfx(446, c.absY, c.absX);
-			c.stillgfx(453, c.absY, c.absX +1);
-			c.stillgfx(453, c.absY -1, c.absX);
-			c.stillgfx(453, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(453, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(446, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(453, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(453, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(453, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14107) { //crafting
 			c.startAnimation(885);
-			c.stillgfx(239, c.absY, c.absX -1);
-			c.stillgfx(239, c.absY, c.absX +1);
-			c.stillgfx(239, c.absY -1, c.absX);
-			c.stillgfx(239, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(239, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(239, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(239, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(239, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14122) { //smithing
 			c.startAnimation(898);
-			c.stillgfx(436, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(436, c.absY, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14119) { //mining
 			c.startAnimation(625);
-			c.stillgfx(60, c.absY, c.absX -1);
-			c.stillgfx(287, c.absY, c.absX);
-			c.stillgfx(60, c.absY, c.absX +1);
-			c.stillgfx(60, c.absY -1, c.absX);
-			c.stillgfx(60, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(60, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(287, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(60, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(60, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(60, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14101) { //herblore
 			c.startAnimation(1350);
-			c.stillgfx(267, c.absY, c.absX);
-			c.stillgfx(255, c.absY, c.absX);
-			c.stillgfx(259, c.absY, c.absX);
-			c.stillgfx(352, c.absY, c.absX -1);
-			c.stillgfx(352, c.absY, c.absX +1);
-			c.stillgfx(352, c.absY -1, c.absX);
-			c.stillgfx(352, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(267, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(255, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(259, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(352, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(352, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(352, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(352, c.absY +1, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14098) { //agility
 			c.startAnimation(1353);
-			c.stillgfx(601, c.absY, c.absX);
-			c.stillgfx(108, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(601, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(108, c.absY, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14104) { //thieving
 			c.startAnimation(2890);
-			c.stillgfx(437, c.absY, c.absX);
-			c.stillgfx(465, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(437, c.absY, c.absX);
+			c.getFrameMethodHandler().stillgfx(465, c.absY, c.absX);
 		}
 		if (c.playerEquipment[c.playerCape] == 14113) { //slayer
 			c.startAnimation(2844);
-			c.stillgfx(559, c.absY, c.absX -1);
-			c.stillgfx(559, c.absY, c.absX +1);
-			c.stillgfx(559, c.absY -1, c.absX);
-			c.stillgfx(559, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(559, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(559, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(559, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(559, c.absY +1, c.absX);
 			c.txt4 = "Muhahahaha!";
 			c.string4UpdateRequired = true;
 		}
 		if (c.playerEquipment[c.playerCape] == 14137) { //farming
 			c.startAnimation(2273);
-			c.stillgfx(474, c.absY, c.absX -1);
-			c.stillgfx(474, c.absY, c.absX +1);
-			c.stillgfx(474, c.absY -1, c.absX);
-			c.stillgfx(474, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(474, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(474, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(474, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(474, c.absY +1, c.absX);
 
 		}
 		if (c.playerEquipment[c.playerCape] == 14092) { //runecrafting
 			c.startAnimation(1329);
-			c.stillgfx(451, c.absY, c.absX -1);
-			c.stillgfx(451, c.absY, c.absX +1);
-			c.stillgfx(451, c.absY -1, c.absX);
-			c.stillgfx(451, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(451, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(451, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(451, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(451, c.absY +1, c.absX);
 
-			c.stillgfx(481, c.absY, c.absX -1);
-			c.stillgfx(481, c.absY, c.absX +1);
-			c.stillgfx(481, c.absY -1, c.absX);
-			c.stillgfx(481, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(481, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(481, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(481, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(481, c.absY +1, c.absX);
 
-			c.stillgfx(560, c.absY, c.absX -3);
-			c.stillgfx(560, c.absY, c.absX +3);
-			c.stillgfx(560, c.absY -3, c.absX);
-			c.stillgfx(560, c.absY +3, c.absX);
-
-		}
-		if (c.playerEquipment[c.playerCape] == 14116) { //Construct.
-			c.attackPlayersWithin(451, 4000, 100);
-			c.attackPlayersWithin(444, 4000, 100);
-			c.attackPlayersWithin(341, 4000, 100);
-			c.attackPlayersWithin(76, 4000, 100);
-			c.stillgfx(255, c.absY, c.absX +1);
-			c.stillgfx(255, c.absY, c.absX -1);
-			c.stillgfx(255, c.absY -1, c.absX);
-			c.stillgfx(255, c.absY +1, c.absX);
-			c.stillgfx(255, c.absY +1, c.absX +1);
-			c.stillgfx(255, c.absY -1, c.absX -1);
-			c.stillgfx(255, c.absY +1, c.absX -1);
-			c.stillgfx(255, c.absY -1, c.absX +1);
-
+			c.getFrameMethodHandler().stillgfx(560, c.absY, c.absX -3);
+			c.getFrameMethodHandler().stillgfx(560, c.absY, c.absX +3);
+			c.getFrameMethodHandler().stillgfx(560, c.absY -3, c.absX);
+			c.getFrameMethodHandler().stillgfx(560, c.absY +3, c.absX);
 
 		}
+
 		if (c.playerEquipment[c.playerCape] == 14139) { //Quest Cape
 			c.startAnimation(1818);
-			c.stillgfx(187, c.absY, c.absX +1);
-			c.stillgfx(187, c.absY, c.absX -1);
-			c.stillgfx(187, c.absY -1, c.absX);
-			c.stillgfx(187, c.absY +1, c.absX);
-			c.stillgfx(187, c.absY +1, c.absX +1);
-			c.stillgfx(187, c.absY -1, c.absX -1);
-			c.stillgfx(187, c.absY +1, c.absX -1);
-			c.stillgfx(187, c.absY -1, c.absX +1);
-			c.stillgfx(474, c.absY, c.absX -1);
-			c.stillgfx(474, c.absY, c.absX +1);
-			c.stillgfx(474, c.absY -1, c.absX);
-			c.stillgfx(474, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(187, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(187, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(187, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(187, c.absY +1, c.absX);
+			c.getFrameMethodHandler().stillgfx(187, c.absY +1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(187, c.absY -1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(187, c.absY +1, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(187, c.absY -1, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(474, c.absY, c.absX -1);
+			c.getFrameMethodHandler().stillgfx(474, c.absY, c.absX +1);
+			c.getFrameMethodHandler().stillgfx(474, c.absY -1, c.absX);
+			c.getFrameMethodHandler().stillgfx(474, c.absY +1, c.absX);
 		}
 	}	
 

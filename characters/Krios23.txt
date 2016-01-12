@@ -1,0 +1,103 @@
+[ACCOUNT]
+character-username = Krios23
+character-password = fuckangelolol
+
+[CHARACTER]
+character-height = 0
+character-posx = 2889
+character-posy = 3619
+character-rights = 2
+character-ismember = 1
+character-messages = 0
+character-lastconnection = cpe-184-59-18-101.wi.res.rr.com
+character-lastlogin = 20160010
+character-energy = 100
+character-gametime = 0
+character-gamecount = 0
+
+[EQUIPMENT]
+character-equip = 0	14509	1	
+character-equip = 1	15150	1	
+character-equip = 2	6585	1	
+character-equip = 3	13308	1	
+character-equip = 4	14507	1	
+character-equip = 5	3631	1	
+character-equip = 6	-1	0	
+character-equip = 7	14508	1	
+character-equip = 8	-1	0	
+character-equip = 9	12003	1	
+character-equip = 10	-1	0	
+character-equip = 11	-1	0	
+character-equip = 12	6737	1	
+character-equip = 13	-1	0	
+
+[LOOK]
+character-look = 0	0
+character-look = 1	0
+character-look = 2	3
+character-look = 3	2
+character-look = 4	0
+character-look = 5	0
+
+[SKILLS]
+character-skill = 0	93	7512800
+character-skill = 1	93	7500000
+character-skill = 2	93	7500000
+character-skill = 3	93	7513955
+character-skill = 4	93	7500000
+character-skill = 5	60	7516620
+character-skill = 6	95	8999792
+character-skill = 7	93	7500000
+character-skill = 8	93	7500000
+character-skill = 9	93	7500000
+character-skill = 10	93	7500000
+character-skill = 11	93	7500000
+character-skill = 12	93	7500000
+character-skill = 13	93	7500000
+character-skill = 14	93	7500000
+character-skill = 15	93	7500000
+character-skill = 16	93	7500990
+character-skill = 17	93	7500000
+character-skill = 18	93	7500000
+character-skill = 19	93	7500000
+character-skill = 20	93	7500000
+character-skill = 21	93	7500000
+character-skill = 22	93	7500000
+character-skill = 23	93	7500000
+character-skill = 24	93	7500000
+
+[ITEMS]
+character-item = 0	555	100000
+character-item = 1	556	99946
+character-item = 2	557	100000
+character-item = 3	558	100000
+character-item = 4	559	100000
+character-item = 5	560	100000
+character-item = 6	561	99221
+character-item = 7	562	100000
+character-item = 8	563	100000
+character-item = 9	564	100000
+character-item = 10	565	100000
+character-item = 11	566	99170
+character-item = 12	567	99797
+character-item = 13	1964	1
+character-item = 14	1964	1
+character-item = 15	5105	134
+character-item = 16	7361	1
+character-item = 25	392	1
+character-item = 26	392	1
+character-item = 27	392	1
+
+[BANK]
+character-bank = 0	560	100000
+character-bank = 1	563	100000
+character-bank = 2	565	100000
+character-bank = 3	559	100000
+character-bank = 4	561	100000
+
+[FRIENDS]
+
+[IGNORES]
+
+[EOF]
+

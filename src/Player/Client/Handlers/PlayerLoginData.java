@@ -2,15 +2,123 @@
 public class PlayerLoginData {
 
 	private client c;
-	
-	
+
+
+	public void loadquestinterface()
+	{
+		sendQuest("@whi@"+server.SERVERNAME+"'s Quests", 663);
+		sendQuest(server.SERVERNAME, 640);
+		sendQuest(server.SERVERNAME, 682); // 2848,3109
+		sendQuest("", 3985);
+		/*1337*/
+		if (c.easterevent == 0){sendQuest("@red@Bandit Trouble", 7333);} else if (c.easterevent > 0 && c.eastergift != 4){ sendQuest("@yel@Bandit Trouble", 7333);} else if (c.eastergift == 4){sendQuest("@gre@Bandit Trouble", 7333);}
+		if (c.ST == 0){sendQuest("@red@The Famous Catch", 7334);} else if (c.ST > 0 && c.ST < 6){sendQuest("@yel@The Famous Catch", 7334);} else if (c.ST == 6){sendQuest("@gre@The Famous Catch", 7334);}
+		if (c.ancients <= 8){sendQuest("@red@Dwarf Problems II", 7383);}
+		else if (c.ancients > 8 && c.ancients < 12){sendQuest("@yel@Dwarf Problems II", 7383);}
+		else if (c.ancients >= 12){sendQuest("@gre@Dwarf Problems II", 7383);}
+		if (c.ancients == 0){sendQuest("@red@Dwarf Problems I", 7336);}
+		else if (c.ancients >= 1 && c.ancients < 8){sendQuest("@yel@Dwarf Problems I", 7336);}
+		else if (c.ancients >= 8){sendQuest("@gre@Dwarf Problems I", 7336);}
+		if (c.RM == 0){sendQuest("@red@Rune Mysteries", 7339);}else if (c.RM < 4 && c.RM > 0){sendQuest("@yel@Rune Mysteries", 7339);}else if (c.RM >= 4){sendQuest("@gre@Rune Mysteries", 7339);}
+		if (c.wb == 0){sendQuest("@red@Witch's Brew", 7332);}else if (c.wb > 0 && c.wb < 6){sendQuest("@yel@Witch's Brew", 7332);}else if (c.wb == 6){sendQuest("@gre@Witch's Brew", 7332);}
+
+		String pString = "@yel@New Beginnings";
+		if(c.pirate >= 10) pString = "@gre@New Beginnings";
+		sendQuest(pString, 7338);
+
+		sendQuest("", 7340);
+		sendQuest("", 7346);
+		sendQuest("@whi@-INFORMATION-", 7341);
+		sendQuest("@whi@Training Combat", 7342);
+		sendQuest("@whi@Training Skills", 7337);
+		sendQuest("@whi@Bosses", 7343);
+		sendQuest("", 7335);
+		sendQuest("", 7344);
+		sendQuest("", 7345);
+		sendQuest("", 7347);
+		sendQuest("", 7348);
+
+		/*Members Quests*/
+		sendQuest("", 12772);
+		// unknown id
+		sendQuest("", 7352);
+		sendQuest("", 12129);
+		sendQuest("", 8438);
+		sendQuest("", 12852);
+		sendQuest("", 7354);
+		sendQuest("", 7355);
+		sendQuest("", 7356);
+		sendQuest("", 8679);
+		sendQuest("", 7459);
+		sendQuest("", 7357);
+		sendQuest("", 12836);
+		sendQuest("", 7358);
+		sendQuest("", 7359);
+		sendQuest("", 14169);
+		sendQuest("", 10115);
+		sendQuest("", 14604);
+		sendQuest("", 7360);
+		sendQuest("", 12282);
+		sendQuest("", 13577);
+		sendQuest("", 12839);
+		sendQuest("", 7361);
+		sendQuest("", 11857);
+		sendQuest("", 7362);
+		sendQuest("", 7363);
+		sendQuest("", 7364);
+		sendQuest("", 10135);
+		sendQuest("", 4508);
+		sendQuest("", 11907);
+		sendQuest("", 7365);
+		sendQuest("", 7366);
+		sendQuest("", 7367);
+		sendQuest("", 13389);
+		sendQuest("", 7368);
+		sendQuest("", 11132);
+		sendQuest("", 7369);
+		sendQuest("", 12389);
+		sendQuest("", 13974);
+		sendQuest("", 7370);
+		sendQuest("", 8137);
+		sendQuest("", 7371);
+		sendQuest("", 12345);
+		sendQuest("", 7372);
+		sendQuest("", 8115);
+		// unknown id
+		sendQuest("", 8576);
+		sendQuest("", 12139);
+		sendQuest("", 7373);
+		sendQuest("", 7374);
+		sendQuest("", 8969);
+		sendQuest("", 7375);
+		sendQuest("", 7376);
+		sendQuest("", 1740);
+		sendQuest("", 3278);
+		sendQuest("", 7378);
+		sendQuest("", 6518);
+		sendQuest("", 7379);
+		sendQuest("", 7380);
+		sendQuest("", 7381);
+		sendQuest("", 11858);
+		// unknown id
+		sendQuest("", 9927);
+		sendQuest("", 7349);
+		sendQuest("", 7350);
+		sendQuest("", 7351);
+		sendQuest("", 13356);
+		/*END OF ALL QUESTS*/
+	}
+
 	private void sendQuest(String s1, int i1){
-		c.sendQuest(s1,i1);
+		c.getFrameMethodHandler().sendQuest(s1,i1);
 	}
 	
-	public void sendQuests(client playerClient){
-		this.c = playerClient;
-				
+	public PlayerLoginData(client pc){
+		this.c = pc;
+	}
+
+	public void sendQuests(){
+
 		sendQuest(c.playerName+"'s Bank", 5383);
 		sendQuest("Rearrange mode:", 5390);
 		sendQuest("Withdraw as:", 5388);
@@ -37,7 +145,7 @@ public class PlayerLoginData {
 
 		//----Logout----	
 		sendQuest("Click here to Logout", 2458);
-			
+
 		//----Game Options----	
 		sendQuest("Enjoy", 184);
 		sendQuest("Your coordinates", 183);
@@ -69,7 +177,7 @@ public class PlayerLoginData {
 		sendQuest("", 949);
 		sendQuest("", 950);
 		sendQuest("Online: "+PlayerHandler.getPlayerCount(), 174);
-			
+
 		//----Player Controls----
 		sendQuest("Player Controls", 154);
 		sendQuest("Move speed", 158);
@@ -309,7 +417,7 @@ public class PlayerLoginData {
 
 		sendQuest("Enjoy", 184);
 		sendQuest(server.SERVERNAME, 183);
-		c.sendFrame126("", 149);
+		c.getFrameMethodHandler().sendFrame126("", 149);
 
 		//---Dueling---
 		sendQuest("", 7817);
@@ -389,8 +497,8 @@ public class PlayerLoginData {
 		//Prayer
 		sendQuest("Level 1", 5609);
 		sendQuest("Thick Skin",5609);
-		
+
 	}
-	
-	
+
+
 }

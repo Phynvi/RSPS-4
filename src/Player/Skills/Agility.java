@@ -6,6 +6,169 @@ public class Agility {
 		this.c = input;
 	}
 
+	/**
+	 * 
+	 * @param x1 side 1 X
+	 * @param y1 side 1 Y
+	 * @param x2 side 2 X
+	 * @param y2 side 2 Y
+	 * @param emote Emote to use during obstacle
+	 * @param level Required to use obstacle
+	 * @param exp experience given, multiplied by rate
+	 * @param isFast Set to True if running during emote
+	 * @return
+	 */
+	public boolean agilityTeleport(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean dmg, int amount, String msg){
+		if(c.playerLevel[c.playerAgility] >= level){
+			int chance = c.playerLevel[c.playerAgility]-level;		
+			if(c.absX == x1 && c.absY == y1){
+				c.getClientMethodHandler().teleport(x2, y2);
+				if(dmg && misc.random(chance) == 0){
+					//					damagePlayer(playerId, misc.random(amount));
+					//					sendMessage("You injure yourself.");
+				}
+				c.startAnimation(emote);
+				return true;
+			}
+			if(c.absX == x2 && c.absY == y2){
+				c.getClientMethodHandler().teleport(x1,y1);
+				if(dmg && misc.random(chance) == 0){
+					//					damagePlayer(playerId, misc.random(amount));
+					//					sendMessage("You injure yourself.");
+				}
+				c.startAnimation(emote);
+				return true;
+			}
+			return false;
+		}
+		else {
+			c.sendMessage("You need "+level+" agility to do that.");
+			return false;
+		}
+	}	
+
+	/**
+	 * Enables noclick, which does not allow for a play to click around, until they are at their destination
+	 */
+	public void agilityWalkTo(int x, int y){
+		c.noClick = true;
+		c.noClickTimeout = 10;
+		c.shouldbeX = c.absX+x;
+		c.shouldbeY = c.absY+y;
+		c.getClientMethodHandler().walkTo(x,y);
+	}
+
+	/**
+	 * 
+	 * @param emote Emote to do until finished
+	 * @param agilX2 Destination X
+	 * @param agilY2 Destination Y
+	 * @param exp Exp to give, multiplied by rate
+	 * @param isFast set to True if you want to run
+	 */
+	public void walkingemote(int emote, int agilX2, int agilY2, int exp, boolean isFast){
+		c.obstacle = System.currentTimeMillis();
+
+		if(c.isRunning2) c.wasrunning = true;
+		else c.wasrunning = false;
+
+		if(isFast) c.isRunning2 = true;
+		else c.isRunning2 = false;
+
+		c.agilX = agilX2;
+		c.agilY = agilY2;
+		c.playerSEW = emote;
+		c.playerSER = emote;
+		int X = agilX2-c.absX;
+		int Y = agilY2-c.absY;
+		c.getClientMethodHandler().walkTo(X, Y);
+		c.getClientMethodHandler().addSkillXP(exp*c.rate, 16);
+	}
+
+	public void walkingemote(int emote, int agilX2, int agilY2, int X, int Y, int exp){
+		obstacle = System.currentTimeMillis();
+		if (isRunning2 == true){
+			isRunning2 = false;
+			wasrunning = true;
+		}
+		agilX = agilX2;
+		agilY = agilY2;
+		playerSEW = emote;
+		playerSER = emote;
+		WalkTo(X, Y);
+		addSkillXP(exp, 16);
+	}
+
+	public void walkingemote(int emote, int agilX2, int agilY2){
+		obstacle = System.currentTimeMillis();
+		if (isRunning2 == true){
+			isRunning2 = false;
+			wasrunning = true;
+		}
+		agilX = agilX2;
+		agilY = agilY2;
+		playerSEW = emote;
+		playerSER = emote;
+	}
+
+	public void walkingemoterun(int emote, int agilX2, int agilY2, int X, int Y, int exp){
+		obstacle = System.currentTimeMillis();
+		if (isRunning2 == true){
+			wasrunning = true;
+		}
+		else if (isRunning2 == false){
+			wasrunning = false;
+			isRunning2 = true;
+		}
+		playerSEW = emote;
+		playerSER = emote;
+		agilX = agilX2;
+		agilY = agilY2;
+		WalkTo(X, Y);
+		addSkillXP(exp, 16);
+	}
+
+
+	/**
+	 * 
+	 * @param x1 side 1 X
+	 * @param y1 side 1 Y
+	 * @param x2 side 2 X
+	 * @param y2 side 2 Y
+	 * @param emote Emote to use during obstacle
+	 * @param level Required to use obstacle
+	 * @param exp experience given, multiplied by rate
+	 * @param isFast Set to True if running during emote
+	 * @return
+	 */
+	public boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, String msg){
+		if(c.playerLevel[c.playerAgility] >= level){
+			int chance = c.playerLevel[c.playerAgility]-level;	
+			if(c.absX == x1 && c.absY == y1){
+				c.walkingemote(emote, x2, y2, exp, isFast);
+				if(dmg && misc.random(chance) == 0){
+					c.damagePlayer(c.playerId, misc.random(amount));
+					c.sendMessage("You injure yourself.");
+				}
+				return true;
+			}
+			if(c.absX == x2 && c.absY == y2){
+				c.walkingemote(emote, x1, y1, exp, isFast);
+				if(dmg && misc.random(chance) == 0){
+					c.damagePlayer(c.playerId, misc.random(amount));
+					c.sendMessage("You injure yourself.");
+				}
+				return true;
+			}
+			return false;
+		}
+		else {
+			c.sendMessage("You need "+level+" agility to do that.");
+			return false;
+		}
+	}
+
+
 	public static void agilityTimers(client playerClient){
 
 
@@ -17,7 +180,7 @@ public class Agility {
 				playerClient.isRunning2 = false;
 				playerClient.wasrunning = false;}
 			else if (playerClient.running == true){
-				playerClient.setAnimation(playerClient.runningemote);
+				playerClient.getClientMethodHandler().setAnimation(playerClient.runningemote);
 				playerClient.isRunning2 = false;
 				playerClient.running = false;
 			}
@@ -29,7 +192,7 @@ public class Agility {
 		}
 
 		//Brimhaven Agility
-		if(playerClient.isInArea(2753, 9535, 2814, 9600)){
+		if(playerClient.getClientMethodHandler().isInArea(2753, 9535, 2814, 9600)){
 			playerClient.ticket = System.currentTimeMillis();
 			if (playerClient.absX == 2798 && playerClient.absY == 9579){
 				playerClient.walkingemote3(2750, 2802, 9579, 4, 0, 500);
