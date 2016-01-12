@@ -5,6 +5,19 @@ public class Fletching {
 	public Fletching(client pc){
 		c = pc;
 	}
+	
+
+public void fletchingvoid(String logname, int remove, int fshort, int slvl, int flong, int llvl, int xp, boolean stringon){
+            c.fletchinglogs = logname;
+            c.fletchingremove = remove;
+            c.fletchingshort = fshort;
+            c.fletchingshortlvl = slvl;
+            c.fletchinglong = flong;
+            c.fletchinglonglvl = llvl;
+						c.fletchingoption = true;
+						c.fletchingexp = xp;
+						c.stringing = stringon;
+}
 
 	public static void fletchingTimers(client playerClient){
 

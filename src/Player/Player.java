@@ -5,6 +5,37 @@ import java.util.GregorianCalendar;
 public abstract class Player extends playerInstances {
 	
 	public boolean hasLoadedAllNPCs = false;
+	/**
+	 * Repeats animation until told to stop	with stopAnimations() method
+	 * @param anim Animation ID number
+	 * @param ms 500ms delay
+	 */
+	public void repeatAnimation(int anim, int ms500){
+		animRepeat = true;
+		currentAnim = anim;
+		animDelay = ms500;
+		animDelay2 = animDelay;
+		if (!WalkingTo)
+			startAnimation(currentAnim);
+	}
+	public void stopAnimations(){
+		animRepeat = false;
+		animDelay = -1;
+		animDelay2 = -1;
+		AnimationReset = true;
+		animationUpdateRequired = true;
+		resetAnimation();
+	}
+	
+	public void resetAnimation() {
+		pEmote = playerSE;
+		requirePlayerUpdate();
+		c.getFrameMethodHandler().frame1(); //resets animation
+	}
+	
+	public void updateIdle(){
+		idleTimer = 6;
+	}
 	
 	public int distanceTo(Player other) {
 		return (int) Math.sqrt(Math.pow(absX - other.absX, 2) + Math.pow(absY - other.absY, 2));
@@ -1270,6 +1301,17 @@ public abstract class Player extends playerInstances {
   	}
   }
 
+  /**
+   * @param seconds Seconds to be frozen for
+   */
+  public void frozen(int seconds){
+  frozenTimer = seconds;
+  teleportToX = absX;
+  teleportToY = absY;
+  updateRequired = true; 
+  appearanceUpdateRequired = true;
+  }
+  	
 
 	public int getLevelForXP(int exp) {
 		int points = 0;

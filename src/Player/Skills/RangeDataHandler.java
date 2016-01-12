@@ -6,6 +6,19 @@ public class RangeDataHandler {
 	public RangeDataHandler(client playerClient){
 		c = playerClient;
 	}
+	
+	public void checkForAccumulatorOrDistributeArrowOnGround(int XCoord, int YCoord){
+		if(c.playerEquipment[c.playerWeapon] != Item.CRYSTALBOW && c.playerEquipmentN[c.playerArrows] != 0){ //if not cbow and if there are arrows
+			if(misc.random(1) == 0){
+				if (c.playerEquipment[c.playerCape] == 11342 || c.playerEquipment[c.playerCape] == 11341){
+					c.getInventoryHandler().addItem(c.playerEquipment[c.playerArrows], 1);
+					c.sendMessage("The accumulator has attracted an arrow.");
+				}
+				else ItemHandler.addItem(c.playerEquipment[c.playerArrows], XCoord, YCoord, 1, c.playerId, false);
+			}
+			c.DeleteArrow();
+		}
+	}
 
 	public boolean checkAmmoWithBow(){
 		int curAmmo = c.playerEquipment[c.playerArrows];
@@ -296,8 +309,8 @@ public class RangeDataHandler {
 		int casterY = c.absY;
 		int offsetX = (casterX - EnemyX2) * -1;
 		int offsetY = (casterY - EnemyY2) * -1;
-		c.gfx100(getDrawbackArrowGFX());
-		c.createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, npcIndex+1, 40);
+		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
+		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, npcIndex+1, 40);
 	}
 
 
@@ -311,8 +324,8 @@ public class RangeDataHandler {
 		int offsetX = (c.absX - X3) * -1;
 		int offsetY = (c.absY - Y3) * -1;
 		//c.ProjectileSpellPlayer(arrowGFX, arrowGFX, arrowGFX, c.absY, c.absX, offsetY, offsetX, c.AttackingOn+1, Y3, X3);
-		c.gfx100(getDrawbackArrowGFX());
-		c.createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, c.AttackingOn+1, 40);
+		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
+		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, c.AttackingOn+1, 40);
 	}
 
 }

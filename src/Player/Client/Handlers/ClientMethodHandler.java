@@ -2,6 +2,15 @@ public class ClientMethodHandler {
 
 	client c = null;
 
+	public static ClientMethodHandler getClientMethodHandler(int playerIndex){
+		client player = (client) server.playerHandler.players[playerIndex];
+		if(player == null){
+			System.out.println("[Error] : in getClientMethodHandler in ClientMethodHandler, given invalid player index");
+			return null;
+		}
+		return player.getClientMethodHandler();
+	}
+
 	public ClientMethodHandler(client pc){
 		this.c = pc;
 	}
@@ -9,20 +18,20 @@ public class ClientMethodHandler {
 	public void sendEnergy() {
 		c.getFrameMethodHandler().sendFrame126((int)c.runningEnergy + "%", 149);
 	}
-	
+
 	public boolean isInPKZone(){
 		if(c.isInArea(2583,3153,2606,3170))
 			return true;
 		//PK area, Istafdar, Tyras Camp
 		if(c.isInArea(2363,3314,2392,3333))
 			return true;
-		
+
 		if(c.isInArea(2169,3072,2366,3344) && !c.isInArea(2319,3150,2359,3194) && !c.isInArea(2174,3131,2201,3163) && !c.isInArea(2204,3257,2209,3259)) //pk camps
 			return true;	
-		
-//		if(isInArea(2111,4893,2160,4931) && !isInArea(2128,4904,2137,4910)) //old pk zone - draynor 
-//			return true;
-		
+
+		//		if(isInArea(2111,4893,2160,4931) && !isInArea(2128,4904,2137,4910)) //old pk zone - draynor 
+		//			return true;
+
 		return false;
 	}
 
@@ -31,7 +40,7 @@ public class ClientMethodHandler {
 			return false;
 		return true;
 	}
-	
+
 	/**
 	 * Does animation and gfx, until time is zero, then teleports to x and y
 	 */
@@ -53,12 +62,6 @@ public class ClientMethodHandler {
 		c.isteleportingx = x;
 		c.isteleportingy = y;
 		c.ithl = h;
-	}
-
-	public void resetAnimation() {
-		c.pEmote = c.playerSE;
-		c.requirePlayerUpdate();
-		c.getFrameMethodHandler().frame1(); //resets animation
 	}
 
 	public void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2){
@@ -218,12 +221,12 @@ public class ClientMethodHandler {
 
 		int oldLevel = getLevelForXP(playerXP[skill]);
 		playerXP[skill] += amount;
-		
+
 		if(oldLevel < getLevelForXP(playerXP[skill]))
 			levelup(skill);
-			c.playerLevel[skill] = getLevelForXP(playerXP[skill]);
-			c.requirePlayerUpdate();
-		
+		c.playerLevel[skill] = getLevelForXP(playerXP[skill]);
+		c.requirePlayerUpdate();
+
 		c.getFrameMethodHandler().setSkillLevel(skill, c.playerLevel[skill], playerXP[skill]);
 		c.getFrameMethodHandler().refreshSkills();
 		return true;
@@ -254,6 +257,34 @@ public class ClientMethodHandler {
 		c.requirePlayerUpdate();
 		return true;
 	}
-	
-	
+
+	/**
+	 * Will present the option to travel to four locations
+	 * @param optName Question at top of frame
+	 * @param opt1 Option 1
+	 * @param x1 Option 1 x coordinate
+	 * @param y1 Option 2 y coordinate
+	 */
+	public void select4Options(String optName, String opt1, int x1, int y1, String opt2, int x2, int y2, String opt3, int x3, int y3, String opt4, int x4, int y4){
+		c.optionsMenu = true;		c.oX1 = x1;		c.oX2 = x2;		c.oX3 = x3;		c.oX4 = x4;		c.oY1 = y1;		c.oY2 = y2;		c.oY3 = y3;		c.oY4 = y4;				
+		c.getFrameMethodHandler().selectoption2(optName, opt1, opt2, opt3, opt4);		
+	}
+
+
+	/**
+	 * Checks the skill with the level
+	 * @return true if player has greater than or equal to
+	 */
+	public boolean checkLevel(int _skill, int _level){
+		if(getLevelForXP(c.playerXP[_skill]) >= _level) 
+			return true;
+		return false;
+	}
+
+	public void deadreturn(){
+		c.deadtele = 0;
+		c.teleport(3024,3206,c.ithl);
+		c.isteleporting = 0;
+	}
+
 }

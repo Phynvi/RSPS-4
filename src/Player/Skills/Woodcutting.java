@@ -42,7 +42,7 @@ public class Woodcutting {
 		this.setStats();
 		this.list.findOrAddTree(x, y, this.getNumbLogs());
 		playerClient.wcTimer = this.getLogDelay(); //time in seconds between each log
-		playerClient.repeatAnim(this.getAxeEmote(), 5);
+		playerClient.repeatAnimation(this.getAxeEmote(), 5);
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class Woodcutting {
 	public void stopAll(){
 		//this.setNumbLogs(0);
 		playerClient.wcTimer = -1;
-		playerClient.stopAnim(); //stops animation
+		playerClient.stopAnimations(); //stops animation
 	}
 	
 	/** Checks for axe equipped or in inventory. 

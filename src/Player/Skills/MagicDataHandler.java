@@ -6,6 +6,44 @@ public class MagicDataHandler {
 		c = pc;
 	}
 	
+
+	 public void StillMagicGFX(int id, int Y, int X, int time, int height)
+	 {
+		 for (Player p : server.playerHandler.players)
+		 {
+			 if(p != null) 
+			 {
+				 client person = (client)p;
+				 if((person.playerName != null || person.playerName != "null"))
+				 {
+					 if(person.distanceToPoint(X, Y) <= 60)
+					 {
+						 person.getFrameMethodHandler().StillMagicGFX2(id, Y, X, time, height);
+					 }
+				 }
+			 }
+		 }
+	 }
+	 
+   
+
+public void MagicProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+		int startHeight, int endHeight, int lockon, int time)
+{
+	for (Player p : server.playerHandler.players)
+	{
+		if(p != null) 
+		{
+			client person = (client)p;
+			if((person.playerName != "null"))
+			{
+				person.getFrameMethodHandler().MagicProjectile2(casterY, casterX, offsetY, offsetX, angle, speed, gfxMoving, startHeight, endHeight, lockon, time);
+			}
+		}
+	}
+}
+
+	
 	public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range, int level, boolean binds, int durationOfBind) {
 		c.startAnimation(1979);
 		int totalDamage = 0;
@@ -32,7 +70,7 @@ public class MagicDataHandler {
 		return totalDamage;
 	}
 
-	private boolean AttackPlayerMagic(int index) {
+	public boolean AttackPlayerMagic(int index) {
 		int magicDistance = 6;
 		
 		if (!misc.GoodDistance(server.playerHandler.players[index].absX, server.playerHandler.players[index].absY, c.absX, c.absY, magicDistance))
@@ -403,7 +441,7 @@ private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int r
 	return totalDamage;
 }
 
-	private boolean magicOnNPC(int npcIndex){
+	public boolean magicOnNPC(int npcIndex){
 		if(c.LoopAttDelay > 0)
 			return false;
 

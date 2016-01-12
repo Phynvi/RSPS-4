@@ -55,7 +55,7 @@ public class Item {
 	static final int RAPID = -200;
 	static final int LONGRANGE = -300;
 	static final int MAGIC = -400;
-	
+
 	/**
 	 * Gets the delay for the item passed in
 	 * @return Weapon delay to be used with combat, 3.2 seconds by default
@@ -64,7 +64,7 @@ public class Item {
 		double rawDelay = getItemDelayInSeconds(itemID);
 		return (int)rawDelay*10;
 	}
-	
+
 	/**
 	 * Helper method for getItemDelay
 	 */
@@ -82,9 +82,9 @@ public class Item {
 			return 4.0;
 		}
 	}
-	
 
-	
+
+
 	/**
 	 * Checks to see if the player has a bow and ammo equipped
 	 * Will modify PkingDelay if a bow is equipped
@@ -97,20 +97,20 @@ public class Item {
 			if(!c.BOWHANDLER.checkAmmo())
 				return -1;
 			switch (c.FightType) {
-				case 1:
-					c.PkingDelay = getItemDelay(ACCURATE); 
-					return 4;
-				case 2: //rapid
-					c.PkingDelay = getItemDelay(RAPID); 
-					return 3;
-				case 3:
-					c.PkingDelay = getItemDelay(LONGRANGE); 
-					return 6;
+			case 1:
+				c.PkingDelay = getItemDelay(ACCURATE); 
+				return 4;
+			case 2: //rapid
+				c.PkingDelay = getItemDelay(RAPID); 
+				return 3;
+			case 3:
+				c.PkingDelay = getItemDelay(LONGRANGE); 
+				return 6;
 			}		
 		}
 		return 1; //default distance, no bow equipped
 	}
-	
+
 	public static boolean[] itemStackable = new boolean[17000];
 	public static boolean[] itemIsNote = new boolean[17000];
 	public static boolean[] itemTwoHanded = new boolean[17000];
@@ -212,18 +212,7 @@ public class Item {
 		}
 	}	
 
-	public static boolean ElysianSpiritShield(Player p){
-		return(p.playerEquipment[p.playerShield] == 3637);
-	}
 	
-	public static boolean DivineSpiritShield(Player p){
-		return(p.playerEquipment[p.playerShield] == 3631);
-	}
-	
-	public static int getDFSBonus(Player p){
-			return p.dragcharge/10;
-	}
-
 	/**
 	 * Returns -1 if the itemID does not have a special
 	 */
@@ -232,29 +221,29 @@ public class Item {
 		case KARILSCROSSBOW:
 		case 1434: //dargon mace? 
 			return 2;
-			
+
 		case 1215: //dragon dagger
 		case 1231: //dragon dagger
 		case 5680: //dragon dagger
 		case 5698: //dragon dagger
 		case 3204: //dragon halberd
 			return 3;
-			
+
 		case 1305: //Dragon Longsword
 			return 4;
-		
+
 		case 861: //magic shortbow
 		case 4153: //gmaul
 		case 4151: //abby whip
 		case 15333: //Armadyl Godsword
 		case 15335: //Saradomin Godsword
 			return 5;
-			
+
 		case DARKBOW:
 		case 4587: //Dragon Scimitar
 		case 15336: //Zaradomin Godsword
 			return 6;	
-			
+
 		case CRYSTALBOW:	
 		case 6739: //dragon mace ?	
 		case 1377: //Dragon battleaxe		
@@ -263,12 +252,255 @@ public class Item {
 		case 15334: //Bandos Godsword
 		case 35: //Excalibur
 			return 10;
-	
-			default:
-				return -1;
+
+		default:
+			return -1;
 		}
 	}
-	
+
+	public static String getItemName(int ItemID) {
+		if (ItemID == -1) {
+			return "Unarmed";
+		}
+		if (server.itemHandler.ItemList.exists(ItemID))
+			return server.itemHandler.ItemList.getCurrentItem().itemName;
+
+		return "!! NOT EXISTING ITEM !!! - ID:"+ItemID;
+	}
+
+	public static int GetWepAnim(client c){
+		int itemID = c.playerEquipment[c.playerWeapon];
+
+		if (c.litBar == true){ //Check special emotes first
+			c.SpecEmoteTimer = 5; //To make sure it's not interrupted by NPC hit	
+			switch(itemID){
+			case 15335: //Saradomin Godsword
+				return 304;
+			case 15334: //Bandos Godsword
+				return 302;
+			case 15333: //Armadyl Godsword
+				return 305;
+			case 15336: //Zamorak Godsword
+				return 303;
+			case 15351: //Saradom Sword
+				return 2075;
+			case 11337: //Dragon Claws
+				return 3994;
+			case 1305: //Dragon longsword
+				return 1058;
+			case 4151: //Abbysal Whip
+				return 1658;
+			case 7158: //Dragon 2h
+				return 3157;
+			case 3204: //Dragon Halberd
+				return 2081;
+			case 1434: //Dragon Mace
+				return 1060;
+			case 4153: //Granite Maul
+				return 1667;
+			case 4587: //Dragon Scimmy
+				return 451;
+			case 6739: //Dragon Axe
+				return 2876;
+			case 5698: case 1215: case 1231: case 5680: //DDS
+				return 0x426;
+			case 861:
+				return 426;
+			}
+		}
+
+		if(lists.halberd.exists(itemID))
+			return 440;
+
+		if(itemID == 1237 || itemID == 1239 || itemID == 1241 || itemID == 1243 || itemID == 1245 || itemID == 1247 || itemID == 1249 || itemID == 4158 || itemID == 4580 || itemID == 1263 || itemID == 3176 || itemID == 5716 || itemID == 5730) // Spears
+		{
+			if (c.FightType == 1 || c.FightType == 4){
+				return 412;
+			}
+			else if (c.FightType == 2){
+				return 412;
+			}
+			else if (c.FightType == 3){
+				return 437;
+			}
+		}
+
+
+
+		if(itemID == 6739 || itemID == 3757 || itemID == 6611 || itemID == 4587 || itemID == 1333 || itemID == 1279 || itemID == 1281 || itemID == 1283 || itemID == 1285 || itemID == 1287 || itemID == 1289 || itemID == 1293 || itemID == 1295 || itemID == 1297 || itemID == 1299 || itemID == 1301 || itemID == 1363 || itemID == 1365 || itemID == 1367 || itemID == 1369 || itemID == 1371) //
+		{
+			if (c.FightType == 1){
+				return 395;
+			}
+			else if (c.FightType == 2 || c.FightType == 4){
+				return 390;
+			}
+			else if (c.FightType == 3){
+				return 412;
+			}
+		}
+
+
+		if(itemID == 4151 || itemID == 9094 || itemID == 9093 || itemID == 9106 || itemID == 13338) // whip
+		{
+			return 1658;
+		}
+		if(lists.bows.exists(itemID)) //bows
+		{
+			return 426;
+		}
+		if(itemID == 4153) // maul
+		{
+			return 1665;
+		}
+
+		if(itemID == 11337) // D Claws
+		{
+			return 451;
+		}
+
+		if(itemID == 1377 || itemID == 1373) // dragon b axe
+		{
+			return 1833;
+		}
+
+		if(itemID == 4718) // dharoks axe
+		{
+			if (c.FightType == 1 || c.FightType == 3){
+				return 2067;
+			}
+			else if (c.FightType == 2){
+				return 2066;
+			}
+			else if (c.FightType == 4){
+				return 2066;
+			}
+		}
+
+		if(itemID == 4726) // guthans spear
+		{
+			if (c.FightType == 1 || c.FightType == 3){
+				return 2080;
+			}
+			else if (c.FightType == 2){
+				return 2081;
+			}
+			else if (c.FightType == 4){
+				return 2082;
+			}
+		}
+
+		if(itemID == 4747) // torags hammers
+		{
+			return 2068;
+		}
+
+
+		if(itemID == 4755) // veracs flail
+		{
+			return 2062;
+		}
+
+
+		if(itemID == 4734) // karils x bow
+		{
+			return 2075;
+		}
+		if(itemID == 1434) // Meat Tenderiser
+		{
+			return 1665;
+		}
+		if(itemID == 767 || itemID == 837) // X-Bows
+		{
+			return 427;
+		}
+		if(itemID == 6528 || itemID == 7449) // Obby Maul
+		{
+			return 2661;
+		}
+
+		if(itemID == 1305 || itemID == 15234 || itemID == 1331 || itemID == 1329 || itemID == 35 || itemID == 1291 || itemID == 7807 || itemID == 1323 || itemID == 1325 || itemID == 1327 || itemID == 1303 || itemID == 1321) // Longsword/Scimmy
+		{
+			if (c.FightType == 1 || c.FightType == 3){
+				return 412;
+			}
+			else if (c.FightType == 2){
+				return 1058;
+			}
+			else if (c.FightType == 4){
+				return 451;
+			}
+		}
+
+		if(itemID == 15117 || itemID == 7806 || itemID == 15337 || itemID == 7809) // SP
+		{
+			return 2890;
+		}
+
+		if (itemID == 7158 || itemID == 13310){
+			return 2661;
+		}
+		if (itemID == 13308){
+			return 412;
+		}
+
+		if(itemID == 15333 || itemID == 15334|| itemID == 15335|| itemID == 15336|| itemID == 15351) // Dragon 2H + Godswords
+		{
+			return 308;
+		}
+
+
+
+		if(itemID == 7639 || itemID == 4675 || itemID == 84 || itemID == 772 || itemID == 1379 || itemID == 1381 || itemID == 1383 || itemID == 1385 || itemID == 1385 || itemID == 1387 || itemID == 1389 || itemID == 1393 || itemID == 1395 || itemID == 1397 || itemID == 1399 || itemID == 1401 || itemID == 1403 || itemID == 1405 || itemID == 1407 || itemID == 1409 || itemID == 3053 || itemID == 3054 || itemID == 4170 || itemID == 6603 || itemID == 6726 || itemID == 6727) //Staves
+		{
+			return 2078;
+		}
+
+
+		if(itemID == 6609 || itemID == 7808 || itemID == 1307 || itemID == 1309 || itemID == 1311 || itemID == 1313 || itemID == 1315 || itemID == 1317 || itemID == 1319 || itemID == 1347) 
+		{
+			if (c.FightType == 1 || c.FightType == 3){
+				return 407;
+			}
+			else if (c.FightType == 2){
+				return 406;
+			}
+			else if (c.FightType == 4){
+				return 2081;
+			}
+		}
+
+		if(itemID == 1215 || itemID == 1231 || itemID == 5680 || itemID == 5698) // dragon daggers
+		{
+			return 402;
+		}
+		else
+		{
+			return 1067;
+		}
+	}
+
+
+	public static int GetBlockAnim(int id) 
+	{
+		if (id == 1307 || id == 15333 || id == 15334 || id == 14915 || id == 15845 || id == 15335 || id == 15336 || id == 15351 || id == 1309 || id == 1311 || id == 1315 || id == 1317 || id == 1319 || id == 6609){
+			return 309;
+		}
+
+		if(id == 4755) // veracs flail
+			return 2063;
+
+		if(id == 4153 || id == 1419) // maul, sythe, halberd
+			return 1666;
+
+
+
+		else
+		{
+			return 1156;
+		}
+	}
+
 	public static void capeEmote(client c) {
 
 		if (c.playerEquipment[c.playerCape] == 14074) { //attack

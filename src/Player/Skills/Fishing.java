@@ -42,7 +42,7 @@ public class Fishing{
 				}
 				else{
 					playerClient.spinningTimer = -1;
-					playerClient.stopAnim();
+					playerClient.stopAnimations();
 				}
 			}
 		}

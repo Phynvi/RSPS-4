@@ -95,11 +95,6 @@ class playerInstances {
 
 	public int deadtele = 0;
 	public int AutoCast_SpellIndex = -1;
-	public boolean panelprint = false;
-	public int panelnum = 0;
-	public int panelobj = 0;
-	public int paneldi = 0;
-	public int nnum = 1;
 	public int[] twoHanderz = {861, 4212, 7158, 13310, 15333, 15334, 15335, 15336, 11337, 4734, 15156, 4726, 4718, 6528, 15351, 4214, 4755, 861};
 
 	public boolean running = false;

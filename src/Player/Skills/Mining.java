@@ -101,7 +101,7 @@ public class Mining {
 		setDelay(); //sets two delay parameters used to calculate delay
 		this.list.findOrAddRock(x, y, getNumbOre()); //sets current rock in list
 		playerClient.miningTimer = this.getDelay(); //time in seconds between each ore
-		playerClient.repeatAnim(this.getPickAxeEmote(), 4);
+		playerClient.repeatAnimation(this.getPickAxeEmote(), 4);
 	}
 		
 	public int getPickAxeEmote(){
@@ -179,7 +179,7 @@ public class Mining {
 	 */
 	public void stopAll(){
 		playerClient.miningTimer = -1;
-		playerClient.stopAnim(); //stops animation
+		playerClient.stopAnimations(); //stops animation
 	}
 	
 	

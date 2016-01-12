@@ -457,7 +457,7 @@ public class FrameMethods {
 		}
 	}
 	public void showInterface(int interfaceid) {
-		c.getClientMethodHandler().resetAnimation();
+		c.resetAnimation();
 		c.outStream.createFrame(97);
 		c.outStream.writeWord(interfaceid);
 		c.flushOutStream();
@@ -875,7 +875,7 @@ public class FrameMethods {
 		}
 		c.outStream.endFrameVarSizeWord();
 	}
-	
+
 	public void sendMessage(String s) {
 		c.outStream.createFrameVarSize(253);
 		c.outStream.writeString(s);
@@ -886,6 +886,151 @@ public class FrameMethods {
 		c.outStream.createFrame(71);
 		c.outStream.writeWord(form);
 		c.outStream.writeByteA(menuId);
+	}
+
+
+	public void litBarCheck(int ID){
+		c.specBar = ID;
+		if (c.litBar)
+			sendQuest("@whi@S P E C I A L  A T T A C K", ID);
+		if (!c.litBar)
+			sendQuest("@bla@S P E C I A L  A T T A C K", ID);
+	}
+
+	public void CheckBar() {
+		switch (c.playerEquipment[c.playerWeapon]){
+		case 4587: //d scimmy
+		case 15351: case 15333: case 15334: case 15335: case 15336: case 1305: case 1377: case 7158: case 4153: case 35: case 3204: case 1419:
+		case 1434: case 5698: case 11337: case 6739: case 1215: case 1231: case 5680:
+			setSidebarInterface(0, 2276); //stab, lunge, slash, block
+			sendFrame246(2277, 200, c.playerEquipment[c.playerWeapon]);
+			sendFrame126(Item.getItemName(c.playerEquipment[c.playerWeapon]), 2279);
+			litBarCheck(7586);
+			break;
+		case 4151: //whip
+			sendFrame171(0, 12323);
+			litBarCheck(12335);
+			break;
+		case 861: case 4212: case 15156: case 4734://bow specials
+			setSidebarInterface(0, 1764); 
+			sendFrame246(1765, 200, c.playerEquipment[c.playerWeapon]);
+			sendFrame126(Item.getItemName(c.playerEquipment[c.playerWeapon]), 1767);
+			sendFrame171(0, 7549);
+			litBarCheck(7561);
+			break;
+		}
+
+	}
+
+	public void getFilling(){
+		int specBarStart = c.specBar-10;
+		int lit = c.specialDelay;
+		int unlit = 10-c.specialDelay;
+		for(int i = 0; i < lit; i++, specBarStart++)
+			fsBar(500, 0, specBarStart);
+
+		for(int i = 0; i < unlit; i++, specBarStart++)
+			fsBar(0, 0, specBarStart);
+
+	}
+
+	public void specbar(int id) 
+	{
+		c.outStream.createFrame(171);
+		c.outStream.writeByte(0);
+		c.outStream.writeWord(id);
+		c.flushOutStream();
+	}
+
+	public void fsBar(int id1, int id2, int id3)
+	{
+		c.outStream.createFrame(70);
+		c.outStream.writeWord(id1);
+		c.outStream.writeWordBigEndian(id2);
+		c.outStream.writeWordBigEndian(id3);
+	}
+
+	public void gfx100(int gfx) {
+		if(gfx == -1) return;
+		c.mask100var1 = gfx;
+		c.mask100var2 = 5898240;
+		c.mask100update = true;
+		c.updateRequired = true;
+	}
+
+
+
+	public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+			int startHeight, int endHeight, int lockon,int delay) {
+		for (Player p : server.playerHandler.players) {
+			if(p != null){
+				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
+					client g = (client) p;
+					g.outStream.createFrame(85);
+					g.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
+					g.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
+					g.outStream.createFrame(117);
+					g.outStream.writeByte(angle);                     //Starting place of the projectile
+					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
+					g.outStream.writeByte(offsetX);                //Distance between caster and enemy X
+					g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
+					g.outStream.writeWord(gfxMoving);             //The moving graphic ID
+					g.outStream.writeByte(startHeight);           //The starting height
+					g.outStream.writeByte(endHeight);             //Destination height
+					g.outStream.writeWord(delay);                        //Time the missle is created
+					g.outStream.writeWord(speed);                     //Speed minus the distance making it set
+					g.outStream.writeByte(16);                        //Initial slope
+					g.outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
+				}
+			}
+		}
+	}
+
+
+	public void menu(String ... lines){
+		if(lines.length == 1){ //should be handled by other method
+			Menu(lines[0]);
+			return;
+		}
+		clearQuestInterface();
+		for(int i = 0; i < lines.length; i++)
+			sendFrame126(lines[i], (8144+i));	
+		sendQuestSomething(8139);
+		showInterface(8134);
+		c.flushOutStream();		
+	}
+
+
+	public void StillMagicGFX2(int id, int Y, int X, int time, int height)
+	{
+		c.outStream.createFrame(85);
+		c.outStream.writeByteC(Y - (c.mapRegionY * 8));
+		c.outStream.writeByteC(X - (c.mapRegionX * 8));
+		c.outStream.createFrame(4);
+		c.outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
+		c.outStream.writeWord(id);//Graphic id
+		c.outStream.writeByte(height);//height of the spell above it's basic place, i think it's written in pixels 100 pixels higher
+		c.outStream.writeWord(time);//Time before casting the graphic
+	}
+
+
+	public void MagicProjectile2(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+			int startHeight, int endHeight, int lockon, int time) {
+		c.outStream.createFrame(85);
+		c.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
+		c.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
+		c.outStream.createFrame(117);
+		c.outStream.writeByte(angle);                     //Starting place of the projectile
+		c.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
+		c.outStream.writeByte(offsetX);                //Distance between caster and enemy X
+		c.outStream.writeWord(lockon);        //The NPC the missle is locked on to
+		c.outStream.writeWord(gfxMoving);             //The moving graphic ID
+		c.outStream.writeByte(startHeight);           //The starting height
+		c.outStream.writeByte(endHeight);             //Destination height
+		c.outStream.writeWord(time);                        //Time the missle is created
+		c.outStream.writeWord(speed);                     //Speed minus the distance making it set
+		c.outStream.writeByte(16);                        //Initial slope
+		c.outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
 	}
 
 }

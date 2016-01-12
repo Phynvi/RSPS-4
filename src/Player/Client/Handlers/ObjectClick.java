@@ -27,7 +27,7 @@ public class ObjectClick {
 
 		objtimer = System.currentTimeMillis();
 
-		c.stopAnim();	
+		c.stopAnimations();	
 
 		Agility agilityHandler = c.getAgilityHandler();
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
