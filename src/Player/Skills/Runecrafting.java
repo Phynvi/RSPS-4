@@ -45,7 +45,7 @@ public class Runecrafting {
 			c.sendMessage("You need at least "+level+" Runecrafting to do that.");
 			return false;
 		}
-		if(!c.HasItemAmount(RUNE_ESSENCE, 1)){
+		if(!c.hasItemOfAtLeastAmount(RUNE_ESSENCE, 1)){
 			c.sendMessage("You do not have any Rune Essence to craft this with.");
 			return false;
 		}

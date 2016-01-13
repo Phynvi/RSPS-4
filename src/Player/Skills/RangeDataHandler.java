@@ -16,7 +16,7 @@ public class RangeDataHandler {
 				}
 				else ItemHandler.addItem(c.playerEquipment[c.playerArrows], XCoord, YCoord, 1, c.playerId, false);
 			}
-			c.DeleteArrow();
+			c.frameDeleteArrow();
 		}
 	}
 

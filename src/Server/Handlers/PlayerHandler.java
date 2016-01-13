@@ -73,7 +73,7 @@ public class PlayerHandler {
 	public void destruct() {
 		for(int i = 0; i < maxPlayers; i++) {
 			if(players[i] == null) continue;
-			players[i].destruct();
+			players[i].destruct("Player ID at index "+i+" is null");
 			players[i] = null;
 		}
 	}
@@ -192,7 +192,7 @@ public class PlayerHandler {
 				} else {
 					System.out.println("Did not save for "+players[i].playerName);
 				}
-				removePlayer(players[i]);
+				removePlayer(players[i], "disconnected from PlayerHandler");
 				players[i] = null;
 			}
 		}
@@ -225,7 +225,7 @@ public class PlayerHandler {
 				} else {
 					System.out.println("Did not save for "+players[i].playerName);
 				}
-				removePlayer(players[i]);
+				removePlayer(players[i],"Disconnected in PlayerHandler, reason 1");
 				players[i] = null;
 			} else {
 				if(!players[i].initialized) {
@@ -389,7 +389,7 @@ public class PlayerHandler {
 
 	public int lastchatid = 1; //PM System
 
-	private void removePlayer(Player plr) {
+	private void removePlayer(Player plr, String reason) {
 		if(plr.Privatechat != 2) { //PM System
 			for(int i = 1; i < maxPlayers; i++) {
 				if (players[i] == null || players[i].isActive == false) continue;
@@ -397,7 +397,7 @@ public class PlayerHandler {
 			}
 		}
 		// anything can be done here like unlinking this player structure from any of the other existing structures
-		plr.destruct();
+		plr.destruct(reason);
 	}
 
 public boolean savechar(Player plr) {

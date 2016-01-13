@@ -21,6 +21,7 @@ public class ObjectClick {
 	}
 
 	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
+		c.WalkingTo = false;
 		c.debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
 
 		if(isObjSpamming()) return;
@@ -769,7 +770,7 @@ public class ObjectClick {
 				c.sendMessage("You walk the slippery log.");
 			}
 			break;
-			
+
 		case 13932: 
 			c.teleport(3015, 5244);
 			break;
@@ -1135,7 +1136,7 @@ public class ObjectClick {
 		case 11338:
 		case 2213:
 		case 9480: 
-			c.openUpBank(); 
+			c.openUpBankFrame(); 
 			break;
 
 		case 4157:
@@ -1660,4 +1661,147 @@ break;*/
 			break;
 		}
 	}
+
+
+	/*OBJECT CLICK TWO*/
+
+	public boolean spinning = false;
+
+	public void objectClick2(int objectID, int objectX, int objectY) {
+		debug("atObject2: "+objectX+","+objectY+" objectID: "+objectID); 
+
+		if(isObjSpamming()) return;
+		objtimer = System.currentTimeMillis();
+
+		if(lists.grownList.exists(objectID) || lists.growingList.exists(objectID) || lists.patchList.exists(objectID) || lists.brushList.exists(objectID) || lists.inspectInfoList.exists(objectID) || lists.deadPlantList.exists(objectID)){
+			this.FARM.inspectInfo(objectID,objectX,objectY);
+			return;
+		}
+
+		switch(objectID) {
+
+		case 2884:
+			if(objectX == 2466 && objectY == 3495)
+				teleport(2466,3494,3);
+			break;
+
+		case 11889:
+			if(objectX == 2907 && objectY == 3334 && heightLevel == 1)
+				teleport(2908,3336,2);
+			break;
+
+		case 1748:
+			if(objectX == 2466 && objectY == 3495)
+				teleport(2466,3494,2);
+			break;
+
+		case 2646: //flax
+			if(addItem(1779,1)){
+				new RespawnObject(this, 2646, 6951, objectX, objectY, 15);
+				sendMessage("You pick some flax.");
+				startAnimation(1768);
+			}
+			break;
+
+		case 2644: //gnome spinning wheel
+		case 8748: //spinning wheel
+			spinning = true;
+			selectoption("Options", "Make all Bowstrings", "Cancel", "...");
+			break;
+
+			//Fishing second clicks
+		case 2030:
+		case 2031:
+		case 2027:
+		case 2029: 
+			Fishing.fishingSwitch2(objectID, objectX, objectY, this);
+			break;	
+			//Fishing
+
+		case 2561:
+			Thieving.stalls(1, 200, DROPHANDLER.getDrop(DROPHANDLER.food), 3000, this);
+			break;
+
+		case 2563:
+		case 2560:
+			Thieving.stalls(10, 150, 6814, 4000, this);
+			break;
+
+		case 2562:
+			Thieving.stalls(35, 500, DROPHANDLER.getDrop(DROPHANDLER.gems), 3500, this);
+			break;
+
+
+		case 4277:
+			Thieving.stalls(50, 800, DROPHANDLER.getDrop(DROPHANDLER.fish1), 4000, this);
+			break;
+
+		case 4874:
+			Thieving.stalls(70, 1000, DROPHANDLER.getDrop(DROPHANDLER.gems), 4500, this);
+			break;
+
+		case 2213:
+		case 2214:
+		case 3045:
+		case 5276:
+		case 6084:
+		case 11758:
+		case 9480:
+			openUpBankFrame(); 
+			break;
+
+		}
+	}
+
+	/*OBJECT CLICK THREE*/
+
+	public void objectClick3(int objectID, int objectX, int objectY) {
+		c.WalkingTo = false;
+		
+		debug("atObject3: "+objectX+","+objectY+" objectID: "+objectID);
+
+		if(isObjSpamming()) return;
+		objtimer = System.currentTimeMillis();
+
+		switch (objectID) {			
+		case 2884:
+			if(objectX == 2466 && objectY == 3495)
+				teleport(2466,3494,1);
+			break;
+		case 11889:
+			if(objectX == 2907 && objectY == 3334 && heightLevel == 1)
+				teleport(2908,3336,0);
+			break;
+		case 1748:
+			if(objectX == 2466 && objectY == 3495)
+				teleport(2466,3494,0);
+			break;
+
+		case 1739:
+			heightLevel--;
+			break;
+
+		}
+	}
+
+	public void objectClick4(int objectID, int objectX, int objectY) {
+		debug("atObject4: "+objectX+","+objectY+" objectID: "+objectID);
+
+		if(isObjSpamming()) return;
+		objtimer = System.currentTimeMillis();
+
+		if(lists.growingList.exists(objectID) || lists.grownList.exists(objectID) || lists.guideList.exists(objectID) || 
+				lists.brushList.exists(objectID) || lists.deadPlantList.exists(objectID) || lists.patchList.exists(objectID)){
+			this.FARM.guide(objectX, objectY, objectID);
+			return;
+		}
+
+		switch (objectID) {			
+		default:
+			debug("Unhandled objectID in objectClick4 : "+objectID);
+			break;
+		}
+	}
+
+
 }

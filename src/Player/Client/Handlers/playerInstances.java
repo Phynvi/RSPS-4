@@ -153,9 +153,9 @@ public int idleTimer = 0;
 	public int DH = 0;
 	public int ithl = 0;
 	public int rockcount = 0;
-	public int objectX = 0;
-	public int objectID = 0;
-	public int objectY = 0;
+	public int objectX = 0; //TODO - see where these go
+	public int objectID = 0; //
+	public int objectY = 0; //
 	public int xpgiven = 0;
 	long lastYell = 20001;
 	public int shopname = 0;
@@ -236,9 +236,6 @@ public int idleTimer = 0;
 	public static boolean LoggingClicks = false;
 	public int JunaTele = -1;
 
-	//untradeable items
-	public int untradable[] = {7806,7807,7808,7809,197,569,6570,7623,7624,7626,7627,7628,7629,7630,7631,7632,7633,7634,7635,7636,7637,7638,7640,7641,7648,7649,7650,7651,7653,7654,7655,7656,7657,7658,7672,7673,7674,7675,7676,7677,7678,7679,7680,7681,7682,7683,7685,7686}; // put all untradable itemz here bitchz XD - Joey
-
 	public int teleReq = 0;
 	public String teleLoc = "";
 	public boolean teleOtherScreen = false;
@@ -301,175 +298,6 @@ public int idleTimer = 0;
 	public static int more2handed[] = {7158};
 	public static int more2handed(){return more2handed[more2handed.length];}
 
-	/*SMITHING*/
-	public int removeBar(int removeID) {
-		if(removeID == 1149 || removeID == 1305 || removeID == 7158
-				|| removeID == 6575 || removeID == 4087 || removeID == 7806
-				|| removeID == 13602 || removeID == 9094 || removeID == 4151
-				|| removeID == 5698 || removeID == 1187 || removeID == 1377
-				|| removeID == 1434 || removeID == 14511 || removeID == 4587
-				|| removeID == 14512 || removeID == 14513 || removeID == 14514
-				|| removeID == 3140 || removeID == 14507 || removeID == 14508
-				|| removeID == 14509) {
-			return 2357;
-		}
-		if(removeID == 1205 || removeID == 1351 || removeID == 1103
-				|| removeID == 1139 || removeID == 819 || removeID == 1277
-				|| removeID == 1422 || removeID == 1075 || removeID == 1155
-				|| removeID == 39 || removeID == 1321 || removeID == 1337
-				|| removeID == 1087 || removeID == 1173 || removeID == 864
-				|| removeID == 1291 || removeID == 1375 || removeID == 1117
-				|| removeID == 1189 || removeID == 1307 || removeID == 3095
-				|| removeID == 4819) {
-			return 2349;
-		}
-		if(removeID == 1203 || removeID == 1349 || removeID == 1420
-				|| removeID == 1137 || removeID == 1279 || removeID == 820
-				|| removeID == 4820 || removeID == 1323 || removeID == 40
-				|| removeID == 1293 || removeID == 1153 || removeID == 863
-				|| removeID == 1175 || removeID == 1335 || removeID == 1363
-				|| removeID == 1101 || removeID == 4540 || removeID == 1191
-				|| removeID == 3096 || removeID == 1309 || removeID == 1067
-				|| removeID == 1081 ||
-				removeID == 1115) {
-			return 2351;
-		}
-		if(removeID == 1207 || removeID == 3097 || removeID == 1353
-				|| removeID == 1424 || removeID == 1141 || removeID == 1281
-				|| removeID == 1325 || removeID == 1295 || removeID == 1157
-				|| removeID == 1177 || removeID == 1339 || removeID == 1365
-				|| removeID == 1105 || removeID == 1193 || removeID == 1069
-				|| removeID == 1083 || removeID == 1311 || removeID == 1119
-				|| removeID == 1539 ||
-				removeID == 821 || removeID == 41
-				|| removeID == 2 ||
-				removeID == 2370 || removeID == 865
-				|| removeID == 4544) {
-			return 2353;
-		}
-		//Mith
-		if(removeID == 1209 || removeID == 3099 || removeID == 1355
-				|| removeID == 1428 || removeID == 1143 || removeID == 1285
-				|| removeID == 1329 || removeID == 1299 || removeID == 1159
-				|| removeID == 1181 || removeID == 1343 || removeID == 1369
-				|| removeID == 1109 || removeID == 1197 || removeID == 1071
-				|| removeID == 1085 || removeID == 1315 || removeID == 1121
-				|| removeID == 822 || removeID == 4822 || removeID == 42
-				|| removeID == 42 || removeID == 866) {
-			return 2359;
-		}
-		//Addy
-		if(removeID == 1211 || removeID == 3100 || removeID == 1430
-				|| removeID == 1145 || removeID == 1287 || removeID == 1331
-				|| removeID == 1301 || removeID == 1161 || removeID == 1183
-				|| removeID == 1371 || removeID == 1111 || removeID == 1073
-				|| removeID == 1091 || removeID == 1317 || removeID == 1123
-				|| removeID == 823 ||
-				removeID == 4823 || removeID == 43
-				|| removeID == 867 ||
-				removeID == 1199) {
-			return 2361;
-		}
-		//Rune
-		if(removeID == 1213 || removeID == 3101 || removeID == 1432
-				|| removeID == 1147 || removeID == 1289 || removeID == 1333
-				|| removeID == 1303 || removeID == 1163 || removeID == 1185
-				|| removeID == 1347 || removeID == 1373 || removeID == 1113
-				|| removeID == 1201 || removeID == 1079 || removeID == 1093
-				|| removeID == 1319 || removeID == 1127 || removeID == 824
-				|| removeID == 4824 || removeID == 44 || removeID == 868) {
-			return 2363;
-		}
-		return 0;
-	}
-	public int barsNeeded(int slot, int column) {
-		if (column == 1119) {
-			if (slot == 0 || slot == 1) return 1;
-			if (slot == 2 || slot == 3) return 2;
-			if (slot == 4) return 3;
-		}
-		if (column == 1120) {
-			if (slot == 0 || slot == 1) return 1;
-			if (slot == 2 || slot == 3) return 3;
-			if (slot == 4) return 2;
-		}
-		if (column == 1121) {
-			if (slot == 0 || slot == 1 || slot == 2) return 3;
-			if (slot == 3) return 5;
-			if (slot == 4) return 1;
-		}
-		if (column == 1122) {
-			if (slot == 0 || slot == 4) return 1;
-			if (slot == 1 || slot == 2) return 2;
-			if (slot == 3) return 3;
-		}
-		if (column == 1123) {
-			if (slot == 0 || slot == 1 || slot == 2 || slot == 3 || slot == 4) return 1;
-		}
-		return 0;
-	}
-	public int barsNeeded2(int slot, int column) {
-		if (column == 1119) {
-			if (slot == 0 || slot == 1) return 5;
-			if (slot == 2 || slot == 3) return 10;
-			if (slot == 4) return 15;
-		}
-		if (column == 1120) {
-			if (slot == 0 || slot == 1) return 5;
-			if (slot == 2 || slot == 3) return 15;
-			if (slot == 4) return 10;
-		}
-		if (column == 1121) {
-			if (slot == 0 || slot == 1 || slot == 2) return 15;
-			if (slot == 3) return 25;
-			if (slot == 4) return 5;
-		}
-		if (column == 1122) {
-			if (slot == 0 || slot == 4) return 5;
-			if (slot == 1 || slot == 2) return 10;
-			if (slot == 3) return 15;
-		}
-		if (column == 1123) {
-			if (slot == 0 || slot == 1 || slot == 2 || slot == 3 || slot == 4) return 5;
-		}
-		return 0;
-	}
-	public int barsNeeded3(int slot, int column) {
-		if (column == 1119) {
-			if (slot == 0 || slot == 1) return 10;
-			if (slot == 2 || slot == 3) return 20;
-			if (slot == 4) return 30;
-		}
-		if (column == 1120) {
-			if (slot == 0 || slot == 1) return 10;
-			if (slot == 2 || slot == 3) return 30;
-			if (slot == 4) return 20;
-		}
-		if (column == 1121) {
-			if (slot == 0 || slot == 1 || slot == 2) return 30;
-			if (slot == 3) return 50;
-			if (slot == 4) return 10;
-		}
-		if (column == 1122) {
-			if (slot == 0 || slot == 4) return 10;
-			if (slot == 1 || slot == 2) return 20;
-			if (slot == 3) return 30;
-		}
-		if (column == 1123) {
-			if (slot == 0 || slot == 1 || slot == 2 || slot == 3 || slot == 4) return 10;
-		}
-		return 0;
-	}
-	public int smithXP(int barType, int barAmount) {
-		if (barType == 2357) return barAmount*25*rate; //gold bar
-		if (barType == 2349) return barAmount*29*rate;
-		if (barType == 2351) return barAmount*25*rate;
-		if (barType == 2353) return barAmount*38*rate;
-		if (barType == 2359) return barAmount*50*rate;
-		if (barType == 2361) return barAmount*75*rate;
-		if (barType == 2363) return barAmount*85*rate;
-		return 0;
-	}
 	public int questid = 0;
 	public int q1stage = 0;
 	public int q2stage = 0;
@@ -544,8 +372,9 @@ public int idleTimer = 0;
 	public int smitimer = 300;
 	public boolean s1 = false;
 	public boolean s2 = false;
-	public static int getprize[] = {1,2};
 
+	public boolean spinning = false;
+	
 	public boolean travelboat1 = false;
 	public boolean travelboat2 = false;
 	public int traveltime = 0;
@@ -562,11 +391,8 @@ public int idleTimer = 0;
 	public int cityX = 0;
 	public int cityY = 0;
 	public boolean newAnimRequired = false;
-	public int newAnimDelay = 0;
+
 	public int newAnim = 0;
-	public int sidebarChangeTimer;
-	public int sidebarChange;
-	public boolean sidebarChanging;
 	public int starter = 0;
 	public int bookshelf1 = 0;
 	public int questlever1 = 0;

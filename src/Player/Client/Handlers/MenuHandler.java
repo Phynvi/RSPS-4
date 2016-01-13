@@ -2,33 +2,33 @@
 
 public class MenuHandler {
 	private client c;
-	
+
 	MenuHandler(client pC){
 		c = pC;
 	}
-	
+
 
 	public static String cookingGuide(){
 		return("@gre@Cooking Menu##"+
-		"#@whi@Fish by Level:"+
-		"#@bla@1 - Shrimp"+
-		"#15 - Pike"+
-		"#25 - Tuna"+
-		"#40 - Lobster, Lava Eel"+
-		"#70 - Shark"+
-		"#90 - Manta Ray"+
-		"#90 - Sea Turtle");
+				"#@whi@Fish by Level:"+
+				"#@bla@1 - Shrimp"+
+				"#15 - Pike"+
+				"#25 - Tuna"+
+				"#40 - Lobster, Lava Eel"+
+				"#70 - Shark"+
+				"#90 - Manta Ray"+
+				"#90 - Sea Turtle");
 	}	
-		
-	
+
+
 	public static String ancients2finished(){
 		return("Dwarf Problems II####@gre@QUEST COMPLETED!#@bla@You receive:#200,000 Magic EXP#Ability to convert to ancient magics#by having the Staff equipped.#");
 	}
-	
+
 	public static String ancientsfinished(){
 		return("Dwarf Problems I###@gre@QUEST COMPLETED!#@bla@You receive:#100,000 Thieving EXP#");
 	}
-	
+
 	public static String[] Rules(){
 		return new String[]{"@gre@Rules of "+server.SERVERNAME,"","",
 				"@red@Penalities vary from rule to rule.",
@@ -61,7 +61,7 @@ public class MenuHandler {
 				"from people whom are Mature, Helpful, Intelligent,",
 		"Careful, Respectful, etc."};
 	}
-	
+
 	public static String[] combatInformation(){
 		return new String[]{"@gre@Training Combat Information","","",
 				"@whi@Popular training locations:",
@@ -87,18 +87,18 @@ public class MenuHandler {
 				"",
 				"@whi@Slayer",
 				"Slayer can be trained by speaking with the",
-				"Quartermaster on Karamja."};
+		"Quartermaster on Karamja."};
 	}
-	
+
 	public static String[] skillInformation(){
 		return new String[]{"@gre@Training Skills Information","","",
 				"Many skills can be trained from Rimmington.",
 				"A teleport to Rimmington is available in the spellbook.",
 				"",
 				"Further information on each skill can be learned",
-				"from each skill's respective tab in the skills tab."};
-		}
-	
+		"from each skill's respective tab in the skills tab."};
+	}
+
 	public String[] newBeginnings(){
 		if(c.pirate < 10){
 			return new String[]{"@gre@New Beginnings","","",
@@ -108,7 +108,7 @@ public class MenuHandler {
 					"Their numbers need to be thinned to allow safe passage.",
 					"",
 					"I need to kill "+(10-c.pirate)+" more pirate(s)",
-					"before I can leave."};
+			"before I can leave."};
 		}
 		if(c.pirate == 10){
 			return new String[]{"@gre@New Beginnings","","",
@@ -118,7 +118,7 @@ public class MenuHandler {
 					"Their numbers need to be thinned to allow safe passage.",
 					"",
 					"I have killed enough Pirates. I should go speak with",
-					"Captain Shanks to leave the island."};
+			"Captain Shanks to leave the island."};
 		}
 		if(c.pirate > 10){
 			return new String[]{"@gre@New Beginnings","","",
@@ -127,7 +127,7 @@ public class MenuHandler {
 					"@gre@Quest completed!",
 					"@gre@You have been rewarded:",
 					"Safe passage from tutorial island to Port Sarim.",
-					"5000 Gold"};
+			"5000 Gold"};
 		}
 		return null;
 	}
@@ -142,28 +142,28 @@ public class MenuHandler {
 				"Level 40 - Yew Shortbow, Yew Longbow",
 				"Level 50 - Magic Shortbow, Magic Longbow",
 				"Level 60 - Dark Bow",
-				"Level 70 - Crystal Bow"};
+		"Level 70 - Crystal Bow"};
 	}
-	
+
 	public static String miningGuide(){
-			return("@gre@Mining Guide###@whi@Level requriement per rock: #@bla@1 - Rune Essence, Copper, and Tin#15 - Iron#40 - Gold, Coal"
-					+ "#55 - Mithril#70 - Adamantite# 80 - Runite##@whi@Level requirement per pick:#@bla@1 - Bronze, Iron#6 - Steel#21 - Mithril#31 - Adamantite#41 - Runite##");
+		return("@gre@Mining Guide###@whi@Level requriement per rock: #@bla@1 - Rune Essence, Copper, and Tin#15 - Iron#40 - Gold, Coal"
+				+ "#55 - Mithril#70 - Adamantite# 80 - Runite##@whi@Level requirement per pick:#@bla@1 - Bronze, Iron#6 - Steel#21 - Mithril#31 - Adamantite#41 - Runite##");
 	}
-	
+
 	public static String fishingGuide()	{
 		return("@gre@Fishing Guide###@whi@Fish by Level:#@bla@1 - Shrimp - Big Net Fishing#20 - Pike - Fishing Rod#30 - Tuna - Harpoon"
 				+ "#45 - Lobster - Lobster Pot, Lava Eel - Harpoon#60 - Swordfish, Tuna - Harpoon"
 				+ "#75 - Swordfish, Tuna, Shark - Harpoon#85 - Swordfish, Tuna, Shark, Manta Ray - Harpoon"
 				+ "#90 - Sea Turtle - Harpoon#");
 	}
-	
+
 	public String[] magicMenu(){
 		return new String[]{"@gre@Magic Guide", "","",
 				"",
 				"The Ancients spellbook is available by completing Dwarf Problems Part II.",
 				"",};
 	}
-	
+
 	public static String[] agilityGuide(){
 		return new String[]{"@gre@Agility guide","","",
 				"@whi@Courses",
@@ -176,9 +176,9 @@ public class MenuHandler {
 				"Level 50 - Underground pass",
 				"Level 60 - Log (Tirannwn)",
 				"Level 70 - Pipe (Brimhaven Dungeon)",
-				"Level 85 - Stepping Stone (Brimhaven Dungeon)"};
+		"Level 85 - Stepping Stone (Brimhaven Dungeon)"};
 	}
-	
+
 	public static String[] bossInformation(){
 		return new String[]{"@gre@Boss Information","","",
 				"@gre@God Wars @bla@is accessible by speaking with",
@@ -191,9 +191,9 @@ public class MenuHandler {
 				"of the Home Spawm, Port Sarim.",
 				"",
 				"@gre@The Barrows@bla@ are accessible via the Mort'ton teleport",
-				"in the spellbook."};
+		"in the spellbook."};
 	}
-	
+
 	public static String[] woodcuttingGuide(){
 		return new String[]{"@gre@Woodcutting Guide", "", "",
 				"@whi@Tree type",
@@ -202,9 +202,9 @@ public class MenuHandler {
 				"Level 30 - Willow Trees",
 				"Level 45 - Maple Trees",
 				"Level 60 - Yew Trees",
-				"Level 75 - Magic Trees"};
+		"Level 75 - Magic Trees"};
 	}
-	
+
 	public static String[] firemakingGuide(){
 		return new String[]{"@gre@Firemaking Guide","","",
 				"@whi@Log Type",
@@ -213,9 +213,9 @@ public class MenuHandler {
 				"Level 30 - Willow",
 				"Level 47 - Maple",
 				"Level 64 - Yew",
-				"Level 83 - Magic"};
+		"Level 83 - Magic"};
 	}
-	
+
 	public static String[] smithingGuide(){
 		return new String[]{"@gre@Smithing Guide","","",
 				"@whi@Bars",
@@ -224,9 +224,9 @@ public class MenuHandler {
 				"Level 50 - Steel (Use Coal on Furnace)",
 				"Level 70 - Mithril (Use Mithril Ore on Furnace)",
 				"Level 80 - Adamantite (Use Adamantite Ore on Furnace)",
-				"Level 90 - Runite (Use Runite Ore on Furnace)"};
+		"Level 90 - Runite (Use Runite Ore on Furnace)"};
 	}
-	
+
 	public static String[] fletchingGuide(){
 		return new String[]{"@gre@Fletching Guide", "", "",
 				"@whi@Shortbows",
@@ -251,9 +251,9 @@ public class MenuHandler {
 				"Level 30 - Steel",
 				"Level 45 - Mitrhil",
 				"Level 60 - Adamant",
-				"Level 75 - Rune"};
+		"Level 75 - Rune"};
 	}
-	
+
 	public static String[] craftingGuide(){
 		return new String[]{"@gre@Crafting guide", "", "",
 				"To create Rings or Amulets, use a cut gem on",
@@ -283,10 +283,10 @@ public class MenuHandler {
 				"Level 45 - Ruby : Level 50 - Ruby (Strung)",
 				"Level 60 - Diamond : Level 65 - Diamond (Strung)",
 				"Level 85 - Dragonstone : Level 90 - Dragonstone (Strung)",
-				"Level 97 - Onyx : Level 98 - Onyx (Strung)"};
+		"Level 97 - Onyx : Level 98 - Onyx (Strung)"};
 	}
-	
-	
+
+
 	public static String[] runecraftingMenu(){
 		return new String[]{"@gre@Runecrafting Guide", "", "",
 				"Using a Talisman on a Rune altar will craft the",
@@ -309,9 +309,9 @@ public class MenuHandler {
 				"Level 44 - Nature",
 				"Level 54 - Law",
 				"Level 65 - Death",
-				"Level 80 - Blood, Soul"};
+		"Level 80 - Blood, Soul"};
 	}
-	
+
 	public static String[] prayerMenu(){
 		return new String[]{"@gre@Prayer Menu", "","",
 				"@red@NOTE:@bla@The prayer skill is under construction.",
@@ -331,14 +331,14 @@ public class MenuHandler {
 				"Level 43 - Protect from Melee",
 				"Level 46 - Retribution",
 				"Level 49 - Redemption",
-				"Level 52 - Smite"};
+		"Level 52 - Smite"};
 	}
-	
+
 	public static String[] combatMenu(){
 		return new String[]{"@gre@Combat Guide","","","Combat Skills can be trained in multiple locations, which","can be reached via teleports. These teleports are located", 
 				"in the following places:","  @whi@Quest Tab","  @whi@Spellbook Tab",	"  @whi@Music Tab"};
 	}
-	
+
 	public String[] slayermenu(){
 		return new String[]{"@gre@Slayer Guide", "","",
 				"@whi@Speak with the Quartermaster on Karamja","@whi@to receive slayer tasks.",
@@ -356,76 +356,76 @@ public class MenuHandler {
 				"Level 70 - Battle Mage, Kurask",
 				"Level 72 - Skeletal Wyvern",
 				"Level 85 - Abyssal Demon",
-				"Level 90 - Dark Beast"};
+		"Level 90 - Dark Beast"};
 	}
-	
+
 	public static String wbBook(){
 		return("Ingredients##"+
-		"#-One raw swamp past from the trader in Mort'ton"+
-		"#-One cut Diamond"+
-		"#-One raw Mackerel from the Fisherman who is"+
-		"# far south of Port Sarim"+
-		"#-One empty vial#");
+				"#-One raw swamp past from the trader in Mort'ton"+
+				"#-One cut Diamond"+
+				"#-One raw Mackerel from the Fisherman who is"+
+				"# far south of Port Sarim"+
+				"#-One empty vial#");
 	}
-	
+
 	public static String ancientsbook(){
 		return("Locations###"+
-		"#Enter the manhole in Port Sarim, break through"+
-		"#the closed gate, and search the cupboard."+
-		"#-----------------------------------------------"+
-		"#Deep in East Mort Myre Swamp there lies a graveyard."+
-		"#In this graveyard exists a tomb which is different then"+
-		"#most others. Search this tomb.#");
+				"#Enter the manhole in Port Sarim, break through"+
+				"#the closed gate, and search the cupboard."+
+				"#-----------------------------------------------"+
+				"#Deep in East Mort Myre Swamp there lies a graveyard."+
+				"#In this graveyard exists a tomb which is different then"+
+				"#most others. Search this tomb.#");
 	}
-	
+
 	public String ancientsmenu2(){
 		if (c.ancients <= 8)
 			return("Dwarf Problems II####Requirements:#50 Magic##I must have completed the following quests:#Dwarf Problems I##I can start this quest by talk to#Hammerspike Stoutbeard#");
-					
-	    if (c.ancients > 8 && c.ancients < 12)
-	    	return("Dwarf Problems II####I have started this quest.##My objective is to destory#a black demon accidentally awoken.#");
-					
-	    if (c.ancients == 12)
-	    	return("Dwarf Problems II####QUEST COMPLETED!##I now have the ability to use ancient magics#by equipping the Staff, which will#convert my normal magics spellbook to ancient#magics while it is equipped.#");
-					
-	    return "";
+
+		if (c.ancients > 8 && c.ancients < 12)
+			return("Dwarf Problems II####I have started this quest.##My objective is to destory#a black demon accidentally awoken.#");
+
+		if (c.ancients == 12)
+			return("Dwarf Problems II####QUEST COMPLETED!##I now have the ability to use ancient magics#by equipping the Staff, which will#convert my normal magics spellbook to ancient#magics while it is equipped.#");
+
+		return "";
 	}
-	
+
 	public String ancientsmenu(){
 		if (c.ancients == 0)
 			return("Dwarf Problems I####Requirements:#40 Thieving##I can start this quest by speaking to#Johanhus Ulsbrecht in Ardougne.#");
-			
+
 		if (c.ancients >= 1 && c.ancients < 8)
 			return("Dwarf Problems I####I Have started this quest.#");
 
 		if (c.ancients >= 8)
 			return("Dwarf Problems I####QUEST COMPLETED!#");	
-		
+
 		return "";	
-		}
-	
+	}
+
 	public static String BarrowsQuest2(){
 		return("Congratulations!###You have been rewarded:#50,000 Thieving EXP#50,000 Farming EXP#10,000 Slayer EXP#Quest Cape#Quest Hood#");
-		}
-	
+	}
+
 	public static String wbFinish(){
 		return("Congratulations!####You have been rewarded:#100,000 Thieving EXP#50,000 Crafting EXP#20,000 Strength EXP#40,000 Agility EXP#Ghostly Outfit#");
 	}
 
-	
+
 	public static String BarrowsQuest(){
 		return("Treasure Hunt!###"+
-		"#Fellow bandits, whomever gathers a ghost head for our"+
-		"#ritual shall be greatly rewarded!"+
-		"#To return to the hideout simply use bones with the broken"+
-		"#fire altar north of the run down village."+
-		"#The ghost head will be held inside a chest in the Big Chamber.#");
-		}
-	
+				"#Fellow bandits, whomever gathers a ghost head for our"+
+				"#ritual shall be greatly rewarded!"+
+				"#To return to the hideout simply use bones with the broken"+
+				"#fire altar north of the run down village."+
+				"#The ghost head will be held inside a chest in the Big Chamber.#");
+	}
+
 	public String BarrowsHelp(){
 		return("The Barrows...####Your kills#Ahrim: "+c.ahrim+"#"+"Dharok: "+c.dharok+"#"+"Verac: "+c.verac+"#"+"Karil: "+c.karil+"#"+"Torag: "+c.torag+"#"+"Guthan: "+c.guthan+"######");
-		}
-	
+	}
+
 	public String Stats2(){
 		return("Your stats!####Pk Points: "+c.pkpoints+"#"+"Kills: "+c.killcount+"#"+"Deaths: "+c.deathcount+"#####");
 	}
@@ -460,14 +460,14 @@ public class MenuHandler {
 				"Level 40 - Irit : Level 48 - Avantoe",
 				"Level 54 - Kwuarm : Level 59 - Snapdragon",
 				"Level 65 - Cadantine : Level 67 - Lantadyme",
-				"Level 70 - Dwarf Weed : Level 75 - Tortsol"};
+		"Level 70 - Dwarf Weed : Level 75 - Tortsol"};
 	}
 
 	public static String STFinish(){
 		return("@gre@Congratulations!#####@whi@You have been rewarded:#@bla@*200,000 Fishing and Cooking EXP#*Ability to fish and cook sea turtle#*Cooking Gauntlets which rarely burn food!#");
 	}
 
-	
+
 
 	public static String farmingGuide(){
 		return("@gre@Farming Guide####"
@@ -500,23 +500,168 @@ public class MenuHandler {
 				+ "Level 80 - Maple Tree : Level 90 - Yew Tree#"
 				+ "Level 95 - Magic Tree#");
 	}
-	
+
 	public static String thiefmenu(){
 		return("@gre@Thieving Guide##"+
-		"#@whi@Stalls"+
-		"#Level 1 - Baker's Stall"+
-		"#Level 35 - Gem Stall"+
-		"#Level 50 - Fish stall"+
-		"#Level 70 - Crafting Stall"+
-		"#"+
-		"#@whi@Pickpocketing"+
-		"#Level 1 - Man, Woman"+
-		"#Level 15 - Farmer"+
-		"#Level 35 - Guard"+
-		"#Level 60 - Watchman"+
-		"#Level 75 - Paladin"+
-		"#Level 80 - Hero#");
+				"#@whi@Stalls"+
+				"#Level 1 - Baker's Stall"+
+				"#Level 35 - Gem Stall"+
+				"#Level 50 - Fish stall"+
+				"#Level 70 - Crafting Stall"+
+				"#"+
+				"#@whi@Pickpocketing"+
+				"#Level 1 - Man, Woman"+
+				"#Level 15 - Farmer"+
+				"#Level 35 - Guard"+
+				"#Level 60 - Watchman"+
+				"#Level 75 - Paladin"+
+				"#Level 80 - Hero#");
+	}
+
+
+	/*QUEST VOIDS*/
+	public void questMenus()
+	{
+		/* QUEST 1 */
+		if(questid == 1)
+		{
+			if(wb == 0)
+			{
+				loadquestsFrame("Witch's Brew", "I can start this quest by talking to the", "ghost villager near the barrow tombs.", "Requirements:", "Must have completed Bandit Trouble", "50 Crafting", "50 Agility", "30 Thieving", "60 Strength", "");
+			}
+			if(wb == 1)
+			{
+				loadquestsFrame("Witch's Brew", "The ghost has told me to go to his", "friend Aggie, she lives", "in a house on the east side of the slayer house", "which is at the northern tip of", "Morytania, north of Canifis.", "", "", "", "");
+			}
+			if(wb == 2)
+			{
+				loadquestsFrame("Witch's Brew", "The witch has given me a book", "containing a list of ingredients", "that I need to gather.", "", "", "", "", "", "");
+			}
+			if(wb == 3)
+			{
+				loadquestsFrame("Witch's Brew", "I have read the book, I must collect:", "Swamp Tar from the trader in Mort'ton", "Cut Diamond", "Raw Mackerel from the Fisherman who is far south", "of Port Sarim.", "An empty vial", "", "", "");
+			}
+			if(wb == 4)
+			{
+				loadquestsFrame("Witch's Brew", "Nora has given me a special mix,", "after I drink it I should talk to her again.", "", "", "", "", "", "", "");
+			}
+			if(wb == 5)
+			{
+				loadquestsFrame("Witch's Brew", "I have been instructed to steal", "a fire orb from the tombs below the Mausoleum", " east of her house. I can get inside", " by pushing aside the Memorial.", "The fire orb is in a chest somewhere", "within the tombs.", "From past experience a guard might", "be looking over it.", "");
+			}
+			if(wb == 6)
+			{
+				loadquestsFrame("Witch's Brew", "QUEST COMPLETE!", "", "", "", "", "", "", "", "");
+			}
+		}
+		else if(questid == 2)
+		{
+			if(easterevent == 0)
+			{
+				loadquestsFrame("Bandit Trouble", "I can start this quest by talking to the Old Man in Mort'ton", "No requirements.", "High prayer recommended", "", "", "", "", "", "");
+			}
+			if(easterevent == 1)
+			{
+				loadquestsFrame("Bandit Trouble", "I have to ask around to see what the trouble is.", "", "", "", "", "", "", "", "");
+			}
+			if(eastergift == 2)
+			{
+				loadquestsFrame("Bandit Trouble", "Now I must go to the bandits hideout and get the", "Ghost's Head. I can get in by using bones", "on the Broken Fire Altar north of Mort'ton.", "", "", "", "", "", "");
+			}
+			if(eastergift == 3)
+			{
+				loadquestsFrame("Bandit Trouble", "Now I must return the Ghost's Head to", "the gardener ghost.", "", "", "", "", "", "", "");
+			}
+			if(eastergift == 1)
+			{
+				loadquestsFrame("Bandit Trouble", "I was told by Horacio to talk to the gardener ghost", "with the Talisman in my inventory. The ghost is", "north of Mort'ton by the broken fire altar.", "", "", "", "", "", "");
+			}
+			if(eastergift == 4)
+			{
+				loadquestsFrame("Bandit Trouble", "QUEST COMPLETED!", "", "", "", "", "", "", "", "");
+			}
+		}
+
+		//npc is 220 for fishing king
+
+		else if(questid == 3)
+		{
+			if(ST == 0)
+			{
+				loadquestsFrame("The Famous Catch", "I can start this quest by talking to the Fishing King.", "He can be found in Entrana.", "Requirements:", "90 Fishing", "90 Cooking", "", "", "", "");
+			}
+			if(ST == 1)
+			{
+				loadquestsFrame("The Famous Catch", "The Fishing King told me to obtain magic logs", "and use them with prayer potion(3) to make", "an special potion.", "Once I have done this I should speak with", "him again.", "", "", "", "");
+			}
+			if(ST == 2)
+			{
+				loadquestsFrame("The Famous Catch", "I was given fish food by the Fish King.", "I must get poison from the Wizard in the Port Sarim", "Tavern and use it on the fish food.", "When I have the poisoned fish food I return", "to the Fishing King for further", "instructions.", "", "", "");
+			}
+			if(ST == 3)
+			{
+				loadquestsFrame("The Famous Catch", "I now must return to the Fish King", "with the Poisoned Fish Food.", "", "", "", "", "", "", "");
+			}
+			if(ST == 4)
+			{
+				loadquestsFrame("The Famous Catch", "I was instructed to catch a raw sea turtle.", "it can be caught in the fishing area", "on entrana, on the north bank of the river.", "I need to have the poisoned fish", "food and a harpoon in my inventory", "when trying to catch sea turtle.", "", "", "");
+			}
+			if(ST == 5)
+			{
+				loadquestsFrame("The Famous Catch", "I must now cook the Raw Sea Turtle.", "", "", "", "", "", "", "", "");
+			}
+			if(ST == 6)
+			{
+				loadquestsFrame("The Famous Catch", "QUEST COMPLETED!", "I can now catch Raw Sea Turtle!", "I can now cook Sea Turtle!", "", "", "", "", "", "");
+			}
+		}
+
+		else if(questid == 4)
+		{
+			if(DH == 0)
+			{
+				loadquestsFrame("Point Arena Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Varrock Portal", "at Ardougne.", "", "", "", "", "", "");
+			}
+		}
+
+		else if(questid == 5)
+		{
+			if(DH == 0)
+			{
+				loadquestsFrame("King Black Dragon Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Lumbridge Portal", "at Ardougne.", "", "", "", "", "", "");
+			}
+		}
+
+		else if(questid == 6)
+		{
+			if(RM == 0){
+				loadquestsFrame("Rune Mysteries", "No requirements", "I can start this quest by talking to Frumscone", "in the Wizard's Guild in Yanille.", "", "", "", "", "", "");
+			}
+			else if(RM == 1)
+			{
+				loadquestsFrame("Rune Mysteries", "I have been sent by Frumscone", "to deliver the Air Talisman to Brimstail.", "He was last seen wandering around", "near the South entrance of Falador.", "", "", "", "", "");
+			}
+			else if(RM == 2)
+			{
+				loadquestsFrame("Rune Mysteries", "Brimstail has alerted me to report", "back to Frumscone to gather more", "information on the talisman.", "", "", "", "", "", "");
+			}
+			else if(RM == 3)
+			{
+				loadquestsFrame("Rune Mysteries", "Frumscone has given me notes, I now", "must deliver them to Brimstail.", "", "", "", "", "", "", "");
+			}
+			else if(RM == 4)
+			{
+				loadquestsFrame("Rune Mysteries", "QUEST COMPLETED!", "I can now mine Rune Essence!", "", "I can speak to Brimstail to teleport", "to the rune essence this.MINE.", "", "", "", "");
+			}
+		}
+
+	}
+
+	public void playersOnlineMenu(){
+		sendQuest("Players Online: "+PlayerHandler.getPlayerCount(), 174);
+		sendQuest(""+PlayerHandler.getPlayerCount()+"", 18802);
 	}
 	
 	
+
 }

@@ -40,108 +40,108 @@ public class NPCClickHandler {
 		/* Shops */
 		switch(NPCID){
 		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
-			openUpBank();
+			openUpBankFrame();
 			return;
 
 		case 522: case 523:
-			openUpShop(1); //Weapons
+			openUpShopFrame(1); //Weapons
 			return;
 
 		case 526: case 527: case 2356: case 471:
-			openUpShop(2); //Range Shop
+			openUpShopFrame(2); //Range Shop
 			return;
 
 		case 553: case 461:
-			openUpShop(3); //Magic Shop
+			openUpShopFrame(3); //Magic Shop
 			return;
 
 		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876:
-			openUpShop(4); //General store
+			openUpShopFrame(4); //General store
 			return;
 
 		case 580:
-			openUpShop(5); //PK Shop
+			openUpShopFrame(5); //PK Shop
 			return;
 
 		case 538: case 1301: case 2353: case 1039: case 875:
-			openUpShop(6); //Clothes
+			openUpShopFrame(6); //Clothes
 			return;
 
 		case 546: 
-			openUpShop(7); //Food 
+			openUpShopFrame(7); //Food 
 			return;
 
 		case 548:
-			openUpShop(8); //Herblore
+			openUpShopFrame(8); //Herblore
 			return;
 
 		case 551: case 552:
-			openUpShop(9); //Fletching
+			openUpShopFrame(9); //Fletching
 			return;
 			
 		case 1038: case 593:
-			openUpShop(10); //Raw meat store
+			openUpShopFrame(10); //Raw meat store
 			return;
 
 		case 1315: case 1282: case 2357:
-			openUpShop(11); //Store?
+			openUpShopFrame(11); //Store?
 			return;
 
 		case 584:
-			openUpShop(12); //Crafting
+			openUpShopFrame(12); //Crafting
 			return;
 
 		case 1860:
-			openUpShop(16); //Pickaxe
+			openUpShopFrame(16); //Pickaxe
 			return;
 
 		case 558: case 561:
-			openUpShop(18); //Fishing Supplies
+			openUpShopFrame(18); //Fishing Supplies
 			return;
 
 		case 519:
-			openUpShop(23); //Basic Weapons
+			openUpShopFrame(23); //Basic Weapons
 			return;
 
 		case 524: case 525: case 1041: case 873:
-			openUpShop(26); //Armor
+			openUpShopFrame(26); //Armor
 			return;
 
 		case 536:
-			openUpShop(36); //Hatchet Shop
+			openUpShopFrame(36); //Hatchet Shop
 			return;
 
 		case 933:
-			openUpShop(37); //Barrows
+			openUpShopFrame(37); //Barrows
 			return;
 
 		case 1780: case 1784:
-			openUpShop(39); //Travelling Merchant
+			openUpShopFrame(39); //Travelling Merchant
 			return;
 
 		case 1778:
-			openUpShop(42); //Fishing Supplies
+			openUpShopFrame(42); //Fishing Supplies
 			return;
 
 		case 1303:
-			openUpShop(46); //Graveyard Shop
+			openUpShopFrame(46); //Graveyard Shop
 			return;
 
 		case 793: case 1300: case 1042:
-			openUpShop(51); //Tavern Shop
+			openUpShopFrame(51); //Tavern Shop
 			return;
 
 		case 588:
-			openUpShop(52); //Jewelry Shop
+			openUpShopFrame(52); //Jewelry Shop
 			return;		
 			
 		case 874: //special ogre weapon shop
-			openUpShop(70);
+			openUpShopFrame(70);
 			return;
 			
 		case 3788:
 			if(pestControlPoints < 30) npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+pestControlPoints+" points.");
-			else openUpShop(60); //Void Knight Shop rewards
+			else openUpShopFrame(60); //Void Knight Shop rewards
 			return;
 		}
 		
@@ -277,13 +277,13 @@ public class NPCClickHandler {
 					break;
 		
 		case 3792: //squire void knight
-			openUpShop(2); //ranged shop
+			openUpShopFrame(2); //ranged shop
 			break;
 		case 3801: //squire void knight
-			openUpShop(4); //general shop
+			openUpShopFrame(4); //general shop
 			break;
 		case 3793: //squire void knight
-			openUpShop(3); //magic
+			openUpShopFrame(3); //magic
 			break;
 		
 		case 726:
@@ -295,7 +295,7 @@ public class NPCClickHandler {
 			break;
 		
 		case 162: //gnome trainer
-			openUpShop(1);
+			openUpShopFrame(1);
 			break;
 		
 		case 170: //gnome pilot		

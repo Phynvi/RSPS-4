@@ -4,6 +4,53 @@
 import java.io.*;
 
 public class ItemHandler {
+	
+
+	/**
+	 * 
+	 * @param buyPercentage Percentage which store buys item for its shop value
+	 * @return
+	 */
+	public static double GetItemShopValue(int ItemID, double buyPercentage) {
+		if(ItemID <= 0) return -1;
+		double ShopValue = 1;
+		double Overstock = 0;
+		double TotPrice = 0;
+		if (ItemList.exists(ItemID))
+			ShopValue = ItemList.getCurrentItem().ShopValue;
+
+		/*Overstock = server.shopHandler.ShopItemsN[MyShopID][fromSlot] - server.shopHandler.ShopItemsSN[MyShopID][fromSlot];*/
+		TotPrice = (ShopValue * buyPercentage); //Calculates price for 1 item, in db is stored for 0 items (strange but true)
+		/*if (Overstock > 0 && TotPrice > 1) { //more then default -> cheaper
+			TotPrice -= ((ShopValue / 100) * (1.26875 * Overstock));
+		} else if (Overstock > 0 && TotPrice < 1) { //more then default -> cheaper
+			TotPrice = ((ShopValue / 100) * (1.26875 * Overstock));
+		} else if (Overstock < 0) { //less then default -> exspensive
+			TotPrice += ((ShopValue / 100) * (1.26875 * Overstock));
+		}*/
+		if(TotPrice <= 0) TotPrice = 100;
+		return TotPrice;
+	}
+	public static int GetUnnotedItem(int ItemID) {
+		String NotedName = "";
+		for (int i = 0; i < MaxListedItems; i++) {
+			if (ItemListArray[i] != null) {
+				if (ItemListArray[i].itemId == ItemID) {
+					NotedName = ItemListArray[i].itemName;
+				}
+			}
+		}
+		for (int i = 0; i < MaxListedItems; i++) {
+			if (ItemListArray[i] != null) {
+				if (ItemListArray[i].itemName.equalsIgnoreCase(NotedName)) {
+					if (ItemListArray[i].itemDescription.startsWith("Swap this note at any bank") == false) {
+						return ItemListArray[i].itemId;
+					}
+				}
+			}
+		}
+		return 0;
+	}
 
 	// Phate: Setting VARS
 	public static int showItemTimer = 60;
@@ -111,7 +158,7 @@ public class ItemHandler {
 	public static void spawnItem(int itemID, int itemX, int itemY, int itemAmount, int playerFor) {
 		client person = (client) server.playerHandler.players[playerFor];
 		if(person != null)
-			person.createGroundItem(itemID, itemX, itemY, itemAmount);
+			person.getFrameMethodHandler().createGroundItem(itemID, itemX, itemY, itemAmount);
 	}
 
 	public static void removeItem(int itemID, int itemX, int itemY, int itemAmount) {
@@ -136,7 +183,7 @@ public class ItemHandler {
 				if((person.playerName != null || person.playerName != "null") && !(person.playerId == itemController)) {
 					//		 misc.println("distance to create "+person.distanceToPoint(itemX, itemY));
 					if (person.distanceToPoint(itemX, itemY) <= 60) {
-						person.createGroundItem(itemID, itemX, itemY, itemAmount);
+						person.getFrameMethodHandler().createGroundItem(itemID, itemX, itemY, itemAmount);
 					}
 				}
 			}
@@ -150,7 +197,7 @@ public class ItemHandler {
 				if(person.playerName != null || person.playerName != "null") {
 					//		misc.println("distance to remove "+person.distanceToPoint(itemX, itemY));
 					if (person.distanceToPoint(itemX, itemY) <= 60) {
-						person.removeGroundItem(itemX, itemY, itemID);
+						person.getFrameMethodHandler().removeGroundItem(itemX, itemY, itemID);
 					}
 				}
 			}
@@ -174,8 +221,8 @@ public class ItemHandler {
 	public static int[] DroppedItemsDropper = new int[MaxDropItems];
 	public static int[] DroppedItemsDeletecount = new int[MaxDropItems];
 	public static boolean[] DroppedItemsAlwaysDrop = new boolean[MaxDropItems];
-	public ItemList ItemListArray[] = new ItemList[MaxListedItems];
-	public itemListBST ItemList = new itemListBST();
+	public static ItemList ItemListArray[] = new ItemList[MaxListedItems];
+	public static itemListBST ItemList = new itemListBST();
 
 
 	/*ItemHandler() {

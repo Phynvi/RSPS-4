@@ -38,6 +38,10 @@ public class NPC {
 
 	private class playerDamage{
 		private int playerID, totalDamage;
+		
+		public int distanceToPoint(int pointX,int pointY) {
+      return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
+  }
 
 		public playerDamage(int pID, int tDamage){
 			playerID = pID;

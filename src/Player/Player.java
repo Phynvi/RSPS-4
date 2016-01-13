@@ -3,8 +3,65 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public abstract class Player extends playerInstances {
-	
+
 	public boolean hasLoadedAllNPCs = false;
+	
+
+
+	public void viewTo(int coordX, int coordY) {
+		viewToX = ((2 * coordX) + 1);
+		viewToY = ((2 * coordY) + 1);
+		dirUpdate2Required = true;
+		requirePlayerUpdate();
+	}
+
+	public void updateCharAppearance(int[] styles, int[] colors) {
+		for(int j = 0; j < 7; j++) {
+			if(styles[j] > 0) {
+				styles[j] += 0x100;
+				pCHead  = styles[0];
+				pCBeard = styles[1];
+				pCTorso = styles[2];
+				pCArms  = styles[3];
+				pCHands = styles[4];
+				pCLegs  = styles[5];
+				pCFeet  = styles[6];
+			}
+		}
+		for(int i = 0; i < 5; i++) {
+			pColor = colors[i];
+		}
+	}
+
+
+	public void walkTo(int x, int y) {
+		newWalkCmdSteps = Math.abs(y)+Math.abs(x);
+		if (newWalkCmdSteps % 1 != 0) newWalkCmdSteps /= 1;
+		if (++newWalkCmdSteps > walkingQueueSize) {
+			println("Warning: WalkTo(" + c.packetType + ") command contains too many steps (" + newWalkCmdSteps + ").");
+			newWalkCmdSteps = 0;
+		}
+		int firstStepX = absX;
+		int tmpFSX = firstStepX;
+		firstStepX -= mapRegionX*8;
+		for (int i = 1; i < newWalkCmdSteps; i++) {
+			newWalkCmdX[i] = x;
+			newWalkCmdY[i] = y;
+			tmpNWCX[i] = newWalkCmdX[i];
+			tmpNWCY[i] = newWalkCmdY[i];
+		}
+		newWalkCmdX[0] = newWalkCmdY[0] = tmpNWCX[0] = tmpNWCY[0] = 0;
+		int firstStepY = absY;
+		int tmpFSY = firstStepY;
+		firstStepY -= mapRegionY*8;
+		newWalkCmdIsRunning = ((c.inStream.readSignedByteC() == 1) && runningEnergy > 0);
+		for (int i = 0; i < newWalkCmdSteps; i++) {
+			newWalkCmdX[i] += firstStepX;
+			newWalkCmdY[i] += firstStepY;
+		}
+	}
+
+
 	/**
 	 * Repeats animation until told to stop	with stopAnimations() method
 	 * @param anim Animation ID number
@@ -26,24 +83,24 @@ public abstract class Player extends playerInstances {
 		animationUpdateRequired = true;
 		resetAnimation();
 	}
-	
+
 	public void resetAnimation() {
 		pEmote = playerSE;
 		requirePlayerUpdate();
 		c.getFrameMethodHandler().frame1(); //resets animation
 	}
-	
+
 	public void updateIdle(){
 		idleTimer = 6;
 	}
-	
+
 	public int distanceTo(Player other) {
 		return (int) Math.sqrt(Math.pow(absX - other.absX, 2) + Math.pow(absY - other.absY, 2));
 	}
 	public int distanceToPoint(int pointX,int pointY) {
 		return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
 	}	
-	
+
 	public void debug(String str) {
 		if(debugmode)
 			System.out.println("[DEBUG-"+playerId+"-"+playerName+"]: "+str);
@@ -63,32 +120,32 @@ public abstract class Player extends playerInstances {
 		FocusPointX = 2*pointX+1;
 		FocusPointY = 2*pointY+1;
 	}		
-	
+
 	/**
 	 * Is the common teleport method to call when changing x and y
 	 */
 	public void teleport(int x, int y){
 		teleport(x,y,0);
 	}
-	
+
 	public void teleport(int x, int y, int h){
 		teleportToX = x;
 		teleportToY = y;
 		heightLevel = h;
 		requirePlayerUpdate();
 	}
-	
+
 	public void updatePlayerPosition(){
 		teleportToX = absX;
 		teleportToY = absY;
 		requirePlayerUpdate();
 	}
-	
+
 	public void requirePlayerUpdate(){
 		updateRequired = true;
 		appearanceUpdateRequired = true;
 	}
-	
+
 	private void appendSetFocusDestination(stream str) {
 		str.writeWordBigEndianA(FocusPointX);
 		str.writeWordBigEndian(FocusPointY);
@@ -103,7 +160,7 @@ public abstract class Player extends playerInstances {
 		if ((c.absX >= x2 && c.absX <= x) && (c.absY >= y2 && c.absY <= y)) return true;
 		return false;
 	}
-	
+
 	double runningEnergy = 100;
 
 	public double getRunningEnergy() {
@@ -120,7 +177,7 @@ public abstract class Player extends playerInstances {
 		this.runningEnergy = runningEnergy;
 		c.getClientMethodHandler().sendEnergy();
 	}
-	
+
 	public boolean newhptype = false;
 
 	public int hptype = 0;
@@ -131,7 +188,7 @@ public abstract class Player extends playerInstances {
 	public String[] clanMembers = new String[17]; //19 total
 	public int[] CCID = { 11941, 4287, 4288, 4289, 4290, 11134, 4291, 4292, 4293, 4294, 4295, 4296, 8935, 4297, 4298, 4299, 4300 };
 	public int clanRights = 0;
-	
+
 	public boolean ignoreCombat = false;
 	public boolean roundTimerFrameCreated = false;
 
@@ -264,7 +321,7 @@ public abstract class Player extends playerInstances {
 		resetWalkingQueue();
 	}
 
-	void destruct() {
+	void destruct(String reason) {
 		playerListSize = 0;
 		for(int i = 0; i < maxPlayerListSize; i++) playerList[i] = null;
 		npcListSize = 0;
@@ -274,6 +331,7 @@ public abstract class Player extends playerInstances {
 		mapRegionX = mapRegionY = -1;
 		currentX = currentY = 0;
 		resetWalkingQueue();
+		misc.println(this.playerName+" disconnected, reason : "+reason);
 	}
 
 	public boolean isNpc;
@@ -289,9 +347,6 @@ public abstract class Player extends playerInstances {
 	public int hint = 0;
 
 	public int actionTimer = 0;
-
-	public String actionName = "";
-
 	public int theifTimer = 0;
 	public int TakeMiscTimer = 0;
 
@@ -349,18 +404,6 @@ public abstract class Player extends playerInstances {
 
 	public boolean IsFireing = false;
 	public boolean IsMakingFire = false;
-
-	public int duelWith = 0;
-	public int duelStatus = -1; // 0 = Requesting duel, 1 = in duel screen, 2 = waiting for other player to accept, 3 = in duel, 4 = won
-	public int duelChatStage = -1;
-	public int duelChatTimer = -1;
-	public int duelItems[] = new int[28];
-	public int duelItemsN[] = new int[28];
-	public int otherDuelItems[] = new int[28];
-	public int otherDuelItemsN[] = new int[28];
-	public boolean duelRule[] = new boolean[28];
-	public boolean winDuel = false;
-	public boolean startDuel = false;
 
 	public int tradeRequest = 0;
 	public int tradeDecline = 0;
@@ -1057,132 +1100,132 @@ public abstract class Player extends playerInstances {
 	public boolean following = false;
 	public void postProcessing()
 	{
-		if(newWalkCmdSteps > 0) {
-			int OldcurrentX = currentX;
-			int OldcurrentY = currentY;
-			for(i = 0; i < playerFollow.length; i++) {
-				if (playerFollow[i] != -1 && following == true) {
-					PlayerHandler.players[playerFollow[i]].newWalkCmdSteps = (newWalkCmdSteps + 1);
-					for(int j = 0; j < newWalkCmdSteps; j++) {
-						PlayerHandler.players[playerFollow[i]].newWalkCmdX[(j + 1)] = newWalkCmdX[j];
-						PlayerHandler.players[playerFollow[i]].newWalkCmdY[(j + 1)] = newWalkCmdY[j];
-					}
-					PlayerHandler.players[playerFollow[i]].newWalkCmdX[0] = OldcurrentX;
-					PlayerHandler.players[playerFollow[i]].newWalkCmdY[0] = OldcurrentY;
-					PlayerHandler.players[playerFollow[i]].poimiX = OldcurrentX;
-					PlayerHandler.players[playerFollow[i]].poimiY = OldcurrentY;
-				}
-
-
-				// place this into walking queue
-				// care must be taken and we can't just append this because usually the starting point (clientside) of
-				// this packet and the current position (serverside) do not coincide. Therefore we might have to go
-				// back in time in order to find a proper connecting vertex. This is also the origin of the character
-				// walking back and forth when there's noticeable lag and we keep on seeding walk commands.
-				int firstX = newWalkCmdX[0], firstY = newWalkCmdY[0];	// the point we need to connect to from our current position...
-
-				// travel backwards to find a proper connection vertex
-				int lastDir = 0;
-				boolean found = false;
-				numTravelBackSteps = 0;
-				int ptr = wQueueReadPtr;
-				int dir = misc.direction(currentX, currentY, firstX, firstY);
-				if(dir != -1 && (dir&1) != 0) {
-					// we can't connect first and current directly
-					do {
-						lastDir = dir;
-						if(--ptr < 0) ptr = walkingQueueSize-1;
-
-						travelBackX[numTravelBackSteps] = walkingQueueX[ptr];
-						travelBackY[numTravelBackSteps++] = walkingQueueY[ptr];
-						dir = misc.direction(walkingQueueX[ptr], walkingQueueY[ptr], firstX, firstY);
-						if(lastDir != dir) {
-							found = true;
-							break;		// either of those two, or a vertex between those is a candidate
-						}
-
-					} while(ptr != wQueueWritePtr);
-				}
-				else found = true;	// we didn't need to go back in time because the current position
-				// already can be connected to first
-
-				if(!found) {
-					debug("Fatal: couldn't find connection vertex! Dropping packet.");
-					disconnected = true;
-				} else {
-					wQueueWritePtr = wQueueReadPtr;		// discard any yet unprocessed waypoints from queue
-
-					addToWalkingQueue(currentX, currentY);	// have to add this in order to keep consistency in the queue
-
-					if(dir != -1 && (dir&1) != 0) {
-						// need to place an additional waypoint which lies between walkingQueue[numTravelBackSteps-2] and
-						// walkingQueue[numTravelBackSteps-1] but can be connected to firstX/firstY
-
-						for(int i = 0; i < numTravelBackSteps-1; i++) {
-							addToWalkingQueue(travelBackX[i], travelBackY[i]);
-						}
-						int wayPointX2 = travelBackX[numTravelBackSteps-1], wayPointY2 = travelBackY[numTravelBackSteps-1];
-						int wayPointX1, wayPointY1;
-						if(numTravelBackSteps == 1) {
-							wayPointX1 = currentX;
-							wayPointY1 = currentY;
-						}
-						else {
-							wayPointX1 = travelBackX[numTravelBackSteps-2];
-							wayPointY1 = travelBackY[numTravelBackSteps-2];
-						}
-						// we're coming from wayPoint1, want to go in direction wayPoint2 but only so far that
-						// we get a connection to first
-
-						// the easiest, but somewhat ugly way:
-						// maybe there is a better way, but it involves shitload of different
-						// cases so it seems like it isn't anymore
-						dir = misc.direction(wayPointX1, wayPointY1, wayPointX2, wayPointY2);
-						if(dir == -1 || (dir&1) != 0) {
-							debug("Fatal: The walking queue is corrupt! wp1=("+wayPointX1+", "+wayPointY1+"), "+
-									"wp2=("+wayPointX2+", "+wayPointY2+")");
-						}
-						else {
-							dir >>= 1;
-						found = false;
-						int x = wayPointX1, y = wayPointY1;
-						while(x != wayPointX2 || y != wayPointY2) {
-							x += misc.directionDeltaX[dir];
-							y += misc.directionDeltaY[dir];
-							if((misc.direction(x, y, firstX, firstY)&1) == 0) {
-								found = true;
-								break;
-							}
-						}
-						if(!found) {
-							debug("Fatal: Internal error: unable to determine connection vertex!"+
-									"  wp1=("+wayPointX1+", "+wayPointY1+"), wp2=("+wayPointX2+", "+wayPointY2+"), "+
-									"first=("+firstX+", "+firstY+")");
-						}
-						else addToWalkingQueue(wayPointX1, wayPointY1);
-						}
-					}
-					else {
-						for(int i = 0; i < numTravelBackSteps; i++) {
-							addToWalkingQueue(travelBackX[i], travelBackY[i]);
-						}
-					}
-
-					// now we can finally add those waypoints because we made sure about the connection to first
-					for(int i = 0; i < newWalkCmdSteps; i++) {
-						addToWalkingQueue(newWalkCmdX[i], newWalkCmdY[i]);
-					}
-
-				}
-				isRunning = newWalkCmdIsRunning || isRunning2;
-
-				for(i = 0; i < playerFollow.length; i++) {
-					if (playerFollow[i] != -1 && PlayerHandler.players[playerFollow[i]] != null) {
-						PlayerHandler.players[playerFollow[i]].postProcessing();
-					}
-				}
-			}
-		}
+//		if(newWalkCmdSteps > 0) {
+//			int OldcurrentX = currentX;
+//			int OldcurrentY = currentY;
+//			for(i = 0; i < playerFollow.length; i++) {
+//				if (playerFollow[i] != -1 && following == true) {
+//					PlayerHandler.players[playerFollow[i]].newWalkCmdSteps = (newWalkCmdSteps + 1);
+//					for(int j = 0; j < newWalkCmdSteps; j++) {
+//						PlayerHandler.players[playerFollow[i]].newWalkCmdX[(j + 1)] = newWalkCmdX[j];
+//						PlayerHandler.players[playerFollow[i]].newWalkCmdY[(j + 1)] = newWalkCmdY[j];
+//					}
+//					PlayerHandler.players[playerFollow[i]].newWalkCmdX[0] = OldcurrentX;
+//					PlayerHandler.players[playerFollow[i]].newWalkCmdY[0] = OldcurrentY;
+//					PlayerHandler.players[playerFollow[i]].poimiX = OldcurrentX;
+//					PlayerHandler.players[playerFollow[i]].poimiY = OldcurrentY;
+//				}
+//
+//
+//				// place this into walking queue
+//				// care must be taken and we can't just append this because usually the starting point (clientside) of
+//				// this packet and the current position (serverside) do not coincide. Therefore we might have to go
+//				// back in time in order to find a proper connecting vertex. This is also the origin of the character
+//				// walking back and forth when there's noticeable lag and we keep on seeding walk commands.
+//				int firstX = newWalkCmdX[0], firstY = newWalkCmdY[0];	// the point we need to connect to from our current position...
+//
+//				// travel backwards to find a proper connection vertex
+//				int lastDir = 0;
+//				boolean found = false;
+//				numTravelBackSteps = 0;
+//				int ptr = wQueueReadPtr;
+//				int dir = misc.direction(currentX, currentY, firstX, firstY);
+//				if(dir != -1 && (dir&1) != 0) {
+//					// we can't connect first and current directly
+//					do {
+//						lastDir = dir;
+//						if(--ptr < 0) ptr = walkingQueueSize-1;
+//
+//						travelBackX[numTravelBackSteps] = walkingQueueX[ptr];
+//						travelBackY[numTravelBackSteps++] = walkingQueueY[ptr];
+//						dir = misc.direction(walkingQueueX[ptr], walkingQueueY[ptr], firstX, firstY);
+//						if(lastDir != dir) {
+//							found = true;
+//							break;		// either of those two, or a vertex between those is a candidate
+//						}
+//
+//					} while(ptr != wQueueWritePtr);
+//				}
+//				else found = true;	// we didn't need to go back in time because the current position
+//				// already can be connected to first
+//
+//				if(!found) {
+//					debug("Fatal: couldn't find connection vertex! Dropping packet.");
+//					disconnected = true;
+//				} else {
+//					wQueueWritePtr = wQueueReadPtr;		// discard any yet unprocessed waypoints from queue
+//
+//					addToWalkingQueue(currentX, currentY);	// have to add this in order to keep consistency in the queue
+//
+//					if(dir != -1 && (dir&1) != 0) {
+//						// need to place an additional waypoint which lies between walkingQueue[numTravelBackSteps-2] and
+//						// walkingQueue[numTravelBackSteps-1] but can be connected to firstX/firstY
+//
+//						for(int i = 0; i < numTravelBackSteps-1; i++) {
+//							addToWalkingQueue(travelBackX[i], travelBackY[i]);
+//						}
+//						int wayPointX2 = travelBackX[numTravelBackSteps-1], wayPointY2 = travelBackY[numTravelBackSteps-1];
+//						int wayPointX1, wayPointY1;
+//						if(numTravelBackSteps == 1) {
+//							wayPointX1 = currentX;
+//							wayPointY1 = currentY;
+//						}
+//						else {
+//							wayPointX1 = travelBackX[numTravelBackSteps-2];
+//							wayPointY1 = travelBackY[numTravelBackSteps-2];
+//						}
+//						// we're coming from wayPoint1, want to go in direction wayPoint2 but only so far that
+//						// we get a connection to first
+//
+//						// the easiest, but somewhat ugly way:
+//						// maybe there is a better way, but it involves shitload of different
+//						// cases so it seems like it isn't anymore
+//						dir = misc.direction(wayPointX1, wayPointY1, wayPointX2, wayPointY2);
+//						if(dir == -1 || (dir&1) != 0) {
+//							debug("Fatal: The walking queue is corrupt! wp1=("+wayPointX1+", "+wayPointY1+"), "+
+//									"wp2=("+wayPointX2+", "+wayPointY2+")");
+//						}
+//						else {
+//							dir >>= 1;
+//						found = false;
+//						int x = wayPointX1, y = wayPointY1;
+//						while(x != wayPointX2 || y != wayPointY2) {
+//							x += misc.directionDeltaX[dir];
+//							y += misc.directionDeltaY[dir];
+//							if((misc.direction(x, y, firstX, firstY)&1) == 0) {
+//								found = true;
+//								break;
+//							}
+//						}
+//						if(!found) {
+//							debug("Fatal: Internal error: unable to determine connection vertex!"+
+//									"  wp1=("+wayPointX1+", "+wayPointY1+"), wp2=("+wayPointX2+", "+wayPointY2+"), "+
+//									"first=("+firstX+", "+firstY+")");
+//						}
+//						else addToWalkingQueue(wayPointX1, wayPointY1);
+//						}
+//					}
+//					else {
+//						for(int i = 0; i < numTravelBackSteps; i++) {
+//							addToWalkingQueue(travelBackX[i], travelBackY[i]);
+//						}
+//					}
+//
+//					// now we can finally add those waypoints because we made sure about the connection to first
+//					for(int i = 0; i < newWalkCmdSteps; i++) {
+//						addToWalkingQueue(newWalkCmdX[i], newWalkCmdY[i]);
+//					}
+//
+//				}
+//				isRunning = newWalkCmdIsRunning || isRunning2;
+//
+//				for(i = 0; i < playerFollow.length; i++) {
+//					if (playerFollow[i] != -1 && PlayerHandler.players[playerFollow[i]] != null) {
+//						PlayerHandler.players[playerFollow[i]].postProcessing();
+//					}
+//				}
+//			}
+//		}
 	}
 
 	public void kick() {
@@ -1247,71 +1290,75 @@ public abstract class Player extends playerInstances {
 		}
 	}	
 
+//	public void actionReset() {
+//		actionName = "";
+//	}
+//	public String actionName;
+	
 
 
+	public void followplayer(int j)
+	{
+		if(j == -1) return;
+		client p = (client)PlayerHandler.players[j];
+		if(p == null){
+			error("In followPlayer : client at player index "+j+" is null");
+			followingPlayerID = -1;  		
+			return;
+		}
+		int walkToX = 0;
+		int walkToY = 0;
+		if(misc.GoodDistance(absX, absY, p.absX, p.absY, 15)){
+			if(!misc.GoodDistance(absX, absY, p.absX, p.absY, 1)){
+				if(p.absX > absX) walkToX = 1;
+				if(p.absX < absX) walkToX = -1;
+				if(p.absY > absY) walkToY = 1;
+				if(p.absY < absY) walkToY = -1;
+				//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
 
-  public void followplayer(int j)
-  {
-  	if(j == -1) return;
-  	client p = (client)PlayerHandler.players[j];
-  	if(p == null){
-  		error("In followPlayer : client at player index "+j+" is null");
-  		followingPlayerID = -1;  		
-  		return;
-  	}
-  	int walkToX = 0;
-  	int walkToY = 0;
-  	if(misc.GoodDistance(absX, absY, p.absX, p.absY, 15)){
-	  	if(!misc.GoodDistance(absX, absY, p.absX, p.absY, 1)){
-	  		if(p.absX > absX) walkToX = 1;
-	  		if(p.absX < absX) walkToX = -1;
-	  		if(p.absY > absY) walkToY = 1;
-	  		if(p.absY < absY) walkToY = -1;
-//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
-  			
-	  		/*pathfinding*/
-	  		if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY+walkToY] != -1){
-	  			c.getClientMethodHandler().walkTo(walkToX, walkToY);
-	  			requirePlayerUpdate();
-	  			p.requirePlayerUpdate();
-	  			return;
-	  		}
-	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX][absY+walkToY] != -1){
-	  			c.getClientMethodHandler().walkTo(0, walkToY);
-	  			requirePlayerUpdate();
-	  			p.requirePlayerUpdate();
-	  			return;
-	  		}
-	  		else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY] != -1){
-	  			c.getClientMethodHandler().walkTo(walkToX, 0);
-	  			requirePlayerUpdate();
-	  			p.requirePlayerUpdate();
-	  			return;
-	  		}
-	  	} 
-	  	else {
-	  		faceNPC = 32768+j;
-	  		faceNPCupdate = true;
-	  	}
-  	}
-  	else{
-  		followingPlayerID = -1;
-  		faceNPC = 65535;
-  		faceNPCupdate = true;
-  	}
-  }
+				/*pathfinding*/
+				if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY+walkToY] != -1){
+					walkTo(walkToX, walkToY);
+					requirePlayerUpdate();
+					p.requirePlayerUpdate();
+					return;
+				}
+				else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX][absY+walkToY] != -1){
+					walkTo(0, walkToY);
+					requirePlayerUpdate();
+					p.requirePlayerUpdate();
+					return;
+				}
+				else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY] != -1){
+					walkTo(walkToX, 0);
+					requirePlayerUpdate();
+					p.requirePlayerUpdate();
+					return;
+				}
+			} 
+			else {
+				faceNPC = 32768+j;
+				faceNPCupdate = true;
+			}
+		}
+		else{
+			followingPlayerID = -1;
+			faceNPC = 65535;
+			faceNPCupdate = true;
+		}
+	}
 
-  /**
-   * @param seconds Seconds to be frozen for
-   */
-  public void frozen(int seconds){
-  frozenTimer = seconds;
-  teleportToX = absX;
-  teleportToY = absY;
-  updateRequired = true; 
-  appearanceUpdateRequired = true;
-  }
-  	
+	/**
+	 * @param seconds Seconds to be frozen for
+	 */
+	public void frozen(int seconds){
+		frozenTimer = seconds;
+		teleportToX = absX;
+		teleportToY = absY;
+		updateRequired = true; 
+		appearanceUpdateRequired = true;
+	}
+
 
 	public int getLevelForXP(int exp) {
 		int points = 0;
@@ -1355,7 +1402,7 @@ public abstract class Player extends playerInstances {
 	}
 	public void inCombat(){
 		LogoutDelay = System.currentTimeMillis();
-		}
+	}
 	protected boolean faceNPCupdate = false;
 	public int faceNPC = -1;
 	public void appendFaceNPCUpdate(stream str) {
@@ -1378,12 +1425,12 @@ public abstract class Player extends playerInstances {
 	protected boolean mask400update = false;
 	public void appendMask400Update(stream str) { // Xerozcheez: Something to do with direction
 		str.writeByteA(m4001);
-	str.writeByteA(m4002);
-	str.writeByteA(m4003);
-	str.writeByteA(m4004);
-	str.writeWordA(m4005);
-	str.writeWordBigEndianA(m4006);
-	str.writeByteA(m4007); // direction
+		str.writeByteA(m4002);
+		str.writeByteA(m4003);
+		str.writeByteA(m4004);
+		str.writeWordA(m4005);
+		str.writeWordBigEndianA(m4006);
+		str.writeByteA(m4007); // direction
 	}
 	public String txt4 = "testing update mask string";
 	protected boolean string4UpdateRequired = false;
@@ -1490,8 +1537,6 @@ public abstract class Player extends playerInstances {
 	public int WanneTradeWith = 0;
 	public boolean TradeConfirmed = false;
 	public boolean AntiTradeScam = false;
-	public int playerFollow[] = new int[PlayerHandler.maxPlayers];
-	public int playerFollowID = -1; 
 	public int DirectionCount = 0;
 	public boolean playerAncientMagics = false;
 	public String playerServer;

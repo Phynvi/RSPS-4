@@ -212,7 +212,7 @@ public class Item {
 		}
 	}	
 
-	
+
 	/**
 	 * Returns -1 if the itemID does not have a special
 	 */
@@ -720,9 +720,380 @@ public class Item {
 	}	
 
 
+	public static int GetRunAnim(int id) {
+		if(id == 11337) // D Claws
+			return 1661;
+
+		if(lists.halberd.exists(id))
+			return 0x338;
+
+		if(lists.twoHanded.exists(id))
+			return 306;
+
+		if(id == 4151) // whip
+			return 1661;
+
+		if(id == 4565) // basket
+			return 1836;
+
+		if(id == 4734) // karils x bow
+			return 2077;
+
+		if(id == 4153) // maul, sythe, halberd
+			return 1664;
+
+		return 0x338;
+	}
+
+	public static int GetWalkAnim(int id) {
+		if (id == 11337)
+			return 1660;
+
+		if(lists.halberd.exists(id))
+			return 0x333;
+
+		if(lists.twoHanded.exists(id))
+			return 307;
+
+		if(id == 4718) // dharoks axe
+			return 2064;
 
 
+		if(id == 4151)
+			return 1660; 
+
+		if(id == 4565) // basket
+			return 1836;
+
+		if(id == 4755) // veracs flail
+			return 2060;
+
+		if(id == 4734) // karils x bow
+			return 2076;
+
+		if(id == 4153) // maul
+			return 1663;
+
+		return 0x333;
+
+	}
+
+	public static int GetStandAnim(int id) {
+		if (id == 11337)
+			return 2061;	
+
+		if(lists.halberd.exists(id))
+			return 0x328;
+
+		if(lists.twoHanded.exists(id))
+			return 301;
+
+		if(id == 4718) // dharoks axe
+			return 2065;
+
+		if(id == 4565) // basket
+			return 1836;
 
 
+		if(id == 4755) // veracs flail
+			return 2061;
+
+		if(id == 4734) // karils x bow
+			return 2074;
+
+		if(id == 4153) // maul
+			return 1662;
+
+		return 0x328;
+
+	}
+
+	public static boolean isBow(int itemID){
+		return lists.bows.exists(itemID);
+	}
+	
+	private static BST untradeableItems = new BST();
+	
+	public static boolean isUntradable(int item) {
+		return untradeableItems.exists(item);
+	}
+
+
+	public int GetGroundItemID(int ItemID, int itemX, int itemY) {
+		for (int i = 0; i < 19999; i++) {
+			if (server.itemHandler.globalItemID[i] > -1) {
+				if (server.itemHandler.globalItemID[i] == ItemID && server.itemHandler.globalItemX[i] == itemX && server.itemHandler.globalItemY[i] == itemY) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	public static void createItemOnGround(int newItemID, int x, int y, int height, int playerID) {
+		int Maxi = server.itemHandler.DropItemCount;
+		for (int i = 0; i <= Maxi; i++) {
+			if (server.itemHandler.DroppedItemsID[i] < 1) {
+				server.itemHandler.DroppedItemsID[i] = newItemID;
+				server.itemHandler.DroppedItemsX[i] = x;
+				server.itemHandler.DroppedItemsY[i] = y;
+				server.itemHandler.DroppedItemsN[i] = 1;
+				server.itemHandler.DroppedItemsH[i] = height;
+				server.itemHandler.DroppedItemsDDelay[i] = (server.itemHandler.MaxDropShowDelay + 1); //this way the item can NEVER be showed to another client
+				server.itemHandler.DroppedItemsDropper[i] = playerID;
+				if (i == Maxi) {
+					server.itemHandler.DropItemCount++;
+					if (server.itemHandler.DropItemCount >= (server.itemHandler.MaxDropItems + 1)) {
+						server.itemHandler.DropItemCount = 0;
+						misc.println("! Notify item resterting !");
+					}
+				}
+				break;
+			}
+		}
+	}
+
+	public static int playerHat = 0;
+	public static int playerCape = 1;
+	public static int playerAmulet = 2;
+	public static int playerWeapon = 3;
+	public static int playerChest = 4;
+	public static int playerShield = 5;
+	public static int playerLegs = 7;
+	public static int playerHands = 9;
+	public static int playerFeet = 10;
+	public static int playerRing = 12;
+	public static int playerArrows = 13;
+
+	public static int itemType(int item) {
+		if(Item.capes.exists(item))
+			return playerCape;
+		if(Item.boots.exists(item))
+			return playerFeet;
+		if(Item.gloves.exists(item))
+			return playerHands;
+		if(Item.shields.exists(item))
+			return playerShield;
+		if(Item.hats.exists(item))
+			return playerHat;
+		if(Item.amulets.exists(item))
+			return playerAmulet;
+		if(Item.arrows.exists(item))
+			return playerArrows;
+		if(Item.rings.exists(item))
+			return playerRing;
+		if(Item.body.exists(item))
+			return playerChest;
+		if(Item.legs.exists(item))
+			return playerLegs;
+
+		//Default
+		return playerWeapon;
+	}
+	
+
+	/*Equipment level checking*/
+	public int GetCLAttack(int ItemID) {
+		if (ItemID == -1) {
+			return 1;
+		}
+		String ItemName = getItemName(ItemID);
+		String ItemName2 = ItemName.replaceAll("Bronze", "");
+		ItemName2 = ItemName2.replaceAll("Iron", "");
+		ItemName2 = ItemName2.replaceAll("Steel", "");
+		ItemName2 = ItemName2.replaceAll("Black", "");
+		ItemName2 = ItemName2.replaceAll("Mithril", "");
+		ItemName2 = ItemName2.replaceAll("Adamant", "");
+		ItemName2 = ItemName2.replaceAll("Rune", "");
+		ItemName2 = ItemName2.replaceAll("Granite", "");
+		ItemName2 = ItemName2.replaceAll("Dragon", "");
+		ItemName2 = ItemName2.replaceAll("Crystal", "");
+		ItemName2 = ItemName2.trim();
+		if (ItemName2.startsWith("claws")
+				|| ItemName2.startsWith("dagger")
+				|| ItemName2.startsWith("sword")
+				|| ItemName2.startsWith("scimitar")
+				|| ItemName2.startsWith("mace")
+				|| ItemName2.startsWith("longsword")
+				|| ItemName2.startsWith("battleaxe")
+				|| ItemName2.startsWith("warhammer")
+				|| ItemName2.startsWith("2h sword")
+				|| ItemName2.startsWith("Attack")
+				|| ItemName2.startsWith("halberd")) {
+			if (ItemName.startsWith("Bronze")) {
+				return 1;
+			} else if (ItemName.startsWith("Iron")) {
+				return 1;
+			} else if (ItemName.startsWith("Steel")) {
+				return 5;
+			} else if (ItemName.startsWith("Black")) {
+				return 10;
+			} else if (ItemName.startsWith("Mithril")) {
+				return 20;
+			} else if (ItemName.startsWith("Adamant")) {
+				return 30;
+			} else if (ItemName.startsWith("Rune")) {
+				return 40;
+			} else if (ItemName.startsWith("Dragon")) {
+				return 60;
+			} else if (ItemName.startsWith("Dragon_Halberd")) {
+				return 60;
+			} else if (ItemName.startsWith("Attack_Cape")) {
+				return 99;
+			} else if (ItemName.startsWith("Attack_Hood")) {
+				return 99;
+			}
+		} else if (ItemName.startsWith("Granite")) {
+			return 50;
+		} else if (ItemName.endsWith("whip") || ItemName.endsWith("Ahrims staff") || ItemName.endsWith("Torags hammers") || ItemName.endsWith("Veracs flail") || ItemName.endsWith("Guthans warspear") || ItemName.endsWith("Dharoks greataxe")) {
+			return 70;
+		}
+		if(ItemName.endsWith("Godsword"))
+			return 70;
+		return 1;
+	}
+	public int GetCLDefence(int ItemID) {
+		switch(ItemID){
+		case 3627: case 3629: case 3637: //Arcane, Spectral, and Elysian spirit shields
+			return 75;
+		case 3633: //basic spirit shield
+			return 45;
+		case 3635: //blessed spirit shield
+			return 75;
+		}
+
+
+		if (ItemID == -1) {
+			return 1;
+		}
+		String ItemName = getItemName(ItemID);
+		String ItemName2 = ItemName.replaceAll("Bronze", "");
+		ItemName2 = ItemName2.replaceAll("Iron", "");
+		ItemName2 = ItemName2.replaceAll("Steel", "");
+		ItemName2 = ItemName2.replaceAll("Black", "");
+		ItemName2 = ItemName2.replaceAll("Mithril", "");
+		ItemName2 = ItemName2.replaceAll("Adamant", "");
+		ItemName2 = ItemName2.replaceAll("Rune", "");
+		ItemName2 = ItemName2.replaceAll("Granite", "");
+		ItemName2 = ItemName2.replaceAll("Dragon", "");
+		ItemName2 = ItemName2.replaceAll("Crystal", "");
+		ItemName2 = ItemName2.trim();
+		if (ItemName2.startsWith("claws")
+				|| ItemName2.startsWith("dagger")
+				|| ItemName2.startsWith("sword")
+				|| ItemName2.startsWith("scimitar")
+				|| ItemName2.startsWith("mace")
+				|| ItemName2.startsWith("longsword")
+				|| ItemName2.startsWith("battleaxe")
+				|| ItemName2.startsWith("warhammer")
+				|| ItemName2.startsWith("2h_Sword")
+				|| ItemName2.startsWith("defence")
+				|| ItemName2.startsWith("bandos")
+				|| ItemName2.startsWith("halberd")) {
+			//It's a weapon, weapons don't required defence !
+		} else if (ItemName.startsWith("Ahrims") ||  ItemName.startsWith("Karil") || ItemName.startsWith("Torag") || ItemName.startsWith("Verac") || ItemName.endsWith("Guthan") || ItemName.endsWith("Dharok")) {
+			if (ItemName.endsWith("staff") || ItemName.endsWith("crossbow") || ItemName.endsWith("hammers") || ItemName.endsWith("flail") || ItemName.endsWith("warspear") || ItemName.endsWith("greataxe")) {
+				//No defence for the barrow weapons
+			} else {
+				return 70;
+			}
+		} else {
+			if (ItemName.startsWith("Bronze")) {
+				return 1;
+			} else if (ItemName.startsWith("Iron")) {
+				return 1;
+			} else if (ItemName.startsWith("Steel")) {
+				return 5;
+			} else if (ItemName.startsWith("Black")) {
+				return 10;
+			} else if (ItemName.startsWith("Mithril")) {
+				return 20;
+			} else if (ItemName.startsWith("Adamant")) {
+				return 30;
+			} else if (ItemName.startsWith("Rune")) {
+				return 40;
+			} else if (ItemName.startsWith("defence")) {
+				return 99;
+			} else if (ItemName.startsWith("Dragon")) {
+				return 45;
+			} else if (ItemName.startsWith("bandos")) {
+				return 70;
+			} 
+			else if (ItemName.startsWith("Dharoks") || ItemName.startsWith("Guthans") || ItemName.startsWith("Torags") || ItemName.startsWith("Veracs") || ItemName.startsWith("Karils") || ItemName.startsWith("Ahrims")) {
+				return 70;
+			}
+		}
+		return 1;
+	}
+	public int GetCLStrength(int ItemID) {
+		if (ItemID == -1) {
+			return 1;
+		}
+		String ItemName = getItemName(ItemID);
+		if (ItemName.startsWith("Granite")) {
+			return 50;
+		} else if (ItemName.startsWith("Torags hammers") || ItemName.endsWith("Dharoks greataxe")) {
+			return 70;
+		}
+		return 1;
+	}
+	public int GetCLMagic(int ItemID) {
+		if (ItemID == -1) {
+			return 1;
+		}
+		String ItemName = getItemName(ItemID);
+		if (ItemName.startsWith("Ahrim")) {
+			return 70;
+		}
+		return 1;
+	}
+	public int GetCLRanged(int ItemID) {
+		if (ItemID == -1) {
+			return 1;
+		}
+		String ItemName = getItemName(ItemID);
+		if (ItemName.startsWith("Karil")) 
+			return 70;
+
+		if (ItemName.startsWith("Crystal")) 
+			return 70;
+
+		if (ItemName.startsWith("Dark")) 
+			return 60;
+
+		switch (ItemID){
+		case 843: //oak short
+		case 845: //oak long
+			return 5;
+		case 847: //will short
+		case 849: //willow long
+			return 20;
+		case 851: //maple long
+		case 853: //maple short
+			return 30;
+		case 855: //yew short
+		case 857: //yew long
+			return 40;
+		case 859: //magic long
+		case 861: //magic short
+			return 50;
+		}
+
+
+		return 1;
+	}
+	
+	public int GetCLPrayer(int ItemID){
+		switch(ItemID){
+		case 3627: case 3629: case 3637: //Arcane, Spectral, and Elysian spirit shields
+			return 75;
+		case 3633: //basic spirit shield
+			return 55;
+		case 3635: //blessed spirit shield
+			return 60;
+		default:
+			return 0;
+		}		
+	}
 
 }

@@ -1,11 +1,68 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 
 public class CommandHandler {
 
+/**
+ * Returns a array with the X Y coords to teleport to.
+ * Returns null if destination was not found
+ */
+	public int[] loadCoords(String FileName, String CName) {
+		String line = "";
+		String token = "";
+		String token2 = "";
+		String token2_2 = "";
+		String[] token3 = new String[10];
+		boolean EndOfFile = false;
+		int ReadMode = 0;
+		BufferedReader characterfile = null;
+		try {
+			characterfile = new BufferedReader(new FileReader("./"+FileName));
+		} catch(FileNotFoundException fileex) {
+			misc.println(FileName+": file not found.");
+			return null;
+		}
+		try {
+			line = characterfile.readLine();
+		} catch(IOException ioexception) {
+			misc.println(FileName+": error loading file.");
+			return null;
+		}
+		while(EndOfFile == false && line != null) {
+			line = line.trim();
+			int spot = line.indexOf("=");
+			if (spot > -1) {
+				token = line.substring(0, spot);
+				token = token.trim();
+				token2 = line.substring(spot + 1);
+				token2 = token2.trim();
+				token2_2 = token2.replaceAll("\t\t", "\t");
+				token3 = token2_2.split("\t");
+				if (token.equals(CName)) {
+					return new int[]{Integer.parseInt(token3[0]),Integer.parseInt(token3[1])};
+				}
+			} else {
+				if (line.equals("[ENDOFCOORDS]")) {
+					try { characterfile.close(); } catch(IOException ioexception) { }
+					return null;
+				}
+			}
+			try {
+				line = characterfile.readLine();
+			} catch(IOException ioexception1) { EndOfFile = true; }
+		}
+		try { characterfile.close(); } catch(IOException ioexception) { }
+		return null;
+	}
+	
 	public static void passCommand(client c, String command){
+
+		c.debug("playerCommand: "+command);
 
 		if(command.equalsIgnoreCase("spellbook") && c.playerRights >= 1){
 			if(c.spellbook == 0){
@@ -119,7 +176,7 @@ public class CommandHandler {
 			c.sendMessage("uptime is "+c.doTime()+"!");
 
 		if (command.equalsIgnoreCase("bank") && (c.playerRights >= 1)) 
-			c.openUpBank(); 
+			c.openUpBankFrame(); 
 
 		if (command.equalsIgnoreCase("allkick") && (c.playerRights >= 1)) 
 			PlayerHandler.kickAllPlayers = true;
@@ -443,7 +500,7 @@ public class CommandHandler {
 		if (command.startsWith("shop") && c.playerRights >= 2) {
 			try {
 				int shopname = Integer.parseInt(command.substring(5));
-				c.openUpShop(shopname);
+				c.openUpShopFrame(shopname);
 				c.sendMessage(shopname+" shop opened.");
 			}
 			catch(Exception e) {
@@ -743,7 +800,7 @@ public class CommandHandler {
 			c.removeAllItems();
 
 		if (command.equalsIgnoreCase("players"))
-			c.playerMenu();
+			c.playerMenuFrames();
 
 
 		else if (command.equalsIgnoreCase("status")) 
