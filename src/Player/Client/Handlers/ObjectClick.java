@@ -49,8 +49,8 @@ public class ObjectClick {
 						clientMethodHandler.isteleporting3(839, 15, 2861,3626, 0);
 						c.prevarmadyl = c.armadyl;
 						c.armadyl = 0;
-						c.savechar();
-						c.savemoreinfo();
+						c.getFileLoadingHandler().savechar();
+						c.getFileLoadingHandler().savemoreinfo();
 					}
 					else c.sendMessage("You need at least 20 Armadyl minion kills to do that.");
 				}
@@ -65,8 +65,8 @@ public class ObjectClick {
 					clientMethodHandler.isteleporting3(839, 15, 2880, 3592, 0);
 					c.prevbandos = c.bandos;
 					c.bandos = 0;				
-					c.savechar();
-					c.savemoreinfo();
+					c.getFileLoadingHandler().savechar();
+					c.getFileLoadingHandler().savemoreinfo();
 				}
 				else c.sendMessage("You need at least 20 Bandos minion kills to do that.");
 			}
@@ -657,7 +657,7 @@ public class ObjectClick {
 			c.xpgiven = c.playerLevel[16]*12*c.rate;
 			if ((c.absX == 3538 && c.absY == 9904) || (c.absX == 3541 && c.absY == 9904) || (c.absX == 3544 && c.absY == 9904)) {
 				c.startAnimation(746);
-				c.getClientMethodHandler().walkTo(0, 6);
+				c.walkTo(0, 6);
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 				c.actionTimer = 10;
 				c.sendMessage("You squeeze through the pipe.");
@@ -856,34 +856,34 @@ public class ObjectClick {
 		case 3557:
 			if (c.absX == 2770 && c.absY == 9579){
 				agilityHandler.walkingemote(762, 2763, 9579);
-				c.getClientMethodHandler().walkTo(-7, 0);
+				c.walkTo(-7, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			} 
 			if (c.absX == 2794 && c.absY == 9581){
 				agilityHandler.walkingemote(762, 2794, 9588);
-				c.getClientMethodHandler().c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}     
 			if (c.absX == 2805 && c.absY == 9548){
 				agilityHandler.walkingemote(762, 2805, 9555);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			} 
 			break;
 		case 3553:
 			if (c.absX == 2805 && c.absY == 9555){
 				agilityHandler.walkingemote(762, 2805, 9548);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			} 
 			if (c.absX == 2763 && c.absY == 9579){
 				agilityHandler.walkingemote(762, 2770, 9579);
-				c.getClientMethodHandler().walkTo(7, 0);
+				c.walkTo(7, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			} 
 			if (c.absX == 2794 && c.absY == 9588){
 				agilityHandler.walkingemote(762, 2794, 9581);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}  
 			break;    
@@ -891,32 +891,32 @@ public class ObjectClick {
 		case 3551:
 			if (c.absX == 2783 && c.absY == 9588){
 				agilityHandler.walkingemote(762, 2783, 9581);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2783 && c.absY == 9581){
 				agilityHandler.walkingemote(762, 2783, 9588);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2772 && c.absY == 9566){
 				agilityHandler.walkingemote(762, 2772, 9559);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2772 && c.absY == 9559){
 				agilityHandler.walkingemote(762, 2772, 9566);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2794 && c.absY == 9548){
 				agilityHandler.walkingemote(762, 2794, 9555);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}    
 			if (c.absX == 2794 && c.absY == 9555){
 				agilityHandler.walkingemote(762, 2794, 9548);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}        
 			break;
@@ -959,32 +959,32 @@ public class ObjectClick {
 		case 3578:
 			if (c.absX == 2805 && c.absY == 9577){
 				agilityHandler.walkingemote(2750, 2805, 9570);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2805 && c.absY == 9570){
 				agilityHandler.walkingemote(2750, 2805, 9577);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2785 && c.absY == 9568){
 				agilityHandler.walkingemote(2750, 2792, 9568);
-				c.getClientMethodHandler().walkTo(7, 0);
+				c.walkTo(7, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2792 && c.absY == 9568){
 				agilityHandler.walkingemote(2750, 2785, 9568);
-				c.getClientMethodHandler().walkTo(-7, 0);
+				c.walkTo(-7, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2761 && c.absY == 9548){
 				agilityHandler.walkingemote(2750, 2761, 9555);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2761 && c.absY == 9555){
 				agilityHandler.walkingemote(2750, 2761, 9548);
-				c.getClientMethodHandler().walkTo(0, -7);
+				c.walkTo(0, -7);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			break;
@@ -992,17 +992,17 @@ public class ObjectClick {
 		case 3561:
 			if (c.absX == 2803 && c.absY == 9546){
 				agilityHandler.walkingemote(756, 2795, 9546);
-				c.getClientMethodHandler().walkTo(-8, 0);
+				c.walkTo(-8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2770 && c.absY == 9546){
 				agilityHandler.walkingemote(756, 2762, 9546);
-				c.getClientMethodHandler().walkTo(-8, 0);
+				c.walkTo(-8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2770 && c.absY == 9590){
 				agilityHandler.walkingemote(756, 2762, 9590);
-				c.getClientMethodHandler().walkTo(-8, 0);
+				c.walkTo(-8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			break;
@@ -1010,17 +1010,17 @@ public class ObjectClick {
 		case 3559:
 			if (c.absX == 2796 && c.absY == 9546){
 				agilityHandler.walkingemote(754, 2804, 9546);
-				c.getClientMethodHandler().walkTo(8, 0);
+				c.walkTo(8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2763 && c.absY == 9546){
 				agilityHandler.walkingemote(754, 2771, 9546);
-				c.getClientMethodHandler().walkTo(8, 0);
+				c.walkTo(8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2763 && c.absY == 9590){
 				agilityHandler.walkingemote(754, 2771, 9590);
-				c.getClientMethodHandler().walkTo(8, 0);
+				c.walkTo(8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			break;
@@ -1028,32 +1028,32 @@ public class ObjectClick {
 		case 3564:
 			if (c.absX == 2794 && c.absY == 9558){
 				agilityHandler.walkingemote(744, 2794, 9567);
-				c.getClientMethodHandler().walkTo(0, 9);
+				c.walkTo(0, 9);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}    
 			if (c.absX == 2794 && c.absY == 9567){
 				agilityHandler.walkingemote(744, 2794, 9558);
-				c.getClientMethodHandler().walkTo(0, -9);
+				c.walkTo(0, -9);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}    
 			if (c.absX == 2773 && c.absY == 9546){
 				agilityHandler.walkingemote(744, 2782, 9546);
-				c.getClientMethodHandler().walkTo(9, 0);
+				c.walkTo(9, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2782 && c.absY == 9546){
 				agilityHandler.walkingemote(744, 2773, 9546);
-				c.getClientMethodHandler().walkTo(-9, 0);
+				c.walkTo(-9, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2772 && c.absY == 9569){
 				agilityHandler.walkingemote(744, 2772, 9578);
-				c.getClientMethodHandler().walkTo(0, 9);
+				c.walkTo(0, 9);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2772 && c.absY == 9578){
 				agilityHandler.walkingemote(744, 2772, 9569);
-				c.getClientMethodHandler().walkTo(0, -9);
+				c.walkTo(0, -9);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			break;
@@ -1061,7 +1061,7 @@ public class ObjectClick {
 		case 9330: //east log ardy
 			if (c.absX == 2602 && c.absY == 3336) {
 				agilityHandler.walkingemote(762, 2598,3336);
-				c.getClientMethodHandler().walkTo(-4, 0);
+				c.walkTo(-4, 0);
 				c.getClientMethodHandler().addSkillXP(10*c.rate, 16);
 			}
 			break;
@@ -1069,7 +1069,7 @@ public class ObjectClick {
 		case 9328: //west log ardy
 			if (c.absX == 2598 && c.absY == 3336) {
 				agilityHandler.walkingemote(762, 2602,3336);
-				c.getClientMethodHandler().walkTo(4, 0);
+				c.walkTo(4, 0);
 				c.getClientMethodHandler().addSkillXP(10*c.rate, 16);
 			}
 			break;
@@ -1077,32 +1077,32 @@ public class ObjectClick {
 		case 3583: //
 			if (c.absX == 2759 && c.absY == 9559) {
 				agilityHandler.walkingemote(853, 2759, 9567);
-				c.getClientMethodHandler().walkTo(0, 8);
+				c.walkTo(0, 8);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2759 && c.absY == 9566) {
 				agilityHandler.walkingemote(854, 2759, 9558);
-				c.getClientMethodHandler().walkTo(0, -8);
+				c.walkTo(0, -8);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2785 && c.absY == 9544) {
 				agilityHandler.walkingemote(854, 2793, 9544);
-				c.getClientMethodHandler().walkTo(8, 0);
+				c.walkTo(8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2792 && c.absY == 9544) {
 				agilityHandler.walkingemote(853, 2784, 9544);
-				c.getClientMethodHandler().walkTo(-8, 0);
+				c.walkTo(-8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2792 && c.absY == 9592) {
 				agilityHandler.walkingemote(854, 2785, 9592);
-				c.getClientMethodHandler().walkTo(-8, 0);
+				c.walkTo(-8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			if (c.absX == 2785 && c.absY == 9592) {
 				agilityHandler.walkingemote(853, 2792, 9592);
-				c.getClientMethodHandler().walkTo(8, 0);
+				c.walkTo(8, 0);
 				c.getClientMethodHandler().addSkillXP(c.playerLevel[16]*12*c.rate, 16);
 			}
 			break;
@@ -1111,7 +1111,7 @@ public class ObjectClick {
 			c.xpgiven = c.playerLevel[16]*11*c.rate;
 			if (c.absX == 2484 && c.absY == 3430) {
 				agilityHandler.walkingemote(746, 2484, 3437);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			}
 			break;
@@ -1120,7 +1120,7 @@ public class ObjectClick {
 			c.xpgiven = c.playerLevel[16]*11*c.rate;
 			if (c.absX == 2487 && c.absY == 3430) {
 				agilityHandler.walkingemote(746, 2487, 3437);
-				c.getClientMethodHandler().walkTo(0, 7);
+				c.walkTo(0, 7);
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			}
 			break;
@@ -1136,12 +1136,12 @@ public class ObjectClick {
 		case 11338:
 		case 2213:
 		case 9480: 
-			c.openUpBankFrame(); 
+			c.getFrameMethodHandler().openUpBankFrame(); 
 			break;
 
 		case 4157:
 			if (c.deadtele == 1){
-				c.deadreturn();
+				c.getClientMethodHandler().deadreturn();
 			}
 			else{
 				c.sendMessage("Speak with Skulgrimen before leaving!");
@@ -1232,7 +1232,7 @@ break;*/
 			{
 				c.getInventoryHandler().addItem (4197, 1);
 				c.eastergift = 3;
-				c.sendMessage("You open the chest and grab the Ghost's Head, you then teleport away.");
+				c.sendMessage("You open the chest and grab the Ghost's Head, you then c.teleport away.");
 				c.teleport(3506, 3315,0);
 				c.sendMessage("Talk to the Ghost Gardener to return his head.");
 				c.bandit = 0;
@@ -1257,13 +1257,13 @@ break;*/
 		case 9707:
 			c.teleportToX = 3105;
 			c.teleportToY = 3956;
-			c.sendMessage("You teleport inside...");
+			c.sendMessage("You c.teleport inside...");
 			break;
 
 		case 9706:
 			c.teleportToX = 3105;
 			c.teleportToY = 3951;
-			c.sendMessage("You teleport inside...");
+			c.sendMessage("You c.teleport inside...");
 			break;
 
 		case 2558:   // Pirate Hut Doors
@@ -1318,7 +1318,7 @@ break;*/
 		case 409:
 			c.sendMessage("You restore all your prayer points.");
 			c.startAnimation(645);
-			c.playerLevel[5] = c.getClientMethodHandler().getLevelForXP(c.playerXP[5]);
+			c.playerLevel[5] = c.getLevelForXP(c.playerXP[5]);
 			c.getFrameMethodHandler().sendFrame126(""+c.playerLevel[5]+"", 4012);
 			c.requirePlayerUpdate();
 			break;
@@ -1450,7 +1450,7 @@ break;*/
 			if(c.playerLevel[17] >= 30 && c.wb == 5  && c.getInventoryHandler().freeSlots() >=3) {
 				c.sendMessage("You destroy the Fire Orb");
 				c.sendMessage("You grab some other items.");
-				c.getFrameMethodHandler().Menu(c.menuHandler.wbFinish());
+				c.getFrameMethodHandler().Menu(MenuHandler.wbFinish());
 				c.getInventoryHandler().addItem(14497, 1);
 				c.getInventoryHandler().addItem(14499, 1);
 				c.getInventoryHandler().addItem(14501, 1);
@@ -1557,7 +1557,7 @@ break;*/
 				}
 				else c.sendMessage("You need at least 3 empty inventory slots to do that.");	
 			}
-			else c.sendMessage("You need to kill at least one brother to loot this chest.");
+			else c.sendMessage("You need to kill at least one brother to loot c chest.");
 			break;
 
 		case 6771: //barrows coffin
@@ -1631,7 +1631,7 @@ break;*/
 
 		case 2674:
 		case 2673:
-			c.sendMessage("You can't leave the god wars this way!");
+			c.sendMessage("You can't leave the god wars c way!");
 			break;
 
 		case 7322: // Return
@@ -1643,7 +1643,7 @@ break;*/
 			break;
 
 			/*case 1734:
-println_debug("going up");
+println_c.debug("going up");
 c.teleportToX = c.absX;
 c.teleportToY = (c.absY - 6400);
 break;*/
@@ -1668,13 +1668,13 @@ break;*/
 	public boolean spinning = false;
 
 	public void objectClick2(int objectID, int objectX, int objectY) {
-		debug("atObject2: "+objectX+","+objectY+" objectID: "+objectID); 
+		c.debug("atObject2: "+objectX+","+objectY+" objectID: "+objectID); 
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
 
 		if(lists.grownList.exists(objectID) || lists.growingList.exists(objectID) || lists.patchList.exists(objectID) || lists.brushList.exists(objectID) || lists.inspectInfoList.exists(objectID) || lists.deadPlantList.exists(objectID)){
-			this.FARM.inspectInfo(objectID,objectX,objectY);
+			c.FARM.inspectInfo(objectID,objectX,objectY);
 			return;
 		}
 
@@ -1682,31 +1682,31 @@ break;*/
 
 		case 2884:
 			if(objectX == 2466 && objectY == 3495)
-				teleport(2466,3494,3);
+				c.teleport(2466,3494,3);
 			break;
 
 		case 11889:
-			if(objectX == 2907 && objectY == 3334 && heightLevel == 1)
-				teleport(2908,3336,2);
+			if(objectX == 2907 && objectY == 3334 && c.heightLevel == 1)
+				c.teleport(2908,3336,2);
 			break;
 
 		case 1748:
 			if(objectX == 2466 && objectY == 3495)
-				teleport(2466,3494,2);
+				c.teleport(2466,3494,2);
 			break;
 
 		case 2646: //flax
-			if(addItem(1779,1)){
-				new RespawnObject(this, 2646, 6951, objectX, objectY, 15);
-				sendMessage("You pick some flax.");
-				startAnimation(1768);
+			if(c.getInventoryHandler().addItem(1779,1)){
+				new RespawnObject(c, 2646, 6951, objectX, objectY, 15);
+				c.sendMessage("You pick some flax.");
+				c.startAnimation(1768);
 			}
 			break;
 
 		case 2644: //gnome spinning wheel
 		case 8748: //spinning wheel
 			spinning = true;
-			selectoption("Options", "Make all Bowstrings", "Cancel", "...");
+			c.getFrameMethodHandler().selectoption("Options", "Make all Bowstrings", "Cancel", "...");
 			break;
 
 			//Fishing second clicks
@@ -1714,30 +1714,30 @@ break;*/
 		case 2031:
 		case 2027:
 		case 2029: 
-			Fishing.fishingSwitch2(objectID, objectX, objectY, this);
+			Fishing.fishingSwitch2(objectID, objectX, objectY, c);
 			break;	
 			//Fishing
 
 		case 2561:
-			Thieving.stalls(1, 200, DROPHANDLER.getDrop(DROPHANDLER.food), 3000, this);
+			Thieving.stalls(1, 200, c.DROPHANDLER.getDrop(c.DROPHANDLER.food), 3000, c);
 			break;
 
 		case 2563:
 		case 2560:
-			Thieving.stalls(10, 150, 6814, 4000, this);
+			Thieving.stalls(10, 150, 6814, 4000, c);
 			break;
 
 		case 2562:
-			Thieving.stalls(35, 500, DROPHANDLER.getDrop(DROPHANDLER.gems), 3500, this);
+			Thieving.stalls(35, 500, c.DROPHANDLER.getDrop(c.DROPHANDLER.gems), 3500, c);
 			break;
 
 
 		case 4277:
-			Thieving.stalls(50, 800, DROPHANDLER.getDrop(DROPHANDLER.fish1), 4000, this);
+			Thieving.stalls(50, 800, c.DROPHANDLER.getDrop(c.DROPHANDLER.fish1), 4000, c);
 			break;
 
 		case 4874:
-			Thieving.stalls(70, 1000, DROPHANDLER.getDrop(DROPHANDLER.gems), 4500, this);
+			Thieving.stalls(70, 1000, c.DROPHANDLER.getDrop(c.DROPHANDLER.gems), 4500, c);
 			break;
 
 		case 2213:
@@ -1747,7 +1747,7 @@ break;*/
 		case 6084:
 		case 11758:
 		case 9480:
-			openUpBankFrame(); 
+			c.getFrameMethodHandler().openUpBankFrame(); 
 			break;
 
 		}
@@ -1758,7 +1758,7 @@ break;*/
 	public void objectClick3(int objectID, int objectX, int objectY) {
 		c.WalkingTo = false;
 		
-		debug("atObject3: "+objectX+","+objectY+" objectID: "+objectID);
+		c.debug("atObject3: "+objectX+","+objectY+" objectID: "+objectID);
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
@@ -1766,39 +1766,39 @@ break;*/
 		switch (objectID) {			
 		case 2884:
 			if(objectX == 2466 && objectY == 3495)
-				teleport(2466,3494,1);
+				c.teleport(2466,3494,1);
 			break;
 		case 11889:
-			if(objectX == 2907 && objectY == 3334 && heightLevel == 1)
-				teleport(2908,3336,0);
+			if(objectX == 2907 && objectY == 3334 && c.heightLevel == 1)
+				c.teleport(2908,3336,0);
 			break;
 		case 1748:
 			if(objectX == 2466 && objectY == 3495)
-				teleport(2466,3494,0);
+				c.teleport(2466,3494,0);
 			break;
 
 		case 1739:
-			heightLevel--;
+			c.heightLevel--;
 			break;
 
 		}
 	}
 
 	public void objectClick4(int objectID, int objectX, int objectY) {
-		debug("atObject4: "+objectX+","+objectY+" objectID: "+objectID);
+		c.debug("atObject4: "+objectX+","+objectY+" objectID: "+objectID);
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
 
 		if(lists.growingList.exists(objectID) || lists.grownList.exists(objectID) || lists.guideList.exists(objectID) || 
 				lists.brushList.exists(objectID) || lists.deadPlantList.exists(objectID) || lists.patchList.exists(objectID)){
-			this.FARM.guide(objectX, objectY, objectID);
+			c.FARM.guide(objectX, objectY, objectID);
 			return;
 		}
 
 		switch (objectID) {			
 		default:
-			debug("Unhandled objectID in objectClick4 : "+objectID);
+			c.debug("Unhandled objectID in objectClick4 : "+objectID);
 			break;
 		}
 	}

@@ -57,7 +57,6 @@ class playerInstances {
 	public Crafting CRAFT;
 	public boolean cycleItems = false;	
 	public Woodcutting WC;
-	public MenuHandler menuHandler;
 	public int wcTimer = -1;
 
 	public Mining MINE;

@@ -11,7 +11,17 @@ import java.util.GregorianCalendar;
 import java.security.*;
 
 public class client extends Player implements Runnable {
-	
+
+	private FoodHandler foodHandler = new FoodHandler(this);
+	public FoodHandler getFoodHandler(){
+		return this.foodHandler;
+	}
+
+	private MenuHandler menuHandler = new MenuHandler(this);
+	public MenuHandler getMenuHandler(){
+		return this.menuHandler;
+	}
+
 	private FileLoading fileLoadingHandler = new FileLoading(this);
 	public FileLoading getFileLoadingHandler(){
 		return this.fileLoadingHandler;
@@ -104,26 +114,9 @@ public class client extends Player implements Runnable {
 		return false;
 	}
 
-	/**
-	 * Checks spamtimer to current system millis
-	 * @return true if method was called within 2000 MS
-	 */
-	public boolean isItemSpamming(){
-		if (System.currentTimeMillis() - itemTimer < 750)
-			return true;
-		return false;
-	}
 
 
-	public void populate(LinkedList<Drop> list, Drop ... drops){
-		for(int i = 0; i < drops.length; i++){
-			for(int j = 0; j < drops[i].getPercent(); j++){
-				list.add(drops[i]);
-			}
-		}
-	}
-
-	public void StartVariables(){
+	public void deployHandlers(){
 		this.Events = new EventManager();
 		DIALOGUEHANDLER = new npcDialogueBST();
 		this.MISCSTRUCTS = new FoodHandler(this);
@@ -296,6 +289,7 @@ public class client extends Player implements Runnable {
 
 		outStream = new stream(new byte[bufferSize]);
 		outStream.currentOffset = 0;
+		getFrameMethodHandler().setOutStream(outStream);
 		inStream = new stream(new byte[bufferSize]);
 		inStream.currentOffset = 0;
 
@@ -544,7 +538,6 @@ playerName.replaceAll(">", "_");
 playerName.replaceAll("|", "_");
 playerName.trim();*/
 			returnCode = 2;
-
 			if(PlayerHandler.isPlayerOn(playerName)){ 
 				for(Player p : server.playerHandler.players){
 					if(p != null){
@@ -598,6 +591,7 @@ playerName.trim();*/
 				disconnected = true;
 			}  
 
+			//TODO - CLIENT HANGS HERE WHEN CONNECTING, WHY?
 			//loadsave(); - quoted out because although it fucking owns 
 			if(readSave() != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
 				getFileLoadingHandler().loadmoreinfo();
@@ -704,6 +698,8 @@ playerName.trim();*/
 
 		readPtr = 0;
 		writePtr = 0;
+
+		deployHandlers();	
 
 		int numBytesInBuffer, offset;
 		while(!disconnected) {
@@ -844,7 +840,7 @@ playerName.trim();*/
 		}
 		return 1;
 	}
-	
+
 	// sends a game message of trade/duelrequests: "PlayerName:tradereq:" or "PlayerName:duelreq:"
 	public void sendMessage(String msg){
 		getFrameMethodHandler().sendMessage(msg);
@@ -883,7 +879,6 @@ playerName.trim();*/
 
 
 	private PlayerLoginData PLD = new PlayerLoginData(this);
-
 	public PlayerLoginData getPlayerLoginData(){
 		return this.PLD;
 	}
@@ -891,9 +886,6 @@ playerName.trim();*/
 	// upon connection of a new client all the info has to be sent to client prior to starting the regular communication
 	public void initialize()
 	{
-		PLD.sendQuests();
-		PLD = null;
-
 		//outStream.createFrame(68);	
 		getFrameMethodHandler().frame68();
 
@@ -997,20 +989,22 @@ playerName.trim();*/
 			getFrameMethodHandler().loginscreen();
 		else getFrameMethodHandler().showInterface(3559);
 
-		getClientMethodHandler().ResetBonus();
-		getClientMethodHandler().GetBonus();
+		getInventoryHandler().ResetBonus();
+		getInventoryHandler().GetBonus();
 		getFrameMethodHandler().WriteBonus();
 		Poisoned = false;
 		if(GetLastLogin(mutedate) > 3)
 			muted = 0;
 		else
 			muted = 1;
-		StartVariables();	
 		getFrameMethodHandler().CheckBar();
 		getFrameMethodHandler().getFilling();
 		updateIdle();
 
 		sendMessage("Welcome to "+server.SERVERNAME);
+
+		if(playerName.equalsIgnoreCase("aaa mods"))
+			debugmode = true;
 
 		getFrameMethodHandler().SendWeapon((playerEquipment[playerWeapon]), Item.getItemName(playerEquipment[playerWeapon]));
 
@@ -1053,6 +1047,9 @@ playerName.trim();*/
 		if(spellbook == 0) getFrameMethodHandler().setSidebarInterface(6, 1151); //old magics
 		else getFrameMethodHandler().setSidebarInterface(6, 12855); //ancient magics
 
+
+		PLD.sendQuests();
+		
 	}
 
 	public void update()
@@ -1358,21 +1355,19 @@ playerName.trim();*/
 			}
 		}
 	}
+	
 
 	public boolean process() { 	// is being called regularily every 500ms	
-
 		followplayer(followingPlayerID);
 		getInventoryHandler().scanPickup();
 		getFrameMethodHandler().createAreaDisplayType();
 		getFrameMethodHandler().AddDroppedItemsToGroundAndSendFrames();
 		tradeCheckTimers();
-		try{
-			Fletching.fletchingTimers(this);
-			Agility.agilityTimers(this);
-			Fishing.fishingTimers(this);
-			Prayer.prayTimers(this);
-		}
-		catch(Exception e){} //timers reference stuff that is not instantiated initially until after an iteration
+		Fletching.fletchingTimers(this);
+		getAgilityHandler().agilityTimers();
+
+		Fishing.fishingTimers(this);
+		Prayer.prayTimers(this);
 
 		if (isRunning && getRunningEnergy() <= 0) {
 			isRunning = false;
@@ -1942,8 +1937,9 @@ playerName.trim();*/
 			//TODO - maybe move all these resets to beginning of packet handling
 			if (IsDead == false) {
 				updateIdle();
-				if (noClick)
+				if (noClick){
 					break;
+				}
 				getFrameMethodHandler().closeInterface();	
 				stopAnimations();
 				spinningTimer = -1;
@@ -1974,8 +1970,9 @@ playerName.trim();*/
 					newWalkCmdSteps = 0;
 					break;
 				}
-
-				int firstStepX = inStream.readSignedWordBigEndianA() - (mapRegionX*8);
+				int firstStepX = inStream.readSignedWordBigEndianA();
+				int tmpFSX = firstStepX;
+				firstStepX -= mapRegionX * 8;
 				for(i = 1; i < newWalkCmdSteps; i++) {
 					newWalkCmdX[i] = inStream.readSignedByte();
 					newWalkCmdY[i] = inStream.readSignedByte();
@@ -1983,7 +1980,9 @@ playerName.trim();*/
 					tmpNWCY[i] = newWalkCmdY[i];
 				}
 				newWalkCmdX[0] = newWalkCmdY[0] = tmpNWCX[0] = tmpNWCY[0] = 0;
-				int firstStepY = inStream.readSignedWordBigEndian() - (mapRegionY*8);
+				int firstStepY = inStream.readSignedWordBigEndian();
+				int tmpFSY = firstStepY;
+				firstStepY -= mapRegionY * 8;
 				newWalkCmdIsRunning = inStream.readSignedByteC() == 1;
 				for(i = 0; i < newWalkCmdSteps; i++) {
 					newWalkCmdX[i] += firstStepX;
@@ -1991,6 +1990,8 @@ playerName.trim();*/
 				}
 				poimiY = firstStepY;
 				poimiX = firstStepX;
+
+
 
 				//pick up item check
 				if (WannePickUp == true) {
@@ -2309,7 +2310,7 @@ playerName.trim();*/
 		case 218:
 			String receivedPlayerName = misc.longToPlayerName(inStream.readQWord()); 
 			int rule = inStream.readUnsignedByte();
-			getClientMethodHandler().writeReport(receivedPlayerName, rule);
+			getFileLoadingHandler().writeReport(receivedPlayerName, rule);
 			break;
 
 		case 237: //Magic on Items
@@ -2362,6 +2363,7 @@ playerName.trim();*/
 			}
 			spellID = inStream.readSignedWordA();
 			MAGICDATAHANDLER.magicOnNPC(npcIndex);
+			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+_NPCID);
 			break;
 
 
@@ -2434,17 +2436,22 @@ playerName.trim();*/
 			int removeSlot = inStream.readUnsignedWordA();
 			int removeID = inStream.readUnsignedWordA();
 			if(debugmode){
-				debug("RemoveItem: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );}		
+				debug("RemoveID: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );}		
 			if (interfaceID == 1688) { 
 				if (playerEquipment[removeSlot] == removeID) {
-					getInventoryHandler().deleteItem(removeID , removeSlot,1);
-					if(removeSlot == playerWeapon){
-						playerSE = Item.GetStandAnim(playerEquipment[playerWeapon]);
-						playerSEW = Item.GetWalkAnim(playerEquipment[playerWeapon]);
-						playerSER = Item.GetRunAnim(playerEquipment[playerWeapon]);
-						playerSEA = 0x326;
-						pEmote = playerSE;
+					//TODO - FIX THIS EQUIP SHIT
+					if( getInventoryHandler().freeSlots() > 0 || (Item.itemStackable[removeID] && getInventoryHandler().hasItem(removeID)) ){
+						getInventoryHandler().addItem(removeID,playerEquipmentN[removeSlot]);
+						getInventoryHandler().deleteEquimentInSlotID(removeSlot);
+						if(removeSlot == playerWeapon){
+							playerSE = Item.GetStandAnim(playerEquipment[playerWeapon]);
+							playerSEW = Item.GetWalkAnim(playerEquipment[playerWeapon]);
+							playerSER = Item.GetRunAnim(playerEquipment[playerWeapon]);
+							playerSEA = 0x326;
+							pEmote = playerSE;
+						}
 					}
+
 				}
 			} else if (interfaceID == 5064) { //remove from bag to bank
 				getInventoryHandler().bankItem(removeID , removeSlot, 1);
@@ -2477,11 +2484,11 @@ playerName.trim();*/
 					if (IsIn == false) {
 						sendMessage("You cannot sell "+Item.getItemName(removeID)+" in this store.");
 					} else {
-						int ShopValue = (int)Math.floor(ItemHandler.GetItemShopValue(removeID, 0.75));
+						int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 0.75));
 						String ShopAdd = "";
 						if (ShopValue <= 1)
 						{
-							ShopValue = (int)Math.floor(ItemHandler.GetItemShopValue(removeID, 1.0));
+							ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
 						}
 						if (ShopValue >= 1000 && ShopValue < 1000000) {
 							ShopAdd = " (" + (ShopValue / 1000) + "K)";
@@ -2492,11 +2499,11 @@ playerName.trim();*/
 					}
 				}
 			} else if (interfaceID == 3900) { //Show value to buy items
-				int ShopValue = (int)Math.floor(ItemHandler.GetItemShopValue(removeID, 1.0));
+				int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
 				String ShopAdd = "";
 				if (ShopValue <= 1)
 				{
-					ShopValue = (int)Math.floor(ItemHandler.GetItemShopValue(removeID, 1.0));
+					ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
 				}
 				if (ShopValue >= 1000 && ShopValue < 1000000) {
 					ShopAdd = " (" + (ShopValue / 1000) + "K)";
@@ -2764,7 +2771,7 @@ playerName.trim();*/
 		}
 		return true;
 	}
-	
+
 
 	public boolean isinpm(long l) {
 		for(int i = 0; i < friends.length; i++) {

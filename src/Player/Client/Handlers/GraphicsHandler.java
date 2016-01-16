@@ -89,7 +89,7 @@ for (Player p : server.playerHandler.players) {
 		client person = (client)p;
 		if(person.playerName != null || person.playerName != "null")
 			//if(person.distanceToPoint(enemyY, enemyX) <= 60)
-				person.firespell(castId, casterY, casterX, offsetY, offsetX, angle, speed, movegfxID, startHeight, endHeight, finishID, enemyY, enemyX, MageAttackIndex);}
+				person.MAGICDATAHANDLER.firespell(castId, casterY, casterX, offsetY, offsetX, angle, speed, movegfxID, startHeight, endHeight, finishID, enemyY, enemyX, MageAttackIndex);}
 	}
 }
 

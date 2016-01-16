@@ -35,7 +35,7 @@ public class Woodcutting {
 			playerClient.sendMessage("You need to be wielding an axe to cut this tree.");
 			return;
 		}
-		if (playerClient.freeSlots() < 1){
+		if (playerClient.getInventoryHandler().freeSlots() < 1){
 			playerClient.sendMessage("Your inventory is full.");
 			return;
 		}
@@ -104,7 +104,7 @@ public class Woodcutting {
 	public void finishedCutting(){
 		int dTT = this.getDeadTreeTime();
 		if(dTT == -1)
-			playerClient.createNewTileObject(_X, _Y, this.getStump(), 2, 10); 		
+			playerClient.getFrameMethodHandler().createNewTileObject(_X, _Y, this.getStump(), 2, 10); 		
 		else new RespawnObject(playerClient, this._currentTreeID, this.getStump(), _X, _Y, dTT);
 		
 		this._Y = 0;
@@ -128,7 +128,7 @@ public class Woodcutting {
 	 */
 	private int playerAxe(){
 		for (int i = 0; i < validAxes.length; i++){
-			if (playerClient.playerHasItem(validAxes[i]) || playerClient.playerEquipment[playerClient.playerWeapon] == validAxes[i])
+			if (playerClient.getInventoryHandler().playerHasItem(validAxes[i]) || playerClient.playerEquipment[playerClient.playerWeapon] == validAxes[i])
 				return validAxes[i];
 		}
 		return -1; //if no axe found
@@ -169,14 +169,14 @@ public class Woodcutting {
 	 * Adds log to player inventory, decrements number of logs left
 	 */
 	public void deliverLog(){
-		if (playerClient.freeSlots() < 1){
+		if (playerClient.getInventoryHandler().freeSlots() < 1){
 			this.stopAll();
 			return;
 		}
-		playerClient.addSkillXP(getWCExp()*playerClient.rate, 8);
-		playerClient.addItem(getLogType(),1);
+		playerClient.getClientMethodHandler().addSkillXP(getWCExp()*playerClient.rate, 8);
+		playerClient.getInventoryHandler().addItem(getLogType(),1);
 		this.list.getCurrent()._numLogs -= 1;
-		if(playerClient.freeSlots() == 0)
+		if(playerClient.getInventoryHandler().freeSlots() == 0)
 			this.stopAll();
 	}
 	

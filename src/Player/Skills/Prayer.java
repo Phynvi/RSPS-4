@@ -35,7 +35,7 @@ public class Prayer {
 
 	public void disableAllPrayer(){
 		for(int i = 83; i <= 100; i++)
-			c.frame36(i,0);
+			c.getFrameMethodHandler().frame36(i,0);
 		c.PMage = c.PMelee = c.PRange = false;
 		c.attEffect = c.strEffect = c.defEffect = 0;
 		ThickSkin = BurstOfStrength = ClarityOfThought = RockSkin = SuperhumanStrength = ImprovedReflexes = RapidRestore = RapidHeal = ProtectItem = SteelSkin = UltimateStrength = IncredibleReflexes = false;
@@ -49,98 +49,98 @@ public class Prayer {
 			case "Thick Skin":
 				if(ThickSkin){ c.prayerAmount -= 1;
 				ThickSkin = false; }
-				c.frame36(83, 0);
+				c.getFrameMethodHandler().frame36(83, 0);
 				break;
 			case "Burst Of Strength":
 				if(BurstOfStrength){ c.prayerAmount -= 1;
 				BurstOfStrength = false; }
-				c.frame36(84, 0);
+				c.getFrameMethodHandler().frame36(84, 0);
 				break;
 			case "Clarity Of Thought":
 				if(ClarityOfThought){ c.prayerAmount -= 1;
 				ClarityOfThought = false; }
-				c.frame36(85, 0);
+				c.getFrameMethodHandler().frame36(85, 0);
 				break;
 			case "Rock Skin":
 				if(RockSkin){ c.prayerAmount -= 1;
 				RockSkin = false; }
-				c.frame36(86, 0);
+				c.getFrameMethodHandler().frame36(86, 0);
 				break;
 			case "Superhuman Strength":
 				if(SuperhumanStrength){ c.prayerAmount -= 1;
 				SuperhumanStrength = false; }
-				c.frame36(87, 0);
+				c.getFrameMethodHandler().frame36(87, 0);
 				break;
 			case "Improved Reflexes":
 				if(ImprovedReflexes){ c.prayerAmount -= 1;
 				ImprovedReflexes = false; }
-				c.frame36(88, 0);
+				c.getFrameMethodHandler().frame36(88, 0);
 				break;
 			case "Rapid Restore":
 				if(RapidRestore){ c.prayerAmount -= 1;
 				RapidRestore = false; }
-				c.frame36(89, 0);
+				c.getFrameMethodHandler().frame36(89, 0);
 				break;
 			case "Rapid Heal":
 				if(RapidHeal){ c.prayerAmount -= 1;
 				RapidHeal = false; }
-				c.frame36(90, 0);
+				c.getFrameMethodHandler().frame36(90, 0);
 				break;
 			case "Protect Item":
 				if(ProtectItem){ c.prayerAmount -= 1;
 				ProtectItem = false; }
-				c.frame36(91, 0);
+				c.getFrameMethodHandler().frame36(91, 0);
 				break;
 			case "Steel Skin":
 				if(SteelSkin){ c.prayerAmount -= 1;
 				SteelSkin = false; }
-				c.frame36(92, 0);
+				c.getFrameMethodHandler().frame36(92, 0);
 				break;
 			case "Ultimate Strength":
 				if(UltimateStrength){ c.prayerAmount -= 1;
 				UltimateStrength = false; }
-				c.frame36(93, 0);
+				c.getFrameMethodHandler().frame36(93, 0);
 				break;
 			case "Incredible Reflexes":
 				if(IncredibleReflexes){ c.prayerAmount -= 1;
 				IncredibleReflexes = false; }
-				c.frame36(94, 0);
+				c.getFrameMethodHandler().frame36(94, 0);
 				break;
 			case "Protect From Magic":
 				if(c.PMage){ c.prayerAmount -= 2;
 				c.PMage = false;
 				c.headIcon = 0; }
-				c.frame36(95, 0);
+				c.getFrameMethodHandler().frame36(95, 0);
 				break;
 			case "Protect From Range":
 				if(c.PRange){ c.prayerAmount -= 2;
 				c.PRange = false;
 				c.headIcon = 0; }
-				c.frame36(96, 0);
+				c.getFrameMethodHandler().frame36(96, 0);
 				break;
 			case "Protect From Melee":
 				if(c.PMelee){ c.prayerAmount -= 2;
 				c.PMelee = false;
 				c.headIcon = 0; }
-				c.frame36(97, 0);
+				c.getFrameMethodHandler().frame36(97, 0);
 				break;
 			case "Retribution":
 				if(Retribution){ c.prayerAmount -= 3;
 				Retribution = false;
 				c.headIcon = 0; }
-				c.frame36(98, 0);
+				c.getFrameMethodHandler().frame36(98, 0);
 				break;
 			case "Redemption":
 				if(Redemption){ c.prayerAmount -= 3;
 				Redemption = false;
 				c.headIcon = 0; }
-				c.frame36(99, 0);
+				c.getFrameMethodHandler().frame36(99, 0);
 				break;
 			case "Smite":
 				if(Smite){ c.prayerAmount -= 3;
 				Smite = false;
 				c.headIcon = 0; }
-				c.frame36(100, 0);
+				c.getFrameMethodHandler().frame36(100, 0);
 				break;
 			default:
 				c.debug("In disablePrayer : did not recognize string : "+name[i]);
@@ -457,10 +457,10 @@ public class Prayer {
 	
 	public boolean buryBones(int boneID, int slotID){
 		c.sendMessage("You bury the bones.");
-		c.setAnimation(827);
+		c.startAnimation(827);
 		int roundUp = (int)Math.ceil(c.playerLevel[c.playerPrayer]/10.0);
-		c.addSkillXP(boneEXP(boneID)*c.rate*roundUp, 5);
-		c.deleteItem(boneID, slotID, 1);
+		c.getClientMethodHandler().addSkillXP(boneEXP(boneID)*c.rate*roundUp, 5);
+		c.getInventoryHandler().deleteItem(boneID, slotID, 1);
 		return true;
 	}
 	

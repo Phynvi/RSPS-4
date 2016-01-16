@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = 192.168.1.103
-character-lastlogintime = 20160011
+character-lastlogin = 207-237-87-196.c3-0.nyw-ubr1.nyr-nyw.ny.cable.rcn.com
+character-lastlogintime = 20160016
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2

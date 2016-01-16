@@ -45,21 +45,21 @@ public class Runecrafting {
 			c.sendMessage("You need at least "+level+" Runecrafting to do that.");
 			return false;
 		}
-		if(!c.hasItemOfAtLeastAmount(RUNE_ESSENCE, 1)){
+		if(!c.getInventoryHandler().hasItemOfAtLeastAmount(RUNE_ESSENCE, 1)){
 			c.sendMessage("You do not have any Rune Essence to craft this with.");
 			return false;
 		}
-		double runesToCraft = c.itemAmount(RUNE_ESSENCE);
+		double runesToCraft = c.getInventoryHandler().itemAmount(RUNE_ESSENCE);
 		int extraRunes = 0;
 		if(multi != -1)
 			extraRunes = (int)(runesToCraft*Math.ceil((double)c.playerLevel[c.playerRunecrafting]/(double)multi));
 
 		exp = Math.ceil(exp*(runesToCraft+extraRunes)*c.rate);
-		c.addSkillXP((int)exp, c.playerRunecrafting);
-		c.replaceAllItemsOfTypeWith(RUNE_ESSENCE, rune);
-		c.addItem(rune, extraRunes);
+		c.getClientMethodHandler().addSkillXP((int)exp, c.playerRunecrafting);
+		c.getInventoryHandler().replaceAllItemsOfTypeWith(RUNE_ESSENCE, rune);
+		c.getInventoryHandler().addItem(rune, extraRunes);
 		c.startAnimation(791);
-		c.gfx100(186);
+		c.getFrameMethodHandler().gfx100(186);
 		return false;
 	}
 

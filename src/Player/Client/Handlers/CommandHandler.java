@@ -8,57 +8,6 @@ import java.io.IOException;
 
 public class CommandHandler {
 
-/**
- * Returns a array with the X Y coords to teleport to.
- * Returns null if destination was not found
- */
-	public int[] loadCoords(String FileName, String CName) {
-		String line = "";
-		String token = "";
-		String token2 = "";
-		String token2_2 = "";
-		String[] token3 = new String[10];
-		boolean EndOfFile = false;
-		int ReadMode = 0;
-		BufferedReader characterfile = null;
-		try {
-			characterfile = new BufferedReader(new FileReader("./"+FileName));
-		} catch(FileNotFoundException fileex) {
-			misc.println(FileName+": file not found.");
-			return null;
-		}
-		try {
-			line = characterfile.readLine();
-		} catch(IOException ioexception) {
-			misc.println(FileName+": error loading file.");
-			return null;
-		}
-		while(EndOfFile == false && line != null) {
-			line = line.trim();
-			int spot = line.indexOf("=");
-			if (spot > -1) {
-				token = line.substring(0, spot);
-				token = token.trim();
-				token2 = line.substring(spot + 1);
-				token2 = token2.trim();
-				token2_2 = token2.replaceAll("\t\t", "\t");
-				token3 = token2_2.split("\t");
-				if (token.equals(CName)) {
-					return new int[]{Integer.parseInt(token3[0]),Integer.parseInt(token3[1])};
-				}
-			} else {
-				if (line.equals("[ENDOFCOORDS]")) {
-					try { characterfile.close(); } catch(IOException ioexception) { }
-					return null;
-				}
-			}
-			try {
-				line = characterfile.readLine();
-			} catch(IOException ioexception1) { EndOfFile = true; }
-		}
-		try { characterfile.close(); } catch(IOException ioexception) { }
-		return null;
-	}
 	
 	public static void passCommand(client c, String command){
 
@@ -67,19 +16,19 @@ public class CommandHandler {
 		if(command.equalsIgnoreCase("spellbook") && c.playerRights >= 1){
 			if(c.spellbook == 0){
 				c.spellbook = 1;
-				c.setSidebarInterface(6, 12855);
+				c.getFrameMethodHandler().setSidebarInterface(6, 12855);
 			}
 			else{
 				c.spellbook = 0;
-				c.setSidebarInterface(6, 1151);
+				c.getFrameMethodHandler().setSidebarInterface(6, 1151);
 			}
-			c.savechar();
-			c.savemoreinfo();
+			c.getFileLoadingHandler().savechar();
+			c.getFileLoadingHandler().savemoreinfo();
 		}
 		
 		if(command.equalsIgnoreCase("levelup") && c.playerRights >= 2){
 			for(int i = 0; i < c.playerLevel.length; i++){
-				c.addSkillXP(7500000, i);
+				c.getClientMethodHandler().addSkillXP(7500000, i);
 			}
 		}
 		
@@ -119,19 +68,19 @@ public class CommandHandler {
 
 		if(command.startsWith("runes") && c.playerRights > 0){
 			for(int i = 554; i <= 566; i++)
-				c.addItem(i,100000);
+				c.getInventoryHandler().addItem(i,100000);
 			return;
 		}
 
 		if(command.startsWith("gear") && c.playerRights > 0){
-			c.addItems(4151,14638,14860,14511,14512,15350,15150,3631,12003,13308,6585,4734,2434,2434,2434,2434,6737,15335);
-			c.addItem(4740,10000);
+			c.getInventoryHandler().addItems(4151,14638,14860,14511,14512,15350,15150,3631,12003,13308,6585,4734,2434,2434,2434,2434,6737,15335);
+			c.getInventoryHandler().addItem(4740,10000);
 			return;
 		}
 
 		if(command.startsWith("prayerpotions")){
 			for(int i = 0; i <= 10; i++)
-				c.addItem(2434);
+				c.getInventoryHandler().addItem(2434);
 			return;
 		}
 
@@ -143,10 +92,10 @@ public class CommandHandler {
 
 		if(command.startsWith("save")){
 			c.sendMessage(c.playerName+" - Saving Status: ");
-			if(c.savechar()) c.sendMessage("Character Saved, ");
+			if(c.getFileLoadingHandler().savechar()) c.sendMessage("Character Saved, ");
 			else c.sendMessage("Failed to save character,");
 
-			if(c.savemoreinfo()) c.sendMessage("Character moreinfo saved");
+			if(c.getFileLoadingHandler().savemoreinfo()) c.sendMessage("Character moreinfo saved");
 			else c.sendMessage("Failed to save character moreinfo");
 			return;
 		}
@@ -176,13 +125,13 @@ public class CommandHandler {
 			c.sendMessage("uptime is "+c.doTime()+"!");
 
 		if (command.equalsIgnoreCase("bank") && (c.playerRights >= 1)) 
-			c.openUpBankFrame(); 
+			c.getFrameMethodHandler().openUpBankFrame(); 
 
 		if (command.equalsIgnoreCase("allkick") && (c.playerRights >= 1)) 
 			PlayerHandler.kickAllPlayers = true;
 
 		if (command.equalsIgnoreCase("food") && (c.playerRights >= 1)) {
-			while(c.addItem(391, 1)){}
+			while(c.getInventoryHandler().addItem(391, 1)){}
 		}
 
 		if (command.equalsIgnoreCase("title") && (c.playerRights >= 2)) 
@@ -243,7 +192,7 @@ public class CommandHandler {
 		if (command.startsWith("gfx") && c.playerRights >= 1){
 			try {
 				int gfx = Integer.parseInt(command.substring(4));
-				c.stillgfx(gfx, c.absY, c.absX);
+				c.getFrameMethodHandler().stillgfx(gfx, c.absY, c.absX);
 			}
 			catch(Exception e) {
 				c.sendMessage("Bad gfx ID"); 
@@ -267,22 +216,13 @@ public class CommandHandler {
 			}
 		} 
 
-		if (command.startsWith("nnum") && c.playerRights >= 2) {
-			try {
-				c.nnum = Integer.parseInt(command.substring(5));
-				c.sendMessage("nnum is now: "+c.nnum+".");
-			} catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as ::nnum #");
-			}
-		} 
-
 		if (command.startsWith("delete") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 
 			try {
 				bw = new BufferedWriter(new FileWriter("CFG/delete.txt", true));
-				c.deletethatobject(c.absX, c.absY);
-				bw.write("c.deletethatobject("+c.absX+", "+c.absY+");");
+				c.getFrameMethodHandler().deletethatobject(c.absX, c.absY);
+				bw.write("c.getFrameMethodHandler().deletethatobject("+c.absX+", "+c.absY+");");
 				bw.newLine();
 				bw.flush();
 				c.sendMessage("Ladder sucessfully deleted at:"+c.absX+", "+c.absY+".");
@@ -326,10 +266,10 @@ public class CommandHandler {
 
 		if (command.startsWith("findItem") && c.playerRights > 1){
 
-			while (c.currentItem < 20000 && c.freeSlots() > 0){
-				if (c.getItemName(c.currentItem) != null){
-					c.addItem(c.currentItem, 1);
-					c.sendMessage("Item ID "+c.currentItem+", "+c.getItemName(c.currentItem)+", is not null.");
+			while (c.currentItem < 20000 && c.getInventoryHandler().freeSlots() > 0){
+				if (Item.getItemName(c.currentItem) != null){
+					c.getInventoryHandler().addItem(c.currentItem, 1);
+					c.sendMessage("Item ID "+c.currentItem+", "+Item.getItemName(c.currentItem)+", is not null.");
 					c.currentItem += 1;
 					return;
 				}
@@ -339,10 +279,10 @@ public class CommandHandler {
 
 		if (command.startsWith("findNull") && c.playerRights > 1){
 
-			while (c.currentItem < 20000 && c.freeSlots() > 0){
-				if (c.getItemName(c.currentItem) == null){
-					c.addItem(c.currentItem, 1);
-					c.sendMessage("Item ID "+c.currentItem+" is "+c.getItemName(c.currentItem));
+			while (c.currentItem < 20000 && c.getInventoryHandler().freeSlots() > 0){
+				if (Item.getItemName(c.currentItem) == null){
+					c.getInventoryHandler().addItem(c.currentItem, 1);
+					c.sendMessage("Item ID "+c.currentItem+" is "+Item.getItemName(c.currentItem));
 					c.currentItem += 1;
 					return;
 				}
@@ -355,7 +295,7 @@ public class CommandHandler {
 			try {
 				int object = Integer.parseInt(command.substring(7,12));
 				int objectdirection =  Integer.parseInt(command.substring(13));
-				c.createNewTileObject(c.absX, c.absY, object, objectdirection, 10);  
+				c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, object, objectdirection, 10);  
 				bw = new BufferedWriter(new FileWriter("CFG/objects.txt", true));
 				bw.write("c.makeGlobalObject("+c.absX+", "+c.absY+", "+object+", "+objectdirection+", 10);");
 				bw.newLine();
@@ -378,41 +318,6 @@ public class CommandHandler {
 				c.sendMessage("Wrong Syntax! Use as :item #");
 			}
 		}
-		
-		if (command.startsWith("panelobj") && c.playerRights >= 2) {
-			BufferedWriter bw = null;
-			try {
-				int obj = Integer.parseInt(command.substring(9));
-				c.panelobj = obj;
-				c.sendMessage("Panel object is set to "+c.panelobj+".");
-			}
-			catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as :item #");
-			}
-		}
-		if (command.startsWith("paneldi") && c.playerRights >= 2) {
-			BufferedWriter bw = null;
-
-			try {
-				int obj = Integer.parseInt(command.substring(8));
-				c.paneldi = obj;
-				c.sendMessage("Panel direction is set to "+c.paneldi+".");
-			}
-			catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as :item #");
-			}
-		}
-
-		if (command.startsWith("panelprint") && c.playerRights >= 2) {
-			if (c.panelprint == false){
-				c.panelprint = true;
-				c.sendMessage("Panel print true.");
-			}
-			else if (c.panelprint == true){
-				c.panelprint = false;
-				c.sendMessage("Panel print false.");
-			}
-		}
 
 		if (command.startsWith("rate")) {
 			c.sendMessage("Current rate is "+c.rate+".");
@@ -427,7 +332,7 @@ public class CommandHandler {
 			for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
 				if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.contains(itemName) ){
 					c.sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
-					c.addItem(i);
+					c.getInventoryHandler().addItem(i);
 					foundItem = true;
 				}
 			}
@@ -449,7 +354,7 @@ public class CommandHandler {
 			try {
 				int newitem = Integer.parseInt(command.substring(5));
 				c.currentItem = newitem;
-				c.addItem(newitem, 1);
+				c.getInventoryHandler().addItem(newitem, 1);
 			}
 			catch(NumberFormatException e) {
 				String itemName = command.substring(5);
@@ -457,7 +362,7 @@ public class CommandHandler {
 				for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
 					if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
 						c.sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
-						c.addItem(i);
+						c.getInventoryHandler().addItem(i);
 						foundItem = true;
 						break;
 					}
@@ -471,7 +376,7 @@ public class CommandHandler {
 		if (command.startsWith("interface2") && c.playerRights >= 2) {
 			try {
 				int intname = Integer.parseInt(command.substring(11));
-				c.showInterface(intname);
+				c.getFrameMethodHandler().showInterface(intname);
 				c.sendMessage(intname+" interface2 opened.");
 			}
 			catch(Exception e) {
@@ -483,10 +388,10 @@ public class CommandHandler {
 		if (command.startsWith("interface") && c.playerRights >= 2) {
 			try {
 				int intname = Integer.parseInt(command.substring(10));
-				c.showInterface(intname);
+				c.getFrameMethodHandler().showInterface(intname);
 				for(int i = intname-200; i <= intname+200; i++){
 					if(i <= 0) i = 1;
-					c.sendQuest(""+i,i);
+					c.getFrameMethodHandler().sendQuest(""+i,i);
 				}
 				c.sendMessage(intname+" interface opened.");
 			}
@@ -500,7 +405,7 @@ public class CommandHandler {
 		if (command.startsWith("shop") && c.playerRights >= 2) {
 			try {
 				int shopname = Integer.parseInt(command.substring(5));
-				c.openUpShopFrame(shopname);
+				c.getFrameMethodHandler().openUpShopFrame(shopname);
 				c.sendMessage(shopname+" shop opened.");
 			}
 			catch(Exception e) {
@@ -512,12 +417,12 @@ public class CommandHandler {
 			BufferedWriter bw = null;
 			try {
 				int newNPC = Integer.parseInt(command.substring(5));
-				c.spawnNPC(newNPC,c.absX,c.absY); 
+				c.getClientMethodHandler().spawnNPC(newNPC,c.absX,c.absY); 
 				bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
 				bw.write("spawn = "+newNPC+"	"+c.absX+"	"+c.absY+"	"+c.heightLevel+"	"+c.absX+"	"+c.absY+"	"+c.absX+"	"+c.absY+"	2");
 				bw.newLine();
 				bw.flush();
-				c.sendMessage(c.getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
+				c.sendMessage(c.getClientMethodHandler().getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
 			}
 			catch(Exception e) {
 				c.sendMessage("Wrong Syntax! Use as :npc #");
@@ -536,41 +441,6 @@ public class CommandHandler {
 			}
 			catch(Exception e) {
 				c.sendMessage("Wrong Syntax! Use as :height #");
-			}
-		}
-
-		if(command.startsWith("configi")){
-			try {
-				c.configi = Integer.parseInt(command.substring(8));
-				c.sendMessage("config i is set to "+c.configi);
-			}
-			catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as ::configi #");
-			}
-		}
-
-		if(command.startsWith("setconfig")){
-			try {
-				c.configi = Integer.parseInt(command.substring(10));
-				c.sendMessage("setconfig("+c.configi+", 0)");
-				c.setconfig(c.configi, 0);
-			}
-			catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as ::configi #");
-			}
-		}
-
-		if(command.startsWith("stop"))
-			c.configiToggle = false;
-
-		if (command.startsWith("npc") && c.playerRights >= 2) {
-			try {
-				int newNPC = Integer.parseInt(command.substring(4));
-				c.spawnNPC(newNPC,c.absX,c.absY); 
-				c.sendMessage(c.getNpcName(newNPC)+" has been spawned. ID was "+newNPC+".");
-			}
-			catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as ::npc #");
 			}
 		}
 
@@ -603,7 +473,7 @@ public class CommandHandler {
 				bw.write("spawn = "+newNPC+"	"+c.absX+"	"+c.absY+"	"+c.heightLevel+"	"+(c.absX+distance)+"	"+(c.absY+distance)+"	"+c.absX+"	"+c.absY+"	2");
 				bw.newLine();	 
 				bw.flush();
-				c.sendMessage(c.getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
+				c.sendMessage(c.getClientMethodHandler().getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
 			}
 			catch(Exception e) {
 				c.sendMessage("Use as ::snpc #### #");
@@ -632,7 +502,7 @@ public class CommandHandler {
 				int newItemID =  Integer.parseInt(command.substring(7,11));
 				int newItemAmount =  Integer.parseInt(command.substring(12));
 				if (/*newItemID <= 10000  && */newItemID >= 0) {
-					c.addItem (newItemID, newItemAmount);
+					c.getInventoryHandler().addItem (newItemID, newItemAmount);
 					BufferedWriter bw = null;
 					try {
 						bw = new BufferedWriter(new FileWriter("logs/spawnlog.txt", true));
@@ -656,7 +526,7 @@ public class CommandHandler {
 
 		if(command.startsWith("music"))
 		{
-			c.setmusictab();
+			c.getFrameMethodHandler().setmusictab();
 		}
 
 		if(command.startsWith("banuser") && (c.playerRights >= 2 || c.debugmode))
@@ -665,7 +535,7 @@ public class CommandHandler {
 			PlayerHandler.kickNick = victim;
 			System.out.println("Admin:"+c.playerName+" is banning "+victim);
 			c.sendMessage("Player "+victim+" successfully banned");
-			c.appendToBanned(victim);
+			c.getFileLoadingHandler().appendToBanned(victim);
 			BufferedWriter bw = null;
 
 			try {
@@ -691,8 +561,8 @@ public class CommandHandler {
 			PlayerHandler.kickNick = otherPName;
 			System.out.println("Admin: "+c.playerName+" is ip banning "+otherPName);
 			c.sendMessage("Player "+otherPName+" successfully ip banned");
-			c.appendToBanned(otherPName);
-			c.appendToBannedIps(otherPName);
+			c.getFileLoadingHandler().appendToBanned(otherPName);
+			c.getFileLoadingHandler().appendToBannedIps(otherPName);
 			BufferedWriter bw = null;
 
 			try {
@@ -743,7 +613,7 @@ public class CommandHandler {
 			PlayerHandler.kickNick = victim;
 			System.out.println("Admin:"+c.playerName+" is warning "+victim);
 			c.sendMessage("Player "+victim+" successfully given macro warning");
-			c.appendToMacroWarn(victim);
+			c.getFileLoadingHandler().appendToMacroWarn(victim);
 			BufferedWriter bw = null;
 
 			try {
@@ -797,20 +667,20 @@ public class CommandHandler {
 		}
 
 		if (command.startsWith("empty") && c.playerRights >= 1)
-			c.removeAllItems();
+			c.getInventoryHandler().removeAllItems();
 
 		if (command.equalsIgnoreCase("players"))
-			c.playerMenuFrames();
+			c.getFrameMethodHandler().playerMenuFrames();
 
 
 		else if (command.equalsIgnoreCase("status")) 
-			c.Menu(c.menuHandler.BarrowsHelp());
+			c.getFrameMethodHandler().Menu(c.getMenuHandler().BarrowsHelp());
 
 		else if (command.equalsIgnoreCase("stats")) 
-			c.Menu(c.menuHandler.Stats2());
+			c.getFrameMethodHandler().Menu(c.getMenuHandler().Stats2());
 
 		else if (command.equalsIgnoreCase("rules")) 
-			c.menu(c.menuHandler.Rules());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().Rules());
 
 		if (command.startsWith("xteletome") && (c.playerRights >= 1)) {
 			String otherPName = command.substring(10);
@@ -843,7 +713,7 @@ public class CommandHandler {
 
 
 		if(command.startsWith("effects")){
-			c.menu("@gre@Current Effects","","",
+			c.getFrameMethodHandler().menu("@gre@Current Effects","","",
 					"Protect From Mage : "+c.PMage,
 					"Protect From Range : "+c.PRange,
 					"Protect From Melee : "+c.PMelee,
@@ -854,7 +724,7 @@ public class CommandHandler {
 		}
 
 		if (command.startsWith("ctele") && command.length() > 6 && c.playerRights >= 1) {
-			c.loadCoords("Coords.cfg",command.substring(6));
+			c.getFileLoadingHandler().loadCoords("Coords.cfg",command.substring(6));
 		}
 		
 		if (c.playerRights >= 1) {
@@ -872,7 +742,7 @@ public class CommandHandler {
 				c.sendMessage("You kicked "+command.substring(5));
 				System.out.println("Admin/Mod:"+c.playerName+" is kicking "+command.substring(5));;
 			} else if(command.startsWith("char")) {
-				c.showInterface(3559);
+				c.getFrameMethodHandler().showInterface(3559);
 			} else if (command.startsWith("kick")) {
 				try {
 					PlayerHandler.kickNick = command.substring(5);

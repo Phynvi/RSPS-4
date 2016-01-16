@@ -13,14 +13,14 @@ public class Firemaking
 		if (c.playerLevel[11] >= findLvl(logID))
 		{
 			fires.add(new FireObjects(findTime(logID), ((int)(findTime(logID)+(c.getLevelForXP(c.playerXP[11])*.42))), c.absX, c.absY, c.playerId));
-			c.addSkillXP(findXP(logID), 11);
+			c.getClientMethodHandler().addSkillXP(findXP(logID), 11);
 			fire(2732, fires.size()-1);
-			c.sendMessage("You light the "+c.getItemName(logID)+".");
-			c.deleteItem(logID, c.getItemSlot(logID), 1);
+			c.sendMessage("You light the "+Item.getItemName(logID)+".");
+			c.getInventoryHandler().deleteItem(logID, c.getInventoryHandler().getItemSlot(logID), 1);
 			c.startAnimation(733);
 		}
 		else
-			c.sendMessage("You need level "+findLvl(logID)+"+ firemaking to burn "+c.getItemName(logID)+".");
+			c.sendMessage("You need level "+findLvl(logID)+"+ firemaking to burn "+Item.getItemName(logID)+".");
 	}
 	
 
@@ -49,7 +49,7 @@ public class Firemaking
 				if (person.playerName != null || person.playerName != "null")
 				{
 					if (person.distanceToPoint(fires.get(position).getCoords()[0], fires.get(position).getCoords()[1]) <= 60)
-						person.createNewTileObject(fires.get(position).getCoords()[0], fires.get(position).getCoords()[1], fireID, 1, 10);
+						person.getFrameMethodHandler().createNewTileObject(fires.get(position).getCoords()[0], fires.get(position).getCoords()[1], fireID, 1, 10);
 				}
 			}
 		}

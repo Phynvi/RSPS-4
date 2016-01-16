@@ -92,10 +92,10 @@ public class Crafting {
 	public boolean craftingvoid(int level, int delete, int delete2, int add) {
 		if(playerClient.playerLevel[12] >= level) {
 			playerClient.startAnimation(885);
-			playerClient.deleteItem(delete, playerClient.getItemSlot(delete), 1);
-			playerClient.deleteItem(delete2, playerClient.getItemSlot(delete2), 1);
-			playerClient.addItem(add, 1);
-			playerClient.addSkillXP(playerClient.playerLevel[12]*6*playerClient.rate, 12);
+			playerClient.getInventoryHandler().deleteItem(delete, playerClient.getInventoryHandler().getItemSlot(delete), 1);
+			playerClient.getInventoryHandler().deleteItem(delete2, playerClient.getInventoryHandler().getItemSlot(delete2), 1);
+			playerClient.getInventoryHandler().addItem(add, 1);
+			playerClient.getClientMethodHandler().addSkillXP(playerClient.playerLevel[12]*6*playerClient.rate, 12);
 			return true;
 		} 
 		playerClient.sendMessage("You need a crafting level of "+level+" to do that.");
@@ -106,9 +106,9 @@ public class Crafting {
 	public boolean craftingvoid(int level, int delete, int add) {
 		if(playerClient.playerLevel[12] >= level) {
 			playerClient.startAnimation(885);
-			playerClient.deleteItem(delete, playerClient.getItemSlot(delete), 1);
-			playerClient.addItem(add, 1);
-			playerClient.addSkillXP(playerClient.playerLevel[12]*6*playerClient.rate, 12);
+			playerClient.getInventoryHandler().deleteItem(delete, playerClient.getInventoryHandler().getItemSlot(delete), 1);
+			playerClient.getInventoryHandler().addItem(add, 1);
+			playerClient.getClientMethodHandler().addSkillXP(playerClient.playerLevel[12]*6*playerClient.rate, 12);
 			return true;
 		} 
 		playerClient.sendMessage("You need a crafting level of "+level+" to do that.");

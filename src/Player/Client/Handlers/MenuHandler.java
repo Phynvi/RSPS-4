@@ -22,7 +22,7 @@ public class MenuHandler {
 
 
 	public static String ancients2finished(){
-		return("Dwarf Problems II####@gre@QUEST COMPLETED!#@bla@You receive:#200,000 Magic EXP#Ability to convert to ancient magics#by having the Staff equipped.#");
+		return("Dwarf Problems II####@gre@QUEc.ST COMPLETED!#@bla@You receive:#200,000 Magic EXP#Ability to convert to ancient magics#by having the Staff equipped.#");
 	}
 
 	public static String ancientsfinished(){
@@ -386,7 +386,7 @@ public class MenuHandler {
 			return("Dwarf Problems II####I have started this quest.##My objective is to destory#a black demon accidentally awoken.#");
 
 		if (c.ancients == 12)
-			return("Dwarf Problems II####QUEST COMPLETED!##I now have the ability to use ancient magics#by equipping the Staff, which will#convert my normal magics spellbook to ancient#magics while it is equipped.#");
+			return("Dwarf Problems II####QUEc.ST COMPLETED!##I now have the ability to use ancient magics#by equipping the Staff, which will#convert my normal magics spellbook to ancient#magics while it is equipped.#");
 
 		return "";
 	}
@@ -399,7 +399,7 @@ public class MenuHandler {
 			return("Dwarf Problems I####I Have started this quest.#");
 
 		if (c.ancients >= 8)
-			return("Dwarf Problems I####QUEST COMPLETED!#");	
+			return("Dwarf Problems I####QUEc.ST COMPLETED!#");	
 
 		return "";	
 	}
@@ -519,147 +519,147 @@ public class MenuHandler {
 	}
 
 
-	/*QUEST VOIDS*/
+	/*QUEc.ST VOIDS*/
 	public void questMenus()
 	{
-		/* QUEST 1 */
-		if(questid == 1)
+		/* QUEc.ST 1 */
+		if(c.questid == 1)
 		{
-			if(wb == 0)
+			if(c.wb == 0)
 			{
-				loadquestsFrame("Witch's Brew", "I can start this quest by talking to the", "ghost villager near the barrow tombs.", "Requirements:", "Must have completed Bandit Trouble", "50 Crafting", "50 Agility", "30 Thieving", "60 Strength", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "I can start this quest by talking to the", "ghost villager near the barrow tombs.", "Requirements:", "Must have completed Bandit Trouble", "50 Crafting", "50 Agility", "30 Thieving", "60 Strength", "");
 			}
-			if(wb == 1)
+			if(c.wb == 1)
 			{
-				loadquestsFrame("Witch's Brew", "The ghost has told me to go to his", "friend Aggie, she lives", "in a house on the east side of the slayer house", "which is at the northern tip of", "Morytania, north of Canifis.", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "The ghost has told me to go to his", "friend Aggie, she lives", "in a house on the east side of the slayer house", "which is at the northern tip of", "Morytania, north of Canifis.", "", "", "", "");
 			}
-			if(wb == 2)
+			if(c.wb == 2)
 			{
-				loadquestsFrame("Witch's Brew", "The witch has given me a book", "containing a list of ingredients", "that I need to gather.", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "The witch has given me a book", "containing a list of ingredients", "that I need to gather.", "", "", "", "", "", "");
 			}
-			if(wb == 3)
+			if(c.wb == 3)
 			{
-				loadquestsFrame("Witch's Brew", "I have read the book, I must collect:", "Swamp Tar from the trader in Mort'ton", "Cut Diamond", "Raw Mackerel from the Fisherman who is far south", "of Port Sarim.", "An empty vial", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "I have read the book, I must collect:", "Swamp Tar from the trader in Mort'ton", "Cut Diamond", "Raw Mackerel from the Fisherman who is far south", "of Port Sarim.", "An empty vial", "", "", "");
 			}
-			if(wb == 4)
+			if(c.wb == 4)
 			{
-				loadquestsFrame("Witch's Brew", "Nora has given me a special mix,", "after I drink it I should talk to her again.", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "Nora has given me a special mix,", "after I drink it I should talk to her again.", "", "", "", "", "", "", "");
 			}
-			if(wb == 5)
+			if(c.wb == 5)
 			{
-				loadquestsFrame("Witch's Brew", "I have been instructed to steal", "a fire orb from the tombs below the Mausoleum", " east of her house. I can get inside", " by pushing aside the Memorial.", "The fire orb is in a chest somewhere", "within the tombs.", "From past experience a guard might", "be looking over it.", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "I have been instructed to steal", "a fire orb from the tombs below the Mausoleum", " east of her house. I can get inside", " by pushing aside the Memorial.", "The fire orb is in a chest somewhere", "within the tombs.", "From past experience a guard might", "be looking over it.", "");
 			}
-			if(wb == 6)
+			if(c.wb == 6)
 			{
-				loadquestsFrame("Witch's Brew", "QUEST COMPLETE!", "", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "QUEc.ST COMPLETE!", "", "", "", "", "", "", "", "");
 			}
 		}
-		else if(questid == 2)
+		else if(c.questid == 2)
 		{
-			if(easterevent == 0)
+			if(c.easterevent == 0)
 			{
-				loadquestsFrame("Bandit Trouble", "I can start this quest by talking to the Old Man in Mort'ton", "No requirements.", "High prayer recommended", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "I can start this quest by talking to the Old Man in Mort'ton", "No requirements.", "High prayer recommended", "", "", "", "", "", "");
 			}
-			if(easterevent == 1)
+			if(c.easterevent == 1)
 			{
-				loadquestsFrame("Bandit Trouble", "I have to ask around to see what the trouble is.", "", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "I have to ask around to see what the trouble is.", "", "", "", "", "", "", "", "");
 			}
-			if(eastergift == 2)
+			if(c.eastergift == 2)
 			{
-				loadquestsFrame("Bandit Trouble", "Now I must go to the bandits hideout and get the", "Ghost's Head. I can get in by using bones", "on the Broken Fire Altar north of Mort'ton.", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "Now I must go to the bandits hideout and get the", "Ghost's Head. I can get in by using bones", "on the Broken Fire Altar north of Mort'ton.", "", "", "", "", "", "");
 			}
-			if(eastergift == 3)
+			if(c.eastergift == 3)
 			{
-				loadquestsFrame("Bandit Trouble", "Now I must return the Ghost's Head to", "the gardener ghost.", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "Now I must return the Ghost's Head to", "the gardener ghost.", "", "", "", "", "", "", "");
 			}
-			if(eastergift == 1)
+			if(c.eastergift == 1)
 			{
-				loadquestsFrame("Bandit Trouble", "I was told by Horacio to talk to the gardener ghost", "with the Talisman in my inventory. The ghost is", "north of Mort'ton by the broken fire altar.", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "I was told by Horacio to talk to the gardener ghost", "with the Talisman in my inventory. The ghost is", "north of Mort'ton by the broken fire altar.", "", "", "", "", "", "");
 			}
-			if(eastergift == 4)
+			if(c.eastergift == 4)
 			{
-				loadquestsFrame("Bandit Trouble", "QUEST COMPLETED!", "", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "QUEc.ST COMPLETED!", "", "", "", "", "", "", "", "");
 			}
 		}
 
 		//npc is 220 for fishing king
 
-		else if(questid == 3)
+		else if(c.questid == 3)
 		{
-			if(ST == 0)
+			if(c.ST == 0)
 			{
-				loadquestsFrame("The Famous Catch", "I can start this quest by talking to the Fishing King.", "He can be found in Entrana.", "Requirements:", "90 Fishing", "90 Cooking", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I can start this quest by talking to the Fishing King.", "He can be found in Entrana.", "Requirements:", "90 Fishing", "90 Cooking", "", "", "", "");
 			}
-			if(ST == 1)
+			if(c.ST == 1)
 			{
-				loadquestsFrame("The Famous Catch", "The Fishing King told me to obtain magic logs", "and use them with prayer potion(3) to make", "an special potion.", "Once I have done this I should speak with", "him again.", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "The Fishing King told me to obtain magic logs", "and use them with prayer potion(3) to make", "an special potion.", "Once I have done this I should speak with", "him again.", "", "", "", "");
 			}
-			if(ST == 2)
+			if(c.ST == 2)
 			{
-				loadquestsFrame("The Famous Catch", "I was given fish food by the Fish King.", "I must get poison from the Wizard in the Port Sarim", "Tavern and use it on the fish food.", "When I have the poisoned fish food I return", "to the Fishing King for further", "instructions.", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I was given fish food by the Fish King.", "I must get poison from the Wizard in the Port Sarim", "Tavern and use it on the fish food.", "When I have the poisoned fish food I return", "to the Fishing King for further", "instructions.", "", "", "");
 			}
-			if(ST == 3)
+			if(c.ST == 3)
 			{
-				loadquestsFrame("The Famous Catch", "I now must return to the Fish King", "with the Poisoned Fish Food.", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I now must return to the Fish King", "with the Poisoned Fish Food.", "", "", "", "", "", "", "");
 			}
-			if(ST == 4)
+			if(c.ST == 4)
 			{
-				loadquestsFrame("The Famous Catch", "I was instructed to catch a raw sea turtle.", "it can be caught in the fishing area", "on entrana, on the north bank of the river.", "I need to have the poisoned fish", "food and a harpoon in my inventory", "when trying to catch sea turtle.", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I was instructed to catch a raw sea turtle.", "it can be caught in the fishing area", "on entrana, on the north bank of the river.", "I need to have the poisoned fish", "food and a harpoon in my inventory", "when trying to catch sea turtle.", "", "", "");
 			}
-			if(ST == 5)
+			if(c.ST == 5)
 			{
-				loadquestsFrame("The Famous Catch", "I must now cook the Raw Sea Turtle.", "", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I must now cook the Raw Sea Turtle.", "", "", "", "", "", "", "", "");
 			}
-			if(ST == 6)
+			if(c.ST == 6)
 			{
-				loadquestsFrame("The Famous Catch", "QUEST COMPLETED!", "I can now catch Raw Sea Turtle!", "I can now cook Sea Turtle!", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "QUEc.ST COMPLETED!", "I can now catch Raw Sea Turtle!", "I can now cook Sea Turtle!", "", "", "", "", "", "");
 			}
 		}
 
-		else if(questid == 4)
+		else if(c.questid == 4)
 		{
-			if(DH == 0)
+			if(c.DH == 0)
 			{
-				loadquestsFrame("Point Arena Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Varrock Portal", "at Ardougne.", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Point Arena Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Varrock Portal", "at Ardougne.", "", "", "", "", "", "");
 			}
 		}
 
-		else if(questid == 5)
+		else if(c.questid == 5)
 		{
-			if(DH == 0)
+			if(c.DH == 0)
 			{
-				loadquestsFrame("King Black Dragon Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Lumbridge Portal", "at Ardougne.", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("King Black Dragon Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Lumbridge Portal", "at Ardougne.", "", "", "", "", "", "");
 			}
 		}
 
-		else if(questid == 6)
+		else if(c.questid == 6)
 		{
-			if(RM == 0){
-				loadquestsFrame("Rune Mysteries", "No requirements", "I can start this quest by talking to Frumscone", "in the Wizard's Guild in Yanille.", "", "", "", "", "", "");
+			if(c.RM == 0){
+				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "No requirements", "I can start this quest by talking to Frumscone", "in the Wizard's Guild in Yanille.", "", "", "", "", "", "");
 			}
-			else if(RM == 1)
+			else if(c.RM == 1)
 			{
-				loadquestsFrame("Rune Mysteries", "I have been sent by Frumscone", "to deliver the Air Talisman to Brimstail.", "He was last seen wandering around", "near the South entrance of Falador.", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "I have been sent by Frumscone", "to deliver the Air Talisman to Brimstail.", "He was last seen wandering around", "near the South entrance of Falador.", "", "", "", "", "");
 			}
-			else if(RM == 2)
+			else if(c.RM == 2)
 			{
-				loadquestsFrame("Rune Mysteries", "Brimstail has alerted me to report", "back to Frumscone to gather more", "information on the talisman.", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "Brimstail has alerted me to report", "back to Frumscone to gather more", "information on the talisman.", "", "", "", "", "", "");
 			}
-			else if(RM == 3)
+			else if(c.RM == 3)
 			{
-				loadquestsFrame("Rune Mysteries", "Frumscone has given me notes, I now", "must deliver them to Brimstail.", "", "", "", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "Frumscone has given me notes, I now", "must deliver them to Brimstail.", "", "", "", "", "", "", "");
 			}
-			else if(RM == 4)
+			else if(c.RM == 4)
 			{
-				loadquestsFrame("Rune Mysteries", "QUEST COMPLETED!", "I can now mine Rune Essence!", "", "I can speak to Brimstail to teleport", "to the rune essence this.MINE.", "", "", "", "");
+				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "QUEc.ST COMPLETED!", "I can now mine Rune Essence!", "", "I can speak to Brimstail to teleport", "to the rune essence this.MINE.", "", "", "", "");
 			}
 		}
 
 	}
 
 	public void playersOnlineMenu(){
-		sendQuest("Players Online: "+PlayerHandler.getPlayerCount(), 174);
-		sendQuest(""+PlayerHandler.getPlayerCount()+"", 18802);
+		c.getFrameMethodHandler().sendQuest("Players Online: "+PlayerHandler.getPlayerCount(), 174);
+		c.getFrameMethodHandler().sendQuest(""+PlayerHandler.getPlayerCount()+"", 18802);
 	}
 	
 	

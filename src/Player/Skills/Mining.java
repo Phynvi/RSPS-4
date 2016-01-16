@@ -89,7 +89,7 @@ public class Mining {
 			playerClient.sendMessage("You must have a pick axe, which you can use, to mine this.");
 			return;
 		}
-		if (playerClient.freeSlots() < 1){
+		if (playerClient.getInventoryHandler().freeSlots() < 1){
 			playerClient.sendMessage("Your inventory is full.");
 			return;
 		}
@@ -194,19 +194,19 @@ public class Mining {
 	}
 	
 	public void deliverOre(){
-		if (playerClient.freeSlots() < 1){
+		if (playerClient.getInventoryHandler().freeSlots() < 1){
 			playerClient.sendMessage("Your inventory is full.");
 			this.stopAll();
 			return;
 		}
-		if(misc.random(19) == 0 && playerClient.freeSlots() >= 2){ //5% chance of finding a gem
-			playerClient.addItem(playerClient.DROPHANDLER.getDrop(DropList.gems),1);
+		if(misc.random(19) == 0 && playerClient.getInventoryHandler().freeSlots() >= 2){ //5% chance of finding a gem
+			playerClient.getInventoryHandler().addItem(playerClient.DROPHANDLER.getDrop(DropList.gems),1);
 			playerClient.sendMessage("You find a gem.");
 		}
-		playerClient.addSkillXP(getMiningEXP()*playerClient.rate, 14);
-		playerClient.addItem(getOreType(),1);
+		playerClient.getClientMethodHandler().addSkillXP(getMiningEXP()*playerClient.rate, 14);
+		playerClient.getInventoryHandler().addItem(getOreType(),1);
 		this.list.getCurrent()._numOre -= 1;
-		if(playerClient.freeSlots() == 0)
+		if(playerClient.getInventoryHandler().freeSlots() == 0)
 			this.stopAll();
 	}
 	
@@ -359,7 +359,7 @@ public class Mining {
 	public int hasPick(){
 		for(int i = 0; i < validPicks.length; i++){
 			int pickID = validPicks[i];
-			if (playerClient.playerHasItem(pickID) || playerClient.playerEquipment[playerClient.playerWeapon] == pickID){
+			if (playerClient.getInventoryHandler().playerHasItem(pickID) || playerClient.playerEquipment[playerClient.playerWeapon] == pickID){
 				if(canWieldPick(pickID)){
 					return pickID;
 				}

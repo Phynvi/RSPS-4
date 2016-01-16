@@ -9,239 +9,233 @@ public class MagicDataHandler {
 	
 	public void magicOnItems(int castSpell, int castOnItem, int castOnSlot){
 
-		int alchvaluez = (int)Math.floor(server.itemHandler.GetItemShopValue(castOnItem, 0.75)); // 75% value
+		int alchvaluez = (int)Math.floor(Item.GetItemShopValue(castOnItem, 0.75)); // 75% value
 		
 		if(castSpell == 1162) //Low Alch
 		{
-			if(playerLevel[6] >= 21) 
+			if(c.playerLevel[6] >= 21) 
 			{
-				if((playerHasItemAmount(561, 5) == false) || (playerHasItemAmount(554, 1) == false))
+				if((c.getInventoryHandler().playerHasItemAmount(561, 5) == false) || (c.getInventoryHandler().playerHasItemAmount(554, 1) == false))
 				{
-					sendMessage("You do not have enough runes to cast this spell.");
+					c.sendMessage("You do not have enough runes to cast this spell.");
 				}
-				else if((playerHasItemAmount(561, 5) == true) && (playerHasItemAmount(554, 1) == true))
+				else if((c.getInventoryHandler().playerHasItemAmount(561, 5) == true) && (c.getInventoryHandler().playerHasItemAmount(554, 1) == true))
 				{
 					alchvaluez = (alchvaluez / 4);
-					deleteItem(castOnItem, castOnSlot, 1);				
-					addItem(995, alchvaluez);
-					addSkillXP((45*playerLevel[6]), 6);
-					startAnimation(712);
-					playerGfx(112, 0);
-					newAnimDelay = 4;
-					newAnim = 712;
-					newAnimRequired = true;
-					deleteItem(561,getItemSlot(561), 5);
-					deleteItem(554,getItemSlot(554), 1);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);				
+					c.getInventoryHandler().addItem(995, alchvaluez);
+					c.getClientMethodHandler().addSkillXP((45*c.playerLevel[6]), 6);
+					c.startAnimation(712);
+					c.getFrameMethodHandler().playerGfx(112, 0);
+					c.getInventoryHandler().deleteItem(561,c.getInventoryHandler().getItemSlot(561), 5);
+					c.getInventoryHandler().deleteItem(554,c.getInventoryHandler().getItemSlot(554), 1);
 				} 
 			}
-			else if(playerLevel[6] <= 21) 
+			else if(c.playerLevel[6] <= 21) 
 			{
-				sendMessage("You need at least 21 Magic to cast Low Level Alchemy");
+				c.sendMessage("You need at least 21 Magic to cast Low Level Alchemy");
 			}
 		}
 
 		else if(castSpell == 1178) //High Alch fixed by Joey
 		{
-			if(playerLevel[6] >= 55) 
+			if(c.playerLevel[6] >= 55) 
 			{
-				if((playerHasItemAmount(561, 1) == false) || (playerHasItemAmount(554, 1) == false))
+				if((c.getInventoryHandler().playerHasItemAmount(561, 1) == false) || (c.getInventoryHandler().playerHasItemAmount(554, 1) == false))
 				{
-					sendMessage("NOOB you need 1 nat, 1 fire.");
+					c.sendMessage("NOOB you need 1 nat, 1 fire.");
 				}
-				else if((playerHasItemAmount(561, 1) == true) && (playerHasItemAmount(554, 1) == true))
+				else if((c.getInventoryHandler().playerHasItemAmount(561, 1) == true) && (c.getInventoryHandler().playerHasItemAmount(554, 1) == true))
 				{
 					alchvaluez = (alchvaluez);
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(995, alchvaluez);
-					addSkillXP((80*playerLevel[6]), 6);
-					startAnimation(712);
-					playerGfx(113, 0);
-					newAnimDelay = 6;
-					newAnim = 712;
-					newAnimRequired = true;
-					deleteItem(561,getItemSlot(561), 1);
-					deleteItem(554,getItemSlot(554), 1);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(995, alchvaluez);
+					c.getClientMethodHandler().addSkillXP((80*c.playerLevel[6]), 6);
+					c.startAnimation(712);
+					c.getFrameMethodHandler().playerGfx(113, 0);
+					c.getInventoryHandler().deleteItem(561,c.getInventoryHandler().getItemSlot(561), 1);
+					c.getInventoryHandler().deleteItem(554,c.getInventoryHandler().getItemSlot(554), 1);
 				} 
 			}
-			else if(playerLevel[6] <= 54) 
+			else if(c.playerLevel[6] <= 54) 
 			{
-				sendMessage("You need at least 55 Magic to cast High Level Alchemy");
+				c.sendMessage("You need at least 55 Magic to cast High Level Alchemy");
 			}
 		}
 
 		else if(castSpell == 1155) { //Enchant lvl 1(saph)
-			if(playerLevel[6] >= 7) {
+			if(c.playerLevel[6] >= 7) {
 				if(castOnItem == 1637) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2550, 1);
-					addSkillXP(18, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2550, 1);
+					c.getClientMethodHandler().addSkillXP(18, 6);
 				}
 				else if(castOnItem == 1656) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(3853, 1);
-					addSkillXP(18, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(3853, 1);
+					c.getClientMethodHandler().addSkillXP(18, 6);
 				}
 				else if(castOnItem == 1694) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(1727, 1);
-					addSkillXP(18, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(1727, 1);
+					c.getClientMethodHandler().addSkillXP(18, 6);
 				} else {
-					sendMessage("This needs to be cast on Saphire Jewelry");
+					c.sendMessage("This needs to be cast on Saphire Jewelry");
 				}
 			} else {
-				sendMessage("You need atleast 7 Magic to cast Enchant Lvl-1 Jewelry");
+				c.sendMessage("You need atleast 7 Magic to cast Enchant Lvl-1 Jewelry");
 			}
 		}
 		else if(castSpell == 1165) { //Enchant lvl 2(emme)
-			if(playerLevel[6] >= 27) {
+			if(c.playerLevel[6] >= 27) {
 				if(castOnItem == 1639) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2552, 1);
-					addSkillXP(37, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2552, 1);
+					c.getClientMethodHandler().addSkillXP(37, 6);
 				}
 				else if(castOnItem == 1658) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(5521, 1);
-					addSkillXP(37, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(5521, 1);
+					c.getClientMethodHandler().addSkillXP(37, 6);
 				}
 				else if(castOnItem == 1696) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(1729, 1);
-					addSkillXP(37, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(1729, 1);
+					c.getClientMethodHandler().addSkillXP(37, 6);
 				} else {
-					sendMessage("This needs to be cast on Emerald Jewelry");
+					c.sendMessage("This needs to be cast on Emerald Jewelry");
 				}
 			} else {
-				sendMessage("You need atleast 27 Magic to cast Enchant Lvl-2 Jewelry");
+				c.sendMessage("You need atleast 27 Magic to cast Enchant Lvl-2 Jewelry");
 			}
 		}
 		else if(castSpell == 1176) { //Enchant lvl 3(ruby)
-			if(playerLevel[6] >= 49) {
+			if(c.playerLevel[6] >= 49) {
 				if(castOnItem == 1641) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2568, 1);
-					addSkillXP(59, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2568, 1);
+					c.getClientMethodHandler().addSkillXP(59, 6);
 				}
 				else if(castOnItem == 1698) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(1725, 1);
-					addSkillXP(59, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(1725, 1);
+					c.getClientMethodHandler().addSkillXP(59, 6);
 				} else {
-					sendMessage("This needs to be cast on Ruby Jewelry");
+					c.sendMessage("This needs to be cast on Ruby Jewelry");
 				}
 			} else {
-				sendMessage("You need atleast 49 Magic to cast Enchant Lvl-3 Jewelry");
+				c.sendMessage("You need atleast 49 Magic to cast Enchant Lvl-3 Jewelry");
 			}
 		}
 		else if(castSpell == 1180) { //Enchant lvl 4(diam)
-			if(playerLevel[6] >= 57) {
+			if(c.playerLevel[6] >= 57) {
 				if(castOnItem == 1643) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2570, 1);
-					addSkillXP(67, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2570, 1);
+					c.getClientMethodHandler().addSkillXP(67, 6);
 				}
 				else if(castOnItem == 1700) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(1731, 1);
-					addSkillXP(67, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(1731, 1);
+					c.getClientMethodHandler().addSkillXP(67, 6);
 				} else {
-					sendMessage("This needs to be cast on Diamond Jewelry");
+					c.sendMessage("This needs to be cast on Diamond Jewelry");
 				}
 			} else {
-				sendMessage("You need atleast 57 Magic to cast Enchant Lvl-4 Jewelry");
+				c.sendMessage("You need atleast 57 Magic to cast Enchant Lvl-4 Jewelry");
 			}
 		}
 		else if(castSpell == 1187) { //Enchant lvl 5(drag)
-			if(playerLevel[6] >= 68) {
+			if(c.playerLevel[6] >= 68) {
 				if(castOnItem == 1645) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2572, 1);
-					addSkillXP(78, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2572, 1);
+					c.getClientMethodHandler().addSkillXP(78, 6);
 				}
 				else if(castOnItem == 1702) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(1704, 1);
-					addSkillXP(78, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(1704, 1);
+					c.getClientMethodHandler().addSkillXP(78, 6);
 				} else {
-					sendMessage("This needs to be cast on Dragonstone Jewelry");
+					c.sendMessage("This needs to be cast on Dragonstone Jewelry");
 				}
 			} else {
-				sendMessage("You need atleast 68 Magic to cast Enchant Lvl-5 Jewelry");
+				c.sendMessage("You need atleast 68 Magic to cast Enchant Lvl-5 Jewelry");
 			}
 		}
 		else if(castSpell == 1173) { //Superheat Item
-			if(playerLevel[6] >= 43) {
-				if(castOnItem == 436 && (amountOfItemInInventory(438) >= 1)) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					deleteItem(438, getItemSlot(438), 1);
-					addItem(2349, 1);
-					addSkillXP(53, 6);
+			if(c.playerLevel[6] >= 43) {
+				if(castOnItem == 436 && (c.getInventoryHandler().amountOfItemInInventory(438) >= 1)) {
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().deleteItem(438, c.getInventoryHandler().getItemSlot(438), 1);
+					c.getInventoryHandler().addItem(2349, 1);
+					c.getClientMethodHandler().addSkillXP(53, 6);
 				}
-				else if((castOnItem == 438) && (amountOfItemInInventory(436) >= 1)) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					deleteItem(436, getItemSlot(436), 1);
-					addItem(2349, 1);
-					addSkillXP(53, 6);
+				else if((castOnItem == 438) && (c.getInventoryHandler().amountOfItemInInventory(436) >= 1)) {
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().deleteItem(436, c.getInventoryHandler().getItemSlot(436), 1);
+					c.getInventoryHandler().addItem(2349, 1);
+					c.getClientMethodHandler().addSkillXP(53, 6);
 				}
 				else if(castOnItem == 440) {
-					if(amountOfItemInInventory(453) < 2) {
-						deleteItem(castOnItem, castOnSlot, 1);
-						addItem(2351, 1);
-						addSkillXP(53, 6);
-					} else if(amountOfItemInInventory(453) >= 2) {
-						deleteItem(castOnItem, castOnSlot, 1);
+					if(c.getInventoryHandler().amountOfItemInInventory(453) < 2) {
+						c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+						c.getInventoryHandler().addItem(2351, 1);
+						c.getClientMethodHandler().addSkillXP(53, 6);
+					} else if(c.getInventoryHandler().amountOfItemInInventory(453) >= 2) {
+						c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
 						for(int d=0; d<2; d++) {
-							deleteItem(453, getItemSlot(453), 1);
+							c.getInventoryHandler().deleteItem(453, c.getInventoryHandler().getItemSlot(453), 1);
 						}
-						addItem(2353, 1);
-						addSkillXP(53, 6);
-					} else { sendMessage("You need 2 coal to make a steel bar"); }
+						c.getInventoryHandler().addItem(2353, 1);
+						c.getClientMethodHandler().addSkillXP(53, 6);
+					} else { c.sendMessage("You need 2 coal to make a steel bar"); }
 				}
 				else if(castOnItem == 442) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2355, 1);
-					addSkillXP(53, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2355, 1);
+					c.getClientMethodHandler().addSkillXP(53, 6);
 				}
 				else if(castOnItem == 444) {
-					deleteItem(castOnItem, castOnSlot, 1);
-					addItem(2357, 1);
-					addSkillXP(53, 6);
+					c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
+					c.getInventoryHandler().addItem(2357, 1);
+					c.getClientMethodHandler().addSkillXP(53, 6);
 				}
 				else if((castOnItem == 447)) {
-					if(amountOfItemInInventory(453) < 4) { sendMessage("You need 4 coal to make a mith bar");
+					if(c.getInventoryHandler().amountOfItemInInventory(453) < 4) { c.sendMessage("You need 4 coal to make a mith bar");
 					} else {
-						deleteItem(castOnItem, castOnSlot, 1);
+						c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
 						for(int d=0; d<4; d++) {
-							deleteItem(453, getItemSlot(453), 1);
+							c.getInventoryHandler().deleteItem(453, c.getInventoryHandler().getItemSlot(453), 1);
 						}
-						addItem(2359, 1);
-						addSkillXP(53, 6);
+						c.getInventoryHandler().addItem(2359, 1);
+						c.getClientMethodHandler().addSkillXP(53, 6);
 					}
 				}
 				else if((castOnItem == 449)) {
-					if(amountOfItemInInventory(453) < 6) { sendMessage("You need 6 coal to make an addy bar");
+					if(c.getInventoryHandler().amountOfItemInInventory(453) < 6) { c.sendMessage("You need 6 coal to make an addy bar");
 					} else {
-						deleteItem(castOnItem, castOnSlot, 1);
+						c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
 						for(int d=0; d<6; d++) {
-							deleteItem(453, getItemSlot(453), 1);
+							c.getInventoryHandler().deleteItem(453, c.getInventoryHandler().getItemSlot(453), 1);
 						}
-						addItem(2361, 1);
-						addSkillXP(53, 6);
+						c.getInventoryHandler().addItem(2361, 1);
+						c.getClientMethodHandler().addSkillXP(53, 6);
 					}
 				}
 				else if((castOnItem == 451)) {
-					if(amountOfItemInInventory(453) < 8) { sendMessage("You need 8 coal to make a rune bar");
+					if(c.getInventoryHandler().amountOfItemInInventory(453) < 8) { c.sendMessage("You need 8 coal to make a rune bar");
 					} else {
-						deleteItem(castOnItem, castOnSlot, 1);
+						c.getInventoryHandler().deleteItem(castOnItem, castOnSlot, 1);
 						for(int d=0; d<8; d++) {
-							deleteItem(453, getItemSlot(453), 1);
+							c.getInventoryHandler().deleteItem(453, c.getInventoryHandler().getItemSlot(453), 1);
 						}
-						addItem(2363, 1);
-						addSkillXP(53, 6);
+						c.getInventoryHandler().addItem(2363, 1);
+						c.getClientMethodHandler().addSkillXP(53, 6);
 					}
 				}
 			} else {
-				sendMessage("You need atleast 43 Magic to cast Superheat Item");
+				c.sendMessage("You need atleast 43 Magic to cast Superheat Item");
 			}
 		}
 	}
@@ -585,7 +579,7 @@ public class MagicDataHandler {
 		}
 		//Fires Projectile
 		if(c.cast == true && c.fired == false && c.actionTimer <= 0) {
-			c.createProjectile(casterY, casterX, offsetY, offsetX, angle, speed, movegfxID, startHeight, endHeight, Lockon);
+			c.getFrameMethodHandler().createProjectile(casterY, casterX, offsetY, offsetX, angle, speed, movegfxID, startHeight, endHeight, Lockon);
 			c.fired = true;
 		}
 		//Finishes Spell
@@ -982,7 +976,7 @@ public class MagicDataHandler {
 					!(rune == FIRE && (curStaff == 1387 || curStaff == 1393 || curStaff == 1401)) &&
 					!(rune == EARTH && (curStaff == 1385 || curStaff == 1399 || curStaff == 1407)) &&
 					!(rune == AIR && (curStaff == 1381 || curStaff == 1397 || curStaff == 1405)) ){
-				if(!c.playerHasItemAmount(amountThenItem[i+1], amountThenItem[i])){
+				if(!c.getInventoryHandler().playerHasItemAmount(amountThenItem[i+1], amountThenItem[i])){
 					c.sendMessage("You do not have the required amount of runes to do that.");
 					return false;
 				}

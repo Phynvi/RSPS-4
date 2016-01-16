@@ -26,7 +26,7 @@ public class RespawnObject extends client{
 			
 		this._c = c;
 		this.t = new Timer(1000*s, new ResetObject(ID1, X, Y));
-		this._c.createNewTileObject(X, Y, ID2, 2, 10); 
+		this._c.getFrameMethodHandler().createNewTileObject(X, Y, ID2, 2, 10); 
 
 		this.t.setRepeats(false);
 		this.t.start();
@@ -50,7 +50,7 @@ public class RespawnObject extends client{
 
 		public void actionPerformed(ActionEvent e){		
 			try{
-			_c.createNewTileObject(_X, _Y, _originalID, 2, 10);
+			_c.getFrameMethodHandler().createNewTileObject(_X, _Y, _originalID, 2, 10);
 			done = true;
 			}
 			catch(Exception b){

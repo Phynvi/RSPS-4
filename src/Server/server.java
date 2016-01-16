@@ -101,7 +101,7 @@ public static final String SERVERNAME = "SarimScape";
 			}
 			try {
 				Thread.sleep(cycleTime-timeSpent);
-			} catch(java.lang.Exception _ex) { }
+			} catch(java.lang.Exception _ex) {System.out.println("Could not sleep right?");}
 			lastTicks = System.currentTimeMillis();
 			cycle++;
 			if(cycle % 100 == 0) {

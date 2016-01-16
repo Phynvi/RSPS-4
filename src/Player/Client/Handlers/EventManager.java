@@ -46,7 +46,7 @@ public class EventManager{
 
 			case 0: //Called every minute
 				if(c.PRAY.RapidHeal)
-					c.heal(1);				
+					c.getClientMethodHandler().heal(1);				
 				if(c.homeTeleportTimer > 0)
 					c.homeTeleportTimer -= 1;
 				c.NewHP = (c.playerLevel[c.playerHitpoints] + 1);
@@ -90,7 +90,7 @@ public class EventManager{
 
 				if (c.specialDelay < 10){
 					c.specialDelay += 1;
-					c.getFilling();		
+					c.getFrameMethodHandler().getFilling();		
 				}
 				break;
 
@@ -102,14 +102,13 @@ public class EventManager{
 					if(c.PRAY.RapidHeal && (i != 3 && i != 5)) resAmount = 2; //means rapid restore is on, so ignore HP and prayer
 
 					if(c.playerLevel[i] > c.getLevelForXP(c.playerXP[i]))
-						c.playerLevel[i] -= resAmount;
+						c.playerLevel[i] -= 1;
 
 					if(c.playerLevel[i] < c.getLevelForXP(c.playerXP[i]))
 						c.playerLevel[i] += resAmount;
 
-
 				}
-				c.refreshSkills();
+				c.getFrameMethodHandler().refreshSkills();
 				break;
 
 			case 5: //called every 100ms
@@ -119,7 +118,7 @@ public class EventManager{
 
 			case 6: //called every 3 seconds
 				if (c.prayerAmount > 0){ //prayer
-					int amountToDrain = c.prayerAmount-c.getPlayerPrayerEquipmentBonus()/2;
+					int amountToDrain = c.prayerAmount-c.getCombatHandler().getPlayerPrayerEquipmentBonus()/2;
 					if (amountToDrain < 1) amountToDrain = 1;
 					c.playerLevel[5] -= amountToDrain;
 
@@ -128,7 +127,7 @@ public class EventManager{
 						c.PRAY.disableAllPrayer();
 						c.sendMessage("You have run out of prayer points.");
 					}
-					c.refreshSkills();
+					c.getFrameMethodHandler().refreshSkills();
 				}
 				if(!c.FARM.plantList.isEmpty())	
 					c.FARM.plantList.updateAll();
@@ -136,16 +135,16 @@ public class EventManager{
 
 			case 7: //called every 3 minutes
 				System.out.print(c.playerName+" - Saving Status: ");
-				if(c.savechar()) System.out.print("Character Saved, ");
+				if(c.getFileLoadingHandler().savechar()) System.out.print("Character Saved, ");
 				else System.out.print("Failed to save character,");
 
-				if(c.savemoreinfo()) System.out.print("Character moreinfo saved");
+				if(c.getFileLoadingHandler().savemoreinfo()) System.out.print("Character moreinfo saved");
 				else c.debug(",Failed to save character moreinfo");
 				System.out.print("\n");
 				break;
 
 			case 8: //called every 10 minutes
-				if(c.savecharbackup()) c.debug("Character backup saved");
+				if(c.getFileLoadingHandler().savecharbackup()) c.debug("Character backup saved");
 				else c.debug("Failed to save character backup");
 				break;
 

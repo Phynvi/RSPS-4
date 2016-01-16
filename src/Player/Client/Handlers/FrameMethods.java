@@ -11,9 +11,15 @@ public class FrameMethods {
 			12220, 12221, 12222, 12223
 	};
 
+	private stream outStream = null;
 	private client c = null;
+	
 	public FrameMethods(client pc){
 		this.c = pc;
+	}
+	
+	public void setOutStream(stream s){
+		this.outStream = s;
 	}
 
 	public void sendQuest(String s, int id)
@@ -512,7 +518,6 @@ public class FrameMethods {
 	}	
 
 	public void ReplaceObject(int objectX, int objectY, int NewObjectID, int Face) {
-		stream outStream = outStream;
 		outStream.createFrameVarSizeWord(60);
 		outStream.writeByte(objectY - (c.mapRegionY * 8));
 		outStream.writeByteC(objectX - (c.mapRegionX * 8));
@@ -559,7 +564,6 @@ public class FrameMethods {
 	}
 
 	public void ReplaceObject2(int objectX, int objectY, int NewObjectID, int Face, int ObjectType) {
-		stream outStream = outStream;
 		outStream.createFrame(85);
 		outStream.writeByteC(objectY - (c.mapRegionY * 8));
 		outStream.writeByteC(objectX - (c.mapRegionX * 8));
@@ -580,92 +584,90 @@ public class FrameMethods {
 
 
 	public void setSkillLevel(int skillNum, int currentLevel, int XP) {
-		int[] playerLevel = c.playerLevel;
-		int[] playerXP = c.playerXP;
 
 		if(skillNum == 0) {
-			sendQuest(""+playerLevel[0]+"", 4004);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[0])+"", 4005);
+			sendQuest(""+c.playerLevel[0]+"", 4004);
+			sendQuest(""+c.getLevelForXP(c.playerXP[0])+"", 4005);
 		}
 		if(skillNum == 2) {
-			sendQuest(""+playerLevel[2]+"", 4006);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[2])+"", 4007);
+			sendQuest(""+c.playerLevel[2]+"", 4006);
+			sendQuest(""+c.getLevelForXP(c.playerXP[2])+"", 4007);
 		}
 		if(skillNum == 1) {
-			sendQuest(""+playerLevel[1]+"", 4008);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[1])+"", 4009);
+			sendQuest(""+c.playerLevel[1]+"", 4008);
+			sendQuest(""+c.getLevelForXP(c.playerXP[1])+"", 4009);
 		}
 		if(skillNum == 4) {
-			sendQuest(""+playerLevel[4]+"", 4010);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[4])+"", 4011);
+			sendQuest(""+c.playerLevel[4]+"", 4010);
+			sendQuest(""+c.getLevelForXP(c.playerXP[4])+"", 4011);
 		}
 		if(skillNum == 5) {
-			sendQuest(""+playerLevel[5]+"", 4012);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[5])+"", 4013);
+			sendQuest(""+c.playerLevel[5]+"", 4012);
+			sendQuest(""+c.getLevelForXP(c.playerXP[5])+"", 4013);
 		}
 		if(skillNum == 6) {
-			sendQuest(""+playerLevel[6]+"", 4014);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[6])+"", 4015);
+			sendQuest(""+c.playerLevel[6]+"", 4014);
+			sendQuest(""+c.getLevelForXP(c.playerXP[6])+"", 4015);
 		}
 		if(skillNum == 3) {
-			sendQuest(""+playerLevel[3]+"", 4016);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[3])+"", 4017);
+			sendQuest(""+c.playerLevel[3]+"", 4016);
+			sendQuest(""+c.getLevelForXP(c.playerXP[3])+"", 4017);
 		}
 		if(skillNum == 16) {
-			sendQuest(""+playerLevel[16]+"", 4018);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[16])+"", 4019);
+			sendQuest(""+c.playerLevel[16]+"", 4018);
+			sendQuest(""+c.getLevelForXP(c.playerXP[16])+"", 4019);
 		}
 		if(skillNum == 15) {
-			sendQuest(""+playerLevel[15]+"", 4020);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[15])+"", 4021);
+			sendQuest(""+c.playerLevel[15]+"", 4020);
+			sendQuest(""+c.getLevelForXP(c.playerXP[15])+"", 4021);
 		}
 		if(skillNum == 17) {
-			sendQuest(""+playerLevel[17]+"", 4022);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[17])+"", 4023);
+			sendQuest(""+c.playerLevel[17]+"", 4022);
+			sendQuest(""+c.getLevelForXP(c.playerXP[17])+"", 4023);
 		}
 		if(skillNum == 12) {
-			sendQuest(""+playerLevel[12]+"", 4024);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[12])+"", 4025);
+			sendQuest(""+c.playerLevel[12]+"", 4024);
+			sendQuest(""+c.getLevelForXP(c.playerXP[12])+"", 4025);
 		}
 		if(skillNum == 9) {
-			sendQuest(""+playerLevel[9]+"", 4026);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[9])+"", 4027);
+			sendQuest(""+c.playerLevel[9]+"", 4026);
+			sendQuest(""+c.getLevelForXP(c.playerXP[9])+"", 4027);
 		}
 		if(skillNum == 14) {
-			sendQuest(""+playerLevel[14]+"", 4028);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[14])+"", 4029);
+			sendQuest(""+c.playerLevel[14]+"", 4028);
+			sendQuest(""+c.getLevelForXP(c.playerXP[14])+"", 4029);
 		}
 		if(skillNum == 13) {
-			sendQuest(""+playerLevel[13]+"", 4030);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[13])+"", 4031);
+			sendQuest(""+c.playerLevel[13]+"", 4030);
+			sendQuest(""+c.getLevelForXP(c.playerXP[13])+"", 4031);
 		}
 		if(skillNum == 10) {
-			sendQuest(""+playerLevel[10]+"", 4032);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[10])+"", 4033);
+			sendQuest(""+c.playerLevel[10]+"", 4032);
+			sendQuest(""+c.getLevelForXP(c.playerXP[10])+"", 4033);
 		}
 		if(skillNum == 7) {
-			sendQuest(""+playerLevel[7]+"", 4034);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[7])+"", 4035);
+			sendQuest(""+c.playerLevel[7]+"", 4034);
+			sendQuest(""+c.getLevelForXP(c.playerXP[7])+"", 4035);
 		}
 		if(skillNum == 11) {
-			sendQuest(""+playerLevel[11]+"", 4036);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[11])+"", 4037);
+			sendQuest(""+c.playerLevel[11]+"", 4036);
+			sendQuest(""+c.getLevelForXP(c.playerXP[11])+"", 4037);
 		}
 		if(skillNum == 8) {
-			sendQuest(""+playerLevel[8]+"", 4038);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[8])+"", 4039);
+			sendQuest(""+c.playerLevel[8]+"", 4038);
+			sendQuest(""+c.getLevelForXP(c.playerXP[8])+"", 4039);
 		}
 		if(skillNum == 20) {
-			sendQuest(""+playerLevel[20]+"", 4152);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[20])+"", 4153);
+			sendQuest(""+c.playerLevel[20]+"", 4152);
+			sendQuest(""+c.getLevelForXP(c.playerXP[20])+"", 4153);
 		}
 		if(skillNum == 18) {
-			sendQuest(""+playerLevel[18]+"", 12166);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[18])+"", 12167);
+			sendQuest(""+c.playerLevel[18]+"", 12166);
+			sendQuest(""+c.getLevelForXP(c.playerXP[18])+"", 12167);
 		}
 		if(skillNum == 19) {
-			sendQuest(""+playerLevel[19]+"", 13926);
-			sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[19])+"", 13927);
+			sendQuest(""+c.playerLevel[19]+"", 13926);
+			sendQuest(""+c.getLevelForXP(c.playerXP[19])+"", 13927);
 		}
 		else {
 			outStream.createFrame(134);
@@ -676,77 +678,75 @@ public class FrameMethods {
 	}
 
 	public void refreshSkills() {
-		int[] playerLevel = c.playerLevel;
-		int[] playerXP = c.playerXP;
 
-		sendQuest("Prayer: "+playerLevel[5]+"/"+c.getClientMethodHandler().getLevelForXP(playerXP[5])+"", 687);//Prayer frame
+		sendQuest("Prayer: "+c.playerLevel[5]+"/"+c.getLevelForXP(c.playerXP[5])+"", 687);//Prayer frame
 		//sendQuest("testing this field length to see how much it can hold", 687);
 
-		sendQuest(""+playerLevel[0]+"", 4004);
-		sendQuest(""+playerLevel[2]+"", 4006);
-		sendQuest(""+playerLevel[1]+"", 4008);
-		sendQuest(""+playerLevel[4]+"", 4010);
-		sendQuest(""+playerLevel[5]+"", 4012);
-		sendQuest(""+playerLevel[6]+"", 4014);
-		sendQuest(""+playerLevel[3]+"", 4016);
-		sendQuest(""+playerLevel[16]+"", 4018);
-		sendQuest(""+playerLevel[15]+"", 4020);
-		sendQuest(""+playerLevel[17]+"", 4022);
-		sendQuest(""+playerLevel[12]+"", 4024);
-		sendQuest(""+playerLevel[9]+"", 4026);
-		sendQuest(""+playerLevel[14]+"", 4028);
-		sendQuest(""+playerLevel[13]+"", 4030);
-		sendQuest(""+playerLevel[10]+"", 4032);
-		sendQuest(""+playerLevel[7]+"", 4034);
-		sendQuest(""+playerLevel[11]+"", 4036);
-		sendQuest(""+playerLevel[8]+"", 4038);
-		sendQuest(""+playerLevel[20]+"", 4152);
-		sendQuest(""+playerLevel[18]+"", 12166);
-		sendQuest(""+playerLevel[19]+"", 13926);
+		sendQuest(""+c.playerLevel[0]+"", 4004);
+		sendQuest(""+c.playerLevel[2]+"", 4006);
+		sendQuest(""+c.playerLevel[1]+"", 4008);
+		sendQuest(""+c.playerLevel[4]+"", 4010);
+		sendQuest(""+c.playerLevel[5]+"", 4012);
+		sendQuest(""+c.playerLevel[6]+"", 4014);
+		sendQuest(""+c.playerLevel[3]+"", 4016);
+		sendQuest(""+c.playerLevel[16]+"", 4018);
+		sendQuest(""+c.playerLevel[15]+"", 4020);
+		sendQuest(""+c.playerLevel[17]+"", 4022);
+		sendQuest(""+c.playerLevel[12]+"", 4024);
+		sendQuest(""+c.playerLevel[9]+"", 4026);
+		sendQuest(""+c.playerLevel[14]+"", 4028);
+		sendQuest(""+c.playerLevel[13]+"", 4030);
+		sendQuest(""+c.playerLevel[10]+"", 4032);
+		sendQuest(""+c.playerLevel[7]+"", 4034);
+		sendQuest(""+c.playerLevel[11]+"", 4036);
+		sendQuest(""+c.playerLevel[8]+"", 4038);
+		sendQuest(""+c.playerLevel[20]+"", 4152);
+		sendQuest(""+c.playerLevel[18]+"", 12166);
+		sendQuest(""+c.playerLevel[19]+"", 13926);
 
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[0])+"", 4005);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[2])+"", 4007);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[1])+"", 4009);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[4])+"", 4011);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[5])+"", 4013);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[6])+"", 4015);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[3])+"", 4017);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[16])+"", 4019);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[15])+"", 4021);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[17])+"", 4023);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[12])+"", 4025);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[9])+"", 4027);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[14])+"", 4029);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[13])+"", 4031);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[10])+"", 4033);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[7])+"", 4035);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[11])+"", 4037);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[8])+"", 4039);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[20])+"", 4153);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[18])+"", 12167);
-		sendQuest(""+c.getClientMethodHandler().getLevelForXP(playerXP[19])+"", 13927);
+		sendQuest(""+c.getLevelForXP(c.playerXP[0])+"", 4005);
+		sendQuest(""+c.getLevelForXP(c.playerXP[2])+"", 4007);
+		sendQuest(""+c.getLevelForXP(c.playerXP[1])+"", 4009);
+		sendQuest(""+c.getLevelForXP(c.playerXP[4])+"", 4011);
+		sendQuest(""+c.getLevelForXP(c.playerXP[5])+"", 4013);
+		sendQuest(""+c.getLevelForXP(c.playerXP[6])+"", 4015);
+		sendQuest(""+c.getLevelForXP(c.playerXP[3])+"", 4017);
+		sendQuest(""+c.getLevelForXP(c.playerXP[16])+"", 4019);
+		sendQuest(""+c.getLevelForXP(c.playerXP[15])+"", 4021);
+		sendQuest(""+c.getLevelForXP(c.playerXP[17])+"", 4023);
+		sendQuest(""+c.getLevelForXP(c.playerXP[12])+"", 4025);
+		sendQuest(""+c.getLevelForXP(c.playerXP[9])+"", 4027);
+		sendQuest(""+c.getLevelForXP(c.playerXP[14])+"", 4029);
+		sendQuest(""+c.getLevelForXP(c.playerXP[13])+"", 4031);
+		sendQuest(""+c.getLevelForXP(c.playerXP[10])+"", 4033);
+		sendQuest(""+c.getLevelForXP(c.playerXP[7])+"", 4035);
+		sendQuest(""+c.getLevelForXP(c.playerXP[11])+"", 4037);
+		sendQuest(""+c.getLevelForXP(c.playerXP[8])+"", 4039);
+		sendQuest(""+c.getLevelForXP(c.playerXP[20])+"", 4153);
+		sendQuest(""+c.getLevelForXP(c.playerXP[18])+"", 12167);
+		sendQuest(""+c.getLevelForXP(c.playerXP[19])+"", 13927);
 
-		sendQuest(""+playerXP[0]+"", 4044);
-		sendQuest(""+playerXP[2]+"", 4050);
-		sendQuest(""+playerXP[1]+"", 4056);
-		sendQuest(""+playerXP[4]+"", 4062);
-		sendQuest(""+playerXP[5]+"", 4068);
-		sendQuest(""+playerXP[6]+"", 4074);
-		sendQuest(""+playerXP[3]+"", 4080);
-		sendQuest(""+playerXP[16]+"", 4086);
-		sendQuest(""+playerXP[15]+"", 4092);
-		sendQuest(""+playerXP[17]+"", 4098);
-		sendQuest(""+playerXP[12]+"", 4104);
-		sendQuest(""+playerXP[9]+"", 4110);
-		sendQuest(""+playerXP[14]+"", 4116);
-		sendQuest(""+playerXP[13]+"", 4122);
-		sendQuest(""+playerXP[10]+"", 4128);
-		sendQuest(""+playerXP[7]+"", 4134);
-		sendQuest(""+playerXP[11]+"", 4140);
-		sendQuest(""+playerXP[8]+"", 4146);
-		sendQuest(""+playerXP[20]+"", 4157);
-		sendQuest(""+playerXP[18]+"", 12171);
-		sendQuest(""+playerXP[19]+"", 13921);
+		sendQuest(""+c.playerXP[0]+"", 4044);
+		sendQuest(""+c.playerXP[2]+"", 4050);
+		sendQuest(""+c.playerXP[1]+"", 4056);
+		sendQuest(""+c.playerXP[4]+"", 4062);
+		sendQuest(""+c.playerXP[5]+"", 4068);
+		sendQuest(""+c.playerXP[6]+"", 4074);
+		sendQuest(""+c.playerXP[3]+"", 4080);
+		sendQuest(""+c.playerXP[16]+"", 4086);
+		sendQuest(""+c.playerXP[15]+"", 4092);
+		sendQuest(""+c.playerXP[17]+"", 4098);
+		sendQuest(""+c.playerXP[12]+"", 4104);
+		sendQuest(""+c.playerXP[9]+"", 4110);
+		sendQuest(""+c.playerXP[14]+"", 4116);
+		sendQuest(""+c.playerXP[13]+"", 4122);
+		sendQuest(""+c.playerXP[10]+"", 4128);
+		sendQuest(""+c.playerXP[7]+"", 4134);
+		sendQuest(""+c.playerXP[11]+"", 4140);
+		sendQuest(""+c.playerXP[8]+"", 4146);
+		sendQuest(""+c.playerXP[20]+"", 4157);
+		sendQuest(""+c.playerXP[18]+"", 12171);
+		sendQuest(""+c.playerXP[19]+"", 13921);
 
 	}
 
@@ -844,7 +844,7 @@ public class FrameMethods {
 		for (int i = 0; end != -1; ++i){
 			try{
 				s2 = s.substring(start, end);
-				//println_debug("s2 is : "+s2);
+				//println_c.debug("s2 is : "+s2);
 				sendFrame126(s2, (8144+i));
 			}
 			catch (NullPointerException e){
@@ -1042,7 +1042,7 @@ public class FrameMethods {
 		outStream.writeWordBigEndianA(itemID);
 		outStream.writeWord(itemAmount);
 		outStream.writeByte(0);									// x(4 MSB) y(LSB) coords
-		//System.out.println("CreateGroundItem "+itemID+" "+(itemX - 8 * mapRegionX)+","+(itemY - 8 * mapRegionY)+" "+itemAmount);
+		//System.out.println("CreateGroundItem "+itemID+" "+(itemX - 8 * c.mapRegionX)+","+(itemY - 8 * c.mapRegionY)+" "+itemAmount);
 	}
 
 	public void removeGroundItem(int itemX, int itemY, int itemID) {// Phate: Omg fucking sexy! remoevs an item from absolute X and Y
@@ -1052,7 +1052,7 @@ public class FrameMethods {
 		outStream.createFrame(156);		// Phate: Item Action: Delete
 		outStream.writeByteS(0);		// x(4 MSB) y(LSB) coords
 		outStream.writeWord(itemID);	// Phate: Item ID
-		//	misc.printlnTag("RemoveGroundItem "+itemID+" "+(itemX - 8 * mapRegionX)+","+(itemY - 8 * mapRegionY));
+		//	misc.printlnTag("RemoveGroundItem "+itemID+" "+(itemX - 8 * c.mapRegionX)+","+(itemY - 8 * c.mapRegionY));
 	}
 
 
@@ -1160,8 +1160,8 @@ public class FrameMethods {
 	/*	tileObjectType: 0-3 wall objects, 4-8 wall decoration, 9: diag. walls, 10-11 world objects, 12-21: roofs, 22: floor decoration	*/
 	public void placeObject(int objectX, int objectY, int NewObjectID, int Face, int ObjectType) {
 		outStream.createFrame(85);
-		outStream.writeByteC(objectY - (mapRegionY * 8));
-		outStream.writeByteC(objectX - (mapRegionX * 8));
+		outStream.writeByteC(objectY - (c.mapRegionY * 8));
+		outStream.writeByteC(objectX - (c.mapRegionX * 8));
 
 		outStream.createFrame(101);
 		outStream.writeByteC((ObjectType<<2) + (Face&3));
@@ -1178,83 +1178,81 @@ public class FrameMethods {
 
 
 	public void DeadStats() {
-		int[] playerLevel = c.playerLevel;
-		int[] playerXP = c.playerXP;
-		playerLevel[0] = getLevelForXP(playerXP[0]);
-		sendFrame126(""+getLevelForXP(playerXP[0])+"", 4004);
-		sendFrame126(""+getLevelForXP(playerXP[0])+"", 4005);
+		c.playerLevel[0] = getLevelForXP(c.playerXP[0]);
+		sendFrame126(""+getLevelForXP(c.playerXP[0])+"", 4004);
+		sendFrame126(""+getLevelForXP(c.playerXP[0])+"", 4005);
 
-		playerLevel[1] = getLevelForXP(playerXP[1]);
-		sendFrame126(""+getLevelForXP(playerXP[1])+"", 4008);
-		sendFrame126(""+getLevelForXP(playerXP[1])+"", 4009);
+		c.playerLevel[1] = getLevelForXP(c.playerXP[1]);
+		sendFrame126(""+getLevelForXP(c.playerXP[1])+"", 4008);
+		sendFrame126(""+getLevelForXP(c.playerXP[1])+"", 4009);
 
-		playerLevel[2] = getLevelForXP(playerXP[2]);
-		sendFrame126(""+getLevelForXP(playerXP[2])+"", 4006);
-		sendFrame126(""+getLevelForXP(playerXP[2])+"", 4007);
+		c.playerLevel[2] = getLevelForXP(c.playerXP[2]);
+		sendFrame126(""+getLevelForXP(c.playerXP[2])+"", 4006);
+		sendFrame126(""+getLevelForXP(c.playerXP[2])+"", 4007);
 
-		playerLevel[3] = getLevelForXP(playerXP[3]);
-		sendFrame126(""+getLevelForXP(playerXP[3])+"", 4016);
-		sendFrame126(""+getLevelForXP(playerXP[3])+"", 4017);
+		c.playerLevel[3] = getLevelForXP(c.playerXP[3]);
+		sendFrame126(""+getLevelForXP(c.playerXP[3])+"", 4016);
+		sendFrame126(""+getLevelForXP(c.playerXP[3])+"", 4017);
 
-		playerLevel[4] = getLevelForXP(playerXP[4]);
-		sendFrame126(""+getLevelForXP(playerXP[4])+"", 4010);
-		sendFrame126(""+getLevelForXP(playerXP[4])+"", 4011);
+		c.playerLevel[4] = getLevelForXP(c.playerXP[4]);
+		sendFrame126(""+getLevelForXP(c.playerXP[4])+"", 4010);
+		sendFrame126(""+getLevelForXP(c.playerXP[4])+"", 4011);
 
-		playerLevel[5] = getLevelForXP(playerXP[5]);
-		sendFrame126(""+getLevelForXP(playerXP[5])+"", 4012);
-		sendFrame126(""+getLevelForXP(playerXP[5])+"", 4013);
+		c.playerLevel[5] = getLevelForXP(c.playerXP[5]);
+		sendFrame126(""+getLevelForXP(c.playerXP[5])+"", 4012);
+		sendFrame126(""+getLevelForXP(c.playerXP[5])+"", 4013);
 
-		playerLevel[6] = getLevelForXP(playerXP[6]);
-		sendFrame126(""+getLevelForXP(playerXP[6])+"", 4014);
-		sendFrame126(""+getLevelForXP(playerXP[6])+"", 4015);
+		c.playerLevel[6] = getLevelForXP(c.playerXP[6]);
+		sendFrame126(""+getLevelForXP(c.playerXP[6])+"", 4014);
+		sendFrame126(""+getLevelForXP(c.playerXP[6])+"", 4015);
 
-		playerLevel[7] = getLevelForXP(playerXP[7]);
-		sendFrame126(""+getLevelForXP(playerXP[7])+"", 4034);
-		sendFrame126(""+getLevelForXP(playerXP[7])+"", 4035);
+		c.playerLevel[7] = getLevelForXP(c.playerXP[7]);
+		sendFrame126(""+getLevelForXP(c.playerXP[7])+"", 4034);
+		sendFrame126(""+getLevelForXP(c.playerXP[7])+"", 4035);
 
-		playerLevel[8] = getLevelForXP(playerXP[8]);
-		sendFrame126(""+getLevelForXP(playerXP[8])+"", 4038);
-		sendFrame126(""+getLevelForXP(playerXP[8])+"", 4039);
+		c.playerLevel[8] = getLevelForXP(c.playerXP[8]);
+		sendFrame126(""+getLevelForXP(c.playerXP[8])+"", 4038);
+		sendFrame126(""+getLevelForXP(c.playerXP[8])+"", 4039);
 
-		playerLevel[9] = getLevelForXP(playerXP[9]);
-		sendFrame126(""+getLevelForXP(playerXP[9])+"", 4026);
-		sendFrame126(""+getLevelForXP(playerXP[9])+"", 4027);
+		c.playerLevel[9] = getLevelForXP(c.playerXP[9]);
+		sendFrame126(""+getLevelForXP(c.playerXP[9])+"", 4026);
+		sendFrame126(""+getLevelForXP(c.playerXP[9])+"", 4027);
 
-		playerLevel[10] = getLevelForXP(playerXP[10]);
-		sendFrame126(""+getLevelForXP(playerXP[10])+"", 4032);
-		sendFrame126(""+getLevelForXP(playerXP[10])+"", 4033);
+		c.playerLevel[10] = getLevelForXP(c.playerXP[10]);
+		sendFrame126(""+getLevelForXP(c.playerXP[10])+"", 4032);
+		sendFrame126(""+getLevelForXP(c.playerXP[10])+"", 4033);
 
-		playerLevel[11] = getLevelForXP(playerXP[11]);
-		sendFrame126(""+getLevelForXP(playerXP[11])+"", 4036);
-		sendFrame126(""+getLevelForXP(playerXP[11])+"", 4037);
+		c.playerLevel[11] = getLevelForXP(c.playerXP[11]);
+		sendFrame126(""+getLevelForXP(c.playerXP[11])+"", 4036);
+		sendFrame126(""+getLevelForXP(c.playerXP[11])+"", 4037);
 
-		playerLevel[12] = getLevelForXP(playerXP[12]);
-		sendFrame126(""+getLevelForXP(playerXP[12])+"", 4024);
-		sendFrame126(""+getLevelForXP(playerXP[12])+"", 4025);
+		c.playerLevel[12] = getLevelForXP(c.playerXP[12]);
+		sendFrame126(""+getLevelForXP(c.playerXP[12])+"", 4024);
+		sendFrame126(""+getLevelForXP(c.playerXP[12])+"", 4025);
 
-		playerLevel[13] = getLevelForXP(playerXP[13]);
-		sendFrame126(""+getLevelForXP(playerXP[13])+"", 4030);
-		sendFrame126(""+getLevelForXP(playerXP[13])+"", 4031);
+		c.playerLevel[13] = getLevelForXP(c.playerXP[13]);
+		sendFrame126(""+getLevelForXP(c.playerXP[13])+"", 4030);
+		sendFrame126(""+getLevelForXP(c.playerXP[13])+"", 4031);
 
-		playerLevel[14] = getLevelForXP(playerXP[14]);
-		sendFrame126(""+getLevelForXP(playerXP[14])+"", 4028);
-		sendFrame126(""+getLevelForXP(playerXP[14])+"", 4029);
+		c.playerLevel[14] = getLevelForXP(c.playerXP[14]);
+		sendFrame126(""+getLevelForXP(c.playerXP[14])+"", 4028);
+		sendFrame126(""+getLevelForXP(c.playerXP[14])+"", 4029);
 
-		playerLevel[15] = getLevelForXP(playerXP[15]);
-		sendFrame126(""+getLevelForXP(playerXP[15])+"", 4020);
-		sendFrame126(""+getLevelForXP(playerXP[15])+"", 4021);
+		c.playerLevel[15] = getLevelForXP(c.playerXP[15]);
+		sendFrame126(""+getLevelForXP(c.playerXP[15])+"", 4020);
+		sendFrame126(""+getLevelForXP(c.playerXP[15])+"", 4021);
 
-		playerLevel[16] = getLevelForXP(playerXP[16]);
-		sendFrame126(""+getLevelForXP(playerXP[16]), 4018);
-		sendFrame126(""+getLevelForXP(playerXP[16]), 4019);
+		c.playerLevel[16] = getLevelForXP(c.playerXP[16]);
+		sendFrame126(""+getLevelForXP(c.playerXP[16]), 4018);
+		sendFrame126(""+getLevelForXP(c.playerXP[16]), 4019);
 
-		playerLevel[17] = getLevelForXP(playerXP[17]);
-		sendFrame126(""+getLevelForXP(playerXP[17]), 4022);
-		sendFrame126(""+getLevelForXP(playerXP[17]), 4023);
+		c.playerLevel[17] = getLevelForXP(c.playerXP[17]);
+		sendFrame126(""+getLevelForXP(c.playerXP[17]), 4022);
+		sendFrame126(""+getLevelForXP(c.playerXP[17]), 4023);
 
-		playerLevel[20] = getLevelForXP(playerXP[20]);
-		sendFrame126(""+getLevelForXP(playerXP[20]), 4152);
-		sendFrame126(""+getLevelForXP(playerXP[20]), 4153);
+		c.playerLevel[20] = getLevelForXP(c.playerXP[20]);
+		sendFrame126(""+getLevelForXP(c.playerXP[20]), 4152);
+		sendFrame126(""+getLevelForXP(c.playerXP[20]), 4153);
 	}
 
 	private int getLevelForXP(int skill){
@@ -1262,45 +1260,43 @@ public class FrameMethods {
 	}
 
 	public void restorePot() {
-		int[] playerLevel = c.playerLevel;
-		int[] playerXP = c.playerXP;
-		playerLevel[0] = getLevelForXP(playerXP[0]);
-		sendFrame126(""+playerLevel[0]+"", 4004);
-		playerLevel[1] = getLevelForXP(playerXP[1]);
-		sendFrame126(""+playerLevel[1]+"", 4008);
-		playerLevel[2] = getLevelForXP(playerXP[2]);
-		sendFrame126(""+playerLevel[2]+"", 4006);
-		playerLevel[4] = getLevelForXP(playerXP[4]);
-		sendFrame126(""+playerLevel[4]+"", 4010);
-		playerLevel[6] = getLevelForXP(playerXP[6]);
-		sendFrame126(""+playerLevel[6]+"", 4014);
-		playerLevel[7] = getLevelForXP(playerXP[7]);
-		sendFrame126(""+playerLevel[7]+"", 4034);
-		playerLevel[8] = getLevelForXP(playerXP[8]);
-		sendFrame126(""+playerLevel[8]+"", 4038);
-		playerLevel[9] = getLevelForXP(playerXP[9]);
-		sendFrame126(""+playerLevel[9]+"", 4026);
-		playerLevel[10] = getLevelForXP(playerXP[10]);
-		sendFrame126(""+playerLevel[10]+"", 4032);
-		playerLevel[11] = getLevelForXP(playerXP[11]);
-		sendFrame126(""+playerLevel[11]+"", 4036);
-		playerLevel[12] = getLevelForXP(playerXP[12]);
-		sendFrame126(""+playerLevel[12]+"", 4024);
-		playerLevel[13] = getLevelForXP(playerXP[13]);
-		sendFrame126(""+playerLevel[13]+"", 4030);
-		playerLevel[14] = getLevelForXP(playerXP[14]);
-		sendFrame126(""+playerLevel[14]+"", 4028);
-		playerLevel[15] = getLevelForXP(playerXP[15]);
-		sendFrame126(""+playerLevel[15]+"", 4020);
-		playerLevel[16] = getLevelForXP(playerXP[16]);
-		sendFrame126(""+playerLevel[16]+"", 4018);
-		playerLevel[17] = getLevelForXP(playerXP[17]);
-		sendFrame126(""+playerLevel[17]+"", 4022);
-		playerLevel[20] = getLevelForXP(playerXP[20]);
-		sendFrame126(""+playerLevel[20]+"", 4152);
+		c.playerLevel[0] = getLevelForXP(c.playerXP[0]);
+		sendFrame126(""+c.playerLevel[0]+"", 4004);
+		c.playerLevel[1] = getLevelForXP(c.playerXP[1]);
+		sendFrame126(""+c.playerLevel[1]+"", 4008);
+		c.playerLevel[2] = getLevelForXP(c.playerXP[2]);
+		sendFrame126(""+c.playerLevel[2]+"", 4006);
+		c.playerLevel[4] = getLevelForXP(c.playerXP[4]);
+		sendFrame126(""+c.playerLevel[4]+"", 4010);
+		c.playerLevel[6] = getLevelForXP(c.playerXP[6]);
+		sendFrame126(""+c.playerLevel[6]+"", 4014);
+		c.playerLevel[7] = getLevelForXP(c.playerXP[7]);
+		sendFrame126(""+c.playerLevel[7]+"", 4034);
+		c.playerLevel[8] = getLevelForXP(c.playerXP[8]);
+		sendFrame126(""+c.playerLevel[8]+"", 4038);
+		c.playerLevel[9] = getLevelForXP(c.playerXP[9]);
+		sendFrame126(""+c.playerLevel[9]+"", 4026);
+		c.playerLevel[10] = getLevelForXP(c.playerXP[10]);
+		sendFrame126(""+c.playerLevel[10]+"", 4032);
+		c.playerLevel[11] = getLevelForXP(c.playerXP[11]);
+		sendFrame126(""+c.playerLevel[11]+"", 4036);
+		c.playerLevel[12] = getLevelForXP(c.playerXP[12]);
+		sendFrame126(""+c.playerLevel[12]+"", 4024);
+		c.playerLevel[13] = getLevelForXP(c.playerXP[13]);
+		sendFrame126(""+c.playerLevel[13]+"", 4030);
+		c.playerLevel[14] = getLevelForXP(c.playerXP[14]);
+		sendFrame126(""+c.playerLevel[14]+"", 4028);
+		c.playerLevel[15] = getLevelForXP(c.playerXP[15]);
+		sendFrame126(""+c.playerLevel[15]+"", 4020);
+		c.playerLevel[16] = getLevelForXP(c.playerXP[16]);
+		sendFrame126(""+c.playerLevel[16]+"", 4018);
+		c.playerLevel[17] = getLevelForXP(c.playerXP[17]);
+		sendFrame126(""+c.playerLevel[17]+"", 4022);
+		c.playerLevel[20] = getLevelForXP(c.playerXP[20]);
+		sendFrame126(""+c.playerLevel[20]+"", 4152);
 		if (c.superRestore == true) {
-			playerLevel[5] = getLevelForXP(playerXP[5]);
-			sendFrame126(""+playerLevel[5]+"", 4012);
+			c.playerLevel[5] = getLevelForXP(c.playerXP[5]);
+			sendFrame126(""+c.playerLevel[5]+"", 4012);
 			c.superRestore = false;
 		}
 	}
@@ -1310,8 +1306,8 @@ public class FrameMethods {
 	public void animationFrameAtGroundHeight(int id, int Y, int X) //ANIMATIONS AT GROUND HEIGHT
 	{
 		outStream.createFrame(85);
-		outStream.writeByteC(Y - (mapRegionY * 8));
-		outStream.writeByteC(X - (mapRegionX * 8));
+		outStream.writeByteC(Y - (c.mapRegionY * 8));
+		outStream.writeByteC(X - (c.mapRegionX * 8));
 		outStream.createFrame(4);
 		outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
 		outStream.writeWord(id);//Graphic id
@@ -1321,8 +1317,8 @@ public class FrameMethods {
 	public void animationFrameAtMiddleHeight(int id, int Y, int X) //ANIMATIONS AT GROUND HEIGHT
 	{
 		outStream.createFrame(85);
-		outStream.writeByteC(Y - (mapRegionY * 8));
-		outStream.writeByteC(X - (mapRegionX * 8));
+		outStream.writeByteC(Y - (c.mapRegionY * 8));
+		outStream.writeByteC(X - (c.mapRegionX * 8));
 		outStream.createFrame(4);
 		outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
 		outStream.writeWord(id);//Graphic id
@@ -1332,12 +1328,12 @@ public class FrameMethods {
 
 	public void animationFrameAtHeight(int graphicID, int playerX, int playerY, int heightLevel) { /*Used from phates old stuff*/
 		outStream.createFrame(85);
-		outStream.writeByteC(playerY - (mapRegionY * 8));
-		outStream.writeByteC(playerX - (mapRegionX * 8));
+		outStream.writeByteC(playerY - (c.mapRegionY * 8));
+		outStream.writeByteC(playerX - (c.mapRegionX * 8));
 		outStream.createFrame(4);
 		outStream.writeByte(0);				
 		outStream.writeWord(graphicID);			//	Graphic ID
-		outStream.writeByte(heightLevel);		//	Height above gorund
+		outStream.writeByte(c.heightLevel);		//	Height above gorund
 		outStream.writeWord(0);					//	Pause before casting
 	}
 
@@ -1350,8 +1346,8 @@ public class FrameMethods {
 
 	public void AddObject(int objectX, int objectY, int NewObjectID, int Face) {
 		outStream.createFrameVarSizeWord(60);
-		outStream.writeByte(objectY - (mapRegionY * 8));
-		outStream.writeByteC(objectX - (mapRegionX * 8));
+		outStream.writeByte(objectY - (c.mapRegionY * 8));
+		outStream.writeByteC(objectX - (c.mapRegionX * 8));
 		/*CREATE OBJECT*/
 		if (NewObjectID > -1) {
 			outStream.writeByte(151);
@@ -1365,43 +1361,43 @@ public class FrameMethods {
 
 	public void frameDeleteArrow()
 	{
-		if( playerEquipmentN[playerArrows]-1 <= 0)
-			deleteEquimentInSlotID(playerEquipment[playerArrows], playerArrows);
+		if( c.playerEquipmentN[c.playerArrows]-1 <= 0)
+			c.getInventoryHandler().deleteEquimentInSlotID(c.playerArrows);
 
-		if(playerEquipment[playerWeapon] != 4214 && playerEquipmentN[playerArrows] != 0){
+		if(c.playerEquipment[c.playerWeapon] != 4214 && c.playerEquipmentN[c.playerArrows] != 0){
 			outStream.createFrameVarSizeWord(34);
 			outStream.writeWord(1688);
-			outStream.writeByte(playerArrows);
-			outStream.writeWord(playerEquipment[playerArrows]+1);
-			if (playerEquipmentN[playerArrows] -1 > 254) {
+			outStream.writeByte(c.playerArrows);
+			outStream.writeWord(c.playerEquipment[c.playerArrows]+1);
+			if (c.playerEquipmentN[c.playerArrows] -1 > 254) {
 				outStream.writeByte(255);
-				outStream.writeDWord(playerEquipmentN[playerArrows] -1);
+				outStream.writeDWord(c.playerEquipmentN[c.playerArrows] -1);
 			}
 			else {
-				outStream.writeByte(playerEquipmentN[playerArrows] -1); //amount	
+				outStream.writeByte(c.playerEquipmentN[c.playerArrows] -1); //amount	
 			}
 			outStream.endFrameVarSizeWord();
-			playerEquipmentN[playerArrows] -= 1;
+			c.playerEquipmentN[c.playerArrows] -= 1;
 		}  
-		updateRequired = true; 
-		appearanceUpdateRequired = true;
+		c.updateRequired = true; 
+		c.appearanceUpdateRequired = true;
 	}
 
 
 	public void createAreaDisplayType(){
-		if(isInGodWars()){
+		if(c.getClientMethodHandler().isInGodWars()){
 			outStream.createFrame(208); 
 			outStream.writeWordBigEndian_dup(11479);
-			sendQuest("Bandos Kills: "+bandos+"   Armadyl Kills: "+armadyl, 11480);
+			sendQuest("Bandos Kills: "+c.bandos+"   Armadyl Kills: "+c.armadyl, 11480);
 			return;
 		}
-		if(isInPKZone()){
+		if(c.getClientMethodHandler().isInPKZone()){
 			outStream.createFrame(208); 
 			outStream.writeWordBigEndian_dup(197);
 			sendQuest("@red@PK", 199);
 			return;
 		}
-		if(isInArea(2621, 2557, 2689, 2622) || isInArea(2660,2638,2663,2643)) return;
+		if(c.isInArea(2621, 2557, 2689, 2622) || c.isInArea(2660,2638,2663,2643)) return;
 		outStream.createFrame(208); 
 		outStream.writeWordBigEndian_dup(197);
 		sendQuest("@gre@Safe", 199);
@@ -1421,8 +1417,8 @@ public class FrameMethods {
 				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
 					client g = (client) p;
 					g.outStream.createFrame(85);
-					g.outStream.writeByteC((casterY - (mapRegionY * 8)) - 2);
-					g.outStream.writeByteC((casterX - (mapRegionX * 8)) - 3);
+					g.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
+					g.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
 					g.outStream.createFrame(117);
 					g.outStream.writeByte(angle);                     //Starting place of the projectile
 					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
@@ -1459,7 +1455,7 @@ public class FrameMethods {
 		outStream.writeWord(speed);			//	Phate:	Speed of Moving Magic
 		outStream.writeByte(16);			//	Phate:	Something static? Doesnt change a lot..
 		outStream.writeByte(64);			//	Phate:	Type of shot possibly? All shoots seemed to be 64
-		flushOutStream();
+		c.flushOutStream();
 	}
 
 
@@ -1467,28 +1463,18 @@ public class FrameMethods {
 
 		outStream.createFrame(208);
 		outStream.writeWordBigEndian_dup(ID);
-		flushOutStream();}
-
-	public void setTime(){
-		if(morningTime){setInterfaceWalkable(65535);}
-
-		if(afternoonTime){setInterfaceWalkable(12416);}
-
-		if(eveningTime){setInterfaceWalkable(12418);}
-
-		if(nightTime){setInterfaceWalkable(12414);}}
-
+		c.flushOutStream();}
 
 	public void displaySmithingFrame(int barType)
 	{
 		outStream.createFrame(97);
 		outStream.writeWord(994);
-		if(amountOfItemInInventory(barType) < 5) {
+		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 5) {
 			sendQuest("5bars",1112);
 		} else {
 			sendQuest("5bars",1112);
 		}
-		if(amountOfItemInInventory(barType) < 3) {
+		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 3) {
 			sendQuest("3bars",1109);
 			sendQuest("3bars",1110);
 			sendQuest("3bars",1118);
@@ -1505,7 +1491,7 @@ public class FrameMethods {
 			sendQuest("3bars",1115);
 			sendQuest("3bars",1090);
 		}
-		if(amountOfItemInInventory(barType) < 2) {
+		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 2) {
 			sendQuest("2bars",1113);
 			sendQuest("2bars",1116);
 			sendQuest("2bars",1114);
@@ -1518,7 +1504,7 @@ public class FrameMethods {
 			sendQuest("2bars",1089);
 			sendQuest("2bars",8428);
 		}
-		if(amountOfItemInInventory(barType) < 1) {
+		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 1) {
 			sendQuest("1bar",1125);
 			sendQuest("1bar",1126);
 			sendQuest("1bar",1127);
@@ -1543,73 +1529,73 @@ public class FrameMethods {
 		}
 
 		if(barType == 2357) { //Gold Bar
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Kite",1101);
 			} else {
 				sendQuest("Kite",1101);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Rune Whip",1099);
 				sendQuest("Mace",1100);
 			} else {
 				sendQuest("Rune Whip",1099);
 				sendQuest("Mace",1100);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Robe Top",1088);
 			} else {
 				sendQuest("Robe Top",1088);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Robe Bottom",8429);
 			} else {
 				sendQuest("Robe Bottom",8429);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("ChainBody",1105);
 			} else {
 				sendQuest("ChainBody",1105);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Two Handed S",1098);
 			} else {
 				sendQuest("Two Handed S",1098);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Helmet",1092);
 			} else {
 				sendQuest("Helmet",1092);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Battle Axe",1083);
 			} else {
 				sendQuest("Battle Axe",1083);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Legs",1104);
 			} else {
 				sendQuest("Legs",1104);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Whip",1103);
 				sendQuest("Schimitar",1106);
 			} else {
 				sendQuest("Whip",1103);
 				sendQuest("Schimitar",1106);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Plate",1086);
 			} else {
 				sendQuest("Plate",1086);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("SQ Shield",1087);
 				sendQuest("Dagger(s)",1108);
 			} else {
 				sendQuest("SQ Shield",1087);
 				sendQuest("Dagger(s)",1108);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Anger Sword",1085);
 				sendQuest("Legs",1107);
 				sendQuest("Hat",13358);
@@ -1618,17 +1604,17 @@ public class FrameMethods {
 				sendQuest("Legs",1107);
 				sendQuest("hat",13358);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Onyx Ring",1102);
 			} else {
 				sendQuest("Onyx Ring",1102);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Defender",1093);
 			} else {
 				sendQuest("Defender",1093);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Medium Helm",1094);
 				sendQuest("Longsword",1091);
 			} else {
@@ -1668,73 +1654,73 @@ public class FrameMethods {
 			sendQuest("",1134);
 		}
 		if(barType == 2349) { //Bronze
-			if(playerLevel[13] < 18) {
+			if(c.playerLevel[13] < 18) {
 				sendQuest("Plate body",1101);
 			} else {
 				sendQuest("Plate body",1101);
 			}
-			if(playerLevel[13] < 16) {
+			if(c.playerLevel[13] < 16) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			}
-			if(playerLevel[13] < 14) {
+			if(c.playerLevel[13] < 14) {
 				sendQuest("2 hand sword",1088);
 			} else {
 				sendQuest("2 hand sword",1088);
 			}
-			if(playerLevel[13] < 13) {
+			if(c.playerLevel[13] < 13) {
 				sendQuest("Claws",8429);
 			} else {
 				sendQuest("Claws",8429);
 			}
-			if(playerLevel[13] < 12) {
+			if(c.playerLevel[13] < 12) {
 				sendQuest("Kite shield",1105);
 			} else {
 				sendQuest("Kite shield",1105);
 			}
-			if(playerLevel[13] < 11) {
+			if(c.playerLevel[13] < 11) {
 				sendQuest("Chain body",1098);
 			} else {
 				sendQuest("Chain body",1098);
 			}
-			if(playerLevel[13] < 10) {
+			if(c.playerLevel[13] < 10) {
 				sendQuest("Battle axe",1092);
 			} else {
 				sendQuest("Battle axe",1092);
 			}
-			if(playerLevel[13] < 9) {
+			if(c.playerLevel[13] < 9) {
 				sendQuest("Warhammer",1083);
 			} else {
 				sendQuest("Warhammer",1083);
 			}
-			if(playerLevel[13] < 8) {
+			if(c.playerLevel[13] < 8) {
 				sendQuest("Square shield",1104);
 			} else {
 				sendQuest("Square shield",1104);
 			}
-			if(playerLevel[13] < 7) {
+			if(c.playerLevel[13] < 7) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			}
-			if(playerLevel[13] < 6) {
+			if(c.playerLevel[13] < 6) {
 				sendQuest("Long sword",1086);
 			} else {
 				sendQuest("Long sword",1086);
 			}
-			if(playerLevel[13] < 5) {
+			if(c.playerLevel[13] < 5) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			}
-			if(playerLevel[13] < 4) {
+			if(c.playerLevel[13] < 4) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
@@ -1743,17 +1729,17 @@ public class FrameMethods {
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			}
-			if(playerLevel[13] < 3) {
+			if(c.playerLevel[13] < 3) {
 				sendQuest("Medium helm",1102);
 			} else {
 				sendQuest("Medium helm",1102);
 			}
-			if(playerLevel[13] < 2) {
+			if(c.playerLevel[13] < 2) {
 				sendQuest("Mace",1093);
 			} else {
 				sendQuest("Mace",1093);
 			}
-			if(playerLevel[13] < 1) {
+			if(c.playerLevel[13] < 1) {
 				sendQuest("Dagger",1094);
 				sendQuest("Axe",1091);
 			} else {
@@ -1793,75 +1779,75 @@ public class FrameMethods {
 			sendQuest("",1134);
 		}
 		if(barType == 2351) { //Iron
-			if(playerLevel[13] < 33) {
+			if(c.playerLevel[13] < 33) {
 				sendQuest("Plate body",1101);
 			} else {
 				sendQuest("Plate body",1101);
 			}
-			if(playerLevel[13] < 31) {
+			if(c.playerLevel[13] < 31) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			}
-			if(playerLevel[13] < 29) {
+			if(c.playerLevel[13] < 29) {
 				sendQuest("2 hand sword",1088);
 			} else {
 				sendQuest("2 hand sword",1088);
 			}
-			if(playerLevel[13] < 28) {
+			if(c.playerLevel[13] < 28) {
 				sendQuest("Claws",8429);
 			} else {
 				sendQuest("Claws",8429);
 			}
-			if(playerLevel[13] < 27) {
+			if(c.playerLevel[13] < 27) {
 				sendQuest("Kite shield",1105);
 			} else {
 				sendQuest("Kite shield",1105);
 			}
-			if(playerLevel[13] < 26) {
+			if(c.playerLevel[13] < 26) {
 				sendQuest("Chain body",1098);
 				sendQuest("Oil lantern frame",11461);
 			} else {
 				sendQuest("Chain body",1098);
 				sendQuest("Oil lantern frame",11461);
 			}
-			if(playerLevel[13] < 25) {
+			if(c.playerLevel[13] < 25) {
 				sendQuest("Battle axe",1092);
 			} else {
 				sendQuest("Battle axe",1092);
 			}
-			if(playerLevel[13] < 24) {
+			if(c.playerLevel[13] < 24) {
 				sendQuest("Warhammer",1083);
 			} else {
 				sendQuest("Warhammer",1083);
 			}
-			if(playerLevel[13] < 23) {
+			if(c.playerLevel[13] < 23) {
 				sendQuest("Square shield",1104);
 			} else {
 				sendQuest("Square shield",1104);
 			}
-			if(playerLevel[13] < 22) {
+			if(c.playerLevel[13] < 22) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			}
-			if(playerLevel[13] < 21) {
+			if(c.playerLevel[13] < 21) {
 				sendQuest("Long sword",1086);
 			} else {
 				sendQuest("Long sword",1086);
 			}
-			if(playerLevel[13] < 20) {
+			if(c.playerLevel[13] < 20) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			}
-			if(playerLevel[13] < 19) {
+			if(c.playerLevel[13] < 19) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
@@ -1870,22 +1856,22 @@ public class FrameMethods {
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			}
-			if(playerLevel[13] < 18) {
+			if(c.playerLevel[13] < 18) {
 				sendQuest("Medium helm",1102);
 			} else {
 				sendQuest("Medium helm",1102);
 			}
-			if(playerLevel[13] < 17) {
+			if(c.playerLevel[13] < 17) {
 				sendQuest("Mace",1093);
 			} else {
 				sendQuest("Mace",1093);
 			}
-			if(playerLevel[13] < 16) {
+			if(c.playerLevel[13] < 16) {
 				sendQuest("Axe",1091);
 			} else {
 				sendQuest("Axe",1091);
 			}
-			if(playerLevel[13] < 15) {
+			if(c.playerLevel[13] < 15) {
 				sendQuest("Dagger",1094);
 			} else {
 				sendQuest("Dagger",1094);
@@ -1921,80 +1907,80 @@ public class FrameMethods {
 			sendQuest("",1134);
 		}
 		if(barType == 2353) { //Steel
-			if(playerLevel[13] < 49) {
+			if(c.playerLevel[13] < 49) {
 				sendQuest("Bullseye lantern",11461);
 			} else {
 				sendQuest("Bullseye lantern",11461);
 			}
-			if(playerLevel[13] < 48) {
+			if(c.playerLevel[13] < 48) {
 				sendQuest("Plate body",1101);
 			} else {
 				sendQuest("Plate body",1101);
 			}
-			if(playerLevel[13] < 46) {
+			if(c.playerLevel[13] < 46) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			}
-			if(playerLevel[13] < 44) {
+			if(c.playerLevel[13] < 44) {
 				sendQuest("2 hand sword",1088);
 			} else {
 				sendQuest("2 hand sword",1088);
 			}
-			if(playerLevel[13] < 43) {
+			if(c.playerLevel[13] < 43) {
 				sendQuest("Claws",8429);
 			} else {
 				sendQuest("Claws",8429);
 			}
-			if(playerLevel[13] < 42) {
+			if(c.playerLevel[13] < 42) {
 				sendQuest("Kite shield",1105);
 			} else {
 				sendQuest("Kite shield",1105);
 			}
-			if(playerLevel[13] < 41) {
+			if(c.playerLevel[13] < 41) {
 				sendQuest("Chain body",1098);
 			} else {
 				sendQuest("Chain body",1098);
 			}
-			if(playerLevel[13] < 40) {
+			if(c.playerLevel[13] < 40) {
 				sendQuest("Battle axe",1092);
 			} else {
 				sendQuest("Battle axe",1092);
 			}
-			if(playerLevel[13] < 39) {
+			if(c.playerLevel[13] < 39) {
 				sendQuest("Warhammer",1083);
 			} else {
 				sendQuest("Warhammer",1083);
 			}
-			if(playerLevel[13] < 38) {
+			if(c.playerLevel[13] < 38) {
 				sendQuest("Square shield",1104);
 			} else {
 				sendQuest("Square shield",1104);
 			}
-			if(playerLevel[13] < 37) {
+			if(c.playerLevel[13] < 37) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			}
-			if(playerLevel[13] < 36) {
+			if(c.playerLevel[13] < 36) {
 				sendQuest("Long sword",1086);
 				sendQuest("Studs",1134);
 			} else {
 				sendQuest("Long sword",1086);
 				sendQuest("Studs",1134);
 			}
-			if(playerLevel[13] < 35) {
+			if(c.playerLevel[13] < 35) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			}
-			if(playerLevel[13] < 34) {
+			if(c.playerLevel[13] < 34) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
@@ -2003,22 +1989,22 @@ public class FrameMethods {
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			}
-			if(playerLevel[13] < 33) {
+			if(c.playerLevel[13] < 33) {
 				sendQuest("Medium helm",1102);
 			} else {
 				sendQuest("Medium helm",1102);
 			}
-			if(playerLevel[13] < 32) {
+			if(c.playerLevel[13] < 32) {
 				sendQuest("Mace",1093);
 			} else {
 				sendQuest("Mace",1093);
 			}
-			if(playerLevel[13] < 31) {
+			if(c.playerLevel[13] < 31) {
 				sendQuest("Axe",1091);
 			} else {
 				sendQuest("Axe",1091);
 			}
-			if(playerLevel[13] < 30) {
+			if(c.playerLevel[13] < 30) {
 				sendQuest("Dagger",1094);
 			} else {
 				sendQuest("Dagger",1094);
@@ -2049,80 +2035,80 @@ public class FrameMethods {
 			addItemToSmithFrame(4544,4,1121,1);
 			addItemToSmithFrame(1539,4,1122,1);
 			addItemToSmithFrame(2370,4,1123,1);
-			if(amountOfItemInInventory(barType) < 1) {
+			if(c.getInventoryHandler().amountOfItemInInventory(barType) < 1) {
 				sendQuest("1bar",1135);
 			} else {
 				sendQuest("1bar",1135);
 			}
 		}
 		if(barType == 2359) { //Mith
-			if(playerLevel[13] < 68) {
+			if(c.playerLevel[13] < 68) {
 				sendQuest("Plate body",1101);
 			} else {
 				sendQuest("Plate body",1101);
 			}
-			if(playerLevel[13] < 66) {
+			if(c.playerLevel[13] < 66) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			}
-			if(playerLevel[13] < 64) {
+			if(c.playerLevel[13] < 64) {
 				sendQuest("2 hand sword",1088);
 			} else {
 				sendQuest("2 hand sword",1088);
 			}
-			if(playerLevel[13] < 63) {
+			if(c.playerLevel[13] < 63) {
 				sendQuest("Claws",8429);
 			} else {
 				sendQuest("Claws",8429);
 			}
-			if(playerLevel[13] < 62) {
+			if(c.playerLevel[13] < 62) {
 				sendQuest("Kite shield",1105);
 			} else {
 				sendQuest("Kite shield",1105);
 			}
-			if(playerLevel[13] < 61) {
+			if(c.playerLevel[13] < 61) {
 				sendQuest("Chain body",1098);
 			} else {
 				sendQuest("Chain body",1098);
 			}
-			if(playerLevel[13] < 60) {
+			if(c.playerLevel[13] < 60) {
 				sendQuest("Battle axe",1092);
 			} else {
 				sendQuest("Battle axe",1092);
 			}
-			if(playerLevel[13] < 59) {
+			if(c.playerLevel[13] < 59) {
 				sendQuest("Warhammer",1083);
 			} else {
 				sendQuest("Warhammer",1083);
 			}
-			if(playerLevel[13] < 58) {
+			if(c.playerLevel[13] < 58) {
 				sendQuest("Square shield",1104);
 			} else {
 				sendQuest("Square shield",1104);
 			}
-			if(playerLevel[13] < 57) {
+			if(c.playerLevel[13] < 57) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			}
-			if(playerLevel[13] < 56) {
+			if(c.playerLevel[13] < 56) {
 				sendQuest("Long sword",1086);
 			} else {
 				sendQuest("Long sword",1086);
 			}
-			if(playerLevel[13] < 55) {
+			if(c.playerLevel[13] < 55) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			}
-			if(playerLevel[13] < 54) {
+			if(c.playerLevel[13] < 54) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
@@ -2131,22 +2117,22 @@ public class FrameMethods {
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			}
-			if(playerLevel[13] < 53) {
+			if(c.playerLevel[13] < 53) {
 				sendQuest("Medium helm",1102);
 			} else {
 				sendQuest("Medium helm",1102);
 			}
-			if(playerLevel[13] < 52) {
+			if(c.playerLevel[13] < 52) {
 				sendQuest("Mace",1093);
 			} else {
 				sendQuest("Mace",1093);
 			}
-			if(playerLevel[13] < 51) {
+			if(c.playerLevel[13] < 51) {
 				sendQuest("Axe",1091);
 			} else {
 				sendQuest("Axe",1091);
 			}
-			if(playerLevel[13] < 50) {
+			if(c.playerLevel[13] < 50) {
 				sendQuest("Dagger",1094);
 			} else {
 				sendQuest("Dagger",1094);
@@ -2184,73 +2170,73 @@ public class FrameMethods {
 			sendQuest("",11459);
 		}
 		if(barType == 2361) { //Addy
-			if(playerLevel[13] < 88) {
+			if(c.playerLevel[13] < 88) {
 				sendQuest("Plate body",1101);
 			} else {
 				sendQuest("Plate body",1101);
 			}
-			if(playerLevel[13] < 86) {
+			if(c.playerLevel[13] < 86) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			}
-			if(playerLevel[13] < 84) {
+			if(c.playerLevel[13] < 84) {
 				sendQuest("2 hand sword",1088);
 			} else {
 				sendQuest("2 hand sword",1088);
 			}
-			if(playerLevel[13] < 83) {
+			if(c.playerLevel[13] < 83) {
 				sendQuest("Claws",8429);
 			} else {
 				sendQuest("Claws",8429);
 			}
-			if(playerLevel[13] < 82) {
+			if(c.playerLevel[13] < 82) {
 				sendQuest("Kite shield",1105);
 			} else {
 				sendQuest("Kite shield",1105);
 			}
-			if(playerLevel[13] < 81) {
+			if(c.playerLevel[13] < 81) {
 				sendQuest("Chain body",1098);
 			} else {
 				sendQuest("Chain body",1098);
 			}
-			if(playerLevel[13] < 80) {
+			if(c.playerLevel[13] < 80) {
 				sendQuest("Battle axe",1092);
 			} else {
 				sendQuest("Battle axe",1092);
 			}
-			if(playerLevel[13] < 79) {
+			if(c.playerLevel[13] < 79) {
 				sendQuest("Warhammer",1083);
 			} else {
 				sendQuest("Warhammer",1083);
 			}
-			if(playerLevel[13] < 78) {
+			if(c.playerLevel[13] < 78) {
 				sendQuest("Square shield",1104);
 			} else {
 				sendQuest("Square shield",1104);
 			}
-			if(playerLevel[13] < 77) {
+			if(c.playerLevel[13] < 77) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			}
-			if(playerLevel[13] < 76) {
+			if(c.playerLevel[13] < 76) {
 				sendQuest("Long sword",1086);
 			} else {
 				sendQuest("Long sword",1086);
 			}
-			if(playerLevel[13] < 75) {
+			if(c.playerLevel[13] < 75) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			}
-			if(playerLevel[13] < 74) {
+			if(c.playerLevel[13] < 74) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
@@ -2259,22 +2245,22 @@ public class FrameMethods {
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			}
-			if(playerLevel[13] < 73) {
+			if(c.playerLevel[13] < 73) {
 				sendQuest("Medium helm",1102);
 			} else {
 				sendQuest("Medium helm",1102);
 			}
-			if(playerLevel[13] < 72) {
+			if(c.playerLevel[13] < 72) {
 				sendQuest("Mace",1093);
 			} else {
 				sendQuest("Mace",1093);
 			}
-			if(playerLevel[13] < 71) {
+			if(c.playerLevel[13] < 71) {
 				sendQuest("Axe",1091);
 			} else {
 				sendQuest("Axe",1091);
 			}
-			if(playerLevel[13] < 70) {
+			if(c.playerLevel[13] < 70) {
 				sendQuest("Dagger",1094);
 			} else {
 				sendQuest("Dagger",1094);
@@ -2312,7 +2298,7 @@ public class FrameMethods {
 			sendQuest("",11459);
 		}
 		if(barType == 2363) { //Rune
-			if(playerLevel[13] < 99) {
+			if(c.playerLevel[13] < 99) {
 				sendQuest("Plate body",1101);
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
@@ -2323,56 +2309,56 @@ public class FrameMethods {
 				sendQuest("Plate skirt",1100);
 				sendQuest("2 hand sword",1088);
 			}
-			if(playerLevel[13] < 98) {
+			if(c.playerLevel[13] < 98) {
 				sendQuest("Claws",8429);
 			} else {
 				sendQuest("Claws",8429);
 			}
-			if(playerLevel[13] < 97) {
+			if(c.playerLevel[13] < 97) {
 				sendQuest("Kite shield",1105);
 			} else {
 				sendQuest("Kite shield",1105);
 			}
-			if(playerLevel[13] < 96) {
+			if(c.playerLevel[13] < 96) {
 				sendQuest("Chain body",1098);
 			} else {
 				sendQuest("Chain body",1098);
 			}
-			if(playerLevel[13] < 95) {
+			if(c.playerLevel[13] < 95) {
 				sendQuest("Battle axe",1092);
 			} else {
 				sendQuest("Battle axe",1092);
 			}
-			if(playerLevel[13] < 94) {
+			if(c.playerLevel[13] < 94) {
 				sendQuest("Warhammer",1083);
 			} else {
 				sendQuest("Warhammer",1083);
 			}
-			if(playerLevel[13] < 93) {
+			if(c.playerLevel[13] < 93) {
 				sendQuest("Square shield",1104);
 			} else {
 				sendQuest("Square shield",1104);
 			}
-			if(playerLevel[13] < 92) {
+			if(c.playerLevel[13] < 92) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			}
-			if(playerLevel[13] < 91) {
+			if(c.playerLevel[13] < 91) {
 				sendQuest("Long sword",1086);
 			} else {
 				sendQuest("Long sword",1086);
 			}
-			if(playerLevel[13] < 90) {
+			if(c.playerLevel[13] < 90) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			}
-			if(playerLevel[13] < 89) {
+			if(c.playerLevel[13] < 89) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
@@ -2381,22 +2367,22 @@ public class FrameMethods {
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			}
-			if(playerLevel[13] < 88) {
+			if(c.playerLevel[13] < 88) {
 				sendQuest("Medium helm",1102);
 			} else {
 				sendQuest("Medium helm",1102);
 			}
-			if(playerLevel[13] < 87) {
+			if(c.playerLevel[13] < 87) {
 				sendQuest("Mace",1093);
 			} else {
 				sendQuest("Mace",1093);
 			}
-			if(playerLevel[13] < 86) {
+			if(c.playerLevel[13] < 86) {
 				sendQuest("Axe",1091);
 			} else {
 				sendQuest("Axe",1091);
 			}
-			if(playerLevel[13] < 85) {
+			if(c.playerLevel[13] < 85) {
 				sendQuest("Dagger",1094);
 			} else {
 				sendQuest("Dagger",1094);
@@ -2452,7 +2438,7 @@ public class FrameMethods {
 		sendQuest(""+questinfo9+"", 8155);
 		sendQuestSomething(8143);
 		showInterface(8134);
-		flushOutStream();		
+		c.flushOutStream();		
 	}
 
 	public void addItemToSmithFrame(int id, int slot, int column, int amount)
@@ -2468,7 +2454,7 @@ public class FrameMethods {
 	}
 
 	public void showQuestCompletedFrame(String questName, int rewardqp) {
-		totalqp += rewardqp;
+		c.totalqp += rewardqp;
 		showInterface(297);
 		sendQuest("Congratulations!", 299);
 		sendQuest("Close Window", 300);
@@ -2477,20 +2463,20 @@ public class FrameMethods {
 		sendQuest("Total QP:", 303);
 		sendQuest("You have completed "+questName, 301);
 		sendQuest(""+rewardqp, 4444);
-		sendQuest(""+totalqp, 304);
+		sendQuest(""+c.totalqp, 304);
 	}
 
 	public void adminpanelFrames(){
-		if (playerRights == 1){
+		if (c.playerRights == 1){
 			sendQuest("Moderator", 18800);
 		}
-		else if (playerRights == 2){
+		else if (c.playerRights == 2){
 			sendQuest("Administrator", 18800);
 		}
-		else if (playerRights == 3){
+		else if (c.playerRights == 3){
 			sendQuest("Secret Admin!", 18800);
 		}
-		sendQuest(playerName+", Coords: "+absX+", "+absY, 18798);
+		sendQuest(c.playerName+", Coords: "+c.absX+", "+c.absY, 18798);
 	}
 
 	public void setmusictab(){
@@ -2515,7 +2501,7 @@ public class FrameMethods {
 		}
 		sendQuestSomething(8143);
 		showInterface(8134);
-		flushOutStream();
+		c.flushOutStream();
 	}
 
 	public void closeInterface() {
@@ -2541,18 +2527,18 @@ public class FrameMethods {
 	public void resetTItemsFrame(int WriteFrame) {
 		outStream.createFrameVarSizeWord(53);
 		outStream.writeWord(WriteFrame);
-		outStream.writeWord(playerTItems.length);
-		for (int i = 0; i < playerTItems.length; i++) {
-			if (playerTItemsN[i] > 254) {
+		outStream.writeWord(c.playerTItems.length);
+		for (int i = 0; i < c.playerTItems.length; i++) {
+			if (c.playerTItemsN[i] > 254) {
 				outStream.writeByte(255); 						// item's stack count. if over 254, write byte 255
-				outStream.writeDWord_v2(playerTItemsN[i]);	// and then the real value with writeDWord_v2
+				outStream.writeDWord_v2(c.playerTItemsN[i]);	// and then the real value with writeDWord_v2
 			} else {
-				outStream.writeByte(playerTItemsN[i]);
+				outStream.writeByte(c.playerTItemsN[i]);
 			}
-			if (playerTItems[i] > 17000 || playerTItems[i] < 0) {
-				playerTItems[i] = 17000;
+			if (c.playerTItems[i] > 17000 || c.playerTItems[i] < 0) {
+				c.playerTItems[i] = 17000;
 			}
-			outStream.writeWordBigEndianA(playerTItems[i]); //item id
+			outStream.writeWordBigEndianA(c.playerTItems[i]); //item id
 		}
 		outStream.endFrameVarSizeWord();
 	}
@@ -2560,18 +2546,18 @@ public class FrameMethods {
 	public void resetOTItemsFrame(int WriteFrame) {
 		outStream.createFrameVarSizeWord(53);
 		outStream.writeWord(WriteFrame);
-		outStream.writeWord(playerOTItems.length);
-		for (int i = 0; i < playerOTItems.length; i++) {
-			if (playerOTItemsN[i] > 254) {
+		outStream.writeWord(c.playerOTItems.length);
+		for (int i = 0; i < c.playerOTItems.length; i++) {
+			if (c.playerOTItemsN[i] > 254) {
 				outStream.writeByte(255); 						// item's stack count. if over 254, write byte 255
-				outStream.writeDWord_v2(playerOTItemsN[i]);	// and then the real value with writeDWord_v2
+				outStream.writeDWord_v2(c.playerOTItemsN[i]);	// and then the real value with writeDWord_v2
 			} else {
-				outStream.writeByte(playerOTItemsN[i]);
+				outStream.writeByte(c.playerOTItemsN[i]);
 			}
-			if (playerOTItems[i] > 17000 || playerOTItems[i] < 0) {
-				playerOTItems[i] = 17000;
+			if (c.playerOTItems[i] > 17000 || c.playerOTItems[i] < 0) {
+				c.playerOTItems[i] = 17000;
 			}
-			outStream.writeWordBigEndianA(playerOTItems[i]); //item id
+			outStream.writeWordBigEndianA(c.playerOTItems[i]); //item id
 		}
 		outStream.endFrameVarSizeWord();
 	}
@@ -2581,20 +2567,20 @@ public class FrameMethods {
 
 		outStream.createFrameVarSizeWord(53);
 		outStream.writeWord(5382); // bank
-		outStream.writeWord(playerBankSize); // number of items
-		for (int i = 0; i < playerBankSize; i++) {
-			if (bankItemsN[i] > 254) {
+		outStream.writeWord(c.playerBankSize); // number of items
+		for (int i = 0; i < c.playerBankSize; i++) {
+			if (c.bankItemsN[i] > 254) {
 				outStream.writeByte(255);
-				outStream.writeDWord_v2(bankItemsN[i]);
+				outStream.writeDWord_v2(c.bankItemsN[i]);
 			} else {
-				outStream.writeByte(bankItemsN[i]); //amount	
+				outStream.writeByte(c.bankItemsN[i]); //amount	
 			}
-			if (bankItemsN[i] < 1)
-				bankItems[i] = 0;
-			if (bankItems[i] > 17000 || bankItems[i] < 0) {
-				bankItems[i] = 17000;
+			if (c.bankItemsN[i] < 1)
+				c.bankItems[i] = 0;
+			if (c.bankItems[i] > 17000 || c.bankItems[i] < 0) {
+				c.bankItems[i] = 17000;
 			}
-			outStream.writeWordBigEndianA(bankItems[i]); // itemID
+			outStream.writeWordBigEndianA(c.bankItems[i]); // itemID
 		}
 		outStream.endFrameVarSizeWord();
 
@@ -2615,7 +2601,7 @@ public class FrameMethods {
 				outStream.writeByte(Item.SmithingItems[i][1]);
 			}
 			if (Item.SmithingItems[i][0] > 20000 || Item.SmithingItems[i][0] < 0) {
-				playerItems[i] = 17000;
+				c.playerItems[i] = 17000;
 			}
 			outStream.writeWordBigEndianA(Item.SmithingItems[i][0]); //item id
 		}
@@ -2629,26 +2615,26 @@ public class FrameMethods {
 			amount = 1;
 		}
 
-		if (freeSlots() > 0 && poimiY == currentY && poimiX == currentX)
+		if (c.getInventoryHandler().freeSlots() > 0 && c.poimiY == c.currentY && c.poimiX == c.currentX)
 			//actionAmount++;	 			
 			//if (actionTimer == 0)
 		{
 			//The following 6 rows delete the item from the ground
 			/*outStream.createFrame(85); //setting the location
-			outStream.writeByteC(currentY);
-			outStream.writeByteC(currentX);
+			outStream.writeByteC(c.currentY);
+			outStream.writeByteC(c.currentX);
 			outStream.createFrame(156); //remove item frame
 			outStream.writeByteS(0);  //x(4 MSB) y(LSB) coords
 			outStream.writeWord(item);	// itemid*/
 			//actionTimer = 20;
-			for (int i=0; i<playerItems.length; i++)
+			for (int i=0; i<c.playerItems.length; i++)
 			{
-				if (playerItems[i] == (item+1) && Item.itemStackable[item] && playerItems[i] > 0)
+				if (c.playerItems[i] == (item+1) && Item.itemStackable[item] && c.playerItems[i] > 0)
 				{
-					playerItems[i] = item+1;
-					if ((playerItemsN[i] + amount) < maxItemAmount && (playerItemsN[i] + amount) > 0)
+					c.playerItems[i] = item+1;
+					if ((c.playerItemsN[i] + amount) < c.maxItemAmount && (c.playerItemsN[i] + amount) > 0)
 					{
-						playerItemsN[i] += amount;
+						c.playerItemsN[i] += amount;
 					}
 					else
 					{
@@ -2657,29 +2643,29 @@ public class FrameMethods {
 					outStream.createFrameVarSizeWord(34);
 					outStream.writeWord(3214);
 					outStream.writeByte(i);
-					outStream.writeWord(playerItems[i]);
-					if (playerItemsN[i] > 254)
+					outStream.writeWord(c.playerItems[i]);
+					if (c.playerItemsN[i] > 254)
 					{
 						outStream.writeByte(255);
-						outStream.writeDWord(playerItemsN[i]);
+						outStream.writeDWord(c.playerItemsN[i]);
 					}
 					else
 					{
-						outStream.writeByte(playerItemsN[i]); //amount	
+						outStream.writeByte(c.playerItemsN[i]); //amount	
 					}
 					outStream.endFrameVarSizeWord();
 					i=30;
 					return true;
 				}
 			}
-			for (int i=0; i<playerItems.length; i++)
+			for (int i=0; i<c.playerItems.length; i++)
 			{
-				if (playerItems[i] <= 0)
+				if (c.playerItems[i] <= 0)
 				{
-					playerItems[i] = item+1;
-					if (amount < maxItemAmount)
+					c.playerItems[i] = item+1;
+					if (amount < c.maxItemAmount)
 					{
-						playerItemsN[i] = amount;
+						c.playerItemsN[i] = amount;
 					}
 					else
 					{
@@ -2688,15 +2674,15 @@ public class FrameMethods {
 					outStream.createFrameVarSizeWord(34);
 					outStream.writeWord(3214);
 					outStream.writeByte(i);
-					outStream.writeWord(playerItems[i]);
-					if (playerItemsN[i] > 254)
+					outStream.writeWord(c.playerItems[i]);
+					if (c.playerItemsN[i] > 254)
 					{
 						outStream.writeByte(255);
-						outStream.writeDWord_v2(playerItemsN[i]);
+						outStream.writeDWord_v2(c.playerItemsN[i]);
 					}
 					else
 					{
-						outStream.writeByte(playerItemsN[i]); //amount	
+						outStream.writeByte(c.playerItemsN[i]); //amount	
 					}
 					outStream.endFrameVarSizeWord();
 					i=30;
@@ -2712,20 +2698,20 @@ public class FrameMethods {
 	}
 
 	public void openUpBankFrame() {
-		sortBank();
+		c.getClientMethodHandler().sortBank();
 		resetBankFrame();
 		sendFrame248(5292, 5063);
 		resetItems(5064);
-		IsBanking = true;
+		c.IsBanking = true;
 	}
 
 	public void openUpShopFrame(int ShopID) {
 		sendFrame126(server.shopHandler.ShopName[ShopID], 3901);
 		sendFrame248(3824, 3822);
 		resetItems(3823);
-		resetShop(ShopID);
-		IsShopping = true;
-		MyShopID = ShopID;
+		c.getClientMethodHandler().resetShop(ShopID);
+		c.IsShopping = true;
+		c.MyShopID = ShopID;
 	}
 
 
@@ -2745,8 +2731,8 @@ public class FrameMethods {
 	public void deleteObjectOnMapAndSendFrame(int objectX, int objectY)
 	{
 		outStream.createFrameVarSizeWord(60);
-		outStream.writeByte(objectY - (mapRegionY * 8));
-		outStream.writeByteC(objectX - (mapRegionX * 8));
+		outStream.writeByte(objectY - (c.mapRegionY * 8));
+		outStream.writeByteC(objectX - (c.mapRegionX * 8));
 		/*DELETE OBJECT*/
 		outStream.writeByte(101);
 		outStream.writeByteC(0);
@@ -2755,8 +2741,8 @@ public class FrameMethods {
 
 
 	public void AddDroppedItemsToGroundAndSendFrames() {
-		if (IsDropping == false) {
-			IsDropping = true;
+		if (c.IsDropping == false) {
+			c.IsDropping = true;
 			int tmpX = 0;
 			int tmpY = 0;
 			int calcX = 0;
@@ -2765,23 +2751,23 @@ public class FrameMethods {
 				if (server.itemHandler.DroppedItemsID[i] > -1) {
 					tmpX = server.itemHandler.DroppedItemsX[i];
 					tmpY = server.itemHandler.DroppedItemsY[i];
-					calcX = tmpX - absX;
-					calcY = tmpY - absY;
-					if (calcX >= -16 && calcX <= 15 && calcY >= -16 && calcY <= 15 && MustDelete[i] == false && server.itemHandler.DroppedItemsH[i] == heightLevel) {
-						if (IsDropped[i] == false && (server.itemHandler.DroppedItemsDDelay[i] <= 0 || server.itemHandler.DroppedItemsDropper[i] == playerId)) {
-							IsDropped[i] = true;
+					calcX = tmpX - c.absX;
+					calcY = tmpY - c.absY;
+					if (calcX >= -16 && calcX <= 15 && calcY >= -16 && calcY <= 15 && c.MustDelete[i] == false && server.itemHandler.DroppedItemsH[i] == c.heightLevel) {
+						if (c.IsDropped[i] == false && (server.itemHandler.DroppedItemsDDelay[i] <= 0 || server.itemHandler.DroppedItemsDropper[i] == c.playerId)) {
+							c.IsDropped[i] = true;
 							outStream.createFrame(85);
-							outStream.writeByteC((server.itemHandler.DroppedItemsY[i] - 8 * mapRegionY));
-							outStream.writeByteC((server.itemHandler.DroppedItemsX[i] - 8 * mapRegionX));
+							outStream.writeByteC((server.itemHandler.DroppedItemsY[i] - 8 * c.mapRegionY));
+							outStream.writeByteC((server.itemHandler.DroppedItemsX[i] - 8 * c.mapRegionX));
 							outStream.createFrame(44); //create item frame
 							outStream.writeWordBigEndianA(server.itemHandler.DroppedItemsID[i]);
 							outStream.writeWord(server.itemHandler.DroppedItemsN[i]); //amount
 							outStream.writeByte(0); // x(4 MSB) y(LSB) coords
 						}
-					} else if (IsDropped[i] == true || MustDelete[i] == true) {
+					} else if (c.IsDropped[i] == true || c.MustDelete[i] == true) {
 						outStream.createFrame(85);
-						outStream.writeByteC((server.itemHandler.DroppedItemsY[i] - 8 * mapRegionY));
-						outStream.writeByteC((server.itemHandler.DroppedItemsX[i] - 8 * mapRegionX));
+						outStream.writeByteC((server.itemHandler.DroppedItemsY[i] - 8 * c.mapRegionY));
+						outStream.writeByteC((server.itemHandler.DroppedItemsX[i] - 8 * c.mapRegionX));
 						outStream.createFrame(156); //remove item frame
 						outStream.writeByteS(0); // x(4 MSB) y(LSB) coords
 						outStream.writeWord(server.itemHandler.DroppedItemsID[i]);
@@ -2793,10 +2779,10 @@ public class FrameMethods {
 								TotalPlayers++;
 							}
 						}
-						if (MustDelete[i] == true) {
-							MustDelete[i] = false;
+						if (c.MustDelete[i] == true) {
+							c.MustDelete[i] = false;
 							server.itemHandler.DroppedItemsDeletecount[i]++;
-							if ((LastPlayerInList == playerId || LastPlayerInList == -1) && server.itemHandler.DroppedItemsDeletecount[i] == TotalPlayers) {
+							if ((LastPlayerInList == c.playerId || LastPlayerInList == -1) && server.itemHandler.DroppedItemsDeletecount[i] == TotalPlayers) {
 								if (server.itemHandler.DroppedItemsAlwaysDrop[i] == true) {
 									server.itemHandler.DroppedItemsDropper[i] = -1;
 									server.itemHandler.DroppedItemsDDelay[i] = server.itemHandler.SDID;
@@ -2810,12 +2796,12 @@ public class FrameMethods {
 								}
 							}
 						} else {
-							IsDropped[i] = false;
+							c.IsDropped[i] = false;
 						}
 					}
 				}
 			}
-			IsDropping = false;
+			c.IsDropping = false;
 		}
 	}
 
@@ -2826,19 +2812,19 @@ public class FrameMethods {
 
 	public void appendPos() {
 		try {
-			playersOnlineMenu();
-			sendQuest("X: "+absX+" Y: "+absY, 18803);
-		} catch(Exception e) { debug("Error"); }
+			c.getMenuHandler().playersOnlineMenu();
+			sendQuest("X: "+c.absX+" Y: "+c.absY, 18803);
+		} catch(Exception e) { c.debug("Error"); }
 	}
 
 	public void WriteBonus() {
 		int offset = 0;
 		String send = "";
-		for (int i = 0; i < playerBonus.length; i++) {
-			if (playerBonus[i] >= 0) {
-				send = BonusName[i]+": +"+playerBonus[i];
+		for (int i = 0; i < c.playerBonus.length; i++) {
+			if (c.playerBonus[i] >= 0) {
+				send = c.BonusName[i]+": +"+c.playerBonus[i];
 			} else {
-				send = BonusName[i]+": -"+java.lang.Math.abs(playerBonus[i]);
+				send = c.BonusName[i]+": -"+java.lang.Math.abs(c.playerBonus[i]);
 			}
 
 			if (i == 10) {
@@ -2885,18 +2871,18 @@ public class FrameMethods {
 			if (Item.smithing_frame[Type2][i][3] > 1) {
 				bar = bar + "s";
 			}
-			if (playerLevel[playerSmithing] >= Item.smithing_frame[Type2][i][2]) {
+			if (c.playerLevel[c.playerSmithing] >= Item.smithing_frame[Type2][i][2]) {
 				color2 = "";
 			}
 			int Type3 = Type2;
 			if (Type2 >= 3) {
 				Type3 = (Type2 + 2);
 			}
-			if (AreXItemsInBag((2349 + (Type3 * 2)), Item.smithing_frame[Type2][i][3]) == true) {
+			if (c.getInventoryHandler().AreXItemsInBag((2349 + (Type3 * 2)), Item.smithing_frame[Type2][i][3]) == true) {
 				color = "";
 			}
 			sendFrame126(color + "" + Item.smithing_frame[Type2][i][3] + "" + bar, Item.smithing_frame[Type2][i][4]);
-			sendFrame126(color2 + "" + getItemName(Item.smithing_frame[Type2][i][0]).replace(name, ""), Item.smithing_frame[Type2][i][5]);
+			sendFrame126(color2 + "" + Item.getItemName(Item.smithing_frame[Type2][i][0]).replace(name, ""), Item.smithing_frame[Type2][i][5]);
 		}
 		Item.SmithingItems[0][0] = Item.smithing_frame[Type2][0][0]; //Dagger
 		Item.SmithingItems[0][1] = Item.smithing_frame[Type2][0][1];
@@ -2932,12 +2918,12 @@ public class FrameMethods {
 		Item.SmithingItems[4][1] = 0;
 		if (Type == 2 || Type == 3) {
 			color2 = "";
-			if (playerLevel[playerSmithing] >= Item.smithing_frame[Type2][22][2]) {
+			if (c.playerLevel[c.playerSmithing] >= Item.smithing_frame[Type2][22][2]) {
 				color2 = "";
 			}
 			Item.SmithingItems[4][0] = Item.smithing_frame[Type2][22][0]; //Lantern
 			Item.SmithingItems[4][1] = Item.smithing_frame[Type2][22][1];
-			sendFrame126(color2 + "" + getItemName(Item.smithing_frame[Type2][22][0]), 11461);
+			sendFrame126(color2 + "" + Item.getItemName(Item.smithing_frame[Type2][22][0]), 11461);
 		}
 		setSmithingFrame(1121);
 		Item.SmithingItems[0][0] = Item.smithing_frame[Type2][3][0]; //Medium
@@ -2961,27 +2947,40 @@ public class FrameMethods {
 		Item.SmithingItems[3][1] = 0;
 		if (Type == 1) {
 			color2 = "";
-			if (playerLevel[playerSmithing] >= Item.smithing_frame[Type2][22][2]) {
+			if (c.playerLevel[c.playerSmithing] >= Item.smithing_frame[Type2][22][2]) {
 				color2 = "";
 			}
 			Item.SmithingItems[3][0] = Item.smithing_frame[Type2][22][0]; //Wire
 			Item.SmithingItems[3][1] = Item.smithing_frame[Type2][22][1];
-			sendFrame126(color2 + "" + getItemName(Item.smithing_frame[Type2][22][0]), 1096);
+			sendFrame126(color2 + "" + Item.getItemName(Item.smithing_frame[Type2][22][0]), 1096);
 		}
 		Item.SmithingItems[4][0] = -1; //Studs
 		Item.SmithingItems[4][1] = 0;
 		if (Type == 3) {
 			color2 = "";
-			if (playerLevel[playerSmithing] >= Item.smithing_frame[Type2][23][2]) {
+			if (c.playerLevel[c.playerSmithing] >= Item.smithing_frame[Type2][23][2]) {
 				color2 = "";
 			}
 			Item.SmithingItems[4][0] = Item.smithing_frame[Type2][23][0]; //Studs
 			Item.SmithingItems[4][1] = Item.smithing_frame[Type2][23][1];
-			sendFrame126(color2 + "" + getItemName(Item.smithing_frame[Type2][23][0]), 1134);
+			sendFrame126(color2 + "" + Item.getItemName(Item.smithing_frame[Type2][23][0]), 1134);
 		}
 		setSmithingFrame(1123);
 		showInterface(994);
-		smithing[2] = Type;
+		//smithing[2] = Type;
 	}
 
+	/**
+	 * Will present the option to travel to four locations
+	 * @param optName Question at top of frame
+	 * @param opt1 Option 1
+	 * @param x1 Option 1 x coordinate
+	 * @param y1 Option 2 y coordinate
+	 */
+	public void select4Options(String optName, String opt1, int x1, int y1, String opt2, int x2, int y2, String opt3, int x3, int y3, String opt4, int x4, int y4){
+		c.optionsMenu = true;		c.oX1 = x1;		c.oX2 = x2;		c.oX3 = x3;		c.oX4 = x4;		c.oY1 = y1;		c.oY2 = y2;		c.oY3 = y3;		c.oY4 = y4;				
+		selectoption2(optName, opt1, opt2, opt3, opt4);		
+	}
+
+	
 }

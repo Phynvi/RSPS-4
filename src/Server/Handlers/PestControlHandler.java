@@ -22,7 +22,7 @@ public class PestControlHandler {
 	}
 	
 	private void sendPlayerBackToOutpostAndHeal(client c){
-		c.ResetAttackNPC();
+		c.getCombatHandler().ResetAttackNPC();
 		c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);
 		c.teleport(2657,2639);
 		c.PRAY.disableAllPrayer();
@@ -70,7 +70,7 @@ public class PestControlHandler {
 						c.outStream.writeWordBigEndian_dup(11479);
 						c.roundTimerFrameCreated = true;
 					}
-					c.sendQuest("Time left in this round: "+roundTimer+", Portals alive : "+portalsAlive, 11480);
+					c.getFrameMethodHandler().sendQuest("Time left in this round: "+roundTimer+", Portals alive : "+portalsAlive, 11480);
 				}
 				if(c.isInArea(2660,2638,2663,2643)){ //on boat
 					if(!c.roundTimerFrameCreated){
@@ -78,7 +78,7 @@ public class PestControlHandler {
 						c.outStream.writeWordBigEndian_dup(11479);
 						c.roundTimerFrameCreated = true;
 					}
-					c.sendQuest("Time until next departure: "+timeUntilNextRound, 11480);
+					c.getFrameMethodHandler().sendQuest("Time until next departure: "+timeUntilNextRound, 11480);
 				}
 			}
 		}
@@ -137,7 +137,7 @@ public class PestControlHandler {
 						c.roundTimerFrameCreated = false;
 						c.sendMessage("You are awarded 3 Pest Control Points.");
 						c.pestControlPoints += 1;
-						c.savemoreinfo();
+						c.getFileLoadingHandler().savemoreinfo();
 					}
 				}
 				resetRoundTimers();

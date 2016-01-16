@@ -1,19 +1,19 @@
 
 public class ButtonClickHandler {
 	private client c = null;
-	
+
 	public ButtonClickHandler(client pc){
 		this.c = pc;
 	}
-	
+
 	public void clickButton(int actionButtonId){
-		
+
 
 		c.debug("Case 185: "+actionButtonId);
-	if(lists.prayerList.exists(actionButtonId)){
-		c.PRAY.checkPrayer(actionButtonId);
-		break;
-	}
+		if(lists.prayerList.exists(actionButtonId)){
+			c.PRAY.checkPrayer(actionButtonId);
+			return;
+		}
 
 
 		switch(actionButtonId) {
@@ -25,661 +25,632 @@ public class ButtonClickHandler {
 		//break;			
 
 		case 28170:
-			getFrameMethodHandler().menu(this.menuHandler.newBeginnings());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().newBeginnings());
 			break;
 
 		case 150: //auto retaliate on
-			autoRetaliate = 1;
-			getFrameMethodHandler().sendQuest("@gre@Auto Retaliate", 155); //auto retaliate
+			c.autoRetaliate = 1;
+			c.getFrameMethodHandler().sendQuest("@gre@Auto Retaliate", 155); //auto retaliate
 			break;
 		case 151: //auto retaliate off
-			autoRetaliate = 0;
-			getFrameMethodHandler().sendQuest("@red@Auto Retaliate", 155); //auto retaliate
+			c.autoRetaliate = 0;
+			c.getFrameMethodHandler().sendQuest("@red@Auto Retaliate", 155); //auto retaliate
 			break;
 
 		case 54104:
-			getFrameMethodHandler().Menu(this.menuHandler.farmingGuide());
+			c.getFrameMethodHandler().Menu(c.getMenuHandler().farmingGuide());
 			break;
 
 		case 21168:
-			getFrameMethodHandler().RemoveAllWindows();
+			c.getFrameMethodHandler().RemoveAllWindows();
 			break;
 
 		case 73104:
-			sendMessage("X: "+absX+" Y: "+absY);
-			println("X: "+absX+" Y: "+absY);
+			c.sendMessage("X: "+c.absX+" Y: "+c.absY);
+			c.println("X: "+c.absX+" Y: "+c.absY);
 			break;
 
 		case 73108:
-			getFrameMethodHandler().playerMenuFrames();
+			c.getFrameMethodHandler().playerMenuFrames();
 			break;
 
 		case 1097:
-			if(spellbook == 1) 
-				setSidebarInterface(0, 1689);
+			if(c.spellbook == 1) 
+				c.getFrameMethodHandler().setSidebarInterface(0, 1689);
 			else 
-				setSidebarInterface(0, 1829);
+				c.getFrameMethodHandler().setSidebarInterface(0, 1829);
 			break;
 
 			//Autocast
 
 			//4 select option
 		case 32017: //1st option
-			if(optionsMenu){
-				optionsMenu = false;
-				if(oX1 != -1 && oY1 != -1){
-					isteleporting2(409, 1818, 15, oX1, oY1, 0);
-					RemoveAllWindows();
-					oX1 = -1;
-					oY1 = -1;
+			if(c.optionsMenu){
+				c.optionsMenu = false;
+				if(c.oX1 != -1 && c.oY1 != -1){
+					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX1, c.oY1, 0);
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX1 = -1;
+					c.oY1 = -1;
 				}
-				if(oX1 == -1 || oY1 == -1){
-					RemoveAllWindows();
-					oX1 = -1;
-					oY1 = -1;
+				if(c.oX1 == -1 || c.oY1 == -1){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX1 = -1;
+					c.oY1 = -1;
 				}
 			}
 
-			if(starter4Options){
-				starter4Options = false;
-				if(freeSlots() >= 8){
-					npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
-					addItems(1075,1103,2894,1007,1291,1173); //bronze platelegs, chainmail, grey boots, red cape, bronze longsword, bronze sq shield
-					addItem(995,10000); //10,000 GP to start
-					addItem(352, 100); //100 cooked pike
-					starter = 1;
+			if(c.starter4Options){
+				c.starter4Options = false;
+				if(c.getInventoryHandler().freeSlots() >= 8){
+					c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
+					c.getInventoryHandler().addItems(1075,1103,2894,1007,1291,1173); //bronze platelegs, chainmail, grey boots, red cape, bronze longsword, bronze sq shield
+					c.getInventoryHandler().addItem(995,10000); //10,000 GP to start
+					c.getInventoryHandler().addItem(352, 100); //100 cooked pike
+					c.starter = 1;
 				}
-				else npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
+				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
 				break;
 			}
 
-			if(skillMasterPurchase){ //skillcape
-				skillMasterPurchase = false;
-				if(getLevelForXP(playerXP[skill99ID]) >= 99){
-					if(playerHasItemAmount(995, 99000)){ //99k to purchase
-						if(freeSlots() >= 1){
-							npcdialogue(skillMasterName, skillMasterID, "I'll take your 99,000 GP, ","and here's your skillcape.");
-							deleteItem(995, getItemSlot(995), 100000);
-							addItem(skillcape,1);
+			if(c.skillMasterPurchase){ //c.skillcape
+				c.skillMasterPurchase = false;
+				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99){
+					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
+						if(c.getInventoryHandler().freeSlots() >= 1){
+							c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "I'll take your 99,000 GP, ","and here's your c.skillcape.");
+							c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 100000);
+							c.getInventoryHandler().addItem(c.skillcape,1);
 						}
-						else npcdialogue(skillMasterName, skillMasterID, "Try clearing up some inventory", "space first.");
+						else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "Try clearing up some inventory", "space first.");
 					}
-					else npcdialogue(skillMasterName, skillMasterID, "You do not have enough coins", "to afford this cape.");
+					else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "You do not have enough coins", "to afford this cape.");
 				}
-				else npcdialogue(skillMasterName, skillMasterID, "If you want to purchase a cape,","you need to have 99 "+skillName);
+				else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "If you want to purchase a cape,","you need to have 99 "+c.skillName);
 				break;
 			}
 
-			if(skillMaster){
-				skillMaster = false;
-				npcdialogue(skillMasterName, skillMasterID, skillMasterDialogue);
+			if(c.skillMaster){
+				c.skillMaster = false;
+				c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, c.skillMasterDialogue);
 				break;
 			}
 
-			if(arianwyn){
-				arianwyn = false;
-				npcdialogue("Arianwyn", 1202, "We were able to contain the demon with","your help. Thank you.");
+			if(c.arianwyn){
+				c.arianwyn = false;
+				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "We were able to contain the demon with","your help. Thank you.");
 				break;
 			}
 
-			if(slayer4Options){
-				slayer4Options = false;
-				if(slayerCount < 10){
-					this.SLAYER.generateTask();
-					npcdialogue(getNpcName(slayerMaster), slayerMaster, "You want to help us rid the world", "of annoying monsters?", "I am fine with this.", "Sure, I'll give you a task.",
-							"I want you to slay "+slayerCount+" "+this.SLAYER.getTaskName(slayerNPC)+"s.");
+			if(c.slayer4Options){
+				c.slayer4Options = false;
+				if(c.slayerCount < 10){
+					c.SLAYER.generateTask();
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You want to help us rid the world", "of annc.oYing monsters?", "I am fine with this.", "Sure, I'll give you a task.",
+							"I want you to slay "+c.slayerCount+" "+c.SLAYER.getTaskName(c.slayerNPC)+"s.");
 				}
 				else
-					npcdialogue(getNpcName(slayerMaster), slayerMaster, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
 				break;
 			}
 
-			if (tokenexchange){
-				tokenexchange = false;
-				if (playerHasItemAmount(13303, 1) && freeSlots() >= 1){
-					deleteItem(13303, getItemSlot(13303), 1);
-					addItem(15336, 1);
-					npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
+			if (c.tokenexchange){
+				c.tokenexchange = false;
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(15336, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
 				}
-				else if (playerHasItemAmount(13303, 1) && freeSlots() < 1){
-					npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
 				}
 				else{
-					npcdialogue("Token Exchange Master", 410, "You need at least one token.");
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
 				}
 			}
 
-			if (tokenexchange2){
-				tokenexchange2 = false;
-				if (playerHasItemAmount(13303, 1) && freeSlots() >= 1){
-					deleteItem(13303, getItemSlot(13303), 1);
-					addItem(3627, 1);
-					npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Arcane Spirit Shield.");
+			if (c.tokenexchange2){
+				c.tokenexchange2 = false;
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(3627, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Arcane Spirit Shield.");
 				}
-				else if (playerHasItemAmount(13303, 1) && freeSlots() < 1){
-					npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
 				}
 				else{
-					npcdialogue("Token Exchange Master", 410, "You need at least one token.");
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
 				}
 			}
 
-			if (ticketexchange){
-				npcdialogue("Jackie The Fruit", 1055, "Below our very feet lies a vast", "and dangerous agility course!", "The way the course works is", "that after you have used each",
+			if (c.ticketexchange){
+				c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Below our very feet lies a vast", "and dc.angerous agility course!", "The way the course works is", "that after you have used each",
 						"obstacle, you have 3 seconds to", "tag the ticket dispenser. When", "you tag the dispenser you will", "recieve a ticket. Sometimes you",
 						"might recieve more then one ticket", "from a tag, depending on your luck!", "You can exchange tickets for rewards", "such as items and EXP, good luck!");
-				ticketexchange = false;
+				c.ticketexchange = false;
 			}
 
-			if (ticketexchange2){
-				if (playerHasItemAmount(2996, 100)){
-					int exprec = playerLevel[16]*10000;
-					deleteItem(2996, getItemSlot(2996), 100);
-					npcdialogue("Jackie The Fruit", 1055, "I'll take those 100 tickets and", "here's your "+exprec+" EXP.");
-					addSkillXP(exprec, 16);
-					ticketexchange2 = false;
+			if (c.ticketexchange2){
+				if (c.getInventoryHandler().playerHasItemAmount(2996, 100)){
+					int exprec = c.playerLevel[16]*10000;
+					c.getInventoryHandler().deleteItem(2996, c.getInventoryHandler().getItemSlot(2996), 100);
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "I'll take those 100 tickets and", "here's your "+exprec+" EXP.");
+					c.getClientMethodHandler().addSkillXP(exprec, 16);
+					c.ticketexchange2 = false;
 				}
 				else{
-					npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have 100 tickets!");
-					ticketexchange2 = false;
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have 100 tickets!");
+					c.ticketexchange2 = false;
 				}
 			}
 
-			if (soulwars){
-				int recieved = playerLevel[3]*soulbonus;
-				addSkillXP(recieved, 3);
-				pkpoints -= 10;
-				sendMessage("You recieve "+recieved+" hitpoints exp. You have "+pkpoints+" PK points left.");
-				RemoveAllWindows();
-				soulwars = false;
+			if (c.soulwars){
+				int recieved = c.playerLevel[3]*c.soulbonus;
+				c.getClientMethodHandler().addSkillXP(recieved, 3);
+				c.pkpoints -= 10;
+				c.sendMessage("You recieve "+recieved+" hitpoints exp. You have "+c.pkpoints+" PK points left.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars = false;
 			}
 
-			if (soulwars2){
-				int recieved = playerLevel[1]*soulbonus;
-				addSkillXP(recieved, 1);
-				pkpoints -= 10;
-				sendMessage("You recieve "+recieved+" defence exp. You have "+pkpoints+" PK points left.");
-				RemoveAllWindows();
-				soulwars2 = false;
+			if (c.soulwars2){
+				int recieved = c.playerLevel[1]*c.soulbonus;
+				c.getClientMethodHandler().addSkillXP(recieved, 1);
+				c.pkpoints -= 10;
+				c.sendMessage("You recieve "+recieved+" defence exp. You have "+c.pkpoints+" PK points left.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars2 = false;
 			}
 
-			if (anger) {
-				addItem(7806, 1);
-				sendMessage("You take the Anger Sword.");
-				RemoveAllWindows();
-				anger = false;
+			if (c.glory4) {
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024, 3206, 0);
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.glory4 = false;
 			}
 
-			if (glory4) {
-				isteleporting2(409, 1818, 15, 3024, 3206, 0);
-				RemoveAllWindows();
-				glory4 = false;
-			}
-
-			if (fletchingoption){
-				if (playerLevel[9] >= fletchingshortlvl){
-					startAnimation(1248);
-					fletchingitem = fletchingshort;
-					fletchingprocessshort = 4;
-					RemoveAllWindows();
-					fletchingoption = false;
+			if (c.fletchingoption){
+				if (c.playerLevel[9] >= c.fletchingshortlvl){
+					c.startAnimation(1248);
+					c.fletchingitem = c.fletchingshort;
+					c.fletchingprocessshort = 4;
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.fletchingoption = false;
 				}
-				else if (playerLevel[9] != fletchingshortlvl){
-					RemoveAllWindows();
-					sendMessage("You need "+fletchingshortlvl+" fletching for that bow.");
-					fletchingoption = false;
+				else if (c.playerLevel[9] != c.fletchingshortlvl){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
+					c.fletchingoption = false;
 				}
 			}
 			break;
 
 		case 32018: //2nd option
-			if(optionsMenu){
-				optionsMenu = false;
-				if(oX2 != -1 && oY2 != -1){
-					isteleporting2(409, 1818, 15, oX2, oY2, 0);
-					RemoveAllWindows();
-					oX2 = -1;
-					oY2 = -1;
+			if(c.optionsMenu){
+				c.optionsMenu = false;
+				if(c.oX2 != -1 && c.oY2 != -1){
+					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX2, c.oY2, 0);
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX2 = -1;
+					c.oY2 = -1;
 				}
-				if(oX2 == -1 || oY2 == -1){
-					RemoveAllWindows();
-					oX2 = -1;
-					oY2 = -1;
+				if(c.oX2 == -1 || c.oY2 == -1){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX2 = -1;
+					c.oY2 = -1;
 				}
 			}
 
-			if(starter4Options){
-				starter4Options = false;
-				if(freeSlots() >= 8){
-					npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
-					addItems(577,1011,2579,1007,1379,3843); //wizard robe, bottom, boots, staff, damaged book of guthix, 
-					addItem(995,10000); //10,000 GP to start
-					addItem(352, 100); //100 cooked pike
-					starter = 1;
+			if(c.starter4Options){
+				c.starter4Options = false;
+				if(c.getInventoryHandler().freeSlots() >= 8){
+					c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
+					c.getInventoryHandler().addItems(577,1011,2579,1007,1379,3843); //wizard robe, bottom, boots, staff, damaged book of guthix, 
+					c.getInventoryHandler().addItem(995,10000); //10,000 GP to start
+					c.getInventoryHandler().addItem(352, 100); //100 cooked pike
+					c.starter = 1;
 				}
-				else npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
+				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
 				break;
 			}	
 
-			if(skillMasterPurchase){ //skillcape trimmed
-				skillMasterPurchase = false;
-				if(getLevelForXP(playerXP[skill99ID]) >= 99 && masteries > 1){
-					if(playerHasItemAmount(995, 99000)){ //99k to purchase
-						if(freeSlots() >= 1){
-							npcdialogue(skillMasterName, skillMasterID, "I'll take your 99,000 GP, ","and here's your trimmed skillcape.");
-							deleteItem(995, getItemSlot(995), 100000);
-							addItem(skillcapeTrimmed,1);
+			if(c.skillMasterPurchase){ //c.skillcape trimmed
+				c.skillMasterPurchase = false;
+				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99 && c.masteries > 1){
+					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
+						if(c.getInventoryHandler().freeSlots() >= 1){
+							c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "I'll take your 99,000 GP, ","and here's your trimmed c.skillcape.");
+							c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 100000);
+							c.getInventoryHandler().addItem(c.skillcapeTrimmed,1);
 						}
-						else npcdialogue(skillMasterName, skillMasterID, "Try clearing up some inventory", "space first.");
+						else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "Try clearing up some inventory", "space first.");
 					}
-					else npcdialogue(skillMasterName, skillMasterID, "You do not have enough coins", "to afford this cape.");
+					else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "You do not have enough coins", "to afford this cape.");
 				}
-				else npcdialogue(skillMasterName, skillMasterID, "If you want to purchase a trimmed cape,","you need to have 99 "+skillName+",", "and at least another skill mastery.");
+				else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "If you want to purchase a trimmed cape,","you need to have 99 "+c.skillName+",", "and at least another skill mastery.");
 				break;
 			}
 
-			if(skillMaster){
-				skillMaster = false;
-				skillMasterPurchase = true;
-				selectoption2("Purchase?", "Skillcape (99,000 GP)", "Skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
+			if(c.skillMaster){
+				c.skillMaster = false;
+				c.skillMasterPurchase = true;
+				c.getFrameMethodHandler().selectoption2("Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
 				break;
 			}
 
-			if(arianwyn){
-				arianwyn = false;
-				npcdialogue("Arianwyn", 1202, "I have switched your spellbook.");
-				if(spellbook == 0){
-					spellbook = 1;
-					setSidebarInterface(6, 12855);
+			if(c.arianwyn){
+				c.arianwyn = false;
+				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "I have switched your c.spellbook.");
+				if(c.spellbook == 0){
+					c.spellbook = 1;
+					c.getFrameMethodHandler().setSidebarInterface(6, 12855);
 				}
 				else{
-					spellbook = 0;
-					setSidebarInterface(6, 1151);
+					c.spellbook = 0;
+					c.getFrameMethodHandler().setSidebarInterface(6, 1151);
 				}
-				savechar();
-				savemoreinfo();
+				c.getFileLoadingHandler().savechar();
+				c.getFileLoadingHandler().savemoreinfo();
 				break;
 			}
 
-			if(slayer4Options){
-				slayer4Options = false;
-				String npcName = this.SLAYER.getTaskName(slayerNPC);
-				if(slayerCount > 1)
+			if(c.slayer4Options){
+				c.slayer4Options = false;
+				String npcName = c.SLAYER.getTaskName(c.slayerNPC);
+				if(c.slayerCount > 1)
 					npcName += "s";
-				if(slayerNPC == 0){
-					npcdialogue(getNpcName(slayerMaster), slayerMaster, "You currently have no task.");
+				if(c.slayerNPC == 0){
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You currently have no task.");
 					break;
 				}
-				if(slayerCount <= 0){
-					npcdialogue(getNpcName(slayerMaster), slayerMaster, "You have completed your Slayer task.");
+				if(c.slayerCount <= 0){
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You have completed your Slayer task.");
 					break;
 				}
-				npcdialogue(getNpcName(slayerMaster), slayerMaster, "From the looks of it...", "You have "+slayerCount+" "+npcName+" left.");
+				c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "From the looks of it...", "You have "+c.slayerCount+" "+npcName+" left.");
 				break;
 			}		
 
-			if (tokenexchange){
-				tokenexchange = false;
-				if (playerHasItemAmount(13303, 1) && freeSlots() >= 1){
-					deleteItem(13303, getItemSlot(13303), 1);
-					addItem(15334, 1);
-					npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
-					tokenexchange = false;
+			if (c.tokenexchange){
+				c.tokenexchange = false;
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(15334, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
+					c.tokenexchange = false;
 				}
-				else if (playerHasItemAmount(13303, 1) && freeSlots() < 1){
-					npcdialogue("Token Exchange Master", 410, "I can't give you a sword with", "a full inventory");
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword with", "a full inventory");
 				}
-				else npcdialogue("Token Exchange Master", 410, "You need at least one token!");
+				else c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token!");
 			}
 
-			if (tokenexchange2){
-				tokenexchange2 = false;
-				if (playerHasItemAmount(13303, 1) && freeSlots() >= 1){
-					deleteItem(13303, getItemSlot(13303), 1);
-					addItem(3637, 1);
-					npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Elysian Spirit Shield.");
+			if (c.tokenexchange2){
+				c.tokenexchange2 = false;
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(3637, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Elysian Spirit Shield.");
 				}
-				else if (playerHasItemAmount(13303, 1) && freeSlots() < 1)
-					npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1)
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
 
-				else npcdialogue("Token Exchange Master", 410, "You need at least one token.");
+				else c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
 			}
 
-			if (ticketexchange2){
-				if (playerHasItemAmount(2996, 250) && freeSlots() >= 1){
-					deleteItem(2996, getItemSlot(2996), 250);
-					addItem(12003, 1);
-					npcdialogue("Jackie The Fruit", 1055, "I'll take those 250 tickets and", "here's your Void Knight Gloves.");
-					ticketexchange2 = false;
+			if (c.ticketexchange2){
+				if (c.getInventoryHandler().playerHasItemAmount(2996, 250) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(2996, c.getInventoryHandler().getItemSlot(2996), 250);
+					c.getInventoryHandler().addItem(12003, 1);
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "I'll take those 250 tickets and", "here's your Void Knight Gloves.");
+					c.ticketexchange2 = false;
 				}
-				else if (playerHasItemAmount(2996, 250) && freeSlots() < 1){
-					npcdialogue("Jackie The Fruit", 1055, "Come back when you have more", "room available in your inventory.");
-					ticketexchange2 = false;
+				else if (c.getInventoryHandler().playerHasItemAmount(2996, 250) && c.getInventoryHandler().freeSlots() < 1){
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back when you have more", "room available in your inventory.");
+					c.ticketexchange2 = false;
 				}
 				else{
-					npcdialogue("Jackie The Fruit", 1055, "Come back when you have 250 tickets.");
-					ticketexchange2 = false;
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back when you have 250 tickets.");
+					c.ticketexchange2 = false;
 				}
 			}
 
-			if (ticketexchange){
-				int exprec = playerLevel[16]*10000;
-				selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel!");
-				ticketexchange = false;
-				ticketexchange2 = true;
-				//playerLevel[16] >= 99
+			if (c.ticketexchange){
+				int exprec = c.playerLevel[16]*10000;
+				c.getFrameMethodHandler().selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel!");
+				c.ticketexchange = false;
+				c.ticketexchange2 = true;
+				//c.playerLevel[16] >= 99
 			}                  
 
-			if (soulwars){
-				int recieved = playerLevel[0]*soulbonus;
-				addSkillXP(recieved, 0);
-				pkpoints -= 10;
-				sendMessage("You recieve "+recieved+" attack exp. You have "+pkpoints+" PK points left.");
-				RemoveAllWindows();
-				soulwars = false;
+			if (c.soulwars){
+				int recieved = c.playerLevel[0]*c.soulbonus;
+				c.getClientMethodHandler().addSkillXP(recieved, 0);
+				c.pkpoints -= 10;
+				c.sendMessage("You recieve "+recieved+" attack exp. You have "+c.pkpoints+" PK points left.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars = false;
 			}
 
-			if (anger) {
-				addItem(7809, 1);
-				sendMessage("You take the Anger Spear.");
-				RemoveAllWindows();
-				anger = false;
+			if (c.soulwars2){
+				int recieved = c.playerLevel[4]*c.soulbonus;
+				c.getClientMethodHandler().addSkillXP(recieved, 4);
+				c.pkpoints -= 10;
+				c.sendMessage("You recieve "+recieved+" range exp. You have "+c.pkpoints+" PK points left.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars2 = false;
 			}
 
-			if (soulwars2){
-				int recieved = playerLevel[4]*soulbonus;
-				addSkillXP(recieved, 4);
-				pkpoints -= 10;
-				sendMessage("You recieve "+recieved+" range exp. You have "+pkpoints+" PK points left.");
-				RemoveAllWindows();
-				soulwars2 = false;
-			}
-
-			if (glory4) {
-				isteleporting2(409, 1818, 15, 2953, 3215, 0);
-				RemoveAllWindows();
-				glory4 = false;
+			if (c.glory4) {
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2953, 3215, 0);
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.glory4 = false;
 			}			   
 
-			if (fletchingoption){
-				if (playerLevel[9] >= fletchinglonglvl){
-					startAnimation(1248);
-					fletchingexp += fletchingexp/5;
-					fletchingitem = fletchinglong;
-					fletchingprocessshort = 4;
-					RemoveAllWindows();
-					fletchingoption = false;
+			if (c.fletchingoption){
+				if (c.playerLevel[9] >= c.fletchinglonglvl){
+					c.startAnimation(1248);
+					c.fletchingexp += c.fletchingexp/5;
+					c.fletchingitem = c.fletchinglong;
+					c.fletchingprocessshort = 4;
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.fletchingoption = false;
 				}
-				else if (playerLevel[9] != fletchinglonglvl){
-					RemoveAllWindows();
-					sendMessage("You need "+fletchinglonglvl+" fletching for that bow.");
-					fletchingoption = false;
+				else if (c.playerLevel[9] != c.fletchinglonglvl){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.sendMessage("You need "+c.fletchinglonglvl+" fletching for that bow.");
+					c.fletchingoption = false;
 				}
 			}
 			break;
 
 		case 32019: //3rd option
-			if(optionsMenu){
-				optionsMenu = false;
-				if(oX3 != -1 && oY3 != -1){
-					isteleporting2(409, 1818, 15, oX3, oY3, 0);
-					RemoveAllWindows();
-					oX3 = -1;
-					oY3 = -1;
+			if(c.optionsMenu){
+				c.optionsMenu = false;
+				if(c.oX3 != -1 && c.oY3 != -1){
+					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX3, c.oY3, 0);
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX3 = -1;
+					c.oY3 = -1;
 				}
-				if(oX3 == -1 || oY3 == -1){
-					RemoveAllWindows();
-					oX3 = -1;
-					oY3 = -1;
+				if(c.oX3 == -1 || c.oY3 == -1){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX3 = -1;
+					c.oY3 = -1;
 				}
 			}	
 
-			if(starter4Options){
-				starter4Options = false;
-				if(freeSlots() >= 8){
-					npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
-					addItems(1095, 1129, 2577, 1007, 841); //leather chaps, body, ranger boots, red cape, shortbow
-					addItem(882,1000); //1000 bronze arrows
-					addItem(995,10000); //10,000 GP to start
-					addItem(352, 100); //100 cooked pike
-					starter = 1;
+			if(c.starter4Options){
+				c.starter4Options = false;
+				if(c.getInventoryHandler().freeSlots() >= 8){
+					c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
+					c.getInventoryHandler().addItems(1095, 1129, 2577, 1007, 841); //leather chaps, body, rc.anger boots, red cape, shortbow
+					c.getInventoryHandler().addItem(882,1000); //1000 bronze arrows
+					c.getInventoryHandler().addItem(995,10000); //10,000 GP to start
+					c.getInventoryHandler().addItem(352, 100); //100 cooked pike
+					c.starter = 1;
 				}
-				else npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
+				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
 			}	
 
-			if(skillMasterPurchase){ //hood
-				skillMasterPurchase = false;
-				if(getLevelForXP(playerXP[skill99ID]) >= 99){
-					if(playerHasItemAmount(995, 99000)){ //99k to purchase
-						if(freeSlots() >= 1){
-							npcdialogue(skillMasterName, skillMasterID, "I'll take your 99,000 GP, ","and here's your hood.");
-							deleteItem(995, getItemSlot(995), 100000);
-							addItem(skillHood,1);
+			if(c.skillMasterPurchase){ //hood
+				c.skillMasterPurchase = false;
+				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99){
+					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
+						if(c.getInventoryHandler().freeSlots() >= 1){
+							c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "I'll take your 99,000 GP, ","and here's your hood.");
+							c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 100000);
+							c.getInventoryHandler().addItem(c.skillHood,1);
 						}
-						else npcdialogue(skillMasterName, skillMasterID, "Try clearing up some inventory", "space first.");
+						else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "Try clearing up some inventory", "space first.");
 					}
-					else npcdialogue(skillMasterName, skillMasterID, "You do not have enough coins", "to afford this hood.");
+					else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "You do not have enough coins", "to afford this hood.");
 				}
-				else npcdialogue(skillMasterName, skillMasterID, "If you want to purchase a hood,","you need to have 99 "+skillName);
+				else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "If you want to purchase a hood,","you need to have 99 "+c.skillName);
 				break;
 			}
 
-			if(skillMaster){
-				skillMaster = false;
-				RemoveAllWindows();
+			if(c.skillMaster){
+				c.skillMaster = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}
 
-			if(arianwyn){
-				arianwyn = false;
-				BIS = true;
-				selectoption("Buy a Staff for 1,000,000 GP?", "Sure thing!", "No", "...");
+			if(c.arianwyn){
+				c.arianwyn = false;
+				c.BIS = true;
+				c.getFrameMethodHandler().selectoption("Buy a Staff for 1,000,000 GP?", "Sure thing!", "No", "...");
 			}
 
-			if(slayer4Options){
-				slayer4Options = false;
-				slayer2Options = true;
-				selectoption("100,000 GP for a Slayer Crystal?", "Sure", "No thanks.");
+			if(c.slayer4Options){
+				c.slayer4Options = false;
+				c.slayer2Options = true;
+				c.getFrameMethodHandler().selectoption("100,000 GP for a Slayer Crystal?", "Sure", "No thanks.");
 			}
 
-			if (tokenexchange){
-				tokenexchange = false;
-				if (playerHasItemAmount(13303, 1) && freeSlots() >= 1){
-					deleteItem(13303, getItemSlot(13303), 1);
-					addItem(15335, 1);
-					npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
-					tokenexchange = false;
+			if (c.tokenexchange){
+				c.tokenexchange = false;
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(15335, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
+					c.tokenexchange = false;
 				}
-				else if (playerHasItemAmount(13303, 1) && freeSlots() < 1)
-					npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1)
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
 				else
-					npcdialogue("Token Exchange Master", 410, "You need at least one token.");
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
 			}
 
-			if (tokenexchange2){
-				tokenexchange2 = false;
-				if (playerHasItemAmount(13303, 1) && freeSlots() >= 1){
-					deleteItem(13303, getItemSlot(13303), 1);
-					addItem(3629, 1);
-					npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Spectral Spirit Shield.");
+			if (c.tokenexchange2){
+				c.tokenexchange2 = false;
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(3629, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Spectral Spirit Shield.");
 				}
-				else if (playerHasItemAmount(13303, 1) && freeSlots() < 1)
-					npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1)
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
 
-				else npcdialogue("Token Exchange Master", 410, "You need at least one token.");
+				else c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
 			}
 
-			if (ticketexchange2){
-				if (playerHasItemAmount(2996, 500) && freeSlots() >= 2){
-					deleteItem(2996, getItemSlot(2996), 500);
-					addItem(13301, 1);
-					addItem(13302, 1);
-					npcdialogue("Jackie The Fruit", 1055, "I'll take those 500 tickets, and","here's your Agility Armor");
-					ticketexchange2 = false;
+			if (c.ticketexchange2){
+				if (c.getInventoryHandler().playerHasItemAmount(2996, 500) && c.getInventoryHandler().freeSlots() >= 2){
+					c.getInventoryHandler().deleteItem(2996, c.getInventoryHandler().getItemSlot(2996), 500);
+					c.getInventoryHandler().addItem(13301, 1);
+					c.getInventoryHandler().addItem(13302, 1);
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "I'll take those 500 tickets, and","here's your Agility Armor");
+					c.ticketexchange2 = false;
 				}
-				else if (playerHasItemAmount(2996, 500) && freeSlots() < 2){
-					npcdialogue("Jackie The Fruit", 1055, "You need at least 2 empty slots", "in your inventory.");
-					ticketexchange2 = false;
+				else if (c.getInventoryHandler().playerHasItemAmount(2996, 500) && c.getInventoryHandler().freeSlots() < 2){
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "You need at least 2 empty slots", "in your inventory.");
+					c.ticketexchange2 = false;
 				}
 				else{
-					npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have", "500 tickets.");
-					ticketexchange2 = false;
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have", "500 tickets.");
+					c.ticketexchange2 = false;
 				}
 			}
 
-			if (ticketexchange){
-				ticketexchange = false;
-				RemoveAllWindows();
+			if (c.ticketexchange){
+				c.ticketexchange = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 			}
 
-			if (soulwars){
-				int recieved = playerLevel[2]*soulbonus;
-				addSkillXP(recieved, 2);
-				pkpoints -= 10;
-				sendMessage("You recieve "+recieved+" strength exp. You have "+pkpoints+" PK points left.");
-				RemoveAllWindows();
-				soulwars = false;
+			if (c.soulwars){
+				int recieved = c.playerLevel[2]*c.soulbonus;
+				c.getClientMethodHandler().addSkillXP(recieved, 2);
+				c.pkpoints -= 10;
+				c.sendMessage("You recieve "+recieved+" strength exp. You have "+c.pkpoints+" PK points left.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars = false;
 			}
 
-			if (anger) {
-				addItem(7808, 1);
-				sendMessage("You take the Anger Mace.");
-				RemoveAllWindows();
-				anger = false;
+			if (c.soulwars2){
+				int recieved = c.playerLevel[5]*c.soulbonus;
+				c.getClientMethodHandler().addSkillXP(recieved, 5);
+				c.pkpoints -= 10;
+				c.sendMessage("You recieve "+recieved+" prayer exp. You have "+c.pkpoints+" PK points left.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars2 = false;
 			}
 
-			if (soulwars2){
-				int recieved = playerLevel[5]*soulbonus;
-				addSkillXP(recieved, 5);
-				pkpoints -= 10;
-				sendMessage("You recieve "+recieved+" prayer exp. You have "+pkpoints+" PK points left.");
-				RemoveAllWindows();
-				soulwars2 = false;
+			if (c.glory4) {
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2919, 9804, 0);
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.glory4 = false;
 			}
 
-			if (glory4) {
-				isteleporting2(409, 1818, 15, 2919, 9804, 0);
-				RemoveAllWindows();
-				glory4 = false;
-			}
-
-			if (fletchingoption){ //arrowshafts
-				startAnimation(1248);
-				fletchingexp = 30;
-				fletchingitem = 52;
-				fletchingprocessshort = 4;
-				RemoveAllWindows();
-				fletchingoption = false;
+			if (c.fletchingoption){ //arrowshafts
+				c.startAnimation(1248);
+				c.fletchingexp = 30;
+				c.fletchingitem = 52;
+				c.fletchingprocessshort = 4;
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.fletchingoption = false;
 			}
 
 		case 32020: //4th option
-			if(optionsMenu){
-				optionsMenu = false;
-				if(oX4 != -1 && oY4 != -1){
-					isteleporting2(409, 1818, 15, oX4, oY4, 0);
-					RemoveAllWindows();
-					oX4 = -1;
-					oY4 = -1;
+			if(c.optionsMenu){
+				c.optionsMenu = false;
+				if(c.oX4 != -1 && c.oY4 != -1){
+					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX4, c.oY4, 0);
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX4 = -1;
+					c.oY4 = -1;
 				}
-				if(oX4 == -1 || oY4 == -1){
-					RemoveAllWindows();
-					oX4 = -1;
-					oY4 = -1;
+				if(c.oX4 == -1 || c.oY4 == -1){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.oX4 = -1;
+					c.oY4 = -1;
 				}
 			}	
 
-			if (fletchingoption){
-				RemoveAllWindows();
-				fletchingoption = false;
+			if (c.fletchingoption){
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.fletchingoption = false;
 			}
 
-			if(starter4Options){
-				starter4Options = false;
-				RemoveAllWindows();
+			if(c.starter4Options){
+				c.starter4Options = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}	
 
-			if(skillMasterPurchase){
-				skillMasterPurchase = false;
-				RemoveAllWindows();
+			if(c.skillMasterPurchase){
+				c.skillMasterPurchase = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}
 
-			if(skillMaster){
-				skillMaster = false;
-				RemoveAllWindows();
+			if(c.skillMaster){
+				c.skillMaster = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}
 
-			if(arianwyn){
-				arianwyn = false;
-				RemoveAllWindows();
+			if(c.arianwyn){
+				c.arianwyn = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 			}
 
-			if(slayer4Options){
-				slayer4Options = false;
-				if(slayerMaster == 1208)
-					skillMaster(slayerMaster, getNpcName(slayerMaster), 14112,14113,14114, "Slayer", playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
-				if(slayerMaster == 1596)
-					skillMaster(slayerMaster, getNpcName(slayerMaster), 14112,14113,14114, "Slayer", playerSlayer, new String[]{"Take care as you travel South,","naught but foulness infests those lands."});
-				break;
-			}
-
-			if (tokenexchange){
-				tokenexchange = false;
-				tokenexchange2 = true;
-				selectoption2("Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
-				break;
-			}
-			if (tokenexchange2){
-				tokenexchange2 = false;
-				RemoveAllWindows();
-				break;
-			}
-			if (ticketexchange){
-				ticketexchange = false;
-				RemoveAllWindows();
-				break;
-			}
-			if (ticketexchange2){
-				ticketexchange2 = false;
-				RemoveAllWindows();
+			if(c.slayer4Options){
+				c.slayer4Options = false;
+				if(c.slayerMaster == 1208)
+					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
+				if(c.slayerMaster == 1596)
+					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"Take care as you travel South,","naught but foulness infests those lands."});
 				break;
 			}
 
-			if (soulwars){
-				//RemoveAllWindows();
-				soulwars = false;
-				soulwars2 = true;
-				selectoption2("You have "+pkpoints+" pts", "Defence-"+playerLevel[1]*soulbonus+" exp-10pts", "Range-"+playerLevel[4]*soulbonus+" exp-10pts", "Pray-"+playerLevel[5]*soulbonus+" exp-10pts", "Cancel.");
+			if (c.tokenexchange){
+				c.tokenexchange = false;
+				c.tokenexchange2 = true;
+				c.getFrameMethodHandler().selectoption2("Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
+				break;
+			}
+			if (c.tokenexchange2){
+				c.tokenexchange2 = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			if (c.ticketexchange){
+				c.ticketexchange = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			if (c.ticketexchange2){
+				c.ticketexchange2 = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}
 
-			if(soulwars2){
-				soulwars2 = false;
-				RemoveAllWindows();
-			}
-
-			if (anger) {
-				addItem(7807, 1);
-				sendMessage("You take the Anger Battleaxe.");
-				RemoveAllWindows();
-				anger = false;
+			if (c.soulwars){
+				//c.getFrameMethodHandler().RemoveAllWindows();
+				c.soulwars = false;
+				c.soulwars2 = true;
+				c.getFrameMethodHandler().selectoption2("You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
 				break;
 			}
 
-			if (glory4) {
-				isteleporting2(409, 1818, 15, 2134, 4907, 0);
-				sendMessage("You teleport to an alternate Draynor.");
-				RemoveAllWindows();		
-				glory4 = false;
+			if(c.soulwars2){
+				c.soulwars2 = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
+			}
+
+			if (c.glory4) {
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2134, 4907, 0);
+				c.sendMessage("You teleport to an alternate Draynor.");
+				c.getFrameMethodHandler().RemoveAllWindows();		
+				c.glory4 = false;
 			}
 			break;
 
 
 
 		case 14067: // Char design accept button
-			RemoveAllWindows();
+			c.getFrameMethodHandler().RemoveAllWindows();
 			break;
 
 
@@ -687,311 +658,204 @@ public class ButtonClickHandler {
 		case 29038:
 		case 48023:
 		case 29138:
-			getFilling(); //New special system	
+			c.getFrameMethodHandler().getFilling(); //New special system	
 			int specAmount = 0;
-			int curWeap = playerEquipment[playerWeapon];
-			if(!litBar){
+			int curWeap = c.playerEquipment[c.playerWeapon];
+			if(!c.litBar){
 				if(curWeap == 35){ //Excalibur
-					if(specialDelay >= 10){
-						litBar = true;
-						ExcaliburSpecial();
+					if(c.specialDelay >= 10){
+						c.litBar = true;
+						c.getCombatHandler().ExcaliburSpecial();
 					}
-					else sendMessage("You do not have enough power.");
+					else c.sendMessage("You do not have enough power.");
 					break;
 				}
 				if(curWeap == 7158){ //Dragon 2h
-					if(specialDelay >= 6){
-						litBar = true;
-						if (IsAttackingNPC == false)
-							Dragon2hSpecial();				
+					if(c.specialDelay >= 6){
+						c.litBar = true;
+						if (c.IsAttackingNPC == false)
+							c.getCombatHandler().Dragon2hSpecial();				
 					}
-					else sendMessage("You do not have enough power.");
+					else c.sendMessage("You do not have enough power.");
 					break;
 				}
-				int requiredSpecialAmount = getSpecAmount();
+				int requiredSpecialAmount = Item.getSpecAmount(c.playerEquipment[c.playerWeapon]);
 				if(requiredSpecialAmount == -1) break;
-				if(specialDelay >= requiredSpecialAmount)
-					litBar = true;
+				if(c.specialDelay >= requiredSpecialAmount)
+					c.litBar = true;
 				else{
-					sendMessage("You do not have enough power.");
+					c.sendMessage("You do not have enough power.");
 					break;
 				}
 			}
 			else{
-				allSdisable();
+				c.getCombatHandler().allSdisable();
 				break;
 			}
 
 			break;
 
-
-
-		case 26018:
-			client plr = (client) server.playerHandler.players[duelWith];
-			int NeededSlots = 0;
-			if(plr.duelStatus == 1 && plr != null) {
-				sendFrame126("Waiting for other player...", 6684);
-				plr.sendFrame126("Other player has Accepted", 6684);
-				duelStatus = 2;
-			}
-			else if(plr.duelStatus == 2) {
-				if(duelRule[4]) {
-					NeededSlots++;
-				}
-				if(duelRule[5]) {
-					NeededSlots += 6;
-				}
-				NeededSlots += GetDuelItemSlots();
-				if(NeededSlots > freeSlots()) {
-					sendMessage("You don't have enough inventory space for the duel and stake options");
-					plr.sendMessage("The other player doesn't have enough inventory space for the duel and stake options");
-					duelStatus = 1;
-					plr.duelStatus = 1;
-					break;
-				}
-				duelStatus = 3;
-				duelChatTimer = 2;
-				startDuel = true;
-				plr.duelStatus = 3;
-				plr.duelChatTimer = 2;
-				plr.startDuel = true;
-				teleportToX = 2468;
-				teleportToY = 9681;
-				plr.teleportToX = 2468;
-				plr.teleportToY = 9675;
-				didTeleport = true;
-				RemoveAllWindows();
-				plr.RemoveAllWindows();
-				if(duelRule[4]) {
-					removeItemAndSendFrame(playerEquipment[playerWeapon], playerWeapon);
-					plr.removeItemAndSendFrame(playerEquipment[playerWeapon], playerWeapon);
-				}
-				if(duelRule[5]) {
-					removeItemAndSendFrame(playerEquipment[playerHat], playerHat);
-					removeItemAndSendFrame(playerEquipment[playerCape], playerCape);
-					removeItemAndSendFrame(playerEquipment[playerChest], playerChest);
-					removeItemAndSendFrame(playerEquipment[playerShield], playerShield);
-					removeItemAndSendFrame(playerEquipment[playerLegs], playerLegs);
-					removeItemAndSendFrame(playerEquipment[playerFeet], playerFeet);
-					plr.removeItemAndSendFrame(playerEquipment[playerHat], playerHat);
-					plr.removeItemAndSendFrame(playerEquipment[playerCape], playerCape);
-					plr.removeItemAndSendFrame(playerEquipment[playerChest], playerChest);
-					plr.removeItemAndSendFrame(playerEquipment[playerShield], playerShield);
-					plr.removeItemAndSendFrame(playerEquipment[playerLegs], playerLegs);
-					plr.removeItemAndSendFrame(playerEquipment[playerFeet], playerFeet);
-				}
-			}
-			break;
-
-		case 26069:
-			client rule1 = (client) server.playerHandler.players[duelWith];
-			duelRule[0] = true;
-			RefreshDuelRules();
-			rule1.duelRule[0] = true;
-			rule1.RefreshDuelRules();
-			break;
-
-		case 26070:
-			client rule2 = (client) server.playerHandler.players[duelWith];
-			duelRule[1] = true;
-			RefreshDuelRules();
-			rule2.duelRule[1] = true;
-			rule2.RefreshDuelRules();
-			break;
-
-		case 26071:
-			client rule3 = (client) server.playerHandler.players[duelWith];
-			duelRule[2] = true;
-			RefreshDuelRules();
-			rule3.duelRule[2] = true;
-			rule3.RefreshDuelRules();
-			break;
-
-		case 26072:
-			client rule4 = (client) server.playerHandler.players[duelWith];
-			duelRule[3] = true;
-			RefreshDuelRules();
-			rule4.duelRule[3] = true;
-			rule4.RefreshDuelRules();
-			break;
-
-		case 26073:
-			client rule5 = (client) server.playerHandler.players[duelWith];
-			duelRule[4] = true;
-			RefreshDuelRules();
-			rule5.duelRule[4] = true;
-			rule5.RefreshDuelRules();
-			break;
-
-		case 26074:
-			client rule6 = (client) server.playerHandler.players[duelWith];
-			duelRule[5] = true;
-			RefreshDuelRules();
-			rule6.duelRule[5] = true;
-			rule6.RefreshDuelRules();
-			break;
-
 		case 10162: //close book interface
-			closeInterface();
+			c.getFrameMethodHandler().closeInterface();
 			break;
 
 		case 39178: //close book interface
-			closeInterface();
+			c.getFrameMethodHandler().closeInterface();
 			break;
 
 			/* case 29030: DragonLongSpecial(); break; */
 
 
 		case 153:
-			sendQuest("@gre@Move speed", 158);
-			if (runningEnergy > 0) 
-				isRunning2 = true;
+			c.getFrameMethodHandler().sendQuest("@gre@Move speed", 158);
+			if (c.runningEnergy > 0) 
+				c.isRunning2 = true;
 			break;
 		case 152:
-			sendQuest("@yel@Move speed", 158);
-			isRunning2 = false;
+			c.getFrameMethodHandler().sendQuest("@yel@Move speed", 158);
+			c.isRunning2 = false;
 			break;
 
 		case 130: //close interface
-			debug("Closing Interface");
+			c.debug("Closing Interface");
 			break;
 
 
 		case 168: // char emote
-			showInterface(3559);
+			c.getFrameMethodHandler().showInterface(3559);
 			break;
 
 		case 169: // normal emote
-			Item.capeEmote(this);
+			Item.capeEmote(c);
 			break;
 
 		case 162: // think emote
-			setAnimation(0x359);
+			c.startAnimation(0x359);
 			break;
 
 		case 164: // bow emote
-			setAnimation(0x35A);
+			c.startAnimation(0x35A);
 			break;
 
 		case 165: // angry emote
-			setAnimation(0x35B);
+			c.startAnimation(0x35B);
 			break;
 
 		case 161: // cry emote
-			setAnimation(0x35C);
+			c.startAnimation(0x35C);
 			break;
 
 		case 170: // laugh emote
-			setAnimation(0x35D);
+			c.startAnimation(0x35D);
 			break;
 
 		case 171: // cheer emote
-			setAnimation(0x35E);
+			c.startAnimation(0x35E);
 			break;
 
 		case 163: // wave emote
-			setAnimation(0x35F);
+			c.startAnimation(0x35F);
 			break;
 
 		case 167: // beckon emote
-			setAnimation(0x360);
+			c.startAnimation(0x360);
 			break;
 
 		case 172: // clap emote
-			setAnimation(0x361);
+			c.startAnimation(0x361);
 			break;
 
 		case 166: // dance emote
-			setAnimation(0x362);
+			c.startAnimation(0x362);
 			break;
 
 		case 52050: // panic emote
-			setAnimation(0x839);
+			c.startAnimation(0x839);
 			break;
 
 		case 52051: // jig emote
-			setAnimation(0x83A);
+			c.startAnimation(0x83A);
 			break;
 
 		case 52052: // spin emote
-			setAnimation(0x83B);
+			c.startAnimation(0x83B);
 			break;
 
 		case 52053: // headbang emote
-			setAnimation(0x83C);
+			c.startAnimation(0x83C);
 			break;
 
-		case 52054: // joy jump emote
-			setAnimation(0x83D);
+		case 52054: // joY jump emote
+			c.startAnimation(0x83D);
 			break;
 
 		case 52055: // rasp' berry emote
-			setAnimation(0x83E);
+			c.startAnimation(0x83E);
 			break;
 
 		case 52056: // yawn emote
-			setAnimation(0x83F);
+			c.startAnimation(0x83F);
 			break;
 
 		case 52057: // salute emote
-			setAnimation(0x840);
+			c.startAnimation(0x840);
 			break;
 
 		case 52058: // shrug emote
-			setAnimation(0x841);
+			c.startAnimation(0x841);
 			break;
 
 		case 43092: // blow kiss emote
-			setAnimation(0x558);
+			c.startAnimation(0x558);
 			break;
 
-		case 2155: // glass box emote
-			setAnimation(0x46B);
+		case 2155: // glass bc.oX emote
+			c.startAnimation(0x46B);
 			break;
 
 		case 25103: // climb rope emote
-			setAnimation(0x46A);
+			c.startAnimation(0x46A);
 			break;
 
 		case 25106: // lean emote
-			setAnimation(0x469);
+			c.startAnimation(0x469);
 			break;
 
 		case 2154: // glass wall emote
-			setAnimation(0x468);
+			c.startAnimation(0x468);
 			break;
 
 		case 52071: // goblin bow emote
-			setAnimation(0x84F);
+			c.startAnimation(0x84F);
 			break;
 
 		case 52072: // goblin dance emote
-			setAnimation(0x850);
+			c.startAnimation(0x850);
 			break;
 
 		case 59062: // scared
-			setAnimation(2836);
+			c.startAnimation(2836);
 			break;
 
 		case 72032: // zombie walk
-			setAnimation(3544);
+			c.startAnimation(3544);
 			break;
 
 		case 72033: // zombie dance
-			setAnimation(3543);
+			c.startAnimation(3543);
 			break;
 
-		case 9125: //Accurate
+		case 9125: //Accuc.rate
 		case 22228: //punch (unarmed)
 		case 48010: //flick (whip)
 		case 21200: //spike (pickaxe)
 		case 1080: //bash (staff)
 		case 6168: //chop (axe)
-		case 6236: //accurate (long bow)
-		case 17102: //accurate (darts)
+		case 6236: //accuc.rate (long bow)
+		case 17102: //accuc.rate (darts)
 		case 8234: //stab (dagger)
-			FightType = 1;
-			SkillID = 0;
+			c.FightType = 1;
+			c.SkillID = 0;
 			break;
 		case 9126: //Defensive
 		case 48008: //deflect (whip)
@@ -1002,8 +866,8 @@ public class ButtonClickHandler {
 		case 33019: //fend (hally)
 		case 18078: //block (spear)
 		case 8235: //block (dagger)
-			FightType = 4;
-			SkillID = 1;
+			c.FightType = 4;
+			c.SkillID = 1;
 			break;
 		case 9127: // Controlled
 		case 48009: //lash (whip)
@@ -1013,8 +877,8 @@ public class ButtonClickHandler {
 		case 18080: //swipe (spear)
 		case 18079: //pound (spear)
 		case 17100: //longrange (darts)
-			FightType = 3;
-			SkillID = 3;
+			c.FightType = 3;
+			c.SkillID = 3;
 			break;
 		case 9128: //Aggressive
 		case 22230: //kick (unarmed)
@@ -1028,38 +892,38 @@ public class ButtonClickHandler {
 		case 17101: //repid (darts)
 		case 8237: //lunge, stab
 		case 8236: //slash 
-			FightType = 2;
-			SkillID = 2;
+			c.FightType = 2;
+			c.SkillID = 2;
 			break;
 		case 9154: //Log out
-			if(System.currentTimeMillis() - LogoutDelay > 10000) //30 second logout delay
-				disconnectPlayerAndSave("Logout Button");
-			else sendMessage("You must be out of combat for at least 10 seconds to do that.");
+			if(System.currentTimeMillis() - c.LogoutDelay > 10000) //30 second logout delay
+				c.disconnectPlayerAndSave("Logout Button");
+			else c.sendMessage("You must be out of combat for at least 10 seconds to do that.");
 			break;
 		case 21011:
-			takeAsNote = false;
+			c.takeAsNote = false;
 			break;
 		case 21010:
-			takeAsNote = true;
+			c.takeAsNote = true;
 			break;
 		case 13092:
-			if (tradeWith > 0) {
-				if (PlayerHandler.players[tradeWith].tradeStatus == 2) {
-					tradeStatus = 3;
-					sendFrame126("Waiting for other player...", 3431);
-				} else if (PlayerHandler.players[tradeWith].tradeStatus == 3) {
-					tradeStatus = 3;
+			if (c.tradeWith > 0) {
+				if (PlayerHandler.players[c.tradeWith].tradeStatus == 2) {
+					c.tradeStatus = 3;
+					c.getFrameMethodHandler().sendFrame126("Waiting for other player...", 3431);
+				} else if (PlayerHandler.players[c.tradeWith].tradeStatus == 3) {
+					c.tradeStatus = 3;
 					//TradeGoConfirm();
 				}
 			}
 			break;
 		case 13218:
-			if (tradeWith > 0) {
-				if (PlayerHandler.players[tradeWith].tradeStatus == 3) {
-					tradeStatus = 4;
-					sendFrame126("Waiting for other player...", 3535);
-				} else if (PlayerHandler.players[tradeWith].tradeStatus == 4) {
-					tradeStatus = 4;
+			if (c.tradeWith > 0) {
+				if (PlayerHandler.players[c.tradeWith].tradeStatus == 3) {
+					c.tradeStatus = 4;
+					c.getFrameMethodHandler().sendFrame126("Waiting for other player...", 3535);
+				} else if (PlayerHandler.players[c.tradeWith].tradeStatus == 4) {
+					c.tradeStatus = 4;
 					//ConfirmTrade();
 				}
 			}
@@ -1068,442 +932,442 @@ public class ButtonClickHandler {
 
 		case 9157: //1st choice
 
-			if(travel2_X1 != -1 && travel2_Y1 != -1){
-				teleport(travel2_X1, travel2_Y1, travelHeight);
-				travel2_X1 = -1;
-				travel2_Y1 = -1;
-				travelHeight = 0;
-				RemoveAllWindows();
+			if(c.travel2_X1 != -1 && c.travel2_Y1 != -1){
+				c.teleport(c.travel2_X1, c.travel2_Y1, c.travelHeight);
+				c.travel2_X1 = -1;
+				c.travel2_Y1 = -1;
+				c.travelHeight = 0;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}
 
-			if (deadopt) {
-				npcdialogue("Grave Keeper", 1303, "Now that you've died, I can't let you go", "without some work. Get some copper", "and tin ore, and make a bronze bar.", "Talk to me once you have that bar.");
-				deadopt = false;
+			if (c.deadopt) {
+				c.getClientMethodHandler().npcdialogue("Grave Keeper", 1303, "Now that you've died, I can't let you go", "without some work. Get some copper", "and tin ore, and make a bronze bar.", "Talk to me once you have that bar.");
+				c.deadopt = false;
 				break;
 			}
 
-			if (startleave) {
-				npcdialogue("Survival Expert", 943, "If you would like to leave, please speak","with Captain Shanks.");
-				startleave = false;
+			if (c.startleave) {
+				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "If you would like to leave, please speak","with Captain Shanks.");
+				c.startleave = false;
 				break;
 			}
 
-			if(spinning){
-				spinning = false;
-				if(playerHasItem(1779)){
-					repeatAnimation(894, 3);
-					spinningTimer = 4;
+			if(c.spinning){
+				c.spinning = false;
+				if(c.getInventoryHandler().playerHasItem(1779)){
+					c.repeatAnimation(894, 3);
+					c.spinningTimer = 4;
 				}
-				else sendMessage("You need flax to spin bowstrings.");
-				RemoveAllWindows();
+				else c.sendMessage("You need flax to spin bowstrings.");
+				c.getFrameMethodHandler().RemoveAllWindows();
 			}
 
-			if(slayer2Options){
-				slayer2Options = false;
-				if(playerHasItemAmount(995, 100000)){
-					if(freeSlots() < 1){
-						npcdialogue(getNpcName(slayerMaster), slayerMaster, "I'd be happy to take your money,", "but your inventory is full.");
+			if(c.slayer2Options){
+				c.slayer2Options = false;
+				if(c.getInventoryHandler().playerHasItemAmount(995, 100000)){
+					if(c.getInventoryHandler().freeSlots() < 1){
+						c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I'd be happy to take your money,", "but your inventory is full.");
 					}
 					else{
-						npcdialogue(getNpcName(slayerMaster), slayerMaster, "I'll take that 100k.", "Using the Crystal will tell you", "your current task and the remaining amount.");
-						deleteItem(995, getItemSlot(995), 100000);
-						addItem(611,1);
+						c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I'll take that 100k.", "Using the Crystal will tell you", "your current task and the remaining amount.");
+						c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 100000);
+						c.getInventoryHandler().addItem(611,1);
 					}
 				}
 				else
-					npcdialogue(getNpcName(slayerMaster), slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
 				break;
 			}
 
-			if (BIS){
-				if (playerHasItemAmount(995, 1000000)){
-					if (freeSlots() > 0) {
-						npcdialogue("Arianwyn", 1202, "Here's your staff.", "Once again, thanks for helping us.");
-						addItem(13308, 1);
-						deleteItem(995, getItemSlot(995), 1000000);
-						BIS = false;
+			if (c.BIS){
+				if (c.getInventoryHandler().playerHasItemAmount(995, 1000000)){
+					if (c.getInventoryHandler().freeSlots() > 0) {
+						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Here's your staff.", "Once again, thanks for helping us.");
+						c.getInventoryHandler().addItem(13308, 1);
+						c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 1000000);
+						c.BIS = false;
 					}
-					else if (freeSlots() == 0) {
-						npcdialogue("Arianwyn", 1202, "Your inventory is full.");
-						BIS = false;
+					else if (c.getInventoryHandler().freeSlots() == 0) {
+						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Your inventory is full.");
+						c.BIS = false;
 					}
 				}
 				else {
-					npcdialogue("Arianwyn", 1202, "Seems like you don't have enough money.");
-					BIS = false;
+					c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Seems like you don't have enough money.");
+					c.BIS = false;
 				}
 				break;
 			}
 
-			if (fletchingoption){
-				fletchingprocessshort = 0;
-				if (playerLevel[9] >= fletchingshortlvl){
-					startAnimation(712);
-					fletchingitem = fletchingshort;
-					fletchingprocessshort = 4;
-					RemoveAllWindows();
-					stringing = true;
-					fletchingoption = false;
+			if (c.fletchingoption){
+				c.fletchingprocessshort = 0;
+				if (c.playerLevel[9] >= c.fletchingshortlvl){
+					c.startAnimation(712);
+					c.fletchingitem = c.fletchingshort;
+					c.fletchingprocessshort = 4;
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.stringing = true;
+					c.fletchingoption = false;
 				}
-				else if (playerLevel[9] != fletchingshortlvl){
-					RemoveAllWindows();
-					sendMessage("You need "+fletchingshortlvl+" fletching for that bow.");
-					fletchingoption = false;
+				else if (c.playerLevel[9] != c.fletchingshortlvl){
+					c.getFrameMethodHandler().RemoveAllWindows();
+					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
+					c.fletchingoption = false;
 				}
 				break;
 			}
-			RemoveAllWindows();
+			c.getFrameMethodHandler().RemoveAllWindows();
 			break;
 
 		case 9158: //2nd option
-			if(travel2_X2 != -1 && travel2_Y2 != -1){
-				teleport(travel2_X2, travel2_Y2,travelHeight);
-				travel2_X2 = -1;
-				travel2_Y2 = -1;
-				travelHeight = 0;
-				RemoveAllWindows();
+			if(c.travel2_X2 != -1 && c.travel2_Y2 != -1){
+				c.teleport(c.travel2_X2, c.travel2_Y2,c.travelHeight);
+				c.travel2_X2 = -1;
+				c.travel2_Y2 = -1;
+				c.travelHeight = 0;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}              	 
 
 
-			if(slayer2Options){
-				slayer2Options = false;
-				npcdialogue(getNpcName(slayerMaster), slayerMaster, "Alright, I'll be seeing ya.");
+			if(c.slayer2Options){
+				c.slayer2Options = false;
+				c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Alright, I'll be seeing ya.");
 			}
 
-			if (fletchingoption){
-				RemoveAllWindows();
-				fletchingoption = false;
+			if (c.fletchingoption){
+				c.getFrameMethodHandler().RemoveAllWindows();
+				c.fletchingoption = false;
 				break;
 			}
 
-			if (startleave) {
-				npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your spellbook and important","information can be found","in your quest tab.");
-				startleave = false;
+			if (c.startleave) {
+				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
+				c.startleave = false;
 				break;
 			}
-			if (deadopt){
-				addItem(1265, 1);
-				npcdialogue("Grave Keeper", 1303, "", "Here's a pickaxe.", "Now go get working!", "");
-				deadopt = false;
+			if (c.deadopt){
+				c.getInventoryHandler().addItem(1265, 1);
+				c.getClientMethodHandler().npcdialogue("Grave Keeper", 1303, "", "Here's a pickaxe.", "Now go get working!", "");
+				c.deadopt = false;
 				break;
 			}
 
-			if (BIS){BIS = false; 
-			RemoveAllWindows();
+			if (c.BIS){c.BIS = false; 
+			c.getFrameMethodHandler().RemoveAllWindows();
 			break;}
 
-			RemoveAllWindows();
+			c.getFrameMethodHandler().RemoveAllWindows();
 			break; 
 
-			//autocast
+			//c.autocast
 
 		case 7038: //Wind Strike 
-			setAutocast(1152);
+			c.MAGICDATAHANDLER.setAutocast(1152);
 			break;
 		case 7039://Water Strike
-			setAutocast(1154);
+			c.MAGICDATAHANDLER.setAutocast(1154);
 			break;
 		case 7040://Earth Strike
-			setAutocast(1156);
+			c.MAGICDATAHANDLER.setAutocast(1156);
 			break;
 		case 7041://Fire Strike
-			setAutocast(1158);
+			c.MAGICDATAHANDLER.setAutocast(1158);
 			break;
 		case 7042://Wind Bolt
-			setAutocast(1160);
+			c.MAGICDATAHANDLER.setAutocast(1160);
 			break;
 		case 7043://Water Bolt
-			setAutocast(1163);
+			c.MAGICDATAHANDLER.setAutocast(1163);
 			break;
 		case 7044://Earth Bolt
-			setAutocast(1166);
+			c.MAGICDATAHANDLER.setAutocast(1166);
 			break;
 		case 7045://Fire Bolt
-			setAutocast(1169);
+			c.MAGICDATAHANDLER.setAutocast(1169);
 			break;
 		case 7046://Wind Blast
-			setAutocast(1172);
+			c.MAGICDATAHANDLER.setAutocast(1172);
 			break;
 		case 7047://Water Blast
-			setAutocast(1175);
+			c.MAGICDATAHANDLER.setAutocast(1175);
 			break;
 		case 7048://Earth Blast
-			setAutocast(1177);
+			c.MAGICDATAHANDLER.setAutocast(1177);
 			break;
 		case 7049://Fire Blast
-			setAutocast(1181);
+			c.MAGICDATAHANDLER.setAutocast(1181);
 			break;
 		case 7050://Wind Wave
-			setAutocast(1183);
+			c.MAGICDATAHANDLER.setAutocast(1183);
 			break;
 		case 7051://Water Wave
-			setAutocast(1185);
+			c.MAGICDATAHANDLER.setAutocast(1185);
 			break;
 		case 7052://Earth Wave
-			setAutocast(1188);
+			c.MAGICDATAHANDLER.setAutocast(1188);
 			break;
 		case 7053://Fire Wave
-			setAutocast(1189);
+			c.MAGICDATAHANDLER.setAutocast(1189);
 			break;
 		case 51133: //Smoke Rush
-			setAutocast(12939);
+			c.MAGICDATAHANDLER.setAutocast(12939);
 			break;
 		case 51185: //Shadow Rush
-			setAutocast(12987);
+			c.MAGICDATAHANDLER.setAutocast(12987);
 			break;
 		case 51091: //Blood Rush
-			setAutocast(12901);
+			c.MAGICDATAHANDLER.setAutocast(12901);
 			break;
 		case 24018: //Ice Rush
-			setAutocast(12861);
+			c.MAGICDATAHANDLER.setAutocast(12861);
 			break;
 		case 51159: //Smoke Burst
-			setAutocast(12963);
+			c.MAGICDATAHANDLER.setAutocast(12963);
 			break;
 		case 51211: //Shadow Burst
-			setAutocast(13011);
+			c.MAGICDATAHANDLER.setAutocast(13011);
 			break;
 		case 51111: //Blood Burst
-			setAutocast(12919);
+			c.MAGICDATAHANDLER.setAutocast(12919);
 			break;
 		case 51069: //Ice Burst
-			setAutocast(12881);
+			c.MAGICDATAHANDLER.setAutocast(12881);
 			break;
 		case 51146: //Smoke Blitz
-			setAutocast(12951);
+			c.MAGICDATAHANDLER.setAutocast(12951);
 			break;
 		case 51198: //Shadow Blitz
-			setAutocast(12999);
+			c.MAGICDATAHANDLER.setAutocast(12999);
 			break;
 		case 51102: //Blood Blitz
-			setAutocast(12911);
+			c.MAGICDATAHANDLER.setAutocast(12911);
 			break;
 		case 51058: //Ice Blitz
-			setAutocast(12871);
+			c.MAGICDATAHANDLER.setAutocast(12871);
 			break;
 		case 51172: //Smoke Barrage
-			setAutocast(12975);
+			c.MAGICDATAHANDLER.setAutocast(12975);
 			break;
 		case 51224: //Shadow Barrage
-			setAutocast(13023);
+			c.MAGICDATAHANDLER.setAutocast(13023);
 			break;
 		case 51122: //Blood Barrage
-			setAutocast(12929);
+			c.MAGICDATAHANDLER.setAutocast(12929);
 			break;
 		case 51080: //Ice Barrage
-			setAutocast(12891);
+			c.MAGICDATAHANDLER.setAutocast(12891);
 			break;
 
 		case 1093:
-			if(!autocast){
-				sendMessage("Autocast has been activated.");
-				autocast = true;
+			if(!c.autocast){
+				c.sendMessage("Autocast has been activated.");
+				c.autocast = true;
 			}
 			else{
-				autocast = false;
-				sendMessage("Autocast has been deactivated.");
+				c.autocast = false;
+				c.sendMessage("Autocast has been deactivated.");
 			}
 			break;
 
 		case 24017:
 		case 7212:
-			setSidebarInterface(0, 328);
+			c.getFrameMethodHandler().setSidebarInterface(0, 328);
 			break;			
 
 		case 33208:
-			menu(this.menuHandler.miningGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().miningGuide());
 			break;
 
 
 		case 33214: 
-			menu(this.menuHandler.fishingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().fishingGuide());
 			break;
 
 		case 33217: 
-			menu(this.menuHandler.cookingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().cookingGuide());
 			break;
 
 		case 28215:
-			Menu(this.menuHandler.ancientsmenu2());
+			c.getFrameMethodHandler().Menu(c.getMenuHandler().ancientsmenu2());
 			break;
 
 		case 33213: 
-			menu(this.menuHandler.herbloremenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().herbloremenu());
 			break;
 
 		case 33216:
-			Menu(this.menuHandler.thiefmenu());
+			c.getFrameMethodHandler().Menu(c.getMenuHandler().thiefmenu());
 			break;
 
 
 		case 50235: //Ancients teleport home
-			if(homeTeleportTimer <= 0){
-				if(canPlayersTeleportInThisArea()){
-					homeTeleportTimer = 15;
-					isteleporting2(392, 1161, 20, 3023,3206, 0);
+			if(c.homeTeleportTimer <= 0){
+				if(c.getClientMethodHandler().canPlayersTeleportInThisArea()){
+					c.homeTeleportTimer = 15;
+					c.getClientMethodHandler().isteleporting2(392, 1161, 20, 3023,3206, 0);
 				}
-				else sendMessage("You can't use that teleport in this area.");
+				else c.sendMessage("You can't use that teleport in this area.");
 			}
-			else sendMessage("You need to wait "+homeTeleportTimer+" minutes before using this.");
+			else c.sendMessage("You need to wait "+c.homeTeleportTimer+" minutes before using this.");
 			break;
 
 		case 4140: //home teleport
-			if(homeTeleportTimer <= 0){
-				if(canPlayersTeleportInThisArea()){
-					homeTeleportTimer = 15;
-					isteleporting2(409, 1818, 15, 3024, 3206, 0);
+			if(c.homeTeleportTimer <= 0){
+				if(c.getClientMethodHandler().canPlayersTeleportInThisArea()){
+					c.homeTeleportTimer = 15;
+					c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024, 3206, 0);
 				}
-				else sendMessage("You can't use that teleport in this area.");
+				else c.sendMessage("You can't use that teleport in this area.");
 			}
-			else sendMessage("You need to wait "+homeTeleportTimer+" minutes before using this.");
+			else c.sendMessage("You need to wait "+c.homeTeleportTimer+" minutes before using this.");
 			break;
 
 		case 4143: //Free teleport
 			//	if(skillsTeleportTimer <= 0){
 			//		if(teleArea()){
-			//		isteleporting2(409, 1818, 15, 2953, 3215, 0);
+			//		c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2953, 3215, 0);
 			//		skillsTeleportTimer = 15;
 			//		}
-			//		else sendMessage("You can't use that teleport in this area.");
+			//		else c.sendMessage("You can't use that teleport in this area.");
 			//	}
-			//	else sendMessage("You need to wait "+skillsTeleportTimer+" minutes before using this.");
+			//	else c.sendMessage("You need to wait "+skillsTeleportTimer+" minutes before using this.");
 			break;
 
 		case 50245: //PVP ancients teleport
 		case 4146: //PVP normal teleport
-			if(canPlayersTeleportInThisArea())
-				select4Options("PVP Teleports", "Lletya [PVP]",2331,3170,"Tyras Camp [PVP]", 2187,3148, "Elf Camp [PVP]", 2207,3258, "Cancel",-1,-1);
-			else sendMessage("You cannot activate teleports in this area.");
+			if(c.getClientMethodHandler().canPlayersTeleportInThisArea())
+				c.getFrameMethodHandler().select4Options("PVP Teleports", "Lletya [PVP]",2331,3170,"Tyras Camp [PVP]", 2187,3148, "Elf Camp [PVP]", 2207,3258, "Cancel",-1,-1);
+			else c.sendMessage("You cannot activate teleports in this area.");
 			break;
 
 		case 50253: //Rimmington
-			if(this.MAGICDATAHANDLER.checkMagicRunes(50253)){
-				this.MAGICDATAHANDLER.removeMagicRunes(50253);
-				isteleporting2(392, 1161, 20, 2954,3214, 0);
-				addSkillXP(60*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(50253)){
+				c.MAGICDATAHANDLER.removeMagicRunes(50253);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2954,3214, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 51005: //Entrana
-			if(this.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				this.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				isteleporting2(392, 1161, 20, 2828,3344, 0);
-				addSkillXP(60*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
+				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2828,3344, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 51013: //Karamja
-			if(this.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				this.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				isteleporting2(392, 1161, 20, 2801,3176, 0);
-				addSkillXP(60*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
+				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2801,3176, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 51023: //Barrows
-			if(this.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				this.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				isteleporting2(392, 1161, 20, 3662,3495, 0);
-				addSkillXP(60*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
+				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 3662,3495, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 51031: //West Ardougne
-			if(this.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				this.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				isteleporting2(392, 1161, 20, 2493,3314, 0);
-				addSkillXP(60*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
+				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2493,3314, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 51039: //Grand Tree
-			if(this.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				this.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				isteleporting2(392, 1161, 20, 2464,3496,1);
-				addSkillXP(60*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
+				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2464,3496,1);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;	
 
 		case 29031: //tree gnome stronghold
-			if(this.MAGICDATAHANDLER.checkMagicRunes(29031)){
-				this.MAGICDATAHANDLER.removeMagicRunes(29031);
-				isteleporting2(409, 1818, 15, 2459,3414, 0);
-				addSkillXP(40*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(29031)){
+				c.MAGICDATAHANDLER.removeMagicRunes(29031);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2459,3414, 0);
+				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 4150: //mort'ton teleport
-			if(this.MAGICDATAHANDLER.checkMagicRunes(4150)){
-				this.MAGICDATAHANDLER.removeMagicRunes(4150);
-				isteleporting2(409, 1818, 15, 3497,3489, 0);
-				addSkillXP(40*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(4150)){
+				c.MAGICDATAHANDLER.removeMagicRunes(4150);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3497,3489, 0);
+				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 6004: //east ardy teleport 
-			if(this.MAGICDATAHANDLER.checkMagicRunes(6004)){
-				this.MAGICDATAHANDLER.removeMagicRunes(6004);
-				isteleporting2(409, 1818, 15, 2661, 3308, 0);
-				addSkillXP(40*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(6004)){
+				c.MAGICDATAHANDLER.removeMagicRunes(6004);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2661, 3308, 0);
+				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 6005: //port sarim teleport
-			if(this.MAGICDATAHANDLER.checkMagicRunes(6005)){
-				this.MAGICDATAHANDLER.removeMagicRunes(6005);
-				isteleporting2(409, 1818, 15, 3024,3206, 0);
-				addSkillXP(40*rate, playerMagic);
+			if(c.MAGICDATAHANDLER.checkMagicRunes(6005)){
+				c.MAGICDATAHANDLER.removeMagicRunes(6005);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024,3206, 0);
+				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
 			}
 			break;
 
 		case 59135:
-			isteleporting2(409, 1818, 15, 2134, 4907, 0);
+			c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2134, 4907, 0);
 			break;
 
 		case 28169:
-			menu(MenuHandler.skillInformation());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().skillInformation());
 			break;
 
 		case 28174:
-			menu(MenuHandler.combatInformation());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().combatInformation());
 			break;
 
 		case 28168:
-			Menu(this.menuHandler.ancientsmenu());
+			c.getFrameMethodHandler().Menu(c.getMenuHandler().ancientsmenu());
 			break;
 
-		case 24135: // Clue debug set to on
+		case 24135: // Clue c.debug set to on
 		{
-			sendMessage("Clue debugging set to true.");
-			cluedebug = true;
+			c.sendMessage("Clue c.debugging set to true.");
+			c.cluedebug = true;
 			break;
 		}
-		case 24134: // Clue debug set to off
+		case 24134: // Clue c.debug set to off
 		{
-			sendMessage("Clue debugging set to false.");
-			cluedebug = false;
+			c.sendMessage("Clue c.debugging set to false.");
+			c.cluedebug = false;
 			break;
 		}
 		case 28164: // 
 		{
-			questid = 1;
-			questMenus();
+			c.questid = 1;
+			c.getMenuHandler().questMenus();
 		}
 		break;
 
 		case 28165: //
 		{
-			questid = 2;
-			questMenus();
+			c.questid = 2;
+			c.getMenuHandler().questMenus();
 		}
 		break;
 
 		case 28166: // 
 		{
-			questid = 3;
-			questMenus();
+			c.questid = 3;
+			c.getMenuHandler().questMenus();
 		}
 		break;
 
@@ -1511,61 +1375,61 @@ public class ButtonClickHandler {
 
 		case 28171: //
 		{
-			questid = 6;
-			questMenus();
+			c.questid = 6;
+			c.getMenuHandler().questMenus();
 		}
 		break;
 
 		case 47130:
-			menu(this.menuHandler.slayermenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().slayermenu());
 			break;
 
 		case 33206: //attack menu
 		case 33209: //strength menu
 		case 33212: //defence menu
 		case 33207: //hp menu
-			menu(this.menuHandler.combatMenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().combatMenu());
 			break;
 		case 33215: //range menu
-			menu(this.menuHandler.rangeMenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().rangeMenu());
 			break;
 		case 33221: //magic menu
-			menu(this.menuHandler.magicMenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().magicMenu());
 			break;
 		case 33218:
-			menu(this.menuHandler.prayerMenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().prayerMenu());
 			break;
 		case 33224:
-			menu(this.menuHandler.runecraftingMenu());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().runecraftingMenu());
 			break;
 		case 33210:
-			menu(this.menuHandler.agilityGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().agilityGuide());
 			break;
 		case 33219:
-			menu(this.menuHandler.craftingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().craftingGuide());
 			break;
 		case 33222:
-			menu(this.menuHandler.fletchingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().fletchingGuide());
 			break;
 		case 33211:
-			menu(this.menuHandler.smithingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().smithingGuide());
 			break;
 		case 33220:
-			menu(this.menuHandler.firemakingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().firemakingGuide());
 			break;
 		case 33223:
-			menu(this.menuHandler.woodcuttingGuide());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().woodcuttingGuide());
 			break;
 
 		case 28175:
-			menu(this.menuHandler.bossInformation());
+			c.getFrameMethodHandler().menu(c.getMenuHandler().bossInformation());
 			break;
 
 		case 31195: //insert
-			bankRearrange = "insert";
+			c.bankRearrange = "insert";
 			break;
 		case 31194: //swap
-			bankRearrange = "swap";
+			c.bankRearrange = "swap";
 			break;
 
 			/*
@@ -1583,36 +1447,36 @@ public class ButtonClickHandler {
 			 */
 
 		case 3056: case 3058: case 3059: case 3060:
-			sendMessage("That destination is not reachable from this location.");
+			c.sendMessage("That destination is not reachable from this location.");
 			break;
 
 		case 3057: //gnome glider grand tree
-			if(isInArea(2543,2969,2550,2974)){ //feldip hills area
-				teleport(2465,3499,3);
-				setClientConfig(153, 11);
-				showInterface(802);
+			if(c.isInArea(2543,2969,2550,2974)){ //feldip hills area
+				c.teleport(2465,3499,3);
+				c.getFrameMethodHandler().setClientConfig(153, 11);
+				c.getFrameMethodHandler().showInterface(802);
 			}
-			if(isInArea(2461,3496,2470,3508)) //grand tree area
-				sendMessage("You are already at that location.");
+			if(c.isInArea(2461,3496,2470,3508)) //grand tree area
+				c.sendMessage("You are already at that location.");
 			break;
 		case 48054: //gnome glider feldip hills		
-			if(isInArea(2543,2969,2550,2974)) //feldip hills area
-				sendMessage("You are already at that location.");
-			if(isInArea(2461,3496,2470,3508)){ //grand tree area
-				teleport(2543,2969);
-				setClientConfig(153, 10);
-				showInterface(802);			
+			if(c.isInArea(2543,2969,2550,2974)) //feldip hills area
+				c.sendMessage("You are already at that location.");
+			if(c.isInArea(2461,3496,2470,3508)){ //grand tree area
+				c.teleport(2543,2969);
+				c.getFrameMethodHandler().setClientConfig(153, 10);
+				c.getFrameMethodHandler().showInterface(802);			
 			}
 			break;
 
 		default:
-			//System.out.println("Player stands in: X="+absX+" Y="+absY);
-			if(debugmode)debug("Case 185: Unhandled Action Button: "+actionButtonId);
+			//System.out.c.println("Player stands in: X="+c.absX+" Y="+c.absY);
+			if(c.debugmode)c.debug("Case 185: Unhandled Action Button: "+actionButtonId);
 			break;
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 }

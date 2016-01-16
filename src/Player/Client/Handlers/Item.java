@@ -216,7 +216,7 @@ public class Item {
 	/**
 	 * Returns -1 if the itemID does not have a special
 	 */
-	private static int getSpecAmount(int itemID){
+	public static int getSpecAmount(int itemID){
 		switch(itemID){
 		case KARILSCROSSBOW:
 		case 1434: //dargon mace? 
@@ -266,6 +266,53 @@ public class Item {
 			return server.itemHandler.ItemList.getCurrentItem().itemName;
 
 		return "!! NOT EXISTING ITEM !!! - ID:"+ItemID;
+	}
+	
+	public static int GetUnnotedItem(int ItemID) {
+		String NotedName = "";
+		for (int i = 0; i < ItemHandler.MaxListedItems; i++) {
+			if (ItemHandler.ItemListArray[i] != null) {
+				if (ItemHandler.ItemListArray[i].itemId == ItemID) {
+					NotedName = ItemHandler.ItemListArray[i].itemName;
+				}
+			}
+		}
+		for (int i = 0; i < ItemHandler.MaxListedItems; i++) {
+			if (ItemHandler.ItemListArray[i] != null) {
+				if (ItemHandler.ItemListArray[i].itemName.equalsIgnoreCase(NotedName)) {
+					if (ItemHandler.ItemListArray[i].itemDescription.startsWith("Swap this note at any bank") == false) {
+						return ItemHandler.ItemListArray[i].itemId;
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @param buyPercentage Percentage which store buys item for its shop value
+	 * @return
+	 */
+	public static double GetItemShopValue(int ItemID, double buyPercentage) {
+		if(ItemID <= 0) return -1;
+		double ShopValue = 1;
+		double Overstock = 0;
+		double TotPrice = 0;
+		if (ItemHandler.ItemList.exists(ItemID))
+			ShopValue = ItemHandler.ItemList.getCurrentItem().ShopValue;
+
+		/*Overstock = server.shopHandler.ShopItemsN[MyShopID][fromSlot] - server.shopHandler.ShopItemsSN[MyShopID][fromSlot];*/
+		TotPrice = (ShopValue * buyPercentage); //Calculates price for 1 item, in db is stored for 0 items (strange but true)
+		/*if (Overstock > 0 && TotPrice > 1) { //more then default -> cheaper
+			TotPrice -= ((ShopValue / 100) * (1.26875 * Overstock));
+		} else if (Overstock > 0 && TotPrice < 1) { //more then default -> cheaper
+			TotPrice = ((ShopValue / 100) * (1.26875 * Overstock));
+		} else if (Overstock < 0) { //less then default -> exspensive
+			TotPrice += ((ShopValue / 100) * (1.26875 * Overstock));
+		}*/
+		if(TotPrice <= 0) TotPrice = 100;
+		return TotPrice;
 	}
 
 	public static int GetWepAnim(client c){
@@ -893,7 +940,7 @@ public class Item {
 	
 
 	/*Equipment level checking*/
-	public int GetCLAttack(int ItemID) {
+	public static int GetCLAttack(int ItemID) {
 		if (ItemID == -1) {
 			return 1;
 		}
@@ -952,7 +999,7 @@ public class Item {
 			return 70;
 		return 1;
 	}
-	public int GetCLDefence(int ItemID) {
+	public static int GetCLDefence(int ItemID) {
 		switch(ItemID){
 		case 3627: case 3629: case 3637: //Arcane, Spectral, and Elysian spirit shields
 			return 75;
@@ -1025,7 +1072,7 @@ public class Item {
 		}
 		return 1;
 	}
-	public int GetCLStrength(int ItemID) {
+	public static int GetCLStrength(int ItemID) {
 		if (ItemID == -1) {
 			return 1;
 		}
@@ -1037,7 +1084,7 @@ public class Item {
 		}
 		return 1;
 	}
-	public int GetCLMagic(int ItemID) {
+	public static int GetCLMagic(int ItemID) {
 		if (ItemID == -1) {
 			return 1;
 		}
@@ -1047,7 +1094,7 @@ public class Item {
 		}
 		return 1;
 	}
-	public int GetCLRanged(int ItemID) {
+	public static int GetCLRanged(int ItemID) {
 		if (ItemID == -1) {
 			return 1;
 		}
@@ -1083,7 +1130,7 @@ public class Item {
 		return 1;
 	}
 	
-	public int GetCLPrayer(int ItemID){
+	public static int GetCLPrayer(int ItemID){
 		switch(ItemID){
 		case 3627: case 3629: case 3637: //Arcane, Spectral, and Elysian spirit shields
 			return 75;

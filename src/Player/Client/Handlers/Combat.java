@@ -909,90 +909,89 @@ public class Combat {
 
 
 	public void DragonBaxeSpecial(){        
-		litBar = false;
-		if(playerLevel[2] < 120) {
-			playerLevel[2] += 15;
-			addSkillXP(0, 2);
-			stillgfx(246, absX, absY);
-			requirePlayerUpdate();
-			txt4 = "RRRRRAAAAAAAAAGGGGGGGGGHHHHH!!";
-			string4UpdateRequired = true;
-			AnimationReset = true;
-			setAnimation(1056);
-			actionTimer = 4;
-			teleportToX = absX;
-			teleportToY = absY;
-			specialDelay = 0;
+		c.litBar = false;
+		if(c.playerLevel[2] < 120) {
+			c.playerLevel[2] += 15;
+			c.getClientMethodHandler().addSkillXP(0, 2);
+			c.getFrameMethodHandler().stillgfx(246, c.absX, c.absY);
+			c.requirePlayerUpdate();
+			c.txt4 = "RRRRRAAAAAAAAAGGGGGGGGGHHHHH!!";
+			c.string4UpdateRequired = true;
+			c.AnimationReset = true;
+			c.startAnimation(1056);
+			c.actionTimer = 4;
+			c.teleportToX = c.absX;
+			c.teleportToY = c.absY;
+			c.specialDelay = 0;
 		}
-		if (playerLevel[2] >= 120){
-			sendMessage("You are already under the influence of a strength boost.");
+		if (c.playerLevel[2] >= 120){
+			c.sendMessage("You are already under the influence of a strength boost.");
 		}
-		getFilling();
+		c.getFrameMethodHandler().getFilling();
 	}
 
 	public void Dragon2hSpecial(){	
-		litBar = false;
-		stillgfxz(246, absY, absX, 0, 50);	
-		setAnimation(3157);
-		attackNPCSWithin(getMaxMeleeHit(), 2, absX, absY); 
-		AnimationReset = true;
-		teleportToX = absX;
-		teleportToY = absY;
-		specialDelay -= 6;	
+		c.litBar = false;
+		c.getFrameMethodHandler().stillgfxz(246, c.absY, c.absX, 0, 50);	
+		c.startAnimation(3157);
+		attackNPCSWithin(getMaxMeleeHit(), 2, c.absX, c.absY); 
+		c.AnimationReset = true;
+		c.teleportToX = c.absX;
+		c.teleportToY = c.absY;
+		c.specialDelay -= 6;	
 	}
 	public void ExcaliburSpecial(){
-		litBar = false;
-		if (playerLevel[1] < 130){
-			playerLevel[1] += 15;
-			addSkillXP(0, 1);
-			stillgfx(247, absY, absX);
-			requirePlayerUpdate();
-			AnimationReset = true;
-			setAnimation(1979);
-			teleportToX = absX;
-			teleportToY = absY;
-			specialDelay -= 10;
-			LoopAttDelay = 15;
-			getFilling();
+		c.litBar = false;
+		if (c.playerLevel[1] < 130){
+			c.playerLevel[1] += 15;
+			c.getClientMethodHandler().addSkillXP(0, 1); //forces refresh of tab for exc increase
+			c.getFrameMethodHandler().stillgfx(247, c.absY, c.absX);
+			c.requirePlayerUpdate();
+			c.AnimationReset = true;
+			c.startAnimation(1979);
+			c.updatePlayerPosition();
+			c.specialDelay -= 10;
+			c.LoopAttDelay = 15;
+			c.getFrameMethodHandler().getFilling();
 		}
-		if (playerLevel[1] >= 130){
-			sendMessage("You are already under the influence of the maximum amount of defence boosts.");
+		if (c.playerLevel[1] >= 130){
+			c.sendMessage("You are already under the influence of the maximum amount of defence boosts.");
 		}
 	}
 
 
 	public void SpecDamgNPC(int maxDamage) {
-		if(server.npcHandler.npcs[attacknpc] != null){
-			if (server.npcHandler.npcs[attacknpc].IsDead == false) {
+		if(server.npcHandler.npcs[c.attacknpc] != null){
+			if (server.npcHandler.npcs[c.attacknpc].IsDead == false) {
 				int damage = misc.random(maxDamage);
-				if (server.npcHandler.npcs[attacknpc].HP - hitDiff < 0) 
-					damage = server.npcHandler.npcs[attacknpc].HP;
-				server.npcHandler.npcs[attacknpc].StartKilling = playerId;
-				server.npcHandler.npcs[attacknpc].RandomWalk = false;
-				server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-				server.npcHandler.npcs[attacknpc].updateRequired = true;
-				server.npcHandler.npcs[attacknpc].damageNPC(damage);
+				if (server.npcHandler.npcs[c.attacknpc].HP - damage < 0) 
+					damage = server.npcHandler.npcs[c.attacknpc].HP;
+				server.npcHandler.npcs[c.attacknpc].StartKilling = c.playerId;
+				server.npcHandler.npcs[c.attacknpc].RandomWalk = false;
+				server.npcHandler.npcs[c.attacknpc].IsUnderAttack = true;
+				server.npcHandler.npcs[c.attacknpc].updateRequired = true;
+				server.npcHandler.npcs[c.attacknpc].damageNPC(damage);
 			} 
 		}
 
 	}
 
 	/**
-	 * inflicts direct damage to NPC with id attacknpc in npcs array
+	 * inflicts direct damage to NPC with id c.attacknpc in npcs array
 	 */
 	public void SpecDamgNPC2(int directDamage) {
-		if(server.npcHandler.npcs[attacknpc] != null) 
+		if(server.npcHandler.npcs[c.attacknpc] != null) 
 		{
-			if (server.npcHandler.npcs[attacknpc].IsDead == false) {
-				if (server.npcHandler.npcs[attacknpc].HP - hitDiff < 0){ 
-					directDamage = server.npcHandler.npcs[attacknpc].HP;
-					DClawsTimer = 0; //if using DClaws spec
+			if (server.npcHandler.npcs[c.attacknpc].IsDead == false) {
+				if (server.npcHandler.npcs[c.attacknpc].HP - directDamage < 0){ 
+					directDamage = server.npcHandler.npcs[c.attacknpc].HP;
+					c.DClawsTimer = 0; //if using DClaws spec
 				}
-				server.npcHandler.npcs[attacknpc].StartKilling = playerId;
-				server.npcHandler.npcs[attacknpc].RandomWalk = false;
-				server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-				server.npcHandler.npcs[attacknpc].updateRequired = true;
-				server.npcHandler.npcs[attacknpc].damageNPC(directDamage);
+				server.npcHandler.npcs[c.attacknpc].StartKilling = c.playerId;
+				server.npcHandler.npcs[c.attacknpc].RandomWalk = false;
+				server.npcHandler.npcs[c.attacknpc].IsUnderAttack = true;
+				server.npcHandler.npcs[c.attacknpc].updateRequired = true;
+				server.npcHandler.npcs[c.attacknpc].damageNPC(directDamage);
 			} 
 		}
 	}
@@ -1006,13 +1005,13 @@ public class Combat {
 		{
 			if(p != null) 
 			{
-				if (PlayerHandler.players[AttackingOn].IsDead == false ) {
+				if (PlayerHandler.players[c.AttackingOn].IsDead == false ) {
 					int damage = misc.random(maxDamage);
-					if (PlayerHandler.players[AttackingOn].playerLevel[3] - hitDiff < 0) 
-						damage = PlayerHandler.players[AttackingOn].playerLevel[3];
-					PlayerHandler.players[AttackingOn].hitDiff = damage;
-					PlayerHandler.players[AttackingOn].updateRequired = true;
-					PlayerHandler.players[AttackingOn].hitUpdateRequired = true;
+					if (PlayerHandler.players[c.AttackingOn].playerLevel[3] - damage < 0) 
+						damage = PlayerHandler.players[c.AttackingOn].playerLevel[3];
+					PlayerHandler.players[c.AttackingOn].hitDiff = damage;
+					PlayerHandler.players[c.AttackingOn].updateRequired = true;
+					PlayerHandler.players[c.AttackingOn].hitUpdateRequired = true;
 				}
 			}
 		}

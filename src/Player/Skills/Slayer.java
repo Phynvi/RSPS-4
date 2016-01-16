@@ -42,7 +42,7 @@ public class Slayer {
 		case 1153: return "Kalphite Worker";
 		case 1154: return "Kalphite Soldier";
 		case 0: return "none";
-		default: return c.getNpcName(npcID);
+		default: return c.getClientMethodHandler().getNpcName(npcID);
 		}
 	}
 	
@@ -109,7 +109,7 @@ public class Slayer {
 		if(c.playerLevel[c.playerSlayer] >= 70)
 			c.slayerNPC = highLevelMonsters[misc.random(highLevelMonsters.length-1)]; 
 		c.slayerCount = 11+misc.random((c.playerLevel[18]/4)+5);
-		c.savemoreinfo(); //so we update the slayer task and count, then save the player's moreinfo file
+		c.getFileLoadingHandler().savemoreinfo(); //so we update the slayer task and count, then save the player's moreinfo file
 	}
 		
 	/**

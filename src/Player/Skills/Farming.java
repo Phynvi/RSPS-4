@@ -129,14 +129,14 @@ public class Farming {
 	}
 
 	public boolean checkTrowel(){
-		if(playerClient.IsItemInBag(5325))
+		if(playerClient.getInventoryHandler().IsItemInBag(5325))
 			return true;
 		playerClient.sendMessage("You need a garden trowel to do this.");
 		return false;
 	}
 	
 	public boolean checkRake(){
-		if(playerClient.IsItemInBag(5341)){
+		if(playerClient.getInventoryHandler().IsItemInBag(5341)){
 			playerClient.startAnimation(2273);
 			return true;
 		}
@@ -145,7 +145,7 @@ public class Farming {
 	}
 	
 	public boolean checkSpade(){
-		if(playerClient.IsItemInBag(952)){
+		if(playerClient.getInventoryHandler().IsItemInBag(952)){
 			playerClient.startAnimation(2843);
 			return true;
 		}
@@ -167,19 +167,19 @@ public class Farming {
 				plant p = (plant)o;
 				if(!lists.deadPlantList.exists(originalID)){ //means the plant is alive
 					int numbItems = p.numberOfItems()+1;
-					if(playerClient.freeSlots() >= numbItems){
+					if(playerClient.getInventoryHandler().freeSlots() >= numbItems){
 						plantList.removeCurrent();
 						p.stop();
 						playerClient.startAnimation(2292);
 						int randDist = misc.random(p.amountSeeds())+2; //seed distribution
-						playerClient.addItem(p.seed(), randDist);	
+						playerClient.getInventoryHandler().addItem(p.seed(), randDist);	
 						int randItem = misc.random(numbItems);
 						if(numbItems > 10 && randItem < 10) //means tree
 							randItem+= 5;
 						for(int i = 0; i < randItem; i++)
-							playerClient.addItem(p.getItem(), 1);
-						playerClient.addSkillXP(p.EXP()*playerClient.rate, 19);
-						playerClient.createNewTileObject(x, y, p.clearID(), 2, 10); 
+							playerClient.getInventoryHandler().addItem(p.getItem(), 1);
+						playerClient.getClientMethodHandler().addSkillXP(p.EXP()*playerClient.rate, 19);
+						playerClient.getFrameMethodHandler().createNewTileObject(x, y, p.clearID(), 2, 10); 
 					}
 					else{
 						playerClient.sendMessage("You need at least "+(p.numberOfItems()+1)+" empty inventory slots to do this.");
@@ -190,7 +190,7 @@ public class Farming {
 					if(checkRake()){
 						plantList.removeCurrent();
 						p.stop();
-						playerClient.createNewTileObject(x, y, p.clearID(), 2, 10); 
+						playerClient.getFrameMethodHandler().createNewTileObject(x, y, p.clearID(), 2, 10); 
 					}
 				}
 
@@ -209,12 +209,12 @@ public class Farming {
 		case 8534:
 		case 8434:
 			if(!checkSpade()) return;
-			playerClient.createNewTileObject(x, y, TREEPATCH, 2, 10);
+			playerClient.getFrameMethodHandler().createNewTileObject(x, y, TREEPATCH, 2, 10);
 			break;
 			
 		case 8391:
 			if(!checkRake()) return;
-			playerClient.createNewTileObject(x, y, TREEPATCH, 2, 10);
+			playerClient.getFrameMethodHandler().createNewTileObject(x, y, TREEPATCH, 2, 10);
 			break;
 		
 		case 8549:
@@ -233,7 +233,7 @@ public class Farming {
 		case 8557:
 		case 8550: //brush to clear for allotment /dead allotment plants
 			if(!checkRake()) return;
-			playerClient.createNewTileObject(x, y, ALLOTMENT, 2, 10);
+			playerClient.getFrameMethodHandler().createNewTileObject(x, y, ALLOTMENT, 2, 10);
 			break;
 		
 		case 7882:
@@ -243,13 +243,13 @@ public class Farming {
 		case 7866:
 		case 7847: //flower patch brush/dead flower
 			if(!checkRake()) return;
-				playerClient.createNewTileObject(x, y, FLOWERPATCH, 2, 10);
+				playerClient.getFrameMethodHandler().createNewTileObject(x, y, FLOWERPATCH, 2, 10);
 			break;
 			
 		case 8149:	
 		case 8150: //herb patch /dead herbs
 			if(!checkRake()) return;
-			playerClient.createNewTileObject(x, y, HERBPATCH, 2, 10);
+			playerClient.getFrameMethodHandler().createNewTileObject(x, y, HERBPATCH, 2, 10);
 			break;
 			
 		case 7712:
@@ -260,13 +260,13 @@ public class Farming {
 		case 7742:
 		case 7578: //bush brush to be cleared/dead bush
 			if(!checkRake()) return;
-				playerClient.createNewTileObject(x, y, BUSHPATCH, 2, 10);
+				playerClient.getFrameMethodHandler().createNewTileObject(x, y, BUSHPATCH, 2, 10);
 			break;
 			
 		case TREEPATCH:
 			if(!checkTrowel()) return;
 			for(int i = 5316; i >= 5312; i--){
-				if(playerClient.IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
+				if(playerClient.getInventoryHandler().IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
 					grow(x,y,i,TREEPATCH);				
 					return;
 				}
@@ -276,7 +276,7 @@ public class Farming {
 		case ALLOTMENT: //guide on allotment, chooses highest level seed first
 			if(!checkTrowel()) return;
 			for(int i = 5324; i >= 5319; i--){
-				if(playerClient.IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
+				if(playerClient.getInventoryHandler().IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
 					grow(x,y,i,ALLOTMENT);				
 					return;
 				}
@@ -286,7 +286,7 @@ public class Farming {
 		case HERBPATCH: //guide on empty herb patch, chooses highest level seed
 			if(!checkTrowel()) return;
 			for(int i = 5304; i >= 5291; i--){
-				if(playerClient.IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
+				if(playerClient.getInventoryHandler().IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
 					grow(x,y,i,HERBPATCH);				
 					return;
 				}
@@ -296,7 +296,7 @@ public class Farming {
 		case FLOWERPATCH: //guide on empty flower patch, chooses highest level seed in inventory
 			if(!checkTrowel()) return;
 			for(int i = 5100; i >= 5096; i--){
-				if(playerClient.IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
+				if(playerClient.getInventoryHandler().IsItemInBag(i) && playerClient.playerLevel[19] >= getSeedLevel(i)){ // double conditional needed to avoid repeated level messages
 					grow(x,y,i,FLOWERPATCH);				
 					return;
 				}
@@ -305,27 +305,27 @@ public class Farming {
 
 		case BUSHPATCH: //guide on empty bush patch, automatically chooses highest level seed in inventory
 			if(!checkTrowel()) return;
-			if(playerClient.IsItemInBag(5101) && playerClient.playerLevel[19] >= getSeedLevel(5101)){ //redberry
+			if(playerClient.getInventoryHandler().IsItemInBag(5101) && playerClient.playerLevel[19] >= getSeedLevel(5101)){ //redberry
 				grow(x,y,5101,BUSHPATCH);				
 				return;
 			}
-			if(playerClient.IsItemInBag(5106) && playerClient.playerLevel[19] >= getSeedLevel(5106)){ //poison ivy
+			if(playerClient.getInventoryHandler().IsItemInBag(5106) && playerClient.playerLevel[19] >= getSeedLevel(5106)){ //poison ivy
 				grow(x,y,5106,BUSHPATCH);				
 				return;
 			}
-			if(playerClient.IsItemInBag(5105) && playerClient.playerLevel[19] >= getSeedLevel(5105)){ //whiteberry
+			if(playerClient.getInventoryHandler().IsItemInBag(5105) && playerClient.playerLevel[19] >= getSeedLevel(5105)){ //whiteberry
 				grow(x,y,5105,BUSHPATCH);				
 				return;
 			}
-			if(playerClient.IsItemInBag(5104) && playerClient.playerLevel[19] >= getSeedLevel(5104)){ //jangerberry seed
+			if(playerClient.getInventoryHandler().IsItemInBag(5104) && playerClient.playerLevel[19] >= getSeedLevel(5104)){ //jangerberry seed
 				grow(x,y,5104,BUSHPATCH);				
 				return;
 			}
-			if(playerClient.IsItemInBag(5103) && playerClient.playerLevel[19] >= getSeedLevel(5103)){ //dwellberry seed
+			if(playerClient.getInventoryHandler().IsItemInBag(5103) && playerClient.playerLevel[19] >= getSeedLevel(5103)){ //dwellberry seed
 				grow(x,y,5103,BUSHPATCH);				
 				return;
 			}				
-			if(playerClient.IsItemInBag(5102) && playerClient.playerLevel[19] >= getSeedLevel(5102)){ //cadavaberry seed
+			if(playerClient.getInventoryHandler().IsItemInBag(5102) && playerClient.playerLevel[19] >= getSeedLevel(5102)){ //cadavaberry seed
 				grow(x,y,5102,BUSHPATCH);		
 				return;
 			}				
@@ -387,7 +387,7 @@ public class Farming {
 	 * @return True if they have a trowel and required seeds (trowel ID 5325)
 	 */
 	private boolean checkSeedsAndTrowel(int seedID){
-		if(playerClient.IsItemInBag(5325) && playerClient.IsItemInBag(seedID))
+		if(playerClient.getInventoryHandler().IsItemInBag(5325) && playerClient.getInventoryHandler().IsItemInBag(seedID))
 			return true;
 		playerClient.sendMessage("You need a gardening trowel and the correct seeds to do this.");
 		return false;
@@ -400,7 +400,7 @@ public class Farming {
 	 */
 	private void startGrowingProcess(int seedID){
 		playerClient.startAnimation(2272);
-		playerClient.deleteItem(seedID, playerClient.getItemSlot(seedID), 1);
+		playerClient.getInventoryHandler().deleteItem(seedID, playerClient.getInventoryHandler().getItemSlot(seedID), 1);
 	}
 	
 	public boolean checkSeedAndPatch(int seed, int patch){
@@ -614,7 +614,7 @@ public class Farming {
 			plantT = new Timer(1000*tick(), new time()); //counter goes off every tick seconds
 			plantT.start();
 			int totalTime = (endStage-startStage)*tick;
-			playerClient.createNewTileObject(_x, _y, objectStage, 2, 10); 
+			playerClient.getFrameMethodHandler().createNewTileObject(_x, _y, objectStage, 2, 10); 
 			playerClient.sendMessage("This should take about "+totalTime+" seconds to be fully grown.");
 		}
 
@@ -648,7 +648,7 @@ public class Farming {
 			public void actionPerformed(ActionEvent e) { 
 				
 				if(objectStage != finishedStage){
-					playerClient.createNewTileObject(_x, _y, objectStage, 2, 10); 
+					playerClient.getFrameMethodHandler().createNewTileObject(_x, _y, objectStage, 2, 10); 
 					objectStage += 1;
 				}
 				else{
@@ -665,12 +665,12 @@ public class Farming {
 		public void update() {
 				//System.out.println("Update called on plant with coords : "+getX()+", "+getY());
 			if(re == null) //if re does not exist
-					playerClient.createNewTileObject(_x, _y, objectStage, 2, 10); 
+					playerClient.getFrameMethodHandler().createNewTileObject(_x, _y, objectStage, 2, 10); 
 			else{ //re exists
 				if(!re.done) //if re is still counting down
-					playerClient.createNewTileObject(_x, _y, objectStage, 2, 10);
+					playerClient.getFrameMethodHandler().createNewTileObject(_x, _y, objectStage, 2, 10);
 				else //means re is done, and dead plant
-					playerClient.createNewTileObject(_x, _y, deadID, 2, 10);
+					playerClient.getFrameMethodHandler().createNewTileObject(_x, _y, deadID, 2, 10);
 			}
 		}
 		

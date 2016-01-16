@@ -34,11 +34,11 @@ public class Fishing{
 		if(playerClient.spinningTimer > 0){
 			playerClient.spinningTimer -= 1;
 			if(playerClient.spinningTimer == 0){
-				if(playerClient.playerHasItem(1779)){
+				if(playerClient.getInventoryHandler().playerHasItem(1779)){
 					playerClient.spinningTimer = 4;
-					playerClient.deleteItem(1779, playerClient.getItemSlot(1779), 1);
-					playerClient.addItem(1777, 1);
-					playerClient.addSkillXP(25*playerClient.rate, playerClient.playerCrafting);
+					playerClient.getInventoryHandler().deleteItem(1779, playerClient.getInventoryHandler().getItemSlot(1779), 1);
+					playerClient.getInventoryHandler().addItem(1777, 1);
+					playerClient.getClientMethodHandler().addSkillXP(25*playerClient.rate, playerClient.playerCrafting);
 				}
 				else{
 					playerClient.spinningTimer = -1;
@@ -159,7 +159,7 @@ public class Fishing{
 		fishtime = misc.random(fishingnumb1)+fishingnumb2;
 		int fishdif = (c.playerLevel[10] / 9);
 
-		if (c.freeSlots() == 0){
+		if (c.getInventoryHandler().freeSlots() == 0){
 			c.IsFishing = false;
 			c.sendMessage("Your inventory is full!");
 			c.resetAnimation();
@@ -174,7 +174,7 @@ public class Fishing{
 		c.startAnimation(fishanim);
 		if (c.FishingTimer == 0)
 		{
-			if (c.playerLevel[10] >= fishlevel && c.IsItemInBag(bag) == true){
+			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == true){
 				c.IsFishing = true;
 
 				if (isharpooning == true){
@@ -182,46 +182,46 @@ public class Fishing{
 					fishdif = (c.playerLevel[10] / 9);
 					if (c.playerLevel[10] >= 85){
 						int add = c.DROPHANDLER.getDrop(DropList.harpoon);
-						c.addItem(add, 1);
+						c.getInventoryHandler().addItem(add, 1);
 						fishingnumb1 = 10;
 						fishingnumb2 = 40;
 						int t = fishtime - fishdif;
 						if (t <= 0) t = misc.random(3)+4;
 						c.FishingTimer = t;
-						c.sendMessage("You harpoon a "+c.getItemName(add).toLowerCase());
+						c.sendMessage("You harpoon a "+Item.getItemName(add).toLowerCase());
 					}
 					else if (c.playerLevel[10] >= 75 && c.playerLevel[10] < 85){
 						int add = c.DROPHANDLER.getDrop(DropList.harpoon75);
-						c.addItem(add, 1);
+						c.getInventoryHandler().addItem(add, 1);
 						fishingnumb1 = 10;
 						fishingnumb2 = 35;
 						int t = fishtime - fishdif;
 						if (t <= 0) t = misc.random(3)+4;
 						c.FishingTimer = t;
-						c.sendMessage("You harpoon a "+c.getItemName(add).toLowerCase());
+						c.sendMessage("You harpoon a "+Item.getItemName(add).toLowerCase());
 					}
 					else if (c.playerLevel[10] >= 60 && c.playerLevel[10] < 75){
 						int add = c.DROPHANDLER.getDrop(DropList.harpoon60);
-						c.addItem(add, 1);
+						c.getInventoryHandler().addItem(add, 1);
 						fishingnumb1 = 10;
 						fishingnumb2 = 30;
 						int t = fishtime - fishdif;
 						if (t <= 0) t = 1;
 						c.FishingTimer = misc.random(3)+4;
-						c.sendMessage("You harpoon a "+c.getItemName(add).toLowerCase());
+						c.sendMessage("You harpoon a "+Item.getItemName(add).toLowerCase());
 					}
 					else if (c.playerLevel[10] >= 30 && c.playerLevel[10] < 60){
-						c.addItem(359, 1);
+						c.getInventoryHandler().addItem(359, 1);
 						fishingnumb1 = 10;
 						fishingnumb2 = 25;
 						int t = fishtime - fishdif;
 						if (t <= 0) t = 1;
 						c.FishingTimer = misc.random(3)+4;
-						c.sendMessage("You harpoon a "+c.getItemName(359).toLowerCase());
+						c.sendMessage("You harpoon a "+Item.getItemName(359).toLowerCase());
 					}
 				}
 				else if (isharpooning == false){
-					c.addItem(fishitem, 1);
+					c.getInventoryHandler().addItem(fishitem, 1);
 					int t = fishtime - fishdif;
 					if (t <= 0) t = 1;
 					c.FishingTimer = misc.random(3)+4;
@@ -229,9 +229,9 @@ public class Fishing{
 				}
 
 
-				c.addSkillXP(fishxp*c.rate, 10);
+				c.getClientMethodHandler().addSkillXP(fishxp*c.rate, 10);
 			}
-			if (c.playerLevel[10] >= fishlevel && c.IsItemInBag(bag) == false){
+			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == false){
 				c.IsFishing = false;
 				c.sendMessage("You need a "+bagitem+" to fish here.");
 				c.resetAnimation();
@@ -246,7 +246,7 @@ public class Fishing{
 		fishtime = misc.random(fishingnumb1)+fishingnumb2;
 		int fishdif = (c.playerLevel[10] / 9);
 
-		if (c.freeSlots() == 0){
+		if (c.getInventoryHandler().freeSlots() == 0){
 			c.CatchST = false;
 			c.sendMessage("Your inventory is full!");
 			c.resetAnimation();
@@ -260,16 +260,16 @@ public class Fishing{
 
 		if (c.FishingTimer == 0)
 		{
-			if (c.playerLevel[10] >= fishlevel && c.IsItemInBag(bag) == true && c.IsItemInBag(bag2) == true){
+			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == true && c.getInventoryHandler().IsItemInBag(bag2) == true){
 				c.CatchST = true;
 				int t = fishtime - fishdif;
 				if (t <= 0) t = misc.random(3)+4;
 				c.sendMessage("You catch a "+fishname+".");
-				c.addItem (fishitem, 1);
-				c.addSkillXP(fishxp*c.rate, 10);
+				c.getInventoryHandler().addItem (fishitem, 1);
+				c.getClientMethodHandler().addSkillXP(fishxp*c.rate, 10);
 				c.FishingTimer = t;
 			}
-			if (c.playerLevel[10] >= fishlevel && c.IsItemInBag(bag) == false || c.IsItemInBag(bag2) == false){
+			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == false || c.getInventoryHandler().IsItemInBag(bag2) == false){
 				c.CatchST = false;
 				c.sendMessage("You need a "+bagitem+" and "+bagitem2+" to fish here.");
 				c.resetAnimation();

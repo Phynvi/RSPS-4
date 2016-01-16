@@ -22,41 +22,41 @@ public void fletchingvoid(String logname, int remove, int fshort, int slvl, int 
 	public static void fletchingTimers(client playerClient){
 
 		if (playerClient.fletchingprocessshort > 1){
-			if ((playerClient.playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.playerHasItemAmount(946, 1)==true) && playerClient.stringing == false){
+			if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.getInventoryHandler().playerHasItemAmount(946, 1)==true) && playerClient.stringing == false){
 				playerClient.fletchingprocessshort -= 1;
 			}
-			else if ((playerClient.playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.playerHasItemAmount(1777, 1)==true) && playerClient.stringing == true){
+			else if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.getInventoryHandler().playerHasItemAmount(1777, 1)==true) && playerClient.stringing == true){
 				playerClient.stringing = true;
 				playerClient.fletchingprocessshort -= 1;
 			}
-			else if ((playerClient.playerHasItemAmount(playerClient.fletchingremove, 1)==false || playerClient.playerHasItemAmount(946, 1)==false) && playerClient.stringing == false){
+			else if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==false || playerClient.getInventoryHandler().playerHasItemAmount(946, 1)==false) && playerClient.stringing == false){
 				playerClient.fletchingprocessshort = 0;
 			}
-			else if ((playerClient.playerHasItemAmount(playerClient.fletchingremove, 1)==false || playerClient.playerHasItemAmount(1777, 1)==false) && playerClient.stringing == true){
+			else if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==false || playerClient.getInventoryHandler().playerHasItemAmount(1777, 1)==false) && playerClient.stringing == true){
 				playerClient.stringing = false;
 				playerClient.fletchingprocessshort = 0;
 			}
 		}
 
 		if (playerClient.fletchingprocessshort == 1){
-			playerClient.addSkillXP(playerClient.fletchingexp*playerClient.rate, 9);
+			playerClient.getClientMethodHandler().addSkillXP(playerClient.fletchingexp*playerClient.rate, 9);
 			if (playerClient.stringing == false){
 				playerClient.startAnimation(1248);
 			}
 			else if (playerClient.stringing == true){
 				playerClient.startAnimation(712);
-				playerClient.deleteItem(1777, playerClient.getItemSlot(1777), 1);
+				playerClient.getInventoryHandler().deleteItem(1777, playerClient.getInventoryHandler().getItemSlot(1777), 1);
 			}
-			playerClient.deleteItem(playerClient.fletchingremove, playerClient.getItemSlot(playerClient.fletchingremove), 1);
+			playerClient.getInventoryHandler().deleteItem(playerClient.fletchingremove, playerClient.getInventoryHandler().getItemSlot(playerClient.fletchingremove), 1);
 			if(playerClient.fletchingitem != 52)
-				playerClient.addItem(playerClient.fletchingitem, 1);
-			else playerClient.addItem(playerClient.fletchingitem, 15); //arrowshafts
+				playerClient.getInventoryHandler().addItem(playerClient.fletchingitem, 1);
+			else playerClient.getInventoryHandler().addItem(playerClient.fletchingitem, 15); //arrowshafts
 			playerClient.fletchingprocessshort = 5;
 		}
 	}
 
 	private boolean fletchingCheckLevel(int _level){
-		if(c.checkLevel(c.playerFletching, _level))
+		if(c.getClientMethodHandler().checkLevel(c.playerFletching, _level))
 			return true;
 		c.sendMessage("You need "+_level+" Fletching to do that.");
 		return false;
@@ -64,18 +64,18 @@ public void fletchingvoid(String logname, int remove, int fshort, int slvl, int 
 
 
 	public void fletchArrow(){
-		if(c.freeSlots() >= 1 || c.playerHasItem(53)){
-			if(c.playerHasItemAmount(52, 15) && c.playerHasItemAmount(314,15)){
-				int slot1 = c.getItemSlot(52);
-				int slot2 = c.getItemSlot(314);
-				c.deleteItem(52,slot1,15);
-				c.deleteItem(314,slot2,15);
-				c.addItem(53,15);
+		if(c.getInventoryHandler().freeSlots() >= 1 || c.getInventoryHandler().playerHasItem(53)){
+			if(c.getInventoryHandler().playerHasItemAmount(52, 15) && c.getInventoryHandler().playerHasItemAmount(314,15)){
+				int slot1 = c.getInventoryHandler().getItemSlot(52);
+				int slot2 = c.getInventoryHandler().getItemSlot(314);
+				c.getInventoryHandler().deleteItem(52,slot1,15);
+				c.getInventoryHandler().deleteItem(314,slot2,15);
+				c.getInventoryHandler().addItem(53,15);
 			}
 			else{
 				for(int i = 0; i < 15; i++){ //15 at a time
-					if(c.playerHasItem(52) && c.playerHasItem(314))
-						c.removeAdd(52,314,53);
+					if(c.getInventoryHandler().playerHasItem(52) && c.getInventoryHandler().playerHasItem(314))
+						c.getItemUseHandler().removeAdd(52,314,53);
 				}
 			}
 		}
@@ -83,25 +83,25 @@ public void fletchingvoid(String logname, int remove, int fshort, int slvl, int 
 
 	private void fletchFullArrow(int tipID, int finishedArrow, int EXP){
 		c.startAnimation(1238);
-		if(c.freeSlots() >= 1 || c.playerHasItem(finishedArrow)){
-			if(c.playerHasItemAmount(53, 15) && c.playerHasItemAmount(tipID,15)){ //15 headless arrows and 15 arrowtips
-				int slot1 = c.getItemSlot(53);
-				int slot2 = c.getItemSlot(tipID);
-				c.deleteItem(53,slot1,15);
-				c.deleteItem(tipID,slot2,15);
-				c.addItem(finishedArrow,15);
+		if(c.getInventoryHandler().freeSlots() >= 1 || c.getInventoryHandler().playerHasItem(finishedArrow)){
+			if(c.getInventoryHandler().playerHasItemAmount(53, 15) && c.getInventoryHandler().playerHasItemAmount(tipID,15)){ //15 headless arrows and 15 arrowtips
+				int slot1 = c.getInventoryHandler().getItemSlot(53);
+				int slot2 = c.getInventoryHandler().getItemSlot(tipID);
+				c.getInventoryHandler().deleteItem(53,slot1,15);
+				c.getInventoryHandler().deleteItem(tipID,slot2,15);
+				c.getInventoryHandler().addItem(finishedArrow,15);
 				EXP = EXP*c.rate*15;
-				c.addSkillXP(EXP, c.playerFletching);
+				c.getClientMethodHandler().addSkillXP(EXP, c.playerFletching);
 			}
 			else{
 				int totalEXP = 0;
 				for(int i = 0; i < 15; i++){ //15 at a time
-					if(c.playerHasItem(53) && c.playerHasItem(tipID)){
-						c.removeAdd(53,tipID,finishedArrow);
+					if(c.getInventoryHandler().playerHasItem(53) && c.getInventoryHandler().playerHasItem(tipID)){
+						c.getItemUseHandler().removeAdd(53,tipID,finishedArrow);
 						totalEXP += EXP*c.rate;
 					}
 				}
-				c.addSkillXP(totalEXP, c.playerFletching);
+				c.getClientMethodHandler().addSkillXP(totalEXP, c.playerFletching);
 			}
 		}
 	}
