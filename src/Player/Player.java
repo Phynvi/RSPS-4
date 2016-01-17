@@ -497,8 +497,6 @@ public abstract class Player extends playerInstances {
 	public String playerName = null;			// name of the connecting client
 	public String playerPass = null;			// name of the connecting client
 	public boolean isRunning2 = false;
-	public boolean stoprunning = false;
-
 
 	public int playerRights;		// 0=normal player, 1=player mod, 2=real mod, 3=admin?
 

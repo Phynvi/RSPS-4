@@ -590,8 +590,7 @@ playerName.trim();*/
 				savefile = false;
 				disconnected = true;
 			}  
-
-			//TODO - CLIENT HANGS HERE WHEN CONNECTING, WHY?
+			
 			//loadsave(); - quoted out because although it fucking owns 
 			if(readSave() != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
 				getFileLoadingHandler().loadmoreinfo();
@@ -1047,7 +1046,7 @@ playerName.trim();*/
 		if(spellbook == 0) getFrameMethodHandler().setSidebarInterface(6, 1151); //old magics
 		else getFrameMethodHandler().setSidebarInterface(6, 12855); //ancient magics
 
-
+		PLD.loadquestinterface();
 		PLD.sendQuests();
 		
 	}
@@ -1374,11 +1373,11 @@ playerName.trim();*/
 			isRunning2 = false;
 			getFrameMethodHandler().frame36(173, 0);
 		}
-		if (dir2 != -1)
-			setRunningEnergy( getRunningEnergy() - (double)(0.88-(playerLevel[playerAgility]*0.0075) ) );
-		else if (getRunningEnergy() < 100){
-			setRunningEnergy( getRunningEnergy() + (double)(0.25+(playerLevel[playerAgility]*0.0075) ) );
-		}
+		if(dir2 != -1)
+			setRunningEnergy( getRunningEnergy() - (double)(0.90-(playerLevel[playerAgility]*0.0045) ) ); //0.80 originally
+		else if(getRunningEnergy() < 100)
+			setRunningEnergy( getRunningEnergy() + (double)(0.20+(playerLevel[playerAgility]*0.0045) ) ); //0.25 originally
+		
 
 		getFrameMethodHandler().CheckBar();
 		getFrameMethodHandler().getFilling();
@@ -1444,12 +1443,6 @@ playerName.trim();*/
 			}
 		}
 		//Attacking in wilderness
-
-		if(stoprunning){ //TODO - might be able to remove this?
-			getFrameMethodHandler().setconfig(173, 0);
-			isRunning2 = false;
-			stoprunning = false;
-		}
 
 		pEmote = playerSE;
 
@@ -1617,15 +1610,17 @@ playerName.trim();*/
 		int junk2;
 		int junk3;
 
+		if(packetType != 0)
+			updateIdle();
 		//debug("packetType : "+packetType);
-
+		
 		switch(packetType) {
 		case 0: break;		// idle packet - keeps on reseting timeOutCounter
 
 		case 202:			// idle logout packet - ignore for now
 			break;
+			
 		case 210: // loads new area
-
 			break;
 
 		case 40: //clicking next in npc dialogue
@@ -2439,7 +2434,6 @@ playerName.trim();*/
 				debug("RemoveID: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );}		
 			if (interfaceID == 1688) { 
 				if (playerEquipment[removeSlot] == removeID) {
-					//TODO - FIX THIS EQUIP SHIT
 					if( getInventoryHandler().freeSlots() > 0 || (Item.itemStackable[removeID] && getInventoryHandler().hasItem(removeID)) ){
 						getInventoryHandler().addItem(removeID,playerEquipmentN[removeSlot]);
 						getInventoryHandler().deleteEquimentInSlotID(removeSlot);

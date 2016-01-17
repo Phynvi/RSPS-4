@@ -105,6 +105,7 @@ public class FileLoading {
 			misc.println(FileName+": error loading file.");
 			return null;
 		}
+		misc.println("Searching for coords "+CName);
 		while(EndOfFile == false && line != null) {
 			line = line.trim();
 			int spot = line.indexOf("=");

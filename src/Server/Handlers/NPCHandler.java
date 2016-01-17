@@ -5,10 +5,10 @@ import java.util.LinkedList;
 
 public class NPCHandler {
 	public static BST aggressiveNPCS = new BST(172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
-	public static BST rangedNPC = new BST(3068,3069,3070,3071,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
+	public static BST rangedNPC = new BST(1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
-	
+
 	private static int NPCFightType; 
 	public static int hitRange = 0;
 	public static int hitMage = 0;
@@ -17,7 +17,7 @@ public class NPCHandler {
 	public static int maxListedNPCs = 10000;
 	public NPC npcs[] = new NPC[maxNPCs];
 	public NPCListBST npcList2 = new NPCListBST();
-	
+
 	NPCHandler() {
 		for(int i = 0; i < maxNPCs; i++) {
 			npcs[i] = null;
@@ -42,13 +42,13 @@ public class NPCHandler {
 		if(slot == -1) return;		// no free slot found
 		if(HP <= 0)  // This will cause client crashes if we don't use this :) - xero
 			HP = 1;
-		
+
 		boolean pestControlRandomSpawn = false;
 		if(lists.pestControlNPCs.exists(npcType) && npcType != 3782 && npcType != 3781 && npcType != 3780 && npcType != 3779 && npcType != 3778 && npcType != 3777){
 			npcType = server.pestControlHandler.getPestControlRandomRespawnNPCIDAny();
 			pestControlRandomSpawn = true;
 		}
-		
+
 		NPC newNPC = new NPC(slot, npcType);
 		newNPC.spawnX = x;
 		newNPC.spawnY = y;
@@ -156,7 +156,7 @@ public class NPCHandler {
 
 	NPCList[] NPCListArray = new NPCList[maxListedNPCs];
 	int NPCListArrayCounter = 0;
-	
+
 	public void newNPCList(int npcType, String npcName, int combat, int HP) {
 		NPCList n = new NPCList(npcType);
 		n.npcName = npcName;
@@ -230,14 +230,14 @@ public class NPCHandler {
 				npcs[NPCID].moveX = GetMove(npcs[NPCID].absX, playerX - 1);
 				npcs[NPCID].moveY = GetMove(npcs[NPCID].absY, playerY);
 			}
-			
+
 			for(int k = 0; k < maxNPCs && canwalk; k++){
 				if(npcs[k] != null && npcs[k] != npcs[NPCID]){
 					if(npcs[k].absX == npcs[NPCID].absX+npcs[NPCID].moveX && npcs[k].absY == npcs[NPCID].absY+npcs[NPCID].moveY)
 						canwalk = false;
 				}
 			}
-			
+
 			if(canwalk == true)
 				npcs[NPCID].getNextNPCMovement();
 			npcs[NPCID].updateRequired = true;
@@ -271,7 +271,7 @@ public class NPCHandler {
 				}
 			}
 
-			
+
 			if(canwalk == true)
 				npcs[NPCID].getNextNPCMovement();
 			npcs[NPCID].updateRequired = true;
@@ -356,9 +356,9 @@ public class NPCHandler {
 							MoveY = -(MoveY);
 						}
 						if (IsInRange(i, MoveX, MoveY) == true && server.worldMap.isWalkAble(npcs[i].heightLevel, npcs[i].absX, npcs[i].absY, npcs[i].absX+MoveX, npcs[i].absY+MoveY)) {
-								npcs[i].moveX = MoveX;
-								npcs[i].moveY = MoveY;
-								npcs[i].getNextNPCMovement();
+							npcs[i].moveX = MoveX;
+							npcs[i].moveY = MoveY;
+							npcs[i].getNextNPCMovement();
 						}
 						npcs[i].updateRequired = true;
 					}
@@ -376,7 +376,7 @@ public class NPCHandler {
 
 					if(npcs[i].isOutsideSpawn()) //if the npc has wandered too far
 						npcs[i].reset();
-					
+
 					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply && npcs[i].npcType != 3778 && npcs[i].npcType != 3779 && 
 							npcs[i].npcType != 3780 && npcs[i].npcType != 3777){
 						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
@@ -408,7 +408,7 @@ public class NPCHandler {
 							}
 						}
 					} 					
-					
+
 					boolean exitFor = false; //checks to see if is standing on top of another npc
 					for(int k = 1; k < maxNPCs && !exitFor; k++){
 						if(npcs[k] == null)
@@ -429,7 +429,7 @@ public class NPCHandler {
 							}
 						}
 					}
-					
+
 					if (npcs[i].npcType == 1691 || npcs[i].npcType == 81 || npcs[i].npcType == 397 || npcs[i].npcType == 1766 || npcs[i].npcType == 1767 || npcs[i].npcType == 1768) {
 						if (misc.random2(50) == 1) {
 							npcs[i].updateRequired = true;
@@ -438,25 +438,25 @@ public class NPCHandler {
 						}
 					}
 					if (npcs[i].npcType == 2366) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Everything West of here is PVP";
+						npcs[i].updateRequired = true;
+						npcs[i].textUpdateRequired = true;
+						npcs[i].textUpdate = "Everything West of here is PVP";
 					}
 					if (npcs[i].npcType == 1385) {
 						npcs[i].updateRequired = true;
 						npcs[i].textUpdateRequired = true;
 						npcs[i].textUpdate = "I have information on God Wars";
-				}
+					}
 					if (npcs[i].npcType == 1210) {
 						npcs[i].updateRequired = true;
 						npcs[i].textUpdateRequired = true;
 						npcs[i].textUpdate = "Everything North of here is PVP";
-				}
+					}
 					if (npcs[i].npcType == 2369) {
 						npcs[i].updateRequired = true;
 						npcs[i].textUpdateRequired = true;
 						npcs[i].textUpdate = "Everything outside this tent is PVP";
-				}
+					}
 					if (npcs[i].npcType == 1660) {
 						if (misc.random2(3) == 1) {
 							npcs[i].updateRequired = true;
@@ -623,8 +623,8 @@ public class NPCHandler {
 			}
 		}
 	}	
-	
-	
+
+
 	private void giveSlayerEXP(client c, int npcID){
 		//if(c.debugmode) c.sendMessage("npcID is "+npcID+", slayerNPC is "+c.slayerNPC+", slayerCount is "+c.slayerCount);
 		if(c == null) return;
@@ -644,10 +644,10 @@ public class NPCHandler {
 		double TotPrice = 0;
 		if (server.itemHandler.ItemList.exists(ItemID))
 			ShopValue = server.itemHandler.ItemList.getCurrentItem().ShopValue;
-		
+
 		return ShopValue*0.6*amount;
 	}
-	
+
 	//New drops by AAA mods
 	private void dropItem(int NPCID, int dropID){	
 		if(lists.bones.exists(dropID)){
@@ -656,17 +656,17 @@ public class NPCHandler {
 		}
 
 		int amount = 1;
-		
+
 		if(Item.itemStackable[dropID])
 			amount = misc.random(npcs[NPCID].MaxHP)+10;
-		
+
 		int value = (int)GetItemShopValue(dropID,amount);
-		
+
 		if(value < 10000){
 			ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false);
 			return;
 		}
-		
+
 		if(value >= 1000000){ // 60%
 			int chance = misc.random(9);
 			if(chance != 4 && chance != 1 && chance != 2 && chance != 3)
@@ -682,8 +682,8 @@ public class NPCHandler {
 		if(value >= 100000){ //80%
 			int chance = misc.random(9);
 			if(chance != 1 && chance != 2)
-			if(misc.random(1) == 0)
-				ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false);
+				if(misc.random(1) == 0)
+					ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false);
 			return;
 		}
 		if(value >= 10000){ //90%
@@ -701,9 +701,9 @@ public class NPCHandler {
 		int playerId = npcs[NPCID].getPlayerAgroID();
 		client c = (client) server.playerHandler.players[playerId];
 		Player p = (Player) server.playerHandler.players[playerId];
-		
+
 		giveSlayerEXP(c,npcID);
-		
+
 		switch (npcID){
 		case 374: //ogre
 		case 852: //ogre chieften
@@ -729,35 +729,35 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
 			dropItem(NPCID, DropList.BIGBONES);
 			break;
-			
-		//Dark Beast
+
+			//Dark Beast
 		case 2783:
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.darkBeastDrop));
 			dropItem(NPCID, DropList.BIGBONES);
 			break;
-		
-		//Skeletal Wyvern
+
+			//Skeletal Wyvern
 		case 3070:
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
 			dropItem(NPCID, DropList.WYVERNBONES);
 			break;
-		
+
 		case 2573:
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
-		
+
 		case 1692:
 		case 41: //chicken
 			ItemHandler.addItem(314, npcs[NPCID].absX, npcs[NPCID].absY, (misc.random(45)+15), GetNpcKiller(NPCID), false);
 			dropItem(NPCID, DropList.BONES);
 			break;
-			
+
 		case 7: //farmer
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.farmSeeds));
 			dropItem(NPCID, DropList.BONES);
 			break;
-			
+
 		case 941: //Green Dragon
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.greenDHideWithTrim));
@@ -769,26 +769,26 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.blueDHideWithTrim));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;	
-			
+
 		case 53: //Red Dragon
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop));
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.redDHide));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
-			
+
 		case 54: //Black Dragon
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop));
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.blackDHide));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
-			
+
 		case 1590: //Bronze Dragon
 		case 1591: //Iron Dragon
 		case 1592: //Steel Dragon
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
-			
+
 		case 477: //khazard commander
 		case 691: //tower archer
 		case 2359: //elf warrior
@@ -824,7 +824,7 @@ public class NPCHandler {
 		case 2025:
 			p.ahrim = 1;
 			break;
-			
+
 		case 799:
 		case 182: //pirates
 		case 183:
@@ -849,7 +849,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
-			
+
 		case 3001: //kree
 			int chance2 = c.prevarmadyl+1;
 			if(misc.random(60/chance2) == 0)
@@ -857,7 +857,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
-			
+
 		case 194: //necromancer
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
 			dropItem(NPCID, DropList.DRAGONBONES);
@@ -867,7 +867,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
-			
+
 		case 172: //dark wizard	
 		case 86:
 		case 222: //monks
@@ -875,7 +875,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
-			
+
 		case 14: //druids
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.herbs));
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes));
@@ -888,7 +888,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes));
 			dropItem(NPCID, DropList.BIGBONES); //regular bones
 			break;
-			
+
 		case 122: //bandos mobs
 		case 123:
 			if(c.getClientMethodHandler().isInGodWars())
@@ -896,7 +896,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
-			
+
 		case 125: //armadyl mobs
 		case 64: 
 			if(c.getClientMethodHandler().isInGodWars())
@@ -904,7 +904,7 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
-			
+
 		case 478: //khazarad commander
 		case 475: //khazard trooper
 		case 476: //mid-level NPCs
@@ -922,12 +922,12 @@ public class NPCHandler {
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
 			dropItem(NPCID, DropList.BIGBONES); //big bones
 			break;
-			
+
 		case 1155: case 1157: //Kalphite Guardian
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
 			dropItem(NPCID, DropList.BIGBONES); //big bones
 			break;
-			
+
 		case 82: //lesser demon
 		case 83: //greater demon
 		case 117: //hill giants
@@ -963,7 +963,7 @@ public class NPCHandler {
 				c.sendMessage("You gain 20,000 Slayer Exp.");
 			}
 			break;
-			
+
 		case 912: //battle mages, slayer
 		case 913: 
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
@@ -990,10 +990,10 @@ public class NPCHandler {
 			c.appearanceUpdateRequired = true;
 			break;
 
-			default:
-				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
-				dropItem(NPCID, DropList.BONES);
-				break;
+		default:
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
+			dropItem(NPCID, DropList.BONES);
+			break;
 
 
 		}
@@ -1202,14 +1202,18 @@ WORLDMAP 2: (not-walk able places)
 	}
 
 	public boolean AttackPlayer(int NPCID) {
+
+
+		if (npcs[NPCID].actionTimer != 0) return true;
+
 		int playerID = npcs[NPCID].StartKilling;
 		if (server.playerHandler.players[playerID] == null) {
 			ResetAttackPlayer(NPCID);
 			return false;
 		}
-//		else if (server.playerHandler.players[playerID].DirectionCount < 2) {
-//			return false;
-//		}
+		//		else if (server.playerHandler.players[playerID].DirectionCount < 2) {
+		//			return false;
+		//		}
 
 		client c = (client) server.playerHandler.players[playerID];
 		int playerX = server.playerHandler.players[playerID].absX;
@@ -1222,7 +1226,7 @@ WORLDMAP 2: (not-walk able places)
 		npcs[NPCID].faceUpdateRequired = true;
 
 		int _npcID = npcs[NPCID].npcType;
-		
+
 		int EnemyHP = server.playerHandler.players[playerID].playerLevel[server.playerHandler.players[playerID].playerHitpoints];
 
 		if(server.playerHandler.players[playerID].attacknpc == NPCID) {
@@ -1231,7 +1235,7 @@ WORLDMAP 2: (not-walk able places)
 			server.playerHandler.players[playerID].attacknpc = NPCID; // Xerozcheez: makes it so if player runs away the player attacks back when npc follows
 			server.playerHandler.players[playerID].IsAttackingNPC = true; // Xerozcheez: makes it so if player runs away the player attacks back when npc follows
 		}
-		
+
 		if(playerX == npcs[NPCID].absX && playerY == npcs[NPCID].absY){ //steps off player if on top of player
 			int rX = misc.random(1);
 			int rY = misc.random(1);
@@ -1241,497 +1245,503 @@ WORLDMAP 2: (not-walk able places)
 			npcs[NPCID].moveY = rY;
 			npcs[NPCID].getNextNPCMovement();
 		}
-		
-		if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
+		if (server.playerHandler.players[playerID].IsDead == true) {
+			ResetAttackPlayer(NPCID);
+		} 
+		else {
+			npcs[NPCID].animNumber = -1;
+			NPCFightType = 1; //1 by default, 1 = melee, 2 = range, 3 = mage
+			melee(npcs[NPCID].MaxHit); //melee by default
 
-			if (npcs[NPCID].actionTimer == 0) { 
-					if (server.playerHandler.players[playerID].IsDead == true) {
-						ResetAttackPlayer(NPCID);
-					} 
-					else {
-						npcs[NPCID].animNumber = -1;
-						NPCFightType = 1; //1 by default, 1 = melee, 2 = range, 3 = mage
-						melee(npcs[NPCID].MaxHit); //melee by default
-						int SLASH = 451;
-						int CRUSH = 401;
-						
-						boolean maxHitOverride = false;
-						int hitDiffOverride = 0;
-						int freezePlayer = -1;
-						
-						switch (_npcID){
-						
-							//Magic
-						case 3752: //Torcher
-						case 3753: //Torcher
-						case 3754: //Torcher
-						case 3755: //Torcher
-						case 3756: //Torcher
-						case 3757: //Torcher
-						case 3758: //Torcher
-						case 3759: //Torcher
-						case 3760: //Torcher
-						case 3761: //Torcher
-							magic(npcs[NPCID].MaxHit);
-							break;
-							
-							//Ranged
-						case 3762: //Defiler
-						case 3763: //Defiler
-						case 3764: //Defiler
-						case 3765: //Defiler
-						case 3766: //Defiler
-						case 3767: //Defiler
-						case 3768: //Defiler
-						case 3769: //Defiler
-						case 3770: //Defiler
-						case 3771: //Defiler
-							range(npcs[NPCID].MaxHit);
-							break;
-							
-						case 2361: //""
-						case 2362: //elf warrior
-							range(11);
-//							int X3 = c.absX;
-//							int Y3 = c.absY;
-//							int offsetX = (npcs[NPCID].absX - X3) * -1;
-//							int offsetY = (npcs[NPCID].absY - Y3) * -1;
-//							c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 75, 20, 43, 31, Player+1);
-							break;
-							
-							//skeletal wyverns
-						case 3068:
-						case 3069:
-						case 3070:
-						case 3071:
-							if(misc.random(3) == 0){
-								if(c.getCombatHandler().hasAnyDragonFireShield()){
-									c.sendMessage("Your shield protects you from the Wyvern's icey breath.");
-									c.getFrameMethodHandler().stillgfx(361, c.absY, c.absX);
-									magic(10);
-								}
-								else{
-									c.sendMessage("The Wyvern strikes with icey breath.");
-									c.getFrameMethodHandler().stillgfx(363, c.absY, c.absX);
-									magic(50);
-								}
-								freezePlayer = 5;
-							}
-							else range(13);
-							break;
-						
-						case 3001: //Kree
-							npcs[NPCID].animNumber = 6976;
-							c.getFrameMethodHandler().stillgfx(305, c.absY, c.absX);
-							range(71);
-							break;
-						
+			int SLASH = 451;
+			int CRUSH = 401;
 
-						case 2028:
-							npcs[NPCID].animNumber = 2075; //Karil
-							range(10);
-							c.getFrameMethodHandler().stillgfx(401, c.absY, c.absX);
-							break;
+			boolean maxHitOverride = false;
+			int hitDiffOverride = 0;
+			int freezePlayer = -1;
+			
+			/* Special NPC distant adjustments here */
+			switch(_npcID){
+			
+		//skeletal wyverns
+			case 3068:
+			case 3069:
+			case 3070:
+			case 3071:
+				if(misc.random(3) == 0){
+					if(c.getCombatHandler().hasAnyDragonFireShield()){
+						c.sendMessage("Your shield helps protect you from the Wyvern's icey breath.");
+						c.getFrameMethodHandler().stillgfx(361, c.absY, c.absX);
+						magic(10);
+					}
+					else{
+						c.sendMessage("The Wyvern strikes with icey breath.");
+						c.getFrameMethodHandler().stillgfx(363, c.absY, c.absX);
+						magic(50);
+					}
+					freezePlayer = 5;
+					npcs[NPCID].attackDistance = 6;
+					npcs[NPCID].animNumber = 2985;
+				}
+				else{
+					melee(13);
+					npcs[NPCID].attackDistance = 1;
+					npcs[NPCID].animNumber = 2986;
+				}
+			default:
+				melee(npcs[NPCID].MaxHit); //by default
+				break;
+			}
+			
+			
+			if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
 
-						case 2025: //Ahrim
-							npcs[NPCID].animNumber = 724;
-							magic(20);
-							switch(misc.random(3)){
-							case 0:
-								gfxAll(377, playerY, playerX);	
-								break;
-							case 1:
-								gfxAll(368, playerY, playerX);	
-								break;
-							case 2:
-								gfxAll(435, playerY, playerX);	
-								break;
-							}
-							break; 
-							
-							//Test NPC for GFX
-						case 199:
-							melee(0);
-							//int offsetX = (npcs[NPCID].absX - c.absX) * -1;
-							//int offsetY = (npcs[NPCID].absY - c.absY) * -1;
-							//c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 80, 11, 43, 31, c.playerId+1); //does not guarnatee work
-							break;
-													
-						case 1157: //Kalphite Guardian magic
-							magic(16);
-							c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);
-							break;
+				switch (_npcID){
 
-						case 172: //dark wizard
-						case 173: //necromancer
-						case 14: //druid - mage npc
-							magic(npcs[NPCID].MaxHit);
-							npcs[NPCID].animNumber = 711;
-							c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);
-							break;
-						
-						case 81: case 397: case 1766: case 1767: case 1768:
-							npcs[NPCID].animNumber = 0x03B; //cow attack
-							break;
+				//Magic
+				case 3752: //Torcher
+				case 3753: //Torcher
+				case 3754: //Torcher
+				case 3755: //Torcher
+				case 3756: //Torcher
+				case 3757: //Torcher
+				case 3758: //Torcher
+				case 3759: //Torcher
+				case 3760: //Torcher
+				case 3761: //Torcher
+					magic(npcs[NPCID].MaxHit);
+					break;
 
-						case 1624:
-							magic(21);
-							gfxAll(346, playerY, playerX);
-							c.getFrameMethodHandler().stillgfx(346, c.absY, c.absX);
-							break;
+					//Ranged
+				case 3762: //Defiler
+				case 3763: //Defiler
+				case 3764: //Defiler
+				case 3765: //Defiler
+				case 3766: //Defiler
+				case 3767: //Defiler
+				case 3768: //Defiler
+				case 3769: //Defiler
+				case 3770: //Defiler
+				case 3771: //Defiler
+					range(npcs[NPCID].MaxHit);
+					break;
 
-						case 1615:
-							melee(26);
-							c.getFrameMethodHandler().stillgfx(409, npcs[NPCID].absY, npcs[NPCID].absX);
-							break;
+				case 2361: //""
+				case 2362: //elf warrior
+					range(11);
+					//							int X3 = c.absX;
+					//							int Y3 = c.absY;
+					//							int offsetX = (npcs[NPCID].absX - X3) * -1;
+					//							int offsetY = (npcs[NPCID].absY - Y3) * -1;
+					//							c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 75, 20, 43, 31, Player+1);
+					break;					
 
-						case 912:
-						case 913://battle mages
-							magic(20);
-							npcs[NPCID].animNumber = 711; 
-							c.getFrameMethodHandler().stillgfxz(345, c.absY, c.absX, 50, 50);
-							break;
-							
-						case 677: //demon boss from dwarf problems ii
-							switch (misc.random(2)){
-							case 0:
-							case 1:
-								npcs[NPCID].animNumber = 64;
-								melee(40);
-								break;
-							case 2:
-								npcs[NPCID].animNumber = 69;
-								c.getFrameMethodHandler().stillgfx(131, c.absY, c.absX);
-								if (c.getCombatHandler().ivandis()){
-									magic(30);
-									c.sendMessage("Your staff helps protect you from the attack");
-								}
-								else {
-									NPCFightType = 2;
-									maxHitOverride = true;
-									hitDiffOverride = misc.random(30)+30;
-									c.sendMessage("The demon strikes with an other-wordly magic");
-								}
-								break;
-							}
+				case 3001: //Kree
+					npcs[NPCID].animNumber = 6976;
+					c.getFrameMethodHandler().stillgfx(305, c.absY, c.absX);
+					range(71);
+					break;
 
-							break;
-							
-						case 1611: //gargoyle, mob with general graador
-							range(15);
-							break;
 
-						case 1647: //infernal mage, mob with general graador
-							magic(15);
-							c.getFrameMethodHandler().stillgfx(131, c.absY, c.absX);
-							break;
-							
-							//shades
-						case 1250:
-						case 1248:
-						case 1246:
-							magic(npcs[NPCID].MaxHit);
-							c.getFrameMethodHandler().stillgfx(292, c.absY, c.absX);
-							break;
-							
-							//Dragons	
-						case 50: case 53: case 54: case 55: case 941: case 1589: case 1590: case 1591: case 1592: case 2642:
-							switch (misc.random(3)+1){
-							case 1: case 4:
-								npcs[NPCID].animNumber = 80; //Dragons
-								break;
-							case 2:
-								if (c.getCombatHandler().dragfire()){
-									magic(2);
-									gfxAll(440, playerY, playerX);
-									c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
-									c.sendMessage("Your shield protects you from the Dragon's breath.");
-								}
-								if (c.getCombatHandler().hasDFS()){
-									gfxAll(440, playerY, playerX);
-									c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
-									c.getFrameMethodHandler().stillgfx(4, c.absY, c.absX);
-									c.getFrameMethodHandler().stillgfx(5, c.absY, c.absX);
-									c.getFrameMethodHandler().stillgfx(82, c.absY, c.absX);
-									c.startAnimation(1156);
-									magic(0);
-									if (c.dragcharge < 50){
-										c.dragcharge += 1;
-										c.sendMessage("Your Dragon Fire Shield absorbs a charge and has "+c.dragcharge+"/50 charges.");}
-									else if (c.dragcharge >= 50){
-										c.sendMessage("Your Dragon Fire Shield is fully charged.");
-									}
-								}
-								else {
-									npcs[NPCID].animNumber = 81; //Dragons
-									gfxAll(440, playerY, playerX);
-									c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
-									magic(50);
-									c.sendMessage("The Dragon strikes with its fiery breath.");
-								}
-								break;
-							case 3:
-								npcs[NPCID].animNumber = 91; //Dragons
-								break;
-							}
+				case 2028:
+					npcs[NPCID].animNumber = 2075; //Karil
+					range(10);
+					c.getFrameMethodHandler().stillgfx(401, c.absY, c.absX);
+					break;
 
-							break;
-							
-						case 369: //paladin
-							npcs[NPCID].animNumber = SLASH;
-							break;
-							
-						case 41: //chicken
-							npcs[NPCID].animNumber = 0x037; //chicken attack
-							melee(2);
-							break;
-							
-						case 1076: //guard
-							npcs[NPCID].animNumber = CRUSH; 
-							break;
+				case 2025: //Ahrim
+					npcs[NPCID].animNumber = 724;
+					magic(20);
+					switch(misc.random(3)){
+					case 0:
+						gfxAll(377, playerY, playerX);	
+						break;
+					case 1:
+						gfxAll(368, playerY, playerX);	
+						break;
+					case 2:
+						gfxAll(435, playerY, playerX);	
+						break;
+					}
+					break; 
 
-						case 27: case 678: //archer
-							npcs[NPCID].animNumber = 426; 
-							break;
-							
-						case 10: //guard with crossbow
-							npcs[NPCID].animNumber = 427; 
-							break;
-							
-						case 2573:
-							npcs[NPCID].animNumber = CRUSH;
-							melee(50);
-							break;
-							
-						case 9: case 32: case 812: case 887: case 34: case 20: case 21:
-							npcs[NPCID].animNumber = 412; 
-							break;
-							
-						case 2026: //dharok
-							melee(47);
-							npcs[NPCID].animNumber = 2067;
-							break;
-							
-						case 2030:
-							NPCFightType = 4;
+					//Test NPC for GFX
+				case 199:
+					melee(0);
+					//int offsetX = (npcs[NPCID].absX - c.absX) * -1;
+					//int offsetY = (npcs[NPCID].absY - c.absY) * -1;
+					//c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 80, 11, 43, 31, c.playerId+1); //does not guarnatee work
+					break;
+
+				case 1157: //Kalphite Guardian magic
+					magic(16);
+					c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);
+					break;
+
+				case 172: //dark wizard
+				case 173: //necromancer
+				case 14: //druid - mage npc
+					magic(npcs[NPCID].MaxHit);
+					npcs[NPCID].animNumber = 711;
+					c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);
+					break;
+
+				case 81: case 397: case 1766: case 1767: case 1768:
+					npcs[NPCID].animNumber = 0x03B; //cow attack
+					break;
+
+				case 1624:
+					magic(21);
+					gfxAll(346, playerY, playerX);
+					c.getFrameMethodHandler().stillgfx(346, c.absY, c.absX);
+					break;
+
+				case 1615:
+					melee(26);
+					c.getFrameMethodHandler().stillgfx(409, npcs[NPCID].absY, npcs[NPCID].absX);
+					break;
+
+				case 912:
+				case 913://battle mages
+					magic(20);
+					npcs[NPCID].animNumber = 711; 
+					c.getFrameMethodHandler().stillgfxz(345, c.absY, c.absX, 50, 50);
+					break;
+
+				case 677: //demon boss from dwarf problems ii
+					switch (misc.random(2)){
+					case 0:
+					case 1:
+						npcs[NPCID].animNumber = 64;
+						melee(40);
+						break;
+					case 2:
+						npcs[NPCID].animNumber = 69;
+						c.getFrameMethodHandler().stillgfx(131, c.absY, c.absX);
+						if (c.getCombatHandler().ivandis()){
+							magic(30);
+							c.sendMessage("Your staff helps protect you from the attack");
+						}
+						else {
+							NPCFightType = 2;
 							maxHitOverride = true;
-							hitDiffOverride = misc.random(35);
-							npcs[NPCID].animNumber = 2062; //Verac attack
-							break;
-							
-						case 2029:
-							melee(30);
-							npcs[NPCID].animNumber = 2068; //Torags
-							break;
-							
-						case 2027: //guthan
-							switch (misc.random(2)+1){
-							case 1: case 3:
-								npcs[NPCID].animNumber = 2080; //Guthan
-								melee(30);
-								break;
-							case 2:
-								NPCFightType = 1; //melee
-								maxHitOverride = true;
-								hitDiffOverride = misc.random(40);
-								npcs[NPCID].animNumber = 2081; 
-								c.getFrameMethodHandler().stillgfx(398, c.absY, c.absX);
-								gfxAll(398, playerY, playerX);
-								if(npcs[NPCID].HP < 125 && hitDiffOverride != 0 && !c.PMelee)
-									npcs[NPCID].HP += hitDiffOverride; 	
-								break;
-							}							
-							break;
-							
-						case 1154: //kalphite soldier
-							melee(9);
-							break;
-							
-						case 1155: //Kalphite Guardian melee
-							melee(16);
-							break;
-							
-						case 1153: //kalphite worker
-							melee(4);
-							break;
-
-						case 1160:
-							npcs[NPCID].animNumber = 1177; //KQ
-							melee(31);
-							if (misc.random(4) == 0){
-								c.getFrameMethodHandler().stillgfx(537, c.absY, c.absX);
-								gfxAll(537, playerY, playerX);
-								c.getFrameMethodHandler().stillgfx(172, c.absY, c.absX);
-								gfxAll(172, playerY, playerX);
-								magic(41);
-								c.sendMessage("The Kalphite Queen strikes with Magic!");
-							}
-							break;
-
-						case 178: //black knight, health 20
-							melee(4);
-							break;
-
-						case 195: case 196:
-							melee(15);
-							break;
-
-						case 3000:
-							switch(misc.random(3)+1){
-							case 4:
-								range(35);
-								c.sendMessage ("The General strikes with a ranged special.");
-								c.getCombatHandler().attackPlayersWithin2(198, 35, 10); 
-								c.getFrameMethodHandler().stillgfx(198, c.absY, c.absX);
-								npcs[NPCID].animNumber = 7063; 
-								break;
-							case 1: case 2: case 3:
-								melee(60);
-								npcs[NPCID].animNumber = 7060; 
-								break;
-							}
-							break;
-
-						case 124: //earth warrior, health 75
-							melee(13);
-							npcs[NPCID].animNumber = 406;
-							break;
-						case 931: //jungle savage, health 110
-							melee(16);
-							npcs[NPCID].animNumber = 412; 
-							break;
-							
-						case 799:
-						case 182: //pirates
-						case 183:
-						case 184:
-						case 185:
-							npcs[NPCID].animNumber = 451;
-							break;
-						case 193: //chaos druid warrior, health 45
-							npcs[NPCID].animNumber = CRUSH;
-							break;
-
-						case 691: //tower archer, health 70
-							range(11);
-							npcs[NPCID].animNumber = 426; 
-							break;
-						case 1183: //elf warrior, health 100
-							range(13);
-							npcs[NPCID].animNumber = 426;
-							break;
-						case 2034: //crypt spider, health 60
-							npcs[NPCID].animNumber = 2080;
-							break;
-						case 205: //salarin the twisted, health 160
-							magic(26);
-							npcs[NPCID].animNumber = 724;
-							break;
-						case 87:
-							npcs[NPCID].animNumber = 0x08A; //rat attack
-							break;
-						case 3200: //chaos elemental, health 560
-							melee(60);
-							npcs[NPCID].animNumber = 0x326;
-							break;
-							
-							default:
-								melee(npcs[NPCID].MaxHit); //by default
-								break;
+							hitDiffOverride = misc.random(30)+30;
+							c.sendMessage("The demon strikes with an other-wordly magic");
 						}
+						break;
+					}
 
-						if(npcs[NPCID].animNumber == -1){
-							npcs[NPCID].animNumber = NPCAnim.getAttackAnimation(npcs[NPCID].npcType);
-							//npcs[NPCID].animNumber = 0x326; //human attack by default
+					break;
+
+				case 1611: //gargoyle, mob with general graador
+					range(15);
+					break;
+
+				case 1647: //infernal mage, mob with general graador
+					magic(15);
+					c.getFrameMethodHandler().stillgfx(131, c.absY, c.absX);
+					break;
+
+					//shades
+				case 1250:
+				case 1248:
+				case 1246:
+					magic(npcs[NPCID].MaxHit);
+					c.getFrameMethodHandler().stillgfx(292, c.absY, c.absX);
+					break;
+
+					//Dragons	
+				case 50: case 53: case 54: case 55: case 941: case 1589: case 1590: case 1591: case 1592: case 2642:
+					switch (misc.random(3)+1){
+					case 1: case 4:
+						npcs[NPCID].animNumber = 80; //Dragons
+						break;
+					case 2:
+						if (c.getCombatHandler().dragfire()){
+							magic(2);
+							gfxAll(440, playerY, playerX);
+							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
+							c.sendMessage("Your shield protects you from the Dragon's breath.");
 						}
-						
-						//Defence
-
-						int hitDiff = misc.random(_maxHit);
-						int npcBonus = npcs[NPCID].MaxHP*2+_maxHit;
-						
-							if (NPCFightType == 1){ //melee
-								if (c.PMelee)
-									hitDiff = 0;
-								else{
-									int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeAtkEquipmentBonus();
-									if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
-								}
-							}
-							//TODO - add projectiles
-							if (NPCFightType == 2){ //range
-								if (c.PRange)
-									hitDiff = 0;
-								else{
-									int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerRangeDefEquipmentBonus();
-									if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
-								}
-							}
-							if (NPCFightType == 3){ //mage
-								if (c.PMage)
-									hitDiff = 0;
-								else{
-									int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMagicDefEquipmentBonus();
-									if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
-								}
-							}
-
-							
-						if (maxHitOverride){
-							hitDiff = hitDiffOverride;
-							hitDiffOverride = 0;
-							maxHitOverride = false;
-							if(NPCFightType != 4){
-								if(NPCFightType == 1)
-									if(c.PMelee) hitDiff = 0;
-								if(NPCFightType == 2)
-									if(c.PRange) hitDiff = 0;
-								if(NPCFightType == 3)
-									if(c.PMage) hitDiff = 0;
+						if (c.getCombatHandler().hasDFS()){
+							gfxAll(440, playerY, playerX);
+							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
+							c.getFrameMethodHandler().stillgfx(4, c.absY, c.absX);
+							c.getFrameMethodHandler().stillgfx(5, c.absY, c.absX);
+							c.getFrameMethodHandler().stillgfx(82, c.absY, c.absX);
+							c.startAnimation(1156);
+							magic(0);
+							if (c.dragcharge < 50){
+								c.dragcharge += 1;
+								c.sendMessage("Your Dragon Fire Shield absorbs a charge and has "+c.dragcharge+"/50 charges.");}
+							else if (c.dragcharge >= 50){
+								c.sendMessage("Your Dragon Fire Shield is fully charged.");
 							}
 						}
-						
-						if(c.getCombatHandler().ElysianSpiritShield()){ //70% chance to reduce total damage by 25%
-							int chance = misc.random(9);
-							if(chance != 0 && chance != 1 && chance != 2){
-								hitDiff -= hitDiff/4;
-								gfxAll(575, c.absY, c.absX);
-							}
+						else {
+							npcs[NPCID].animNumber = 81; //Dragons
+							gfxAll(440, playerY, playerX);
+							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
+							magic(50);
+							c.sendMessage("The Dragon strikes with its fiery breath.");
 						}
-						if(c.getCombatHandler().DivineSpiritShield()){ //reduces by 30%
-							hitDiff = (int)(hitDiff*0.7);
-						}
-						
-						if (hitDiff < 0)
-							hitDiff = 0;
-						
-						if ((EnemyHP - hitDiff) < 0) 
-							hitDiff = EnemyHP;
-						
-						if(freezePlayer > -1 && hitDiff > 0)
-							c.frozen(freezePlayer);						
-						
-						if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special
-							c.startAnimation(Item.GetBlockAnim(c.playerEquipment[c.playerWeapon]));
+						break;
+					case 3:
+						npcs[NPCID].animNumber = 91; //Dragons
+						break;
+					}
 
-						npcs[NPCID].faceplayer(playerID);
-						server.playerHandler.players[playerID].hitDiff = hitDiff;
-						server.playerHandler.players[playerID].updateRequired = true;
-						server.playerHandler.players[playerID].hitUpdateRequired = true;
-						server.playerHandler.players[playerID].appearanceUpdateRequired = true;
-						npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
-						npcs[NPCID].animUpdateRequired = true;
-						
-						if( c.autoRetaliate == 1 && !c.IsAttackingNPC ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
-							c.IsAttackingNPC = true;
-							c.attacknpc = npcs[NPCID].npcId;
-							c.getCombatHandler().AttackNPC();
-						}
-						
+					break;
+
+				case 369: //paladin
+					npcs[NPCID].animNumber = SLASH;
+					break;
+
+				case 41: //chicken
+					npcs[NPCID].animNumber = 0x037; //chicken attack
+					melee(2);
+					break;
+
+				case 1076: //guard
+					npcs[NPCID].animNumber = CRUSH; 
+					break;
+
+				case 27: case 678: //archer
+					npcs[NPCID].animNumber = 426; 
+					break;
+
+				case 10: //guard with crossbow
+					npcs[NPCID].animNumber = 427; 
+					break;
+
+				case 2573:
+					npcs[NPCID].animNumber = CRUSH;
+					melee(50);
+					break;
+
+				case 9: case 32: case 812: case 887: case 34: case 20: case 21:
+					npcs[NPCID].animNumber = 412; 
+					break;
+
+				case 2026: //dharok
+					melee(47);
+					npcs[NPCID].animNumber = 2067;
+					break;
+
+				case 2030:
+					NPCFightType = 4;
+					maxHitOverride = true;
+					hitDiffOverride = misc.random(35);
+					npcs[NPCID].animNumber = 2062; //Verac attack
+					break;
+
+				case 2029:
+					melee(30);
+					npcs[NPCID].animNumber = 2068; //Torags
+					break;
+
+				case 2027: //guthan
+					switch (misc.random(2)+1){
+					case 1: case 3:
+						npcs[NPCID].animNumber = 2080; //Guthan
+						melee(30);
+						break;
+					case 2:
+						NPCFightType = 1; //melee
+						maxHitOverride = true;
+						hitDiffOverride = misc.random(40);
+						npcs[NPCID].animNumber = 2081; 
+						c.getFrameMethodHandler().stillgfx(398, c.absY, c.absX);
+						gfxAll(398, playerY, playerX);
+						if(npcs[NPCID].HP < 125 && hitDiffOverride != 0 && !c.PMelee)
+							npcs[NPCID].HP += hitDiffOverride; 	
+						break;
+					}							
+					break;
+
+				case 1154: //kalphite soldier
+					melee(9);
+					break;
+
+				case 1155: //Kalphite Guardian melee
+					melee(16);
+					break;
+
+				case 1153: //kalphite worker
+					melee(4);
+					break;
+
+				case 1160:
+					npcs[NPCID].animNumber = 1177; //KQ
+					melee(31);
+					if (misc.random(4) == 0){
+						c.getFrameMethodHandler().stillgfx(537, c.absY, c.absX);
+						gfxAll(537, playerY, playerX);
+						c.getFrameMethodHandler().stillgfx(172, c.absY, c.absX);
+						gfxAll(172, playerY, playerX);
+						magic(41);
+						c.sendMessage("The Kalphite Queen strikes with Magic!");
+					}
+					break;
+
+				case 178: //black knight, health 20
+					melee(4);
+					break;
+
+				case 195: case 196:
+					melee(15);
+					break;
+
+				case 3000:
+					switch(misc.random(3)+1){
+					case 4:
+						range(35);
+						c.sendMessage ("The General strikes with a ranged special.");
+						c.getCombatHandler().attackPlayersWithin2(198, 35, 10); 
+						c.getFrameMethodHandler().stillgfx(198, c.absY, c.absX);
+						npcs[NPCID].animNumber = 7063; 
+						break;
+					case 1: case 2: case 3:
+						melee(60);
+						npcs[NPCID].animNumber = 7060; 
+						break;
+					}
+					break;
+
+				case 124: //earth warrior, health 75
+					melee(13);
+					npcs[NPCID].animNumber = 406;
+					break;
+				case 931: //jungle savage, health 110
+					melee(16);
+					npcs[NPCID].animNumber = 412; 
+					break;
+
+				case 799:
+				case 182: //pirates
+				case 183:
+				case 184:
+				case 185:
+					npcs[NPCID].animNumber = 451;
+					break;
+				case 193: //chaos druid warrior, health 45
+					npcs[NPCID].animNumber = CRUSH;
+					break;
+
+				case 691: //tower archer, health 70
+					range(11);
+					npcs[NPCID].animNumber = 426; 
+					break;
+				case 1183: //elf warrior, health 100
+					range(13);
+					npcs[NPCID].animNumber = 426;
+					break;
+				case 2034: //crypt spider, health 60
+					npcs[NPCID].animNumber = 2080;
+					break;
+				case 205: //salarin the twisted, health 160
+					magic(26);
+					npcs[NPCID].animNumber = 724;
+					break;
+				case 87:
+					npcs[NPCID].animNumber = 0x08A; //rat attack
+					break;
+				case 3200: //chaos elemental, health 560
+					melee(60);
+					npcs[NPCID].animNumber = 0x326;
+					break;
+				}
+
+				if(npcs[NPCID].animNumber == -1){
+					npcs[NPCID].animNumber = NPCAnim.getAttackAnimation(npcs[NPCID].npcType);
+					//npcs[NPCID].animNumber = 0x326; //human attack by default
+				}
+
+				//Defence
+
+				int hitDiff = misc.random(_maxHit);
+				int npcBonus = npcs[NPCID].MaxHP*2+_maxHit;
+
+				if (NPCFightType == 1){ //melee
+					if (c.PMelee)
+						hitDiff = 0;
+					else{
+						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeAtkEquipmentBonus();
+						if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
 					}
 				}
-				return true;
+				//TODO - add projectiles
+				if (NPCFightType == 2){ //range
+					if (c.PRange)
+						hitDiff = 0;
+					else{
+						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerRangeDefEquipmentBonus();
+						if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+					}
+				}
+				if (NPCFightType == 3){ //mage
+					if (c.PMage)
+						hitDiff = 0;
+					else{
+						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMagicDefEquipmentBonus();
+						if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+					}
+				}
+
+				if (maxHitOverride){
+					hitDiff = hitDiffOverride;
+					hitDiffOverride = 0;
+					maxHitOverride = false;
+					if(NPCFightType != 4){
+						if(NPCFightType == 1)
+							if(c.PMelee) hitDiff = 0;
+						if(NPCFightType == 2)
+							if(c.PRange) hitDiff = 0;
+						if(NPCFightType == 3)
+							if(c.PMage) hitDiff = 0;
+					}
+				}
+
+				if(c.getCombatHandler().ElysianSpiritShield()){ //70% chance to reduce total damage by 25%
+					int chance = misc.random(9);
+					if(chance != 0 && chance != 1 && chance != 2){
+						hitDiff -= hitDiff/4;
+						gfxAll(575, c.absY, c.absX);
+					}
+				}
+				if(c.getCombatHandler().DivineSpiritShield()){ //reduces by 30%
+					hitDiff = (int)(hitDiff*0.7);
+				}
+
+				if (hitDiff < 0)
+					hitDiff = 0;
+
+				if ((EnemyHP - hitDiff) < 0) 
+					hitDiff = EnemyHP;
+
+				if(freezePlayer > -1 && hitDiff > 0)
+					c.frozen(freezePlayer);						
+
+				if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special
+					c.startAnimation(Item.GetBlockAnim(c.playerEquipment[c.playerWeapon]));
+
+				npcs[NPCID].faceplayer(playerID);
+				server.playerHandler.players[playerID].hitDiff = hitDiff;
+				server.playerHandler.players[playerID].updateRequired = true;
+				server.playerHandler.players[playerID].hitUpdateRequired = true;
+				server.playerHandler.players[playerID].appearanceUpdateRequired = true;
+				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
+				npcs[NPCID].animUpdateRequired = true;
+
+				if( c.autoRetaliate == 1 && !c.IsAttackingNPC ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
+					c.IsAttackingNPC = true;
+					c.attacknpc = npcs[NPCID].npcId;
+					c.getCombatHandler().AttackNPC();
+				}
+
 			}
+		}
+
 		FollowPlayerCB(NPCID, playerID);
 		return false;
 	}
@@ -1753,7 +1763,7 @@ WORLDMAP 2: (not-walk able places)
 		_maxHit = maxHit;
 		NPCFightType = 3;
 	}
-	
+
 	public boolean ResetAttackNPC(int NPCID) {
 		npcs[NPCID].IsUnderAttackNpc = false;
 		npcs[NPCID].IsAttackingNPC = false;
@@ -1857,7 +1867,7 @@ WORLDMAP 2: (not-walk able places)
 			return npcList2.getHealth();
 		else return -1;
 	}
-	
+
 	public int getCombat(int npcID) {
 		if(npcList2.exists(npcID))
 			return npcList2.getCombat();
@@ -1906,7 +1916,7 @@ WORLDMAP 2: (not-walk able places)
 					}
 					else{
 						try{
-						newNPCList(Integer.parseInt(token3[0]), token3[1], Integer.parseInt(token3[2]), Integer.parseInt(token3[3]));
+							newNPCList(Integer.parseInt(token3[0]), token3[1], Integer.parseInt(token3[2]), Integer.parseInt(token3[3]));
 						}
 						catch(Exception e){
 							System.out.println("Error in parsing npc.cfg, line : "+lineoriginal);

@@ -122,7 +122,9 @@ public class NPCAnim {
 		case 3069:
 		case 3070:
 		case 3071:
-			return 1590;
+			//return 2985; //bite
+			return 2986; //tail hit
+			
 
 		case 1317: //market guard rellekka
 			return SLASH;
@@ -988,7 +990,7 @@ public class NPCAnim {
 		case 3069:
 		case 3070:
 		case 3071:
-			return -1;
+			return 2983;
 
 		case 123://Hobgoblin
 		case 122://Hobgoblin
@@ -1181,7 +1183,7 @@ public class NPCAnim {
 		case 3069:
 		case 3070:
 		case 3071:
-			return 1591;
+			return 2987;
 
 		case 419:
 		case 420:

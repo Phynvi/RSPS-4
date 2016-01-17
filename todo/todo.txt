@@ -1,5 +1,4 @@
-
--Partition client into separate classes
+-Northeast areas of ardougne
 
 - South of Tree Gnome, observatory
 

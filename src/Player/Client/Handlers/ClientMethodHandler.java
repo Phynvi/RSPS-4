@@ -169,30 +169,9 @@ public class ClientMethodHandler {
 	}
 
 	public boolean addSkillXP(int amount, int skill){
-		c.debug("You recieved "+amount+" exp in Skill "+skill);
+		c.debug("You recieved "+amount+" exp in Skill "+c.statName[skill]);
 
 		int[] playerXP = c.playerXP;
-		int Attack = c.getLevelForXP(playerXP[0]); 
-		int Defence = c.getLevelForXP(playerXP[1]);      
-		int Strength = c.getLevelForXP(playerXP[2]);
-		int Hitpoints = c.getLevelForXP(playerXP[3]);
-		int Ranging = c.getLevelForXP(playerXP[4]);
-		int Prayer = c.getLevelForXP(playerXP[5]);
-		int Magic = c.getLevelForXP(playerXP[6]);
-		int Cooking = c.getLevelForXP(playerXP[7]);
-		int Woodcutting = c.getLevelForXP(playerXP[8]);
-		int Fletching = c.getLevelForXP(playerXP[9]);
-		int Fishing = c.getLevelForXP(playerXP[10]);
-		int Firemaking = c.getLevelForXP(playerXP[11]);
-		int Crafting = c.getLevelForXP(playerXP[12]);
-		int Smithing = c.getLevelForXP(playerXP[13]);
-		int Mining = c.getLevelForXP(playerXP[14]);
-		int Herblore = c.getLevelForXP(playerXP[15]);
-		int Agility = c.getLevelForXP(playerXP[16]);
-		int Thieving = c.getLevelForXP(playerXP[17]);
-		int Slayer = c.getLevelForXP(playerXP[18]);
-		int Farming = c.getLevelForXP(playerXP[19]);
-		int Runecrafting = c.getLevelForXP(playerXP[20]);
 		if ((amount + playerXP[skill]) < 0 || playerXP[skill] > 2000000000) {
 			c.sendMessage("Max XP value reached");
 			return false;

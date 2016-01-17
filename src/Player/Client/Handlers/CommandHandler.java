@@ -12,6 +12,11 @@ public class CommandHandler {
 	public static void passCommand(client c, String command){
 
 		c.debug("playerCommand: "+command);
+		
+		if(command.equalsIgnoreCase("questframes")){
+			c.getPlayerLoginData().loadquestinterface();
+			c.sendMessage("Loaded Quest Frames");
+		}
 
 		if(command.equalsIgnoreCase("spellbook") && c.playerRights >= 1){
 			if(c.spellbook == 0){
@@ -724,7 +729,8 @@ public class CommandHandler {
 		}
 
 		if (command.startsWith("ctele") && command.length() > 6 && c.playerRights >= 1) {
-			c.getFileLoadingHandler().loadCoords("Coords.cfg",command.substring(6));
+			int[] coords = c.getFileLoadingHandler().loadCoords("Coords.cfg",command.substring(6));
+			c.teleport(coords[0],coords[1]);
 		}
 		
 		if (c.playerRights >= 1) {
