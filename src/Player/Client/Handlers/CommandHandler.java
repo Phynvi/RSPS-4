@@ -12,6 +12,18 @@ public class CommandHandler {
 	public static void passCommand(client c, String command){
 
 		c.debug("playerCommand: "+command);
+
+		
+		if(command.startsWith("npc")){
+			try{
+				int n = Integer.parseInt(command.substring(4));
+				server.npcHandler.newNPC(n, c.absX, c.absY, c.heightLevel, c.absX,c.absY,c.absX,c.absY, 1, server.npcHandler.getHP(n), false);
+				c.sendMessage("NPC "+c.getClientMethodHandler().getNpcName(n)+", temp spawned, ID : "+n);
+			}
+			catch(Exception e){
+				c.sendMessage("Invalid input, please use as ::npc #");
+				}
+		}
 		
 		if(command.equalsIgnoreCase("questframes")){
 			c.getPlayerLoginData().loadquestinterface();
@@ -730,7 +742,8 @@ public class CommandHandler {
 
 		if (command.startsWith("ctele") && command.length() > 6 && c.playerRights >= 1) {
 			int[] coords = c.getFileLoadingHandler().loadCoords("Coords.cfg",command.substring(6));
-			c.teleport(coords[0],coords[1]);
+			if(coords != null && coords.length >= 2)
+				c.teleport(coords[0],coords[1]);
 		}
 		
 		if (c.playerRights >= 1) {

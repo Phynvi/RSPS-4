@@ -1,13 +1,17 @@
--Northeast areas of ardougne
+-Areas south of seer village, catherby, legends guild, 
+
+-Fix fishing by using NPCs not objects
+
+-Fix range so it stops when clicking an npc instead of walking up to the npc (for combat)
 
 - South of Tree Gnome, observatory
 
 - follow run
 
 -Finish specials, add in promethius 2h, rune claws, 
-	-Custom karil special, attacks all npcs in area of 4, projectile to each one
+	custom karil special, attacks all npcs in area of 4, projectile to each one
 
--Find new free teleport
+-Make teleport go to camelot
 
 -NPC projectiles
 

@@ -1,8 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-
-
 	public class npcDialogueBST{
 		
 		private Node root;
@@ -61,6 +59,24 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(243,"Have you seen Arthur, our King?");
+			add(239,"Have you seen Arthur, our King?");
+			add(246,"Have you seen Arthur, our King?");
+			add(240,"Have you seen Arthur, our King?");
+			add(241,"Have you seen Arthur, our King?");
+			add(242,"Have you seen Arthur, our King?");
+			add(244,"Have you seen Arthur, our King?");
+			add(245,"Have you seen Arthur, our King?");
+			add(251,"Me and the boys are playing a friendly","game of hide and seek.","Get out of here!");
+			add(806,"I'm sorry sir.","The Sinclairs are currently away","on vacation.");
+			add(2180,"We've only had... er... no accidents.");
+			add(388,"My favorite color is white.");
+			add(731,"It's hard running a bar in a town like this.");
+			add(680,"Unfortunately, the tanner's broken.");
+			add(683,"Please, take a look at what I am selling.","I boast of nothing but the best","craftsmanship.");
+			add(682,"This stuff's good for the light stuff, don't","expect to take a spear and be fine.");
+			add(679, "Afternoon.");
+			add(1799,"I really really really like rusty swords.");
 			add(479,"Those Khazard bastards have been sieging us","for months now.");
 			add(480,"They may seem like the stronger enemy, but what","we lack in strength, we make up for","with intelligence.");
 			add(279,"Welcome to the Monastery!","Strange to build such a holy","place just north of the Fight Arena, eh?");

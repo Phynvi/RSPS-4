@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
-	public static BST rangedNPC = new BST(1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,691,27,10,678,66,67,68); //for ranged and magic NPCs
+	public static BST aggressiveNPCS = new BST(3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST rangedNPC = new BST(1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
 

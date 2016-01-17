@@ -2089,10 +2089,13 @@ playerName.trim();*/
 			int GateID = 1;
 			objectX2 = objectX;
 			objectY2 = objectY;
-			destinationRange = 2; //2 by default
+			destinationRange = 1; //1 by default
 
 			if (lists.objectDest1.exists(objectID))
 				destinationRange = 1;
+			
+			if(lists.objectDest2.exists(objectID))
+				destinationRange = 2;
 
 			if(objectID == 3340 || objectID == 2491)
 				destinationRange = 8;
@@ -2100,19 +2103,15 @@ playerName.trim();*/
 			if(lists.objectDest3.exists(objectID))
 				destinationRange = 3;
 
-			if(debugmode == true)
-				sendMessage("ObjectID: "+objectID+" and dest: "+destinationRange+".");
-
-
 			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
 				viewTo(objectX, objectY);
 				getObjectClickHandler().objectClick(objectID, objectX, objectY, 0, 0, 1);
 			}
 			else {
-				if (!isRunning2)
-					objWalkTimer = destinationRange;
-				if (isRunning2)
-					objWalkTimer = destinationRange-2;
+//				if (!isRunning2)
+//					objWalkTimer = (int)(destinationRange*0.75);
+//				if (isRunning2)
+//					objWalkTimer = destinationRange/2;
 				ActionType = 1;
 				WalkingTo = true;
 			}
@@ -2541,8 +2540,8 @@ playerName.trim();*/
 			removeID = inStream.readUnsignedWordA();
 			removeSlot = inStream.readUnsignedWordA();
 
-			if(debugmode) debug("RemoveItem 10: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );
-			else if (interfaceID == 5064) { //remove from bag to bank
+			debug("RemoveItem 10: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );
+			if (interfaceID == 5064) { //remove from bag to bank
 				getInventoryHandler().bankItem(removeID , removeSlot, 10);
 			} else if (interfaceID == 5382) { //remove from bank
 				getInventoryHandler().fromBank(removeID , removeSlot, 10);

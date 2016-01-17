@@ -4,6 +4,11 @@ import java.util.LinkedList;
 public class ObjectClick {
 	private client c = null;
 
+	public static BST doorOpen = new BST(2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
+			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
+			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
+
 	public ObjectClick(client pc){
 		this.c = pc;
 	}
@@ -40,6 +45,20 @@ public class ObjectClick {
 				clientMethodHandler.isteleporting3(839, 15, 2876,3623, 0);
 				break;
 			}
+			break;
+			
+		case 9324:
+			if( !c.getAgilityHandler().agilityObstacle(2722, 3592, 2722, 3596, 762, 90, 10, false, false, 0, "") )
+				c.sendMessage("I should stand directly in front of the obstacle before using it.");
+			break;
+
+		case 2514:
+			if( c.absX == 2657 || c.absY == 3438 && c.absX == 2657 || c.absY == 3439 && c.absX == 2658 || c.absY == 3439){ //outside guild
+				if(c.playerLevel[c.playerRanged] >= 40) c.teleport(2659,3437);
+				else c.getClientMethodHandler().npcdialogue(679, "Sorry sir, you need 40 ranged to enter.");
+			}
+			if(c.absX == 2658 && c.absY == 3437 || c.absX == 2659 && c.absY == 3437 || c.absX == 2659 && c.absY == 3438)
+				c.teleport(2657,3439);
 			break;
 
 		case 3791: //rocks entrance from kree
@@ -202,6 +221,10 @@ public class ObjectClick {
 			break;
 		case 5130:
 			c.teleport(3543,3463);
+			break;
+
+		case 2649: //new entrance to Kalphite Queen
+			c.teleport(3483,9509,2);
 			break;
 
 
@@ -381,10 +404,6 @@ public class ObjectClick {
 				c.teleport(2475,3399,0);
 			break;
 
-		case 2554:
-			c.sendMessage("It's locked.");
-			break;
-
 		case 1723:
 			if(objectX == 2590 && objectY == 3085) //wizards tower yanille
 				c.teleport(2591,3083,1);
@@ -456,11 +475,11 @@ public class ObjectClick {
 			break;
 
 		case 3829: //kalphite tunnels exit
-			c.teleport(3009,3150,0);
+			c.teleport(2409,3421,0);
 			break;
 
-		case 9472: //kalphite tunnels entrance
-			c.teleport(3483,9509,2);
+		case 9472:
+			c.teleport(3007,9550,0);
 			break;
 
 		case 115:
@@ -600,15 +619,25 @@ public class ObjectClick {
 			}
 			break;
 
+		case 10596: //entrance to wyverns
+			c.teleport(3056,9555);
+			break;
+
+		case 10595://exit from wyverns
+			c.teleport(3056,9563);
+			break;
 			//Dwarf Problems I
 
 		case 1755:
 			if(objectX == 2884 && objectY == 9797)
 				c.teleport(2884,3396);
 
-			if (c.absX >=2906  && c.absX <=2908 && c.absY >=9875  && c.absY <=9877) {
-				c.getClientMethodHandler().isteleporting3(828, 15, 3018, 3233, 0);
-			}
+			if (c.absX >=2906  && c.absX <=2908 && c.absY >=9875  && c.absY <=9877) 
+				c.getClientMethodHandler().isteleporting3(828, 13, 3018, 3233, 0);
+
+			if (objectX == 3008 && objectY == 9550) 
+				c.getClientMethodHandler().isteleporting3(828, 13, 3009,3150, 0);
+
 			break;
 
 		case 2174:
@@ -1653,7 +1682,7 @@ break;*/
 				return;
 			}
 
-			if(lists.doorOpen.exists(objectID)){
+			if(doorOpen.exists(objectID)){
 				//deletethatobject(objectX, objectY);
 				c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
 				return;
@@ -1757,7 +1786,7 @@ break;*/
 
 	public void objectClick3(int objectID, int objectX, int objectY) {
 		c.WalkingTo = false;
-		
+
 		c.debug("atObject3: "+objectX+","+objectY+" objectID: "+objectID);
 
 		if(isObjSpamming()) return;

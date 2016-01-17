@@ -139,6 +139,14 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(70);
 			return;
 			
+		case 683: //bow and arrow
+			c.getFrameMethodHandler().openUpShopFrame(80);
+			return;
+			
+		case 682: //ranged armor
+			c.getFrameMethodHandler().openUpShopFrame(81);
+			return;
+			
 		case 3788:
 			if(c.pestControlPoints < 30) c.getClientMethodHandler().npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+c.pestControlPoints+" points.");
 			else c.getFrameMethodHandler().openUpShopFrame(60); //Void Knight Shop rewards
@@ -168,7 +176,7 @@ public class NPCClickHandler {
 			Thieving.pickpocket(1, 4, 200, 120, c);
 			return;
 			
-		case 7:	//farmer
+		case 7:	case 1758://farmer
 			Thieving.pickpocket(15, 7, 1200, 220, c); 
 			return;
 			
@@ -339,7 +347,7 @@ public class NPCClickHandler {
 		
 		case 2436:
 			if(c.isInArea(2629,3691,2632,3696)){ //rellekka docks
-				c.getClientMethodHandler().selectOptionTravel2("Travel to Karamja?", "Yes", 2772,3231, "No", -1, -1);
+				c.getClientMethodHandler().selectOptionTravel2("Travel to Port Khazard?", "Yes", 2676,3169, "No", -1, -1);
 				break;
 			}
 			c.armadyl = 0;

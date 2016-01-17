@@ -176,7 +176,8 @@ public class MenuHandler {
 				"Level 50 - Underground pass",
 				"Level 60 - Log (Tirannwn)",
 				"Level 70 - Pipe (Brimhaven Dungeon)",
-		"Level 85 - Stepping Stone (Brimhaven Dungeon)"};
+		"Level 85 - Stepping Stone (Brimhaven Dungeon)",
+		"Level 90 - Godwars Log Cross"};
 	}
 
 	public static String[] bossInformation(){
