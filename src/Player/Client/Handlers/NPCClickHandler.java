@@ -151,6 +151,10 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(90);
 			return;
 			
+		case 528: //legends Guild
+			c.getFrameMethodHandler().openUpShopFrame(100);
+			return;
+			
 		case 3788:
 			if(c.pestControlPoints < 30) c.getClientMethodHandler().npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+c.pestControlPoints+" points.");
 			else c.getFrameMethodHandler().openUpShopFrame(60); //Void Knight Shop rewards
@@ -311,7 +315,7 @@ public class NPCClickHandler {
 			break;
 			
 		case 473:
-			if(c.isInArea(2518,3158,2521,3157)) c.getClientMethodHandler().selectOptionTravel2("Travel outside Maze?","Yes",2501,3192,"No",-1,-1);
+			if(c.isInArea(2517,3153,2526,3162)) c.getClientMethodHandler().selectOptionTravel2("Travel outside Maze?","Yes",2501,3192,"No",-1,-1);
 			else c.getClientMethodHandler().selectOptionTravel2("Travel to Tree Gnome Village?","Yes",2518,3158,"No",-1,-1);
 			break;
 			

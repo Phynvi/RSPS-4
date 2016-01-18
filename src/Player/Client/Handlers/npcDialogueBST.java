@@ -59,6 +59,8 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(528,"You're reknowned throughout the lands.","For your service, I offer you","the ability to utilize my special shop.");
+			add(400,"If you continue down the path into the main","building, there is an interesting shop there.");
 			add(398,"I apologize for my friend, he","can be mean at times.");
 			add(399,"Careful now, don't accidentally run into my spear.");
 			add(389,"They call me a Sorcerer...");

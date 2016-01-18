@@ -1,6 +1,3 @@
--Areas south of seer village, catherby, legends guild
--Add ogres to area northwest of yanille, south of tree gnome village
-
 -Fix fishing by using NPCs not objects
 
 - South of Tree Gnome, observatory
