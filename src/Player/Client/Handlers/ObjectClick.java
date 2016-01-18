@@ -4,7 +4,7 @@ import java.util.LinkedList;
 public class ObjectClick {
 	private client c = null;
 
-	public static BST doorOpen = new BST(2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
@@ -39,6 +39,15 @@ public class ObjectClick {
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
 		switch(objectID) {
+		
+		case 2391: case 2392:
+			if(c.questPoints < 7)
+				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least 7 questt","to get in there. Sorry mate.");
+			else{
+				c.getFrameMethodHandler().ReplaceObject(objectX, objectY, 6951, -1);
+				c.getClientMethodHandler().npcdialogue(398, "Welcome to the Legends Guild.");
+			}
+			break;
 
 		case 3790: //rocks exit
 			if((objectX == 2879 && objectY == 3622) || (objectX == 2879 && objectY == 3623)){ //past the entrance
@@ -1261,7 +1270,7 @@ break;*/
 			{
 				c.getInventoryHandler().addItem (4197, 1);
 				c.eastergift = 3;
-				c.sendMessage("You open the chest and grab the Ghost's Head, you then c.teleport away.");
+				c.sendMessage("You open the chest and grab the Ghost's Head, you then teleport away.");
 				c.teleport(3506, 3315,0);
 				c.sendMessage("Talk to the Ghost Gardener to return his head.");
 				c.bandit = 0;
@@ -1489,6 +1498,7 @@ break;*/
 				c.getClientMethodHandler().addSkillXP(20000, 12); //crafting
 				c.wb = 6;
 				c.teleport(3303, 9378, 0);
+				c.questPoints += 1;
 				c.getPlayerLoginData().loadquestinterface();
 			}
 			else if(c.playerLevel[17] >= 30 && c.wb == 5  && c.getInventoryHandler().freeSlots() < 3) {

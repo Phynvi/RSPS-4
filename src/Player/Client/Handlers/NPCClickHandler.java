@@ -55,7 +55,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(3); //Magic Shop
 			return;
 
-		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876:
+		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563:
 			c.getFrameMethodHandler().openUpShopFrame(4); //General store
 			return;
 
@@ -95,7 +95,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(16); //Pickaxe
 			return;
 
-		case 558: case 561:
+		case 558: case 561: case 576:
 			c.getFrameMethodHandler().openUpShopFrame(18); //Fishing Supplies
 			return;
 
@@ -139,12 +139,16 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(70);
 			return;
 			
-		case 683: //bow and arrow
+		case 683: case 575: //bow and arrow
 			c.getFrameMethodHandler().openUpShopFrame(80);
 			return;
 			
 		case 682: //ranged armor
 			c.getFrameMethodHandler().openUpShopFrame(81);
+			return;
+			
+		case 562: //candle
+			c.getFrameMethodHandler().openUpShopFrame(90);
 			return;
 			
 		case 3788:
@@ -377,7 +381,7 @@ public class NPCClickHandler {
 			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside c camp is PVP.");
 			break;
 		
-		case 758:
+		case 758: case 2324:
 			skillMaster(NPCID, "Master Farmer", 14136,14137,14138, "Farming", c.playerFarming, new String[]{"I'll keep watch over your plants."});
 			break;
 		
@@ -552,6 +556,7 @@ public class NPCClickHandler {
 			}
 			if (c.ancients == 7 && c.getInventoryHandler().IsItemInBag(2372) == true){
 				c.ancients = 8;
+				c.questPoints += 1;
 				c.getPlayerLoginData().loadquestinterface();
 				c.getFrameMethodHandler().menu(MenuHandler.ancientsfinished());
 				return;
@@ -697,6 +702,7 @@ public class NPCClickHandler {
 				c.sendMessage("You have completed Rune Mysteries.");
 				c.getInventoryHandler().deleteItem(291,c.getInventoryHandler().getItemSlot(291),1);
 				c.RM = 4;
+				c.questPoints += 1;
 				c.getPlayerLoginData().loadquestinterface();
 			}
 			else if (c.RM == 4){
@@ -755,6 +761,7 @@ public class NPCClickHandler {
 						c.pirate = 11;
 						c.getFrameMethodHandler().menu(c.getMenuHandler().newBeginnings());
 						c.getInventoryHandler().addItem(995,5000);
+						c.questPoints += 1;
 					}
 					else c.getClientMethodHandler().npcdialogue(518, "I have a reward for you!","But, you need more space in your inventory.");
 					break;
@@ -950,6 +957,7 @@ public class NPCClickHandler {
 					c.getClientMethodHandler().addSkillXP(200000, 7);
 					c.ST = 6;
 					c.STC = 1;
+					c.questPoints += 1;
 					c.getPlayerLoginData().loadquestinterface();
 					break;
 				}
@@ -1048,6 +1056,7 @@ public class NPCClickHandler {
 							c.getClientMethodHandler().addSkillXP(10000, 18);
 							c.getClientMethodHandler().addSkillXP(50000, 19);
 							c.eastergift = 4;
+							c.questPoints += 1;
 							c.getPlayerLoginData().loadquestinterface();
 						}
 						else c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "I have a reward for you, but you", "need at least two empty inventory", "spaces.");

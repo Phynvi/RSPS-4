@@ -295,6 +295,8 @@ public class FileLoading {
 						c.spellbook = Integer.parseInt(token2);
 					else if (token.equals("pestcontrolpoints"))
 						c.pestControlPoints = Integer.parseInt(token2);
+					else if (token.equals("questPoints"))
+						c.questPoints = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -551,6 +553,9 @@ public class FileLoading {
 			characterfile.newLine();
 			String s13 = "pestcontrolpoints = "; characterfile.write(s13, 0, s13.length());
 			characterfile.write(Integer.toString(c.pestControlPoints), 0, Integer.toString(c.pestControlPoints).length());
+			characterfile.newLine();
+			String s14 = "questPoints = "; characterfile.write(s14, 0, s14.length());
+			characterfile.write(Integer.toString(c.questPoints), 0, Integer.toString(c.questPoints).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

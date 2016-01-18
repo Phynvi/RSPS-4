@@ -360,7 +360,7 @@ public abstract class Player extends playerInstances {
 		requirePlayerUpdate();
 	}
 
-	public void updatePlayerPosition(){
+	public void stopPlayerMovement(){
 		teleportToX = absX;
 		teleportToY = absY;
 		requirePlayerUpdate();

@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = 207-237-87-196.c3-0.nyw-ubr1.nyr-nyw.ny.cable.rcn.com
-character-lastlogintime = 20160017
+character-lastlogintime = 20160018
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -43,6 +43,7 @@ prevarmadyl = 0
 prevbandos = 38
 spellbook = 0
 pestcontrolpoints = 2
+questPoints = 7
 
 [QUESTS]
 character-questpoints = 0

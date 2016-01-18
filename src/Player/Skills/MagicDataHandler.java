@@ -320,7 +320,7 @@ public class MagicDataHandler {
 				}
 			}
 		}
-		c.updatePlayerPosition();
+		c.stopPlayerMovement();
 		c.getClientMethodHandler().addSkillXP((totalDamage * c.mageXP2)*c.rate, 6);
 		return totalDamage;
 	}
@@ -338,12 +338,12 @@ public class MagicDataHandler {
 		int required = this.checkMagicLevel(c.spellID);
 		if(c.playerLevel[c.playerMagic] < required){
 			c.sendMessage("You need a Magic level of at least "+required+" to do that.");
-			c.updatePlayerPosition();
+			c.stopPlayerMovement();
 			return false;
 		}
 
 		if(!this.checkMagicRunes(c.spellID)){
-			c.updatePlayerPosition();
+			c.stopPlayerMovement();
 			return false;
 		}
 
@@ -351,7 +351,7 @@ public class MagicDataHandler {
 		client castOnPlayer = (client) server.playerHandler.players[playerIndex];
 
 		if(!c.getCombatHandler().canAttackOpponent(castOnPlayer)){
-			c.updatePlayerPosition();
+			c.stopPlayerMovement();
 			return false;
 		}
 
@@ -372,7 +372,7 @@ public class MagicDataHandler {
 
 			c.PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
 
-			c.updatePlayerPosition();
+			c.stopPlayerMovement();
 
 			int offsetX = (c.absX - EnemyX2) * -1;
 			int offsetY = (c.absY - EnemyY2) * -1;

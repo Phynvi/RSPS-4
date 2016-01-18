@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 class playerInstances {
-	public int bandos, armadyl, prevbandos, prevarmadyl;
+	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;

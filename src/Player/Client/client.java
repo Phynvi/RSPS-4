@@ -1741,7 +1741,7 @@ playerName.trim();*/
 			if(isNPCSpamming()) break;
 			spamtimer = System.currentTimeMillis();
 			if(attacknpc > 0) {
-				sendMessage("You are already attacking an npc!");
+				sendMessage("You are already attacking an npc.");
 				break;
 			}
 			else {
@@ -1761,7 +1761,7 @@ playerName.trim();*/
 				int _NPCID = server.npcHandler.npcs[attacknpc].npcType;
 				if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
 					sendMessage("That's a friendly NPC that I should not attack.");
-					updatePlayerPosition();
+					stopPlayerMovement();
 					break;
 				}						
 				if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
@@ -2289,7 +2289,7 @@ playerName.trim();*/
 			int followID = inStream.readSignedWordBigEndian();
 			if(followingPlayerID == followID){
 				followingPlayerID = -1;
-				this.updatePlayerPosition();
+				this.stopPlayerMovement();
 			}
 			else
 				followingPlayerID = followID;				
@@ -2346,7 +2346,7 @@ playerName.trim();*/
 			int _NPCID = server.npcHandler.npcs[npcIndex].npcType;
 			if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
 				sendMessage("That's a friendly NPC that I should not attack.");
-				updatePlayerPosition();
+				stopPlayerMovement();
 				break;
 			}			
 			if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC

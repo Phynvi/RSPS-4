@@ -1,10 +1,13 @@
--Areas south of seer village, catherby, legends guild, 
+-Areas south of seer village, catherby, legends guild
+-Add ogres to area northwest of yanille, south of tree gnome village
 
 -Fix fishing by using NPCs not objects
 
--Fix range so it stops when clicking an npc instead of walking up to the npc (for combat)
-
 - South of Tree Gnome, observatory
+
+-Rebuild skill master list
+
+-Add in farming patches
 
 - follow run
 

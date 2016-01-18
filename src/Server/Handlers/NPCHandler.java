@@ -955,6 +955,8 @@ public class NPCHandler {
 				c.ancients = 12;
 				c.getClientMethodHandler().addSkillXP(20000, 18);
 				c.sendMessage("You gain 20,000 Slayer Exp.");
+				c.sendMessage("You have completed Dwarf Problems II.");
+				c.questPoints += 1;
 				c.getPlayerLoginData().loadquestinterface();
 			}
 			else {

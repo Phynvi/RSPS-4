@@ -59,6 +59,14 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(398,"I apologize for my friend, he","can be mean at times.");
+			add(399,"Careful now, don't accidentally run into my spear.");
+			add(389,"They call me a Sorcerer...");
+			add(248,"Arthur and his foolish knights joke around","all day, getting nothing done.","I wish I could teach them a lesson...");
+			add(562,"Prefer to be lost in the night? I think not.");
+			add(563,"All the other shop owners sit inside","and ignore this beautiful weather.");
+			add(575,"Handcrafted bows here!");
+			add(576,"Fishing supplies here!");
 			add(243,"Have you seen Arthur, our King?");
 			add(239,"Have you seen Arthur, our King?");
 			add(246,"Have you seen Arthur, our King?");
@@ -198,14 +206,12 @@ import java.util.Queue;
 			
 			
 			add(1216, "Pete", "Weather's hot and sticky up here.", "At least the poor structure of my", "house offers a breeze.");
-			
+			add(666,"This is such a sad, small, village.");
 			add("Banker", 494, "I can assist you with banking.");
 			add("Banker", 495, "I can assist you with banking.");
 			add("Banker", 496, "I can assist you with banking.");
 			add("Banker", 2619, "I can assist you with banking.");
 
-			add("Hickton", 575, "Haha, welcome to the 99 guild.", "Right across the bridge are", "many things that might interest", "an adventurer like yourself.");
-	
 			add("Guard", 925, "Follow the rules and avoid", "being beaten.");
 			add( "Chancy",338, "This portal leads to the Kalphite Queen.", "Good luck my friend.");
 			add("Guild Master", 198, "The area outside of the bank is", "a pking zone.", "This means players can attack you", "if you step outside this building.");

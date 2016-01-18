@@ -615,7 +615,7 @@ public class Combat {
 		int distance = Item.ifHasBowAndAmmoUpdateDelay(c);
 		if(distance == -1){
 			c.sendMessage("You need ammo to use this ranged weapon.");
-			c.updatePlayerPosition();
+			c.stopPlayerMovement();
 			ResetAttack();
 			return false;
 		}
@@ -673,7 +673,7 @@ public class Combat {
 				//setAnimation(playerSEA);
 				c.followingPlayerID = -1;
 
-				c.updatePlayerPosition();
+				c.stopPlayerMovement();
 
 				int damage = misc.random(getMaxRangedHit());
 
@@ -798,17 +798,10 @@ public class Combat {
 
 	public boolean AttackNPC() {
 
-		if(c.LoopAttDelay > 0)
-			return false;
-
 		if (server.npcHandler.npcs[c.attacknpc].IsDead){
 			ResetAttackNPC();
 			return false;
 		}
-
-		int EnemyX = server.npcHandler.npcs[c.attacknpc].absX;
-		int EnemyY = server.npcHandler.npcs[c.attacknpc].absY;
-		int hitDiff = 0;
 
 		c.faceNPC(c.attacknpc);
 
@@ -817,10 +810,18 @@ public class Combat {
 			int distance = Item.ifHasBowAndAmmoUpdateDelay(c);
 			if(distance == -1){
 				c.sendMessage("You need ammo to use this ranged weapon.");
-				c.updatePlayerPosition();
+				c.stopPlayerMovement();
 				ResetAttackNPC();
 				return false;
 			}
+
+			
+			if(c.LoopAttDelay > 0)
+				return false;
+
+			int EnemyX = server.npcHandler.npcs[c.attacknpc].absX;
+			int EnemyY = server.npcHandler.npcs[c.attacknpc].absY;
+			int hitDiff = 0;
 
 			/* Melee */
 			if(distance == 1 && !c.autocast) { 
@@ -831,7 +832,7 @@ public class Combat {
 				c.PkingDelay = Item.getItemDelay(c.playerEquipment[c.playerWeapon]);
 				if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance)) {
 					if(distance > 1)
-						c.updatePlayerPosition();
+						c.stopPlayerMovement();
 
 					c.startAnimation(Item.GetWepAnim(c));
 
@@ -850,7 +851,7 @@ public class Combat {
 			/* Ranged */
 			if(distance > 1 && !c.autocast){
 				if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance)) {
-					c.updatePlayerPosition();
+					c.stopPlayerMovement();
 
 					hitDiff = misc.random(getMaxRangedHit());
 
@@ -879,7 +880,7 @@ public class Combat {
 					if(c.MAGICDATAHANDLER.magicOnNPC(c.attacknpc))
 						return true;
 					else{
-						c.updatePlayerPosition();
+						c.stopPlayerMovement();
 						ResetAttackNPC();
 						return false;
 					}
@@ -949,7 +950,7 @@ public class Combat {
 			c.requirePlayerUpdate();
 			c.AnimationReset = true;
 			c.startAnimation(1979);
-			c.updatePlayerPosition();
+			c.stopPlayerMovement();
 			c.specialDelay -= 10;
 			c.LoopAttDelay = 15;
 			c.getFrameMethodHandler().getFilling();
