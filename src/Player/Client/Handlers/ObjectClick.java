@@ -1421,19 +1421,6 @@ break;*/
 			c.AnimDelay = 20;
 			break;
 
-		case 2027:
-		case 2630: //lava
-		case 44:
-		case 2031:
-		case 42:
-		case 2029:
-		case 2028:
-		case 8986:
-		case 3032:
-		case 2030: //Fishing first clicks
-			Fishing.fishingSwitch(objectID, objectX, objectY, face, face2, GateID, c);
-			break;
-
 			//WC by aaa mods
 		case 10041:
 		case 1315:
@@ -1747,15 +1734,6 @@ break;*/
 			spinning = true;
 			c.getFrameMethodHandler().selectoption("Options", "Make all Bowstrings", "Cancel", "...");
 			break;
-
-			//Fishing second clicks
-		case 2030:
-		case 2031:
-		case 2027:
-		case 2029: 
-			Fishing.fishingSwitch2(objectID, objectX, objectY, c);
-			break;	
-			//Fishing
 
 		case 2561:
 			Thieving.stalls(1, 200, c.DROPHANDLER.getDrop(c.DROPHANDLER.food), 3000, c);

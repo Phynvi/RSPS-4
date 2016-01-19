@@ -1011,6 +1011,8 @@ public class MagicDataHandler {
 
 	private int[] magicRunes(int magicID){
 		switch(magicID){ 
+		case 1: //H Teleport
+			return new int[]{1,FIRE,3,AIR,1,LAW};
 		case 50235: // Home teleport ancients
 			return new int[]{-1};
 		case 50245: //PVP teleport ancients

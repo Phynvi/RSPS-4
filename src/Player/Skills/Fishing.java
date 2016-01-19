@@ -1,280 +1,272 @@
 public class Fishing{
 
-	public static int fishtime = 0;
-	public static int fishingnumb1 = 0;
-	public static int fishingnumb2 = 0;
-	public static int fishanim = 0;
-	public static int fishlevel = 0;
-	public static String fishname = "";
-	public static int bag = 0;
-	public static boolean isharpooning = false;
-	public static int fishdif = 0;
-	public static int fishxp = 0;
-	public static String bagitem = "";
-	public static int fishitem = 0;
-	public static int bag2 = 0;
-	public static String bagitem2 = "";
+	/*
+ npcs : 1174, 1175,952 - net
+ 1176,1177,1178 - fish
+ 1236,1237,1238,233,234,235,236  - bait
+ 1399,321,324,333,312,1332 - cage/harpoon
+ 1405,1406,313,322,334,1191,1333 - net/harpoon
+ 2067,2068,316,319,320,323,325,326,327,330,332,1331 - net/bait
+ 3019,314,315,317,318,328,329,331,927,1189,1190,309,310,311  - lure/bait
+ 800 - bait lavafish
+	 */
 
-	public static void fishingvoid (int emote, boolean harpoon, int b, String bitem, int xp, String name, int level, int nrandom, int numb, int item, client c){
-		isharpooning = harpoon;
-		bag = b;
-		bagitem = bitem;
-		fishxp = xp;
-		fishname = name;
-		fishlevel = level;
-		fishanim = emote;
-		fishingnumb1 = nrandom;
-		fishingnumb2 = numb;
-		fishitem = item;
-		c.IsFishing = true;
+	private client c;
+
+	public Fishing(client pc){
+		this.c = pc;
 	}
 
-	public static void fishingTimers(client playerClient){
-		if (--playerClient.FishingTimer > 0){}
-		if(playerClient.spinningTimer > 0){
-			playerClient.spinningTimer -= 1;
-			if(playerClient.spinningTimer == 0){
-				if(playerClient.getInventoryHandler().playerHasItem(1779)){
-					playerClient.spinningTimer = 4;
-					playerClient.getInventoryHandler().deleteItem(1779, playerClient.getInventoryHandler().getItemSlot(1779), 1);
-					playerClient.getInventoryHandler().addItem(1777, 1);
-					playerClient.getClientMethodHandler().addSkillXP(25*playerClient.rate, playerClient.playerCrafting);
-				}
-				else{
-					playerClient.spinningTimer = -1;
-					playerClient.stopAnimations();
-				}
-			}
+	private int[] deliverFish = null;
+	private int deliverFishEXP = -1;
+	private int removeID = -1;
+	public int fishingTimer = -1;
+	private int requiredLevel = -1;
+	private int npcID = -1;
+	private int requiredTool = -1;
+	private int fishingAnimation = -1;
+
+	private boolean setVariablesAndCheckRequirements(int _levelRequired, int[] _deliverFish, int _removeID, int _requiredTool){
+		if(c.playerLevel[c.playerFishing] < _levelRequired){
+			c.sendMessage("You need "+_levelRequired+" to do that.");
+			resetFishing();
+			return false;
 		}
+		if(!c.getInventoryHandler().hasItem(_requiredTool)){
+			c.sendMessage("You need a "+Item.getItemName(_requiredTool)+" to do that.");
+			resetFishing();
+			return false;
+		}
+		if(_removeID != -1 && !c.getInventoryHandler().hasItem(_removeID)){
+			c.sendMessage("You need a "+Item.getItemName(_removeID)+" to do that.");
+			resetFishing();
+			return false;
+		}
+		requiredLevel = _levelRequired;
+		deliverFish = _deliverFish;
+		removeID = _removeID;
+		fishingAnimation = getFishingAnimation(_requiredTool);
+		requiredTool = _requiredTool;
+		setFishingTimer();
+		c.repeatAnimation(fishingAnimation, 3);
+		return true;
 	}
 
-	public static void fishingSwitch(int objectID, int objectX, int objectY, int face, int face2, int GateID, client c){
-		switch (objectID){
-		case 2030: //Shrimp
-			fishingvoid(620, false, 305, "big fishing net", 40, "Shrimp", 0, 11, 3, 317, c);
-			break;	
-		case 2027: //Pike
-			fishingvoid(622, false, 307, "fishing rod", 80, "Pike", 20, 12, 3, 349, c);
-			break;	
-		case 2630: //Lava Eel
-			fishingvoid(618, false, 311, "harpoon", 105, "Lava Eel", 45, 15, 3, 2148, c);
-			break;	
-		case 44: //Tuna
-			fishingvoid(618, false, 311, "harpoon", 150, "Pike", 30, 3, 13, 359, c);
-			break;	
-		case 2031: //Lobster
-			fishingvoid(619, false, 301, "lobster pot", 200, "Lobster", 25, 15, 3, 377, c);
-			break;	
-		case 42: //Swordfish
-			fishingvoid(618, false, 311, "harpoon", 275, "Swordfish", 60, 16, 3, 371, c);
-			break;	
-		case 2029:
-			if(c.playerLevel[10] >= 30 && c.playerLevel[10] < 60){
-				fishingvoid(618, true, 311, "harpoon", 205, "Tuna", 30, 14, 3, 359, c);
+	private int getFishingAnimation(int toolID){
+		switch(toolID){
+		case BIG_FISHING_NET:
+			return 620;
+		case FISHING_ROD:
+			return 622;
+		case LOBSTER_POT:
+			return 619;
+		case HARPOON:
+			return 618;
+		case SMALL_FISHING_NET:
+			return 621;
+		}
+		return 0;
+	}
+
+	public void resetFishing(){
+		deliverFish = null;
+		removeID = -1;
+		fishingTimer = -1;
+		deliverFishEXP = -1;
+		requiredLevel = -1;
+		npcID = -1;
+		requiredTool = -1;
+		fishingAnimation = -1;
+		c.stopAnimations();
+	}
+
+	private void setFishingTimer(){
+		double bonus = requiredLevel/c.playerLevel[c.playerFishing];
+		fishingTimer = 4+misc.random( (int)(4*bonus) );
+	}
+
+	public void deliverFishAndResetTimers(){
+		if(!c.getInventoryHandler().hasItem(requiredTool)){
+			c.sendMessage("You need a "+Item.getItemName(requiredTool)+" to do that.");
+			resetFishing();
+			return;
+		}
+		if(!c.getInventoryHandler().addItem(c.DROPHANDLER.getDrop(deliverFish))){
+			c.sendMessage("Your inventory is full.");
+			resetFishing();
+			return;
+		}		
+		if(removeID != -1 && removeID != POISON){
+			if(!c.getInventoryHandler().hasItem(removeID)){
+				c.sendMessage("You need a "+Item.getItemName(removeID)+" to do that.");
+				resetFishing();
+				return;
+			}			
+			c.getInventoryHandler().deleteItem(removeID);
+		}
+		setFishingTimer();
+		c.getClientMethodHandler().addSkillXP(c.rate*requiredLevel*10, c.playerFishing);
+	}
+
+	private final int SMALL_FISHING_NET = 303;
+	private final int LOBSTER_POT = 301;
+	private final int BIG_FISHING_NET = 305;
+	private final int FISHING_ROD = 307;
+	private final int FLY_FISHING_ROD = 309;
+	private final int HARPOON = 311;
+	private final int FISHING_BAIT = 313;
+	private final int FEATHER = 314;
+
+	public void fishingLoopProcess(){
+		if(fishingTimer > 0)
+			fishingTimer -= 1;
+		if(fishingTimer == 0)
+			deliverFishAndResetTimers();
+	}
+
+	private static int RAW_SHRIMPS = 317;
+	private static int RAW_ANCHOVIES = 321;
+	private static int RAW_SARDINE = 327;
+	private static int RAW_SALMON = 331;
+	private static int RAW_TROUT = 335;
+	private static int BURNT_FISH = 323;
+	private static int RAW_GIANT_COD = 338;
+	private static int RAW_COD = 341;
+	private static int RAW_HERRING = 345;
+	private static int RAW_PIKE = 349;
+	private static int RAW_MACKEREL = 353;
+	private static int RAW_TUNA = 359;
+	private static int RAW_BASS = 363;
+	private static int RAW_SWORDFISH = 371;
+	private static int RAW_LOBSTER = 377;
+	private static int RAW_SHARK = 383;
+	private static int RAW_MANTA_RAY = 389;
+	private static int RAW_SEA_TURTLE = 395;
+	private static int CASKET = 3527;
+	private static int LEATHER_GLOVES = 1059;
+	private static int LEATHER_BOOTS = 1061;
+	private static int OYSTER = 407;
+	private static int SEAWEED = 401;
+	private static int POISON = 273;
+
+
+	public void fishingClick1(int npcID){
+		switch(npcID){
+
+		case 3019: case 314: case 315: case 317: 
+		case 318: case 328: case 329: case 331: 
+		case 927: case 1189: case 1190: case 309: 
+		case 310: case 311: // lure/bait
+			int[] lure = new int[]{RAW_TROUT};
+			int level = 20;
+			if(c.playerLevel[c.playerFishing] >= 30){
+				level = 30;
+				lure = new int[]{RAW_TROUT,RAW_SALMON,RAW_SALMON};
 			}
-			else if(c.playerLevel[10] < 30){
-				c.sendMessage("You need at least 30 fishing beforing you start throwing harpoons!");
-				c.isharpooning = false;
-			}
-			else if(c.playerLevel[10] >= 60 && c.playerLevel[10] < 75){
-				fishingvoid(618, true, 311, "harpoon", 275, "Swordfish", 60, 16, 3, c.DROPHANDLER.getDrop(DropList.harpoon60), c);
-			}
-			else if(c.playerLevel[10] >= 75 && c.playerLevel[10] < 85){
-				fishingvoid(618, true, 311, "harpoon", 315, "Shark", 75, 17, 3, c.DROPHANDLER.getDrop(DropList.harpoon75), c);
-			}
-			else if(c.playerLevel[10] >= 85){
-				fishingvoid(618, true, 311, "harpoon", 375, "Manta Ray", 85, 19, 3, c.DROPHANDLER.getDrop(DropList.harpoon), c);
-				c.isharpooning = true;
-			}
+			setVariablesAndCheckRequirements(level, lure, FEATHER, FLY_FISHING_ROD);
 			break;
-		case 2028: //Manta
-			fishingvoid(618, false, 311, "harpoon", 375, "Manta Ray", 85, 19, 3, 389, c);
-			break;
-		case 8986:
-		case 3032: //Sea Turtle
-			if(c.actionTimer == 0 && (c.ST == 4 || c.STC == 1)){
-				c.isharpooning = true;
-				bag = 311;
-				bag2 = 274;
-				bagitem = ("harpoon");
-				bagitem2 = ("poisoned fish food");
-				fishxp = 1800;
-				fishname = "Sea Turtle";
-				fishlevel = 90;
-				fishanim = 618;
-				fishingnumb1 = 12;
-				fishingnumb2 = 35;
-				fishitem = 395;
-				c.CatchST = true;
+
+		case 1174: case 1175: case 952: //Net
+		case 332: case 2067: case 2068: case 316: case 319:
+		case 320: case 323: case 325: case 326: case 327: case 330: case 1331: // net/bait
+			int[] smallNet = new int[]{RAW_SHRIMPS};
+			level = 1;
+			if(c.playerLevel[c.playerFishing] >= 15){
+				level = 15;
+				smallNet = new int[]{RAW_SHRIMPS,RAW_ANCHOVIES};
 			}
-			else if (c.actionTimer == 0 && (c.ST < 4 && c.ST > 4 || c.STC == 0)){
+			setVariablesAndCheckRequirements(level, smallNet, -1, SMALL_FISHING_NET);
+			break;
+
+		case 1405: case 1406: case 313: case 322:
+		case 334: case 1191: // Net/Harpoon
+			int[] largeNet = new int[]{RAW_MACKEREL,RAW_MACKEREL,CASKET,LEATHER_BOOTS,LEATHER_GLOVES,OYSTER,SEAWEED};
+			level = 16;
+			if(c.playerLevel[c.playerFishing] >= 46){
+				level = 46;
+				largeNet = new int[]{RAW_BASS,RAW_BASS,RAW_BASS,RAW_COD,RAW_COD,RAW_MACKEREL,CASKET,LEATHER_BOOTS,LEATHER_GLOVES,OYSTER,SEAWEED};
+			}
+			else if(c.playerLevel[c.playerFishing] >= 23){
+				level = 23;
+				largeNet = new int[]{RAW_COD,RAW_COD,RAW_MACKEREL,CASKET,LEATHER_BOOTS,LEATHER_GLOVES,OYSTER,SEAWEED};
+			}
+			setVariablesAndCheckRequirements(level, largeNet, -1, BIG_FISHING_NET);
+			break;	
+
+		case 1236: case 1237: case 1238: case 233:
+		case 234: case 235: case 236://Bait
+			int[] bait = new int[]{RAW_SARDINE};
+			level = 5;
+			if(c.playerLevel[c.playerFishing] >= 25){
+				level = 25;
+				bait = new int[]{RAW_PIKE,RAW_PIKE,RAW_HERRING,RAW_SARDINE};
+			}
+			else if(c.playerLevel[c.playerFishing] >= 10){
+				level = 10;
+				bait = new int[]{RAW_HERRING,RAW_SARDINE,RAW_HERRING};
+			}
+			setVariablesAndCheckRequirements(level, bait, FISHING_BAIT, FISHING_ROD);
+			break;
+
+		case 1399: case 321: case 324: case 333: case 312: case 1332: //Cage
+			setVariablesAndCheckRequirements(40, new int[]{RAW_LOBSTER}, -1, LOBSTER_POT);
+			break;	
+
+		case 1176: case 1177: case 1178: //Fish here
+			if(c.ST >= 4 || c.STC >= 1){
+				setVariablesAndCheckRequirements(79, new int[]{RAW_SEA_TURTLE}, POISON, HARPOON);
+				}
+			else{
 				c.sendMessage("You need to beat The Famous Catch to fish Sea Turtle!");
-				c.isharpooning = false;
 			}
 			break;	
 
 		}
-
 	}
 
+	public void fishingClick2(int npcID){
 
+		switch(npcID){
 
-	public static void fishingSwitch2(int objectID, int objectX, int objectY, client c){
-		switch (objectID){
-		case 2029: //Lobster second click
-			fishingvoid(619, false, 301, "lobster pot", 200, "Lobster", 25, 15, 3, 377, c);
+		case 2067: case 2068: case 316: case 319: case 320:
+		case 323: case 325: case 326: case 327: case 330:
+		case 332: case 1331: //Bait		
+			int[] bait = new int[]{RAW_SARDINE};
+			int level = 5;
+			if(c.playerLevel[c.playerFishing] >= 25){
+				level = 25;
+				bait = new int[]{RAW_PIKE,RAW_PIKE,RAW_HERRING,RAW_SARDINE};
+			}
+			else if(c.playerLevel[c.playerFishing] >= 10){
+				level = 10;
+				bait = new int[]{RAW_HERRING,RAW_SARDINE,RAW_HERRING};
+			}
+			setVariablesAndCheckRequirements(level, bait, FISHING_BAIT, FISHING_ROD);
 			break;
 
-		case 2027: //Pike
-			fishingvoid(622, false, 307, "fishing rod", 150, "Pike", 20, 12, 3, 349, c);
-			break;	
-
-		case 2030:
-		case 2031:
-			if(c.playerLevel[10] >= 30 && c.playerLevel[10] < 60){
-				fishingvoid(618, true, 311, "harpoon", 205, "Tuna", 30, 14, 3, 359, c);
-			}
-			else if(c.playerLevel[10] < 30){
-				c.sendMessage("You need at least 30 fishing beforing you start throwing harpoons!");
-				c.isharpooning = false;
-			}
-			else if(c.playerLevel[10] >= 60 && c.playerLevel[10] < 75){
-				fishingvoid(618, true, 311, "harpoon", 275, "Swordfish", 60, 16, 3, c.DROPHANDLER.getDrop(DropList.harpoon60), c);
-			}
-			else if(c.playerLevel[10] >= 75 && c.playerLevel[10] < 85){
-				fishingvoid(618, true, 311, "harpoon", 315, "Shark", 75, 17, 3, c.DROPHANDLER.getDrop(DropList.harpoon75), c);
-			}
-			else if(c.playerLevel[10] >= 85){
-				fishingvoid(618, true, 311, "harpoon", 375, "Manta Ray", 85, 19, 3, c.DROPHANDLER.getDrop(DropList.harpoon), c);
-				c.isharpooning = true;
-			}
+		case 1399: case 321: case 324: 
+		case 333: case 312: case 1332: // cage/harpoon
+			int[] harpoon = new int[]{RAW_TUNA};
+			level = 35;
+			if(c.playerLevel[c.playerFishing] >= 50){
+				level = 50;
+				harpoon = new int[]{RAW_SWORDFISH,RAW_SWORDFISH,RAW_TUNA};
+				}
+			setVariablesAndCheckRequirements(level, harpoon, -1, HARPOON);
 			break;
-
-		}
-
-	}
-
-
-	public static void FishingProcess(client c){
-		fishtime = misc.random(fishingnumb1)+fishingnumb2;
-		int fishdif = (c.playerLevel[10] / 9);
-
-		if (c.getInventoryHandler().freeSlots() == 0){
-			c.IsFishing = false;
-			c.sendMessage("Your inventory is full!");
-			c.resetAnimation();
-			return;
-		}
-		if (c.playerLevel[10] < fishlevel){
-			c.IsFishing = false;
-			c.sendMessage(fishlevel+" fishing is required to fish "+fishname+".");
-			c.resetAnimation();
-			return;
-		}
-		c.startAnimation(fishanim);
-		if (c.FishingTimer == 0)
-		{
-			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == true){
-				c.IsFishing = true;
-
-				if (isharpooning == true){
-					fishtime = misc.random(fishingnumb1)+fishingnumb2;
-					fishdif = (c.playerLevel[10] / 9);
-					if (c.playerLevel[10] >= 85){
-						int add = c.DROPHANDLER.getDrop(DropList.harpoon);
-						c.getInventoryHandler().addItem(add, 1);
-						fishingnumb1 = 10;
-						fishingnumb2 = 40;
-						int t = fishtime - fishdif;
-						if (t <= 0) t = misc.random(3)+4;
-						c.FishingTimer = t;
-						c.sendMessage("You harpoon a "+Item.getItemName(add).toLowerCase());
-					}
-					else if (c.playerLevel[10] >= 75 && c.playerLevel[10] < 85){
-						int add = c.DROPHANDLER.getDrop(DropList.harpoon75);
-						c.getInventoryHandler().addItem(add, 1);
-						fishingnumb1 = 10;
-						fishingnumb2 = 35;
-						int t = fishtime - fishdif;
-						if (t <= 0) t = misc.random(3)+4;
-						c.FishingTimer = t;
-						c.sendMessage("You harpoon a "+Item.getItemName(add).toLowerCase());
-					}
-					else if (c.playerLevel[10] >= 60 && c.playerLevel[10] < 75){
-						int add = c.DROPHANDLER.getDrop(DropList.harpoon60);
-						c.getInventoryHandler().addItem(add, 1);
-						fishingnumb1 = 10;
-						fishingnumb2 = 30;
-						int t = fishtime - fishdif;
-						if (t <= 0) t = 1;
-						c.FishingTimer = misc.random(3)+4;
-						c.sendMessage("You harpoon a "+Item.getItemName(add).toLowerCase());
-					}
-					else if (c.playerLevel[10] >= 30 && c.playerLevel[10] < 60){
-						c.getInventoryHandler().addItem(359, 1);
-						fishingnumb1 = 10;
-						fishingnumb2 = 25;
-						int t = fishtime - fishdif;
-						if (t <= 0) t = 1;
-						c.FishingTimer = misc.random(3)+4;
-						c.sendMessage("You harpoon a "+Item.getItemName(359).toLowerCase());
-					}
+			
+		case 1405: case 1406: case 313: case 322:
+		case 334: case 1191: case 1333: // net/harpoon
+			harpoon = new int[]{RAW_TUNA};
+			level = 35;
+			if(c.playerLevel[c.playerFishing] >= 76){
+				level = 76;
+				harpoon = new int[]{RAW_SHARK,RAW_SHARK,RAW_TUNA};
 				}
-				else if (isharpooning == false){
-					c.getInventoryHandler().addItem(fishitem, 1);
-					int t = fishtime - fishdif;
-					if (t <= 0) t = 1;
-					c.FishingTimer = misc.random(3)+4;
-					c.sendMessage("You catch a "+fishname+".");
-				}
-
-
-				c.getClientMethodHandler().addSkillXP(fishxp*c.rate, 10);
-			}
-			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == false){
-				c.IsFishing = false;
-				c.sendMessage("You need a "+bagitem+" to fish here.");
-				c.resetAnimation();
-			}
-		}
-	}
-
-
-	//catchingst catchst
-	public static void CatchingSTProcess(client c){
-		c.startAnimation(fishanim);	
-		fishtime = misc.random(fishingnumb1)+fishingnumb2;
-		int fishdif = (c.playerLevel[10] / 9);
-
-		if (c.getInventoryHandler().freeSlots() == 0){
-			c.CatchST = false;
-			c.sendMessage("Your inventory is full!");
-			c.resetAnimation();
-			return;
-		}
-		if (c.playerLevel[10] < fishlevel){
-			c.CatchST = false;
-			c.sendMessage(fishlevel+" fishing is required to fish "+fishname+".");
-			c.resetAnimation();
+			setVariablesAndCheckRequirements(level, harpoon, -1, HARPOON);
+			break;
 		}
 
-		if (c.FishingTimer == 0)
-		{
-			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == true && c.getInventoryHandler().IsItemInBag(bag2) == true){
-				c.CatchST = true;
-				int t = fishtime - fishdif;
-				if (t <= 0) t = misc.random(3)+4;
-				c.sendMessage("You catch a "+fishname+".");
-				c.getInventoryHandler().addItem (fishitem, 1);
-				c.getClientMethodHandler().addSkillXP(fishxp*c.rate, 10);
-				c.FishingTimer = t;
-			}
-			if (c.playerLevel[10] >= fishlevel && c.getInventoryHandler().IsItemInBag(bag) == false || c.getInventoryHandler().IsItemInBag(bag2) == false){
-				c.CatchST = false;
-				c.sendMessage("You need a "+bagitem+" and "+bagitem2+" to fish here.");
-				c.resetAnimation();
-			}
-		}
 	}
 
 

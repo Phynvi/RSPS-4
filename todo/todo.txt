@@ -1,6 +1,4 @@
--Fix fishing by using NPCs not objects
-
-- South of Tree Gnome, observatory
+-Place fishing spots across map
 
 -Rebuild skill master list
 
@@ -11,8 +9,6 @@
 -Finish specials, add in promethius 2h, rune claws, 
 	custom karil special, attacks all npcs in area of 4, projectile to each one
 
--Make teleport go to camelot
-
 -NPC projectiles
 
 -NPC poison/player poison
@@ -20,4 +16,5 @@
 -Level gain sprites
 
 -Teleport in ardougne (elena) is open
+
 

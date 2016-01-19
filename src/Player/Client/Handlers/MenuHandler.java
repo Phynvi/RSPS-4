@@ -151,10 +151,33 @@ public class MenuHandler {
 	}
 
 	public static String fishingGuide()	{
-		return("@gre@Fishing Guide###@whi@Fish by Level:#@bla@1 - Shrimp - Big Net Fishing#20 - Pike - Fishing Rod#30 - Tuna - Harpoon"
-				+ "#45 - Lobster - Lobster Pot, Lava Eel - Harpoon#60 - Swordfish, Tuna - Harpoon"
-				+ "#75 - Swordfish, Tuna, Shark - Harpoon#85 - Swordfish, Tuna, Shark, Manta Ray - Harpoon"
-				+ "#90 - Sea Turtle - Harpoon#");
+		return("@gre@Fishing Guide###@whi@Level - Tool Type - Fish:"
+				+ "#@bla@1 - Small Net at Net/Bait or Net - Shrimp"
+				+ "#5 - Fishing Rod - Sardine"
+				+ "#10 - Fishing Rod - Sardine, Herring"
+				+ "#15 - Small Net - Shrimp, Anchovie"
+				+ "#16 - Big Net at Net/Harpoon - Mackeral"
+				+ "#20 - Fly Fishing - Trout"
+				+ "#23 - Big Net - Mackeral, Cod"
+				+ "#25 - Fishing Rod - Sardine, Herring, Pike"
+				+ "#30 - Fly Fishing - Trout, Salmon"
+				+ "#35 - Harpoon - Tuna"
+				+ "#40 - Lobster Pot - Lobster"
+				+ "#46 -  Big Net - Makeral, Cod, Bass"
+				+ "#50 - Harpoon - Tuna, Swordfish"
+				+ "#(Only at cage/harpoon spot)"
+				+ "#76 - Harpooon - Tuna, Shark"
+				+ "#(Only at net/harpoon spot)"
+				+ "#79 - Harpoon - Sea Turtle"
+				+ "#(Only after Famous Catch quest, at any Fish spot)"
+				+ "#"
+				+ "#Tool type and spot:"
+				+ "#Small Net : Net/Bait or Net"
+				+ "#Fishing Rod and Bait : any Bait"
+				+ "#Big Net : Net/Harpoon"
+				+ "#Fly Fishing Rod and Feather : Lure/Bait"
+				+ "#Lobster Pot : any Cage"
+				+ "#Harpoon : any Harpoon");
 	}
 
 	public String[] magicMenu(){

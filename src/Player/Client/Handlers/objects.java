@@ -21,21 +21,12 @@ public class objects{
 			c.getFrameMethodHandler().makeLocalObject(2951, 3216, 2213, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(2956, 3212, 2783, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(3560, 3402, 12802, 2, 10);
-			c.getFrameMethodHandler().makeLocalObject(3488, 3261, 4421, 1, 10);
-			c.getFrameMethodHandler().makeLocalObject(3489, 3260, 4421, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(2853, 3609, 4421, 1, 10);			
-			
-			c.getFrameMethodHandler().makeLocalObject(2687, 3303, 4421, 1, 10);
-			c.getFrameMethodHandler().makeLocalObject(2688, 3304, 4421, 1, 10);
-			c.getFrameMethodHandler().makeLocalObject(2687, 3305, 4421, 1, 10);
-			c.getFrameMethodHandler().makeLocalObject(2688, 3306, 4421, 1, 10);
-			c.getFrameMethodHandler().makeLocalObject(2686, 3275, 4421, 1, 10);
 			
 			c.getFrameMethodHandler().makeLocalObject(3005, 3323, 4421, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(3006, 3323, 4421, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(3007, 3323, 4421, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(3008, 3323, 4421, 1, 10);			
-			
 		}
 
 

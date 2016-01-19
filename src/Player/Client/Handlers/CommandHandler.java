@@ -347,7 +347,7 @@ public class CommandHandler {
 			String itemName = command.substring(6);
 			boolean foundItem = false;
 			for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
-				if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.contains(itemName) ){
+				if( server.itemHandler.ItemListArray[i] != null && (server.itemHandler.ItemListArray[i].itemName.contains(itemName) || server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName)) ){
 					c.sendMessage("Found "+server.itemHandler.ItemListArray[i].itemName+", ID "+i);
 					c.getInventoryHandler().addItem(i);
 					foundItem = true;

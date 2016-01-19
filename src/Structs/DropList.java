@@ -75,7 +75,7 @@ public class DropList {
 
 	public static int harpoon60[] = {359,371}; 
 	public static int harpoon75[] = {359,371,371,383,383}; //fishing randoms
-	public static int harpoon[] = {359,371,383,383,389,389}; 
+	public static int harpoonAll[] = {359,371,383,383,389,389}; 
 	public static int fish1[] = {379,379,385,391};
 	
 	public static int jew[] = {1712,1700,1698,1696,1694}; //for thieving

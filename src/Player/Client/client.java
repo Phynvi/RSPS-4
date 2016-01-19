@@ -11,6 +11,11 @@ import java.util.GregorianCalendar;
 import java.security.*;
 
 public class client extends Player implements Runnable {
+	
+	private Fishing fishingHandler = new Fishing(this);
+	public Fishing getFishingHandler(){
+		return this.fishingHandler;
+	}
 
 	private FoodHandler foodHandler = new FoodHandler(this);
 	public FoodHandler getFoodHandler(){
@@ -114,8 +119,6 @@ public class client extends Player implements Runnable {
 		return false;
 	}
 
-
-
 	public void deployHandlers(){
 		this.Events = new EventManager();
 		DIALOGUEHANDLER = new npcDialogueBST();
@@ -131,7 +134,6 @@ public class client extends Player implements Runnable {
 		this.MINE = new Mining(this);   
 		this.FARM = new Farming(this);
 		this.RUNECRAFTING = new Runecrafting(this);
-		this.FISHING = new Fishing();
 		this.AGILITY = new Agility(this);
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
 		this.Events.EventStart(1000, 1, this); //Calls event index 1 every second
@@ -1364,8 +1366,7 @@ playerName.trim();*/
 		tradeCheckTimers();
 		Fletching.fletchingTimers(this);
 		getAgilityHandler().agilityTimers();
-
-		Fishing.fishingTimers(this);
+		getFishingHandler().fishingLoopProcess();
 		Prayer.prayTimers(this);
 
 		if (isRunning && getRunningEnergy() <= 0) {
@@ -1381,11 +1382,7 @@ playerName.trim();*/
 
 		getFrameMethodHandler().CheckBar();
 		getFrameMethodHandler().getFilling();
-
-		if (IsFishing) Fishing.FishingProcess(this);
-
-		if (CatchST) Fishing.CatchingSTProcess(this);
-
+		
 		if (cookingon) Cooking.cookingProcess(this);
 
 		if(actionTimer > 0) actionTimer -= 1; 
@@ -1939,11 +1936,11 @@ playerName.trim();*/
 				stopAnimations();
 				spinningTimer = -1;
 				smithingtimer = 0;
-				CatchST = false;
+				if(getFishingHandler().fishingTimer > 0)
+					getFishingHandler().resetFishing();
 				cookingon = false;
 				this.WC.stopAll();
 				this.MINE.stopAll();
-				IsFishing = false;
 				stringing = false;
 				fletchingprocessshort = 0;
 				followingPlayerID = -1;

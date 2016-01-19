@@ -1213,7 +1213,7 @@ public class ButtonClickHandler {
 			else c.sendMessage("You need to wait "+c.homeTeleportTimer+" minutes before using this.");
 			break;
 
-		case 4140: //home teleport
+		case 4143: //S Teleport
 			if(c.homeTeleportTimer <= 0){
 				if(c.getClientMethodHandler().canPlayersTeleportInThisArea()){
 					c.homeTeleportTimer = 15;
@@ -1224,15 +1224,12 @@ public class ButtonClickHandler {
 			else c.sendMessage("You need to wait "+c.homeTeleportTimer+" minutes before using this.");
 			break;
 
-		case 4143: //Free teleport
-			//	if(skillsTeleportTimer <= 0){
-			//		if(teleArea()){
-			//		c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2953, 3215, 0);
-			//		skillsTeleportTimer = 15;
-			//		}
-			//		else c.sendMessage("You can't use that teleport in this area.");
-			//	}
-			//	else c.sendMessage("You need to wait "+skillsTeleportTimer+" minutes before using this.");
+		case 4140: //H teleport
+			if(c.MAGICDATAHANDLER.checkMagicRunes(1)){
+				c.MAGICDATAHANDLER.removeMagicRunes(1);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024, 3206, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
+			}
 			break;
 
 		case 50245: //PVP ancients teleport
@@ -1298,10 +1295,10 @@ public class ButtonClickHandler {
 			}
 			break;
 
-		case 4150: //mort'ton teleport
+		case 4150: //Camelot Teleport
 			if(c.MAGICDATAHANDLER.checkMagicRunes(4150)){
 				c.MAGICDATAHANDLER.removeMagicRunes(4150);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3497,3489, 0);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2757,3477, 0);
 				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
 			}
 			break;
@@ -1314,12 +1311,7 @@ public class ButtonClickHandler {
 			}
 			break;
 
-		case 6005: //port sarim teleport
-			if(c.MAGICDATAHANDLER.checkMagicRunes(6005)){
-				c.MAGICDATAHANDLER.removeMagicRunes(6005);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024,3206, 0);
-				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
-			}
+		case 6005: //open teleport
 			break;
 
 		case 59135:

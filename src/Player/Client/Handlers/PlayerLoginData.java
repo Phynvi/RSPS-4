@@ -348,7 +348,7 @@ public class PlayerLoginData {
 		c.getFrameMethodHandler().sendQuest("A multi-target smoke attack", 12966);
 		c.getFrameMethodHandler().sendQuest("Level 64 : Shadow Burst", 13013);
 		c.getFrameMethodHandler().sendQuest("A multi-target shadow attack", 13014);
-		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Rimmington", 13055);
+		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Canifis", 13055);
 		c.getFrameMethodHandler().sendQuest("", 13056);
 		c.getFrameMethodHandler().sendQuest("Level 68 : Blood Burst", 12921);
 		c.getFrameMethodHandler().sendQuest("A multi-target blood attack", 12922);
@@ -414,13 +414,13 @@ public class PlayerLoginData {
 		c.getFrameMethodHandler().sendQuest("Converts an item into gold", 1285);
 		c.getFrameMethodHandler().sendQuest("Level 23 - Water Bolt", 1291);
 		c.getFrameMethodHandler().sendQuest("A low level Water missile", 1292);
-		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Home", 1300);
-		c.getFrameMethodHandler().sendQuest("@gre@Can be used once every 15 minutes", 1301);
+		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Port Sarim (Home)", 1300);
+		c.getFrameMethodHandler().sendQuest("", 1301);
 		c.getFrameMethodHandler().sendQuest("Level 27 - Lvl-2 Enchant", 1309);
 		c.getFrameMethodHandler().sendQuest("For use on emerald jewellery", 1310);
 		c.getFrameMethodHandler().sendQuest("Level 29 - Earth Bolt", 1316);
 		c.getFrameMethodHandler().sendQuest("A low level Earth missile", 1317);
-		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Rimmington (Skills)", 1325);
+		c.getFrameMethodHandler().sendQuest("@gre@Free Teleport - Port Sarim", 1325);
 		c.getFrameMethodHandler().sendQuest("@gre@Can be used once every 15 minutes", 1326);
 		c.getFrameMethodHandler().sendQuest("Level 33 - Telekinetic Grab", 1334);
 		c.getFrameMethodHandler().sendQuest("Take an item you can't reach", 1336);
@@ -434,7 +434,7 @@ public class PlayerLoginData {
 		c.getFrameMethodHandler().sendQuest("A medium level Wind missile", 1369);
 		c.getFrameMethodHandler().sendQuest("Level 43 - Superheat Item", 1375);
 		c.getFrameMethodHandler().sendQuest("Smelt ore without a furnace", 1376);
-		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Canifis", 1382);
+		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Camelot", 1382);
 		c.getFrameMethodHandler().sendQuest("", 1383);
 		c.getFrameMethodHandler().sendQuest("Level 47 - Water Blast", 1389);
 		c.getFrameMethodHandler().sendQuest("A medium level Water missile", 1390);
@@ -456,8 +456,8 @@ public class PlayerLoginData {
 		c.getFrameMethodHandler().sendQuest("Cast on a Water obelisk", 1439);
 		c.getFrameMethodHandler().sendQuest("Level 57 - Lvl-4 Enchant", 1447);
 		c.getFrameMethodHandler().sendQuest("For use on diamond jewellery", 1448);
-		c.getFrameMethodHandler().sendQuest("@gre@Teleport - Port Sarim", 1454);
-		c.getFrameMethodHandler().sendQuest("", 1455);
+		c.getFrameMethodHandler().sendQuest("@red@Not Available", 1454);
+		c.getFrameMethodHandler().sendQuest("@red@Under Construction", 1455);
 		c.getFrameMethodHandler().sendQuest("Level 59 - Fire Blast", 1461);
 		c.getFrameMethodHandler().sendQuest("A medium level Fire missile", 1462);
 		c.getFrameMethodHandler().sendQuest("Level 60 - Charge Earth Orb", 1470);

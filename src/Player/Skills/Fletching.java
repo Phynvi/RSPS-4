@@ -5,22 +5,37 @@ public class Fletching {
 	public Fletching(client pc){
 		c = pc;
 	}
-	
 
-public void fletchingvoid(String logname, int remove, int fshort, int slvl, int flong, int llvl, int xp, boolean stringon){
-            c.fletchinglogs = logname;
-            c.fletchingremove = remove;
-            c.fletchingshort = fshort;
-            c.fletchingshortlvl = slvl;
-            c.fletchinglong = flong;
-            c.fletchinglonglvl = llvl;
-						c.fletchingoption = true;
-						c.fletchingexp = xp;
-						c.stringing = stringon;
-}
+
+	public void fletchingvoid(String logname, int remove, int fshort, int slvl, int flong, int llvl, int xp, boolean stringon){
+		c.fletchinglogs = logname;
+		c.fletchingremove = remove;
+		c.fletchingshort = fshort;
+		c.fletchingshortlvl = slvl;
+		c.fletchinglong = flong;
+		c.fletchinglonglvl = llvl;
+		c.fletchingoption = true;
+		c.fletchingexp = xp;
+		c.stringing = stringon;
+	}
 
 	public static void fletchingTimers(client playerClient){
 
+		if(playerClient.spinningTimer > 0){
+			playerClient.spinningTimer -= 1;
+			if(playerClient.spinningTimer == 0){
+				if(playerClient.getInventoryHandler().playerHasItem(1779)){
+					playerClient.spinningTimer = 4;
+					playerClient.getInventoryHandler().deleteItem(1779, playerClient.getInventoryHandler().getItemSlot(1779), 1);
+					playerClient.getInventoryHandler().addItem(1777, 1);
+					playerClient.getClientMethodHandler().addSkillXP(25*playerClient.rate, playerClient.playerCrafting);
+				}
+				else{
+					playerClient.spinningTimer = -1;
+					playerClient.stopAnimations();
+				}
+			}
+		}
 		if (playerClient.fletchingprocessshort > 1){
 			if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.getInventoryHandler().playerHasItemAmount(946, 1)==true) && playerClient.stringing == false){
 				playerClient.fletchingprocessshort -= 1;

@@ -996,7 +996,7 @@ public class InventoryHandler {
 	 */
 	public boolean deleteItem(int id){
 		for(int i = 0; i < c.playerItems.length; i++){
-			if(c.playerItems[i] == id-1){ //delete item
+			if(c.playerItems[i] - 1 == id){ //delete item
 				c.playerItemsN[i] -= 1;
 				if(c.playerItemsN[i] <= 0){
 					c.playerItems[i] = 0;
@@ -1010,7 +1010,7 @@ public class InventoryHandler {
 	}
 	
 	public boolean deleteItem(int id, int slot){
-		if(c.playerItems[slot] == id-1){ //delete item
+		if(c.playerItems[slot] - 1 == id){ //delete item
 			c.playerItemsN[slot] -= 1;
 			if(c.playerItemsN[slot] <= 0){
 				c.playerItems[slot] = 0;

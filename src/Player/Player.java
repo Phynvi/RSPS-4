@@ -316,6 +316,9 @@ public abstract class Player extends playerInstances {
 		if (!WalkingTo)
 			startAnimation(currentAnim);
 	}
+	/**
+	 * Will stop animations started with the repeatAnimation method
+	 */
 	public void stopAnimations(){
 		animRepeat = false;
 		animDelay = -1;

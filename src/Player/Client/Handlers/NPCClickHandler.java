@@ -8,6 +8,7 @@ public class NPCClickHandler {
 	}
 	
 
+
 	/**
 	 * Handles second click of NPCs
 	 * @param slotID Slot ID to search for NPC in npcs server list
@@ -38,7 +39,8 @@ public class NPCClickHandler {
 		}
 
 		/* Shops */
-		switch(NPCID){
+		switch(NPCID){		
+		
 		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
 			c.getFrameMethodHandler().openUpBankFrame();
 			return;
@@ -163,7 +165,15 @@ public class NPCClickHandler {
 		
 		/* Second Click, not Shops */
 		switch(NPCID){
-		
+
+		case 1399: case 321: case 324: case 333: case 312: case 1332: // cage/harpoon
+		case 1405: case 1406: case 313: case 322: case 334: case 1191: case 1333: // net/harpoon
+		case 2067: case 2068: case 316: case 319: case 320: case 323: case 325: case 326: case 327: case 330: case 1331:  case 332: // net/bait
+		case 3019: case 314: case 315: case 317: case 318: case 328: case 329: case 331: case 927: case 1189: case 1190: case 309:
+		case 310: case 311: // lure/bait
+			c.getFishingHandler().fishingClick2(NPCID);
+			break;	
+			
 		case 462:
 			if (c.RM == 4){
 				c.getClientMethodHandler().c.getClientMethodHandler().selectOptionTravel2("Mine rune essence?", "Yes", 2911, 4833, "No", -1,-1);
@@ -274,6 +284,19 @@ public class NPCClickHandler {
 		}
 		
 		switch(NPCID){ //for conditionals
+
+		case 1174: case 1175: case 952: //net
+		case 1176: case 1177: case 1178: //fish
+		case 1236: case 1237: case 1238: case 233: case 234:
+		case 235: case 236: //bait
+		case 1399: case 321: case 324: case 333: case 312: case 1332: // cage/harpoon
+		case 1405: case 1406: case 313: case 322: case 334: case 1191: case 1333: // net/harpoon
+		case 2067: case 2068: case 316: case 319: case 320: case 323: case 325: case 326: case 327: case 330: case 1331: case 332: // net/bait
+		case 3019: case 314: case 315: case 317: case 318: case 328: case 329: case 331: case 927: case 1189: case 1190: case 309:
+		case 310: case 311: // lure/bait
+			c.getFishingHandler().fishingClick1(NPCID);
+			break;	
+			
 				case 3788:
 					c.getClientMethodHandler().npcdialogue(NPCID, "The objective of c game of life or death","is to try and destroy all the portals","in the given timeframe.","",
 							"If you do c successfully, you will be awarded points.","In exchange, I may give you","an item or two.");

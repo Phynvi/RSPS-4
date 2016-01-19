@@ -137,7 +137,6 @@ public int idleTimer = 0;
 	public int isteleporting = 0;
 	public int isteleportingx = 0;
 	public int isteleportingy = 0;
-	public boolean isharpooning = false;
 	public long spamtimer = 0;
 	public boolean dharokisalive = false;
 	public boolean veracisalive = false;
@@ -165,11 +164,6 @@ public int idleTimer = 0;
 	
 	public int followingPlayerID = -1;
 
-	//Fishing
-	public boolean IsFishing = false;
-	public boolean CatchST = false;
-	public int FishingTimer = 0;
-	//Fishing
 
 	//Cooking
 	public int fishdif2 = 0;
