@@ -1684,6 +1684,8 @@ break;*/
 				c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
 				return;
 			}
+			
+			c.error("in class ObjectClick, method objectClick, unhandled object ID "+objectID);
 			break;
 		}
 	}

@@ -1,4 +1,9 @@
 -Place fishing spots across map
+-Fishing Guild
+
+-Add silver as mining
+
+-Fix mining
 
 -Rebuild skill master list
 

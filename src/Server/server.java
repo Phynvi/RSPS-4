@@ -88,7 +88,7 @@ public static final String SERVERNAME = "SarimScape";
 				totals += (playerTimeSpentProcessing+npcTimeSpentProcessing+itemTimeSpentProcessing+shopTimeSpentProcessing+pestControlTimeSpentProcessing)/4;
 				averages += 1;
 				if(averages%10 == 0){
-					System.out.println("[KERNEL] : Processes Averages : "+(totals/10));
+					System.out.println("[KERNEL] [AVERAGES] : Last 10 Processes Averages : "+(totals/10));
 					totals = 0;
 				}
 			}

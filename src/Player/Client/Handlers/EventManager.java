@@ -67,8 +67,9 @@ public class EventManager{
 					c.WC.finishedCutting();
 				}
 
-				if (c.miningTimer > 0)
+				if (c.miningTimer > 0){
 					c.miningTimer -= 1;
+				}
 				if (c.miningTimer == 0 && c.MINE.list.getCurrentOre() > 1){
 					c.MINE.deliverOre(); //will deliver correct log and decrement _numlogs
 					if(c.MINE.list.getCurrentOre() > 1)

@@ -1438,8 +1438,19 @@ public class ButtonClickHandler {
 11 = ogre to grand tree
 			 */
 
-		case 3056: case 3058: case 3059: case 3060:
+		case 3056: case 3059: case 3060:
 			c.sendMessage("That destination is not reachable from this location.");
+			break;
+			
+		case 3058: //gnome glider white wolf mountain peak
+			if(c.isInArea(2461,3496,2470,3508)){ //grand tree area
+				c.teleport(2848,3498,0);
+				c.getFrameMethodHandler().setClientConfig(153, 1);
+				c.getFrameMethodHandler().showInterface(802);
+			}
+			else if(c.isInArea(2843,3496,2851,3504)) //white wolf mountain peak area
+				c.sendMessage("You are already at that location.");
+			else c.sendMessage("That destination is not reachable from this location.");
 			break;
 
 		case 3057: //gnome glider grand tree
@@ -1448,17 +1459,24 @@ public class ButtonClickHandler {
 				c.getFrameMethodHandler().setClientConfig(153, 11);
 				c.getFrameMethodHandler().showInterface(802);
 			}
-			if(c.isInArea(2461,3496,2470,3508)) //grand tree area
+			else if(c.isInArea(2843,3496,2851,3504)){ //white wolf mountain peak area
+				c.teleport(2465,3499,3);
+				c.getFrameMethodHandler().setClientConfig(153, 2);
+				c.getFrameMethodHandler().showInterface(802);
+			}
+			else if(c.isInArea(2461,3496,2470,3508)) //grand tree area
 				c.sendMessage("You are already at that location.");
+			else c.sendMessage("That destination is not reachable from this location.");
 			break;
 		case 48054: //gnome glider feldip hills		
 			if(c.isInArea(2543,2969,2550,2974)) //feldip hills area
 				c.sendMessage("You are already at that location.");
-			if(c.isInArea(2461,3496,2470,3508)){ //grand tree area
+			else if(c.isInArea(2461,3496,2470,3508)){ //grand tree area
 				c.teleport(2543,2969);
 				c.getFrameMethodHandler().setClientConfig(153, 10);
 				c.getFrameMethodHandler().showInterface(802);			
 			}
+			else c.sendMessage("That area is not reachable from here.");
 			break;
 
 		default:

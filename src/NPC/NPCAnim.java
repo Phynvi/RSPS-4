@@ -10,6 +10,16 @@ public class NPCAnim {
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
 		
+		case 1558: case 1559: //ice wolf
+		case 1951: case 1952: case 1953: case 1954: case 1955: case 1956: //ice wolf (lvl 132)
+		case 1330: 
+		case 1198:
+		case 839:
+		case 141:
+		case 142: case 143:
+		case 95: case 96: case 97: //wolf, white wolf, white wolf
+			return 75;	// 75 wolf attack, 76 block, 78 die
+		
 		//Ogre animations 359-361
 		//zogres and skogres
 		case 374: //ogre
@@ -879,6 +889,15 @@ public class NPCAnim {
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+		case 1558: case 1559: //ice wolf
+		case 1951: case 1952: case 1953: case 1954: case 1955: case 1956: //ice wolf (lvl 132)
+		case 1330: 
+		case 1198:
+		case 839:
+		case 141:
+		case 142: case 143:
+		case 95: case 96: case 97: //wolf, white wolf, white wolf
+			return 76;	// 75 wolf attack, 76 block, 78 die
 
 		//Ogre animations 359-361
 		//zogres and skogres
@@ -1070,6 +1089,15 @@ public class NPCAnim {
 	//TODO - Dead animations
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
+		case 1558: case 1559: //ice wolf
+		case 1951: case 1952: case 1953: case 1954: case 1955: case 1956: //ice wolf (lvl 132)
+		case 1330: 
+		case 1198:
+		case 839:
+		case 141:
+		case 142: case 143:
+		case 95: case 96: case 97: //wolf, white wolf, white wolf
+			return 78;	// 75 wolf attack, 76 block, 78 die
 
 		//Ogre animations 359-361
 		//zogres and skogres

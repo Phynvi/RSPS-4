@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = WRT610N
-character-lastlogintime = 20160006
+character-lastlogin = 207-237-87-196.c3-0.nyw-ubr1.nyr-nyw.ny.cable.rcn.com
+character-lastlogintime = 20160019
 character-ancients = 0
 character-starter = 1
 character-easterevent = 0
@@ -29,21 +29,21 @@ character-chickenleave = 0
 character-ST = 0
 character-STC = 0
 character-RM = 0
-character-inprison = 0
 character-dragcharge = 0
 character-beta = 0
 slayerNPC = 0
 slayerCount = 0
 specialDelay = 10
 masteries = 0
-pirate = 2
+pirate = 11
 homeTeleportTimer = 0
-skillsTeleportTimer = 0
 bandos = 0
 armadyl = 0
 prevarmadyl = 0
 prevbandos = 0
 spellbook = 0
+pestcontrolpoints = 0
+questPoints = 1
 
 [QUESTS]
 character-questpoints = 0

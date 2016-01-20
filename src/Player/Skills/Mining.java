@@ -39,6 +39,9 @@ public class Mining {
 			rockDelay = 12;
 			return;
 		case 2099: case 2098://gold ore
+		case 9720:
+		case 9722:
+		case 11184: //Gold Ore
 			baseRockDelay = 3;
 			rockDelay = 13;
 			return;
@@ -47,14 +50,22 @@ public class Mining {
 			rockDelay = 11;
 			return;
 		case 2093: case 2092://iron ore
+		case 9717:
+		case 9719:
+		case 9718:
 			baseRockDelay = 2;
 			rockDelay = 9;
 			return;
 		case 2095: case 2094://tin ore
+		case 9711:
+		case 9713:
 			baseRockDelay = 2;
 			rockDelay = 7;
 			return;
 		case 2091: case 2090: //copper ore
+		case 9709:
+		case 9710:
+		case 9708:
 			baseRockDelay = 2;
 			rockDelay = 7;
 			return;
@@ -133,14 +144,25 @@ public class Mining {
 		case 2101: case 2100: //silver ore
 			return 4+misc.random(4);
 		case 2099: case 2098://gold ore
+		case 9720:
+		case 9722:
+		case 11184: //Gold Ore
 			return 4+misc.random(5);
 		case 2097: case 2096://coal ore
 			return 5+misc.random(5);
 		case 2093: case 2092://iron ore
+		case 9717:
+		case 9719:
+		case 9718:
 			return 4+misc.random(6);
 		case 2095: case 2094://tin ore
+		case 9711:
+		case 9713:
 			return 3+misc.random(4);
 		case 2091: case 2090: //copper ore
+		case 9709:
+		case 9710:
+		case 9708:
 			return 3+misc.random(4);
 		case 2108: case 2109: //clay
 			return 3+misc.random(3);
@@ -225,18 +247,29 @@ public class Mining {
 			oreID = 442;
 			return;
 		case 2099: case 2098://gold ore
+		case 9720:
+		case 9722:
+		case 11184: //Gold Ore
 			oreID = 444;
 			return;
 		case 2097: case 2096://coal ore
 			oreID = 453;
 			return;
 		case 2095: case 2094://tin ore
+		case 9711:
+		case 9713:
 			oreID = 438;
 			return;
 		case 2093: case 2092://iron ore
+		case 9717:
+		case 9719:
+		case 9718:
 			oreID = 440;
 			return;
 		case 2091: case 2090: //copper ore
+		case 9709:
+		case 9710:
+		case 9708:
 			oreID = 436;
 			return;
 		case 2108: case 2109: //clay
@@ -265,18 +298,29 @@ public class Mining {
 			EXP = 200; 
 			return;
 		case 2099: case 2098://gold ore
+		case 9720:
+		case 9722:
+		case 11184: //Gold Ore
 			EXP = 300; 
 			return;
 		case 2097: case 2096://coal ore
 			EXP = 200; 
 			return;
 		case 2093: case 2092://iron ore
+		case 9717:
+		case 9719:
+		case 9718:
 			EXP = 120; 
 			return;
 		case 2095: case 2094://tin ore
+		case 9711:
+		case 9713:
 			EXP = 60; //default exp
 			return;
 		case 2091: case 2090: //copper ore
+		case 9709:
+		case 9710:
+		case 9708:
 			EXP = 60; //default exp
 			return;
 		case 2108: case 2109: //clay
@@ -306,14 +350,25 @@ public class Mining {
 		case 2101: case 2100: //silver ore
 			return 30+misc.random(15);
 		case 2099: case 2098://gold ore
+		case 9720:
+		case 9722:
+		case 11184: //Gold Ore
 			return 40+misc.random(15);
 		case 2097: case 2096://coal ore
 			return 45+misc.random(20);
 		case 2095: case 2094://tin ore
+		case 9711:
+		case 9713:
 			return 30+misc.random(15);
 		case 2093: case 2092://iron ore
+		case 9717:
+		case 9719:
+		case 9718:
 			return 40+misc.random(15);
 		case 2091: case 2090: //copper ore
+		case 9709:
+		case 9710:
+		case 9708:
 			return 30+misc.random(15);
 		case 2108: case 2109: //clay
 			return 15+misc.random(10);
