@@ -4,13 +4,13 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2815
-character-posy = 3447
+character-posx = 2799
+character-posy = 10134
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 207-237-87-196.c3-0.nyw-ubr1.nyr-nyw.ny.cable.rcn.com
-character-lastlogin = 20160019
+character-lastconnection = c-73-9-224-11.hsd1.il.comcast.net
+character-lastlogin = 20160020
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -29,7 +29,7 @@ character-equip = 9	12003	1
 character-equip = 10	15350	1	
 character-equip = 11	-1	0	
 character-equip = 12	6737	1	
-character-equip = 13	4740	59899	
+character-equip = 13	4740	59892	
 
 [LOOK]
 character-look = 0	0
@@ -40,11 +40,11 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	31235800
+character-skill = 0	99	31237200
 character-skill = 1	99	16267980
 character-skill = 2	99	35592200
-character-skill = 3	85	55834460
-character-skill = 4	99	19822480
+character-skill = 3	99	55851460
+character-skill = 4	99	19838080
 character-skill = 5	99	16457988
 character-skill = 6	99	19937080
 character-skill = 7	99	16184120
@@ -67,6 +67,9 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
+character-item = 0	1780	1
+character-item = 1	1780	1
+character-item = 2	1780	1
 
 [BANK]
 character-bank = 0	392	56

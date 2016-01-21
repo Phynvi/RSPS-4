@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = 207-237-87-196.c3-0.nyw-ubr1.nyr-nyw.ny.cable.rcn.com
-character-lastlogintime = 20160019
+character-lastlogin = c-73-9-224-11.hsd1.il.comcast.net
+character-lastlogintime = 20160020
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2

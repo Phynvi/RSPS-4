@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = WRT610N
-character-lastlogintime = 20160010
+character-lastlogin = c-73-9-224-11.hsd1.il.comcast.net
+character-lastlogintime = 20160020
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -43,6 +43,7 @@ prevarmadyl = 0
 prevbandos = 0
 spellbook = 0
 pestcontrolpoints = 2
+questPoints = 0
 
 [QUESTS]
 character-questpoints = 0

@@ -3,8 +3,8 @@ import java.io.*;
 
 
 public class ShopHandler {
-	public static int MaxShops = 101; //1 more because we don't use [0] !
-	public static int MaxShopItems = 101; //1 more because we don't use [0] !
+	public static int MaxShops = 200; //
+	public static int MaxShopItems = 200; //
 	public static int MaxInShopItems = 40;
 	public static int MaxShowDelay = 60;
 	public static int TotalShops = 0;

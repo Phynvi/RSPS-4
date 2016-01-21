@@ -4,7 +4,7 @@ import java.util.LinkedList;
 public class ObjectClick {
 	private client c = null;
 
-	public static BST doorOpen = new BST(2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
@@ -39,6 +39,47 @@ public class ObjectClick {
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
 		switch(objectID) {
+		
+		case 55:
+			c.teleport(2820,9882,0);
+			break;
+			
+		case 54:
+			c.teleport(2820,3486,0);
+			break;
+		
+		case 57:
+			if(objectX == 2876 && objectY == 3480)
+				c.teleport(2876,9879);
+			break;
+		
+		case 56:
+			if(objectX == 2876 && objectY == 9880)
+				c.teleport(2877,3482,0);
+			break;
+		
+		case 1754:
+			c.teleport(2893,9907);
+			break;
+		
+		case 1757:
+			c.teleport(2893,3507,0);
+			break;
+			
+		case 1738:
+			if(objectX == 2895 && objectY == 3513)
+					c.teleport(2897,3513,1);
+			break;
+			
+		case 2624: case 2625:
+			if(c.isInArea(2902, 3508, 2904, 3513)){ //outside heroes guild door			
+				if(c.combat < 100)
+					c.getClientMethodHandler().npcdialogue(796, "You need to be at least 100 combat","to enter my guild.");
+				else 
+					c.teleport(2901,3510);
+			}
+			else c.teleport(2902,3510);
+			break;
 		
 		case 2391: case 2392:
 			if(c.questPoints < 7)
@@ -351,6 +392,8 @@ public class ObjectClick {
 		case 1740:
 		case 5281:
 		case 1749:
+			if(objectX == 2896 && objectY == 3513)
+				c.teleport(2897,3513,0);
 			if(objectX == 2466 && objectY == 3495)
 				c.teleport(2466,3494,2);
 			if(objectX == 2476 && objectY == 3463)
@@ -508,10 +551,7 @@ public class ObjectClick {
 			//QUEST_1 OBJECTS
 		case 4499:
 			if (objectX == 2797 && objectY == 3614)
-			{
-				c.sendMessage("You crawl through the cave");
-				c.teleport(2772, 10231);
-			}
+				c.teleport(2799,10134);
 			break;
 
 		case 5025:
@@ -1165,10 +1205,28 @@ public class ObjectClick {
 
 			//end of Dangt351s agility FIXED by AAA Mods
 
+		case 5013:
+			c.teleport(2796,3615);
+			break;
+			
+		case 5014:
+			c.teleport(2730,3713);
+			break;
+			
+		case 5008:
+			c.teleport(2773,10162);
+			break;
+			
+		case 5973:
+			c.teleport(2838,10124);
+			break;
 
-
+		case 5998:
+			c.teleport(2780,10161);
+			break;
 
 			//Bank booth
+		case 6084:
 		case 4483:
 		case 14367:
 		case 11338:

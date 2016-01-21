@@ -14,6 +14,7 @@ public class lists {
 	public static BST objectDest3 = new BST(5097,5083,6707,6703,6702,6704,6705,6706,8742,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
 	public static BST objectDest2 = new BST();
+	public static BST objectDest4 = new BST(3340,2491,57,56,54,55,5014,5008,5973,5998,4499,5013);
 	public static BST safeNPCs = new BST(257,873,874,875,876);
 	
 	//Ranged

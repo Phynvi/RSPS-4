@@ -2081,9 +2081,7 @@ playerName.trim();*/
 			destinationX = inStream.readSignedWordBigEndianA();
 			destinationID = inStream.readUnsignedWord();
 			destinationY = inStream.readUnsignedWordA();
-			int face = 0;
-			int face2 = 0;
-			int GateID = 1;
+			objectID = destinationID;
 			objectX2 = objectX;
 			objectY2 = objectY;
 			destinationRange = 1; //1 by default
@@ -2094,12 +2092,12 @@ playerName.trim();*/
 			if(lists.objectDest2.exists(objectID))
 				destinationRange = 2;
 
-			if(objectID == 3340 || objectID == 2491)
-				destinationRange = 8;
+			if(lists.objectDest4.exists(objectID))
+				destinationRange = 4;
 
 			if(lists.objectDest3.exists(objectID))
 				destinationRange = 3;
-
+			
 			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
 				viewTo(objectX, objectY);
 				getObjectClickHandler().objectClick(objectID, objectX, objectY, 0, 0, 1);

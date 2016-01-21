@@ -3,12 +3,20 @@ public class NPCAnim {
 
 	//TODO - Attack animations
 	public static int getAttackAnimation(int npcID){
-
 		int SLASH = 451;
 		int CRUSH = 401;
 		int POKE = 412;
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
+		
+		case 206:
+		case 118:
+		case 119:
+		case 121:
+		case 232:
+		case 2423:
+		case 120: //dwarf
+			return 102; //99 - attack, 100 - block, 102 - death
 		
 		case 1558: case 1559: //ice wolf
 		case 1951: case 1952: case 1953: case 1954: case 1955: case 1956: //ice wolf (lvl 132)
@@ -852,10 +860,6 @@ public class NPCAnim {
 
 		case 2889://Rock Lobster
 			return 2859;
-
-		case 118://Dwarf
-		case 119://Chaos Dwarf
-			return 99;
 
 		case 752: //black demon (boss)
 		case 82://Lesser Demon
@@ -1712,10 +1716,6 @@ public class NPCAnim {
 		case 103://Ghost
 		case 104://Ghost
 			return 123;
-
-		case 118://Dwarf
-		case 119://Chaos Dwarf
-			return 102;
 
 		case 53://Red Dragon
 		case 54://Black Dragon

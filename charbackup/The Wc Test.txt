@@ -4,13 +4,13 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2460
-character-posy = 3443
+character-posx = 2772
+character-posy = 10232
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160010
+character-lastconnection = c-73-9-224-11.hsd1.il.comcast.net
+character-lastlogin = 20160020
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -40,13 +40,13 @@ character-look = 4	3
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	98	12767100
+character-skill = 0	98	12782100
 character-skill = 1	81	2286100
 character-skill = 2	93	7655900
-character-skill = 3	99	18872160
+character-skill = 3	98	18887160
 character-skill = 4	80	2186660
-character-skill = 5	90	5658192
-character-skill = 6	99	15020060
+character-skill = 5	68	5658192
+character-skill = 6	99	15020300
 character-skill = 7	99	14458562
 character-skill = 8	81	2200350
 character-skill = 9	83	2849520
@@ -69,7 +69,7 @@ character-skill = 24	1	0
 [ITEMS]
 character-item = 0	1439	1
 character-item = 1	555	99998
-character-item = 2	556	100000
+character-item = 2	556	99998
 character-item = 3	557	100000
 character-item = 4	558	100000
 character-item = 5	559	100000
@@ -77,7 +77,7 @@ character-item = 6	560	100000
 character-item = 7	561	100000
 character-item = 8	562	100000
 character-item = 9	563	100000
-character-item = 10	564	99998
+character-item = 10	564	99996
 character-item = 11	565	100000
 character-item = 12	566	100000
 character-item = 13	567	100000

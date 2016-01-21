@@ -1,6 +1,10 @@
 -Place fishing spots across map
 -Fishing Guild
 
+-Redo god wars boundary
+
+-Redo graardor and kree minions (use wyverns, darkbeasts, etc?)
+
 -Add silver as mining
 
 -Fix mining

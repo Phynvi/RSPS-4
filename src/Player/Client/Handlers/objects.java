@@ -27,6 +27,8 @@ public class objects{
 			c.getFrameMethodHandler().makeLocalObject(3006, 3323, 4421, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(3007, 3323, 4421, 1, 10);
 			c.getFrameMethodHandler().makeLocalObject(3008, 3323, 4421, 1, 10);			
+			c.getFrameMethodHandler().makeLocalObject(2838, 3596, 4421, 1, 10);
+
 		}
 
 

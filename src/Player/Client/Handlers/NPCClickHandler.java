@@ -57,7 +57,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(3); //Magic Shop
 			return;
 
-		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563:
+		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563: case 2154:
 			c.getFrameMethodHandler().openUpShopFrame(4); //General store
 			return;
 
@@ -65,7 +65,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(5); //PK Shop
 			return;
 
-		case 538: case 1301: case 2353: case 1039: case 875:
+		case 538: case 1301: case 2353: case 1039: case 875: case 2162:
 			c.getFrameMethodHandler().openUpShopFrame(6); //Clothes
 			return;
 
@@ -93,19 +93,39 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(12); //Crafting
 			return;
 
-		case 1860:
+		case 2198:
+			c.getFrameMethodHandler().openUpShopFrame(13); //Kebab Shop - Keldagrim
+			return;
+
+		case 257: //257 dwarf
+			c.getFrameMethodHandler().openUpShopFrame(14); //Gem stall owner
+			return;
+
+		case 2151: //2151 dwarf
+			c.getFrameMethodHandler().openUpShopFrame(15); //Warhammers
+			return;
+
+		case 1860: case 582: //582 = dwarf
 			c.getFrameMethodHandler().openUpShopFrame(16); //Pickaxe
+			return;
+
+		case 2156: //2156 - dwarf
+			c.getFrameMethodHandler().openUpShopFrame(17); //Bakery Shop
 			return;
 
 		case 558: case 561: case 576:
 			c.getFrameMethodHandler().openUpShopFrame(18); //Fishing Supplies
 			return;
 
-		case 519:
+		case 2158: //2158 - dwarf
+			c.getFrameMethodHandler().openUpShopFrame(19); //crafting
+			return;
+
+		case 519: case 2152:
 			c.getFrameMethodHandler().openUpShopFrame(23); //Basic Weapons
 			return;
 
-		case 524: case 525: case 1041: case 873:
+		case 524: case 525: case 1041: case 873: case 2153:
 			c.getFrameMethodHandler().openUpShopFrame(26); //Armor
 			return;
 
@@ -155,6 +175,10 @@ public class NPCClickHandler {
 			
 		case 528: //legends Guild
 			c.getFrameMethodHandler().openUpShopFrame(100);
+			return;
+			
+		case 797:
+			c.getFrameMethodHandler().openUpShopFrame(110);
 			return;
 			
 		case 3788:
@@ -284,6 +308,38 @@ public class NPCClickHandler {
 		}
 		
 		switch(NPCID){ //for conditionals
+
+		case 1844:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to the city exit?", "Yes", 2844,10128, "no",-1,-1);
+			break;
+
+		case 1843:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to the north island?", "Yes", 2872,10165, "no",-1,-1);
+			break;
+			
+		case 1846:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to the main city?", "Yes", 2890,10223, "no",-1,-1);
+			break;
+			
+		case 2205:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to the city exit?", "Yes", 2839,10128, "no",-1,-1);
+			break;
+		
+		case 2198:
+			c.getFrameMethodHandler().openUpShopFrame(13); //Kebab Shop - Keldagrim
+			break;
+		
+		case 1065:
+			c.getClientMethodHandler().npcdialogue(NPCID, "Sorry, the castle games-room is closed.");
+			break;
+			
+		case 2180:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to Keldagrim?", "Yes", 2906,10169, "no",-1,-1);
+			break;
+			
+		case 2181:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to Dwarven Passage (Taverly)?", "Yes", 2876,9871, "no",-1,-1);
+			break;
 
 		case 1174: case 1175: case 952: //net
 		case 1176: case 1177: case 1178: //fish
@@ -518,6 +574,7 @@ public class NPCClickHandler {
 			skillMaster(NPCID, "Shop Keeper", 14082,14083,14084, "Ranged", c.playerRanged, new String[]{"I sell Ranged equipment."});
 			break;
 
+		case 70:
 		case 1596:
 		case 1208: //slayer
 			c.slayerMaster = NPCID;
@@ -659,7 +716,7 @@ public class NPCClickHandler {
 
 		case 1709:
 			if(c.isInArea(2033,4533,2042,4539)){ //throne room
-				c.getClientMethodHandler().selectOptionTravel2("Travel to East Ardougne?", "Yes", 2662,3301, "No", -1,-1);
+				c.getClientMethodHandler().selectOptionTravel2("Travel to Keldagrim?", "Yes", 2912,10192, "No", -1,-1);
 				break;
 			}
 			c.getClientMethodHandler().selectOptionTravel2("Help out Hammerspike Stoutbeard?", "Sure thing", 2037,4535, "No thank you", -1,-1);

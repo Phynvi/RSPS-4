@@ -417,7 +417,7 @@ public class MenuHandler {
 
 	public String ancientsmenu(){
 		if (c.ancients == 0)
-			return("Dwarf Problems I####Requirements:#40 Thieving##I can start this quest by speaking to#Johanhus Ulsbrecht in Ardougne.#");
+			return("Dwarf Problems I####Requirements:#40 Thieving##I can start this quest by speaking to#Johanhus Ulsbrecht. He is located#in the Pub near the carts in Keldagrim.#");
 
 		if (c.ancients >= 1 && c.ancients < 8)
 			return("Dwarf Problems I####I Have started this quest.#");
