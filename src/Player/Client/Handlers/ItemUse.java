@@ -76,17 +76,17 @@ public class ItemUse {
 		case 952://spade
 
 			if (c.isInArea(3553, 3294, 3561, 3301))  // verac
-				c.getClientMethodHandler().isteleporting3(2843, 14, 3578,9706,3);
+				c.getClientMethodHandler().teleportWithAnimation(2843, 14, 3578,9706,3);
 			else if (c.isInArea(3550, 3278, 3557, 3287))  // torag
-				c.getClientMethodHandler().isteleporting3(2843, 14, 3568,9683,3);
+				c.getClientMethodHandler().teleportWithAnimation(2843, 14, 3568,9683,3);
 			else if (c.isInArea(3561, 3285, 3568, 3292))  // ahrim
-				c.getClientMethodHandler().isteleporting3(2843, 14, 3557,9703,3);
+				c.getClientMethodHandler().teleportWithAnimation(2843, 14, 3557,9703,3);
 			else if (c.isInArea(3570, 3293, 3579, 3302))  // dharok
-				c.getClientMethodHandler().isteleporting3(2843, 14, 3556,9718,3);
+				c.getClientMethodHandler().teleportWithAnimation(2843, 14, 3556,9718,3);
 			else if (c.isInArea(3571, 3278, 3582, 3285))  // guthan
-				c.getClientMethodHandler().isteleporting3(2843, 14, 3534,9704,3);
+				c.getClientMethodHandler().teleportWithAnimation(2843, 14, 3534,9704,3);
 			else if (c.isInArea(3562, 3273, 3569, 3279))  // karil
-				c.getClientMethodHandler().isteleporting3(2843, 14, 3546,9684,3);
+				c.getClientMethodHandler().teleportWithAnimation(2843, 14, 3546,9684,3);
 			else{
 				c.startAnimation(2843);
 				c.sendMessage("You dig and find nothing.");
@@ -621,7 +621,7 @@ public class ItemUse {
 		//man123
 		//server.npcHandler.newNPC(2880, 2603, 3161, heightLevel, 0, 0, 0, 0, 1, server.npcHandler.GetNpcListHP(2880), false);
 		if(useItemID == 1462 && atObjectID == 2459)
-			c.getClientMethodHandler().isteleporting3(1500, 6, 2142, 4814, 0);
+			c.getClientMethodHandler().teleportWithAnimation(1500, 6, 2142, 4814, 0);
 
 
 		if(lists.deadPlantList.exists(atObjectID) || lists.brushList.exists(atObjectID)) //using an item on brush/dead brush

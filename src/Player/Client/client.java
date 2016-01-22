@@ -1735,13 +1735,6 @@ playerName.trim();*/
 
 
 		case 72: //Click to attack
-			if(isNPCSpamming()) break;
-			spamtimer = System.currentTimeMillis();
-			if(attacknpc > 0) {
-				sendMessage("You are already attacking an npc.");
-				break;
-			}
-			else {
 				attacknpc = inStream.readUnsignedWordA();
 				if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
 					if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[attacknpc].npcType) && slayerNPC != server.npcHandler.npcs[attacknpc].npcType){
@@ -1787,7 +1780,7 @@ playerName.trim();*/
 					debug("Case 72: Attacking NPC conditions invalid");
 					getCombatHandler().ResetAttackNPC();
 				} 
-			}
+			
 			break;
 
 
@@ -2338,7 +2331,7 @@ playerName.trim();*/
 
 		case 131: //Magic on NPCs
 			int npcIndex = inStream.readSignedWordBigEndianA();
-			int _NPCID = server.npcHandler.npcs[npcIndex].npcType;
+			_NPCID = server.npcHandler.npcs[npcIndex].npcType;
 			if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
 				sendMessage("That's a friendly NPC that I should not attack.");
 				stopPlayerMovement();

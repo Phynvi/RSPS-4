@@ -90,9 +90,13 @@ public class ObjectClick {
 			}
 			break;
 
-		case 3790: //rocks exit
+		case 3790: //rocks kree
+			if( (objectX == 2859 && objectY == 3627) || (objectX == 2859 && objectY == 3626)){ //first entrance rocks to kree
+				clientMethodHandler.teleportWithAnimation(839, 15, 2861,3626, 0);
+				break;
+			}
 			if((objectX == 2879 && objectY == 3622) || (objectX == 2879 && objectY == 3623)){ //past the entrance
-				clientMethodHandler.isteleporting3(839, 15, 2876,3623, 0);
+				clientMethodHandler.teleportWithAnimation(839, 15, 2876,3623, 0);
 				break;
 			}
 			break;
@@ -111,11 +115,15 @@ public class ObjectClick {
 				c.teleport(2657,3439);
 			break;
 
-		case 3791: //rocks entrance from kree
+		case 3791: //rocks kree
+			if(( objectX == 2860 && objectY == 3626) || (objectX == 2860 && objectY == 3627)){ //rocks exit near entrance
+				clientMethodHandler.teleportWithAnimation(839, 15, 2858,3626, 0);
+				break;
+			}
 			if((objectX == 2878 && objectY == 3622) || (objectX == 2878 && objectY == 3623)){ //past the entrance
 				if(c.playerLevel[c.playerRanged] >= 70){
 					if(c.armadyl >= 20){
-						clientMethodHandler.isteleporting3(839, 15, 2861,3626, 0);
+						clientMethodHandler.teleportWithAnimation(839, 15, 2861,3626, 0);
 						c.prevarmadyl = c.armadyl;
 						c.armadyl = 0;
 						c.getFileLoadingHandler().savechar();
@@ -131,7 +139,7 @@ public class ObjectClick {
 		case 3722: //rocks entrance to general graardor
 			if(c.playerLevel[c.playerStrength] >= 80){
 				if(c.bandos >= 20){
-					clientMethodHandler.isteleporting3(839, 15, 2880, 3592, 0);
+					clientMethodHandler.teleportWithAnimation(839, 15, 2880, 3592, 0);
 					c.prevbandos = c.bandos;
 					c.bandos = 0;				
 					c.getFileLoadingHandler().savechar();
@@ -143,7 +151,7 @@ public class ObjectClick {
 			break;
 
 		case 3723: //rocks exit from general graardor
-			clientMethodHandler.isteleporting3(839, 15, 2881, 3596, 0);
+			clientMethodHandler.teleportWithAnimation(839, 15, 2881, 3596, 0);
 			break;
 
 		case 3748: //godwars rocks
@@ -682,23 +690,23 @@ public class ObjectClick {
 				c.teleport(2884,3396);
 
 			if (c.absX >=2906  && c.absX <=2908 && c.absY >=9875  && c.absY <=9877) 
-				c.getClientMethodHandler().isteleporting3(828, 13, 3018, 3233, 0);
+				c.getClientMethodHandler().teleportWithAnimation(828, 13, 3018, 3233, 0);
 
 			if (objectX == 3008 && objectY == 9550) 
-				c.getClientMethodHandler().isteleporting3(828, 13, 3009,3150, 0);
+				c.getClientMethodHandler().teleportWithAnimation(828, 13, 3009,3150, 0);
 
 			break;
 
 		case 2174:
 			if ((c.absX == 2012 && c.absY == 4826) || (c.absX == 2020 && c.absY == 4824)) {
-				c.getClientMethodHandler().isteleporting3(828, 15, objectX, objectY, 1);
+				c.getClientMethodHandler().teleportWithAnimation(828, 15, objectX, objectY, 1);
 			}
 			break;
 
 		case 3617:
 			if(c.playerLevel[c.playerAgility] >= 75){
 				if (c.getInventoryHandler().freeSlots() >= 28 && c.playerEquipment[c.playerShield] == -1 && c.playerEquipment[c.playerWeapon] == -1)
-					c.getClientMethodHandler().isteleporting3(828, 15, 2805, 9589, 3);
+					c.getClientMethodHandler().teleportWithAnimation(828, 15, 2805, 9589, 3);
 				else 
 					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "When entering the arena you must", "have nothing in your inventory.", 
 							"You are also not allowed to have", "a shield or weapon equipped because", "you need both your hands free.");
@@ -706,17 +714,17 @@ public class ObjectClick {
 			else c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "You need at least 75 Agility","to do that.");
 			break;
 		case 3618:
-			c.getClientMethodHandler().isteleporting3(828, 15, 2808, 3194, 0);
+			c.getClientMethodHandler().teleportWithAnimation(828, 15, 2808, 3194, 0);
 			c.sendMessage("you climb up the ladder.");
 			break;
 
 		case 2175:
 			if (c.absX >=2011  && c.absX <=2013 && c.absY >=4825  && c.absY <=4827) {
-				c.getClientMethodHandler().isteleporting3(828, 15, 2013, 4826, 0);
+				c.getClientMethodHandler().teleportWithAnimation(828, 15, 2013, 4826, 0);
 				c.sendMessage("you climb down the ladder.");
 			}
 			else if (c.absX >=2020  && c.absX <=2022 && c.absY >=4823  && c.absY <=4825) {
-				c.getClientMethodHandler().isteleporting3(828, 15, 2020, 4824, 0);
+				c.getClientMethodHandler().teleportWithAnimation(828, 15, 2020, 4824, 0);
 				c.sendMessage("you climb down the ladder.");
 			}
 			break;
@@ -724,7 +732,7 @@ public class ObjectClick {
 		case 5136:
 			c.xpgiven = c.playerLevel[16]*12*c.rate;
 			if (c.absX == 3533 && (c.absY == 9909 || c.absY == 9910 || c.absY == 9911)) {
-				c.getClientMethodHandler().isteleporting3(1115, 14, objectX-2, objectY, 0);
+				c.getClientMethodHandler().teleportWithAnimation(1115, 14, objectX-2, objectY, 0);
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 				c.sendMessage("you climb the skulls.");
 			}
@@ -764,7 +772,7 @@ public class ObjectClick {
 		case 5138:
 			c.rockcount += 1;
 			c.xpgiven = c.playerLevel[16]*c.rate;
-			c.getClientMethodHandler().isteleporting3(3067, 14, objectX, objectY, 0);
+			c.getClientMethodHandler().teleportWithAnimation(3067, 14, objectX, objectY, 0);
 			c.sendMessage("You jump and land safely on the stone!");
 			if (c.rockcount < 4){
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
@@ -778,7 +786,7 @@ public class ObjectClick {
 		case 5135:
 			c.xpgiven = c.playerLevel[16]*8*c.rate;
 			if ((c.absX == 3537 || c.absX == 3538 || c.absX == 3539 || c.absX == 3540 || c.absX == 3541 || c.absX == 3542 || c.absX == 3543) && (c.absY == 9892 || c.absY == 9895 || c.absY == 9898)) {
-				c.getClientMethodHandler().isteleporting3(3067, 14, c.absX, c.absY+2, 0);
+				c.getClientMethodHandler().teleportWithAnimation(3067, 14, c.absX, c.absY+2, 0);
 				c.sendMessage("You hop the agility hurdle!");
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 				c.actionTimer = 10;
@@ -854,7 +862,7 @@ public class ObjectClick {
 			break;
 
 		case 13878: 
-			c.getClientMethodHandler().isteleporting3(844, 13, 3021, 5209, 0);
+			c.getClientMethodHandler().teleportWithAnimation(844, 13, 3021, 5209, 0);
 			break;
 
 		case 13882:
@@ -863,13 +871,13 @@ public class ObjectClick {
 
 		case 2285:
 			c.xpgiven = c.playerLevel[16]*10*c.rate;
-			c.getClientMethodHandler().isteleporting3(828, 15, 2474, 3424, 1);
+			c.getClientMethodHandler().teleportWithAnimation(828, 15, 2474, 3424, 1);
 			c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			break;
 
 		case 2313:
 			c.xpgiven = c.playerLevel[16]*10*c.rate;
-			c.getClientMethodHandler().isteleporting3(828, 15, 2473, 3420, 2);
+			c.getClientMethodHandler().teleportWithAnimation(828, 15, 2473, 3420, 2);
 			c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			break;
 
@@ -882,7 +890,7 @@ public class ObjectClick {
 			break;
 
 		case 2314:
-			c.getClientMethodHandler().isteleporting3(828, 15, 2485, 3421, 0);   
+			c.getClientMethodHandler().teleportWithAnimation(828, 15, 2485, 3421, 0);   
 			c.xpgiven = c.playerLevel[16]*10*c.rate;
 			c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			break;
@@ -891,7 +899,7 @@ public class ObjectClick {
 		case 2286:
 			c.xpgiven = c.playerLevel[16]*11*c.rate;
 			if ((c.absX == 2483 || c.absX == 2484 || c.absX == 2485 || c.absX == 2486 || c.absX == 2487 || c.absX == 2488) && c.absY == 3425) {
-				c.getClientMethodHandler().isteleporting3(828, 15, 2485, 3427, 0);
+				c.getClientMethodHandler().teleportWithAnimation(828, 15, 2485, 3427, 0);
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			}
 			break;
@@ -1566,7 +1574,7 @@ break;*/
 		case 1767:
 			if (c.getInventoryHandler().IsItemInBag(85) == true){
 				c.sendMessage("You climb down.");
-				c.getClientMethodHandler().isteleporting3(828, 15, 2590, 4497, 0);
+				c.getClientMethodHandler().teleportWithAnimation(828, 15, 2590, 4497, 0);
 				c.getInventoryHandler().deleteItem(85, c.getInventoryHandler().getItemSlot(85), 1);
 			}
 			else if (c.getInventoryHandler().IsItemInBag(85) == false){
@@ -1672,7 +1680,7 @@ break;*/
 
 		case 5167: //Memorial Tomb
 			if(c.playerLevel[2] >= 60) {
-				c.getClientMethodHandler().isteleporting3(1115, 12, 3208, 9378, 0);
+				c.getClientMethodHandler().teleportWithAnimation(1115, 12, 3208, 9378, 0);
 			}
 			else if (c.playerLevel[2] < 60){
 				c.sendMessage("You're not strong enough to push the memorial.");
@@ -1682,7 +1690,7 @@ break;*/
 
 		case 5159: //Cross Bridge
 			if(c.playerLevel[2] >= 60 && c.playerLevel[16] >= 50) {
-				c.getClientMethodHandler().isteleporting3(1115, 12, 3504, 3563, 0);
+				c.getClientMethodHandler().teleportWithAnimation(1115, 12, 3504, 3563, 0);
 			}
 			else if (c.playerLevel[2] < 60 || c.playerLevel[16] < 50){
 				c.sendMessage("You need 60 strength and 50 agility to");
@@ -1692,7 +1700,7 @@ break;*/
 
 		case 5160: //Cross Bridge
 			if(c.playerLevel[2] >= 60 && c.playerLevel[16] >= 50) {
-				c.getClientMethodHandler().isteleporting3(1115, 12, 3504, 3563, 0);
+				c.getClientMethodHandler().teleportWithAnimation(1115, 12, 3504, 3563, 0);
 			}
 			else if (c.playerLevel[2] < 60 || c.playerLevel[16] < 50){
 				c.sendMessage("You need 60 strength and 50 agility to");

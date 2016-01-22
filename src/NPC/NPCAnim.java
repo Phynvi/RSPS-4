@@ -9,6 +9,29 @@ public class NPCAnim {
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
 		
+		//thrower trolls
+		case 1101:
+		case 1102:
+		case 1103:
+		case 1104:
+		case 1105:
+		//mountain trolls
+		case 1106:
+		case 1107:
+		case 1108:
+		case 1109:
+		case 1110:
+		case 1111:
+		case 1112:
+		//troll generals
+		case 1115:
+		case 1116:
+		case 1117:
+			return 284; //287 - death, 285 - block, 284 - melee hit
+			
+		case 1973: //giant skeleton
+			return 260; //260 - attack
+		
 		case 206:
 		case 118:
 		case 119:
@@ -893,6 +916,26 @@ public class NPCAnim {
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+		//thrower trolls
+		case 1101:
+		case 1102:
+		case 1103:
+		case 1104:
+		case 1105:
+		//mountain trolls
+		case 1106:
+		case 1107:
+		case 1108:
+		case 1109:
+		case 1110:
+		case 1111:
+		case 1112:
+		//troll generals
+		case 1115:
+		case 1116:
+		case 1117:
+			return 285; //287 - death, 285 - block, 284 - melee hit
+			
 		case 1558: case 1559: //ice wolf
 		case 1951: case 1952: case 1953: case 1954: case 1955: case 1956: //ice wolf (lvl 132)
 		case 1330: 
@@ -1093,6 +1136,26 @@ public class NPCAnim {
 	//TODO - Dead animations
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
+		//thrower trolls
+		case 1101:
+		case 1102:
+		case 1103:
+		case 1104:
+		case 1105:
+		//mountain trolls
+		case 1106:
+		case 1107:
+		case 1108:
+		case 1109:
+		case 1110:
+		case 1111:
+		case 1112:
+		//troll generals
+		case 1115:
+		case 1116:
+		case 1117:
+			return 287; //287 - death, 285 - block, 284 - melee hit
+			
 		case 1558: case 1559: //ice wolf
 		case 1951: case 1952: case 1953: case 1954: case 1955: case 1956: //ice wolf (lvl 132)
 		case 1330: 

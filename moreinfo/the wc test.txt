@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = c-73-9-224-11.hsd1.il.comcast.net
-character-lastlogintime = 20160020
+character-lastlogintime = 20160022
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -37,7 +37,7 @@ specialDelay = 10
 masteries = 0
 pirate = 0
 homeTeleportTimer = 0
-bandos = 2
+bandos = 3
 armadyl = 0
 prevarmadyl = 0
 prevbandos = 0

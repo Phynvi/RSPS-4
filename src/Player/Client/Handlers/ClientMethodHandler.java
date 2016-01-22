@@ -75,7 +75,7 @@ public class ClientMethodHandler {
 	/**
 	 * Will start an animation for time and then teleport to x,y,h
 	 */
-	public void isteleporting3(int anim, int time, int x, int y, int h){
+	public void teleportWithAnimation(int anim, int time, int x, int y, int h){
 		c.startAnimation(anim);
 		c.isteleporting = time;
 		c.isteleportingx = x;
@@ -332,7 +332,7 @@ public class ClientMethodHandler {
 	}
 
 	public boolean isInGodWars(){
-		return (c.isInArea(2576,3586,2821,3717) || c.isInArea(2773,3553,2935,3653));
+		return (c.isInArea(2744,3584,2819,3712) || c.isInArea(2803,3580,2927,3639));
 	}
 
 
@@ -341,9 +341,6 @@ public class ClientMethodHandler {
 			c.inWildRange = true;
 		else c.inWildRange = true; //default false
 	}
-
-
-
 
 
 	public void ancientsfinished(){

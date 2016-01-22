@@ -825,6 +825,12 @@ public class Combat {
 
 			/* Melee */
 			if(distance == 1 && !c.autocast) { 
+				if(server.npcHandler.npcs[c.attacknpc].npcType == 3001){
+					c.sendMessage("You need a ranged weapon to attack this monster.");
+					c.stopPlayerMovement();
+					ResetAttackNPC();
+					return false;
+				}
 
 				if(lists.halberd.exists(c.playerEquipment[c.playerWeapon]))
 					distance = 2;

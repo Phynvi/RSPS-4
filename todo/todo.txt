@@ -5,6 +5,8 @@
 
 -Redo graardor and kree minions (use wyverns, darkbeasts, etc?)
 
+-Add new bandos monsters
+
 -Add silver as mining
 
 -Fix mining

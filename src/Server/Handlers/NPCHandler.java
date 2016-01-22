@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
-	public static BST rangedNPC = new BST(1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
-	public static BST ignoreCombatLevel = new BST(103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
+	public static BST aggressiveNPCS = new BST(871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST rangedNPC = new BST(1101,3068,3069,3070,3071,871,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
+	public static BST ignoreCombatLevel = new BST(1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
 
 	private static int NPCFightType; 
@@ -722,7 +722,6 @@ public class NPCHandler {
 		case 2056:
 		case 2057:
 		case 873: case 874: case 875: case 876: //ogre traders
-		case 871: //ogre shaman
 		case 114: //Ogre 
 		case 115: //Ogre
 		case 270: //khazard ogre
@@ -841,6 +840,13 @@ public class NPCHandler {
 			p.bandit = p.bandit+1;
 			c.sendMessage("You have killed a bandit, you have "+p.bandit+" bandit kills");
 			break;
+			
+		case 1101: //dangerous thrower troll used in gw
+		case 1115: //troll general used in gw
+		case 871: //ogre shaman used in godwars
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, DropList.BIGBONES);
+			break;
 
 		case 3000: //general graardor
 			int chance = c.prevbandos+1;
@@ -889,8 +895,10 @@ public class NPCHandler {
 			dropItem(NPCID, DropList.BIGBONES); //regular bones
 			break;
 
-		case 122: //bandos mobs
-		case 123:
+		//bandos mobs
+		case 1198: //direwolf
+		case 122: //hobgoblin
+		case 123: //hobgoblin
 			if(c.getClientMethodHandler().isInGodWars())
 				c.bandos += 1;
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
@@ -1262,43 +1270,46 @@ WORLDMAP 2: (not-walk able places)
 			int hitDiffOverride = 0;
 			int freezePlayer = -1;
 			
-			/* Special NPC distant adjustments here */
-			switch(_npcID){
-			
-		//skeletal wyverns
-			case 3068:
-			case 3069:
-			case 3070:
-			case 3071:
-				if(misc.random(3) == 0){
-					if(c.getCombatHandler().hasAnyDragonFireShield()){
-						c.sendMessage("Your shield helps protect you from the Wyvern's icey breath.");
-						c.getFrameMethodHandler().stillgfx(361, c.absY, c.absX);
-						magic(10);
-					}
-					else{
-						c.sendMessage("The Wyvern strikes with icey breath.");
-						c.getFrameMethodHandler().stillgfx(363, c.absY, c.absX);
-						magic(50);
-					}
-					freezePlayer = 5;
-					npcs[NPCID].attackDistance = 6;
-					npcs[NPCID].animNumber = 2985;
-				}
-				else{
-					melee(13);
-					npcs[NPCID].attackDistance = 1;
-					npcs[NPCID].animNumber = 2986;
-				}
-			default:
-				melee(npcs[NPCID].MaxHit); //by default
-				break;
-			}
-			
 			
 			if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
 
 				switch (_npcID){
+				case 1115: //Troll General, used in God Wars
+					melee(15);
+					break;
+				case 1101: //dangerous thrower troll, used in god wars
+					range(21);
+					break;
+				
+				//skeletal wyverns
+				case 3068:
+				case 3069:
+				case 3070:
+				case 3071:
+					if(misc.random(3) == 0){
+						npcs[NPCID].attackDistance = 6;
+						npcs[NPCID].animNumber = 2985;
+					}
+					else{
+						npcs[NPCID].attackDistance = 1;
+						npcs[NPCID].animNumber = 2986;
+						break;
+					}
+					if(npcs[NPCID].attackDistance == 6){
+						if(c.getCombatHandler().hasAnyDragonFireShield()){
+							c.sendMessage("Your shield helps protect you from the Wyvern's icey breath.");
+							c.getFrameMethodHandler().stillgfx(361, c.absY, c.absX);
+							magic(10);
+						}
+						else{
+							c.sendMessage("The Wyvern strikes with icey breath.");
+							c.getFrameMethodHandler().stillgfx(363, c.absY, c.absX);
+							magic(50);
+						}
+						freezePlayer = 5;
+					}
+					else melee(13);
+				break;
 
 				//Magic
 				case 3752: //Torcher
@@ -1336,14 +1347,7 @@ WORLDMAP 2: (not-walk able places)
 					//							int offsetX = (npcs[NPCID].absX - X3) * -1;
 					//							int offsetY = (npcs[NPCID].absY - Y3) * -1;
 					//							c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 75, 20, 43, 31, Player+1);
-					break;					
-
-				case 3001: //Kree
-					npcs[NPCID].animNumber = 6976;
-					c.getFrameMethodHandler().stillgfx(305, c.absY, c.absX);
-					range(71);
-					break;
-
+					break;		
 
 				case 2028:
 					npcs[NPCID].animNumber = 2075; //Karil
@@ -1592,9 +1596,20 @@ WORLDMAP 2: (not-walk able places)
 
 				case 195: case 196:
 					melee(15);
+					break;			
+
+				case 3001: //Kree'arra
+					npcs[NPCID].animNumber = 6976;
+					c.getFrameMethodHandler().stillgfx(305, c.absY, c.absX);
+					range(71);
+					break;
+					
+				case 871: //Ogre Shaman - Used in godwars
+					magic(16);
+					c.getFrameMethodHandler().stillgfx(346, c.absY, c.absX);
 					break;
 
-				case 3000:
+				case 3000: //general graardor
 					switch(misc.random(3)+1){
 					case 4:
 						range(35);
@@ -1651,6 +1666,10 @@ WORLDMAP 2: (not-walk able places)
 				case 3200: //chaos elemental, health 560
 					melee(60);
 					npcs[NPCID].animNumber = 0x326;
+					break;
+					
+				default:
+					melee(npcs[NPCID].MaxHit); //melee by default
 					break;
 				}
 
@@ -1732,18 +1751,17 @@ WORLDMAP 2: (not-walk able places)
 				server.playerHandler.players[playerID].updateRequired = true;
 				server.playerHandler.players[playerID].hitUpdateRequired = true;
 				server.playerHandler.players[playerID].appearanceUpdateRequired = true;
-				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 				npcs[NPCID].animUpdateRequired = true;
+				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 
 				if( c.autoRetaliate == 1 && !c.IsAttackingNPC ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
 					c.IsAttackingNPC = true;
-					c.attacknpc = npcs[NPCID].npcId;
+					c.attacknpc = NPCID;
 					c.getCombatHandler().AttackNPC();
 				}
-
+				return true;
 			}
 		}
-
 		FollowPlayerCB(NPCID, playerID);
 		return false;
 	}
