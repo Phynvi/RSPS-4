@@ -899,6 +899,7 @@ public class MagicDataHandler {
 
 					if(!c.getCombatHandler().doIHitNPCWithMagic(npcIndex)) hitDiff = 0;
 
+					c.followingNPCID = -1;
 					return c.getCombatHandler().updateDelayAndHitNPC(npcIndex, hitDiff);
 				}
 				catch(Exception e) {

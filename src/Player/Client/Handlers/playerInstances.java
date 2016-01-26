@@ -163,6 +163,7 @@ public int idleTimer = 0;
 	public int timer1 = 50;
 	
 	public int followingPlayerID = -1;
+	public int followingNPCID = -1;
 
 
 	//Cooking

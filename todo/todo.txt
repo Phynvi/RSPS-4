@@ -1,15 +1,7 @@
 -Place fishing spots across map
 -Fishing Guild
 
--Redo god wars boundary
-
--Redo graardor and kree minions (use wyverns, darkbeasts, etc?)
-
--Add new bandos monsters
-
 -Add silver as mining
-
--Fix mining
 
 -Rebuild skill master list
 
@@ -18,7 +10,6 @@
 - follow run
 
 -Finish specials, add in promethius 2h, rune claws, 
-	custom karil special, attacks all npcs in area of 4, projectile to each one
 
 -NPC projectiles
 
@@ -27,5 +18,3 @@
 -Level gain sprites
 
 -Teleport in ardougne (elena) is open
-
-

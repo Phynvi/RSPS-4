@@ -270,17 +270,9 @@ public class Combat {
 			c.SpecTimer = 3;
 			c.getFrameMethodHandler().stillgfx(246, c.absY, c.absX);
 			if(c.IsAttackingNPC){
-				int EnemyX = server.npcHandler.npcs[c.attacknpc].absX;
-				int EnemyY = server.npcHandler.npcs[c.attacknpc].absY;
-				int offsetX = (c.absX - EnemyX) * -1;
-				int offsetY = (c.absY - EnemyY) * -1;
 				c.BOWHANDLER.arrowProjectile(c.attacknpc);
 			}
 			if (c.IsAttacking){
-				int X3 = PlayerHandler.players[c.AttackingOn].absX;
-				int Y3 = PlayerHandler.players[c.AttackingOn].absY;
-				int offsetX = (c.absX - X3) * -1;
-				int offsetY = (c.absY - Y3) * -1;
 				c.BOWHANDLER.arrowProjectilePlayer(c.AttackingOn);
 			}
 			return (int)(original*1.1); // +25%
@@ -850,9 +842,15 @@ public class Combat {
 
 					addCombatXP(hitDiff);
 					c.inCombat(); 
+					c.followingNPCID = -1;
 
 					return updateDelayAndHitNPC(c.attacknpc, hitDiff);
 				}			
+				else{
+					c.followNPC(c.attacknpc);
+					c.followingNPCID = c.attacknpc;
+					return false;
+				}
 			}
 			/* Ranged */
 			if(distance > 1 && !c.autocast){
@@ -875,7 +873,13 @@ public class Combat {
 					c.BOWHANDLER.checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
 
 					addCombatRangedXP(hitDiff);
+					c.followingNPCID = -1;
 					return updateDelayAndHitNPC(c.attacknpc, hitDiff);
+				}	
+				else{
+					c.followNPC(c.attacknpc);
+					c.followingNPCID = c.attacknpc;
+					return false;
 				}
 			}
 
@@ -890,6 +894,11 @@ public class Combat {
 						ResetAttackNPC();
 						return false;
 					}
+				}	
+				else{
+					c.followNPC(c.attacknpc);
+					c.followingNPCID = c.attacknpc;
+					return false;
 				}
 			}
 

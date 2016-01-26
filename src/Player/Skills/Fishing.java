@@ -2,7 +2,7 @@ public class Fishing{
 
 	/*
  npcs : 1174, 1175,952 - net
- 1176,1177,1178 - fish
+ 1176,1177,1178 - fish (seaturtle)
  1236,1237,1238,233,234,235,236  - bait
  1399,321,324,333,312,1332 - cage/harpoon
  1405,1406,313,322,334,1191,1333 - net/harpoon

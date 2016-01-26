@@ -275,6 +275,53 @@ public abstract class Player extends playerInstances {
 		}
 	}
 	
+	public void followNPC(int npcIndex)
+	{
+		if(npcIndex == -1) return;
+		NPC n = server.npcHandler.npcs[npcIndex];
+		if(n == null){
+			error("In followPlayer : NPC at npc index "+npcIndex+" is null");
+			followingNPCID = -1;  		
+			return;
+		}
+		int walkToX = 0;
+		int walkToY = 0;
+		if(misc.GoodDistance(absX, absY, n.absX, n.absY, 15)){
+			if(!misc.GoodDistance(absX, absY, n.absX, n.absY, 1)){
+				if(n.absX > absX) walkToX = 1;
+				if(n.absX < absX) walkToX = -1;
+				if(n.absY > absY) walkToY = 1;
+				if(n.absY < absY) walkToY = -1;
+				//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
+
+				/*pathfinding*/
+				if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY+walkToY] != -1){
+					walkTo(walkToX, walkToY);
+					requirePlayerUpdate();
+					return;
+				}
+				else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX][absY+walkToY] != -1){
+					walkTo(0, walkToY);
+					requirePlayerUpdate();
+					return;
+				}
+				else if(server.worldMap.getWalkableGridAtHeight(heightLevel)[absX+walkToX][absY] != -1){
+					walkTo(walkToX, 0);
+					requirePlayerUpdate();
+					return;
+				}
+			} 
+			else {
+				faceNPC(followingNPCID);
+			}
+		}
+		else{
+			followingNPCID = -1;
+			faceNPC = 65535;
+			faceNPCupdate = true;
+		}
+	}
+	
 
 	public void walkTo(int x, int y) {
 		newWalkCmdSteps = Math.abs(y)+Math.abs(x);

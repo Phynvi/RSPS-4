@@ -1359,6 +1359,7 @@ playerName.trim();*/
 	
 
 	public boolean process() { 	// is being called regularily every 500ms	
+		followNPC(followingNPCID);
 		followplayer(followingPlayerID);
 		getInventoryHandler().scanPickup();
 		getFrameMethodHandler().createAreaDisplayType();
@@ -1937,6 +1938,7 @@ playerName.trim();*/
 				stringing = false;
 				fletchingprocessshort = 0;
 				followingPlayerID = -1;
+				followingNPCID = -1;
 
 				if(frozenTimer >= 1 && !IsDead) { // uses event manager
 					teleport(absX,absY);
@@ -2718,6 +2720,7 @@ playerName.trim();*/
 		runningEnergy = 100;
 		playerEnergyGian = 0;
 		followingPlayerID = -1;
+		followingNPCID = -1;
 		playerGameTime = 0;
 		playerGameCount = 0;
 		for (int i = 0; i < playerItems.length; i++) {
