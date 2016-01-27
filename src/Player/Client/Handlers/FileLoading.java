@@ -25,9 +25,11 @@ public class FileLoading {
 			{
 				if (host.equalsIgnoreCase(data))
 				{
+					in.close();
 					return true;
 				}
 			}
+			in.close();
 		}
 		catch (IOException e)
 		{
@@ -38,9 +40,7 @@ public class FileLoading {
 	}
 
 	public void appendToBanned (String player) {
-
 		BufferedWriter bw = null;
-
 		try {
 			bw = new BufferedWriter(new FileWriter("data/bannedusers.txt", true));
 			bw.write(player);
@@ -84,6 +84,7 @@ public class FileLoading {
  * Returns a array with the X Y coords to teleport to.
  * Returns null if destination was not found
  */
+	@SuppressWarnings("resource")
 	public int[] loadCoords(String FileName, String CName) {
 		String line = "";
 		String token = "";
@@ -91,7 +92,6 @@ public class FileLoading {
 		String token2_2 = "";
 		String[] token3 = new String[10];
 		boolean EndOfFile = false;
-		int ReadMode = 0;
 		BufferedReader characterfile = null;
 		try {
 			characterfile = new BufferedReader(new FileReader("./"+FileName));
@@ -103,6 +103,7 @@ public class FileLoading {
 			line = characterfile.readLine();
 		} catch(IOException ioexception) {
 			misc.println(FileName+": error loading file.");
+			try{ characterfile.close(); }	catch(Exception e){}
 			return null;
 		}
 		misc.println("Searching for coords "+CName);
@@ -117,11 +118,12 @@ public class FileLoading {
 				token2_2 = token2.replaceAll("\t\t", "\t");
 				token3 = token2_2.split("\t");
 				if (token.equals(CName)) {
+					try{ characterfile.close(); }	catch(Exception e){}
 					return new int[]{Integer.parseInt(token3[0]),Integer.parseInt(token3[1])};
 				}
 			} else {
 				if (line.equals("[ENDOFCOORDS]")) {
-					try { characterfile.close(); } catch(IOException ioexception) { }
+					try{ characterfile.close(); }	catch(Exception e){}
 					return null;
 				}
 			}
@@ -158,6 +160,7 @@ public class FileLoading {
 
 	
 
+	@SuppressWarnings("resource")
 	public int loadmoreinfo() {
 		String line = "";
 		String token = "";
@@ -688,6 +691,7 @@ public class FileLoading {
 	}
 
 
+	@SuppressWarnings("resource")
 	public int loadGame(String playerName, String playerPass) {
 		String line = "";
 		String token = "";

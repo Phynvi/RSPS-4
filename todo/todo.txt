@@ -1,6 +1,8 @@
 -Place fishing spots across map
 -Fishing Guild
 
+-Smithing loops
+
 -Add silver as mining
 
 -Rebuild skill master list
@@ -9,12 +11,16 @@
 
 - follow run
 
--Finish specials, add in promethius 2h, rune claws, 
+-Finish specials, add rune claws 
 
 -NPC projectiles
 
 -NPC poison/player poison
-
+	
 -Level gain sprites
 
 -Teleport in ardougne (elena) is open
+
+-Fishing colony
+
+-Farming objects use text 

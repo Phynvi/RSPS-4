@@ -1733,6 +1733,11 @@ break;*/
 		case 2407:
 			c.teleport(2887,3350);
 			break;
+			
+		case 2025:
+			if(c.playerLevel[c.playerFishing] >= 68) c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
+			else c.sendMessage("You need at least 68 Fishing to do that.");
+			break;
 
 			/*case 1734:
 println_c.debug("going up");

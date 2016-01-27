@@ -113,7 +113,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(17); //Bakery Shop
 			return;
 
-		case 558: case 561: case 576:
+		case 558: case 561: case 576: case 592:
 			c.getFrameMethodHandler().openUpShopFrame(18); //Fishing Supplies
 			return;
 
@@ -484,8 +484,8 @@ public class NPCClickHandler {
 			skillMaster(NPCID, "Head Chef", 14127,14128,14129, "Cooking", c.playerCooking, new String[]{"Ah! A fellow cook!","Got any tips?"});
 			break;
 		
-		case 1778:
-			skillMaster(NPCID, "William", 14124,14125,14126, "Fishing", c.playerFishing, new String[]{"In need of any fishing supplies?", "Trade with me for your fishing needs."});
+		case 1778: case 592:
+			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14124,14125,14126, "Fishing", c.playerFishing, new String[]{"In need of any fishing supplies?", "Trade with me for your fishing needs."});
 			break;
 			
 		case 561:
