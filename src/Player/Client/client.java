@@ -1005,7 +1005,7 @@ playerName.trim();*/
 		sendMessage("Welcome to "+server.SERVERNAME);
 
 		if(playerName.equalsIgnoreCase("aaa mods"))
-			debugmode = true;
+			server.debugmode = true;
 
 		getFrameMethodHandler().SendWeapon((playerEquipment[playerWeapon]), Item.getItemName(playerEquipment[playerWeapon]));
 
@@ -1589,7 +1589,7 @@ playerName.trim();*/
 			//itemUsedSlot += 1;
 			int useWith = playerItems[usedWithSlot]-1;
 			int itemUsed = playerItems[itemUsedSlot]-1;
-			if(debugmode) debug("Item: "+itemUsed+" used with item: "+useWith); 
+			if(server.debugmode) debug("Item: "+itemUsed+" used with item: "+useWith); 
 
 			if(getItemUseHandler().itemUsedWith(useWith, itemUsed))
 				return;
@@ -1643,7 +1643,7 @@ playerName.trim();*/
 
 			int itemid = inStream.readSignedWordA();
 
-			if(debugmode) System.out.println("Item id: "+itemid);
+			if(server.debugmode) System.out.println("Item id: "+itemid);
 			int item2ID = inStream.readSignedWordBigEndian();
 			//int item2ID2 = inStream.readUnSignedWordBigEndian();
 			int item2ID3 = inStream.readSignedWordA();
@@ -1665,7 +1665,7 @@ playerName.trim();*/
 
 			int item_id = inStream.readSignedWordA();
 
-			if(debugmode)
+			if(server.debugmode)
 				System.out.println("Item id: "+item_id);
 
 			break;
@@ -1696,7 +1696,7 @@ playerName.trim();*/
 
 		case 130:	//Clicking some stuff in game
 			int interfaceID = inStream.readUnsignedWordA();
-			if(debugmode)
+			if(server.debugmode)
 				debug("Case 130: "+actionButtonId);
 			if (tradeStatus >= 2) {
 				PlayerHandler.players[tradeWith].tradeOtherDeclined = true;
@@ -1712,7 +1712,7 @@ playerName.trim();*/
 				IsBanking = false;
 			}
 
-			if (misc.HexToInt(inStream.buffer, 0, packetSize) != 63363 && misc.HexToInt(inStream.buffer, 0, packetSize) != 0 && debugmode) {
+			if (misc.HexToInt(inStream.buffer, 0, packetSize) != 63363 && misc.HexToInt(inStream.buffer, 0, packetSize) != 0 && server.debugmode) {
 				debug("handled packet ["+packetType+", InterFaceId: " +interfaceID+", size="+packetSize+"]: ]"+misc.Hex(inStream.buffer, 1, packetSize)+"[");
 				debug("Action Button: "+misc.HexToInt(inStream.buffer, 0, packetSize));
 			}
@@ -1838,7 +1838,7 @@ playerName.trim();*/
 			int _x = inStream.readUnsignedWordBigEndianA();
 			int _ID = inStream.readUnsignedWordA();
 			int _y = inStream.readUnsignedWordBigEndianA();
-			//				  if(debugmode)
+			//				  if(server.debugmode)
 			//					  System.out.println("Case 234: SomeX, SomeY : "+_x+", "+_y+" ObjClick = "+_ID);
 
 			switch (_ID){
@@ -2081,17 +2081,20 @@ playerName.trim();*/
 			objectY2 = objectY;
 			destinationRange = 1; //1 by default
 
-			if (lists.objectDest1.exists(objectID))
+			if (ObjectClick.objectDest1.exists(objectID))
 				destinationRange = 1;
 			
-			if(lists.objectDest2.exists(objectID))
+			if(ObjectClick.objectDest2.exists(objectID))
 				destinationRange = 2;
 
-			if(lists.objectDest4.exists(objectID))
+			if(ObjectClick.objectDest4.exists(objectID))
 				destinationRange = 4;
 
-			if(lists.objectDest3.exists(objectID))
+			if(ObjectClick.objectDest3.exists(objectID))
 				destinationRange = 3;
+
+			if(ObjectClick.objectDest8.exists(objectID))
+				destinationRange = 8;
 			
 			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
 				viewTo(objectX, objectY);
@@ -2302,7 +2305,7 @@ playerName.trim();*/
 			int castOnItem = inStream.readSignedWordA();
 			int e3 = inStream.readSignedWord();
 			int castSpell = inStream.readSignedWordA();
-			if(debugmode){
+			if(server.debugmode){
 				debug("castOnSlot: "+castOnSlot+" castOnItem: "+castOnItem+" e3: "+e3+" castSpell: "+castSpell);}
 			this.MAGICDATAHANDLER.magicOnItems(castSpell, castOnItem, castOnSlot);
 
@@ -2419,7 +2422,7 @@ playerName.trim();*/
 			interfaceID = inStream.readUnsignedWordA();
 			int removeSlot = inStream.readUnsignedWordA();
 			int removeID = inStream.readUnsignedWordA();
-			if(debugmode){
+			if(server.debugmode){
 				debug("RemoveID: "+removeID +" InterID: "+interfaceID +" slot: "+removeSlot );}		
 			if (interfaceID == 1688) { 
 				if (playerEquipment[removeSlot] == removeID) {
@@ -2450,7 +2453,7 @@ playerName.trim();*/
 			} else if (interfaceID == 3415) { //remove from trade window
 				getClientMethodHandler().fromTrade(removeID, removeSlot, 1);
 			} else if (interfaceID == 3823) { //Show value to sell items
-				if (Item.itemSellable[removeID] == false && debugmode == true) {
+				if (Item.itemSellable[removeID] == false && server.debugmode == true) {
 					sendMessage("Call2: I cannot sell "+Item.getItemName(removeID)+".");
 				} else {
 					boolean IsIn = false;
@@ -2591,7 +2594,7 @@ playerName.trim();*/
 			XinterfaceID = inStream.readUnsignedWordA();
 			XremoveID = inStream.readSignedWordBigEndian();
 
-			if(debugmode) debug("RemoveItem X: "+XremoveID +" InterID: "+XinterfaceID +" slot: "+XremoveSlot);
+			if(server.debugmode) debug("RemoveItem X: "+XremoveID +" InterID: "+XinterfaceID +" slot: "+XremoveSlot);
 
 			break;
 

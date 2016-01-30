@@ -81,9 +81,25 @@ public class NPC {
 		str.writeWordBigEndian(focusPointY);
 	}
 
+	/**
+	 * 
+	 * @param dir - IE use "north" or "northwest"
+	 */
 	public void face(String dir){
 		dir = dir.toLowerCase();
 		switch(dir){
+		case "northeast":
+			this.turnNpc(this.absX+1, this.absY+1);
+			return;
+		case "northwest":	
+			this.turnNpc(this.absX-1, this.absY+1);
+			return;
+		case "southeast":
+			this.turnNpc(this.absX+1, this.absY-1);
+			return;
+		case "southwest":	
+			this.turnNpc(this.absX-1, this.absY-1);
+			return;
 		case "north":
 			this.turnNpc(this.absX, this.absY+1);
 			return;
@@ -211,9 +227,15 @@ public class NPC {
 
 	public void faceplayer(int i)
 	{
-		face = i + 32768;
-		faceUpdateRequired = true;
-		updateRequired = true;
+		int playerX = server.playerHandler.players[i].absX;
+		int playerY = server.playerHandler.players[i].absY;
+		int moveX = 0;
+		int moveY = 0;
+		if(absX > playerX) moveX = 1;
+		if(absX < playerX) moveX = -1;
+		if(absY > playerY) moveY = 1;
+		if(absY < playerY) moveY = -1;
+		turnNpc(moveX, moveY);
 	}
 	public boolean faceUpdateRequired;
 	public void updateface(stream stream1)

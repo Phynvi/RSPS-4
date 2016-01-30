@@ -328,11 +328,7 @@ public class InventoryHandler {
 
 	public int itemAmount(int itemID) {
 		int tempAmount = 0;
-		for (int i = 0; i < c.playerItems.length; i++) {
-			if (c.playerItems[i] == itemID) {
-				tempAmount += c.playerItemsN[i];
-			}
-		}
+		for (int i = 0; i < c.playerItems.length; i++) if (c.playerItems[i] == itemID) tempAmount += c.playerItemsN[i];
 		return tempAmount;
 	}
 
@@ -944,6 +940,27 @@ public class InventoryHandler {
 		}
 		return true;
 	}
+	
+	public void deleteAllItemsOf(int itemID){
+		for(int i = c.playerItems.length-1; i >= 0; i--){
+			if(c.playerItems[i] == itemID+1){
+				c.playerItems[i] = 0;
+				c.playerItemsN[i] = 0;			
+				c.outStream.createFrameVarSizeWord(34);
+				c.outStream.writeWord(3214);
+				c.outStream.writeByte(i);
+				c.outStream.writeWord(c.playerItems[i]);
+				if (c.playerItemsN[i] > 254) {
+					c.outStream.writeByte(255);
+					c.outStream.writeDWord(c.playerItemsN[i]);
+				} else {
+					c.outStream.writeByte(c.playerItemsN[i]); //amount	
+				}
+				c.outStream.endFrameVarSizeWord();
+			}
+		}
+		
+	}
 
 	public void replaceAllItemsOfTypeWith(int itemID, int withID){
 		if(!Item.itemStackable[itemID+1]){
@@ -1205,7 +1222,7 @@ public class InventoryHandler {
 		c.keepItemAmount3 = sortedN[2];
 		c.keepItemAmount4 = sortedN[3];
 
-		if(c.debugmode){
+		if(server.debugmode){
 			System.out.print("\nc.playerItems : ");
 			for(int i = 0; i < c.playerItems.length; i++)
 				System.out.print(c.playerItems[i]+", ");

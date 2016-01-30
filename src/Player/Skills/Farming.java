@@ -22,7 +22,7 @@ public class Farming {
 	}
 	
 	public void checkHealth(int originalID){ //when clicking check-health
-		if(playerClient.debugmode) System.out.println("checkHealth called, ID "+originalID);
+		playerClient.debug("checkHealth called, ID "+originalID);
 		if(lists.grownList.exists(originalID)){
 			playerClient.sendMessage(fullGrownMessage());
 			return;
@@ -155,7 +155,7 @@ public class Farming {
 	
 	
 	public void guide(int x, int y, int originalID){ //when clicking on guide ... 
-		if(playerClient.debugmode) System.out.println("Guide called, "+x+", "+y+" : ID "+originalID);
+		playerClient.debug("Guide called, "+x+", "+y+" : ID "+originalID);
 		if(lists.growingList.exists(originalID)){
 			inspectInfo(originalID,x,y);
 			return;
@@ -335,7 +335,7 @@ public class Farming {
 	}
 
 	public void inspectInfo(int _ID, int x, int y){
-		if(playerClient.debugmode) System.out.println("inspectInfo called, ID "+_ID);
+		playerClient.debug("inspectInfo called, ID "+_ID);
 		if(lists.growingList.exists(_ID)){
 			Object o = plantList.find(x, y);
 			if(o instanceof plant){
@@ -425,7 +425,7 @@ public class Farming {
 	}
 
 	public void grow(int x, int y, int seedID, int objectID){ //starts the growing process
-		if(playerClient.debugmode) System.out.println("Grow called, "+x+", "+y+" : seedID "+seedID);
+		playerClient.debug("Grow called, "+x+", "+y+" : seedID "+seedID);
 		if(!checkSeedsAndTrowel(seedID)) return;
 		if(!minLevel(getSeedLevel(seedID))) return; //if given an invalid ID, getSeedLevel returns -1, which sets minLevel false, exiting the function
 		if(!checkSeedAndPatch(seedID,objectID)) return;
@@ -626,8 +626,7 @@ public class Farming {
 		
 		public void add(){
 			plantList.add(_x, _y, this);
-			if(playerClient.debugmode)
-				System.out.println("Plant added with following coords: x - "+_x+", y -"+_y);
+			playerClient.debug("Plant added with following coords: x - "+_x+", y -"+_y);
 		}
 
 		@Override

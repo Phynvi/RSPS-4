@@ -97,7 +97,6 @@ class playerInstances {
 	public int[] twoHanderz = {861, 4212, 7158, 13310, 15333, 15334, 15335, 15336, 11337, 4734, 15156, 4726, 4718, 6528, 15351, 4214, 4755, 861};
 
 	public boolean running = false;
-	public boolean debugmode = false;
 	public int psize = 0;
 	public boolean debug = false;
 	public long obstacle = 0;        

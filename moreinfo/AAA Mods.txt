@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = 129.89.130.95
-character-lastlogintime = 20160027
+character-lastlogin = WRT610N
+character-lastlogintime = 20160029
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -41,7 +41,7 @@ bandos = 5
 armadyl = 1
 prevarmadyl = 0
 prevbandos = 38
-spellbook = 0
+spellbook = 1
 pestcontrolpoints = 2
 questPoints = 7
 

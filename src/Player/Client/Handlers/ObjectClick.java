@@ -8,6 +8,12 @@ public class ObjectClick {
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
+	
+	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,8742,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
+	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
+	public static BST objectDest2 = new BST();
+	public static BST objectDest4 = new BST(3340,57,56,54,55,5014,5008,5973,5998,4499,5013);
+	public static BST objectDest8 = new BST(2491);
 
 	public ObjectClick(client pc){
 		this.c = pc;
@@ -200,9 +206,11 @@ public class ObjectClick {
 			else c.teleport(3502,3425);
 			break;
 
+		case 1293:
+			c.getClientMethodHandler().selectOptionTravel2("Travel to Tree Gnome Village?", "Yes", 2542,3169, "No", -1, -1);
+			break;
 		case 1294:
-			if(c.isInArea(2458,3443,2465,3449)) c.getClientMethodHandler().selectOptionTravel2("Travel to Tree Gnome Village?", "Yes", 2542,3169, "No", -1, -1);
-			else c.getClientMethodHandler().selectOptionTravel2("Travel to Tree Gnome Stronghold?", "Yes", 2460,3443, "No", -1, -1);
+			c.getClientMethodHandler().selectOptionTravel2("Travel to Tree Gnome Stronghold?", "Yes", 2460,3443, "No", -1, -1);
 			break;
 
 		case 2156: //magic portal wizards guild yanille
@@ -258,7 +266,8 @@ public class ObjectClick {
 			break;
 
 		case 2492: //portal from rune essence mine
-			c.teleport(3007,3309);
+			c.walkTo(objectX-c.absX, objectY-c.absY);
+			c.getClientMethodHandler().teleportWithDelay(4, 2595,3087,2);
 			break;
 
 			//Pest control ladder
@@ -1459,6 +1468,7 @@ break;*/
 			c.MINE.mineRock(objectID, 40, objectX, objectY);
 			break;
 
+		case 2096:
 		case 2097: //Coal Ore
 			c.MINE.mineRock(objectID, 40, objectX, objectY);
 			break;

@@ -16,7 +16,6 @@ public class NPCHandler {
 	public static int maxNPCs = 10000;
 	public static int maxListedNPCs = 10000;
 	public NPC npcs[] = new NPC[maxNPCs];
-	public NPCListBST npcList2 = new NPCListBST();
 
 	NPCHandler() {
 		for(int i = 0; i < maxNPCs; i++) {
@@ -64,8 +63,8 @@ public class NPCHandler {
 		newNPC.HP = HP;
 		if(pestControlRandomSpawn) newNPC.MaxHP = this.getHP(npcType);
 		else newNPC.MaxHP = HP;
-		if(pestControlRandomSpawn) newNPC.MaxHit = (int)Math.floor((HP / 10))+3; //pest control hits hard?
-		else newNPC.MaxHit = (int)Math.floor((HP / 10));
+		if(pestControlRandomSpawn) newNPC.MaxHit = (int)Math.floor((HP / 12))+3; //pest control hits hard?
+		else newNPC.MaxHit = (int)Math.floor((HP / 12));
 		if (newNPC.MaxHit < 1) 
 			newNPC.MaxHit = 1;
 		newNPC.heightLevel = heightLevel;
@@ -155,15 +154,13 @@ public class NPCHandler {
 	}
 
 	NPCList[] NPCListArray = new NPCList[maxListedNPCs];
-	int NPCListArrayCounter = 0;
 
 	public void newNPCList(int npcType, String npcName, int combat, int HP) {
 		NPCList n = new NPCList(npcType);
 		n.npcName = npcName;
 		n.npcCombat = combat;
 		n.npcHealth = HP;
-		NPCListArray[NPCListArrayCounter] = n;
-		NPCListArrayCounter += 1;
+		NPCListArray[npcType] = n;
 	}
 
 	/*
@@ -329,12 +326,8 @@ public class NPCHandler {
 		for (int i = 1; i < maxNPCs; i++) {
 			if (npcs[i] == null)
 				break;
-			npcs[i].clearUpdateFlags();
-		}
-		for (int i = 1; i < maxNPCs; i++) {
-			if (npcs[i] == null)
-				break;
 			if (npcs[i] != null) {
+				npcs[i].clearUpdateFlags();
 				if (npcs[i].actionTimer > 0) {
 					npcs[i].actionTimer--;
 				}
@@ -342,7 +335,7 @@ public class NPCHandler {
 				npcs[i].PoisonDelay -= 1;
 				if(npcs[i].PoisonClear >= 15)
 					npcs[i].PoisonDelay = 9999999;
-				if (npcs[i].IsDead == false) { //TODO - redo how walk is got
+				if (npcs[i].IsDead == false) { 
 					if (npcs[i].RandomWalk == true && misc.random2(10) == 1 && npcs[i].moverangeX1 > 0 && npcs[i].moverangeY1 > 0 && npcs[i].moverangeX2 > 0 && npcs[i].moverangeY2 > 0) { //Move NPC
 						int MoveX = misc.random(1);
 						int MoveY = misc.random(1);
@@ -382,7 +375,7 @@ public class NPCHandler {
 						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
 						Player attackingPlayer = server.playerHandler.players[npcs[i].StartKilling];
 						if(attackingPlayer != null){
-							if((attackingPlayer.distanceToPoint(npcs[i].absX, npcs[i].absY) < 7) && attackingPlayer.heightLevel == npcs[i].heightLevel){
+							if((attackingPlayer.distanceToPoint(npcs[i].absX, npcs[i].absY) < npcs[i].agroRange) && attackingPlayer.heightLevel == npcs[i].heightLevel){
 								npcs[i].RandomWalk = false;
 								AttackPlayer(i);
 							}
@@ -390,24 +383,28 @@ public class NPCHandler {
 						}
 					}					
 
-					for (int j = 0; j < server.playerHandler.players.length; j++) {
-						if(server.playerHandler.players[j] == null)
-							continue;
-						client person = (client) server.playerHandler.players[j];
-						if (person != null) {
-							if(person.ignoreCombat) continue;
-							int dist = npcs[i].agroRange;
-							if ((npcs[i].isAggressive || npcs[i].isAggressiveIgnoreCombatLevel) && person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= dist && 
-									person.heightLevel == npcs[i].heightLevel && ( !person.IsAttackingNPC || person.getClientMethodHandler().isInMultiCombat() ) && 
-									npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn) {
-								if((getCombat(npcs[i].npcType)*2) > person.combat || npcs[i].isAggressiveIgnoreCombatLevel){
+					if(npcs[i].isAggressive || npcs[i].isAggressiveIgnoreCombatLevel){
+
+						for (int j = 0; j < server.playerHandler.players.length; j++) {
+							if(server.playerHandler.players[j] == null)
+								continue;
+							client person = (client) server.playerHandler.players[j];
+
+							if (person != null) {
+								if(person.ignoreCombat) continue;
+								if ( person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= npcs[i].agroRange && person.heightLevel == npcs[i].heightLevel && 
+										( !person.IsAttackingNPC || person.getClientMethodHandler().isInMultiCombat() ) && 
+										npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn && 
+										( (getCombat(npcs[i].npcType)*2) > person.combat) || npcs[i].isAggressiveIgnoreCombatLevel) {
 									npcs[i].StartKilling = person.playerId;
 									npcs[i].RandomWalk = false;
 									npcs[i].IsUnderAttack = true;
 								}
 							}
+
 						}
-					} 					
+
+					}
 
 					boolean exitFor = false; //checks to see if is standing on top of another npc
 					for(int k = 1; k < maxNPCs && !exitFor; k++){
@@ -696,15 +693,14 @@ public class NPCHandler {
 
 	public static boolean IsDropping = false;
 	public void MonsterDropItem(int NPCID){
-		int npcID = npcs[NPCID].npcType;
-		if(lists.pestControlNPCs.exists(npcID)) return;
+		if(lists.pestControlNPCs.exists(npcs[NPCID].npcType)) return;
 		int playerId = npcs[NPCID].getPlayerAgroID();
 		client c = (client) server.playerHandler.players[playerId];
 		Player p = (Player) server.playerHandler.players[playerId];
 
-		giveSlayerEXP(c,npcID);
+		giveSlayerEXP(c,npcs[NPCID].npcType);
 
-		switch (npcID){
+		switch (npcs[NPCID].npcType){
 		case 374: //ogre
 		case 852: //ogre chieften
 		case 2044:
@@ -725,7 +721,7 @@ public class NPCHandler {
 		case 114: //Ogre 
 		case 115: //Ogre
 		case 270: //khazard ogre
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
 			dropItem(NPCID, DropList.BIGBONES);
 			break;
 
@@ -840,7 +836,7 @@ public class NPCHandler {
 			p.bandit = p.bandit+1;
 			c.sendMessage("You have killed a bandit, you have "+p.bandit+" bandit kills");
 			break;
-			
+
 		case 1101: //dangerous thrower troll used in gw
 		case 1115: //troll general used in gw
 		case 871: //ogre shaman used in godwars
@@ -877,14 +873,12 @@ public class NPCHandler {
 		case 172: //dark wizard	
 		case 86:
 		case 222: //monks
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes));
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runesTalismanHerbs));
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
 		case 14: //druids
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.herbs));
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runesTalismanHerbs));
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
@@ -895,7 +889,7 @@ public class NPCHandler {
 			dropItem(NPCID, DropList.BIGBONES); //regular bones
 			break;
 
-		//bandos mobs
+			//bandos mobs
 		case 1198: //direwolf
 		case 122: //hobgoblin
 		case 123: //hobgoblin
@@ -1001,10 +995,17 @@ public class NPCHandler {
 			break;
 
 		default:
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
+			//TODO - default drops by NPC level :D
+			if(NPCListArray[npcs[NPCID].npcType].npcCombat >= 125)
+				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			else if(NPCListArray[npcs[NPCID].npcType].npcCombat >= 75)
+				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			else if(NPCListArray[npcs[NPCID].npcType].npcCombat >= 40)
+				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			else
+				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
 			dropItem(NPCID, DropList.BONES);
 			break;
-
 
 		}
 
@@ -1269,8 +1270,8 @@ WORLDMAP 2: (not-walk able places)
 			boolean maxHitOverride = false;
 			int hitDiffOverride = 0;
 			int freezePlayer = -1;
-			
-			
+
+
 			if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
 
 				switch (_npcID){
@@ -1280,8 +1281,8 @@ WORLDMAP 2: (not-walk able places)
 				case 1101: //dangerous thrower troll, used in god wars
 					range(21);
 					break;
-				
-				//skeletal wyverns
+
+					//skeletal wyverns
 				case 3068:
 				case 3069:
 				case 3070:
@@ -1309,9 +1310,9 @@ WORLDMAP 2: (not-walk able places)
 						freezePlayer = 5;
 					}
 					else melee(13);
-				break;
+					break;
 
-				//Magic
+					//Magic
 				case 3752: //Torcher
 				case 3753: //Torcher
 				case 3754: //Torcher
@@ -1603,7 +1604,7 @@ WORLDMAP 2: (not-walk able places)
 					c.getFrameMethodHandler().stillgfx(305, c.absY, c.absX);
 					range(71);
 					break;
-					
+
 				case 871: //Ogre Shaman - Used in godwars
 					magic(16);
 					c.getFrameMethodHandler().stillgfx(346, c.absY, c.absX);
@@ -1667,7 +1668,7 @@ WORLDMAP 2: (not-walk able places)
 					melee(60);
 					npcs[NPCID].animNumber = 0x326;
 					break;
-					
+
 				default:
 					melee(npcs[NPCID].MaxHit); //melee by default
 					break;
@@ -1681,14 +1682,14 @@ WORLDMAP 2: (not-walk able places)
 				//Defence
 
 				int hitDiff = misc.random(_maxHit);
-				int npcBonus = npcs[NPCID].MaxHP*2+_maxHit;
+				int npcBonus = (int) (npcs[NPCID].MaxHP*1.5+_maxHit);
 
 				if (NPCFightType == 1){ //melee
 					if (c.PMelee)
 						hitDiff = 0;
 					else{
 						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeAtkEquipmentBonus();
-						if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+						if (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
 				//TODO - add projectiles
@@ -1697,7 +1698,7 @@ WORLDMAP 2: (not-walk able places)
 						hitDiff = 0;
 					else{
 						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerRangeDefEquipmentBonus();
-						if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+						if (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
 				if (NPCFightType == 3){ //mage
@@ -1705,7 +1706,7 @@ WORLDMAP 2: (not-walk able places)
 						hitDiff = 0;
 					else{
 						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMagicDefEquipmentBonus();
-						if (c.getCombatHandler().isMyBonusGreaterThanTheEnemy(playerBonus, npcBonus)) hitDiff = 0;
+						if (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
 
@@ -1883,15 +1884,11 @@ WORLDMAP 2: (not-walk able places)
 	}
 
 	public int getHP(int npcTypeID){
-		if(npcList2.exists(npcTypeID))
-			return npcList2.getHealth();
-		else return -1;
+		return NPCListArray[npcTypeID].npcHealth;
 	}
 
-	public int getCombat(int npcID) {
-		if(npcList2.exists(npcID))
-			return npcList2.getCombat();
-		else return -1;
+	public int getCombat(int npcTypeID) {
+		return NPCListArray[npcTypeID].npcCombat;
 	}
 
 	public boolean loadNPCList(String FileName) {
@@ -1946,7 +1943,6 @@ WORLDMAP 2: (not-walk able places)
 			} else {
 				if (line.equals("[ENDOFNPCLIST]")) {
 					try { characterfile.close(); } catch(IOException ioexception) { }
-					npcList2.buildBalancedTree(NPCListArray, 0, NPCListArray.length-1);
 					return true;
 				}
 			}
@@ -1959,6 +1955,14 @@ WORLDMAP 2: (not-walk able places)
 	}
 
 
+	public boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
+		if(enemyBonus < 2) enemyBonus = 2;
+		if(myBonus < 2) myBonus = 2; 
+		int myRandom = misc.random(myBonus); //declaring for debugging purposes
+		int eRandom = misc.random(enemyBonus);
+		if(server.debugmode) misc.println("NPC Attack Bonus : "+myBonus+" Enemy Def Bonus : "+enemyBonus);
+		return (myRandom > eRandom);
+	}
 
 	public void println(String str) {
 		System.out.println(str);

@@ -70,11 +70,10 @@ public class EventManager{
 				if (c.miningTimer > 0){
 					c.miningTimer -= 1;
 				}
-				if (c.miningTimer == 0 && c.MINE.list.getCurrentOre() > 1){
-					c.MINE.deliverOre(); //will deliver correct log and decrement _numlogs
-					if(c.MINE.list.getCurrentOre() > 1)
-						c.miningTimer = c.MINE.getDelay();
-					if(c.MINE.list.getCurrentOre() == 1)
+				if (c.miningTimer == 0){
+					c.MINE.deliverOre(); //will deliver correct ore and decrement number of ore left
+					c.miningTimer = c.MINE.getDelay();
+					if(c.MINE.list.getCurrentOre() == 0)
 						c.MINE.finishedMining();
 				}
 

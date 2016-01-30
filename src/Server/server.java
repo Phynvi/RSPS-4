@@ -10,6 +10,8 @@ public static WorldMap worldMap = null;
 public static ArrayList<String> connectedList = new ArrayList<String>();
 public static final String SERVERNAME = "SarimScape";
 
+public static boolean debugmode = false;
+
 	public server() {
 		// the current way of controlling the server at runtime and a great debugging/testing tool
 		//jserv js = new jserv(this);

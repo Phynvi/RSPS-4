@@ -368,13 +368,10 @@ public class Combat {
 		if(server.npcHandler.npcs[npcIndex] == null) return false;
 		int npcMaxHP = server.npcHandler.npcs[npcIndex].MaxHP;
 		int enemyBonus = npcMaxHP;
-
-		int maxAtkBonus = Math.max(c.playerBonus[atkBonus[stab]], c.playerBonus[atkBonus[slash]]);
-		maxAtkBonus = Math.max(maxAtkBonus, c.playerBonus[atkBonus[crush]]);
-
+		
 		int myPrayerBonus = (int)(c.attEffect*0.01);
 
-		int myBonus = c.playerLevel[c.playerAttack]+maxAtkBonus+myPrayerBonus;
+		int myBonus = c.playerLevel[c.playerAttack]+getPlayerMeleeAtkEquipmentBonus()+myPrayerBonus;
 
 		return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 	}

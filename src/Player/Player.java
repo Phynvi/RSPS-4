@@ -15,7 +15,7 @@ public abstract class Player extends playerInstances {
 	}	
 	
 	public void debug(String str) {
-		if(debugmode)
+		if(server.debugmode)
 			System.out.println("[DEBUG-"+playerId+"-"+playerName+"]: "+str);
 	}
 	public void println(String str) {

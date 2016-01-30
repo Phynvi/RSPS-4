@@ -700,8 +700,6 @@ public class MagicDataHandler {
 		if(c.LoopAttDelay > 0)
 			return false;
 
-		c.teleport(c.absX,c.absY);
-
 		if(!server.npcHandler.npcs[npcIndex].attackable) return false;
 
 		c.debug("npcIndex: "+npcIndex+" magicID: "+c.spellID);
@@ -714,11 +712,14 @@ public class MagicDataHandler {
 		int required = this.checkMagicLevel(c.spellID);
 		if(c.playerLevel[c.playerMagic] < required){
 			c.sendMessage("You need "+required+" Magic to do that.");
+			c.stopPlayerMovement();
 			return false;
 		}
 
-		if(!this.checkMagicRunes(c.spellID))
+		if(!this.checkMagicRunes(c.spellID)){
+			c.stopPlayerMovement();
 			return false;
+		}
 
 		int EnemyX2 = server.npcHandler.npcs[npcIndex].absX;
 		int EnemyY2 = server.npcHandler.npcs[npcIndex].absY;
@@ -728,7 +729,8 @@ public class MagicDataHandler {
 			c.faceNPC(npcIndex);
 
 		if(server.npcHandler.npcs[npcIndex].attacknpc > 0) {
-			c.sendMessage("You can't attack a dueling npc");
+			c.sendMessage("You cannot attack this npc currently.");
+			c.stopPlayerMovement();
 			return false;
 		}
 
@@ -740,6 +742,8 @@ public class MagicDataHandler {
 					int distanceBetweenMeAndMyEnemy = misc.distanceBetweenPoints(EnemyX2, EnemyY2, c.absX, c.absY);
 					if (distanceBetweenMeAndMyEnemy > 6) return false;
 
+					c.stopPlayerMovement();
+					
 					server.npcHandler.npcs[npcIndex].StartKilling = c.playerId;
 					server.npcHandler.npcs[npcIndex].RandomWalk = false;
 					server.npcHandler.npcs[npcIndex].IsUnderAttack = true;
@@ -1014,8 +1018,8 @@ public class MagicDataHandler {
 		switch(magicID){ 
 		case 1: //H Teleport
 			return new int[]{1,FIRE,3,AIR,1,LAW};
-		case 50235: // Home teleport ancients
-			return new int[]{-1};
+		case 50235: // Mudskipper point ancient
+			return new int[]{2,LAW,1,FIRE,1,AIR};
 		case 50245: //PVP teleport ancients
 			return new int[]{-1};
 		case 50253: //Rimmington Teleport ancients

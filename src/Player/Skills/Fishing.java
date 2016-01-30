@@ -28,7 +28,7 @@ public class Fishing{
 
 	private boolean setVariablesAndCheckRequirements(int _levelRequired, int[] _deliverFish, int _removeID, int _requiredTool){
 		if(c.playerLevel[c.playerFishing] < _levelRequired){
-			c.sendMessage("You need "+_levelRequired+" to do that.");
+			c.sendMessage("You need at least "+_levelRequired+" Fishing to do that.");
 			resetFishing();
 			return false;
 		}

@@ -1202,22 +1202,19 @@ public class ButtonClickHandler {
 			break;
 
 
-		case 50235: //Ancients teleport home
-			if(c.homeTeleportTimer <= 0){
-				if(c.getClientMethodHandler().canPlayersTeleportInThisArea()){
-					c.homeTeleportTimer = 15;
-					c.getClientMethodHandler().isteleporting2(392, 1161, 20, 3023,3206, 0);
-				}
-				else c.sendMessage("You can't use that teleport in this area.");
+		case 50235: //Ancients teleport Mudskipper point
+			if(c.MAGICDATAHANDLER.checkMagicRunes(50235)){
+				c.MAGICDATAHANDLER.removeMagicRunes(50235);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2996,3117, 0);
+				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
-			else c.sendMessage("You need to wait "+c.homeTeleportTimer+" minutes before using this.");
 			break;
 
 		case 4143: //S Teleport
 			if(c.homeTeleportTimer <= 0){
 				if(c.getClientMethodHandler().canPlayersTeleportInThisArea()){
 					c.homeTeleportTimer = 15;
-					c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024, 3206, 0);
+					c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2958,3224, 0);
 				}
 				else c.sendMessage("You can't use that teleport in this area.");
 			}
@@ -1239,10 +1236,10 @@ public class ButtonClickHandler {
 			else c.sendMessage("You cannot activate teleports in this area.");
 			break;
 
-		case 50253: //Rimmington
+		case 50253: //Gu'Tanoth
 			if(c.MAGICDATAHANDLER.checkMagicRunes(50253)){
 				c.MAGICDATAHANDLER.removeMagicRunes(50253);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2954,3214, 0);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2556,3059, 0);
 				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;
@@ -1311,7 +1308,12 @@ public class ButtonClickHandler {
 			}
 			break;
 
-		case 6005: //open teleport
+		case 6005: //canifis teleport
+			if(c.MAGICDATAHANDLER.checkMagicRunes(6005)){
+				c.MAGICDATAHANDLER.removeMagicRunes(6005);
+				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3491,3484, 0);
+				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
+			}
 			break;
 
 		case 59135:
@@ -1481,7 +1483,7 @@ public class ButtonClickHandler {
 
 		default:
 			//System.out.c.println("Player stands in: X="+c.absX+" Y="+c.absY);
-			if(c.debugmode)c.debug("Case 185: Unhandled Action Button: "+actionButtonId);
+			c.debug("Case 185: Unhandled Action Button: "+actionButtonId);
 			break;
 		}
 

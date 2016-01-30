@@ -50,14 +50,12 @@ public class Runecrafting {
 			return false;
 		}
 		double runesToCraft = c.getInventoryHandler().itemAmount(RUNE_ESSENCE);
-		int extraRunes = 0;
 		if(multi != -1)
-			extraRunes = (int)(runesToCraft*Math.ceil((double)c.playerLevel[c.playerRunecrafting]/(double)multi));
-
-		exp = Math.ceil(exp*(runesToCraft+extraRunes)*c.rate);
+			runesToCraft = runesToCraft + (int)(runesToCraft*Math.ceil((double)c.playerLevel[c.playerRunecrafting]/(double)multi));
+		exp = Math.ceil(exp*(runesToCraft)*c.rate);
 		c.getClientMethodHandler().addSkillXP((int)exp, c.playerRunecrafting);
-		c.getInventoryHandler().replaceAllItemsOfTypeWith(RUNE_ESSENCE, rune);
-		c.getInventoryHandler().addItem(rune, extraRunes);
+		c.getInventoryHandler().deleteAllItemsOf(RUNE_ESSENCE);
+		c.getInventoryHandler().addItem(rune, (int)runesToCraft);
 		c.startAnimation(791);
 		c.getFrameMethodHandler().gfx100(186);
 		return false;

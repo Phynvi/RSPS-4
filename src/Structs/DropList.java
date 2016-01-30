@@ -33,12 +33,11 @@ public class DropList {
 	public static int[] armorTrim = {10124, 10125, 2583, 2585, 2587, 2589, 2591, 2593, 2595, 2597, 2599, 2601, 2603, 2605, 2607, 2609, 2611, 2613, 2615, 2617, 2619, 2621, 2623, 2625, 2627, 2629, 3472, 3473, 3474, 3475, 3476, 3477, 3478, 3479, 3480, 3481, 3483, 3485, 3486, 3488, 7332, 7334, 7336, 7338, 7340, 7342, 7344, 7346, 7348, 7350, 7352, 7354, 7356, 7358, 7360, 7362, 7364, 7366, 7368, 7370, 7372, 7374, 7376, 7378, 7380, 7382, 7384, 7386, 7388, 7390, 7392, 7394, 7396};
 	public static int[] dragonItems = {1149, 1187, 1215, 1231, 1249, 1305, 1377, 1434, 2366, 2368, 3140, 3204, 4087, 4585, 4587, 6739, 7158}; //basic dragon armor + weapons, no: full helm, boots, claws
 
-	public static int[] defenders = {13601, 13602, 13603};
 	public static int[] miscGear = {7053, 4551, 4566, 7804, 7449}; //misc items: lantern, spiked helm, chicken, hammer
-	public static int[] miscDrops = {2347,436, 438, 440, 442, 444, 447, 449, 451, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 1511, 1513, 1515, 1517, 1519, 1521,1617,1619,1621,1623,1631,6571}; //pots, ores, bars, logs, gems
+	public static int[] miscDrops = {2347,436, 438, 440, 442, 444, 447, 449, 451, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 1511, 1513, 1515, 1517, 1519, 1521,1617,1619,1621,1623,1631}; //pots, ores, bars, logs, gems
 	public static int[] potions = {121, 133, 115, 127, 133, 139, 145, 157, 163, 169, 3042}; //all potions
 	public static int[] food = lists.food.toArray();
-	public static int[] craftedJew = {9102, 7803, 140, 1704, 1712, 1725, 1727, 1729, 1731, 6040, 6585, 6575, 1635, 1637, 1639, 1641, 1643, 1645, 2550, 2552, 2570, 2572, 6735, 6733, 6731, 6737, 6735, 6735, 6731}; //rings and amulets
+	public static int[] craftedJew = {9102, 7803, 140, 1704, 1712, 1725, 1727, 1729, 1731, 6040, 6585, 1635, 1637, 1639, 1641, 1643, 1645, 2550, 2552, 2570, 2572, 6735, 6733, 6731, 6737, 6735, 6735, 6731}; //rings and amulets
 
 	public static int[] obbyItems = {6523, 6524, 6525, 6526, 6527, 6528}; //obsidian weaps and shield
 	public static int[] a3rdAgeSet = {14511, 14512, 14513, 14514, 14507, 14508, 14509, 14503, 14504, 14600, 14506}; //all 3rd age armors
@@ -50,9 +49,10 @@ public class DropList {
 	//rare weapons: cbow, darkbow, excal, slayer sword, prom 2h, frem sword, ancient staff, whip,
 	//zamorak crozier,
 	
-	public static int[] rareGear = {9101,9096,9097,9098,9004,4224,3633,3635,3840,3842,3844,14860, 11342, 14638, 15352, 15195, 9099,3749,3751,3753,3755,2491,2497,2503,2581}; 
+	public static int[] rareGear = {6575,6571,9101,9096,9097,9098,9004,4224,3633,3635,3840,3842,3844,14860, 11342, 14638, 15352, 15195, 9099,3749,3751,3753,3755,2491,2497,2503,2581,
+		13601, 13602, 13603}; 
 	//rare gear: helm of neiz, ava's, fighter torso, drag boots, drag helm, zammy cape, archer helm, serker helm, warrior helm, farseer helm, black d'hide stuff, ranger hat, mage books
-	//spirit shield, blessed spirit shield, crystal shield, monkey bag, zamorak robes and stole
+	//spirit shield, blessed spirit shield, crystal shield, monkey bag, zamorak robes and stole, onyx ring and gem, defenders
 
 	public static int[] PRESENT = {6199};
 	public static int[] DFS = {13361};
@@ -91,6 +91,8 @@ public class DropList {
 	public static int torags[] = {4745,4747,4749,4751};
 	public static int veracs[] = {4753,4755,4757,4759};
 	
+	public static int talisman[] = {1438,1440,1442,1444,1446,1448,1450,1452,1454,1456,1458,1460,1462};
+	
 	public LinkedList<Drop> barrowsDrop = new LinkedList<Drop>();
 	
 	public static int greenDHideWithTrim[] = lists.dhideEquipment.toArray();
@@ -110,6 +112,7 @@ public class DropList {
 	public static LinkedList<Drop> abbyDrop = new LinkedList<Drop>();
 	public static LinkedList<Drop> bossDrop = new LinkedList<Drop>();
 	public static LinkedList<Drop> darkBeastDrop = new LinkedList<Drop>();
+	public static LinkedList<Drop> runesTalismanHerbs = new LinkedList<Drop>();
 
 	/**
 	 * Canon misc. drop
@@ -117,13 +120,15 @@ public class DropList {
 	 * @return new Drop object, populated by misc drop items
 	 */
 	public static Drop miscdrop(int numb){
-		return new Drop(numb, food, miscDrops,potions,craftedJew,farmSeeds,herbs,gems,runes);
+		return new Drop(numb, food, miscDrops,potions,craftedJew,farmSeeds,herbs,gems,runes,talisman);
 	}
 
 	public void generateLists(){
 
 		//System.out.println("DropHandler : Loading drops...");
 		//long starting = System.currentTimeMillis();
+		populate(runesTalismanHerbs, new Drop(2,runes), new Drop(1,talisman), new Drop(2,herbs));
+		
 		populate(darkBeastDrop, 
 				new Drop(2, Item.DARKBOW),
 				DropList.miscdrop(3),
@@ -132,12 +137,12 @@ public class DropList {
 		
 		populate(barrowsDrop, //40% basic, 40% misc drop, 10% dragon items, 10% rare gear
 				DropList.miscdrop(2), 
-				new Drop(1, DropList.rareGear, DropList.defenders, DropList.rareWeapons, DropList.FIRECAPE, DropList.SERVERTOKEN));
+				new Drop(1, DropList.rareGear, DropList.rareWeapons, DropList.FIRECAPE, DropList.SERVERTOKEN));
 		
 		populate(dragonDrop, //40% basic, 45% misc, 10% rare, 5% DFS
 				new Drop(8, basicArmorAndItemsNoTrim,armorTrim,craftedJew,magicStaffs,basicCapes),
 				miscdrop(9),
-				new Drop(2, dragonItems, defenders, rareGear),
+				new Drop(2, dragonItems, rareGear),
 				new Drop(1, DFS));
 				
 		populate(newLowLevelDrop, 
@@ -145,35 +150,32 @@ public class DropList {
 				miscdrop(2));
 		
 		populate(midLevelDrop, 
-				new Drop(4, basicArmorAndItemsNoTrim, basicCapes, craftedJew, magicStaffs), 
-				miscdrop(5), 
-				new Drop(1, defenders));
+				new Drop(1, basicArmorAndItemsNoTrim, basicCapes, craftedJew, magicStaffs), 
+				miscdrop(1));
 		
 		populate(highLevelDrop, 
 				new Drop(8, basicArmorAndItemsNoTrim, basicCapes, craftedJew, magicStaffs), 
 				miscdrop(9),
-				new Drop(1, dragonItems), 
-				new Drop(1, defenders), 
-				new Drop(1, armorTrim));
+				new Drop(1, dragonItems,obbyItems), 
+				new Drop(2, armorTrim));
 		
 		populate(higherLevelDrop, 
 				new Drop(9, basicArmorAndItemsNoTrim, armorTrim,magicStaffs,basicCapes), 
 				miscdrop(8),
-				new Drop(2, dragonItems), 
-				new Drop(1, defenders), 
+				new Drop(2, dragonItems,obbyItems), 
 				new Drop(1, rareGear));
 		
 		populate(kree, 
 				new Drop(1, basicArmorAndItemsNoTrim, armorTrim, obbyItems,magicStaffs,basicCapes), 
 				miscdrop(1),
-				new Drop(2, dragonItems, defenders, rareGear, rareWeapons), 
+				new Drop(2, dragonItems, rareGear, rareWeapons), 
 				new Drop(1, a3rdAgeSet, armadylSet), 
 				new Drop(1, godSwords, DCLAWS, WHIP, FIRECAPE, SERVERTOKEN));
 		
 		populate(graardor, 
 				new Drop(1, basicArmorAndItemsNoTrim, armorTrim, obbyItems,magicStaffs,basicCapes), 
 				miscdrop(1),
-				new Drop(2, dragonItems, defenders, rareGear, rareWeapons), 
+				new Drop(2, dragonItems, rareGear, rareWeapons), 
 				new Drop(1, a3rdAgeSet, bandosSet),
 				new Drop(1, godSwords, DCLAWS, WHIP, FIRECAPE, SERVERTOKEN));
 		

@@ -26,7 +26,7 @@ public class Cooking {
 	if (c.actionTimer == 0){
 		if (c.playerLevel[7] >= cookinglevel && c.getInventoryHandler().IsItemInBag(cookingdelete) == true && (burntfish != 0 || c.playerEquipment[c.playerHands] == 775) ){
 			c.startAnimation(883);
-			c.actionTimer = 10;
+			c.actionTimer = 4;
 			c.cookingon = true;
 			c.sendMessage("You cook the "+cookingname+".");
 			c.getInventoryHandler().deleteItem(cookingdelete, c.getInventoryHandler().getItemSlot(cookingdelete), 1);

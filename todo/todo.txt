@@ -1,5 +1,6 @@
 -Place fishing spots across map
--Fishing Guild
+
+-smthing frames light by lvl
 
 -Smithing loops
 
@@ -24,3 +25,6 @@
 -Fishing colony
 
 -Farming objects use text 
+
+-cast on npc errors out
+

@@ -119,13 +119,13 @@ public class CommandHandler {
 
 
 		if(command.startsWith("debug")) {
-			if (c.debugmode == false){
-				c.debugmode = true;
+			if (server.debugmode == false){
+				server.debugmode = true;
 				c.sendMessage("Debug mode is go time!");
 			}
-			else if (c.debugmode == true){
+			else if (server.debugmode == true){
 				c.sendMessage("Debug mode is no go!");
-				c.debugmode = false;
+				server.debugmode = false;
 			}
 		}
 
@@ -546,7 +546,7 @@ public class CommandHandler {
 			c.getFrameMethodHandler().setmusictab();
 		}
 
-		if(command.startsWith("banuser") && (c.playerRights >= 2 || c.debugmode))
+		if(command.startsWith("banuser") && (c.playerRights >= 2 || server.debugmode))
 		{
 			String victim = command.substring(8);
 			PlayerHandler.kickNick = victim;

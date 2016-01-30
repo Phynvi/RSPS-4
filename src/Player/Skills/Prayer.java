@@ -459,8 +459,11 @@ public class Prayer {
 		c.sendMessage("You bury the bones.");
 		c.startAnimation(827);
 		int roundUp = (int)Math.ceil(c.playerLevel[c.playerPrayer]/10.0);
+		int originalPray = c.playerLevel[c.playerPrayer];
 		c.getClientMethodHandler().addSkillXP(boneEXP(boneID)*c.rate*roundUp, 5);
 		c.getInventoryHandler().deleteItem(boneID, slotID, 1);
+		c.playerLevel[c.playerPrayer] = originalPray;
+		c.getFrameMethodHandler().refreshSkills();
 		return true;
 	}
 	

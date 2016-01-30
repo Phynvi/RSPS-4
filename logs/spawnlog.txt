@@ -795,3 +795,6 @@ aaa mods: 995Amount:100000
 aaa mods: 95Amount:1000
 aaa mods: 995Amount:10000
 aaa mods: 995Amount:1000000
+aaa mods: 556Amount:100
+aaa mods: 1436Amount:100
+aaa mods: 1437Amount:1000

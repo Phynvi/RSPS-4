@@ -596,7 +596,7 @@ public class ItemUse {
 
 		default:
 			c.sendMessage("Nothing interesting is happening.");
-			if(c.debugmode)c.debug("Unhandled Item - ItemID: "+Item);
+			c.error("Unhandled Item - ItemID: "+Item);
 			return false;
 		}
 		return true;

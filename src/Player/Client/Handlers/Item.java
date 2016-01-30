@@ -142,6 +142,7 @@ public class Item {
 			itemStackable[6568] = false;
 			itemStackable[6666] = false;
 			itemStackable[6665] = false;
+			itemStackable[6571] = false;
 		} catch (IOException e) {
 			System.out.println("Critical error while loading stackabledata! Trace:");
 			e.printStackTrace();

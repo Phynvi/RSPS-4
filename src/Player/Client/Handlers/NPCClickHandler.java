@@ -687,8 +687,8 @@ public class NPCClickHandler {
 				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "The Dwarves are stubborn and lack intelligence.", "But, they make up for it with", "admirable courage.","");
 			}
 			if (c.ancients == 9 && c.getInventoryHandler().freeSlots() >= 1){
-				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "After some research, it has been","concluded that you may be protected", "from the demon by using", "an ancient form of magic.",
-						"This ancient magic is harnassed through", "a special staff. When you have", "have it equipped you will be", "protected from the demon's magic.");
+				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "After some research, it has been","concluded that you may be protected", "from the demon by using", "an ancient form of magithis.",
+						"This ancient magic is harnassed through", "a special staff. When you have", "have it equipped you will be", "protected from the demon's magithis.");
 				c.ancients = 10;
 				c.getInventoryHandler().addItem(13308, 1);
 				return;
@@ -810,18 +810,18 @@ public class NPCClickHandler {
 				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hopefully Brimstail will be interested in","that artifact.");
 			}
 			else if (c.RM == 2 && c.getInventoryHandler().freeSlots() >= 1){
-				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of c.",
+				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of this.",
 						"Here are my notes. I'd like","you to take them back to Brimstail.");
 				c.sendMessage("Notes have been added to your inventory.");
 				c.getInventoryHandler().addItem(291, 1);
 				c.RM = 3;
 			}
 			else if (c.RM == 2 && c.getInventoryHandler().freeSlots() < 1){
-				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of c.",
+				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of this.",
 						"I'd give you my notes, but it seems like","you have no more room in your inventory.");
 			}
 			else if (c.RM == 3){
-				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hopefully Brimstail can make sense of all of c.");
+				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hopefully Brimstail can make sense of all of this.");
 			}
 			else if (c.RM == 4){
 				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "I really do appreciate the help.","You can use the magic portal to mine Rune Essence.");

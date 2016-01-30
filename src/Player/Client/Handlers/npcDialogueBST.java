@@ -42,11 +42,8 @@ import java.util.Queue;
 			return current.getLines();
 		}
 		
-		public String GetNpcName(int npcID) {
-			if(server.npcHandler.npcList2.exists(npcID))
-				return server.npcHandler.npcList2.getName();
-			System.out.println("NPC Name for "+npcID+" not found.");
-			return null;
+		public String GetNpcName(int npcTypeID) {
+			return server.npcHandler.NPCListArray[npcTypeID].npcName;
 		}
 		
 		public npcDialogueBST(){

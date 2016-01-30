@@ -16,7 +16,6 @@ public class Mining {
 		int total = baseRockDelay+misc.random(rockDelay)-misc.random(reduce+bonus); 
 		if (total < 1)
 			total = 3;
-		if (playerClient.debugmode)playerClient.sendMessage("Delay is "+total);
 		return total;
 	}
 		
@@ -60,22 +59,22 @@ public class Mining {
 		case 9711:
 		case 9713:
 			baseRockDelay = 2;
-			rockDelay = 7;
+			rockDelay = 8;
 			return;
 		case 2091: case 2090: //copper ore
 		case 9709:
 		case 9710:
 		case 9708:
 			baseRockDelay = 2;
-			rockDelay = 7;
+			rockDelay = 8;
 			return;
 		case 2108: case 2109: //clay
 			baseRockDelay = 2;
-			rockDelay = 5;
+			rockDelay = 7;
 			return;
 		case 2111: //rune essence
 			baseRockDelay = 2;
-			rockDelay = 5;
+			rockDelay = 7;
 			return;
 		}
 		baseRockDelay = 5;
@@ -221,7 +220,7 @@ public class Mining {
 			this.stopAll();
 			return;
 		}
-		if(misc.random(19) == 0 && playerClient.getInventoryHandler().freeSlots() >= 2){ //5% chance of finding a gem
+		if(misc.random(33) == 0 && playerClient.getInventoryHandler().freeSlots() >= 2){ //3% chance of finding a gem
 			playerClient.getInventoryHandler().addItem(playerClient.DROPHANDLER.getDrop(DropList.gems),1);
 			playerClient.sendMessage("You find a gem.");
 		}
@@ -275,6 +274,7 @@ public class Mining {
 		case 2108: case 2109: //clay
 			oreID = 434;
 			return;
+		case 2491:
 		case 2111: //rune essence
 			oreID = 1436;
 			return;
@@ -326,6 +326,7 @@ public class Mining {
 		case 2108: case 2109: //clay
 			EXP = 50; 
 			return;
+		case 2491:
 		case 2111: //rune essence
 			EXP = 65;
 			return;

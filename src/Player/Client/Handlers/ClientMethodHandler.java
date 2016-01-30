@@ -73,6 +73,16 @@ public class ClientMethodHandler {
 	}
 
 	/**
+	 * Will delay teleport for time (500ms) and then teleport to x,y,h
+	 */
+	public void teleportWithDelay(int time, int x, int y, int h){
+		c.isteleporting = time;
+		c.isteleportingx = x;
+		c.isteleportingy = y;
+		c.ithl = h;
+	}
+	
+	/**
 	 * Will start an animation for time and then teleport to x,y,h
 	 */
 	public void teleportWithAnimation(int anim, int time, int x, int y, int h){
@@ -101,11 +111,8 @@ public class ClientMethodHandler {
 
 
 	/*NPC Talking*/
-	public String getNpcName(int npcID) {
-		if(server.npcHandler.npcList2.exists(npcID))
-			return server.npcHandler.npcList2.getName();
-		c.debug("NPC Name for "+npcID+" not found.");
-		return null;
+	public String getNpcName(int npcTypeID) {
+		return server.npcHandler.NPCListArray[npcTypeID].npcName;
 	}
 
 	public void npcdialogue(int id, String ... lines){
@@ -779,7 +786,7 @@ public class ClientMethodHandler {
 					return false;
 				}
 			}
-			if (Item.itemSellable[(c.playerItems[fromSlot] - 1)] == false && c.debugmode == true) {
+			if (Item.itemSellable[(c.playerItems[fromSlot] - 1)] == false && server.debugmode == true) {
 				c.sendMessage("Call1: I cannot sell "+Item.getItemName(itemID)+".");
 				return false;
 			}
