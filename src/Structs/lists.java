@@ -96,7 +96,6 @@ public class lists {
 		
 		crystalBow.addRange(4212,4234);
 		
-		bows.add(837);
 		bows.addRange(839,862);
 		bows.add(2883);
 		bows.add(767);

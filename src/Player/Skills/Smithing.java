@@ -104,6 +104,166 @@ public class Smithing {
 		return true;
 	}
 	
+	private static final int BRONZE_BAR = 2349;
+	private static final int IRON_BAR = 2351;
+	private static final int STEEL_BAR = 2353;
+	private static final int SILVER_BAR = 2355;
+	private static final int GOLD_BAR = 2357;
+	private static final int MITHRIL_BAR = 2359;
+	private static final int ADAMANT_BAR = 2361;
+	private static final int RUNE_BAR = 2363;
+	private static final int COPPER_ORE = 436;
+	private static final int TIN_ORE = 438;
+	private static final int IRON_ORE = 440;
+	private static final int SILVER_ORE = 442;
+	private static final int GOLD_ORE = 444;
+	private static final int MITHRIL_ORE = 447;
+	private static final int ADAMANTITE_ORE = 449;
+	private static final int RUNITE_ORE = 451;
+	private static final int COAL = 453;
+	
+	public boolean smithing4OptionsPage1 = false;
+	public boolean smithing4OptionsPage2 = false;
+	public boolean smithing4OptionsPage3 = false;
+	
+	private int[] currentOreRequirements = null;
+	private String currentBarType = null;
+	
+	public void smithingBarMenuPage1(){
+		smithing4OptionsPage1 = true;
+		c.getFrameMethodHandler().select4Options("Page 1", "Smelt All Bronze Bars", "Smelt All Iron Bars", "Smelt All Silver Bars", "More Options");
+	}
+	public void smithingBarMenuPage2(){
+		smithing4OptionsPage2 = true;
+		c.getFrameMethodHandler().select4Options("Page 2", "Smelt All Steel Bars", "Smelt All Gold Bars", "Smelt All Mithril Bars", "More Options");
+	}
+	public void smithingBarMenuPage3(){
+		smithing4OptionsPage3 = true;
+		c.getFrameMethodHandler().select4Options("Page 3", "Smelt All Adamantite Bars", "Smelt All Rune bars", "", "Exit");
+	}
+	
+	public void smeltBar(String barType){
+		int levelRequired = -1;
+		switch(barType.toLowerCase()){
+		case "bronze":
+			levelRequired = 1;
+			currentOreRequirements = new int[]{1,TIN_ORE,1,COPPER_ORE};
+			break;
+		case "iron":
+			levelRequired = 15;
+			currentOreRequirements = new int[]{2,IRON_ORE};
+			break;
+		case "silver":
+			levelRequired = 20;
+			currentOreRequirements = new int[]{1,SILVER_ORE};
+			break;
+		case "steel":
+			levelRequired = 30;
+			currentOreRequirements = new int[]{1,IRON_ORE,2,COAL};
+			break;
+		case "gold":
+			levelRequired = 40;
+			currentOreRequirements = new int[]{1,GOLD_ORE};
+			break;
+		case "mithril":
+			levelRequired = 50;
+			currentOreRequirements = new int[]{1,MITHRIL_ORE,4,COAL};
+			break;
+		case "adamantite":
+			levelRequired = 70;
+			currentOreRequirements = new int[]{1,ADAMANTITE_ORE,6,COAL};
+			break;
+		case "rune":
+			levelRequired = 85;
+			currentOreRequirements = new int[]{1,RUNITE_ORE,8,COAL};
+			break;
+		}
+		if(c.playerLevel[c.playerSmithing] < levelRequired){
+			c.sendMessage("You need at least "+levelRequired+" Smithing to do that.");
+			return;
+		}
+		
+		boolean doesNotHaveTheOre = false;
+		for(int i = 0; i < currentOreRequirements.length-1; i += 2){
+			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(currentOreRequirements[i+1], currentOreRequirements[i])){
+				c.sendMessage("You need at least "+currentOreRequirements[i]+" "+Item.getItemName(currentOreRequirements[i+1])+" to do that.");
+				doesNotHaveTheOre = true;
+			}
+		}
+		if(doesNotHaveTheOre)
+			return;
+		
+		currentBarType = barType;
+		c.smithingTimer = SMITHING_ANIMATION_DELAY;
+		c.repeatAnimation(899, 3);
+		
+	}
+	
+	private static int SMITHINGRATE = 75;
+	
+	public boolean removeOreAndSmeltBar(){
+		for(int i = 0; i < currentOreRequirements.length-1; i += 2){
+			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(currentOreRequirements[i+1], currentOreRequirements[i])){
+				c.smithingTimer = -1;
+				c.stopAnimations();
+				return false;
+			}
+		}
+		
+		for(int i = 0; i < currentOreRequirements.length-1; i += 2){
+			for(int j = 0; j < currentOreRequirements[i]; j++){ //deleting the amount
+				c.getInventoryHandler().deleteItem(currentOreRequirements[i+1]);
+			}
+		}
+		
+		int EXP = -1;
+		switch(currentBarType.toLowerCase()){
+		case "bronze":
+			EXP = (int)6.25;
+			smithingAddBarToInventory(BRONZE_BAR);
+			break;
+		case "iron":
+			EXP = (int)12.5;
+			smithingAddBarToInventory(IRON_BAR);
+			break;
+		case "silver":
+			EXP = (int)13.67;
+			smithingAddBarToInventory(SILVER_BAR);
+			break;
+		case "steel":
+			EXP = (int)17.5;
+			smithingAddBarToInventory(STEEL_BAR);
+			break;
+		case "gold":
+			EXP = (int)22.5;
+			smithingAddBarToInventory(GOLD_BAR);
+			break;
+		case "mithril":
+			EXP = (int)30;
+			smithingAddBarToInventory(MITHRIL_BAR);
+			break;
+		case "adamantite":
+			EXP = (int)37.5;
+			smithingAddBarToInventory(ADAMANT_BAR);
+			break;
+		case "rune":
+			EXP = (int)50;
+			smithingAddBarToInventory(RUNE_BAR);
+			break;
+		}
+		c.getClientMethodHandler().addSkillXP(EXP*SMITHINGRATE, c.playerSmithing);
+		c.smithingTimer = SMITHING_ANIMATION_DELAY;
+		
+		return true;
+	}
+	
+	private void smithingAddBarToInventory(int barID){
+		c.getInventoryHandler().addItem(barID);
+		c.sendMessage("You make a "+Item.getItemName(barID));
+	}
+	
+	private static final int SMITHING_ANIMATION_DELAY = 2;
+	
 	public boolean removeBarAndSmithItem(int interfaceID, int removeID, int removeSlot, int maxAmountOfTimes){
 		//Smith Column 1,2,3,4
 		if (interfaceID == 1119 || interfaceID == 1120 || interfaceID == 1121 || interfaceID == 1122 || interfaceID == 1123){
@@ -112,7 +272,8 @@ public class Smithing {
 				amountOfTimes = amountOfTimes/barsNeeded(removeSlot, interfaceID);
 				if(amountOfTimes > 0) {
 					if(c.getInventoryHandler().playerHasItem(2347)) {
-						if(canSmith(removeID)) {
+						int lvlRequired = getRequiredSmithingLevel(removeID); 
+						if(c.playerLevel[c.playerSmithing] >= lvlRequired) {
 							if(amountOfTimes > maxAmountOfTimes) amountOfTimes = maxAmountOfTimes;
 							for(int e=0; e < amountOfTimes; e++) {
 								int amount = 1;
@@ -127,11 +288,11 @@ public class Smithing {
 								c.getInventoryHandler().ReplaceItems(removeID, removeBar(removeID), amount, barsNeeded(removeSlot, interfaceID));
 								c.getFrameMethodHandler().RemoveAllWindows();
 								c.startAnimation(898);
-								c.getClientMethodHandler().c.getClientMethodHandler().addSkillXP(smithXP(removeBar(removeID), barsNeeded(removeSlot, interfaceID)), 13);
+								c.getClientMethodHandler().c.getClientMethodHandler().addSkillXP(smithXP(removeBar(removeID), barsNeeded(removeSlot, interfaceID)*c.rate), 13);
 							}
 						} 
 						else {
-							c.sendMessage("You need a higher c.smithing level to smith "+Item.getItemName(removeID)+"s");
+							c.sendMessage("You need at least "+lvlRequired+" Smithing to do that.");
 						}
 					} 
 					else {
@@ -320,344 +481,102 @@ public class Smithing {
 		return 0;
 	}
 
-
-	/* ADD MORE TWO HANDED ITEMS HERE */
-
-	public boolean canSmith(int item) {
-		if(item == 1149 || item == 1305 || item == 7158 || item == 6575 || item == 892 || item == 7806 || item == 13602 || item == 9094 || item == 4151 || item == 5698 || item == 1187 || item == 1377 || item == 1434 || item == 14511 || item == 4587 || item == 14512 || item == 14513 || item == 14514 || item == 3140 || item == 14507 || item == 14508 || item == 14509 && c.playerLevel[13] >= 90) {
-			return true;
-		}
-		if(item == 1205 || item == 1351 && c.playerLevel[13] >= 1) {
-			return true;
-		}
-		if(item == 1422 && c.playerLevel[13] >= 2) {
-			return true;
-		}
-		if(item == 1139 && c.playerLevel[13] >= 3) {
-			return true;
-		}
-		if(item == 1277 || item == 819 && c.playerLevel[13] >= 4) {
-			return true;
-		}
-		if(item == 1321 || item == 39 &&c.playerLevel[13] >= 5) {
-			return true;
-		}
-		if(item == 1291 && c.playerLevel[13] >= 6) {
-			return true;
-		}
-		if(item == 1155 || item == 864 &&c.playerLevel[13] >= 7) {
-			return true;
-		}
-		if(item == 1173 && c.playerLevel[13] >= 8) {
-			return true;
-		}
-		if(item == 1337 && c.playerLevel[13] >= 9) {
-			return true;
-		}
-		if(item == 1375 && c.playerLevel[13] >= 10) {
-			return true;
-		}
-		if(item == 1103 && c.playerLevel[13] >= 11) {
-			return true;
-		}
-		if(item == 1189 && c.playerLevel[13] >= 12) {
-			return true;
-		}
-		if(item == 3095 && c.playerLevel[13] >= 13) {
-			return true;
-		}
-		if(item == 1307 && c.playerLevel[13] >= 14) {
-			return true;
-		}
-		if(item == 1203 && c.playerLevel[13] >= 15) {
-			return true;
-		}
-		if(item == 1087  || item == 1075 || item == 1349 && c.playerLevel[13] >= 16) {
-			return true;
-		}
-		if(item == 1420 && c.playerLevel[13] >= 17) {
-			return true;
-		}
-		if(item == 1117 || item == 1137 && c.playerLevel[13] >= 18) {
-			return true;
-		}
-		if(item == 1279 || item == 820 || item == 4820 && c.playerLevel[13] >= 19) {
-			return true;
-		}
-		if(item == 1323 || item == 40 && c.playerLevel[13] >= 20) {
-			return true;
-		}
-		if(item == 1293 && c.playerLevel[13] >= 21) {
-			return true;
-		}
-		if(item == 1153 || item == 863 && c.playerLevel[13] >= 22) {
-			return true;
-		}
-		if(item == 1175 && c.playerLevel[13] >= 23) {
-			return true;
-		}
-		if(item == 1335 && c.playerLevel[13] >= 24) {
-			return true;
-		}
-		if(item == 1363 && c.playerLevel[13] >= 25) {
-			return true;
-		}
-		if(item == 1101 || item == 4540 && c.playerLevel[13] >= 26) {
-			return true;
-		}
-		if(item == 1191 && c.playerLevel[13] >= 27) {
-			return true;
-		}
-		if(item == 3096 && c.playerLevel[13] >= 28) {
-			return true;
-		}
-		if(item == 1309 && c.playerLevel[13] >= 29) {
-			return true;
-		}
-		if(item == 1207 && c.playerLevel[13] >= 30) {
-			return true;
-		}
-		if(item == 1067 || item == 1081 || item == 1353 && c.playerLevel[13] >= 31) {
-			return true;
-		}
-		if(item == 1424 && c.playerLevel[13] >= 32) {
-			return true;
-		}
-		if(item == 1115 || item == 1141 && c.playerLevel[13] >= 33) {
-			return true;
-		}
-		if(item == 1281 || item == 1539 || item == 821 && c.playerLevel[13] >= 34) {
-			return true;
-		}
-		if(item == 1325 || item == 41 && c.playerLevel[13] >= 35) {
-			return true;
-		}
-		if(item == 1295 || item == 2370 && c.playerLevel[13] >= 36) {
-			return true;
-		}
-		if(item == 1157 || item == 865 && c.playerLevel[13] >= 37) {
-			return true;
-		}
-		if(item == 1177 && c.playerLevel[13] >= 38) {
-			return true;
-		}
-		if(item == 1339 && c.playerLevel[13] >= 39) {
-			return true;
-		}
-		if(item == 1365 && c.playerLevel[13] >= 40) {
-			return true;
-		}
-		if(item == 1105 && c.playerLevel[13] >= 41) {
-			return true;
-		}
-		if(item == 1193 && c.playerLevel[13] >= 42) {
-			return true;
-		}
-		if(item == 3097 && c.playerLevel[13] >= 43) {
-			return true;
-		}
-		if(item == 1311 && c.playerLevel[13] >= 44) {
-			return true;
-		}
-		if(item == 1069 || item == 1083 && c.playerLevel[13] >= 46) {
-			return true;
-		}
-		if(item == 1119 && c.playerLevel[13] >= 48) {
-			return true;
-		}
-		if(item == 4544 && c.playerLevel[13] >= 49) {
-			return true;
-		}
-		if(item == 1209 && c.playerLevel[13] >= 50) {
-			return true;
-		}
-		if(item == 1355 && c.playerLevel[13] >= 51) {
-			return true;
-		}
-		if(item == 1428 && c.playerLevel[13] >= 52) {
-			return true;
-		}
-		if(item == 1143 && c.playerLevel[13] >= 53) {
-			return true;
-		}
-		if(item == 1285 || item == 822 || item == 4822 && c.playerLevel[13] >= 54) {
-			return true;
-		}
-		if(item == 1329 || item == 42 && c.playerLevel[13] >= 55) {
-			return true;
-		}
-		if(item == 1299 && c.playerLevel[13] >= 56) {
-			return true;
-		}
-		if(item == 1159 || item == 866 && c.playerLevel[13] >= 57) {
-			return true;
-		}
-		if(item == 1181 && c.playerLevel[13] >= 58) {
-			return true;
-		}
-		if(item == 1343 && c.playerLevel[13] >= 59) {
-			return true;
-		}
-		if(item == 1369 && c.playerLevel[13] >= 60) {
-			return true;
-		}
-		if(item == 1109 && c.playerLevel[13] >= 61) {
-			return true;
-		}
-		if(item == 1197 && c.playerLevel[13] >= 62) {
-			return true;
-		}
-		if(item == 3099 && c.playerLevel[13] >= 63) {
-			return true;
-		}
-		if(item == 1315 && c.playerLevel[13] >= 64) {
-			return true;
-		}
-		if(item == 1071 || item == 1085 && c.playerLevel[13] >= 66) {
-			return true;
-		}
-		if(item == 1121 && c.playerLevel[13] >= 68) {
-			return true;
-		}
-		if(item == 1211 && c.playerLevel[13] >= 70) {
-			return true;
-		}
-		if(item == 1430 && c.playerLevel[13] >= 72) {
-			return true;
-		}
-		if(item == 1145 && c.playerLevel[13] >= 73) {
-			return true;
-		}
-		if(item == 1287 || item == 823 || item == 4823 && c.playerLevel[13] >= 74) {
-			return true;
-		}
-		if(item == 1331 || item == 43 && c.playerLevel[13] >= 75) {
-			return true;
-		}
-		if(item == 1301 && c.playerLevel[13] >= 76) {
-			return true;
-		}
-		if(item == 1161 || item == 867 && c.playerLevel[13] >= 77) {
-			return true;
-		}
-		if(item == 1183 && c.playerLevel[13] >= 78) {
-			return true;
-		}
-		if(item == 1371 && c.playerLevel[13] >= 79) {
-			return true;
-		}
-		if(item == 1111 && c.playerLevel[13] >= 81) {
-			return true;
-		}
-		if(item == 1199 && c.playerLevel[13] >= 82) {
-			return true;
-		}
-		if(item == 3100 && c.playerLevel[13] >= 83) {
-			return true;
-		}
-		if(item == 1317 && c.playerLevel[13] >= 84) {
-			return true;
-		}
-		if(item == 1213 && c.playerLevel[13] >= 85) {
-			return true;
-		}
-		if(item == 1073 || item == 1091 || item == 1359 && c.playerLevel[13] >= 86) {
-			return true;
-		}
-		if(item == 1432 && c.playerLevel[13] >= 87) {
-			return true;
-		}
-		if(item == 1123 || item == 1147 && c.playerLevel[13] >= 88) {
-			return true;
-		}
-		if(item == 1289 || item == 824 || item == 4824 && c.playerLevel[13] >= 89) {
-			return true;
-		}
-		if(item == 1333 || item == 44 && c.playerLevel[13] >= 90) {
-			return true;
-		}
-		if(item == 1303 && c.playerLevel[13] >= 91) {
-			return true;
-		}
-		if(item == 1163 || item == 868 && c.playerLevel[13] >= 92) {
-			return true;
-		}
-		if(item == 1185 && c.playerLevel[13] >= 93) {
-			return true;
-		}
-		if(item == 1347 && c.playerLevel[13] >= 94) {
-			return true;
-		}
-		if(item == 1373 && c.playerLevel[13] >= 95) {
-			return true;
-		}
-		if(item == 1113 && c.playerLevel[13] >= 96) {
-			return true;
-		}
-		if(item == 1201 && c.playerLevel[13] >= 97) {
-			return true;
-		}
-		if(item == 3101 && c.playerLevel[13] >= 98) {
-			return true;
-		}
-		if(item == 1319 && c.playerLevel[13] >= 99) {
-			return true;
-		}
-		if(item == 1079 && c.playerLevel[13] >= 99) {
-			return true;
-		}
-		if(item == 1079 || item == 1093 || item == 1319 || item == 1127 && c.playerLevel[13] >= 99) {
-			return true;
-		} else {
-			return false;
-		}
-		//return false;
+	
+	private int getRequiredSmithingLevel(int itemID){
+		switch(itemID){
+		case 1422: return 2;
+		case 1139: return 3;
+		case 1277: case 819: return 4;
+		case 1321: case 39: return 5;
+		case 1291: return 6;
+		case 1155: case 864: return 7;
+		case 1173: return 8;
+		case 1337: return 9;
+		case 1375: return 10;
+		case 1103: return 11;
+		case 1189: return 12;
+		case 3095: return 13;
+		case 1307: return 14;
+		case 1203: return 15;
+		case 1087: case 1075: case 1349: return 16;
+		case 1420: return 17;
+		case 1117: case 1137: return 19;
+		case 1279: case 820: case 4820: return 19;
+		case 1323: case 40: return 20;
+		case 1293: return 21;
+		case 1153: case 863: return 22;
+		case 1175: return 23;
+		case 1335: return 24;
+		case 1363: return 25;
+		case 1101: case 4540: return 26;
+		case 1191: return 27;
+		case 3096: return 28;
+		case 1309: return 29;
+		case 1207: return 30;
+		case 1067: case 1081: case 1353: return 31;
+		case 1424: return 32;
+		case 1115: case 1141: return 33;
+		case 1281: case 1539: case 821: return 34;
+		case 1325: case 41: return 35;
+		case 1295: case 2370: return 36;
+		case 1157: case 865: return 37;
+		case 1177: return 38;
+		case 1339: return 39;
+		case 1365: return 40;
+		case 1105: return 41;
+		case 1193: return 42;
+		case 3097: return 43;
+		case 1311: return 44;
+		case 1069: case 1063: return 46;
+		case 1119: return 48;
+		case 4544: return 49;
+		case 50: return 1209;
+		case 1355: return 51;
+		case 1428: return 52;
+		case 1143: return 53;
+		case 1285: case 822: case 4822: return 54;
+		case 1329: case 42: return 55;
+		case 1299: return 56;
+		case 1159: case 866: return 57;
+		case 1181: return 58;
+		case 1343: return 59;
+		case 1369: return 60;
+		case 1109: return 61;
+		case 1197: return 62;
+		case 3099: return 63;
+		case 1315: return 64;
+		case 1071: case 1085: return 66;
+		case 1121: return 68;
+		case 1211: return 70;
+		case 1430: return 72;
+		case 1145: return 73;
+		case 1287: case 823: case 4823: return 74;
+		case 1331: case 43: return 75;
+		case 1301: return 76;
+		case 1161: case 867: return 77;
+		case 1183: return 78;
+		case 1371: return 79;
+		case 1111: return 81;
+		case 1199: return 82;
+		case 3100: return 83;
+		case 1317: return 84;
+		case 1213: return 85;
+		case 1073: case 1091: case 1359: return 86;
+		case 1432: return 87;
+		case 1123: case 1147: return 88;
+		case 1289: case 824: case 4824: return 89;
+		case 1333: case 44: return 90;
+		case 1303: return 91;
+		case 1163: case 868: return 92;
+		case 1185: return 93;
+		case 1347: return 94;
+		case 1373: return 95;
+		case 1113: return 96;
+		case 1201: return 97;
+		case 3101: return 98;
+		case 1079: case 1093: case 1319: case 1127: return 99;
+		}
+		return 0;
 	}
 
-	public void smithingvoid(){
-		if (c.smithingamount == 1){
-			if (c.getInventoryHandler().IsItemInBag(c.smithdelete) == true){
-				c.startAnimation(899);
-				c.sendMessage("You make a "+c.smithname+" bar.");
-				c.getInventoryHandler().deleteItem(c.smithdelete, c.getInventoryHandler().getItemSlot(c.smithdelete), 1);
-				c.getInventoryHandler().addItem (c.smithitem, 1);
-				c.getClientMethodHandler().addSkillXP(c.smithxp*c.rate, 13);
-				c.smithingtimer = 8;
-			}
-			else if (c.getInventoryHandler().IsItemInBag(c.smithdelete) == false){
-				c.smithingtimer = 0;
-			}
-		}
-		else if (c.smithingamount == 2){
-			if (c.getInventoryHandler().IsItemInBag(c.smithdelete) == true && c.getInventoryHandler().IsItemInBag(c.smithdelete2) == true){
-				c.startAnimation(899);
-				c.sendMessage("You make a "+c.smithname+" bar.");
-				c.getInventoryHandler().deleteItem(c.smithdelete, c.getInventoryHandler().getItemSlot(c.smithdelete), 1);
-				c.getInventoryHandler().deleteItem(c.smithdelete2, c.getInventoryHandler().getItemSlot(c.smithdelete2), 1);
-				c.getInventoryHandler().addItem (c.smithitem, 1);
-				c.getClientMethodHandler().addSkillXP(c.smithxp*c.rate, 13);
-				c.smithingtimer = 8;
-			}
-			else if (c.getInventoryHandler().IsItemInBag(c.smithdelete) == false || c.getInventoryHandler().IsItemInBag(c.smithdelete2) == false){
-				c.smithingtimer = 0;
-			}
-		}
-	}
-
-	public void smithingvoid2(int xp, String name, int lvl, int item, int delete, int delete2, int amount){
-		c.smithlevel = lvl;
-		if (c.playerLevel[13] >= lvl){
-			c.startAnimation(899);
-			c.smithname = name;
-			c.smithxp = xp;
-			c.smithitem = item;
-			c.smithdelete = delete;
-			c.smithdelete2 = delete2;
-			c.smithingamount = amount;
-			c.smithingtimer = 8;
-		}
-		else {
-			c.sendMessage("A c.smithing level of at least "+c.smithlevel+" is required to do that.");  
-		}
-	}
 }

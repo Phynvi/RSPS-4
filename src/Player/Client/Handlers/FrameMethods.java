@@ -469,7 +469,7 @@ public class FrameMethods {
 		c.flushOutStream();
 	}
 
-	public void selectoption2(String question, String s1, String s2, String s3, String s4) {
+	public void select4Options(String question, String s1, String s2, String s3, String s4) {
 		sendFrame171(1, 2465);
 		sendFrame171(0, 2468);
 		sendFrame126(question, 8208);
@@ -1470,62 +1470,62 @@ public class FrameMethods {
 		outStream.createFrame(97);
 		outStream.writeWord(994);
 		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 5) {
-			sendQuest("5bars",1112);
+			sendQuest("5 bars",1112);
 		} else {
-			sendQuest("5bars",1112);
+			sendQuest("@whi@5 bars",1112);
 		}
 		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 3) {
-			sendQuest("3bars",1109);
-			sendQuest("3bars",1110);
-			sendQuest("3bars",1118);
-			sendQuest("3bars",1111);
-			sendQuest("3bars",1095);
-			sendQuest("3bars",1115);
-			sendQuest("3bars",1090);
+			sendQuest("3 bars",1109);
+			sendQuest("3 bars",1110);
+			sendQuest("3 bars",1118);
+			sendQuest("3 bars",1111);
+			sendQuest("3 bars",1095);
+			sendQuest("3 bars",1115);
+			sendQuest("3 bars",1090);
 		} else {
-			sendQuest("3bars",1109);
-			sendQuest("3bars",1110);
-			sendQuest("3bars",1118);
-			sendQuest("3bars",1111);
-			sendQuest("3bars",1095);
-			sendQuest("3bars",1115);
-			sendQuest("3bars",1090);
+			sendQuest("@whi@3 bars",1109);
+			sendQuest("@whi@3 bars",1110);
+			sendQuest("@whi@3 bars",1118);
+			sendQuest("@whi@3 bars",1111);
+			sendQuest("@whi@3 bars",1095);
+			sendQuest("@whi@3 bars",1115);
+			sendQuest("@whi@3 bars",1090);
 		}
 		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 2) {
-			sendQuest("2bars",1113);
-			sendQuest("2bars",1116);
-			sendQuest("2bars",1114);
-			sendQuest("2bars",1089);
-			sendQuest("2bars",8428);
+			sendQuest("2 bars",1113);
+			sendQuest("2 bars",1116);
+			sendQuest("2 bars",1114);
+			sendQuest("2 bars",1089);
+			sendQuest("2 bars",8428);
 		} else {
-			sendQuest("2bars",1113);
-			sendQuest("2bars",1116);
-			sendQuest("2bars",1114);
-			sendQuest("2bars",1089);
-			sendQuest("2bars",8428);
+			sendQuest("@whi@2 bars",1113);
+			sendQuest("@whi@2 bars",1116);
+			sendQuest("@whi@2 bars",1114);
+			sendQuest("@whi@2 bars",1089);
+			sendQuest("@whi@2 bars",8428);
 		}
 		if(c.getInventoryHandler().amountOfItemInInventory(barType) < 1) {
-			sendQuest("1bar",1125);
-			sendQuest("1bar",1126);
-			sendQuest("1bar",1127);
-			sendQuest("1bar",1124);
-			sendQuest("1bar",1128);
-			sendQuest("1bar",1129);
-			sendQuest("1bar",1130);
-			sendQuest("1bar",13357);
-			sendQuest("1bar",1131);
-			sendQuest("1bar",11459);
+			sendQuest("1 bar",1125);
+			sendQuest("1 bar",1126);
+			sendQuest("1 bar",1127);
+			sendQuest("1 bar",1124);
+			sendQuest("1 bar",1128);
+			sendQuest("1 bar",1129);
+			sendQuest("1 bar",1130);
+			sendQuest("1 bar",13357);
+			sendQuest("1 bar",1131);
+			sendQuest("1 bar",11459);
 		} else {
-			sendQuest("1bar",1125);
-			sendQuest("1bar",1126);
-			sendQuest("1bar",1127);
-			sendQuest("1bar",1124);
-			sendQuest("1bar",1128);
-			sendQuest("1bar",1129);
-			sendQuest("1bar",1130);
-			sendQuest("1bar",13357);
-			sendQuest("1bar",1131);
-			sendQuest("1bar",11459);
+			sendQuest("@whi@1 bar",1125);
+			sendQuest("@whi@1 bar",1126);
+			sendQuest("@whi@1 bar",1127);
+			sendQuest("@whi@1 bar",1124);
+			sendQuest("@whi@1 bar",1128);
+			sendQuest("@whi@1 bar",1129);
+			sendQuest("@whi@1 bar",1130);
+			sendQuest("@whi@1 bar",13357);
+			sendQuest("@whi@1 bar",1131);
+			sendQuest("@whi@1 bar",11459);
 		}
 
 		if(barType == 2357) { //Gold Bar
@@ -1538,88 +1538,88 @@ public class FrameMethods {
 				sendQuest("Rune Whip",1099);
 				sendQuest("Mace",1100);
 			} else {
-				sendQuest("Rune Whip",1099);
-				sendQuest("Mace",1100);
+				sendQuest("@whi@Rune Whip",1099);
+				sendQuest("@whi@Mace",1100);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Robe Top",1088);
 			} else {
-				sendQuest("Robe Top",1088);
+				sendQuest("@whi@Robe Top",1088);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Robe Bottom",8429);
 			} else {
-				sendQuest("Robe Bottom",8429);
+				sendQuest("@whi@Robe Bottom",8429);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("ChainBody",1105);
 			} else {
-				sendQuest("ChainBody",1105);
+				sendQuest("@whi@ChainBody",1105);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Two Handed S",1098);
 			} else {
-				sendQuest("Two Handed S",1098);
+				sendQuest("@whi@Two Handed S",1098);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Helmet",1092);
 			} else {
-				sendQuest("Helmet",1092);
+				sendQuest("@whi@Helmet",1092);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Battle Axe",1083);
 			} else {
-				sendQuest("Battle Axe",1083);
+				sendQuest("@whi@Battle Axe",1083);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Legs",1104);
 			} else {
-				sendQuest("Legs",1104);
+				sendQuest("@whi@Legs",1104);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Whip",1103);
 				sendQuest("Schimitar",1106);
 			} else {
-				sendQuest("Whip",1103);
-				sendQuest("Schimitar",1106);
+				sendQuest("@whi@Whip",1103);
+				sendQuest("@whi@Schimitar",1106);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Plate",1086);
 			} else {
-				sendQuest("Plate",1086);
+				sendQuest("@whi@Plate",1086);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("SQ Shield",1087);
 				sendQuest("Dagger(s)",1108);
 			} else {
-				sendQuest("SQ Shield",1087);
-				sendQuest("Dagger(s)",1108);
+				sendQuest("@whi@SQ Shield",1087);
+				sendQuest("@whi@Dagger(s)",1108);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Anger Sword",1085);
 				sendQuest("Legs",1107);
 				sendQuest("Hat",13358);
 			} else {
-				sendQuest("Anger Sword",1085);
-				sendQuest("Legs",1107);
-				sendQuest("hat",13358);
+				sendQuest("@whi@Anger Sword",1085);
+				sendQuest("@whi@Legs",1107);
+				sendQuest("@whi@hat",13358);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Onyx Ring",1102);
 			} else {
-				sendQuest("Onyx Ring",1102);
+				sendQuest("@whi@Onyx Ring",1102);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Defender",1093);
 			} else {
-				sendQuest("Defender",1093);
+				sendQuest("@whi@Defender",1093);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Medium Helm",1094);
 				sendQuest("Longsword",1091);
 			} else {
-				sendQuest("Medium Helm",1094);
-				sendQuest("Longsword",1091);
+				sendQuest("@whi@Medium Helm",1094);
+				sendQuest("@whi@Longsword",1091);
 			}
 			addItemToSmithFrame(1149,0,1119,1);
 			addItemToSmithFrame(1305,0,1120,1);
@@ -1657,94 +1657,94 @@ public class FrameMethods {
 			if(c.playerLevel[13] < 18) {
 				sendQuest("Plate body",1101);
 			} else {
-				sendQuest("Plate body",1101);
+				sendQuest("@whi@Plate body",1101);
 			}
 			if(c.playerLevel[13] < 16) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
-				sendQuest("Plate legs",1099);
-				sendQuest("Plate skirt",1100);
+				sendQuest("@whi@Plate legs",1099);
+				sendQuest("@whi@Plate skirt",1100);
 			}
 			if(c.playerLevel[13] < 14) {
 				sendQuest("2 hand sword",1088);
 			} else {
-				sendQuest("2 hand sword",1088);
+				sendQuest("@whi@2 hand sword",1088);
 			}
 			if(c.playerLevel[13] < 13) {
 				sendQuest("Claws",8429);
 			} else {
-				sendQuest("Claws",8429);
+				sendQuest("@whi@Claws",8429);
 			}
 			if(c.playerLevel[13] < 12) {
 				sendQuest("Kite shield",1105);
 			} else {
-				sendQuest("Kite shield",1105);
+				sendQuest("@whi@Kite shield",1105);
 			}
 			if(c.playerLevel[13] < 11) {
 				sendQuest("Chain body",1098);
 			} else {
-				sendQuest("Chain body",1098);
+				sendQuest("@whi@Chain body",1098);
 			}
 			if(c.playerLevel[13] < 10) {
 				sendQuest("Battle axe",1092);
 			} else {
-				sendQuest("Battle axe",1092);
+				sendQuest("@whi@Battle axe",1092);
 			}
 			if(c.playerLevel[13] < 9) {
 				sendQuest("Warhammer",1083);
 			} else {
-				sendQuest("Warhammer",1083);
+				sendQuest("@whi@Warhammer",1083);
 			}
 			if(c.playerLevel[13] < 8) {
 				sendQuest("Square shield",1104);
 			} else {
-				sendQuest("Square shield",1104);
+				sendQuest("@whi@Square shield",1104);
 			}
 			if(c.playerLevel[13] < 7) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
-				sendQuest("Full helm",1103);
-				sendQuest("Throwing knives",1106);
+				sendQuest("@whi@Full helm",1103);
+				sendQuest("@whi@Throwing knives",1106);
 			}
 			if(c.playerLevel[13] < 6) {
 				sendQuest("Long sword",1086);
 			} else {
-				sendQuest("Long sword",1086);
+				sendQuest("@whi@Long sword",1086);
 			}
 			if(c.playerLevel[13] < 5) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
-				sendQuest("Scimitar",1087);
-				sendQuest("Arrowtips",1108);
+				sendQuest("@whi@Scimitar",1087);
+				sendQuest("@whi@Arrowtips",1108);
 			}
 			if(c.playerLevel[13] < 4) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			} else {
-				sendQuest("Sword",1085);
-				sendQuest("Dart tips",1107);
-				sendQuest("Nails",13358);
+				sendQuest("@whi@Sword",1085);
+				sendQuest("@whi@Dart tips",1107);
+				sendQuest("@whi@Nails",13358);
 			}
 			if(c.playerLevel[13] < 3) {
 				sendQuest("Medium helm",1102);
 			} else {
-				sendQuest("Medium helm",1102);
+				sendQuest("@whi@Medium helm",1102);
 			}
 			if(c.playerLevel[13] < 2) {
 				sendQuest("Mace",1093);
 			} else {
-				sendQuest("Mace",1093);
+				sendQuest("@whi@Mace",1093);
 			}
 			if(c.playerLevel[13] < 1) {
 				sendQuest("Dagger",1094);
 				sendQuest("Axe",1091);
 			} else {
-				sendQuest("Dagger",1094);
-				sendQuest("Axe",1091);
+				sendQuest("@whi@Dagger",1094);
+				sendQuest("@whi@Axe",1091);
 			}
 			addItemToSmithFrame(1205,0,1119,1);
 			addItemToSmithFrame(1351,0,1120,1);
@@ -1782,99 +1782,99 @@ public class FrameMethods {
 			if(c.playerLevel[13] < 33) {
 				sendQuest("Plate body",1101);
 			} else {
-				sendQuest("Plate body",1101);
+				sendQuest("@whi@Plate body",1101);
 			}
 			if(c.playerLevel[13] < 31) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
-				sendQuest("Plate legs",1099);
-				sendQuest("Plate skirt",1100);
+				sendQuest("@whi@Plate legs",1099);
+				sendQuest("@whi@Plate skirt",1100);
 			}
 			if(c.playerLevel[13] < 29) {
 				sendQuest("2 hand sword",1088);
 			} else {
-				sendQuest("2 hand sword",1088);
+				sendQuest("@whi@2 hand sword",1088);
 			}
 			if(c.playerLevel[13] < 28) {
 				sendQuest("Claws",8429);
 			} else {
-				sendQuest("Claws",8429);
+				sendQuest("@whi@Claws",8429);
 			}
 			if(c.playerLevel[13] < 27) {
 				sendQuest("Kite shield",1105);
 			} else {
-				sendQuest("Kite shield",1105);
+				sendQuest("@whi@Kite shield",1105);
 			}
 			if(c.playerLevel[13] < 26) {
 				sendQuest("Chain body",1098);
 				sendQuest("Oil lantern frame",11461);
 			} else {
-				sendQuest("Chain body",1098);
-				sendQuest("Oil lantern frame",11461);
+				sendQuest("@whi@Chain body",1098);
+				sendQuest("@whi@Oil lantern frame",11461);
 			}
 			if(c.playerLevel[13] < 25) {
 				sendQuest("Battle axe",1092);
 			} else {
-				sendQuest("Battle axe",1092);
+				sendQuest("@whi@Battle axe",1092);
 			}
 			if(c.playerLevel[13] < 24) {
 				sendQuest("Warhammer",1083);
 			} else {
-				sendQuest("Warhammer",1083);
+				sendQuest("@whi@Warhammer",1083);
 			}
 			if(c.playerLevel[13] < 23) {
 				sendQuest("Square shield",1104);
 			} else {
-				sendQuest("Square shield",1104);
+				sendQuest("@whi@Square shield",1104);
 			}
 			if(c.playerLevel[13] < 22) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
-				sendQuest("Full helm",1103);
-				sendQuest("Throwing knives",1106);
+				sendQuest("@whi@Full helm",1103);
+				sendQuest("@whi@Throwing knives",1106);
 			}
 			if(c.playerLevel[13] < 21) {
 				sendQuest("Long sword",1086);
 			} else {
-				sendQuest("Long sword",1086);
+				sendQuest("@whi@Long sword",1086);
 			}
 			if(c.playerLevel[13] < 20) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
-				sendQuest("Scimitar",1087);
-				sendQuest("Arrowtips",1108);
+				sendQuest("@whi@Scimitar",1087);
+				sendQuest("@whi@Arrowtips",1108);
 			}
 			if(c.playerLevel[13] < 19) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			} else {
-				sendQuest("Sword",1085);
-				sendQuest("Dart tips",1107);
-				sendQuest("Nails",13358);
+				sendQuest("@whi@Sword",1085);
+				sendQuest("@whi@Dart tips",1107);
+				sendQuest("@whi@Nails",13358);
 			}
 			if(c.playerLevel[13] < 18) {
 				sendQuest("Medium helm",1102);
 			} else {
-				sendQuest("Medium helm",1102);
+				sendQuest("@whi@Medium helm",1102);
 			}
 			if(c.playerLevel[13] < 17) {
 				sendQuest("Mace",1093);
 			} else {
-				sendQuest("Mace",1093);
+				sendQuest("@whi@Mace",1093);
 			}
 			if(c.playerLevel[13] < 16) {
 				sendQuest("Axe",1091);
 			} else {
-				sendQuest("Axe",1091);
+				sendQuest("@whi@Axe",1091);
 			}
 			if(c.playerLevel[13] < 15) {
 				sendQuest("Dagger",1094);
 			} else {
-				sendQuest("Dagger",1094);
+				sendQuest("@whi@Dagger",1094);
 			}
 			addItemToSmithFrame(1203,0,1119,1);
 			addItemToSmithFrame(1349,0,1120,1);
@@ -1910,104 +1910,104 @@ public class FrameMethods {
 			if(c.playerLevel[13] < 49) {
 				sendQuest("Bullseye lantern",11461);
 			} else {
-				sendQuest("Bullseye lantern",11461);
+				sendQuest("@whi@Bullseye lantern",11461);
 			}
 			if(c.playerLevel[13] < 48) {
 				sendQuest("Plate body",1101);
 			} else {
-				sendQuest("Plate body",1101);
+				sendQuest("@whi@Plate body",1101);
 			}
 			if(c.playerLevel[13] < 46) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
-				sendQuest("Plate legs",1099);
-				sendQuest("Plate skirt",1100);
+				sendQuest("@whi@Plate legs",1099);
+				sendQuest("@whi@Plate skirt",1100);
 			}
 			if(c.playerLevel[13] < 44) {
 				sendQuest("2 hand sword",1088);
 			} else {
-				sendQuest("2 hand sword",1088);
+				sendQuest("@whi@2 hand sword",1088);
 			}
 			if(c.playerLevel[13] < 43) {
 				sendQuest("Claws",8429);
 			} else {
-				sendQuest("Claws",8429);
+				sendQuest("@whi@Claws",8429);
 			}
 			if(c.playerLevel[13] < 42) {
 				sendQuest("Kite shield",1105);
 			} else {
-				sendQuest("Kite shield",1105);
+				sendQuest("@whi@Kite shield",1105);
 			}
 			if(c.playerLevel[13] < 41) {
 				sendQuest("Chain body",1098);
 			} else {
-				sendQuest("Chain body",1098);
+				sendQuest("@whi@Chain body",1098);
 			}
 			if(c.playerLevel[13] < 40) {
 				sendQuest("Battle axe",1092);
 			} else {
-				sendQuest("Battle axe",1092);
+				sendQuest("@whi@Battle axe",1092);
 			}
 			if(c.playerLevel[13] < 39) {
 				sendQuest("Warhammer",1083);
 			} else {
-				sendQuest("Warhammer",1083);
+				sendQuest("@whi@Warhammer",1083);
 			}
 			if(c.playerLevel[13] < 38) {
 				sendQuest("Square shield",1104);
 			} else {
-				sendQuest("Square shield",1104);
+				sendQuest("@whi@Square shield",1104);
 			}
 			if(c.playerLevel[13] < 37) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
-				sendQuest("Full helm",1103);
-				sendQuest("Throwing knives",1106);
+				sendQuest("@whi@Full helm",1103);
+				sendQuest("@whi@Throwing knives",1106);
 			}
 			if(c.playerLevel[13] < 36) {
 				sendQuest("Long sword",1086);
 				sendQuest("Studs",1134);
 			} else {
-				sendQuest("Long sword",1086);
-				sendQuest("Studs",1134);
+				sendQuest("@whi@Long sword",1086);
+				sendQuest("@whi@Studs",1134);
 			}
 			if(c.playerLevel[13] < 35) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
-				sendQuest("Scimitar",1087);
-				sendQuest("Arrowtips",1108);
+				sendQuest("@whi@Scimitar",1087);
+				sendQuest("@whi@Arrowtips",1108);
 			}
 			if(c.playerLevel[13] < 34) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			} else {
-				sendQuest("Sword",1085);
-				sendQuest("Dart tips",1107);
-				sendQuest("Nails",13358);
+				sendQuest("@whi@Sword",1085);
+				sendQuest("@whi@Dart tips",1107);
+				sendQuest("@whi@Nails",13358);
 			}
 			if(c.playerLevel[13] < 33) {
 				sendQuest("Medium helm",1102);
 			} else {
-				sendQuest("Medium helm",1102);
+				sendQuest("@whi@Medium helm",1102);
 			}
 			if(c.playerLevel[13] < 32) {
 				sendQuest("Mace",1093);
 			} else {
-				sendQuest("Mace",1093);
+				sendQuest("@whi@Mace",1093);
 			}
 			if(c.playerLevel[13] < 31) {
 				sendQuest("Axe",1091);
 			} else {
-				sendQuest("Axe",1091);
+				sendQuest("@whi@Axe",1091);
 			}
 			if(c.playerLevel[13] < 30) {
 				sendQuest("Dagger",1094);
 			} else {
-				sendQuest("Dagger",1094);
+				sendQuest("@whi@Dagger",1094);
 			}
 			addItemToSmithFrame(1207,0,1119,1);
 			addItemToSmithFrame(1353,0,1120,1);
@@ -2036,106 +2036,106 @@ public class FrameMethods {
 			addItemToSmithFrame(1539,4,1122,1);
 			addItemToSmithFrame(2370,4,1123,1);
 			if(c.getInventoryHandler().amountOfItemInInventory(barType) < 1) {
-				sendQuest("1bar",1135);
+				sendQuest("1 bar",1135);
 			} else {
-				sendQuest("1bar",1135);
+				sendQuest("@whi@1 bar",1135);
 			}
 		}
 		if(barType == 2359) { //Mith
 			if(c.playerLevel[13] < 68) {
 				sendQuest("Plate body",1101);
 			} else {
-				sendQuest("Plate body",1101);
+				sendQuest("@whi@Plate body",1101);
 			}
 			if(c.playerLevel[13] < 66) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
-				sendQuest("Plate legs",1099);
-				sendQuest("Plate skirt",1100);
+				sendQuest("@whi@Plate legs",1099);
+				sendQuest("@whi@Plate skirt",1100);
 			}
 			if(c.playerLevel[13] < 64) {
 				sendQuest("2 hand sword",1088);
 			} else {
-				sendQuest("2 hand sword",1088);
+				sendQuest("@whi@2 hand sword",1088);
 			}
 			if(c.playerLevel[13] < 63) {
 				sendQuest("Claws",8429);
 			} else {
-				sendQuest("Claws",8429);
+				sendQuest("@whi@Claws",8429);
 			}
 			if(c.playerLevel[13] < 62) {
 				sendQuest("Kite shield",1105);
 			} else {
-				sendQuest("Kite shield",1105);
+				sendQuest("@whi@Kite shield",1105);
 			}
 			if(c.playerLevel[13] < 61) {
 				sendQuest("Chain body",1098);
 			} else {
-				sendQuest("Chain body",1098);
+				sendQuest("@whi@Chain body",1098);
 			}
 			if(c.playerLevel[13] < 60) {
 				sendQuest("Battle axe",1092);
 			} else {
-				sendQuest("Battle axe",1092);
+				sendQuest("@whi@Battle axe",1092);
 			}
 			if(c.playerLevel[13] < 59) {
 				sendQuest("Warhammer",1083);
 			} else {
-				sendQuest("Warhammer",1083);
+				sendQuest("@whi@Warhammer",1083);
 			}
 			if(c.playerLevel[13] < 58) {
 				sendQuest("Square shield",1104);
 			} else {
-				sendQuest("Square shield",1104);
+				sendQuest("@whi@Square shield",1104);
 			}
 			if(c.playerLevel[13] < 57) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
-				sendQuest("Full helm",1103);
-				sendQuest("Throwing knives",1106);
+				sendQuest("@whi@Full helm",1103);
+				sendQuest("@whi@Throwing knives",1106);
 			}
 			if(c.playerLevel[13] < 56) {
 				sendQuest("Long sword",1086);
 			} else {
-				sendQuest("Long sword",1086);
+				sendQuest("@whi@Long sword",1086);
 			}
 			if(c.playerLevel[13] < 55) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
-				sendQuest("Scimitar",1087);
-				sendQuest("Arrowtips",1108);
+				sendQuest("@whi@Scimitar",1087);
+				sendQuest("@whi@Arrowtips",1108);
 			}
 			if(c.playerLevel[13] < 54) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			} else {
-				sendQuest("Sword",1085);
-				sendQuest("Dart tips",1107);
-				sendQuest("Nails",13358);
+				sendQuest("@whi@Sword",1085);
+				sendQuest("@whi@Dart tips",1107);
+				sendQuest("@whi@Nails",13358);
 			}
 			if(c.playerLevel[13] < 53) {
 				sendQuest("Medium helm",1102);
 			} else {
-				sendQuest("Medium helm",1102);
+				sendQuest("@whi@Medium helm",1102);
 			}
 			if(c.playerLevel[13] < 52) {
 				sendQuest("Mace",1093);
 			} else {
-				sendQuest("Mace",1093);
+				sendQuest("@whi@Mace",1093);
 			}
 			if(c.playerLevel[13] < 51) {
 				sendQuest("Axe",1091);
 			} else {
-				sendQuest("Axe",1091);
+				sendQuest("@whi@Axe",1091);
 			}
 			if(c.playerLevel[13] < 50) {
 				sendQuest("Dagger",1094);
 			} else {
-				sendQuest("Dagger",1094);
+				sendQuest("@whi@Dagger",1094);
 			}
 			addItemToSmithFrame(1209,0,1119,1);
 			addItemToSmithFrame(1355,0,1120,1);
@@ -2173,97 +2173,97 @@ public class FrameMethods {
 			if(c.playerLevel[13] < 88) {
 				sendQuest("Plate body",1101);
 			} else {
-				sendQuest("Plate body",1101);
+				sendQuest("@whi@Plate body",1101);
 			}
 			if(c.playerLevel[13] < 86) {
 				sendQuest("Plate legs",1099);
 				sendQuest("Plate skirt",1100);
 			} else {
-				sendQuest("Plate legs",1099);
-				sendQuest("Plate skirt",1100);
+				sendQuest("@whi@Plate legs",1099);
+				sendQuest("@whi@Plate skirt",1100);
 			}
 			if(c.playerLevel[13] < 84) {
 				sendQuest("2 hand sword",1088);
 			} else {
-				sendQuest("2 hand sword",1088);
+				sendQuest("@whi@2 hand sword",1088);
 			}
 			if(c.playerLevel[13] < 83) {
 				sendQuest("Claws",8429);
 			} else {
-				sendQuest("Claws",8429);
+				sendQuest("@whi@Claws",8429);
 			}
 			if(c.playerLevel[13] < 82) {
 				sendQuest("Kite shield",1105);
 			} else {
-				sendQuest("Kite shield",1105);
+				sendQuest("@whi@Kite shield",1105);
 			}
 			if(c.playerLevel[13] < 81) {
 				sendQuest("Chain body",1098);
 			} else {
-				sendQuest("Chain body",1098);
+				sendQuest("@whi@Chain body",1098);
 			}
 			if(c.playerLevel[13] < 80) {
 				sendQuest("Battle axe",1092);
 			} else {
-				sendQuest("Battle axe",1092);
+				sendQuest("@whi@Battle axe",1092);
 			}
 			if(c.playerLevel[13] < 79) {
 				sendQuest("Warhammer",1083);
 			} else {
-				sendQuest("Warhammer",1083);
+				sendQuest("@whi@Warhammer",1083);
 			}
 			if(c.playerLevel[13] < 78) {
 				sendQuest("Square shield",1104);
 			} else {
-				sendQuest("Square shield",1104);
+				sendQuest("@whi@Square shield",1104);
 			}
 			if(c.playerLevel[13] < 77) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
-				sendQuest("Full helm",1103);
-				sendQuest("Throwing knives",1106);
+				sendQuest("@whi@Full helm",1103);
+				sendQuest("@whi@Throwing knives",1106);
 			}
 			if(c.playerLevel[13] < 76) {
 				sendQuest("Long sword",1086);
 			} else {
-				sendQuest("Long sword",1086);
+				sendQuest("@whi@Long sword",1086);
 			}
 			if(c.playerLevel[13] < 75) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
-				sendQuest("Scimitar",1087);
-				sendQuest("Arrowtips",1108);
+				sendQuest("@whi@Scimitar",1087);
+				sendQuest("@whi@Arrowtips",1108);
 			}
 			if(c.playerLevel[13] < 74) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			} else {
-				sendQuest("Sword",1085);
-				sendQuest("Dart tips",1107);
-				sendQuest("Nails",13358);
+				sendQuest("@whi@Sword",1085);
+				sendQuest("@whi@Dart tips",1107);
+				sendQuest("@whi@Nails",13358);
 			}
 			if(c.playerLevel[13] < 73) {
 				sendQuest("Medium helm",1102);
 			} else {
-				sendQuest("Medium helm",1102);
+				sendQuest("@whi@Medium helm",1102);
 			}
 			if(c.playerLevel[13] < 72) {
 				sendQuest("Mace",1093);
 			} else {
-				sendQuest("Mace",1093);
+				sendQuest("@whi@Mace",1093);
 			}
 			if(c.playerLevel[13] < 71) {
 				sendQuest("Axe",1091);
 			} else {
-				sendQuest("Axe",1091);
+				sendQuest("@whi@Axe",1091);
 			}
 			if(c.playerLevel[13] < 70) {
 				sendQuest("Dagger",1094);
 			} else {
-				sendQuest("Dagger",1094);
+				sendQuest("@whi@Dagger",1094);
 			}
 			addItemToSmithFrame(1211,0,1119,1);
 			addItemToSmithFrame(1357,0,1120,1);
@@ -2304,88 +2304,88 @@ public class FrameMethods {
 				sendQuest("Plate skirt",1100);
 				sendQuest("2 hand sword",1088);
 			} else {
-				sendQuest("Plate body",1101);
-				sendQuest("Plate legs",1099);
-				sendQuest("Plate skirt",1100);
-				sendQuest("2 hand sword",1088);
+				sendQuest("@whi@Plate body",1101);
+				sendQuest("@whi@Plate legs",1099);
+				sendQuest("@whi@Plate skirt",1100);
+				sendQuest("@whi@2 hand sword",1088);
 			}
 			if(c.playerLevel[13] < 98) {
 				sendQuest("Claws",8429);
 			} else {
-				sendQuest("Claws",8429);
+				sendQuest("@whi@Claws",8429);
 			}
 			if(c.playerLevel[13] < 97) {
 				sendQuest("Kite shield",1105);
 			} else {
-				sendQuest("Kite shield",1105);
+				sendQuest("@whi@Kite shield",1105);
 			}
 			if(c.playerLevel[13] < 96) {
 				sendQuest("Chain body",1098);
 			} else {
-				sendQuest("Chain body",1098);
+				sendQuest("@whi@Chain body",1098);
 			}
 			if(c.playerLevel[13] < 95) {
 				sendQuest("Battle axe",1092);
 			} else {
-				sendQuest("Battle axe",1092);
+				sendQuest("@whi@Battle axe",1092);
 			}
 			if(c.playerLevel[13] < 94) {
 				sendQuest("Warhammer",1083);
 			} else {
-				sendQuest("Warhammer",1083);
+				sendQuest("@whi@Warhammer",1083);
 			}
 			if(c.playerLevel[13] < 93) {
 				sendQuest("Square shield",1104);
 			} else {
-				sendQuest("Square shield",1104);
+				sendQuest("@whi@Square shield",1104);
 			}
 			if(c.playerLevel[13] < 92) {
 				sendQuest("Full helm",1103);
 				sendQuest("Throwing knives",1106);
 			} else {
-				sendQuest("Full helm",1103);
-				sendQuest("Throwing knives",1106);
+				sendQuest("@whi@Full helm",1103);
+				sendQuest("@whi@Throwing knives",1106);
 			}
 			if(c.playerLevel[13] < 91) {
 				sendQuest("Long sword",1086);
 			} else {
-				sendQuest("Long sword",1086);
+				sendQuest("@whi@Long sword",1086);
 			}
 			if(c.playerLevel[13] < 90) {
 				sendQuest("Scimitar",1087);
 				sendQuest("Arrowtips",1108);
 			} else {
-				sendQuest("Scimitar",1087);
-				sendQuest("Arrowtips",1108);
+				sendQuest("@whi@Scimitar",1087);
+				sendQuest("@whi@Arrowtips",1108);
 			}
 			if(c.playerLevel[13] < 89) {
 				sendQuest("Sword",1085);
 				sendQuest("Dart tips",1107);
 				sendQuest("Nails",13358);
 			} else {
-				sendQuest("Sword",1085);
-				sendQuest("Dart tips",1107);
-				sendQuest("Nails",13358);
+				sendQuest("@whi@Sword",1085);
+				sendQuest("@whi@Dart tips",1107);
+				sendQuest("@whi@Nails",13358);
 			}
 			if(c.playerLevel[13] < 88) {
 				sendQuest("Medium helm",1102);
 			} else {
-				sendQuest("Medium helm",1102);
+				sendQuest("@whi@Medium helm",1102);
 			}
 			if(c.playerLevel[13] < 87) {
 				sendQuest("Mace",1093);
 			} else {
-				sendQuest("Mace",1093);
+				sendQuest("@whi@Mace",1093);
 			}
 			if(c.playerLevel[13] < 86) {
 				sendQuest("Axe",1091);
 			} else {
-				sendQuest("Axe",1091);
+				sendQuest("@whi@Axe",1091);
 			}
 			if(c.playerLevel[13] < 85) {
 				sendQuest("Dagger",1094);
 			} else {
-				sendQuest("Dagger",1094);
+				sendQuest("@whi@Dagger",1094);
 			}
 			addItemToSmithFrame(1213,0,1119,1);
 			addItemToSmithFrame(1359,0,1120,1);
@@ -2979,7 +2979,7 @@ public class FrameMethods {
 	 */
 	public void select4Options(String optName, String opt1, int x1, int y1, String opt2, int x2, int y2, String opt3, int x3, int y3, String opt4, int x4, int y4){
 		c.optionsMenu = true;		c.oX1 = x1;		c.oX2 = x2;		c.oX3 = x3;		c.oX4 = x4;		c.oY1 = y1;		c.oY2 = y2;		c.oY3 = y3;		c.oY4 = y4;				
-		selectoption2(optName, opt1, opt2, opt3, opt4);		
+		select4Options(optName, opt1, opt2, opt3, opt4);		
 	}
 
 	

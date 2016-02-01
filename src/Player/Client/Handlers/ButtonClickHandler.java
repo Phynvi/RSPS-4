@@ -79,6 +79,27 @@ public class ButtonClickHandler {
 					c.oY1 = -1;
 				}
 			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage1){
+				c.getSmithingHandler().smithing4OptionsPage1 = false;
+				c.getSmithingHandler().smeltBar("Bronze");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage2){
+				c.getSmithingHandler().smithing4OptionsPage2 = false;
+				c.getSmithingHandler().smeltBar("Steel");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage3){
+				c.getSmithingHandler().smithing4OptionsPage3 = false;
+				c.getSmithingHandler().smeltBar("Adamantite");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
 
 			if(c.starter4Options){
 				c.starter4Options = false;
@@ -240,6 +261,27 @@ public class ButtonClickHandler {
 					c.oY2 = -1;
 				}
 			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage1){
+				c.getSmithingHandler().smithing4OptionsPage1 = false;
+				c.getSmithingHandler().smeltBar("Iron");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage2){
+				c.getSmithingHandler().smithing4OptionsPage2 = false;
+				c.getSmithingHandler().smeltBar("Gold");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage3){
+				c.getSmithingHandler().smithing4OptionsPage3 = false;
+				c.getSmithingHandler().smeltBar("Rune");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
 
 			if(c.starter4Options){
 				c.starter4Options = false;
@@ -274,7 +316,7 @@ public class ButtonClickHandler {
 			if(c.skillMaster){
 				c.skillMaster = false;
 				c.skillMasterPurchase = true;
-				c.getFrameMethodHandler().selectoption2("Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
+				c.getFrameMethodHandler().select4Options("Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
 				break;
 			}
 
@@ -357,7 +399,7 @@ public class ButtonClickHandler {
 
 			if (c.ticketexchange){
 				int exprec = c.playerLevel[16]*10000;
-				c.getFrameMethodHandler().selectoption2("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel!");
+				c.getFrameMethodHandler().select4Options("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel!");
 				c.ticketexchange = false;
 				c.ticketexchange2 = true;
 				//c.playerLevel[16] >= 99
@@ -419,6 +461,26 @@ public class ButtonClickHandler {
 					c.oY3 = -1;
 				}
 			}	
+			
+			if(c.getSmithingHandler().smithing4OptionsPage1){
+				c.getSmithingHandler().smithing4OptionsPage1 = false;
+				c.getSmithingHandler().smeltBar("Silver");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage2){
+				c.getSmithingHandler().smithing4OptionsPage2 = false;
+				c.getSmithingHandler().smeltBar("Mithril");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage3){
+				c.getSmithingHandler().smithing4OptionsPage3 = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
 
 			if(c.starter4Options){
 				c.starter4Options = false;
@@ -566,6 +628,24 @@ public class ButtonClickHandler {
 					c.oY4 = -1;
 				}
 			}	
+			
+			if(c.getSmithingHandler().smithing4OptionsPage1){
+				c.getSmithingHandler().smithing4OptionsPage1 = false;
+				c.getSmithingHandler().smithingBarMenuPage2();
+				break;
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage2){
+				c.getSmithingHandler().smithing4OptionsPage2 = false;
+				c.getSmithingHandler().smithingBarMenuPage3();			
+				break;	
+			}
+			
+			if(c.getSmithingHandler().smithing4OptionsPage3){
+				c.getSmithingHandler().smithing4OptionsPage3 = false;
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			}
 
 			if (c.fletchingoption){
 				c.getFrameMethodHandler().RemoveAllWindows();
@@ -607,7 +687,7 @@ public class ButtonClickHandler {
 			if (c.tokenexchange){
 				c.tokenexchange = false;
 				c.tokenexchange2 = true;
-				c.getFrameMethodHandler().selectoption2("Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
+				c.getFrameMethodHandler().select4Options("Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
 				break;
 			}
 			if (c.tokenexchange2){
@@ -630,7 +710,7 @@ public class ButtonClickHandler {
 				//c.getFrameMethodHandler().RemoveAllWindows();
 				c.soulwars = false;
 				c.soulwars2 = true;
-				c.getFrameMethodHandler().selectoption2("You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
+				c.getFrameMethodHandler().select4Options("You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
 				break;
 			}
 

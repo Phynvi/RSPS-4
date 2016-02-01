@@ -4,6 +4,8 @@
 
 -Smithing loops
 
+-Redo how 4 options are selected by using a number system instead of global booleans
+
 -Add silver as mining
 
 -Rebuild skill master list

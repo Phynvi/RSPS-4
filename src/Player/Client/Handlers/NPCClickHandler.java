@@ -7,8 +7,6 @@ public class NPCClickHandler {
 		this.c = pc;
 	}
 	
-
-
 	/**
 	 * Handles second click of NPCs
 	 * @param slotID Slot ID to search for NPC in npcs server list
@@ -252,7 +250,7 @@ public class NPCClickHandler {
 			
 		case 1055:
 			c.ticketexchange2 = true;
-			c.getFrameMethodHandler().selectoption2("Rewards", "100 Tickets-"+(c.playerLevel[16]*10000)+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel");
+			c.getFrameMethodHandler().select4Options("Rewards", "100 Tickets-"+(c.playerLevel[16]*10000)+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel");
 			return;
 			
 		default:
@@ -276,7 +274,7 @@ public class NPCClickHandler {
 		c.skillMasterID = npcID;
 		c.skill99ID = skillID;
 		c.skillMaster = true;
-		c.getFrameMethodHandler().selectoption2("Options", "Talk to "+c.skillMasterName, "Purchase a "+c.skillName+" Hood or Cape", "", "Nevermind.");
+		c.getFrameMethodHandler().select4Options("Options", "Talk to "+c.skillMasterName, "Purchase a "+c.skillName+" Hood or Cape", "", "Nevermind.");
 	}
 
 	/**
@@ -308,6 +306,9 @@ public class NPCClickHandler {
 		}
 		
 		switch(NPCID){ //for conditionals
+		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
+			c.getFrameMethodHandler().openUpBankFrame();
+			return;
 
 		case 1844:
 			c.getClientMethodHandler().selectOptionTravel2("Travel to the city exit?", "Yes", 2844,10128, "no",-1,-1);
@@ -579,17 +580,17 @@ public class NPCClickHandler {
 		case 1208: //slayer
 			c.slayerMaster = NPCID;
 			c.slayer4Options = true;
-			c.getFrameMethodHandler().selectoption2("Hello", "I need a new Slayer task", "How much is left of my current task?", "Can I purchase a Slayer Crystal?", "(Click here for more options)");
+			c.getFrameMethodHandler().select4Options("Hello", "I need a new Slayer task", "How much is left of my current task?", "Can I purchase a Slayer Crystal?", "(Click here for more options)");
 			break;
 
 		case 410:
 			c.tokenexchange = true;
-			c.getFrameMethodHandler().selectoption2("Options", "1 Server Token - Zamorak Godsword", "1 Server Token - Bandos Godsword", "1 Server Token - Saradomin Godsword", "More Options (Spirit Shields)");
+			c.getFrameMethodHandler().select4Options("Options", "1 Server Token - Zamorak Godsword", "1 Server Token - Bandos Godsword", "1 Server Token - Saradomin Godsword", "More Options (Spirit Shields)");
 			break;
 
 		case 1055:
 			c.ticketexchange = true;
-			c.getFrameMethodHandler().selectoption2("Options", "Instructions", "Exchange tickets for rewards", "Cancel", "");
+			c.getFrameMethodHandler().select4Options("Options", "Instructions", "Exchange tickets for rewards", "Cancel", "");
 			break;
 			
 		case 1840: //quest, dwarf problems i
@@ -701,7 +702,7 @@ public class NPCClickHandler {
 			}
 			else if (c.ancients >= 11){
 				c.arianwyn = true;
-				c.getFrameMethodHandler().selectoption2("Options", "Speak with Arianwyn", "Change Spellbooks", "Buy a Staff", "Nevermind");
+				c.getFrameMethodHandler().select4Options("Options", "Speak with Arianwyn", "Change Spellbooks", "Buy a Staff", "Nevermind");
 			}
 			break;
 
@@ -725,7 +726,7 @@ public class NPCClickHandler {
 		case 606:
 			if (c.pkpoints >= 10){
 				c.soulwars = true;
-				c.getFrameMethodHandler().selectoption2("You have "+c.pkpoints+" PK Point(s)", "Hitpoints-"+c.playerLevel[3]*c.soulbonus+" exp-10pts", "Attack-"+c.playerLevel[0]*c.soulbonus+" exp-10pts", "Strength-"+c.playerLevel[2]*c.soulbonus+" exp-10pts", "More skills");
+				c.getFrameMethodHandler().select4Options("You have "+c.pkpoints+" PK Point(s)", "Hitpoints-"+c.playerLevel[3]*c.soulbonus+" exp-10pts", "Attack-"+c.playerLevel[0]*c.soulbonus+" exp-10pts", "Strength-"+c.playerLevel[2]*c.soulbonus+" exp-10pts", "More skills");
 			}
 			else c.getClientMethodHandler().npcdialogue("Rewards Master", NPCID, "You need at least ten PK points to purchase rewards");
 			break;
@@ -743,7 +744,7 @@ public class NPCClickHandler {
 		case 286: //Professor Oddenstein
 			if(c.starter == 0){
 				c.starter4Options = true;
-				c.getFrameMethodHandler().selectoption2("Combat Style?", "Warrior", "Magic", "Ranged", "Nevermind.");
+				c.getFrameMethodHandler().select4Options("Combat Style?", "Warrior", "Magic", "Ranged", "Nevermind.");
 			}
 			else c.getClientMethodHandler().npcdialogue("Oddenstein", NPCID, "The Surivival Expert has further instructions.");
 			break;

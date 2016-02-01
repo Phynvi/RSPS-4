@@ -629,30 +629,9 @@ public class ItemUse {
 		if(lists.patchList.exists(atObjectID)) //using an item on patch
 			c.FARM.grow(atObjectX, atObjectY, useItemID, atObjectID);
 
-		if (useItemID == 442 && (atObjectID == 2781 || atObjectID == 2785 || atObjectID == 11666))//Using silver on furnace
-		{c.getSmithingHandler().smithingvoid2(100, "silver", 20, 2355, 442, 0, 1);}
-		else if (useItemID == 440 && (atObjectID == 2781 || atObjectID == 2785 || atObjectID == 11666))//Using silver on furnace
-		{c.getSmithingHandler().smithingvoid2(150, "iron", 15, 2351, 440, 0, 1);}
-		else if ((useItemID == 436 || useItemID == 438) && (atObjectID == 2781 || atObjectID == 2785 || atObjectID == 11666))//Using silver on furnace
-		{
-			if (c.getInventoryHandler().IsItemInBag(436) == false || c.getInventoryHandler().IsItemInBag(438) == false){
-				c.sendMessage("You need 1 tin and 1 copper to make bronze bars!");}
-			else if (c.getInventoryHandler().IsItemInBag(436) == true && c.getInventoryHandler().IsItemInBag(438) == true){
-				c.getSmithingHandler().smithingvoid2(100, "bronze", 1, 2349, 438, 436, 2);}
-		}
-		else if (useItemID == 444 && (atObjectID == 2781 || atObjectID == 2785))
-		{c.getSmithingHandler().smithingvoid2(200, "gold", 35, 2357, 444, 0, 1);}
-		else if (useItemID == 447 && (atObjectID == 2781 || atObjectID == 2785))
-		{c.getSmithingHandler().smithingvoid2(400, "mithril", 70, 2359, 447, 0, 1);}
-		else if (useItemID == 449 && (atObjectID == 2781 || atObjectID == 2785))
-		{c.getSmithingHandler().smithingvoid2(650, "adamantite", 80, 2361, 449, 0, 1);}
-		else if (useItemID == 451 && (atObjectID == 2781 || atObjectID == 2785))
-		{c.getSmithingHandler().smithingvoid2(1000, "runite", 90, 2363, 451, 0, 1);}
-		else if (useItemID == 453 && (atObjectID == 2781 || atObjectID == 2785))
-		{c.getSmithingHandler().smithingvoid2(300, "steel", 50, 2353, 453, 0, 1);}
+		if (atObjectID == 2781 || atObjectID == 2785 || atObjectID == 11666 || atObjectID == 3994) //furnace
+			c.getSmithingHandler().smithingBarMenuPage1();
 		//end of smithing
-
-
 
 		//	else if(useItemID == 2357 && atObjectID == 2783)//Gold
 		//	{
@@ -850,7 +829,7 @@ public class ItemUse {
 
 		if(itemUsed == 946 && useWith == 1511) {
 			c.FLETCHING.fletchingvoid("", 1511, 50, 1, 48, 10, 40, false);
-			c.getFrameMethodHandler().selectoption2("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 50) {
@@ -867,7 +846,7 @@ public class ItemUse {
 
 		if(itemUsed == 946 && useWith == 1521) {
 			c.FLETCHING.fletchingvoid(" Oak", 1521, 54, 15, 56, 25, 85, false);
-			c.getFrameMethodHandler().selectoption2("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 54) {
@@ -882,7 +861,7 @@ public class ItemUse {
 		}
 		if(itemUsed == 946 && useWith == 1519) {
 			c.FLETCHING.fletchingvoid(" Willow", 1519, 60, 35, 58, 40, 115, false);
-			c.getFrameMethodHandler().selectoption2("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 60) {
@@ -897,7 +876,7 @@ public class ItemUse {
 		}
 		if(itemUsed == 946 && useWith == 1517) {
 			c.FLETCHING.fletchingvoid(" Maple", 1517, 64, 45, 62, 50, 155, false);
-			c.getFrameMethodHandler().selectoption2("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 64) {
@@ -912,7 +891,7 @@ public class ItemUse {
 		}
 		if(itemUsed == 946 && useWith == 1515) {
 			c.FLETCHING.fletchingvoid(" Yew", 1515, 68, 55, 66, 60, 200, false);
-			c.getFrameMethodHandler().selectoption2("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 68) {
@@ -927,7 +906,7 @@ public class ItemUse {
 		}		
 		if(itemUsed == 946 && useWith == 1513) {
 			c.FLETCHING.fletchingvoid(" Magic", 1513, 72, 70, 70, 80, 300, false);
-			c.getFrameMethodHandler().selectoption2("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}						
 		if(itemUsed == 1777 && useWith == 72) {

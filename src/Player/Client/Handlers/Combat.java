@@ -798,7 +798,7 @@ public class Combat {
 
 			int distance = Item.ifHasBowAndAmmoUpdateDelay(c);
 			if(distance == -1){
-				c.sendMessage("You need ammo to use this ranged weapon.");
+				c.sendMessage("You need the correct ammo to use this ranged weapon.");
 				c.stopPlayerMovement();
 				ResetAttackNPC();
 				return false;

@@ -242,13 +242,15 @@ public class MenuHandler {
 
 	public static String[] smithingGuide(){
 		return new String[]{"@gre@Smithing Guide","","",
-				"@whi@Bars",
-				"Level 1 - Bronze : Level 15 - Iron",
-				"Level 20 - Silver : Level 35 - Gold",
-				"Level 50 - Steel (Use Coal on Furnace)",
-				"Level 70 - Mithril (Use Mithril Ore on Furnace)",
-				"Level 80 - Adamantite (Use Adamantite Ore on Furnace)",
-		"Level 90 - Runite (Use Runite Ore on Furnace)"};
+				"@whi@Smelting and Smithing (Minimum Level)",
+				"Level 1 : Bronze - 1 Tin Ore, 1 Copper Ore",
+				"Level 15 : Iron - 2 Iron Ore",
+				"Level 20 : Silver - 1 Silver Ore",
+				"Level 30 : Steel - 1 Iron Ore, 2 Coal",
+				"Level 40 : Gold - 1 Gold Ore",
+				"Level 50 : Mithril - 1 Mithril Ore, 4 Coal",
+				"Level 70 : Adamantite - 1 Adamantite Ore, 6 Coal",
+				"Level 85 : Rune - 1 Rune Ore, 8 Coal",};
 	}
 
 	public static String[] fletchingGuide(){

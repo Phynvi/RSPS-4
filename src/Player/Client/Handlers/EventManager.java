@@ -56,6 +56,10 @@ public class EventManager{
 
 			case 1: //Called every second	
 				// Walking to object check	
+				if(c.smithingTimer > 0){
+					if(--c.smithingTimer == 0)
+						c.getSmithingHandler().removeOreAndSmeltBar();
+				}
 				if (c.wcTimer > 0)
 					c.wcTimer -= 1;
 				if (c.wcTimer == 0 && c.WC.list.getCurrentLogs() > 1){

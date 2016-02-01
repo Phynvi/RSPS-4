@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 class playerInstances {
+	public int smithingTimer = -1;
 	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
 	public boolean newUser = false;
 	public int pirate = 0;
@@ -176,17 +177,6 @@ public int idleTimer = 0;
 	public int cookingitem = 0;
 	public boolean cookingon = false;
 	//Cooking
-
-	//Furnace
-	public int smithingamount = 0;
-	public int smithdelete2 = 0; 
-	public int smithingtimer = 0;
-	public int smithxp = 0;
-	public String smithname = "";
-	public int smithlevel = 0;
-	public int smithdelete = 0;
-	public int smithitem = 0;
-	//Furnace
 
 	public int apickupid = -1;
 	public int apickupx = -1;

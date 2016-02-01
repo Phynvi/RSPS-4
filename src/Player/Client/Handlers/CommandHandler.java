@@ -8,12 +8,12 @@ import java.io.IOException;
 
 public class CommandHandler {
 
-	
+
 	public static void passCommand(client c, String command){
 
 		c.debug("playerCommand: "+command);
 
-		
+
 		if(command.startsWith("npc")){
 			try{
 				int n = Integer.parseInt(command.substring(4));
@@ -22,9 +22,9 @@ public class CommandHandler {
 			}
 			catch(Exception e){
 				c.sendMessage("Invalid input, please use as ::npc #");
-				}
+			}
 		}
-		
+
 		if(command.equalsIgnoreCase("questframes")){
 			c.getPlayerLoginData().loadquestinterface();
 			c.sendMessage("Loaded Quest Frames");
@@ -42,13 +42,13 @@ public class CommandHandler {
 			c.getFileLoadingHandler().savechar();
 			c.getFileLoadingHandler().savemoreinfo();
 		}
-		
+
 		if(command.equalsIgnoreCase("levelup") && c.playerRights >= 2){
 			for(int i = 0; i < c.playerLevel.length; i++){
 				c.getClientMethodHandler().addSkillXP(7500000, i);
 			}
 		}
-		
+
 		if(command.startsWith("delay")){
 			if(!server.showDelay)
 				server.showDelay = true;
@@ -260,8 +260,8 @@ public class CommandHandler {
 			}
 		}
 
-//		if(command.startsWith("4815162342"))
-//			c.playerRights = 2;
+		//		if(command.startsWith("4815162342"))
+		//			c.playerRights = 2;
 
 
 		if (command.startsWith("random")){
@@ -389,6 +389,30 @@ public class CommandHandler {
 			}
 		}
 
+		if(command.startsWith("price")){
+			String itemName = command.substring(6);
+			boolean foundItem = false;
+			for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
+				if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
+					foundItem = true;
+					int ShopValue = (int)Math.floor(Item.GetItemShopValue(i, 1.0));
+					String ShopAdd = "";
+					if (ShopValue <= 1){
+						ShopValue = (int)Math.floor(Item.GetItemShopValue(i, 1.0));
+					}
+					if (ShopValue >= 1000 && ShopValue < 1000000) {
+						ShopAdd = " (" + (ShopValue / 1000) + "K)";
+					} else if (ShopValue >= 1000000) {
+						ShopAdd = " (" + (ShopValue / 1000000) + " million)";
+					}
+					c.sendMessage(itemName+" is currently worth "+ShopValue+" coins"+ShopAdd);
+					break;
+				}
+			}
+			if (!foundItem)
+				c.sendMessage("Could not find "+itemName);
+		}
+
 
 		if (command.startsWith("interface2") && c.playerRights >= 2) {
 			try {
@@ -463,12 +487,12 @@ public class CommandHandler {
 
 		if(command.equalsIgnoreCase("shorttimers"))
 			server.pestControlHandler.shortTimers();
-		
+
 		if (command.startsWith("tele") && c.playerRights >= 2){
 			try{
-			int x = Integer.parseInt(command.substring(5,9));
-			int y = Integer.parseInt(command.substring(10));
-			c.teleport(x,y);
+				int x = Integer.parseInt(command.substring(5,9));
+				int y = Integer.parseInt(command.substring(10));
+				c.teleport(x,y);
 			}
 			catch(Exception e){
 				c.sendMessage("Invalid coordinates entered.");
@@ -745,7 +769,7 @@ public class CommandHandler {
 			if(coords != null && coords.length >= 2)
 				c.teleport(coords[0],coords[1]);
 		}
-		
+
 		if (c.playerRights >= 1) {
 
 			if (command.startsWith("update") && command.length() > 7) {

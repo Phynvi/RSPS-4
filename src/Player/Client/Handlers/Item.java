@@ -93,8 +93,8 @@ public class Item {
 	 * Returns 1 as default if no bow is equipped.
 	 */
 	public static int ifHasBowAndAmmoUpdateDelay(client c){
-		if(lists.bows.exists(c.playerEquipment[c.playerWeapon])){ //Check to see if a bow is equipped
-			if(!c.BOWHANDLER.checkAmmo())
+		if(lists.bows.exists(c.playerEquipment[c.playerWeapon]) || lists.xbow.exists(c.playerEquipment[c.playerWeapon])){ //Check to see if a bow is equipped
+			if(!c.BOWHANDLER.checkAmmoWithBow())
 				return -1;
 			switch (c.FightType) {
 			case 1:

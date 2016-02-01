@@ -1390,14 +1390,6 @@ playerName.trim();*/
 
 		PoisonDelay -= 1;
 
-		if (smithingtimer > 1)
-			smithingtimer -= 1;
-
-		if (smithingtimer == 1){
-			startAnimation(899);
-			getSmithingHandler().smithingvoid();
-		}		
-
 		//If killed apply dead
 		if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
 			startAnimation(2304);
@@ -1761,6 +1753,11 @@ playerName.trim();*/
 						break;
 					}
 				}
+				if(!this.BOWHANDLER.checkAmmoWithBow()){
+					sendMessage("You need ammo to use this ranged device.");
+					stopPlayerMovement();
+					break;
+				}
 
 				if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null && !Cant) {
 					if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
@@ -1928,8 +1925,6 @@ playerName.trim();*/
 				}
 				getFrameMethodHandler().closeInterface();	
 				stopAnimations();
-				spinningTimer = -1;
-				smithingtimer = 0;
 				if(getFishingHandler().fishingTimer > 0)
 					getFishingHandler().resetFishing();
 				cookingon = false;
@@ -1939,6 +1934,7 @@ playerName.trim();*/
 				fletchingprocessshort = 0;
 				followingPlayerID = -1;
 				followingNPCID = -1;
+				smithingTimer = -1;
 
 				if(frozenTimer >= 1 && !IsDead) { // uses event manager
 					teleport(absX,absY);
@@ -2470,7 +2466,7 @@ playerName.trim();*/
 					if (IsIn == false) {
 						sendMessage("You cannot sell "+Item.getItemName(removeID)+" in this store.");
 					} else {
-						int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 0.75));
+						int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
 						String ShopAdd = "";
 						if (ShopValue <= 1)
 						{

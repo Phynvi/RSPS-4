@@ -925,9 +925,9 @@ public class InventoryHandler {
 		{
 			if (c.playerItems[i] == itemID+1)
 			{
-				c.playerItemAmountCount = c.playerItemsN[i];
+				playerItemAmountCount += c.playerItemsN[i];
 			}
-			if(c.playerItemAmountCount >= itemAmount){
+			if(playerItemAmountCount >= itemAmount){
 				return true;}
 		}
 		return false;
@@ -1106,7 +1106,14 @@ public class InventoryHandler {
 			if(!addItem(items[i], 1)) return false;
 		return true;
 	}
-
+	public boolean addItemWithDeliverMessage(int itemID){
+		if(addItem(itemID, 1)){
+			c.sendMessage(Item.getItemName(itemID)+" has been added to your inventory.");
+			return true;
+		}
+		else return false;
+	}
+	
 	public boolean addItem(int itemID){
 		return addItem(itemID, 1);
 	}

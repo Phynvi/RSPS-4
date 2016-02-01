@@ -4,16 +4,16 @@ import java.util.LinkedList;
 public class ObjectClick {
 	private client c = null;
 
-	public static BST doorOpen = new BST(6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(8742,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
 	
-	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,8742,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
+	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
 	public static BST objectDest2 = new BST();
-	public static BST objectDest4 = new BST(3340,57,56,54,55,5014,5008,5973,5998,4499,5013);
-	public static BST objectDest8 = new BST(2491);
+	public static BST objectDest4 = new BST(5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013);
+	public static BST objectDest8 = new BST(8742,2491);
 
 	public ObjectClick(client pc){
 		this.c = pc;
@@ -45,7 +45,19 @@ public class ObjectClick {
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
 		switch(objectID) {
+		case 8742:
+			if(c.absY >= 3193 && c.absY <= 3196){
+				if(c.absX == 2306)
+					c.teleport(2304,c.absY);
+				else if(c.absX == 2304)
+					c.teleport(2306,c.absY);
+			}
+			break;
 		
+		case 2781: case 2785: case 11666: //furnace
+			c.getSmithingHandler().smithingBarMenuPage1();
+			break;
+			
 		case 55:
 			c.teleport(2820,9882,0);
 			break;
@@ -1243,6 +1255,7 @@ public class ObjectClick {
 			break;
 
 			//Bank booth
+		case 5276:
 		case 6084:
 		case 4483:
 		case 14367:
@@ -1453,6 +1466,7 @@ break;*/
 			c.MINE.mineRock(objectID, 0, objectX, objectY);
 			break;
 
+		case 2092:
 		case 9717:
 		case 9719:
 		case 9718:
@@ -1788,6 +1802,9 @@ break;*/
 		}
 
 		switch(objectID) {
+		case 2781: case 2785: case 11666: //furnace
+			c.getSmithingHandler().smithingBarMenuPage1();
+			break;
 
 		case 2884:
 			if(objectX == 2466 && objectY == 3495)
@@ -1840,13 +1857,14 @@ break;*/
 			Thieving.stalls(70, 1000, c.DROPHANDLER.getDrop(c.DROPHANDLER.gems), 4500, c);
 			break;
 
-		case 2213:
-		case 2214:
-		case 3045:
+			//Bank booth
 		case 5276:
 		case 6084:
-		case 11758:
-		case 9480:
+		case 4483:
+		case 14367:
+		case 11338:
+		case 2213:
+		case 9480: 
 			c.getFrameMethodHandler().openUpBankFrame(); 
 			break;
 
