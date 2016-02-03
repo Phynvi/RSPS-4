@@ -46,8 +46,6 @@ class playerInstances {
 	public int walkingToNPC = 0;	
 	public int walkingToNPC_X,walkingToNPC_Y, walkingToNPC_slotID;
 
-	public Farming FARM;	
-
 	public boolean options = false;
 	public boolean optionsMenu = false;
 	public int oX1,oX2,oX3,oY1,oY2,oY3,oX4,oY4;

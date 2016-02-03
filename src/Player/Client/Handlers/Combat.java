@@ -804,13 +804,15 @@ public class Combat {
 				return false;
 			}
 
-			
-			if(c.LoopAttDelay > 0)
-				return false;
-
 			int EnemyX = server.npcHandler.npcs[c.attacknpc].absX;
 			int EnemyY = server.npcHandler.npcs[c.attacknpc].absY;
 			int hitDiff = 0;
+			
+			if(distance > 1 && misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance))
+					c.stopPlayerMovement();
+
+			if(c.LoopAttDelay > 0)
+				return false;
 
 			/* Melee */
 			if(distance == 1 && !c.autocast) { 

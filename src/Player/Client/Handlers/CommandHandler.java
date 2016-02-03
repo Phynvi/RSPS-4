@@ -12,8 +12,7 @@ public class CommandHandler {
 	public static void passCommand(client c, String command){
 
 		c.debug("playerCommand: "+command);
-
-
+		
 		if(command.startsWith("npc")){
 			try{
 				int n = Integer.parseInt(command.substring(4));

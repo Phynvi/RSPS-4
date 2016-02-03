@@ -26,6 +26,7 @@ public static boolean debugmode = false;
 	public static long startTime;
 	public static long upTime;
 	public static boolean showDelay = false;
+	public static GlobalObjectHandler globalObjectHandler = null;
 	
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
@@ -43,12 +44,15 @@ public static boolean debugmode = false;
 		muteHandler = new MuteHandler();
 		itemspawnpoints = new itemspawnpoints();
 		GraphicsHandler = new GraphicsHandler();
+		globalObjectHandler = new GlobalObjectHandler();
 		//dialogueHandler = new DialogueHandler(); 
 		int waitFails = 0;
 		long lastTicks = System.currentTimeMillis();
 		long totalTimeSpentProcessing = 0;
 		int cycle = 0;
-		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0,pestControlTimeSpentProcessing=0;
+		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,
+				itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0,
+				pestControlTimeSpentProcessing=0,globalObjectTimeSpentProcessing = 0;
 		int printOutDelay = 0;
 		int averages = 0;
 		long totals = 0;
@@ -71,6 +75,8 @@ public static boolean debugmode = false;
 			if(showDelay) shopTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			pestControlHandler.process();
 			if(showDelay) pestControlTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			globalObjectHandler.process();
+			if(showDelay) globalObjectTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			//antilag.process();
 			//itemspawnpoints.process();
 
@@ -84,10 +90,14 @@ public static boolean debugmode = false;
 			totalTimeSpentProcessing += timeSpent;
 			if(showDelay && ++printOutDelay == 10){
 				printOutDelay = 0;
+				
 				System.out.println("[KERNEL] : Process time spent report:");
 				System.out.println("	 player:"+playerTimeSpentProcessing+", npc:"+npcTimeSpentProcessing+
-						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing+", PC:"+pestControlTimeSpentProcessing);
-				totals += (playerTimeSpentProcessing+npcTimeSpentProcessing+itemTimeSpentProcessing+shopTimeSpentProcessing+pestControlTimeSpentProcessing)/4;
+						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing+
+						", PC:"+pestControlTimeSpentProcessing+", GlobalObject: "+globalObjectTimeSpentProcessing);
+				
+				totals += (playerTimeSpentProcessing+npcTimeSpentProcessing+itemTimeSpentProcessing+
+						shopTimeSpentProcessing+pestControlTimeSpentProcessing+globalObjectTimeSpentProcessing)/4;
 				averages += 1;
 				if(averages%10 == 0){
 					System.out.println("[KERNEL] [AVERAGES] : Last 10 Processes Averages : "+(totals/10));

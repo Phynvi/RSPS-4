@@ -1770,7 +1770,7 @@ c.teleportToY = (c.absY - 6400);
 break;*/
 		default:
 			if(lists.grownList.exists(objectID)){
-				c.FARM.guide(objectX, objectY, objectID);
+				c.getFarmingHandler().guide(objectX, objectY, objectID,face);
 				return;
 			}
 
@@ -1790,14 +1790,14 @@ break;*/
 
 	public boolean spinning = false;
 
-	public void objectClick2(int objectID, int objectX, int objectY) {
+	public void objectClick2(int objectID, int objectX, int objectY, int direction) {
 		c.debug("atObject2: "+objectX+","+objectY+" objectID: "+objectID); 
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
 
 		if(lists.grownList.exists(objectID) || lists.growingList.exists(objectID) || lists.patchList.exists(objectID) || lists.brushList.exists(objectID) || lists.inspectInfoList.exists(objectID) || lists.deadPlantList.exists(objectID)){
-			c.FARM.inspectInfo(objectID,objectX,objectY);
+			c.getFarmingHandler().inspectInfo(objectID,objectX,objectY);
 			return;
 		}
 
@@ -1902,7 +1902,7 @@ break;*/
 		}
 	}
 
-	public void objectClick4(int objectID, int objectX, int objectY) {
+	public void objectClick4(int objectID, int objectX, int objectY, int direction) {
 		c.debug("atObject4: "+objectX+","+objectY+" objectID: "+objectID);
 
 		if(isObjSpamming()) return;
@@ -1910,7 +1910,7 @@ break;*/
 
 		if(lists.growingList.exists(objectID) || lists.grownList.exists(objectID) || lists.guideList.exists(objectID) || 
 				lists.brushList.exists(objectID) || lists.deadPlantList.exists(objectID) || lists.patchList.exists(objectID)){
-			c.FARM.guide(objectX, objectY, objectID);
+			c.getFarmingHandler().guide(objectX, objectY, objectID,direction);
 			return;
 		}
 

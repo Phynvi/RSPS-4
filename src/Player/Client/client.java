@@ -81,9 +81,13 @@ public class client extends Player implements Runnable {
 		return this.AGILITY;
 	}
 
+	private Farming farmingHandler = new Farming(this);
+	public Farming getFarmingHandler(){
+		return this.farmingHandler;
+	}
+	
 	public void disconnectPlayerAndSave(String reason){
 		//disconnected = true;
-		this.FARM.plantList.stopAll();
 		this.Events.stop();
 		logout();
 		getFileLoadingHandler().savemoreinfo();
@@ -132,7 +136,6 @@ public class client extends Player implements Runnable {
 		this.menuHandler = new MenuHandler(this);
 		this.WC = new Woodcutting(this);
 		this.MINE = new Mining(this);   
-		this.FARM = new Farming(this);
 		this.RUNECRAFTING = new Runecrafting(this);
 		this.AGILITY = new Agility(this);
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
@@ -208,7 +211,7 @@ public class client extends Player implements Runnable {
 			break;
 
 		case 2: // Object click 2
-			getObjectClickHandler().objectClick2(destinationID, destinationX, destinationY);
+			getObjectClickHandler().objectClick2(destinationID, destinationX, destinationY,0);
 			break;
 
 		case 3: // Object click 3
@@ -216,7 +219,7 @@ public class client extends Player implements Runnable {
 			break;
 
 		case 4: // Object click 4!
-			getObjectClickHandler().objectClick4(destinationID, destinationX, destinationY);
+			getObjectClickHandler().objectClick4(destinationID, destinationX, destinationY,0);
 			break;
 
 		default: // error
@@ -305,9 +308,6 @@ public class client extends Player implements Runnable {
 	public void destruct(String reason) {
 		if(mySock == null) return;		// already shutdown
 		try {
-			if(FARM != null)
-				if(this.FARM.plantList != null && this != null)
-					this.FARM.plantList.stopAll(); //stop calling farming timers
 			if(this.Events != null)
 				this.Events.stop(); //stops calling event timers
 			disconnected = true;
@@ -1683,7 +1683,7 @@ playerName.trim();*/
 			int atObjectX = inStream.readUnsignedWordBigEndianA();
 			int useItemID = inStream.readUnsignedWord();
 			debug("atObjectID: "+atObjectID+" atObjectY: "+atObjectY+" itemSlot: "+itemSlot+" atObjectX: "+atObjectX+" useItemID: "+useItemID+" j6: "+j6);
-			getItemUseHandler().useItemOnObject(useItemID, atObjectID, atObjectY, atObjectX, itemSlot);
+			getItemUseHandler().useItemOnObject(useItemID, atObjectID, atObjectY, atObjectX, itemSlot,2);
 			break;
 
 		case 130:	//Clicking some stuff in game
@@ -1754,8 +1754,8 @@ playerName.trim();*/
 					}
 				}
 				if(!this.BOWHANDLER.checkAmmoWithBow()){
-					sendMessage("You need ammo to use this ranged device.");
 					stopPlayerMovement();
+					sendMessage("You need ammo to use this ranged device.");
 					break;
 				}
 
@@ -1788,8 +1788,24 @@ playerName.trim();*/
 			// this guys loading is done. Also wait with regular player updates
 			// until we receive this command.
 			//println_debug("Loading finished.");
-			hasntLoggedin = true;
-			objects.newObjects(this);
+			hasntLoggedin = true;		
+			if(isInArea(2621, 2557, 2689, 2622)){ //Pest control objects
+				getFrameMethodHandler().makeLocalObject(2629, 2591, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2629, 2593, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2681, 2588, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2681, 2590, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2671, 2571, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2669, 2571, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2647, 2570, 107, 0, 10);
+				getFrameMethodHandler().makeLocalObject(2645, 2570, 107, 0, 10);
+			}
+			else{
+				for(Object o : server.globalObjectHandler.objectList){
+					GlobalObject g = (GlobalObject) o;
+					getFrameMethodHandler().makeLocalObject(g.X, g.Y, g.originalObjectID, g.direction, 10);
+				}
+			}
+
 			break;
 
 		case 122:	// Call for burying bones
@@ -1846,7 +1862,7 @@ playerName.trim();*/
 
 			if(misc.GoodDistance(absX, absY, _x, _y, destinationRange)) {
 				viewTo(_x, _y);
-				getObjectClickHandler().objectClick4(_ID, _x, _y);
+				getObjectClickHandler().objectClick4(_ID, _x, _y,0);
 			}
 			else{
 				ActionType = 4;
@@ -2043,7 +2059,7 @@ playerName.trim();*/
 
 			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
 				viewTo(objectX, objectY);
-				getObjectClickHandler().objectClick2(objectID, objectX, objectY);
+				getObjectClickHandler().objectClick2(objectID, objectX, objectY,0);
 			}
 			else {
 				ActionType = 2;

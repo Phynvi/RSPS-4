@@ -1462,6 +1462,7 @@ WORLDMAP 2: (not-walk able places)
 					switch (misc.random(3)+1){
 					case 1: case 4:
 						npcs[NPCID].animNumber = 80; //Dragons
+						melee(npcs[NPCID].MaxHit);
 						break;
 					case 2:
 						if (c.getCombatHandler().dragfire()){
@@ -1470,7 +1471,7 @@ WORLDMAP 2: (not-walk able places)
 							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
 							c.sendMessage("Your shield protects you from the Dragon's breath.");
 						}
-						if (c.getCombatHandler().hasDFS()){
+						else if (c.getCombatHandler().hasDFS()){
 							gfxAll(440, playerY, playerX);
 							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
 							c.getFrameMethodHandler().stillgfx(4, c.absY, c.absX);
@@ -1689,7 +1690,7 @@ WORLDMAP 2: (not-walk able places)
 						hitDiff = 0;
 					else{
 						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeAtkEquipmentBonus();
-						if (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
+						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
 				//TODO - add projectiles
@@ -1698,7 +1699,7 @@ WORLDMAP 2: (not-walk able places)
 						hitDiff = 0;
 					else{
 						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerRangeDefEquipmentBonus();
-						if (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
+						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
 				if (NPCFightType == 3){ //mage
@@ -1706,7 +1707,7 @@ WORLDMAP 2: (not-walk able places)
 						hitDiff = 0;
 					else{
 						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMagicDefEquipmentBonus();
-						if (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
+						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
 

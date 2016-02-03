@@ -505,6 +505,11 @@ public class FrameMethods {
 
 	/*END OF TESTING FRAMES*/
 
+	/**
+	 * @param typeID - object ID
+	 * @param orientation - Direction
+	 * @param tileObjectType - default 10
+	 */
 	public void createNewTileObject(int x, int y, int typeID, int orientation, int tileObjectType){
 		outStream.createFrame(85);
 		outStream.writeByteC(y - (c.mapRegionY * 8)); 

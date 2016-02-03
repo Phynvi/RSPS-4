@@ -4,13 +4,13 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2645
-character-posy = 9531
+character-posx = 2939
+character-posy = 3219
 character-rights = 2
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160031
+character-lastlogin = 20160102
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -46,7 +46,7 @@ character-skill = 2	99	35592200
 character-skill = 3	99	56131460
 character-skill = 4	99	20041080
 character-skill = 5	99	16470888
-character-skill = 6	99	19952020
+character-skill = 6	99	19952380
 character-skill = 7	99	16184120
 character-skill = 8	99	16055705
 character-skill = 9	99	14749475
@@ -59,7 +59,7 @@ character-skill = 15	99	14160067
 character-skill = 16	99	21952914
 character-skill = 17	99	16198616
 character-skill = 18	99	17422595
-character-skill = 19	99	15970650
+character-skill = 19	99	15973050
 character-skill = 20	99	15250578
 character-skill = 21	99	14000000
 character-skill = 22	99	14000000
@@ -68,6 +68,24 @@ character-skill = 24	99	14000000
 
 [ITEMS]
 character-item = 0	6740	1
+character-item = 1	996	99417
+character-item = 2	5103	99
+character-item = 3	5342	1
+character-item = 4	5326	1
+character-item = 5	754	1
+character-item = 6	555	100000
+character-item = 7	556	99992
+character-item = 8	557	100000
+character-item = 9	558	100000
+character-item = 10	559	100000
+character-item = 11	560	100000
+character-item = 12	561	100000
+character-item = 13	562	100000
+character-item = 14	563	100000
+character-item = 15	564	99998
+character-item = 16	565	100000
+character-item = 17	566	100000
+character-item = 18	567	100000
 
 [BANK]
 character-bank = 0	392	56

@@ -20,14 +20,25 @@ public class RangeDataHandler {
 		}
 	}
 
+	/**
+	 * Will check player's currently equipped weapon with ammo to determine if
+	 * it is a bow or crossbow equipped and if the correct ammo is equipped
+	 * @return True if crossbow or bow with correct ammo is equipped. 
+	 * True if player does not have a bow or crossbow equipped.
+	 * False if the player has a crossbow or bow equipped without the correct ammo
+	 */
 	public boolean checkAmmoWithBow(){
 		int curAmmo = c.playerEquipment[c.playerArrows];
 		int curBow = c.playerEquipment[c.playerWeapon];
-		if(lists.bows.exists(curBow) && lists.arrows.exists(curAmmo))
-			return true;
-		if(lists.xbow.exists(curBow) && lists.bolts.exists(curAmmo))
-			return true;
-		return false;
+		if(lists.bows.exists(curBow)){
+			if(lists.arrows.exists(curAmmo)) return true;
+			else return false;
+		}
+		if(lists.xbow.exists(curBow)){
+			if(lists.bolts.exists(curAmmo)) return true;
+			else return false;
+		}
+		return true;
 	}
 
 	public int getBowEmote(){

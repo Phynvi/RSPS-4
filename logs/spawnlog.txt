@@ -808,3 +808,8 @@ aaa mods: 448Amount:1000
 aaa mods: 450Amount:1000
 aaa mods: 452Amount:1000
 aaa mods: 454Amount:1000
+aaa mods: 995Amount:100000
+aaa mods: 995Amount:100000
+the wc test: 5295Amount:1000
+aaa mods: 5295Amount:1000
+aaa mods: 5295Amount:10000

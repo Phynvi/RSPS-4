@@ -602,7 +602,7 @@ public class ItemUse {
 		return true;
 	}
 
-	public boolean useItemOnObject(int useItemID, int atObjectID, int atObjectY, int atObjectX, int itemSlot){
+	public boolean useItemOnObject(int useItemID, int atObjectID, int atObjectY, int atObjectX, int itemSlot, int objectDirection){
 		
 		if(useItemID == 954 && atObjectID == 3830)
 			c.teleport(3507,9494,0);
@@ -625,9 +625,9 @@ public class ItemUse {
 
 
 		if(lists.deadPlantList.exists(atObjectID) || lists.brushList.exists(atObjectID)) //using an item on brush/dead brush
-			c.FARM.guide(atObjectX, atObjectY, atObjectID);
+			c.getFarmingHandler().guide(atObjectX, atObjectY, atObjectID,objectDirection);
 		if(lists.patchList.exists(atObjectID)) //using an item on patch
-			c.FARM.grow(atObjectX, atObjectY, useItemID, atObjectID);
+			c.getFarmingHandler().grow(atObjectX, atObjectY, useItemID, atObjectID,objectDirection);
 
 		if (atObjectID == 2781 || atObjectID == 2785 || atObjectID == 11666 || atObjectID == 3994) //furnace
 			c.getSmithingHandler().smithingBarMenuPage1();

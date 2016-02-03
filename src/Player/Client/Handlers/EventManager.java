@@ -133,8 +133,6 @@ public class EventManager{
 					}
 					c.getFrameMethodHandler().refreshSkills();
 				}
-				if(!c.FARM.plantList.isEmpty())	
-					c.FARM.plantList.updateAll();
 				break;
 
 			case 7: //called every 3 minutes

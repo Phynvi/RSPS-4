@@ -1,6 +1,14 @@
 -Place fishing spots across map
 
+-Mining and Woodcutting through global object lists
+
+-Farming through global object list
+
+-Delete respawn object class
+
 -smthing frames light by lvl
+
+-Fix farming by global list, assigning player names to objects
 
 -Smithing loops
 
