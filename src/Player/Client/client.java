@@ -202,24 +202,23 @@ public class client extends Player implements Runnable {
 	/*WALKING TO OBJECT BEFORE DOING ACTION*/
 
 	public void DoAction() {
-		viewTo(destinationX, destinationY);
 
 		switch (ActionType) {
 
 		case 1: // Object click 1
-			getObjectClickHandler().objectClick(destinationID, destinationX, destinationY, 0, 0, 1);
+			getObjectClickHandler().objectClick(walkingToObject[1], walkingToObjectX[1], walkingToObjectY[1], 0, 0, 1);
 			break;
 
 		case 2: // Object click 2
-			getObjectClickHandler().objectClick2(destinationID, destinationX, destinationY,0);
+			getObjectClickHandler().objectClick2(walkingToObject[2], walkingToObjectX[2], walkingToObjectY[2],0);
 			break;
 
 		case 3: // Object click 3
-			getObjectClickHandler().objectClick3(destinationID, destinationX, destinationY);
+			getObjectClickHandler().objectClick3(walkingToObject[3], walkingToObjectX[3], walkingToObjectY[3],0);
 			break;
 
 		case 4: // Object click 4!
-			getObjectClickHandler().objectClick4(destinationID, destinationX, destinationY,0);
+			getObjectClickHandler().objectClick4(walkingToObject[4], walkingToObjectX[4], walkingToObjectY[4],0);
 			break;
 
 		default: // error
@@ -230,11 +229,11 @@ public class client extends Player implements Runnable {
 	}
 
 	public void ResetWalkTo() {
+		walkingToDestination[ActionType] = -1;
+		walkingToObjectX[ActionType] = -1;
+		walkingToObjectY[ActionType] = -1;
+		walkingToObject[ActionType] = -1;
 		ActionType = -1;
-		destinationX = -1;
-		destinationY = -1;
-		destinationID = -1;
-		destinationRange = 1;
 		WalkingTo = false;
 	}
 
@@ -1486,14 +1485,11 @@ playerName.trim();*/
 		}
 
 		if(WalkingTo) {
-			if(misc.GoodDistance(absX, absY, destinationX, destinationY, destinationRange) && objWalkTimer <= 0) {
-				objWalkTimer = -1;
+			if(distanceToPoint(walkingToObjectX[ActionType], walkingToObjectY[ActionType]) <= walkingToDestination[ActionType]) {
 				DoAction();
 				ResetWalkTo();
 			}
 		}
-		if (objWalkTimer > -1)
-			objWalkTimer -= 1;
 		if (animDelay > 0 && animRepeat == true)
 			animDelay -= 1;
 		if (animDelay == 0 && animRepeat == true){
@@ -1847,28 +1843,25 @@ playerName.trim();*/
 			appearanceUpdateRequired = true;
 			break;
 
-		case 234:
+		case 234: //object click 4
 			int _x = inStream.readUnsignedWordBigEndianA();
 			int _ID = inStream.readUnsignedWordA();
 			int _y = inStream.readUnsignedWordBigEndianA();
 			//				  if(server.debugmode)
 			//					  System.out.println("Case 234: SomeX, SomeY : "+_x+", "+_y+" ObjClick = "+_ID);
+			int range = getObjectClickHandler().getObjectDistance(_ID);
+			
 
-			switch (_ID){
-			default:
-				destinationRange = 2; //default is range 2
-				break;
-			}
-
-			if(misc.GoodDistance(absX, absY, _x, _y, destinationRange)) {
+			if(misc.GoodDistance(absX, absY, _x, _y, range)) {
 				viewTo(_x, _y);
 				getObjectClickHandler().objectClick4(_ID, _x, _y,0);
 			}
 			else{
 				ActionType = 4;
-				destinationX = _x;
-				destinationY = _y;
-				destinationID = _ID;
+				walkingToObjectX[4] = _x;
+				walkingToObjectY[4] = _y;
+				walkingToObject[4] = _ID;
+				walkingToDestination[4] = range;
 				WalkingTo = true;
 			}
 			break;
@@ -2045,78 +2038,44 @@ playerName.trim();*/
 			getItemUseHandler().useItemOnPlayer(itemUseID, itemUseSlot, useOnPlayer);
 			break;
 
+			//TODO - use local variables in the objects to try and fix bugs
 		case 252: // atObject2
-			objectID = inStream.readUnsignedWordBigEndianA(); //5292 bankwindow
-			objectY = inStream.readSignedWordBigEndian();
-			objectX = inStream.readUnsignedWordA();
+			int _objectID2 = inStream.readUnsignedWordBigEndianA(); //5292 bankwindow
+			int _objectY = inStream.readSignedWordBigEndian();
+			int _objectX = inStream.readUnsignedWordA();
+			int _destination = getObjectClickHandler().getObjectDistance(_objectID2); //by default
 
-			if(objectID == 6912) { // Xerozcheez: This object requires to be 3 sqs minium, so we change it ;)
-				destinationRange = 3;
-			} 
-			else {
-				destinationRange = 2;
-			}
-
-			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
-				viewTo(objectX, objectY);
-				getObjectClickHandler().objectClick2(objectID, objectX, objectY,0);
+			if(misc.GoodDistance(absX, absY, _objectX, _objectY, _destination)) {
+				viewTo(_objectX, _objectY);
+				getObjectClickHandler().objectClick2(_objectID2, _objectX, _objectY,0);
 			}
 			else {
 				ActionType = 2;
-				destinationX = objectX;
-				destinationY = objectY;
-				destinationID = objectID;
+				walkingToObject[2] = _objectID2;
+				walkingToObjectX[2] = _objectX;
+				walkingToObjectY[2] = _objectY;
+				walkingToDestination[2] = _destination;
 				WalkingTo = true;
-				debug("WalkingTo is true");
 			}
 			break;
-
-
-			//	case 252: //second click
-			//		objectID = inStream.readUnsignedWord();
-			//		objectX = inStream.readSignedWordBigEndianA();
-			//		objectY = inStream.readUnsignedWordA();
-			//              viewTo(objectX, objectY);
-			//            WalkingTo = true;
-			//          ActionType = 2;
-			//        objectClick2(objectID, objectX, objectY);
-			//break;
 
 		case 132: //clicking object
 			if (noClick)
 				break;
-			destinationX = inStream.readSignedWordBigEndianA();
-			destinationID = inStream.readUnsignedWord();
-			destinationY = inStream.readUnsignedWordA();
-			objectID = destinationID;
-			objectX2 = objectX;
-			objectY2 = objectY;
-			destinationRange = 1; //1 by default
+			int _X1 = inStream.readSignedWordBigEndianA();
+			int _objectID1 = inStream.readUnsignedWord();
+			int _Y1 = inStream.readUnsignedWordA();
+			int _range1 = getObjectClickHandler().getObjectDistance(_objectID1);
 
-			if (ObjectClick.objectDest1.exists(objectID))
-				destinationRange = 1;
 			
-			if(ObjectClick.objectDest2.exists(objectID))
-				destinationRange = 2;
-
-			if(ObjectClick.objectDest4.exists(objectID))
-				destinationRange = 4;
-
-			if(ObjectClick.objectDest3.exists(objectID))
-				destinationRange = 3;
-
-			if(ObjectClick.objectDest8.exists(objectID))
-				destinationRange = 8;
-			
-			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
-				viewTo(objectX, objectY);
-				getObjectClickHandler().objectClick(objectID, objectX, objectY, 0, 0, 1);
+			if(misc.GoodDistance(absX, absY, _X1, _Y1, _range1)) {
+				getObjectClickHandler().objectClick(_objectID1, _X1, _Y1, 0, 0, 1);
 			}
 			else {
-//				if (!isRunning2)
-//					objWalkTimer = (int)(destinationRange*0.75);
-//				if (isRunning2)
-//					objWalkTimer = destinationRange/2;
+				walkingToObject[1] = _objectID1;
+				walkingToObjectX[1] = _X1;
+				walkingToObjectY[1] = _Y1;
+				walkingToDestination[1] = _range1;
 				ActionType = 1;
 				WalkingTo = true;
 			}
@@ -2125,22 +2084,19 @@ playerName.trim();*/
 
 
 		case 70: // atObject3
-			destinationX = inStream.readSignedWordBigEndian();
-			destinationY = inStream.readUnsignedWord();
-			destinationID = inStream.readUnsignedWordBigEndianA();
+			int _X3 = inStream.readSignedWordBigEndian();
+			int _Y3 = inStream.readUnsignedWord();
+			int _objectID3 = inStream.readUnsignedWordBigEndianA();
+			int _range3 = getObjectClickHandler().getObjectDistance(_objectID3);
 
-			if(objectID == 6912) { // Xerozcheez: This object requires to be 3 sqs minium, so we change it ;)
-				destinationRange = 3;
-			} 
-			else {
-				destinationRange = 2;
-			}
-
-			if(misc.GoodDistance(absX, absY, objectX, objectY, destinationRange)) {
-				viewTo(objectX, objectY);
-				getObjectClickHandler().objectClick3(objectID, objectX, objectY);
+			if(misc.GoodDistance(absX, absY, _X3,_Y3,_objectID3)) {
+				getObjectClickHandler().objectClick3(_objectID3, _X3, _Y3, 0);
 			}
 			else {
+				walkingToObject[3] = _objectID3;
+				walkingToObjectX[3] = _X3;
+				walkingToObjectY[3] = _Y3;
+				walkingToDestination[3] = _range3;
 				ActionType = 3;
 				WalkingTo = true;
 			}

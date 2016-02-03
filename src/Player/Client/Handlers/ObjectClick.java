@@ -4,6 +4,14 @@ import java.util.LinkedList;
 public class ObjectClick {
 	private client c = null;
 
+	public int getObjectDistance(int objectID){
+		if(objectDest2.exists(objectID)) return 2;
+		if(objectDest3.exists(objectID)) return 3;
+		if(objectDest4.exists(objectID)) return 4;
+		if(objectDest8.exists(objectID)) return 8;
+		return 1;
+	}
+	
 	public static BST doorOpen = new BST(8742,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
@@ -36,6 +44,8 @@ public class ObjectClick {
 		c.debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
 
 		if(isObjSpamming()) return;
+
+		c.viewTo(objectX, objectY);
 
 		objtimer = System.currentTimeMillis();
 
@@ -1796,6 +1806,8 @@ break;*/
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
 
+		c.viewTo(objectX, objectY);
+
 		if(lists.grownList.exists(objectID) || lists.growingList.exists(objectID) || lists.patchList.exists(objectID) || lists.brushList.exists(objectID) || lists.inspectInfoList.exists(objectID) || lists.deadPlantList.exists(objectID)){
 			c.getFarmingHandler().inspectInfo(objectID,objectX,objectY);
 			return;
@@ -1873,13 +1885,15 @@ break;*/
 
 	/*OBJECT CLICK THREE*/
 
-	public void objectClick3(int objectID, int objectX, int objectY) {
+	public void objectClick3(int objectID, int objectX, int objectY, int direction) {
 		c.WalkingTo = false;
 
 		c.debug("atObject3: "+objectX+","+objectY+" objectID: "+objectID);
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
+		
+		c.viewTo(objectX, objectY);
 
 		switch (objectID) {			
 		case 2884:
@@ -1907,6 +1921,8 @@ break;*/
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
+		
+		c.viewTo(objectX, objectY);
 
 		if(lists.growingList.exists(objectID) || lists.grownList.exists(objectID) || lists.guideList.exists(objectID) || 
 				lists.brushList.exists(objectID) || lists.deadPlantList.exists(objectID) || lists.patchList.exists(objectID)){

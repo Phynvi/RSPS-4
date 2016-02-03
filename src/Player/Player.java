@@ -498,10 +498,6 @@ public abstract class Player extends playerInstances {
 	public int[] clueItemsN = new int[28];
 
 	public int ActionType = -1;
-	public int destinationX = -1;
-	public int destinationY = -1;
-	public int destinationID = -1;
-	public int destinationRange = 1;
 	public boolean WalkingTo = false;
 
 	public boolean IsFireing = false;

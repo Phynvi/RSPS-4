@@ -10,7 +10,7 @@ character-rights = 2
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160102
+character-lastlogin = 20160103
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -40,10 +40,10 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	31314200
+character-skill = 0	99	31327000
 character-skill = 1	99	16267980
 character-skill = 2	99	35592200
-character-skill = 3	99	56131460
+character-skill = 3	99	56144260
 character-skill = 4	99	20041080
 character-skill = 5	99	16470888
 character-skill = 6	99	19952380
@@ -55,11 +55,11 @@ character-skill = 11	99	14092025
 character-skill = 12	99	14585523
 character-skill = 13	99	14280652
 character-skill = 14	99	15413770
-character-skill = 15	99	14160067
+character-skill = 15	99	14160487
 character-skill = 16	99	21952914
-character-skill = 17	99	16198616
+character-skill = 17	99	16199936
 character-skill = 18	99	17422595
-character-skill = 19	99	15975150
+character-skill = 19	99	15996300
 character-skill = 20	99	15250578
 character-skill = 21	99	14000000
 character-skill = 22	99	14000000
@@ -67,13 +67,25 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	5296	9
-character-item = 1	208	1
-character-item = 2	208	1
-character-item = 3	208	1
-character-item = 4	208	1
+character-item = 0	5296	16
+character-item = 1	5097	99
+character-item = 2	5324	996
+character-item = 3	996	1358
+character-item = 4	258	1
 character-item = 5	5326	1
 character-item = 6	5342	1
+character-item = 7	208	1
+character-item = 8	208	1
+character-item = 9	208	1
+character-item = 10	208	1
+character-item = 11	208	1
+character-item = 12	208	1
+character-item = 13	208	1
+character-item = 14	208	1
+character-item = 15	208	1
+character-item = 16	208	1
+character-item = 17	208	1
+character-item = 18	208	1
 
 [BANK]
 character-bank = 0	392	56

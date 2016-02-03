@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 class playerInstances {
+	public int[] walkingToObjectX = new int[5];
+	public int[] walkingToObjectY = new int[5];
+	public int[] walkingToDestination = new int[5];
+	public int[] walkingToObject = new int[5];
+	
 	public int smithingTimer = -1;
 	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
 	public boolean newUser = false;
@@ -62,7 +67,6 @@ class playerInstances {
 	public int miningTimer = -1;
 
 	//public ArrayList<RespawnObject> cutTrees = new ArrayList<RespawnObject>();
-	public int objWalkTimer = -1;
 	public int currentItem = 0;
 
 	public boolean noClick = false;
@@ -149,9 +153,6 @@ public int idleTimer = 0;
 	public int DH = 0;
 	public int ithl = 0;
 	public int rockcount = 0;
-	public int objectX = 0; //
-	public int objectID = 0; //
-	public int objectY = 0; //
 	public int xpgiven = 0;
 	long lastYell = 20001;
 	public int shopname = 0;
