@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160102
+character-lastlogintime = 20160103
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2

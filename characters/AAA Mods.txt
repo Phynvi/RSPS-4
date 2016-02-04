@@ -4,8 +4,8 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 3058
-character-posy = 3310
+character-posx = 2984
+character-posy = 3213
 character-rights = 2
 character-ismember = 1
 character-messages = 0
@@ -40,13 +40,13 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	31327000
+character-skill = 0	99	31555800
 character-skill = 1	99	16267980
 character-skill = 2	99	35592200
-character-skill = 3	99	56144260
+character-skill = 3	99	56373060
 character-skill = 4	99	20041080
 character-skill = 5	99	16470888
-character-skill = 6	99	19952380
+character-skill = 6	99	19986700
 character-skill = 7	99	16184120
 character-skill = 8	99	16055705
 character-skill = 9	99	14749475
@@ -67,25 +67,24 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	5296	16
-character-item = 1	5097	99
-character-item = 2	5324	996
-character-item = 3	996	1358
-character-item = 4	258	1
-character-item = 5	5326	1
-character-item = 6	5342	1
-character-item = 7	208	1
-character-item = 8	208	1
-character-item = 9	208	1
-character-item = 10	208	1
-character-item = 11	208	1
-character-item = 12	208	1
-character-item = 13	208	1
-character-item = 14	208	1
-character-item = 15	208	1
-character-item = 16	208	1
-character-item = 17	208	1
-character-item = 18	208	1
+character-item = 0	996	101546
+character-item = 1	555	100000
+character-item = 2	556	99946
+character-item = 3	557	100000
+character-item = 4	558	100000
+character-item = 5	559	100000
+character-item = 6	560	100000
+character-item = 7	561	99972
+character-item = 8	562	100000
+character-item = 9	563	100000
+character-item = 10	564	99996
+character-item = 11	565	100000
+character-item = 12	566	99986
+character-item = 13	567	100000
+character-item = 14	13309	1
+character-item = 15	14508	1
+character-item = 16	14509	1
+character-item = 17	14510	1
 
 [BANK]
 character-bank = 0	392	56

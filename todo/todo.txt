@@ -1,14 +1,12 @@
 -Place fishing spots across map
 
+-Redo mining and woodcutting
+
+-Make NPCs +1,+1 spawn if they need it
+
 -Mining and Woodcutting through global object lists
 
--Farming through global object list
-
 -Delete respawn object class
-
--smthing frames light by lvl
-
--Fix farming by global list, assigning player names to objects
 
 -Smithing loops
 
@@ -20,7 +18,7 @@
 
 -Add in farming patches
 
-- follow run
+-follow run
 
 -Finish specials, add rune claws 
 
@@ -30,11 +28,9 @@
 	
 -Level gain sprites
 
--Teleport in ardougne (elena) is open
+-Teleport in ardougne (elena) is open, catherby boat
 
--Fishing colony
-
--Farming objects use text 
+-Fishing colony and karamja travel
 
 -cast on npc errors out
 

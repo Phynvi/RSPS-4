@@ -300,8 +300,10 @@ public class Item {
 		double ShopValue = 1;
 		double Overstock = 0;
 		double TotPrice = 0;
-		if (ItemHandler.ItemList.exists(ItemID))
+		if(Item.itemIsNote[ItemID]) ItemID -= 1;
+		if (ItemHandler.ItemList.exists(ItemID)){
 			ShopValue = ItemHandler.ItemList.getCurrentItem().ShopValue;
+		}
 
 		/*Overstock = server.shopHandler.ShopItemsN[MyShopID][fromSlot] - server.shopHandler.ShopItemsSN[MyShopID][fromSlot];*/
 		TotPrice = (ShopValue * buyPercentage); //Calculates price for 1 item, in db is stored for 0 items (strange but true)
@@ -312,7 +314,7 @@ public class Item {
 		} else if (Overstock < 0) { //less then default -> exspensive
 			TotPrice += ((ShopValue / 100) * (1.26875 * Overstock));
 		}*/
-		if(TotPrice <= 0) TotPrice = 100;
+		if(TotPrice <= 0) TotPrice = 1;
 		return TotPrice;
 	}
 
