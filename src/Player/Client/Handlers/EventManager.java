@@ -60,16 +60,6 @@ public class EventManager{
 					if(--c.smithingTimer == 0)
 						c.getSmithingHandler().removeOreAndSmeltBar();
 				}
-				if (c.wcTimer > 0)
-					c.wcTimer -= 1;
-				if (c.wcTimer == 0 && c.WC.list.getCurrentLogs() > 1){
-					c.WC.deliverLog(); //will deliver correct log and decrement _numlogs
-					c.wcTimer = c.WC.getLogDelay();
-				}
-				if (c.wcTimer == 0 && c.WC.list.getCurrentLogs() == 1){
-					c.WC.deliverLog(); //will deliver correct log and decrement _numlogs
-					c.WC.finishedCutting();
-				}
 
 				if (c.miningTimer > 0){
 					c.miningTimer -= 1;

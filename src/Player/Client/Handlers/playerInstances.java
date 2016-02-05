@@ -13,6 +13,7 @@ class playerInstances {
 	public int[] walkingToObjectY = new int[5];
 	public int[] walkingToDestination = new int[5];
 	public int[] walkingToObject = new int[5];
+	public int woodcuttingTimer = -1;
 	
 	public int smithingTimer = -1;
 	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
@@ -59,9 +60,7 @@ class playerInstances {
 	public Agility AGILITY;
 	public Runecrafting RUNECRAFTING;
 	public Crafting CRAFT;
-	public boolean cycleItems = false;	
-	public Woodcutting WC;
-	public int wcTimer = -1;
+	public boolean cycleItems = false;
 
 	public Mining MINE;
 	public int miningTimer = -1;

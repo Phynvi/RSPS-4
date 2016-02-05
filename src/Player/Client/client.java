@@ -12,6 +12,11 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private Woodcutting woodcuttingHandler = new Woodcutting(this);
+	public Woodcutting getWoodcuttingHandler(){
+		return this.woodcuttingHandler;
+	}
+	
 	private Fishing fishingHandler = new Fishing(this);
 	public Fishing getFishingHandler(){
 		return this.fishingHandler;
@@ -134,7 +139,6 @@ public class client extends Player implements Runnable {
 		this.PRAY = new Prayer(this);
 		this.CRAFT = new Crafting(this);
 		this.menuHandler = new MenuHandler(this);
-		this.WC = new Woodcutting(this);
 		this.MINE = new Mining(this);   
 		this.RUNECRAFTING = new Runecrafting(this);
 		this.AGILITY = new Agility(this);
@@ -850,12 +854,6 @@ playerName.trim();*/
 		outStream.createFrame(109);
 	}
 
-	public int arrowTest = 249; //default	
-
-
-
-
-
 	public void openWelcomeScreen(int recoveryChange, boolean memberWarning, int messages, int lastLoginIP, int lastLogin) {
 		outStream.createFrame(176);
 		// days since last recovery change 200 for not yet set 201 for members server,
@@ -1387,6 +1385,12 @@ playerName.trim();*/
 
 		if(actionTimer > 0) actionTimer -= 1; 
 
+		if(woodcuttingTimer > 0){
+			if(--woodcuttingTimer == 0){
+				this.getWoodcuttingHandler().deliverLog();
+			}
+		}
+		
 		PoisonDelay -= 1;
 
 		//If killed apply dead
@@ -1551,10 +1555,6 @@ playerName.trim();*/
 	}
 
 	public void parseIncomingPackets2(){
-		int i;
-		int junk;
-		int junk2;
-		int junk3;
 
 		switch(packetType) {
 
@@ -1937,13 +1937,13 @@ playerName.trim();*/
 				if(getFishingHandler().fishingTimer > 0)
 					getFishingHandler().resetFishing();
 				cookingon = false;
-				this.WC.stopAll();
 				this.MINE.stopAll();
 				stringing = false;
 				fletchingprocessshort = 0;
 				followingPlayerID = -1;
 				followingNPCID = -1;
 				smithingTimer = -1;
+				this.getWoodcuttingHandler().resetWoodcuttingProcessByWalking();
 
 				if(frozenTimer >= 1 && !IsDead) { // uses event manager
 					teleport(absX,absY);

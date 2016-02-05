@@ -254,9 +254,9 @@ public class ObjectClick {
 		case 5104: //brimhaven dungeon vines after entrance	
 		case 5103: //vines at entrance of brimhaven dungeon
 			if(c.getInventoryHandler().ItemInBagOrEquipped(lists.axes.toArray())){
-				if( agilityHandler.agilityObstacle(2676,9479,2674,9479, c.WC.getAxeEmote(), 0, 0, false, false, 0, "") || 
-						agilityHandler.agilityObstacle(2693,9482,2695,9482, c.WC.getAxeEmote(), 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(2672,9499,2674,9499, c.WC.getAxeEmote(), 0, 0, false, false, 0, "") || 
-						agilityHandler.agilityObstacle(2683,9570,2683,9568, c.WC.getAxeEmote(), 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(2691,9564,2689,9564, c.WC.getAxeEmote(), 0, 0, false, false, 0, "") )
+				if( agilityHandler.agilityObstacle(2676,9479,2674,9479, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || 
+						agilityHandler.agilityObstacle(2693,9482,2695,9482, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(2672,9499,2674,9499, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || 
+						agilityHandler.agilityObstacle(2683,9570,2683,9568, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(2691,9564,2689,9564, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") )
 					c.sendMessage("You cut your way through.");
 			}
 			else c.sendMessage("I need an axe to do that.");
@@ -1522,6 +1522,7 @@ break;*/
 			break;
 
 			//WC by aaa mods
+			//Normal trees?
 		case 10041:
 		case 1315:
 		case 1316:
@@ -1540,35 +1541,26 @@ break;*/
 		case 1291:
 		case 1278:
 		case 1276:
-			c.WC.cutTree(objectID, 1, objectX, objectY);
-			break;
 
 		case 10083:
 		case 3037:
 		case 1281: //Oak Tree
-			c.WC.cutTree(objectID, 15, objectX, objectY);
-			break;
 
 		case 5552:
 		case 5553:
 		case 5554:
 		case 5551:
 		case 1308: //Willow
-			c.WC.cutTree(objectID, 30, objectX, objectY);
-			break;
 
 		case 4674:
 		case 1307: //Maple
-			c.WC.cutTree(objectID, 45, objectX, objectY);
-			break;
 
 		case 1309: //Yew Tree
-			c.WC.cutTree(objectID, 60, objectX, objectY);
-			break;
 
 		case 1306: //Magic Tree
-			c.WC.cutTree(objectID, 75, objectX, objectY);	
+			c.getWoodcuttingHandler().cutTree(objectID, objectX, objectY, 0);	
 			break;
+			
 			//WC by aaa mods
 
 		case 5162: //Chest

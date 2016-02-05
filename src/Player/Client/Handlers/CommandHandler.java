@@ -188,23 +188,7 @@ public class CommandHandler {
 				c.sendMessage("Bad emote ID"); 
 			}	
 		}
-
-		if(command.startsWith("arrow")){
-			if(command.length() <= 5){
-				c.arrowTest += 1;
-				c.sendMessage("Arrow increased to "+c.arrowTest); 
-			}
-			else{
-				try{
-					c.arrowTest = Integer.parseInt(command.substring(6));
-					c.sendMessage("Crystal bow arrow gfx set to "+c.arrowTest);
-				}
-				catch(Exception e){
-					c.sendMessage("Either use ::arrow or ::arrow <number>");
-				}
-			}
-		}
-
+		
 		if (command.startsWith("gfx") && c.playerRights >= 1){
 			try {
 				int gfx = Integer.parseInt(command.substring(4));

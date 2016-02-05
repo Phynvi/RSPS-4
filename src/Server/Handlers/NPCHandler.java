@@ -589,11 +589,11 @@ public class NPCHandler {
 						}
 
 					} else if (npcs[i].actionTimer == 0 && npcs[i].NeedRespawn == true) {
-//						for (int j = 1; j < server.playerHandler.maxPlayers; j++) {
-//							if (server.playerHandler.players[j] != null) {
-//								server.playerHandler.players[j].RebuildNPCList = true;
-//							}
-//						}
+						for (int j = 1; j < server.playerHandler.maxPlayers; j++) {
+							if (server.playerHandler.players[j] != null) {
+								server.playerHandler.players[j].RebuildNPCList = true;
+							}
+						}
 						if(npcs[i].Respawns) {
 							if(lists.pestControlNPCs.exists(npcs[i].npcType))
 								server.pestControlHandler.pestControlRandomRespawn(i);

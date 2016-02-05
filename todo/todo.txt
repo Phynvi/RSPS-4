@@ -1,6 +1,6 @@
 -Place fishing spots across map
 
--Redo mining and woodcutting
+-Redo mining 
 
 -Make NPCs +1,+1 spawn if they need it
 
