@@ -12,6 +12,11 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private Mining miningHandler = new Mining(this);
+	public Mining getMiningHandler(){
+		return this.miningHandler;
+	}
+	
 	private Woodcutting woodcuttingHandler = new Woodcutting(this);
 	public Woodcutting getWoodcuttingHandler(){
 		return this.woodcuttingHandler;
@@ -139,7 +144,6 @@ public class client extends Player implements Runnable {
 		this.PRAY = new Prayer(this);
 		this.CRAFT = new Crafting(this);
 		this.menuHandler = new MenuHandler(this);
-		this.MINE = new Mining(this);   
 		this.RUNECRAFTING = new Runecrafting(this);
 		this.AGILITY = new Agility(this);
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
@@ -1390,6 +1394,12 @@ playerName.trim();*/
 				this.getWoodcuttingHandler().deliverLog();
 			}
 		}
+
+		if(miningTimer > 0){
+			if(--miningTimer == 0){
+				this.getMiningHandler().deliverOre();
+			}
+		}
 		
 		PoisonDelay -= 1;
 
@@ -1937,13 +1947,13 @@ playerName.trim();*/
 				if(getFishingHandler().fishingTimer > 0)
 					getFishingHandler().resetFishing();
 				cookingon = false;
-				this.MINE.stopAll();
 				stringing = false;
 				fletchingprocessshort = 0;
 				followingPlayerID = -1;
 				followingNPCID = -1;
 				smithingTimer = -1;
-				this.getWoodcuttingHandler().resetWoodcuttingProcessByWalking();
+				woodcuttingTimer = -1;
+				miningTimer = -1;
 
 				if(frozenTimer >= 1 && !IsDead) { // uses event manager
 					teleport(absX,absY);

@@ -19,7 +19,7 @@ public class FarmingObject extends GlobalObject {
 		this.seedID = seed;
 		this.tick = tick*2;
 		this.upCounter = 0;
-		this.numberOfItems = misc.random(tick)+1; //+1 is for seed count
+		this.numberOfItems = misc.random(3)+1; //+1 is for seed count
 		this.EXP = EXP;
 		this.endID = endID;
 		this.deadID = deadID;

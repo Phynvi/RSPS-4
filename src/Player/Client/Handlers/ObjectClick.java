@@ -1462,52 +1462,42 @@ break;*/
 			//Mining by AAA Mods
 		case 2491: //Rune ess
 			if(c.isInArea(2924,4847,2930,4853) || c.isInArea(2890,4846,2896,4852) || c.isInArea(2926,4813,2932,4819) || c.isInArea(2892,4811,2898,4817))
-				c.MINE.mineRock(objectID, 0, objectX, objectY);
+				c.getMiningHandler().mineRock(objectID, objectX, objectY);
 			break;
 		case 9709:
 		case 9710:
 		case 9708:
 		case 2091: //Copper Ore
-			c.MINE.mineRock(objectID, 0, objectX, objectY);
-			break;
-		case 9711:
+
+		case 9711: //tin ore
 		case 9713:
-		case 2094: //Tin
-			c.MINE.mineRock(objectID, 0, objectX, objectY);
-			break;
+		case 2094: 
+		case 9714:
+		case 9716:
 
 		case 2092:
 		case 9717:
 		case 9719:
 		case 9718:
-		case 2093: //Iron Ore
-			c.MINE.mineRock(objectID, 15, objectX, objectY);
-			break;
 
 		case 9720:
 		case 9722:
 		case 2099:
 		case 2098:
 		case 11184: //Gold Ore
-			c.MINE.mineRock(objectID, 40, objectX, objectY);
-			break;
 
 		case 2096:
 		case 2097: //Coal Ore
-			c.MINE.mineRock(objectID, 40, objectX, objectY);
-			break;
 
 		case 2103: //Mithril Ore
-			c.MINE.mineRock(objectID, 55, objectX, objectY);
-			break;
 
 		case 2104:
 		case 2105: //Adamantite
-			c.MINE.mineRock(objectID, 70, objectX, objectY);	
-			break;
 
+		case 14859:
+		case 14860:
 		case 2107: //Runite Ore
-			c.MINE.mineRock(objectID, 85, objectX, objectY);	
+			c.getMiningHandler().mineRock(objectID, objectX, objectY);
 			break;
 			//	End of mining by AAA Mods
 

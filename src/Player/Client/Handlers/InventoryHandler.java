@@ -328,7 +328,9 @@ public class InventoryHandler {
 
 	public int itemAmount(int itemID) {
 		int tempAmount = 0;
-		for (int i = 0; i < c.playerItems.length; i++) if (c.playerItems[i] == itemID) tempAmount += c.playerItemsN[i];
+		for (int i = 0; i < c.playerItems.length; i++)
+			if (c.playerItems[i] == itemID+1) 
+				tempAmount += c.playerItemsN[i];
 		return tempAmount;
 	}
 

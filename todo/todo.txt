@@ -1,10 +1,6 @@
 -Place fishing spots across map
 
--Redo mining 
-
 -Make NPCs +1,+1 spawn if they need it
-
--Mining and Woodcutting through global object lists
 
 -Delete respawn object class
 

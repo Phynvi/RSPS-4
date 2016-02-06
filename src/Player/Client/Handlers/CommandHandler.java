@@ -13,6 +13,11 @@ public class CommandHandler {
 
 		c.debug("playerCommand: "+command);
 		
+		if(command.equalsIgnoreCase("test")){
+			c.playerLevel[c.playerRunecrafting] = 1;
+			c.getFrameMethodHandler().refreshSkills();
+		}
+		
 		if(command.startsWith("npc")){
 			try{
 				int n = Integer.parseInt(command.substring(4));

@@ -61,10 +61,7 @@ class playerInstances {
 	public Runecrafting RUNECRAFTING;
 	public Crafting CRAFT;
 	public boolean cycleItems = false;
-
-	public Mining MINE;
 	public int miningTimer = -1;
-
 	//public ArrayList<RespawnObject> cutTrees = new ArrayList<RespawnObject>();
 	public int currentItem = 0;
 

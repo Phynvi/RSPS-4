@@ -4,6 +4,26 @@ public class GlobalObjectHandler {
 
 	public LinkedList<Object> objectList = new LinkedList<Object>();
 	public LinkedList<Object> bufferList = new LinkedList<Object>();
+	public LinkedList<RockObject> rockList = new LinkedList<RockObject>();
+	public LinkedList<TreeObject> treeList = new LinkedList<TreeObject>();
+	
+	
+	public RockObject findRock(int x, int y){
+		for(RockObject r : rockList){
+			if(r.X == x && r.Y == y)
+				return r;
+		}
+		return null;
+	}
+	public TreeObject findTree(int x, int y){
+		for(TreeObject t : treeList){
+			if(t.X == x && t.Y == y)
+				return t;
+		}
+		return null;
+	}
+	
+	
 
 	public GlobalObjectHandler(){
 		/* Initialize permanent static objects here */

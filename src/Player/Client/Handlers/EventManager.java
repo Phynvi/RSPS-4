@@ -61,16 +61,6 @@ public class EventManager{
 						c.getSmithingHandler().removeOreAndSmeltBar();
 				}
 
-				if (c.miningTimer > 0){
-					c.miningTimer -= 1;
-				}
-				if (c.miningTimer == 0){
-					c.MINE.deliverOre(); //will deliver correct ore and decrement number of ore left
-					c.miningTimer = c.MINE.getDelay();
-					if(c.MINE.list.getCurrentOre() == 0)
-						c.MINE.finishedMining();
-				}
-
 				if (c.SpecEmoteTimer > 0)
 					c.SpecEmoteTimer -= 1;
 				if (c.frozenTimer > 0)

@@ -1,6 +1,3 @@
-import java.awt.event.*;
-
-import javax.swing.Timer;
 
 import java.util.Hashtable;
 
@@ -94,20 +91,13 @@ public class Woodcutting {
 		c.repeatAnimation(this.getAxeEmote(), 5);
 		this.woodcuttingTreeX = x;
 		this.woodcuttingTreeY = y;
-		this.tree = findTreeObject(x,y);
-		if(this.tree == null){
+		this.tree = server.globalObjectHandler.findTree(x, y);
+		if(this.tree == null)
 			this.tree = new TreeObject(x, y, objectID, direction, null, (misc.random(5)+treeInfo.numberOfLogs), treeInfo.logType, treeInfo.deadTime, treeInfo.stumpID, treeInfo.exp);
-		}
+		
 		this.tree.addPlayerToList(c);
 	}
-	
-	private TreeObject findTreeObject(int x, int y){
-		Object o = server.globalObjectHandler.find(x, y);
-		if(o instanceof TreeObject)
-			return (TreeObject)o;
-		return null;
-	}
-	
+		
 
 	
 	/** Checks for axe equipped or in inventory. 
@@ -141,8 +131,8 @@ public class Woodcutting {
 		
 		c.getInventoryHandler().addItem(this.tree.getLogType());
 		c.woodcuttingTimer = this.getLogDelay(this.woodcuttingTreeID);
-		this.tree.removeLog();
 		c.getClientMethodHandler().addSkillXP(this.getEXP(), c.playerWoodcutting);
+		this.tree.removeLog();
 		
 		if(freeSlots+1 < 1){ //means inventory is full now
 			c.sendMessage("Your inventory is full.");
