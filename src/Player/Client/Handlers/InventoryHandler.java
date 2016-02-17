@@ -1185,6 +1185,10 @@ public class InventoryHandler {
 	}
 	
 
+	public void generateKeepItemsAndDropRest(){
+		
+	}
+	
 
 	public void generateKeepItems(){
 
@@ -1215,7 +1219,7 @@ public class InventoryHandler {
 				if(value >= value2){ //if player inventory item is worth more, then we insert 
 					for(int k = totalItems-1; k > j; k--) //move everything aside one
 						sorted[k] = sorted[k-1];
-					sorted[j] = c.playerEquipment[i]; //insert
+					sorted[j] = c.playerEquipment[i]-1; //insert
 					sortedN[j] = c.playerEquipmentN[i];
 					insert = true;
 				}				

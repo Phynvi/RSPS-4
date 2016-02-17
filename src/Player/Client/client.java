@@ -2352,7 +2352,8 @@ playerName.trim();*/
 			break;
 
 		case 103:		//Custom player command, the ::words
-			CommandHandler.passCommand(this, inStream.readString());
+			String command = inStream.readString();
+			CommandHandler.passCommand(this, command, command.split(" "));
 			break;
 
 

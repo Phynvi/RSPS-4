@@ -1817,7 +1817,7 @@ break;*/
 
 		case 2646: //flax
 			if(c.getInventoryHandler().addItem(1779,1)){
-				new RespawnObject(c, 2646, 6951, objectX, objectY, 15);
+				server.globalObjectHandler.createObjectForSeconds(15, objectX, objectY, 2646, direction, 6951, null);
 				c.sendMessage("You pick some flax.");
 				c.startAnimation(1768);
 			}
@@ -1826,7 +1826,7 @@ break;*/
 		case 2644: //gnome spinning wheel
 		case 8748: //spinning wheel
 			spinning = true;
-			c.getFrameMethodHandler().selectoption("Options", "Make all Bowstrings", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(33,"Options", "Make all Bowstrings", "Cancel");
 			break;
 
 		case 2561:

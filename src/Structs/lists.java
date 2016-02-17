@@ -102,7 +102,6 @@ public class lists {
 		bows.add(4827);
 		bows.add(6082); //Fixed device? TODO - try this
 		bows.addRange(4212,4234); //Cyrstal Bows
-		bows.add(4734); //Karils xbow
 		bows.add(15156); //Dark bow
 		bronzeArrows.add(882,883);
 		bronzeArrows.addRange(894,901);

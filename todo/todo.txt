@@ -1,12 +1,13 @@
+
+-All new quests, except for rune mysteries, famous catch, and new beginnings
+
+-south karamja
+
 -Place fishing spots across map
 
--Make NPCs +1,+1 spawn if they need it
-
--Delete respawn object class
+-pvp points
 
 -Smithing loops
-
--Redo how 4 options are selected by using a number system instead of global booleans
 
 -Add silver as mining
 
@@ -29,4 +30,8 @@
 -Fishing colony and karamja travel
 
 -cast on npc errors out
+
+-Make NPCs +1,+1 spawn if they need it
+
+-Redo crafting, add in tanning, etc
 

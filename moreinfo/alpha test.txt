@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160102
+character-lastlogintime = 20160113
 character-ancients = 0
 character-starter = 1
 character-easterevent = 0
@@ -36,7 +36,7 @@ slayerCount = 14
 specialDelay = 10
 masteries = 0
 pirate = 11
-homeTeleportTimer = 12
+homeTeleportTimer = 10
 bandos = 0
 armadyl = 0
 prevarmadyl = 0

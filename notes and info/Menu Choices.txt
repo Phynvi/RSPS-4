@@ -1,0 +1,27 @@
+
+4 options select menu : 
+0 - used for teleport options
+1 - smelting page 1
+2 - smelting page 2
+3 - smelting page 3
+4 - starting selection in tutorial, choosing fight style
+5 - Ticket exchange page 1
+6 - Skill master page 1
+7 - Slayer master page 1
+8 - Server token page 1
+9 - ticket exchange page 2 (brimhaven agility, rewards page)
+10 - Arianwyn menu
+11 - Skill master purchasing cape/cape t/ hood
+12 - Server token page 2
+13 - pk rewards page 1
+14 - pk rewards page 2
+15 - fletching (craft stuff)
+
+
+2 options select menu:
+30 - used for teleport options
+31 - slayer buy crystal
+32 - tutorial island, asking to leave
+33 - spinning flax
+34 - arianwyn buying staff
+35- fletching, two options

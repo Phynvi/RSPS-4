@@ -27,14 +27,13 @@ class playerInstances {
 	public long itemTimer = 0;
 	public String[] skillMasterDialogue;
 	public String skillMasterName, skillName;
-	public boolean skillMaster = false;
-	public boolean skillMasterPurchase = false;
+
 	public int skillcape, skillcapeTrimmed, skillHood, skillMasterID, skill99ID;
 	protected int masteries = 0;
 	protected int homeTeleportTimer = 0;
 	public DropList DROPHANDLER = new DropList();
 	public Fletching FLETCHING;
-	public boolean starter4Options = false;
+
 	public MagicDataHandler MAGICDATAHANDLER;
 	public int deadAnimTimer = -1;
 	public long magicSpamTimer = 0;
@@ -44,7 +43,6 @@ class playerInstances {
 	public int noClickTimeout;
 	public Slayer SLAYER;
 	public int slayerNPC,slayerCount,slayerMaster;
-	public boolean slayer4Options, slayer2Options;
 	public Prayer PRAY;
 	public int attEffect = 0;
 	public int strEffect = 0;
@@ -52,8 +50,7 @@ class playerInstances {
 	public int walkingToNPC = 0;	
 	public int walkingToNPC_X,walkingToNPC_Y, walkingToNPC_slotID;
 
-	public boolean options = false;
-	public boolean optionsMenu = false;
+	public int menuChoice = -1;
 	public int oX1,oX2,oX3,oY1,oY2,oY3,oX4,oY4;
 
 	public Fishing FISHING;
@@ -89,8 +86,6 @@ class playerInstances {
 	public boolean isPVP;
 	public int frozenTimer;
 
-	public boolean deadopt = false;
-
 	public int deadtele = 0;
 	public int AutoCast_SpellIndex = -1;
 	public int[] twoHanderz = {861, 4212, 7158, 13310, 15333, 15334, 15335, 15336, 11337, 4734, 15156, 4726, 4718, 6528, 15351, 4214, 4755, 861};
@@ -99,18 +94,9 @@ class playerInstances {
 	public int psize = 0;
 	public boolean debug = false;
 	public long obstacle = 0;        
-	public boolean glory4 = false;    
 	public int soulbonus = 2000;    
-	public boolean soulwars = false;
-	public boolean soulwars2 = false;
-	public boolean ticketexchange = false;
-	public boolean ticketexchange2 = false;
 public int idleTimer = 0;
-	public boolean BIS = false;
-	public boolean arianwyn =false;
-	public boolean tokenexchange = false;
-	public boolean tokenexchange2 = false;
-	public boolean startleave = false;
+
 	public int spellbook;
 	public int pestControlPoints;
 	
@@ -121,7 +107,6 @@ public int idleTimer = 0;
 	public int fletchingshortlvl = 0;
 	public int fletchinglong = 0;
 	public int fletchinglonglvl = 0;
-	public boolean fletchingoption = false;
 	public int fletchingprocessshort = 0;
 	public int fletchingitem = 0;
 	public int fletchingexp = 0;
@@ -351,8 +336,6 @@ public int idleTimer = 0;
 	public boolean s1 = false;
 	public boolean s2 = false;
 
-	public boolean spinning = false;
-	
 	public boolean travelboat1 = false;
 	public boolean travelboat2 = false;
 	public int traveltime = 0;

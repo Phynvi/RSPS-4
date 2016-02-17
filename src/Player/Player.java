@@ -404,6 +404,10 @@ public abstract class Player extends playerInstances {
 	}
 
 	public void teleport(int x, int y, int h){
+		if(x < 0 || y < 0){
+			error("In teleport, given coordinates with x or y less than zero : x,y : "+x+","+y);
+			return;
+		}
 		teleportToX = x;
 		teleportToY = y;
 		heightLevel = h;

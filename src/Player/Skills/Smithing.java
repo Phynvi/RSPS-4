@@ -121,25 +121,18 @@ public class Smithing {
 	private static final int ADAMANTITE_ORE = 449;
 	private static final int RUNITE_ORE = 451;
 	private static final int COAL = 453;
-	
-	public boolean smithing4OptionsPage1 = false;
-	public boolean smithing4OptionsPage2 = false;
-	public boolean smithing4OptionsPage3 = false;
-	
+		
 	private int[] currentOreRequirements = null;
 	private String currentBarType = null;
 	
 	public void smithingBarMenuPage1(){
-		smithing4OptionsPage1 = true;
-		c.getFrameMethodHandler().select4Options("Page 1", "Smelt All Bronze Bars", "Smelt All Iron Bars", "Smelt All Silver Bars", "More Options");
+		c.getFrameMethodHandler().select4Options(1,"Page 1", "Smelt All Bronze Bars", "Smelt All Iron Bars", "Smelt All Silver Bars", "More Options");
 	}
 	public void smithingBarMenuPage2(){
-		smithing4OptionsPage2 = true;
-		c.getFrameMethodHandler().select4Options("Page 2", "Smelt All Steel Bars", "Smelt All Gold Bars", "Smelt All Mithril Bars", "More Options");
+		c.getFrameMethodHandler().select4Options(2,"Page 2", "Smelt All Steel Bars", "Smelt All Gold Bars", "Smelt All Mithril Bars", "More Options");
 	}
 	public void smithingBarMenuPage3(){
-		smithing4OptionsPage3 = true;
-		c.getFrameMethodHandler().select4Options("Page 3", "Smelt All Adamantite Bars", "Smelt All Rune bars", "", "Exit");
+		c.getFrameMethodHandler().select4Options(3,"Page 3", "Smelt All Adamantite Bars", "Smelt All Rune bars", "", "Exit");
 	}
 	
 	public void smeltBar(String barType){

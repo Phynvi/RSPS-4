@@ -227,16 +227,23 @@ public class NPC {
 
 	public void faceplayer(int i)
 	{
-		int playerX = server.playerHandler.players[i].absX;
-		int playerY = server.playerHandler.players[i].absY;
-		int moveX = 0;
-		int moveY = 0;
-		if(absX > playerX) moveX = 1;
-		if(absX < playerX) moveX = -1;
-		if(absY > playerY) moveY = 1;
-		if(absY < playerY) moveY = -1;
-		turnNpc(moveX, moveY);
+		face = i + 32768;
+		faceUpdateRequired = true;
+		updateRequired = true;
 	}
+	
+//	public void faceplayer(int i)
+//	{
+//		int playerX = server.playerHandler.players[i].absX;
+//		int playerY = server.playerHandler.players[i].absY;
+//		int moveX = 0;
+//		int moveY = 0;
+//		if(absX > playerX) moveX = 1;
+//		if(absX < playerX) moveX = -1;
+//		if(absY > playerY) moveY = 1;
+//		if(absY < playerY) moveY = -1;
+//		turnNpc(moveX, moveY);
+//	}
 	public boolean faceUpdateRequired;
 	public void updateface(stream stream1)
 	{

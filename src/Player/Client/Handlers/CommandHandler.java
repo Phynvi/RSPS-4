@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -9,18 +6,26 @@ import java.io.IOException;
 public class CommandHandler {
 
 
-	public static void passCommand(client c, String command){
+	public static void passCommand(client c, String fullCommand, String[] args){
 
-		c.debug("playerCommand: "+command);
+		c.debug("playerCommand: "+fullCommand);
 		
-		if(command.equalsIgnoreCase("test")){
-			c.playerLevel[c.playerRunecrafting] = 1;
-			c.getFrameMethodHandler().refreshSkills();
+		switch(args[0].toLowerCase()){
+		
 		}
 		
-		if(command.startsWith("npc")){
+		if(fullCommand.equalsIgnoreCase("test")){
+			for(NPC n : server.npcHandler.npcs){
+				if(n != null && n.npcType == 54){
+					n.absX += 1;
+					n.absY += 1;
+				}
+			}
+		}
+		
+		if(fullCommand.startsWith("npc")){
 			try{
-				int n = Integer.parseInt(command.substring(4));
+				int n = Integer.parseInt(fullCommand.substring(4));
 				server.npcHandler.newNPC(n, c.absX, c.absY, c.heightLevel, c.absX,c.absY,c.absX,c.absY, 1, server.npcHandler.getHP(n), false);
 				c.sendMessage("NPC "+c.getClientMethodHandler().getNpcName(n)+", temp spawned, ID : "+n);
 			}
@@ -29,12 +34,12 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.equalsIgnoreCase("questframes")){
+		if(fullCommand.equalsIgnoreCase("questframes")){
 			c.getPlayerLoginData().loadquestinterface();
 			c.sendMessage("Loaded Quest Frames");
 		}
 
-		if(command.equalsIgnoreCase("spellbook") && c.playerRights >= 1){
+		if(fullCommand.equalsIgnoreCase("spellbook") && c.playerRights >= 1){
 			if(c.spellbook == 0){
 				c.spellbook = 1;
 				c.getFrameMethodHandler().setSidebarInterface(6, 12855);
@@ -47,24 +52,24 @@ public class CommandHandler {
 			c.getFileLoadingHandler().savemoreinfo();
 		}
 
-		if(command.equalsIgnoreCase("levelup") && c.playerRights >= 2){
+		if(fullCommand.equalsIgnoreCase("levelup") && c.playerRights >= 2){
 			for(int i = 0; i < c.playerLevel.length; i++){
 				c.getClientMethodHandler().addSkillXP(7500000, i);
 			}
 		}
 
-		if(command.startsWith("delay")){
+		if(fullCommand.startsWith("delay")){
 			if(!server.showDelay)
 				server.showDelay = true;
 			else server.showDelay = false;
 			return;
 		}
 
-		if(command.startsWith("face") && c.playerRights >= 2){
+		if(fullCommand.startsWith("face") && c.playerRights >= 2){
 			try{
 				for(int i = 1; i < server.npcHandler.npcs.length; i++){
 					if(server.npcHandler.npcs[i] == null) break;
-					if(server.npcHandler.npcs[i].npcType == Integer.parseInt(command.substring(4))){
+					if(server.npcHandler.npcs[i].npcType == Integer.parseInt(fullCommand.substring(4))){
 						c.sendMessage("NPC at X : "+server.npcHandler.npcs[i].absX+", Y : "+server.npcHandler.npcs[i].absY+", face north");
 						server.npcHandler.npcs[i].face("north");
 					}					
@@ -76,7 +81,7 @@ public class CommandHandler {
 			return;
 		}
 
-		if(command.startsWith("npcsize")){
+		if(fullCommand.startsWith("npcsize")){
 			for(int i = 0; i < server.npcHandler.npcs.length; i++){
 				if(server.npcHandler.npcs[i] != null){
 					if( i%10 == 0 )System.out.print("\n");
@@ -87,31 +92,31 @@ public class CommandHandler {
 			return;
 		}
 
-		if(command.startsWith("runes") && c.playerRights > 0){
+		if(fullCommand.startsWith("runes") && c.playerRights > 0){
 			for(int i = 554; i <= 566; i++)
 				c.getInventoryHandler().addItem(i,100000);
 			return;
 		}
 
-		if(command.startsWith("gear") && c.playerRights > 0){
+		if(fullCommand.startsWith("gear") && c.playerRights > 0){
 			c.getInventoryHandler().addItems(4151,14638,14860,14511,14512,15350,15150,3631,12003,13308,6585,4734,2434,2434,2434,2434,6737,15335);
 			c.getInventoryHandler().addItem(4740,10000);
 			return;
 		}
 
-		if(command.startsWith("prayerpotions")){
+		if(fullCommand.startsWith("prayerpotions")){
 			for(int i = 0; i <= 10; i++)
 				c.getInventoryHandler().addItem(2434);
 			return;
 		}
 
-		if(command.startsWith("suicide") && c.playerRights > 0){
+		if(fullCommand.startsWith("suicide") && c.playerRights > 0){
 			c.NewHP = 0;
 			c.IsDead = true;
 			return;
 		}
 
-		if(command.startsWith("save")){
+		if(fullCommand.startsWith("save")){
 			c.sendMessage(c.playerName+" - Saving Status: ");
 			if(c.getFileLoadingHandler().savechar()) c.sendMessage("Character Saved, ");
 			else c.sendMessage("Failed to save character,");
@@ -122,7 +127,7 @@ public class CommandHandler {
 		}
 
 
-		if(command.startsWith("debug")) {
+		if(fullCommand.startsWith("debug")) {
 			if (server.debugmode == false){
 				server.debugmode = true;
 				c.sendMessage("Debug mode is go time!");
@@ -133,34 +138,34 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("spec") && c.playerRights >= 1) {
+		if(fullCommand.startsWith("spec") && c.playerRights >= 1) {
 			c.specialDelay = 10;
 		}
 
-		if(command.startsWith("clear")){
+		if(fullCommand.startsWith("clear")){
 			for(int i = 0; i <= 20; i++)
 				System.out.println();
 		}
 
-		if (command.equalsIgnoreCase("dotime") && c.playerRights >= 1)
+		if (fullCommand.equalsIgnoreCase("dotime") && c.playerRights >= 1)
 			c.sendMessage("uptime is "+c.doTime()+"!");
 
-		if (command.equalsIgnoreCase("bank") && (c.playerRights >= 1)) 
+		if (fullCommand.equalsIgnoreCase("bank") && (c.playerRights >= 1)) 
 			c.getFrameMethodHandler().openUpBankFrame(); 
 
-		if (command.equalsIgnoreCase("allkick") && (c.playerRights >= 1)) 
+		if (fullCommand.equalsIgnoreCase("allkick") && (c.playerRights >= 1)) 
 			PlayerHandler.kickAllPlayers = true;
 
-		if (command.equalsIgnoreCase("food") && (c.playerRights >= 1)) {
+		if (fullCommand.equalsIgnoreCase("food") && (c.playerRights >= 1)) {
 			while(c.getInventoryHandler().addItem(391, 1)){}
 		}
 
-		if (command.equalsIgnoreCase("title") && (c.playerRights >= 2)) 
+		if (fullCommand.equalsIgnoreCase("title") && (c.playerRights >= 2)) 
 			c.headIcon = 64;
 
-		if (command.startsWith("icon") && c.playerRights >= 1) {//63 is all of them
+		if (fullCommand.startsWith("icon") && c.playerRights >= 1) {//63 is all of them
 			try {
-				int icon = Integer.parseInt(command.substring(5));
+				int icon = Integer.parseInt(fullCommand.substring(5));
 				c.headIcon = icon;
 			}
 			catch(Exception e){ 
@@ -168,17 +173,17 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.equalsIgnoreCase("restart") && (c.playerRights >= 2)) {
+		if (fullCommand.equalsIgnoreCase("restart") && (c.playerRights >= 2)) {
 			c.restartserver();
 			c.sendMessage("Restarting server");
 		}
 
 
-		if (command.startsWith("emote") && c.playerRights >= 1)
+		if (fullCommand.startsWith("emote") && c.playerRights >= 1)
 		{
 			try
 			{
-				int emote = Integer.parseInt(command.substring(6));
+				int emote = Integer.parseInt(fullCommand.substring(6));
 				if (emote < 9000 && emote > 0)
 				{
 					c.startAnimation(emote);
@@ -194,9 +199,9 @@ public class CommandHandler {
 			}	
 		}
 		
-		if (command.startsWith("gfx") && c.playerRights >= 1){
+		if (fullCommand.startsWith("gfx") && c.playerRights >= 1){
 			try {
-				int gfx = Integer.parseInt(command.substring(4));
+				int gfx = Integer.parseInt(fullCommand.substring(4));
 				c.getFrameMethodHandler().stillgfx(gfx, c.absY, c.absX);
 			}
 			catch(Exception e) {
@@ -205,9 +210,9 @@ public class CommandHandler {
 		}
 
 
-		if (command.startsWith("pnpc") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("pnpc") && c.playerRights >= 2) {
 			try {
-				int newNPC = Integer.parseInt(command.substring(5));
+				int newNPC = Integer.parseInt(fullCommand.substring(5));
 				if (newNPC <= 10000 && newNPC >= 0) {
 					c.npcId = newNPC;
 					c.isNpc = true;
@@ -221,7 +226,7 @@ public class CommandHandler {
 			}
 		} 
 
-		if (command.startsWith("delete") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("delete") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 
 			try {
@@ -237,9 +242,9 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("rate") && c.playerRights >= 2){
+		if(fullCommand.startsWith("rate") && c.playerRights >= 2){
 			try{
-				int n = Integer.parseInt(command.substring(5));
+				int n = Integer.parseInt(fullCommand.substring(5));
 				c.rate = n;
 				c.sendMessage("Applied "+n+" as the new rate.");
 			}
@@ -252,7 +257,7 @@ public class CommandHandler {
 		//			c.playerRights = 2;
 
 
-		if (command.startsWith("random")){
+		if (fullCommand.startsWith("random")){
 			c.sendMessage("misc.random(1) = "+misc.random(1));
 			c.sendMessage("misc.random(1) = "+misc.random(1));
 			c.sendMessage("misc.random(1) = "+misc.random(1));
@@ -262,14 +267,14 @@ public class CommandHandler {
 
 
 
-		if(command.startsWith("cycle")){
+		if(fullCommand.startsWith("cycle")){
 			if(c.cycleItems)
 				c.cycleItems = false;
 			else c.cycleItems = true;
 		}
 
 
-		if (command.startsWith("findItem") && c.playerRights > 1){
+		if (fullCommand.startsWith("findItem") && c.playerRights > 1){
 
 			while (c.currentItem < 20000 && c.getInventoryHandler().freeSlots() > 0){
 				if (Item.getItemName(c.currentItem) != null){
@@ -282,7 +287,7 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("findNull") && c.playerRights > 1){
+		if (fullCommand.startsWith("findNull") && c.playerRights > 1){
 
 			while (c.currentItem < 20000 && c.getInventoryHandler().freeSlots() > 0){
 				if (Item.getItemName(c.currentItem) == null){
@@ -295,11 +300,11 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("object") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("object") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 			try {
-				int object = Integer.parseInt(command.substring(7,12));
-				int objectdirection =  Integer.parseInt(command.substring(13));
+				int object = Integer.parseInt(fullCommand.substring(7,12));
+				int objectdirection =  Integer.parseInt(fullCommand.substring(13));
 				c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, object, objectdirection, 10);  
 				bw = new BufferedWriter(new FileWriter("CFG/objects.txt", true));
 				bw.write("c.makeGlobalObject("+c.absX+", "+c.absY+", "+object+", "+objectdirection+", 10);");
@@ -312,10 +317,10 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("partysize") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("partysize") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 			try {
-				int pasize = Integer.parseInt(command.substring(10));
+				int pasize = Integer.parseInt(fullCommand.substring(10));
 				c.psize = pasize;
 				c.sendMessage("Party size is set to:"+c.psize+".");
 			}
@@ -324,15 +329,15 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("rate")) {
+		if (fullCommand.startsWith("rate")) {
 			c.sendMessage("Current rate is "+c.rate+".");
 		}
 
-		if(command.startsWith("resetanimation"))
+		if(fullCommand.startsWith("resetanimation"))
 			c.resetAnimation();
 
-		if(command.startsWith("aitem") && c.playerRights >= 2){
-			String itemName = command.substring(6);
+		if(fullCommand.startsWith("aitem") && c.playerRights >= 2){
+			String itemName = fullCommand.substring(6);
 			boolean foundItem = false;
 			for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
 				if( server.itemHandler.ItemListArray[i] != null && (server.itemHandler.ItemListArray[i].itemName.contains(itemName) || server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName)) ){
@@ -345,24 +350,24 @@ public class CommandHandler {
 				c.sendMessage("Could not find any item containing "+itemName);
 		}
 
-		if(command.startsWith("ignorecombat")){
+		if(fullCommand.startsWith("ignorecombat")){
 			if(c.ignoreCombat) c.ignoreCombat = false;
 			else c.ignoreCombat = true;
 			c.sendMessage("Ignore combat is now : "+c.ignoreCombat);
 		}
 
-		if(command.startsWith("disabletimers")){
+		if(fullCommand.startsWith("disabletimers")){
 			server.pestControlHandler.disableTimers();
 		}
 
-		if (command.startsWith("item") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("item") && c.playerRights >= 2) {
 			try {
-				int newitem = Integer.parseInt(command.substring(5));
+				int newitem = Integer.parseInt(fullCommand.substring(5));
 				c.currentItem = newitem;
 				c.getInventoryHandler().addItem(newitem, 1);
 			}
 			catch(NumberFormatException e) {
-				String itemName = command.substring(5);
+				String itemName = fullCommand.substring(5);
 				boolean foundItem = false;
 				for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
 					if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
@@ -377,8 +382,8 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("price")){
-			String itemName = command.substring(6);
+		if(fullCommand.startsWith("price")){
+			String itemName = fullCommand.substring(6);
 			boolean foundItem = false;
 			for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
 				if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
@@ -402,9 +407,9 @@ public class CommandHandler {
 		}
 
 
-		if (command.startsWith("interface2") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("interface2") && c.playerRights >= 2) {
 			try {
-				int intname = Integer.parseInt(command.substring(11));
+				int intname = Integer.parseInt(fullCommand.substring(11));
 				c.getFrameMethodHandler().showInterface(intname);
 				c.sendMessage(intname+" interface2 opened.");
 			}
@@ -414,9 +419,9 @@ public class CommandHandler {
 			return;
 		}
 
-		if (command.startsWith("interface") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("interface") && c.playerRights >= 2) {
 			try {
-				int intname = Integer.parseInt(command.substring(10));
+				int intname = Integer.parseInt(fullCommand.substring(10));
 				c.getFrameMethodHandler().showInterface(intname);
 				for(int i = intname-200; i <= intname+200; i++){
 					if(i <= 0) i = 1;
@@ -431,9 +436,9 @@ public class CommandHandler {
 		}
 
 
-		if (command.startsWith("shop") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("shop") && c.playerRights >= 2) {
 			try {
-				int shopname = Integer.parseInt(command.substring(5));
+				int shopname = Integer.parseInt(fullCommand.substring(5));
 				c.getFrameMethodHandler().openUpShopFrame(shopname);
 				c.sendMessage(shopname+" shop opened.");
 			}
@@ -442,10 +447,10 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("dnpc") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("dnpc") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 			try {
-				int newNPC = Integer.parseInt(command.substring(5));
+				int newNPC = Integer.parseInt(fullCommand.substring(5));
 				c.getClientMethodHandler().spawnNPC(newNPC,c.absX,c.absY); 
 				bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
 				bw.write("spawn = "+newNPC+"	"+c.absX+"	"+c.absY+"	"+c.heightLevel+"	"+c.absX+"	"+c.absY+"	"+c.absX+"	"+c.absY+"	2");
@@ -459,10 +464,10 @@ public class CommandHandler {
 		}
 
 
-		if (command.startsWith("height") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("height") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 			try {
-				int hieght = Integer.parseInt(command.substring(7));
+				int hieght = Integer.parseInt(fullCommand.substring(7));
 				c.heightLevel = hieght;
 				c.updateRequired = true; 
 				c.appearanceUpdateRequired = true;
@@ -473,13 +478,13 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.equalsIgnoreCase("shorttimers"))
+		if(fullCommand.equalsIgnoreCase("shorttimers"))
 			server.pestControlHandler.shortTimers();
 
-		if (command.startsWith("tele") && c.playerRights >= 2){
+		if (fullCommand.startsWith("tele") && c.playerRights >= 2){
 			try{
-				int x = Integer.parseInt(command.substring(5,9));
-				int y = Integer.parseInt(command.substring(10));
+				int x = Integer.parseInt(fullCommand.substring(5,9));
+				int y = Integer.parseInt(fullCommand.substring(10));
 				c.teleport(x,y);
 			}
 			catch(Exception e){
@@ -487,12 +492,12 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("snpc") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("snpc") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 
 			try {
-				int newNPC = Integer.parseInt(command.substring(5,9));
-				int distance = Integer.parseInt(command.substring(10));
+				int newNPC = Integer.parseInt(fullCommand.substring(5,9));
+				int distance = Integer.parseInt(fullCommand.substring(10));
 				int absXM = c.absX - distance;
 				int absYM = c.absY - distance;
 				int absXA = c.absX + distance;
@@ -509,10 +514,10 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("newspot") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("newspot") && c.playerRights >= 2) {
 			BufferedWriter bw = null;
 			try {
-				String newspot = command.substring(8);
+				String newspot = fullCommand.substring(8);
 				bw = new BufferedWriter(new FileWriter("coords.cfg", true));
 				bw.write(newspot+" = "+c.absX+"	"+c.absY);
 				bw.newLine();
@@ -524,12 +529,12 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("pickup") && c.playerRights >= 2) {
+		if (fullCommand.startsWith("pickup") && c.playerRights >= 2) {
 			try {
 				c.sendMessage("Your spawn has been logged.");
 				c.sendMessage("If needed it will be used for evidence.");
-				int newItemID =  Integer.parseInt(command.substring(7,11));
-				int newItemAmount =  Integer.parseInt(command.substring(12));
+				int newItemID =  Integer.parseInt(fullCommand.substring(7,11));
+				int newItemAmount =  Integer.parseInt(fullCommand.substring(12));
 				if (/*newItemID <= 10000  && */newItemID >= 0) {
 					c.getInventoryHandler().addItem (newItemID, newItemAmount);
 					BufferedWriter bw = null;
@@ -553,14 +558,14 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("music"))
+		if(fullCommand.startsWith("music"))
 		{
 			c.getFrameMethodHandler().setmusictab();
 		}
 
-		if(command.startsWith("banuser") && (c.playerRights >= 2 || server.debugmode))
+		if(fullCommand.startsWith("banuser") && (c.playerRights >= 2 || server.debugmode))
 		{
-			String victim = command.substring(8);
+			String victim = fullCommand.substring(8);
 			PlayerHandler.kickNick = victim;
 			System.out.println("Admin:"+c.playerName+" is banning "+victim);
 			c.sendMessage("Player "+victim+" successfully banned");
@@ -583,9 +588,9 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("ipban") && c.playerRights >= 2)
+		if(fullCommand.startsWith("ipban") && c.playerRights >= 2)
 		{
-			String otherPName = command.substring(6);
+			String otherPName = fullCommand.substring(6);
 			int otherPIndex = PlayerHandler.getPlayerID(otherPName);
 			PlayerHandler.kickNick = otherPName;
 			System.out.println("Admin: "+c.playerName+" is ip banning "+otherPName);
@@ -614,9 +619,9 @@ public class CommandHandler {
 		}
 
 
-		if(command.startsWith("suggest") && c.playerRights >= 1)
+		if(fullCommand.startsWith("suggest") && c.playerRights >= 1)
 		{
-			String victim = command.substring(8);
+			String victim = fullCommand.substring(8);
 			c.sendMessage("Suggestion successfully sent");
 			BufferedWriter bw = null;
 
@@ -636,9 +641,9 @@ public class CommandHandler {
 			}
 		}
 
-		if(command.startsWith("macrowarn") && c.playerRights >= 2)
+		if(fullCommand.startsWith("macrowarn") && c.playerRights >= 2)
 		{
-			String victim = command.substring(10);
+			String victim = fullCommand.substring(10);
 			PlayerHandler.kickNick = victim;
 			System.out.println("Admin:"+c.playerName+" is warning "+victim);
 			c.sendMessage("Player "+victim+" successfully given macro warning");
@@ -676,43 +681,43 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("yell") && command.length() > 5) {
+		if (fullCommand.startsWith("yell") && fullCommand.length() > 5) {
 			if (System.currentTimeMillis() - c.lastYell < 4000 && c.playerRights < 1) {
 				c.sendMessage("Wait at lease four seconds before using the yell again!");
 			} else {
-				PlayerHandler.messageToAll = c.playerName+" yells: "+command.substring(5);
+				PlayerHandler.messageToAll = c.playerName+" yells: "+fullCommand.substring(5);
 
 				c.lastYell = System.currentTimeMillis();
 			}
 		}
 
-		if (command.startsWith("message") && command.length() > 8 && c.playerRights >= 2) {
-			PlayerHandler.messageToAll = "[ANNOUNCEMENT] "+command.substring(8)+" [Server Message]";
+		if (fullCommand.startsWith("message") && fullCommand.length() > 8 && c.playerRights >= 2) {
+			PlayerHandler.messageToAll = "[ANNOUNCEMENT] "+fullCommand.substring(8)+" [Server Message]";
 
 		}
 
-		if (command.startsWith("shout") && command.length() > 6 && c.playerRights >= 2) {
-			PlayerHandler.messageToAll = c.playerName+": "+command.substring(6);
+		if (fullCommand.startsWith("shout") && fullCommand.length() > 6 && c.playerRights >= 2) {
+			PlayerHandler.messageToAll = c.playerName+": "+fullCommand.substring(6);
 		}
 
-		if (command.startsWith("empty") && c.playerRights >= 1)
+		if (fullCommand.startsWith("empty") && c.playerRights >= 1)
 			c.getInventoryHandler().removeAllItems();
 
-		if (command.equalsIgnoreCase("players"))
+		if (fullCommand.equalsIgnoreCase("players"))
 			c.getFrameMethodHandler().playerMenuFrames();
 
 
-		else if (command.equalsIgnoreCase("status")) 
+		else if (fullCommand.equalsIgnoreCase("status")) 
 			c.getFrameMethodHandler().Menu(c.getMenuHandler().BarrowsHelp());
 
-		else if (command.equalsIgnoreCase("stats")) 
+		else if (fullCommand.equalsIgnoreCase("stats")) 
 			c.getFrameMethodHandler().Menu(c.getMenuHandler().Stats2());
 
-		else if (command.equalsIgnoreCase("rules")) 
+		else if (fullCommand.equalsIgnoreCase("rules")) 
 			c.getFrameMethodHandler().menu(c.getMenuHandler().Rules());
 
-		if (command.startsWith("xteletome") && (c.playerRights >= 1)) {
-			String otherPName = command.substring(10);
+		if (fullCommand.startsWith("xteletome") && (c.playerRights >= 1)) {
+			String otherPName = fullCommand.substring(10);
 
 			for(Player p : server.playerHandler.players){
 				if(p != null){
@@ -724,8 +729,8 @@ public class CommandHandler {
 			}
 		}
 
-		if (command.startsWith("xteleto") && (c.playerRights >= 1)) {
-			String otherPName = command.substring(8);
+		if (fullCommand.startsWith("xteleto") && (c.playerRights >= 1)) {
+			String otherPName = fullCommand.substring(8);
 
 			for(Player p : server.playerHandler.players){
 				if(p != null){
@@ -741,7 +746,7 @@ public class CommandHandler {
 		}
 
 
-		if(command.startsWith("effects")){
+		if(fullCommand.startsWith("effects")){
 			c.getFrameMethodHandler().menu("@gre@Current Effects","","",
 					"Protect From Mage : "+c.PMage,
 					"Protect From Range : "+c.PRange,
@@ -752,32 +757,32 @@ public class CommandHandler {
 					"Defence Bonus : "+c.defEffect+"%");
 		}
 
-		if (command.startsWith("ctele") && command.length() > 6 && c.playerRights >= 1) {
-			int[] coords = c.getFileLoadingHandler().loadCoords("Coords.cfg",command.substring(6));
+		if (fullCommand.startsWith("ctele") && fullCommand.length() > 6 && c.playerRights >= 1) {
+			int[] coords = c.getFileLoadingHandler().loadCoords("Coords.cfg",fullCommand.substring(6));
 			if(coords != null && coords.length >= 2)
 				c.teleport(coords[0],coords[1]);
 		}
 
 		if (c.playerRights >= 1) {
 
-			if (command.startsWith("update") && command.length() > 7) {
-				PlayerHandler.updateSeconds = (Integer.parseInt(command.substring(7)) + 1);
+			if (fullCommand.startsWith("update") && fullCommand.length() > 7) {
+				PlayerHandler.updateSeconds = (Integer.parseInt(fullCommand.substring(7)) + 1);
 				PlayerHandler.updateAnnounced = false;
 				PlayerHandler.updateRunning = true;
 				PlayerHandler.updateStartTime = System.currentTimeMillis();
 			}
 
-			if (command.startsWith("kick"))
+			if (fullCommand.startsWith("kick"))
 			{
-				PlayerHandler.kickNick = command.substring(5);
-				c.sendMessage("You kicked "+command.substring(5));
-				System.out.println("Admin/Mod:"+c.playerName+" is kicking "+command.substring(5));;
-			} else if(command.startsWith("char")) {
+				PlayerHandler.kickNick = fullCommand.substring(5);
+				c.sendMessage("You kicked "+fullCommand.substring(5));
+				System.out.println("Admin/Mod:"+c.playerName+" is kicking "+fullCommand.substring(5));;
+			} else if(fullCommand.startsWith("char")) {
 				c.getFrameMethodHandler().showInterface(3559);
-			} else if (command.startsWith("kick")) {
+			} else if (fullCommand.startsWith("kick")) {
 				try {
-					PlayerHandler.kickNick = command.substring(5);
-					PlayerHandler.messageToAll = c.playerName+": Kicking Player: "+command.substring(5);
+					PlayerHandler.kickNick = fullCommand.substring(5);
+					PlayerHandler.messageToAll = c.playerName+": Kicking Player: "+fullCommand.substring(5);
 					BufferedWriter bw = null;
 
 					try {
@@ -813,7 +818,7 @@ public class CommandHandler {
 				} catch(Exception e) {
 					c.sendMessage("Wrong Syntax! Use as ::kick [PLAYERNAME]");
 				}
-			} else if (command.equalsIgnoreCase("kickall")) {
+			} else if (fullCommand.equalsIgnoreCase("kickall")) {
 				PlayerHandler.kickAllPlayers = true;
 			}
 

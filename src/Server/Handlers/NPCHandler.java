@@ -1,13 +1,12 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Hashtable;
 
 
 public class NPCHandler {
 	public static BST aggressiveNPCS = new BST(871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(199,1101,3068,3069,3070,3071,871,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(199,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
-	public static BST largeNPC = new BST(3000,3001); //Very large NPCs, Kree, Graardor
+	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();
 
 	private static int NPCFightType; 
 	public static int hitRange = 0;
@@ -21,6 +20,9 @@ public class NPCHandler {
 		for(int i = 0; i < maxNPCs; i++) {
 			npcs[i] = null;
 		}
+		largeNPC.put(3000, true);
+		largeNPC.put(3001, true);
+		largeNPC.put(54, true);
 		ignoreCombatLevel.buildBalancedTree(lists.PCArray, 0, lists.PCArray.length-7); //3727-3776 are aggressive
 		rangedNPC.buildBalancedTree(lists.pestControlMagicNPCs, 0, lists.pestControlMagicNPCs.length-1);
 		rangedNPC.buildBalancedTree(lists.pestControlRangedNPCs, 0, lists.pestControlRangedNPCs.length-1);
@@ -72,8 +74,11 @@ public class NPCHandler {
 		npcs[slot] = newNPC;
 		if(newNPC.MaxHP <= 1)
 			newNPC.attackable = false;
-		if(largeNPC.exists(npcType)) //NPCs larger than one tile, so their attack distance should be 2 if they are melee
+		if(largeNPC.get(npcType) != null){ //NPCs larger than one tile, so their attack distance should be 2 if they are melee
 			newNPC.attackDistance = 2;
+			newNPC.absX += 1;
+			newNPC.absY += 1;
+		}
 		if(rangedNPC.exists(npcType)){
 			newNPC.attackDelay = 9;
 			newNPC.attackDistance = 4;
@@ -1222,7 +1227,7 @@ WORLDMAP 2: (not-walk able places)
 			ResetAttackPlayer(NPCID);
 			return false;
 		}
-		//		else if (server.playerHandler.players[playerID].DirectionCount < 2) {
+		//		else if (server.playerHandler.players[playerID].DirectionCount < 2) { //this causes npcs to stop attacking while a player moves
 		//			return false;
 		//		}
 
@@ -1231,10 +1236,6 @@ WORLDMAP 2: (not-walk able places)
 		int playerY = server.playerHandler.players[playerID].absY;
 		npcs[NPCID].enemyX = playerX;
 		npcs[NPCID].enemyY = playerY;
-		npcs[NPCID].updateRequired = true;
-		//npcs[NPCID].animUpdateRequired = true;
-		//npcs[NPCID].dirUpdateRequired = true;
-		npcs[NPCID].faceUpdateRequired = true;
 
 		int _npcID = npcs[NPCID].npcType;
 
@@ -1745,16 +1746,17 @@ WORLDMAP 2: (not-walk able places)
 				if(freezePlayer > -1 && hitDiff > 0)
 					c.frozen(freezePlayer);						
 
-				if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special
+				if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special or walking/running
 					c.startAnimation(Item.GetBlockAnim(c.playerEquipment[c.playerWeapon]));
 
-				npcs[NPCID].faceplayer(playerID);
 				server.playerHandler.players[playerID].hitDiff = hitDiff;
 				server.playerHandler.players[playerID].updateRequired = true;
 				server.playerHandler.players[playerID].hitUpdateRequired = true;
 				server.playerHandler.players[playerID].appearanceUpdateRequired = true;
+				c.getFrameMethodHandler().closeInterface();
 				npcs[NPCID].animUpdateRequired = true;
 				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
+				npcs[NPCID].faceplayer(playerID);
 
 				if( c.autoRetaliate == 1 && !c.IsAttackingNPC ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
 					c.IsAttackingNPC = true;

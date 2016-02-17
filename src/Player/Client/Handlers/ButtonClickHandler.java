@@ -65,44 +65,27 @@ public class ButtonClickHandler {
 
 			//4 select option
 		case 32017: //1st option
-			if(c.optionsMenu){
-				c.optionsMenu = false;
-				if(c.oX1 != -1 && c.oY1 != -1){
-					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX1, c.oY1, 0);
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX1 = -1;
-					c.oY1 = -1;
-				}
-				if(c.oX1 == -1 || c.oY1 == -1){
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX1 = -1;
-					c.oY1 = -1;
-				}
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage1){
-				c.getSmithingHandler().smithing4OptionsPage1 = false;
-				c.getSmithingHandler().smeltBar("Bronze");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage2){
-				c.getSmithingHandler().smithing4OptionsPage2 = false;
-				c.getSmithingHandler().smeltBar("Steel");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage3){
-				c.getSmithingHandler().smithing4OptionsPage3 = false;
-				c.getSmithingHandler().smeltBar("Adamantite");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
 
-			if(c.starter4Options){
-				c.starter4Options = false;
+			switch(c.menuChoice){
+			case 0:
+				if(c.oX1 != -1 && c.oY1 != -1)
+					c.teleport(c.oX1, c.oY1, 0);
+				c.oX1 = -1;
+				c.oY1 = -1;
+				break;
+			case 1:
+				c.getSmithingHandler().smeltBar("Bronze");
+				break;
+
+			case 2:
+				c.getSmithingHandler().smeltBar("Steel");
+				break;
+
+			case 3:
+				c.getSmithingHandler().smeltBar("Adamantite");
+				break;
+
+			case 4:
 				if(c.getInventoryHandler().freeSlots() >= 8){
 					c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
 					c.getInventoryHandler().addItems(1075,1103,2894,1007,1291,1173); //bronze platelegs, chainmail, grey boots, red cape, bronze longsword, bronze sq shield
@@ -112,10 +95,39 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
 				break;
-			}
 
-			if(c.skillMasterPurchase){ //c.skillcape
-				c.skillMasterPurchase = false;
+			case 6:
+				c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, c.skillMasterDialogue);
+				break;
+
+			case 7:
+				if(c.slayerCount < 10){
+					c.SLAYER.generateTask();
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You want to help us rid the world", "of annc.oYing monsters?", "I am fine with this.", "Sure, I'll give you a task.",
+							"I want you to slay "+c.slayerCount+" "+c.SLAYER.getTaskName(c.slayerNPC)+"s.");
+				}
+				else
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
+				break;
+
+			case 8:
+				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
+					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
+					c.getInventoryHandler().addItem(15336, 1);
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
+				}
+				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
+				}
+				else
+					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
+				break;
+
+			case 10:
+				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "We were able to contain the demon with","your help. Thank you.");
+				break;
+
+			case 11:
 				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99){
 					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
 						if(c.getInventoryHandler().freeSlots() >= 1){
@@ -129,49 +141,8 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "If you want to purchase a cape,","you need to have 99 "+c.skillName);
 				break;
-			}
 
-			if(c.skillMaster){
-				c.skillMaster = false;
-				c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, c.skillMasterDialogue);
-				break;
-			}
-
-			if(c.arianwyn){
-				c.arianwyn = false;
-				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "We were able to contain the demon with","your help. Thank you.");
-				break;
-			}
-
-			if(c.slayer4Options){
-				c.slayer4Options = false;
-				if(c.slayerCount < 10){
-					c.SLAYER.generateTask();
-					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You want to help us rid the world", "of annc.oYing monsters?", "I am fine with this.", "Sure, I'll give you a task.",
-							"I want you to slay "+c.slayerCount+" "+c.SLAYER.getTaskName(c.slayerNPC)+"s.");
-				}
-				else
-					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
-				break;
-			}
-
-			if (c.tokenexchange){
-				c.tokenexchange = false;
-				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
-					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
-					c.getInventoryHandler().addItem(15336, 1);
-					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
-				}
-				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
-					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
-				}
-			}
-
-			if (c.tokenexchange2){
-				c.tokenexchange2 = false;
+			case 12:
 				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
 					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
 					c.getInventoryHandler().addItem(3627, 1);
@@ -180,111 +151,83 @@ public class ButtonClickHandler {
 				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
 				}
-				else{
+				else
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
-				}
-			}
+				break;
 
-			if (c.ticketexchange){
+			case 5:
 				c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Below our very feet lies a vast", "and dc.angerous agility course!", "The way the course works is", "that after you have used each",
 						"obstacle, you have 3 seconds to", "tag the ticket dispenser. When", "you tag the dispenser you will", "recieve a ticket. Sometimes you",
-						"might recieve more then one ticket", "from a tag, depending on your luck!", "You can exchange tickets for rewards", "such as items and EXP, good luck!");
-				c.ticketexchange = false;
-			}
+						"might recieve more then one ticket", "from a tag, depending on your luck!", "You can exchange tickets for rewards", "such as items and EXP, good luck!");				
+				break;
 
-			if (c.ticketexchange2){
+			case 9:
 				if (c.getInventoryHandler().playerHasItemAmount(2996, 100)){
 					int exprec = c.playerLevel[16]*10000;
 					c.getInventoryHandler().deleteItem(2996, c.getInventoryHandler().getItemSlot(2996), 100);
 					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "I'll take those 100 tickets and", "here's your "+exprec+" EXP.");
 					c.getClientMethodHandler().addSkillXP(exprec, 16);
-					c.ticketexchange2 = false;
 				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have 100 tickets!");
-					c.ticketexchange2 = false;
-				}
-			}
+				else
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have 100 tickets!");	
+				break;
 
-			if (c.soulwars){
+			case 13:
 				int recieved = c.playerLevel[3]*c.soulbonus;
 				c.getClientMethodHandler().addSkillXP(recieved, 3);
 				c.pkpoints -= 10;
 				c.sendMessage("You recieve "+recieved+" hitpoints exp. You have "+c.pkpoints+" PK points left.");
 				c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars = false;
-			}
+				break;
 
-			if (c.soulwars2){
-				int recieved = c.playerLevel[1]*c.soulbonus;
+			case 14:
+				recieved = c.playerLevel[1]*c.soulbonus;
 				c.getClientMethodHandler().addSkillXP(recieved, 1);
 				c.pkpoints -= 10;
 				c.sendMessage("You recieve "+recieved+" defence exp. You have "+c.pkpoints+" PK points left.");
 				c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars2 = false;
-			}
+				break;
 
-			if (c.glory4) {
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024, 3206, 0);
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.glory4 = false;
-			}
-
-			if (c.fletchingoption){
+			case 15:
 				if (c.playerLevel[9] >= c.fletchingshortlvl){
 					c.startAnimation(1248);
 					c.fletchingitem = c.fletchingshort;
 					c.fletchingprocessshort = 4;
 					c.getFrameMethodHandler().RemoveAllWindows();
-					c.fletchingoption = false;
 				}
 				else if (c.playerLevel[9] != c.fletchingshortlvl){
 					c.getFrameMethodHandler().RemoveAllWindows();
 					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
-					c.fletchingoption = false;
-				}
+				}				
+				break;
 			}
+
+			c.getFrameMethodHandler().RemoveAllWindows();
+
 			break;
 
 		case 32018: //2nd option
-			if(c.optionsMenu){
-				c.optionsMenu = false;
-				if(c.oX2 != -1 && c.oY2 != -1){
-					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX2, c.oY2, 0);
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX2 = -1;
-					c.oY2 = -1;
-				}
-				if(c.oX2 == -1 || c.oY2 == -1){
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX2 = -1;
-					c.oY2 = -1;
-				}
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage1){
-				c.getSmithingHandler().smithing4OptionsPage1 = false;
-				c.getSmithingHandler().smeltBar("Iron");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage2){
-				c.getSmithingHandler().smithing4OptionsPage2 = false;
-				c.getSmithingHandler().smeltBar("Gold");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage3){
-				c.getSmithingHandler().smithing4OptionsPage3 = false;
-				c.getSmithingHandler().smeltBar("Rune");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
 
-			if(c.starter4Options){
-				c.starter4Options = false;
+			switch(c.menuChoice){
+			case 0:
+				c.teleport(c.oX2, c.oY2);
+				c.oX2 = -1;
+				c.oY2 = -1;
+				break;
+
+			case 1:
+				c.getSmithingHandler().smeltBar("Iron");
+				break;
+
+			case 2:
+				c.getSmithingHandler().smeltBar("Gold");
+				break;
+
+			case 3:
+				c.getSmithingHandler().smeltBar("Rune");
+				break;
+
+			case 4:
 				if(c.getInventoryHandler().freeSlots() >= 8){
 					c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
 					c.getInventoryHandler().addItems(577,1011,2579,1007,1379,3843); //wizard robe, bottom, boots, staff, damaged book of guthix, 
@@ -294,10 +237,8 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
 				break;
-			}	
 
-			if(c.skillMasterPurchase){ //c.skillcape trimmed
-				c.skillMasterPurchase = false;
+			case 11:
 				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99 && c.masteries > 1){
 					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
 						if(c.getInventoryHandler().freeSlots() >= 1){
@@ -311,17 +252,12 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "If you want to purchase a trimmed cape,","you need to have 99 "+c.skillName+",", "and at least another skill mastery.");
 				break;
-			}
 
-			if(c.skillMaster){
-				c.skillMaster = false;
-				c.skillMasterPurchase = true;
-				c.getFrameMethodHandler().select4Options("Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
+			case 6:
+				c.getFrameMethodHandler().select4Options(11,"Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
 				break;
-			}
 
-			if(c.arianwyn){
-				c.arianwyn = false;
+			case 10:
 				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "I have switched your c.spellbook.");
 				if(c.spellbook == 0){
 					c.spellbook = 1;
@@ -334,41 +270,32 @@ public class ButtonClickHandler {
 				c.getFileLoadingHandler().savechar();
 				c.getFileLoadingHandler().savemoreinfo();
 				break;
-			}
 
-			if(c.slayer4Options){
-				c.slayer4Options = false;
+			case 7:
 				String npcName = c.SLAYER.getTaskName(c.slayerNPC);
 				if(c.slayerCount > 1)
 					npcName += "s";
-				if(c.slayerNPC == 0){
+				if(c.slayerNPC == 0)
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You currently have no task.");
-					break;
-				}
-				if(c.slayerCount <= 0){
+				else if(c.slayerCount <= 0)
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You have completed your Slayer task.");
-					break;
-				}
-				c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "From the looks of it...", "You have "+c.slayerCount+" "+npcName+" left.");
-				break;
-			}		
+				else c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "From the looks of it...", "You have "+c.slayerCount+" "+npcName+" left.");				
 
-			if (c.tokenexchange){
-				c.tokenexchange = false;
+				break;
+
+			case 8:
 				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
 					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
 					c.getInventoryHandler().addItem(15334, 1);
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
-					c.tokenexchange = false;
 				}
 				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1){
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword with", "a full inventory");
 				}
 				else c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token!");
-			}
+				break;
 
-			if (c.tokenexchange2){
-				c.tokenexchange2 = false;
+			case 12:
 				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
 					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
 					c.getInventoryHandler().addItem(3637, 1);
@@ -376,114 +303,76 @@ public class ButtonClickHandler {
 				}
 				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1)
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
-
 				else c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
-			}
+				break;
 
-			if (c.ticketexchange2){
+			case 9:
 				if (c.getInventoryHandler().playerHasItemAmount(2996, 250) && c.getInventoryHandler().freeSlots() >= 1){
 					c.getInventoryHandler().deleteItem(2996, c.getInventoryHandler().getItemSlot(2996), 250);
 					c.getInventoryHandler().addItem(12003, 1);
 					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "I'll take those 250 tickets and", "here's your Void Knight Gloves.");
-					c.ticketexchange2 = false;
 				}
-				else if (c.getInventoryHandler().playerHasItemAmount(2996, 250) && c.getInventoryHandler().freeSlots() < 1){
+				else if (c.getInventoryHandler().playerHasItemAmount(2996, 250) && c.getInventoryHandler().freeSlots() < 1)
 					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back when you have more", "room available in your inventory.");
-					c.ticketexchange2 = false;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back when you have 250 tickets.");
-					c.ticketexchange2 = false;
-				}
-			}
+				else
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back when you have 250 tickets.");				
+				break;
 
-			if (c.ticketexchange){
+			case 5:
 				int exprec = c.playerLevel[16]*10000;
-				c.getFrameMethodHandler().select4Options("Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel!");
-				c.ticketexchange = false;
-				c.ticketexchange2 = true;
-				//c.playerLevel[16] >= 99
-			}                  
+				c.getFrameMethodHandler().select4Options(9,"Rewards", "100 Tickets-"+exprec+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel!");
+				break;
 
-			if (c.soulwars){
+			case 13:
 				int recieved = c.playerLevel[0]*c.soulbonus;
 				c.getClientMethodHandler().addSkillXP(recieved, 0);
 				c.pkpoints -= 10;
 				c.sendMessage("You recieve "+recieved+" attack exp. You have "+c.pkpoints+" PK points left.");
 				c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars = false;
-			}
+				break;
 
-			if (c.soulwars2){
-				int recieved = c.playerLevel[4]*c.soulbonus;
+			case 14:
+				recieved = c.playerLevel[4]*c.soulbonus;
 				c.getClientMethodHandler().addSkillXP(recieved, 4);
 				c.pkpoints -= 10;
 				c.sendMessage("You recieve "+recieved+" range exp. You have "+c.pkpoints+" PK points left.");
 				c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars2 = false;
-			}
+				break;
 
-			if (c.glory4) {
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2953, 3215, 0);
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.glory4 = false;
-			}			   
-
-			if (c.fletchingoption){
+			case 15:
 				if (c.playerLevel[9] >= c.fletchinglonglvl){
 					c.startAnimation(1248);
 					c.fletchingexp += c.fletchingexp/5;
 					c.fletchingitem = c.fletchinglong;
 					c.fletchingprocessshort = 4;
 					c.getFrameMethodHandler().RemoveAllWindows();
-					c.fletchingoption = false;
 				}
 				else if (c.playerLevel[9] != c.fletchinglonglvl){
 					c.getFrameMethodHandler().RemoveAllWindows();
 					c.sendMessage("You need "+c.fletchinglonglvl+" fletching for that bow.");
-					c.fletchingoption = false;
 				}
+				break;
 			}
+
+			c.getFrameMethodHandler().RemoveAllWindows();
 			break;
 
 		case 32019: //3rd option
-			if(c.optionsMenu){
-				c.optionsMenu = false;
-				if(c.oX3 != -1 && c.oY3 != -1){
-					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX3, c.oY3, 0);
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX3 = -1;
-					c.oY3 = -1;
-				}
-				if(c.oX3 == -1 || c.oY3 == -1){
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX3 = -1;
-					c.oY3 = -1;
-				}
-			}	
-			
-			if(c.getSmithingHandler().smithing4OptionsPage1){
-				c.getSmithingHandler().smithing4OptionsPage1 = false;
-				c.getSmithingHandler().smeltBar("Silver");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage2){
-				c.getSmithingHandler().smithing4OptionsPage2 = false;
-				c.getSmithingHandler().smeltBar("Mithril");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage3){
-				c.getSmithingHandler().smithing4OptionsPage3 = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
+			switch(c.menuChoice){
+			case 0:
+				c.teleport(c.oX3, c.oY3);
+				c.oX3 = -1;
+				c.oY3 = -1;
+				break;			
 
-			if(c.starter4Options){
-				c.starter4Options = false;
+			case 1:
+				c.getSmithingHandler().smeltBar("Silver");
+				break;
+			case 2:
+				c.getSmithingHandler().smeltBar("Mithril");
+				break;
+
+			case 4:
 				if(c.getInventoryHandler().freeSlots() >= 8){
 					c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "Here you go lad.", "Those items should suit your needs.", "Now go back to the Survival Expert for", "further instructions.");
 					c.getInventoryHandler().addItems(1095, 1129, 2577, 1007, 841); //leather chaps, body, rc.anger boots, red cape, shortbow
@@ -493,10 +382,9 @@ public class ButtonClickHandler {
 					c.starter = 1;
 				}
 				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
-			}	
+				break;
 
-			if(c.skillMasterPurchase){ //hood
-				c.skillMasterPurchase = false;
+			case 11:
 				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99){
 					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
 						if(c.getInventoryHandler().freeSlots() >= 1){
@@ -510,42 +398,29 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue(c.skillMasterName, c.skillMasterID, "If you want to purchase a hood,","you need to have 99 "+c.skillName);
 				break;
-			}
 
-			if(c.skillMaster){
-				c.skillMaster = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
+			case 10:
+				c.getFrameMethodHandler().select2Options(34,"Buy a Staff for 1,000,000 GP?", "Sure thing!", "No");
 				break;
-			}
 
-			if(c.arianwyn){
-				c.arianwyn = false;
-				c.BIS = true;
-				c.getFrameMethodHandler().selectoption("Buy a Staff for 1,000,000 GP?", "Sure thing!", "No", "...");
-			}
+			case 7:
+				c.getFrameMethodHandler().select2Options(31,"100,000 GP for a Slayer Crystal?", "Sure", "No thanks.");
+				break;
 
-			if(c.slayer4Options){
-				c.slayer4Options = false;
-				c.slayer2Options = true;
-				c.getFrameMethodHandler().selectoption("100,000 GP for a Slayer Crystal?", "Sure", "No thanks.");
-			}
-
-			if (c.tokenexchange){
-				c.tokenexchange = false;
+			case 8:
 				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
 					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
 					c.getInventoryHandler().addItem(15335, 1);
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "A true warrior indeed.", "I'll take that one token and", "here is your Godsword.");
-					c.tokenexchange = false;
 				}
 				else if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() < 1)
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a sword", "with a full inventory.");
 				else
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
-			}
+				break;
 
-			if (c.tokenexchange2){
-				c.tokenexchange2 = false;
+
+			case 12:
 				if (c.getInventoryHandler().playerHasItemAmount(13303, 1) && c.getInventoryHandler().freeSlots() >= 1){
 					c.getInventoryHandler().deleteItem(13303, c.getInventoryHandler().getItemSlot(13303), 1);
 					c.getInventoryHandler().addItem(3629, 1);
@@ -555,176 +430,84 @@ public class ButtonClickHandler {
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "I can't give you a shield", "with a full inventory.");
 
 				else c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
-			}
+				break;
 
-			if (c.ticketexchange2){
+			case 9:
 				if (c.getInventoryHandler().playerHasItemAmount(2996, 500) && c.getInventoryHandler().freeSlots() >= 2){
 					c.getInventoryHandler().deleteItem(2996, c.getInventoryHandler().getItemSlot(2996), 500);
 					c.getInventoryHandler().addItem(13301, 1);
 					c.getInventoryHandler().addItem(13302, 1);
 					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "I'll take those 500 tickets, and","here's your Agility Armor");
-					c.ticketexchange2 = false;
 				}
-				else if (c.getInventoryHandler().playerHasItemAmount(2996, 500) && c.getInventoryHandler().freeSlots() < 2){
+				else if (c.getInventoryHandler().playerHasItemAmount(2996, 500) && c.getInventoryHandler().freeSlots() < 2)
 					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "You need at least 2 empty slots", "in your inventory.");
-					c.ticketexchange2 = false;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have", "500 tickets.");
-					c.ticketexchange2 = false;
-				}
-			}
+				else
+					c.getClientMethodHandler().npcdialogue("Jackie The Fruit", 1055, "Come back to me when you have", "500 tickets.");				
+				break;
 
-			if (c.ticketexchange){
-				c.ticketexchange = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-			}
-
-			if (c.soulwars){
+			case 13:
 				int recieved = c.playerLevel[2]*c.soulbonus;
 				c.getClientMethodHandler().addSkillXP(recieved, 2);
 				c.pkpoints -= 10;
 				c.sendMessage("You recieve "+recieved+" strength exp. You have "+c.pkpoints+" PK points left.");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars = false;
-			}
+				break;
 
-			if (c.soulwars2){
-				int recieved = c.playerLevel[5]*c.soulbonus;
+			case 14:
+				recieved = c.playerLevel[5]*c.soulbonus;
 				c.getClientMethodHandler().addSkillXP(recieved, 5);
 				c.pkpoints -= 10;
 				c.sendMessage("You recieve "+recieved+" prayer exp. You have "+c.pkpoints+" PK points left.");
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars2 = false;
-			}
+				break;
 
-			if (c.glory4) {
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2919, 9804, 0);
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.glory4 = false;
-			}
-
-			if (c.fletchingoption){ //arrowshafts
+			case 15:
 				c.startAnimation(1248);
 				c.fletchingexp = 30;
 				c.fletchingitem = 52;
 				c.fletchingprocessshort = 4;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.fletchingoption = false;
+				break;
+
 			}
+
+			c.getFrameMethodHandler().RemoveAllWindows();	
+			
+			break;
 
 		case 32020: //4th option
-			if(c.optionsMenu){
-				c.optionsMenu = false;
-				if(c.oX4 != -1 && c.oY4 != -1){
-					c.getClientMethodHandler().isteleporting2(409, 1818, 15, c.oX4, c.oY4, 0);
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX4 = -1;
-					c.oY4 = -1;
-				}
-				if(c.oX4 == -1 || c.oY4 == -1){
-					c.getFrameMethodHandler().RemoveAllWindows();
-					c.oX4 = -1;
-					c.oY4 = -1;
-				}
-			}	
-			
-			if(c.getSmithingHandler().smithing4OptionsPage1){
-				c.getSmithingHandler().smithing4OptionsPage1 = false;
-				c.getSmithingHandler().smithingBarMenuPage2();
+			boolean removeAll = true;
+			switch(c.menuChoice){
+			case 0:
+				c.teleport(c.oX4, c.oY4);
 				break;
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage2){
-				c.getSmithingHandler().smithing4OptionsPage2 = false;
-				c.getSmithingHandler().smithingBarMenuPage3();			
-				break;	
-			}
-			
-			if(c.getSmithingHandler().smithing4OptionsPage3){
-				c.getSmithingHandler().smithing4OptionsPage3 = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
 
-			if (c.fletchingoption){
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.fletchingoption = false;
-			}
-
-			if(c.starter4Options){
-				c.starter4Options = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}	
-
-			if(c.skillMasterPurchase){
-				c.skillMasterPurchase = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-
-			if(c.skillMaster){
-				c.skillMaster = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-
-			if(c.arianwyn){
-				c.arianwyn = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-			}
-
-			if(c.slayer4Options){
-				c.slayer4Options = false;
+			case 7:
 				if(c.slayerMaster == 1208)
 					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
 				if(c.slayerMaster == 1596)
 					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"Take care as you travel South,","naught but foulness infests those lands."});
 				break;
+
+			case 8:
+				c.getFrameMethodHandler().select4Options(12,"Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
+				break;
+
+			case 13:
+				c.getFrameMethodHandler().select4Options(14,"You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
+				break;
+				
+			case 1:
+				c.getSmithingHandler().smithingBarMenuPage2();
+				removeAll = false;
+				break;
+				
+			case 2:
+				c.getSmithingHandler().smithingBarMenuPage3();
+				removeAll = false;
+				break;
+
 			}
 
-			if (c.tokenexchange){
-				c.tokenexchange = false;
-				c.tokenexchange2 = true;
-				c.getFrameMethodHandler().select4Options("Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
-				break;
-			}
-			if (c.tokenexchange2){
-				c.tokenexchange2 = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			if (c.ticketexchange){
-				c.ticketexchange = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-			if (c.ticketexchange2){
-				c.ticketexchange2 = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-				break;
-			}
-
-			if (c.soulwars){
-				//c.getFrameMethodHandler().RemoveAllWindows();
-				c.soulwars = false;
-				c.soulwars2 = true;
-				c.getFrameMethodHandler().select4Options("You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
-				break;
-			}
-
-			if(c.soulwars2){
-				c.soulwars2 = false;
-				c.getFrameMethodHandler().RemoveAllWindows();
-			}
-
-			if (c.glory4) {
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2134, 4907, 0);
-				c.sendMessage("You teleport to an alternate Draynor.");
-				c.getFrameMethodHandler().RemoveAllWindows();		
-				c.glory4 = false;
-			}
+			if(removeAll)
+				c.getFrameMethodHandler().RemoveAllWindows();	
 			break;
 
 
@@ -1011,40 +794,25 @@ public class ButtonClickHandler {
 
 
 		case 9157: //1st choice
-
-			if(c.travel2_X1 != -1 && c.travel2_Y1 != -1){
-				c.teleport(c.travel2_X1, c.travel2_Y1, c.travelHeight);
-				c.travel2_X1 = -1;
-				c.travel2_Y1 = -1;
-				c.travelHeight = 0;
-				c.getFrameMethodHandler().RemoveAllWindows();
+			
+			switch(c.menuChoice){
+			case 30:
+				c.teleport(c.travel2_X1,c.travel2_Y1,c.travelHeight);
 				break;
-			}
-
-			if (c.deadopt) {
-				c.getClientMethodHandler().npcdialogue("Grave Keeper", 1303, "Now that you've died, I can't let you go", "without some work. Get some copper", "and tin ore, and make a bronze bar.", "Talk to me once you have that bar.");
-				c.deadopt = false;
-				break;
-			}
-
-			if (c.startleave) {
+				
+			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "If you would like to leave, please speak","with Captain Shanks.");
-				c.startleave = false;
 				break;
-			}
-
-			if(c.spinning){
-				c.spinning = false;
+				
+			case 33:
 				if(c.getInventoryHandler().playerHasItem(1779)){
 					c.repeatAnimation(894, 3);
 					c.spinningTimer = 4;
 				}
 				else c.sendMessage("You need flax to spin bowstrings.");
-				c.getFrameMethodHandler().RemoveAllWindows();
-			}
-
-			if(c.slayer2Options){
-				c.slayer2Options = false;
+				break;
+				
+			case 31:
 				if(c.getInventoryHandler().playerHasItemAmount(995, 100000)){
 					if(c.getInventoryHandler().freeSlots() < 1){
 						c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I'd be happy to take your money,", "but your inventory is full.");
@@ -1058,29 +826,20 @@ public class ButtonClickHandler {
 				else
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
 				break;
-			}
-
-			if (c.BIS){
+				
+			case 34:
 				if (c.getInventoryHandler().playerHasItemAmount(995, 1000000)){
 					if (c.getInventoryHandler().freeSlots() > 0) {
 						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Here's your staff.", "Once again, thanks for helping us.");
 						c.getInventoryHandler().addItem(13308, 1);
 						c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 1000000);
-						c.BIS = false;
 					}
-					else if (c.getInventoryHandler().freeSlots() == 0) {
-						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Your inventory is full.");
-						c.BIS = false;
-					}
+					else if (c.getInventoryHandler().freeSlots() == 0) c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Your inventory is full.");
 				}
-				else {
-					c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Seems like you don't have enough money.");
-					c.BIS = false;
-				}
+				else c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Seems like you don't have enough money.");
 				break;
-			}
-
-			if (c.fletchingoption){
+				
+			case 35:
 				c.fletchingprocessshort = 0;
 				if (c.playerLevel[9] >= c.fletchingshortlvl){
 					c.startAnimation(712);
@@ -1088,57 +847,38 @@ public class ButtonClickHandler {
 					c.fletchingprocessshort = 4;
 					c.getFrameMethodHandler().RemoveAllWindows();
 					c.stringing = true;
-					c.fletchingoption = false;
 				}
 				else if (c.playerLevel[9] != c.fletchingshortlvl){
 					c.getFrameMethodHandler().RemoveAllWindows();
 					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
-					c.fletchingoption = false;
 				}
 				break;
 			}
+			
 			c.getFrameMethodHandler().RemoveAllWindows();
+
 			break;
 
 		case 9158: //2nd option
-			if(c.travel2_X2 != -1 && c.travel2_Y2 != -1){
-				c.teleport(c.travel2_X2, c.travel2_Y2,c.travelHeight);
-				c.travel2_X2 = -1;
-				c.travel2_Y2 = -1;
-				c.travelHeight = 0;
-				c.getFrameMethodHandler().RemoveAllWindows();
+			
+			switch(c.menuChoice){
+			case 30:
+				c.teleport(c.travel2_X2,c.travel2_Y2,c.travelHeight);
 				break;
-			}              	 
-
-
-			if(c.slayer2Options){
-				c.slayer2Options = false;
+				
+			case 31:
 				c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Alright, I'll be seeing ya.");
-			}
-
-			if (c.fletchingoption){
-				c.getFrameMethodHandler().RemoveAllWindows();
-				c.fletchingoption = false;
 				break;
-			}
-
-			if (c.startleave) {
+				
+			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
-				c.startleave = false;
 				break;
+				
 			}
-			if (c.deadopt){
-				c.getInventoryHandler().addItem(1265, 1);
-				c.getClientMethodHandler().npcdialogue("Grave Keeper", 1303, "", "Here's a pickaxe.", "Now go get working!", "");
-				c.deadopt = false;
-				break;
-			}
-
-			if (c.BIS){c.BIS = false; 
-			c.getFrameMethodHandler().RemoveAllWindows();
-			break;}
+			
 
 			c.getFrameMethodHandler().RemoveAllWindows();
+
 			break; 
 
 			//c.autocast
@@ -1523,7 +1263,7 @@ public class ButtonClickHandler {
 		case 3056: case 3059: case 3060:
 			c.sendMessage("That destination is not reachable from this location.");
 			break;
-			
+
 		case 3058: //gnome glider white wolf mountain peak
 			if(c.isInArea(2461,3496,2470,3508)){ //grand tree area
 				c.teleport(2848,3498,0);

@@ -95,6 +95,7 @@ public class ClientMethodHandler {
 
 	public void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2){
 		c.travel2_X1 = x1; c.travel2_Y1 = y1; c.travel2_X2 = x2; c.travel2_Y2 = y2; c.travelHeight = 0;
+		c.menuChoice = 30;
 		c.getFrameMethodHandler().sendFrame171(1, 2465);
 		c.getFrameMethodHandler().sendFrame171(0, 2468);
 		c.getFrameMethodHandler().sendFrame126(question, 2460);
@@ -884,7 +885,7 @@ public class ClientMethodHandler {
 		if(server.pestControlHandler.isInPestControl(c)){
 			c.IsDead = false;
 			c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);
-			c.teleport(2657,2607);
+			c.teleport(3025,3207);
 			c.resetAnimation();
 			c.sendMessage("Oh dear, you are dead.");
 			c.PRAY.disableAllPrayer();

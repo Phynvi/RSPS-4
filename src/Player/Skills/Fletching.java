@@ -14,7 +14,6 @@ public class Fletching {
 		c.fletchingshortlvl = slvl;
 		c.fletchinglong = flong;
 		c.fletchinglonglvl = llvl;
-		c.fletchingoption = true;
 		c.fletchingexp = xp;
 		c.stringing = stringon;
 	}

@@ -469,7 +469,8 @@ public class FrameMethods {
 		c.flushOutStream();
 	}
 
-	public void select4Options(String question, String s1, String s2, String s3, String s4) {
+	public void select4Options(int menuChoice, String question, String s1, String s2, String s3, String s4) {
+		c.menuChoice = menuChoice;
 		sendFrame171(1, 2465);
 		sendFrame171(0, 2468);
 		sendFrame126(question, 8208);
@@ -481,8 +482,9 @@ public class FrameMethods {
 	}
 
 
-	public void selectoption(String question, String s1, String s2, String s3)
+	public void select3Options(int menuChoice, String question, String s1, String s2, String s3)
 	{
+		c.menuChoice = menuChoice;
 		sendFrame171(1, 2465);
 		sendFrame171(0, 2468);
 		sendFrame126(question, 2460);
@@ -492,15 +494,8 @@ public class FrameMethods {
 		sendFrame164(2459);
 	}
 
-	public void selectoption(String question, String s1, String s2)
-	{
-		sendFrame171(1, 2465);
-		sendFrame171(0, 2468);
-		sendFrame126(question, 2460);
-		sendFrame126(s1, 2461);
-		sendFrame126(s2, 2462);
-		sendFrame126("", 2463);
-		sendFrame164(2459);
+	public void select2Options(int menuChoice, String question, String s1, String s2){
+		select3Options(menuChoice,question,s1,s2,"");
 	}
 
 	/*END OF TESTING FRAMES*/
@@ -2983,8 +2978,8 @@ public class FrameMethods {
 	 * @param y1 Option 2 y coordinate
 	 */
 	public void select4Options(String optName, String opt1, int x1, int y1, String opt2, int x2, int y2, String opt3, int x3, int y3, String opt4, int x4, int y4){
-		c.optionsMenu = true;		c.oX1 = x1;		c.oX2 = x2;		c.oX3 = x3;		c.oX4 = x4;		c.oY1 = y1;		c.oY2 = y2;		c.oY3 = y3;		c.oY4 = y4;				
-		select4Options(optName, opt1, opt2, opt3, opt4);		
+		c.oX1 = x1;		c.oX2 = x2;		c.oX3 = x3;		c.oX4 = x4;		c.oY1 = y1;		c.oY2 = y2;		c.oY3 = y3;		c.oY4 = y4;				
+		select4Options(0,optName, opt1, opt2, opt3, opt4);		
 	}
 
 	

@@ -608,8 +608,7 @@ public class ItemUse {
 			c.teleport(3507,9494,0);
 
 		if(useItemID == 1779 && atObjectID == 8748){
-			c.spinning = true;
-			c.getFrameMethodHandler().selectoption("Options", "Make all Bowstrings", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "Make all Bowstrings", "Cancel");
 			return true;
 		}
 
@@ -829,94 +828,94 @@ public class ItemUse {
 
 		if(itemUsed == 946 && useWith == 1511) {
 			c.FLETCHING.fletchingvoid("", 1511, 50, 1, 48, 10, 40, false);
-			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options(15,"Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 50) {
 			c.FLETCHING.fletchingvoid("", 50, 841, 1, 0, 0, 40, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all shortbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all shortbows", "Cancel");
 			return true;
 		}
 
 		if(itemUsed == 1777 && useWith == 48) {
 			c.FLETCHING.fletchingvoid("", 48, 839, 10, 0, 0, 75, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all longbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all longbows", "Cancel");
 			return true;
 		}
 
 		if(itemUsed == 946 && useWith == 1521) {
 			c.FLETCHING.fletchingvoid(" Oak", 1521, 54, 15, 56, 25, 85, false);
-			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options(15,"Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 54) {
 			c.FLETCHING.fletchingvoid("", 54, 843, 15, 0, 0, 85, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all oak shortbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all oak shortbows", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 56) {
 			c.FLETCHING.fletchingvoid("", 56, 845, 25, 0, 0, 100, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all oak longbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all oak longbows", "Cancel");
 			return true;
 		}
 		if(itemUsed == 946 && useWith == 1519) {
 			c.FLETCHING.fletchingvoid(" Willow", 1519, 60, 35, 58, 40, 115, false);
-			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options(15,"Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 60) {
 			c.FLETCHING.fletchingvoid("", 60, 849, 35, 0, 0, 115, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all willow shortbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all willow shortbows", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 58) {
 			c.FLETCHING.fletchingvoid("", 58, 847, 40, 0, 0, 135, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all willow longbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all willow longbows", "Cancel");
 			return true;
 		}
 		if(itemUsed == 946 && useWith == 1517) {
 			c.FLETCHING.fletchingvoid(" Maple", 1517, 64, 45, 62, 50, 155, false);
-			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options(15,"Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 64) {
 			c.FLETCHING.fletchingvoid("", 64, 853, 45, 0, 0, 155, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all maple shortbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all maple shortbows", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 62) {
 			c.FLETCHING.fletchingvoid("", 62, 851, 50, 0, 0, 180, true);
-			c.getFrameMethodHandler().selectoption("Options", "String all maple longbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all maple longbows", "Cancel");
 			return true;
 		}
 		if(itemUsed == 946 && useWith == 1515) {
 			c.FLETCHING.fletchingvoid(" Yew", 1515, 68, 55, 66, 60, 200, false);
-			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options(15,"Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}
 		if(itemUsed == 1777 && useWith == 68) {
 			c.FLETCHING.fletchingvoid("", 68, 857, 55, 0, 0, 200, true); 
-			c.getFrameMethodHandler().selectoption("Options", "String all yew shortbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all yew shortbows", "Cancel");
 			return true;
 		}			
 		if(itemUsed == 1777 && useWith == 66) {
 			c.FLETCHING.fletchingvoid("", 66, 855, 60, 0, 0, 240, true); 
-			c.getFrameMethodHandler().selectoption("Options", "String all yew longbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all yew longbows", "Cancel");
 			return true;
 		}		
 		if(itemUsed == 946 && useWith == 1513) {
 			c.FLETCHING.fletchingvoid(" Magic", 1513, 72, 70, 70, 80, 300, false);
-			c.getFrameMethodHandler().select4Options("Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
+			c.getFrameMethodHandler().select4Options(15,"Options", "Make all"+c.fletchinglogs+" Shortbows", "Make all"+c.fletchinglogs+" Longbows", "Make all arrowshafts", "Cancel");
 			return true;
 		}						
 		if(itemUsed == 1777 && useWith == 72) {
 			c.FLETCHING.fletchingvoid("", 72, 861, 70, 0, 0, 300, true); 
-			c.getFrameMethodHandler().selectoption("Options", "String all magic shortbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all magic shortbows", "Cancel");
 			return true;
 		}		
 		if(itemUsed == 1777 && useWith == 70) {
 			c.FLETCHING.fletchingvoid("", 70, 859, 80, 0, 0, 360, true); 
-			c.getFrameMethodHandler().selectoption("Options", "String all magic longbows", "Cancel", "...");
+			c.getFrameMethodHandler().select2Options(35,"Options", "String all magic longbows", "Cancel");
 			return true;
 		}		
 		//Fletching End
