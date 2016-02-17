@@ -901,7 +901,7 @@ public class FrameMethods {
 		switch (c.playerEquipment[c.playerWeapon]){
 		case 4587: //d scimmy
 		case 15351: case 15333: case 15334: case 15335: case 15336: case 1305: case 1377: case 7158: case 4153: case 35: case 3204: case 1419:
-		case 1434: case 5698: case 11337: case 6739: case 1215: case 1231: case 5680:
+		case 1434: case 5698: case 11337: case 6739: case 1215: case 1231: case 5680: case 3101:
 			setSidebarInterface(0, 2276); //stab, lunge, slash, block
 			sendFrame246(2277, 200, c.playerEquipment[c.playerWeapon]);
 			sendFrame126(Item.getItemName(c.playerEquipment[c.playerWeapon]), 2279);
@@ -2480,12 +2480,21 @@ public class FrameMethods {
 	}
 
 	public void setmusictab(){
-		setSidebarInterface(13, 3209);
-		sendQuest("@red@Currently", 15239);
-		sendQuest("@red@Unavailable", 15241);
-		sendQuest("", 15240);
-		sendQuest("", 15242);
-		sendQuest("", 15243);
+		setSidebarInterface(13, 6299);
+		sendQuest("Logged in as: "+c.playerName.toUpperCase(), 6300);
+		sendQuest("", 6301);
+		String status = "@red@Non-donator";
+		if(c.Donar == 1) status = "@gre@Donator";
+		if(c.playerRights < 1) status += ", @red@Normal Player";
+		if(c.playerRights == 1) status += ", @yel@Moderator";
+		if(c.playerRights >= 1) status += ", @gre@Administrator";
+		sendQuest("Account Information:", 6302);
+		sendQuest(status, 6307);
+		sendQuest("PK Points :"+c.pkpoints, 6303);
+		sendQuest("", 6304);
+		sendQuest("Pest Control Points :"+c.pestControlPoints, 6305);
+		sendQuest("", 6306);
+		
 	}
 
 

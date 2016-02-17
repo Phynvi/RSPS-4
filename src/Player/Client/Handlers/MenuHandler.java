@@ -455,6 +455,27 @@ public class MenuHandler {
 	public String Stats2(){
 		return("Your stats!####Pk Points: "+c.pkpoints+"#"+"Kills: "+c.killcount+"#"+"Deaths: "+c.deathcount+"#####");
 	}
+	
+	public static String[] chatHelp(){
+		return new String[]{"@whi@Chat Room Help","","","",
+				"@whi@General Information",
+				"@bla@To join a chat room, type ::join then the chat room name.",
+				"For example, to join Public Chat, type ::join Public Chat",
+				"",
+				"To speak in a chat room, type / before the message.",
+				"For example, to say hello, type /hello",
+				"",
+				"Making a Chat Room your default, will enable automatic join",
+				"upon logging into the game.",
+				"",
+				"To create a chat room, type ::create then the chat room name.",
+				"For instance, to create a chatroom named asdf111, ",
+				"type ::create asdf111",
+				"Chat rooms must be unique with their name. ",
+				"If a chat room already exists",
+				"then it cannot be created again."				
+		};
+	}
 
 	public static String[]herbloremenu(){
 		return new String[]{"@gre@Herblore Guide","","",

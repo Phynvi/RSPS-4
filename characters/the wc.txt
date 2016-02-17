@@ -1,43 +1,43 @@
 [ACCOUNT]
-character-username = the wc test2
+character-username = the wc
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2680
-character-posy = 9561
+character-posx = 3675
+character-posy = 2967
 character-rights = 0
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160116
+character-lastlogin = 20160117
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
 [EQUIPMENT]
-character-equip = 0	14087	0	
-character-equip = 1	1052	0	
-character-equip = 2	4164	0	
-character-equip = 3	1321	0	
-character-equip = 4	7399	0	
-character-equip = 5	3842	0	
+character-equip = 0	-1	0	
+character-equip = 1	-1	0	
+character-equip = 2	-1	0	
+character-equip = 3	-1	0	
+character-equip = 4	-1	0	
+character-equip = 5	-1	0	
 character-equip = 6	-1	0	
-character-equip = 7	7398	0	
+character-equip = 7	-1	0	
 character-equip = 8	-1	0	
-character-equip = 9	3060	0	
-character-equip = 10	1837	0	
+character-equip = 9	-1	0	
+character-equip = 10	-1	0	
 character-equip = 11	-1	0	
-character-equip = 12	6735	0	
+character-equip = 12	-1	0	
 character-equip = 13	-1	0	
 
 [LOOK]
-character-look = 0	8
-character-look = 1	16
-character-look = 2	24
-character-look = 3	31
-character-look = 4	34
-character-look = 5	43
+character-look = 0	0
+character-look = 1	0
+character-look = 2	0
+character-look = 3	0
+character-look = 4	0
+character-look = 5	0
 
 [SKILLS]
 character-skill = 0	1	0

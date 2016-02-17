@@ -12,6 +12,16 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private CommandHandler commandHandler = new CommandHandler(this);
+	public CommandHandler getCommandHandler(){
+		return this.commandHandler;
+	}
+	
+	private ChatRoomHandler chatRoomHandler = new ChatRoomHandler(this);
+	public ChatRoomHandler getChatRoomHandler(){
+		return this.chatRoomHandler;
+	}
+	
 	private Mining miningHandler = new Mining(this);
 	public Mining getMiningHandler(){
 		return this.miningHandler;
@@ -915,13 +925,14 @@ playerName.trim();*/
 		getFrameMethodHandler().setSidebarInterface(4, 1644);
 		getFrameMethodHandler().setSidebarInterface(5, 5608);
 		getFrameMethodHandler().setSidebarInterface(6, 1151);
-		if (playerRights > 0){
-			getFrameMethodHandler().setSidebarInterface(7, 6014);
-			getFrameMethodHandler().adminpanelFrames();
-		}
-		else if (playerRights == 0){
-			getFrameMethodHandler().setSidebarInterface(7, 3209);
-		}
+		getFrameMethodHandler().setSidebarInterface(7, 14654); //group chat
+//		if (playerRights > 0){
+//			getFrameMethodHandler().setSidebarInterface(7, 6014);
+//			getFrameMethodHandler().adminpanelFrames();
+//		}
+//		else if (playerRights == 0){
+//			getFrameMethodHandler().setSidebarInterface(7, 3209);
+//		}
 		getFrameMethodHandler().setSidebarInterface(8, 5065);
 		getFrameMethodHandler().setSidebarInterface(9, 5715); 
 		getFrameMethodHandler().setSidebarInterface(10, 2449);
@@ -1051,6 +1062,7 @@ playerName.trim();*/
 
 		PLD.loadquestinterface();
 		PLD.sendQuests();
+		PLD.loadChatRoom();
 		
 	}
 
@@ -2034,8 +2046,9 @@ playerName.trim();*/
 				sendMessage("You can't talk because you are muted!");
 			else{
 				inStream.readBytes_reverseA(chatText, chatTextSize, 0);
+				//String msg = misc.textUnpack(chatText, packetSize-2);
 				chatTextUpdateRequired = true;
-				String playerchat = "["+playerName+"]: "+misc.textUnpack(chatText, packetSize-2)+"";
+				//String playerchat = "["+playerName+"]: "+misc.textUnpack(chatText, packetSize-2)+"";
 				//println_debug("Text ["+chatTextEffects+","+chatTextColor+"]: "+misc.textUnpack(chatText, packetSize-2));
 			}
 			break;
@@ -2353,7 +2366,7 @@ playerName.trim();*/
 
 		case 103:		//Custom player command, the ::words
 			String command = inStream.readString();
-			CommandHandler.passCommand(this, command, command.split(" "));
+			getCommandHandler().passCommand(command, command.split(" "));
 			break;
 
 

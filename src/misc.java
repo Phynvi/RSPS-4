@@ -69,11 +69,12 @@ public class misc {
    }
 	public static void print_debug(String str)
 	{
-		System.out.print(str);				// comment this line out if you want to get rid of debug messages
+		if(server.debugmode)
+			System.out.print(str);				// comment this line out if you want to get rid of debug messages
 	}
 	public static void println_debug(String str)
 	{
-		System.out.println(str);
+		if(server.debugmode) System.out.println(str);
 	}
 	public static void print(String str)
 	{

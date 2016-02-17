@@ -27,6 +27,7 @@ public static boolean debugmode = false;
 	public static long upTime;
 	public static boolean showDelay = false;
 	public static GlobalObjectHandler globalObjectHandler = null;
+	public static GlobalChatRoomHandler globalChatRoomHandler = null;
 	
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
@@ -45,6 +46,7 @@ public static boolean debugmode = false;
 		itemspawnpoints = new itemspawnpoints();
 		GraphicsHandler = new GraphicsHandler();
 		globalObjectHandler = new GlobalObjectHandler();
+		globalChatRoomHandler = new GlobalChatRoomHandler();
 		//dialogueHandler = new DialogueHandler(); 
 		int waitFails = 0;
 		long lastTicks = System.currentTimeMillis();
@@ -77,6 +79,7 @@ public static boolean debugmode = false;
 			if(showDelay) pestControlTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			globalObjectHandler.process();
 			if(showDelay) globalObjectTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			globalChatRoomHandler.process();
 			//antilag.process();
 			//itemspawnpoints.process();
 

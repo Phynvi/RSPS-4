@@ -220,6 +220,9 @@ public class Item {
 	public static int getSpecAmount(int itemID){
 		switch(itemID){
 		case KARILSCROSSBOW:
+		case 3101:
+			return 3; //rune claws
+			
 		case 1434: //dargon mace? 
 			return 2;
 
@@ -324,6 +327,8 @@ public class Item {
 		if (c.litBar == true){ //Check special emotes first
 			c.SpecEmoteTimer = 5; //To make sure it's not interrupted by NPC hit	
 			switch(itemID){
+			case 3101: //Rune Claws
+				return 437;
 			case 15335: //Saradomin Godsword
 				return 304;
 			case 15334: //Bandos Godsword
@@ -404,7 +409,7 @@ public class Item {
 			return 1665;
 		}
 
-		if(itemID == 11337) // D Claws
+		if(itemID == 11337 || itemID == 3101) // D Claws
 		{
 			return 451;
 		}

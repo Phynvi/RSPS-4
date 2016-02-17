@@ -2,49 +2,49 @@
 character-muteright0
 character-lastlogin = WRT610N
 character-lastlogintime = 20160117
-character-ancients = 12
-character-starter = 1
-character-easterevent = 2
-character-eastergift = 4
+character-ancients = 0
+character-starter = 0
+character-easterevent = 0
+character-eastergift = 0
 character-hasegg = 0
-character-hasset = 11
-character-pkpoints = 24
-character-killcount = 21
-character-deathcount = 1
+character-hasset = 0
+character-pkpoints = 0
+character-killcount = 0
+character-deathcount = 0
 character-mutedate = 0
 character-height = 0
 character-torag = 0
 character-verac = 0
 character-guthan = 0
-character-ahrim = 1
+character-ahrim = 0
 character-karil = 0
 character-dharok = 0
 character-bandit = 0
-character-wb = 6
-character-wbMackerel = 1
+character-wb = 0
+character-wbMackerel = 0
 character-Donar = 0
 character-wbTar = 0
-character-smix = 1
+character-smix = 0
 character-chickenleave = 0
-character-ST = 6
-character-STC = 1
-character-RM = 4
-character-dragcharge = 50
-character-beta = 1
-slayerNPC = 1624
-slayerCount = 23
+character-ST = 0
+character-STC = 0
+character-RM = 0
+character-dragcharge = 0
+character-beta = 0
+slayerNPC = 0
+slayerCount = 0
 specialDelay = 10
-masteries = 21
-pirate = 11
+masteries = 0
+pirate = 0
 homeTeleportTimer = 0
-bandos = 5
-armadyl = 1
+bandos = 0
+armadyl = 0
 prevarmadyl = 0
-prevbandos = 38
-spellbook = 1
-pestcontrolpoints = 2
-questPoints = 7
-chatRoomName = Administrator Chat
+prevbandos = 0
+spellbook = 0
+pestcontrolpoints = 0
+questPoints = 0
+chatRoomName = Public Chat
 
 [QUESTS]
 character-questpoints = 0
@@ -54,7 +54,7 @@ character-quest_3 = 0
 
 [LOOK]
 character-look = 0	0
-character-head = 7
+character-head = 0
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -63,7 +63,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 1	0
-character-head = 7
+character-head = 0
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -72,7 +72,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 2	0
-character-head = 7
+character-head = 0
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -81,7 +81,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 3	0
-character-head = 7
+character-head = 0
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -90,7 +90,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 4	0
-character-head = 7
+character-head = 0
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -99,7 +99,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 5	0
-character-head = 7
+character-head = 0
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -109,32 +109,14 @@ character-beard = 10
 
 
 [FRIENDS]
-character-friend = 0	487891978
-character-friend = 1	68737434288748
-character-friend = 2	1738255457107
-character-friend = 3	145269835360507
-character-friend = 4	21084656
-character-friend = 5	24439736
-character-friend = 6	1324504
-character-friend = 7	10142
-character-friend = 8	1318469
-character-friend = 9	710787121204
-character-friend = 10	270455273948641058
-character-friend = 11	1026210
-character-friend = 12	1919823167108
-character-friend = 13	51418386367
-character-friend = 14	15074258
-character-friend = 15	812606
-character-friend = 16	97229002984747107
-character-friend = 18	2005872804375991907
 
 [IGNORES]
 
 [HIDDEN]
-character-points = 1
+character-points = 0
 character-foundz[1] = 0
 character-foundz[2] = 0
-character-foundz[3] = 1
+character-foundz[3] = 0
 character-foundz[4] = 0
 character-foundz[5] = 0
 character-foundz[6] = 0

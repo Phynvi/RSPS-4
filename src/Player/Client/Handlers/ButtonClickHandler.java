@@ -24,6 +24,32 @@ public class ButtonClickHandler {
 		//panellist();
 		//break;			
 
+		case 57064: // make default chat/remove default
+			ChatRoom ch = c.currentChatRoom;
+			if(ch == null){
+				c.defaultChatRoomName = "";
+				c.getChatRoomHandler().generateChatTab("");
+			}
+			else{
+				c.defaultChatRoomName = c.currentChatRoom.getChatRoomName();
+				c.getFileLoadingHandler().savemoreinfo();
+				c.sendMessage("You have made "+c.defaultChatRoomName+" your default Chat Room.");
+			}
+			break;
+
+		case 57063: // leave chat/join default
+			ch = c.currentChatRoom;
+			if(ch == null) //means we join default
+				c.getChatRoomHandler().joinChatRoom(server.globalChatRoomHandler.findChatRoom(c.defaultChatRoomName));
+			else c.getChatRoomHandler().leaveChatRoom();
+			break;
+			
+		case 57065: // help/chat info
+			ch = c.currentChatRoom;
+			if(ch != null) c.getChatRoomHandler().playersInChatMenu();
+			else c.getFrameMethodHandler().menu(MenuHandler.chatHelp());
+			break;
+
 		case 28170:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().newBeginnings());
 			break;
@@ -66,23 +92,27 @@ public class ButtonClickHandler {
 			//4 select option
 		case 32017: //1st option
 
+			c.debug("menuChoice is : "+c.menuChoice);
 			switch(c.menuChoice){
 			case 0:
-				if(c.oX1 != -1 && c.oY1 != -1)
-					c.teleport(c.oX1, c.oY1, 0);
+				c.teleport(c.oX1, c.oY1, 0);
 				c.oX1 = -1;
 				c.oY1 = -1;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			case 1:
 				c.getSmithingHandler().smeltBar("Bronze");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 2:
 				c.getSmithingHandler().smeltBar("Steel");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 3:
 				c.getSmithingHandler().smeltBar("Adamantite");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 4:
@@ -200,9 +230,10 @@ public class ButtonClickHandler {
 					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
 				}				
 				break;
+				
+				default:
+					c.getFrameMethodHandler().RemoveAllWindows();
 			}
-
-			c.getFrameMethodHandler().RemoveAllWindows();
 
 			break;
 
@@ -213,18 +244,22 @@ public class ButtonClickHandler {
 				c.teleport(c.oX2, c.oY2);
 				c.oX2 = -1;
 				c.oY2 = -1;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 1:
 				c.getSmithingHandler().smeltBar("Iron");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 2:
 				c.getSmithingHandler().smeltBar("Gold");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 3:
 				c.getSmithingHandler().smeltBar("Rune");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 4:
@@ -352,9 +387,10 @@ public class ButtonClickHandler {
 					c.sendMessage("You need "+c.fletchinglonglvl+" fletching for that bow.");
 				}
 				break;
+				
+				default:
+					c.getFrameMethodHandler().RemoveAllWindows();
 			}
-
-			c.getFrameMethodHandler().RemoveAllWindows();
 			break;
 
 		case 32019: //3rd option
@@ -367,9 +403,11 @@ public class ButtonClickHandler {
 
 			case 1:
 				c.getSmithingHandler().smeltBar("Silver");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			case 2:
 				c.getSmithingHandler().smeltBar("Mithril");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 4:
@@ -464,16 +502,17 @@ public class ButtonClickHandler {
 				c.fletchingexp = 30;
 				c.fletchingitem = 52;
 				c.fletchingprocessshort = 4;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
+				
+				default:
+					c.getFrameMethodHandler().RemoveAllWindows();
 
 			}
 
-			c.getFrameMethodHandler().RemoveAllWindows();	
-			
 			break;
 
 		case 32020: //4th option
-			boolean removeAll = true;
 			switch(c.menuChoice){
 			case 0:
 				c.teleport(c.oX4, c.oY4);
@@ -493,22 +532,20 @@ public class ButtonClickHandler {
 			case 13:
 				c.getFrameMethodHandler().select4Options(14,"You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
 				break;
-				
+
 			case 1:
 				c.getSmithingHandler().smithingBarMenuPage2();
-				removeAll = false;
 				break;
-				
+
 			case 2:
 				c.getSmithingHandler().smithingBarMenuPage3();
-				removeAll = false;
 				break;
+				
+				default:
+					c.getFrameMethodHandler().RemoveAllWindows();
+					break;
 
 			}
-
-			if(removeAll)
-				c.getFrameMethodHandler().RemoveAllWindows();	
-			break;
 
 
 
@@ -794,16 +831,16 @@ public class ButtonClickHandler {
 
 
 		case 9157: //1st choice
-			
+
 			switch(c.menuChoice){
 			case 30:
 				c.teleport(c.travel2_X1,c.travel2_Y1,c.travelHeight);
 				break;
-				
+
 			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "If you would like to leave, please speak","with Captain Shanks.");
 				break;
-				
+
 			case 33:
 				if(c.getInventoryHandler().playerHasItem(1779)){
 					c.repeatAnimation(894, 3);
@@ -811,7 +848,7 @@ public class ButtonClickHandler {
 				}
 				else c.sendMessage("You need flax to spin bowstrings.");
 				break;
-				
+
 			case 31:
 				if(c.getInventoryHandler().playerHasItemAmount(995, 100000)){
 					if(c.getInventoryHandler().freeSlots() < 1){
@@ -826,7 +863,7 @@ public class ButtonClickHandler {
 				else
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
 				break;
-				
+
 			case 34:
 				if (c.getInventoryHandler().playerHasItemAmount(995, 1000000)){
 					if (c.getInventoryHandler().freeSlots() > 0) {
@@ -838,7 +875,7 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Seems like you don't have enough money.");
 				break;
-				
+
 			case 35:
 				c.fletchingprocessshort = 0;
 				if (c.playerLevel[9] >= c.fletchingshortlvl){
@@ -854,28 +891,28 @@ public class ButtonClickHandler {
 				}
 				break;
 			}
-			
+
 			c.getFrameMethodHandler().RemoveAllWindows();
 
 			break;
 
 		case 9158: //2nd option
-			
+
 			switch(c.menuChoice){
 			case 30:
 				c.teleport(c.travel2_X2,c.travel2_Y2,c.travelHeight);
 				break;
-				
+
 			case 31:
 				c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Alright, I'll be seeing ya.");
 				break;
-				
+
 			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
 				break;
-				
+
 			}
-			
+
 
 			c.getFrameMethodHandler().RemoveAllWindows();
 

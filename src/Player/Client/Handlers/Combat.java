@@ -132,6 +132,11 @@ public class Combat {
 		int specdmg = 0;
 		int[] playerEquipment = c.playerEquipment;
 		int playerWeapon = c.playerWeapon;
+		
+		if(playerEquipment[playerWeapon] == 3101){ //rune claws
+			useSpecialAndSubtractDelay(3);
+			return original+(int)((double)original/10.0); //player hit + 10%;
+		}
 
 		if (playerEquipment[playerWeapon] == 15334){ //Bandos godsword
 			if(c.IsAttacking && c.AttackingOn != 0){

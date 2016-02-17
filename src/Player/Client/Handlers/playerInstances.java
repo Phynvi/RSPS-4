@@ -15,6 +15,9 @@ class playerInstances {
 	public int[] walkingToObject = new int[5];
 	public int woodcuttingTimer = -1;
 	
+	public String defaultChatRoomName = "";
+	public ChatRoom currentChatRoom = null;
+	
 	public int smithingTimer = -1;
 	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
 	public boolean newUser = false;

@@ -203,6 +203,7 @@ public class GlobalObjectHandler {
 
 		public StaticObject(int x, int y, int object, int _direction,String playerName) {
 			super(x, y, object, _direction,playerName);
+			if(playerName == null) server.worldMap.getWalkableGridAtHeight(0)[x][y] = -1;
 			isStatic = true;
 		}
 

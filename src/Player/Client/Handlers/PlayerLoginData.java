@@ -258,8 +258,13 @@ public class PlayerLoginData {
 		this.c = pc;
 	}
 
-	public void sendQuests(){
-
+	public void loadChatRoom(){
+		ChatRoom ch = server.globalChatRoomHandler.findChatRoom(c.defaultChatRoomName);
+		if(ch != null) c.getChatRoomHandler().joinChatRoom(ch);
+		else c.getChatRoomHandler().generateChatTab("");
+	}
+	
+	public void sendQuests(){		
 		c.getFrameMethodHandler().sendQuest(c.playerName+"'s Bank", 5383);
 		c.getFrameMethodHandler().sendQuest("Rearrange mode:", 5390);
 		c.getFrameMethodHandler().sendQuest("Withdraw as:", 5388);

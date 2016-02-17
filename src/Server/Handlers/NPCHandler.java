@@ -1766,7 +1766,7 @@ WORLDMAP 2: (not-walk able places)
 				return true;
 			}
 		}
-		FollowPlayerCB(NPCID, playerID);
+		if(!npcs[NPCID].moveToSpawn) FollowPlayerCB(NPCID, playerID);
 		return false;
 	}
 

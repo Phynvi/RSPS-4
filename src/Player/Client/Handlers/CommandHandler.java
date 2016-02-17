@@ -1,28 +1,66 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 
 public class CommandHandler {
 
+	private client c;
 
-	public static void passCommand(client c, String fullCommand, String[] args){
+	public CommandHandler(client pc){
+		this.c = pc;
+	}
+
+	private static String getEverythingAfterCommand(String[] args){
+		String msg = "";
+		for(int i = 1; i < args.length; i++){
+			msg += args[i];
+			if(i < args.length-1) msg+= " ";
+		}
+		return msg;
+	}
+
+	public void passCommand(String fullCommand, String[] args){
 
 		c.debug("playerCommand: "+fullCommand);
-		
+
 		switch(args[0].toLowerCase()){
-		
-		}
-		
-		if(fullCommand.equalsIgnoreCase("test")){
-			for(NPC n : server.npcHandler.npcs){
-				if(n != null && n.npcType == 54){
-					n.absX += 1;
-					n.absY += 1;
+		case "create":
+			String chatRoomName = getEverythingAfterCommand(args);
+			if(chatRoomName.length() >= 10 || chatRoomName.length() <= 3){
+				c.sendMessage("Chat room names must be at least 3 characters long and shorter than 10 characters.");
+				return;
+			}
+			if(server.globalChatRoomHandler.findChatRoom(chatRoomName) != null) c.sendMessage("A chatroom with the name "+chatRoomName+" already exists.");
+			else{
+				try{
+					Files.write(Paths.get("./data/chatrooms.txt"), ("\n"+chatRoomName+"\n0\n").getBytes(), StandardOpenOption.APPEND);
+					server.globalChatRoomHandler.addChatRoom(chatRoomName, 0);
+					c.sendMessage("The chatroom "+chatRoomName+" has been created successfully.");
+				}
+				catch(Exception e){
+					misc.println("Error while writing to chatroom file, "+e.toString());
 				}
 			}
+			return;
+
+		case "/":
+			c.getChatRoomHandler().sendChatMessage(getEverythingAfterCommand(args));
+			return;
+
+		case "join":
+			String s = getEverythingAfterCommand(args);
+			ChatRoom ch = server.globalChatRoomHandler.findChatRoom(s);
+			if(ch != null){
+				c.getChatRoomHandler().joinChatRoom(ch);
+			}
+			else c.sendMessage("The ChatRoom "+s+" could not be found.");
+			return;
 		}
-		
+
 		if(fullCommand.startsWith("npc")){
 			try{
 				int n = Integer.parseInt(fullCommand.substring(4));
@@ -198,7 +236,7 @@ public class CommandHandler {
 				c.sendMessage("Bad emote ID"); 
 			}	
 		}
-		
+
 		if (fullCommand.startsWith("gfx") && c.playerRights >= 1){
 			try {
 				int gfx = Integer.parseInt(fullCommand.substring(4));
@@ -422,6 +460,7 @@ public class CommandHandler {
 		if (fullCommand.startsWith("interface") && c.playerRights >= 2) {
 			try {
 				int intname = Integer.parseInt(fullCommand.substring(10));
+				c.getFrameMethodHandler().setSidebarInterface(7, intname);
 				c.getFrameMethodHandler().showInterface(intname);
 				for(int i = intname-200; i <= intname+200; i++){
 					if(i <= 0) i = 1;
