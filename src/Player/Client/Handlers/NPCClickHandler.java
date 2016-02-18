@@ -2,11 +2,11 @@
 public class NPCClickHandler {
 
 	private client c = null;
-	
+
 	public NPCClickHandler(client pc){
 		this.c = pc;
 	}
-	
+
 	/**
 	 * Handles second click of NPCs
 	 * @param slotID Slot ID to search for NPC in npcs server list
@@ -27,7 +27,7 @@ public class NPCClickHandler {
 		}		
 		c.faceNPC(slotID);
 		c.debug("npcSecondClick: NPCID is "+NPCID);			
-		
+
 		if(!misc.GoodDistance(npcX, npcY, c.absX, c.absY, 1)){
 			c.walkingToNPC_slotID = slotID;
 			c.walkingToNPC = 2;
@@ -36,11 +36,11 @@ public class NPCClickHandler {
 			return;
 		}
 
-		
-		
+
+
 		/* Shops */
 		switch(NPCID){		
-		
+
 		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
 			c.getFrameMethodHandler().openUpBankFrame();
 			return;
@@ -80,7 +80,7 @@ public class NPCClickHandler {
 		case 551: case 552:
 			c.getFrameMethodHandler().openUpShopFrame(9); //Fletching
 			return;
-			
+
 		case 1038: case 593:
 			c.getFrameMethodHandler().openUpShopFrame(10); //Raw meat store
 			return;
@@ -121,6 +121,10 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(19); //crafting
 			return;
 
+		case 2520:
+			c.getFrameMethodHandler().openUpShopFrame(20); //Gabooty Shop
+			return;
+
 		case 519: case 2152:
 			c.getFrameMethodHandler().openUpShopFrame(23); //Basic Weapons
 			return;
@@ -156,37 +160,45 @@ public class NPCClickHandler {
 		case 588:
 			c.getFrameMethodHandler().openUpShopFrame(52); //Jewelry Shop
 			return;		
-			
+
 		case 874: //special ogre weapon shop
 			c.getFrameMethodHandler().openUpShopFrame(70);
 			return;
-			
+
 		case 683: case 575: //bow and arrow
 			c.getFrameMethodHandler().openUpShopFrame(80);
 			return;
-			
+
 		case 682: //ranged armor
 			c.getFrameMethodHandler().openUpShopFrame(81);
 			return;
-			
+
 		case 562: //candle
 			c.getFrameMethodHandler().openUpShopFrame(90);
 			return;
-			
+
 		case 528: //legends Guild
 			c.getFrameMethodHandler().openUpShopFrame(100);
 			return;
-			
+
 		case 797:
 			c.getFrameMethodHandler().openUpShopFrame(110);
 			return;
-			
+
+		case 1168:
+			c.getFrameMethodHandler().select2Options(36, "Options", "Use 10% favour to open shop", "Nevermind");
+			return;
+
+		case 1164:
+			c.getFrameMethodHandler().select2Options(37, "Options", "Use 10% favour to open shop", "Nevermind");
+			return;
+
 		case 3788:
 			if(c.pestControlPoints < 30) c.getClientMethodHandler().npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+c.pestControlPoints+" points.");
 			else c.getFrameMethodHandler().openUpShopFrame(60); //Void Knight Shop rewards
 			return;
 		}
-		
+
 		/* Second Click, not Shops */
 		switch(NPCID){
 
@@ -197,7 +209,7 @@ public class NPCClickHandler {
 		case 310: case 311: // lure/bait
 			c.getFishingHandler().fishingClick2(NPCID);
 			break;	
-			
+
 		case 462:
 			if (c.RM == 4){
 				c.getClientMethodHandler().c.getClientMethodHandler().selectOptionTravel2("Mine rune essence?", "Yes", 2911, 4833, "No", -1,-1);
@@ -212,24 +224,24 @@ public class NPCClickHandler {
 			else if (c.RM >= 4)
 				c.teleport(2911,4833);
 			return;
-			
-		/* Pickpocketing */	
+
+			/* Pickpocketing */	
 		case 1: case 2: case 3: case 4: case 5: case 6: 
 			Thieving.pickpocket(1, 4, 200, 120, c);
 			return;
-			
+
 		case 7:	case 1758://farmer
 			Thieving.pickpocket(15, 7, 1200, 220, c); 
 			return;
-			
+
 		case 9: case 10: case 32: case 678: case 812: case 887: //guards
 			Thieving.pickpocket(35, 10, 1600, 400, c); 
 			return;			
-			
+
 		case 34: //watchman
 			Thieving.pickpocket(60, 18, 2000, 650, c); 
 			return;
-			
+
 		case 646: // Stealing for talisman
 			if (c.getInventoryHandler().freeSlots() > 1){
 				c.sendMessage("You steal a talisman.");
@@ -239,32 +251,32 @@ public class NPCClickHandler {
 			else
 				c.sendMessage("Your inventory is full.");
 			return;
-			
+
 		case 20: //Paladin
 			Thieving.pickpocket(75, 25, 2500, 1500, c); 
 			return;
-			
+
 		case 21: //Hero
 			Thieving.pickpocket(85, 30, 3500, 2000, c); 
 			return;
-		
-		/* End Pickpocketing */
-			
+
+			/* End Pickpocketing */
+
 		case 1055:
 			c.getFrameMethodHandler().select4Options(5,"Rewards", "100 Tickets-"+(c.playerLevel[16]*10000)+" Agility EXP", "250 Tickets-Void Knight Gloves", "500 Tickets-Agility Armor", "Cancel");
 			return;
-			
+
 		default:
 			if(c.DIALOGUEHANDLER.exists(NPCID)){ //dialogue handler
 				c.getClientMethodHandler().startDialogue(NPCID);
 			}
-			
+
 		}
-		
+
 		c.error("Unhandled second click NPC ID : "+NPCID);
 		return;
 	}
-	
+
 	public void skillMaster(int npcID, String name, int cape, int capeTrimmed, int hood, String _skillName, int skillID, String[] dialogue){
 		c.skillMasterDialogue = dialogue;
 		c.skillMasterName = name;
@@ -286,9 +298,9 @@ public class NPCClickHandler {
 		int npcX = 0;
 		int npcY = 0;
 		c.walkingToNPC = 0;
-			NPCID = server.npcHandler.npcs[slotID].npcType;
-			npcX = server.npcHandler.npcs[slotID].absX;
-			npcY = server.npcHandler.npcs[slotID].absY;
+		NPCID = server.npcHandler.npcs[slotID].npcType;
+		npcX = server.npcHandler.npcs[slotID].absX;
+		npcY = server.npcHandler.npcs[slotID].absY;
 		c.faceNPC(slotID);
 		c.debug("Case 155: NPCID is "+NPCID);				
 
@@ -299,13 +311,22 @@ public class NPCClickHandler {
 			c.walkingToNPC_Y = npcY;
 			return;
 		}
-		
+
 		if(c.DIALOGUEHANDLER.exists(NPCID)){ //dialogue handler
 			c.getClientMethodHandler().startDialogue(NPCID);
 			return;
 		}
-		
+
 		switch(NPCID){ //for conditionals
+
+		case 1164:
+			c.getFrameMethodHandler().select2Options(37, "Options", "Use 10% favour to open shop", "Nevermind");
+			return;
+
+		case 1168:
+			c.getFrameMethodHandler().select2Options(36, "Options", "Use 10% favour to open shop", "Nevermind");
+			return;
+
 		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
 			c.getFrameMethodHandler().openUpBankFrame();
 			return;
@@ -317,27 +338,27 @@ public class NPCClickHandler {
 		case 1843:
 			c.getClientMethodHandler().selectOptionTravel2("Travel to the north island?", "Yes", 2872,10165, "no",-1,-1);
 			break;
-			
+
 		case 1846:
 			c.getClientMethodHandler().selectOptionTravel2("Travel to the main city?", "Yes", 2890,10223, "no",-1,-1);
 			break;
-			
+
 		case 2205:
 			c.getClientMethodHandler().selectOptionTravel2("Travel to the city exit?", "Yes", 2839,10128, "no",-1,-1);
 			break;
-		
+
 		case 2198:
 			c.getFrameMethodHandler().openUpShopFrame(13); //Kebab Shop - Keldagrim
 			break;
-		
+
 		case 1065:
 			c.getClientMethodHandler().npcdialogue(NPCID, "Sorry, the castle games-room is closed.");
 			break;
-			
+
 		case 2180:
 			c.getClientMethodHandler().selectOptionTravel2("Travel to Keldagrim?", "Yes", 2906,10169, "no",-1,-1);
 			break;
-			
+
 		case 2181:
 			c.getClientMethodHandler().selectOptionTravel2("Travel to Dwarven Passage (Taverly)?", "Yes", 2876,9871, "no",-1,-1);
 			break;
@@ -353,20 +374,20 @@ public class NPCClickHandler {
 		case 310: case 311: // lure/bait
 			c.getFishingHandler().fishingClick1(NPCID);
 			break;	
-			
-				case 3788:
-					c.getClientMethodHandler().npcdialogue(NPCID, "The objective of c game of life or death","is to try and destroy all the portals","in the given timeframe.","",
-							"If you do c successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
-					break;
-					
-					//put these here so we can attack them still
-				case 253:
-				case 254:
-				case 255:
-				case 256:
-					c.getClientMethodHandler().npcdialogue(NPCID, "Everyone hears 'Khazard' and just immediately","assume we are the bad guys.");
-					break;
-		
+
+		case 3788:
+			c.getClientMethodHandler().npcdialogue(NPCID, "The objective of c game of life or death","is to try and destroy all the portals","in the given timeframe.","",
+					"If you do c successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
+			break;
+
+			//put these here so we can attack them still
+		case 253:
+		case 254:
+		case 255:
+		case 256:
+			c.getClientMethodHandler().npcdialogue(NPCID, "Everyone hears 'Khazard' and just immediately","assume we are the bad guys.");
+			break;
+
 		case 3792: //squire void knight
 			c.getFrameMethodHandler().openUpShopFrame(2); //ranged shop
 			break;
@@ -376,7 +397,7 @@ public class NPCClickHandler {
 		case 3793: //squire void knight
 			c.getFrameMethodHandler().openUpShopFrame(3); //magic
 			break;
-		
+
 		case 726:
 		case 727:
 		case 728:
@@ -384,41 +405,41 @@ public class NPCClickHandler {
 		case 730:
 			c.sendMessage("That one looks rather sick, I better not get too close.");
 			break;
-		
+
 		case 162: //gnome trainer
 			c.getFrameMethodHandler().openUpShopFrame(1);
 			break;
-		
+
 		case 170: //gnome pilot		
 			c.getFrameMethodHandler().setClientConfig(153, 0);
 			c.getFrameMethodHandler().showInterface(802);
 			break;
-			
+
 		case 473:
 			if(c.isInArea(2517,3153,2526,3162)) c.getClientMethodHandler().selectOptionTravel2("Travel outside Maze?","Yes",2501,3192,"No",-1,-1);
 			else c.getClientMethodHandler().selectOptionTravel2("Travel to Tree Gnome Village?","Yes",2518,3158,"No",-1,-1);
 			break;
-			
+
 		case 1705: //ghost captain
 			if(c.isInArea(3705,3495,3711,3498))
 				c.getClientMethodHandler().selectOptionTravel2("Travel to Rellekka?", "Yes", 2620,3681, "No", -1, -1);
 			else c.getClientMethodHandler().selectOptionTravel2("Travel to Port Phasmatys?", "Yes", 3705,3496, "No", -1, -1);
 			break;
-			
+
 		case 3802: //squire
 			if(c.isInArea(2656,2673,2661,2678))
 				c.getClientMethodHandler().selectOptionTravel2("Travel to Port Phasmatys?", "Yes", 3689,3509, "No", -1, -1);
 			else c.getClientMethodHandler().selectOptionTravel2("Travel to Void Knight Outpost?", "Yes", 2658,2673, "No", -1, -1);
 			break;
-			
+
 		case 350: //omart
 			c.getClientMethodHandler().selectOptionTravel2("Travel to West Ardougne?", "Yes", 2555,3268, "No", -1, -1);
 			break;
-			
+
 		case 349: //kilron
 			c.getClientMethodHandler().selectOptionTravel2("Travel to East Ardougne?", "Yes", 2559,3265, "No", -1, -1);
 			break;
-		
+
 		case 1315:
 			if(c.isInArea(2683,3271,2684,3275)){ //ardy docks
 				c.getClientMethodHandler().selectOptionTravel2("Travel to Port Sarim?", "Yes", 3046,3203, "No", -1, -1);
@@ -426,13 +447,13 @@ public class NPCClickHandler {
 			}
 			c.getClientMethodHandler().selectOptionTravel2("Travel to Ardougne?", "Yes", 2683,3271, "No", -1, -1);
 			break;
-		
+
 		case 290:
 			c.getClientMethodHandler().npcdialogue(NPCID, "I can tend your wounds.");
 			c.NewHP = c.getLevelForXP(c.playerXP[3]);
 			c.sendMessage("The doctor restores you to full health.");
 			break;
-		
+
 		case 2436:
 			if(c.isInArea(2629,3691,2632,3696)){ //rellekka docks
 				c.getClientMethodHandler().selectOptionTravel2("Travel to Port Khazard?", "Yes", 2676,3169, "No", -1, -1);
@@ -442,86 +463,86 @@ public class NPCClickHandler {
 			c.bandos = 0;
 			c.getClientMethodHandler().selectOptionTravel2("Travel to God Wars?", "Yes", 2630,3690, "No", -1, -1);
 			break;
-		
+
 		case 715: //Elena
 			c.getClientMethodHandler().selectOptionTravel2("Sorry, under construction", "n/a", -1,-1, "n/a", -1, -1);
 			break;
-		
+
 		case 1207:
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
 				c.getClientMethodHandler().npcdialogue(NPCID, "There's sort of an infestation problem here,", "and that's all I'm allowed to say", "on the matter.");
 			else c.getClientMethodHandler().npcdialogue(NPCID, "You don't look too tough.");
 			break;
-		
+
 		case 1205: //tyras guard
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
 				c.getClientMethodHandler().npcdialogue(NPCID, "Careful now. Lots of strange things", "have been happening lately.");
 			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside c camp is PVP.");
 			break;
-			
+
 		case 1206: //tyras guard
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
 				c.getClientMethodHandler().npcdialogue(NPCID, "People always complain whenever we", "are deployed to a new area.", "They don't realize we are there", "for their safety.");
 			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside c camp is PVP.");
 			break;
-		
+
 		case 758: case 2324:
 			skillMaster(NPCID, "Master Farmer", 14136,14137,14138, "Farming", c.playerFarming, new String[]{"I'll keep watch over your plants."});
 			break;
-		
+
 		case 618:
 			skillMaster(NPCID, "Examiner", 14130,14131,14132, "Firemaking", c.playerFiremaking, new String[]{"I am here with the Tyras research team.","We had reports of a bad","infestation on c island."});
 			break;
-		
+
 		case 536:
 			skillMaster(NPCID, "Valaine", 14133,14134,14135, "Woodcutting", c.playerWoodcutting, new String[]{"If you plan on woodcutting, you'll","need a hatchet. Thankfully,","I sell plenty of those."});
 			break;
-		
+
 		case 2357:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14127,14128,14129, "Cooking", c.playerCooking, new String[]{"Would you like to look at my cooking wares?"});
 			break;
-			
+
 		case 847:
 			skillMaster(NPCID, "Head Chef", 14127,14128,14129, "Cooking", c.playerCooking, new String[]{"Ah! A fellow cook!","Got any tips?"});
 			break;
-		
+
 		case 1778: case 592:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14124,14125,14126, "Fishing", c.playerFishing, new String[]{"In need of any fishing supplies?", "Trade with me for your fishing needs."});
 			break;
-			
+
 		case 561:
 			skillMaster(NPCID, "Shop Keeper", 14124,14125,14126, "Fishing", c.playerFishing, new String[]{"In need of any fishing supplies?", "Trade with me for your fishing needs."});
 			break;
-		
+
 		case 1376: 
 			skillMaster(NPCID, "Derrik", 14121,14122,14123, "Smithing", c.playerSmithing, new String[]{"Smithing is the greatest art", "one can take upon himself."});
 			break;
-		
+
 		case 1860: 
 			skillMaster(NPCID, "Brian", 14118,14119,14120, "Mining", c.playerMining, new String[]{"If you want to mine those", "rocks, you're going to need a pickaxe.", "Luckily, I offer a wide variety of pickaxes", "at my shop. You should take a look."});
 			break;
-		
+
 		case 2356:
 		case 1199:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14110,14109,14111, "Fletching", c.playerFletching, new String[]{"Pay attention to your surroundings,","the road can be rather dangerous at times."});
 			break;
-		
+
 		case 805:
 			skillMaster(NPCID, "Master Crafter", 14106,14107,14108, "Crafting", c.playerCrafting, new String[]{"Welcome to the Crafting Guild."});
 			break;
-			
+
 		case 557:
 			skillMaster(NPCID, "Wydin", 14106,14107,14108, "Crafting", c.playerCrafting, new String[]{"Welcome to my General Store."});
 			break;
-		
+
 		case 1780:
 			skillMaster(NPCID, "Larry", 14103,14104,14105, "Thieving", c.playerThieving, new String[]{"Being a travelling merchant is", "not the easiest of lifestyles."});
 			break;
-		
+
 		case 437:
 			skillMaster(NPCID, "Hamal", 14097,14098,14099, "Agility", c.playerAgility, new String[]{"Activating c portal will teleport you to","the gnome agility course.", "At that course are access to two","agility courses."});
 			break;
-		
+
 		case 646: 
 			if(c.isInArea(2853,3375,2862,3383)){
 				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", c.playerRunecrafting, 
@@ -530,43 +551,43 @@ public class NPCClickHandler {
 			}
 			else{
 				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", c.playerRunecrafting, 
-					new String[]{"You must use a talisman on c altar","to craft runes.",
-					"My studies show that c altar can","craft Air, Mind, Water, Earth,","Fire, Body, Cosmic, and Chaos runes."});
+						new String[]{"You must use a talisman on c altar","to craft runes.",
+						"My studies show that c altar can","craft Air, Mind, Water, Earth,","Fire, Body, Cosmic, and Chaos runes."});
 			}
 			break;
-		
+
 		case 358:
 			skillMaster(NPCID, "Priest", 14085,14086,14087, "Prayer", c.playerPrayer, new String[]{"Saradomin walks with you."});
 			break;
-		
+
 		case 945:
 			skillMaster(NPCID, "Guide", 14094,14095,14096, "Hitpoints", c.playerHitpoints, new String[]{"Your spellbook and quest tab teleports","will allow access to essential locations."});
 			break;
-		
+
 		case 944: //
 			skillMaster(NPCID, "Combat Instructor", 14076,14077,14078, "Strength", c.playerStrength, new String[]{"I help train the new recruits.",});
 			break;
-		
+
 		case 946:
 			skillMaster(NPCID, "Magic Instructor", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Your fisrt two spells, air and ","water strike do no require","runes to cast."});
 			break;
-		
+
 		case 527:
 			skillMaster(NPCID, "Shop Assistant", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Runes and magical equipment","are my specialty."});
 			break;
-		
+
 		case 552:
 			skillMaster(NPCID, "Shop Keeper", 14073,14074,14075, "Attack", c.playerAttack, new String[]{"Please, have a look at my weapons."});
 			break;
-		
+
 		case 553:
 			skillMaster(NPCID, "Aubury", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Runes and magical equipment","are my specialty."});
 			break;
-		
+
 		case 524:
 			skillMaster(NPCID, "Shop Keeper", 14079,14080,14081, "Defence", c.playerDefence, new String[]{"If you're going into combat,","then you'll need some armor."});
 			break;
-		
+
 		case 548: //Thessalia
 			skillMaster(NPCID, "Thessalia", 14100, 14101, 14102, "Herblore", c.playerHerblore, new String[]{"Trade with me for your herbs,", "vials, and ingredients."});
 			break;
@@ -588,7 +609,7 @@ public class NPCClickHandler {
 		case 1055:
 			c.getFrameMethodHandler().select4Options(9,"Options", "Instructions", "Exchange tickets for rewards", "Cancel", "");
 			break;
-			
+
 		case 1840: //quest, dwarf problems i
 			if (c.ancients == 0)
 				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "If I could only figure out...", "where that stupid gauge...", "Huh? Sorry, speak with Stoutbeard", "");	
@@ -717,7 +738,7 @@ public class NPCClickHandler {
 			}
 			c.getClientMethodHandler().selectOptionTravel2("Help out Hammerspike Stoutbeard?", "Sure thing", 2037,4535, "No thank you", -1,-1);
 			break;
-			
+
 		case 943:
 			if(c.starter == 0)
 				c.getClientMethodHandler().npcdialogue("Surivival Expert", NPCID, "Welcome newcomer!", "To get your c.starter kit, head", "Northwest of here and talk to", "Professor Oddenstein.",
@@ -836,7 +857,7 @@ public class NPCClickHandler {
 			}
 			c.getClientMethodHandler().selectOptionTravel2("Travel to Port Sarim?", "Yes", 3041,3202, "No", -1, -1);
 			break;
-			
+
 		case 376: //captain tobias
 			if(c.isInArea(3026,3215,3030,3220)){
 				c.getClientMethodHandler().selectOptionTravel2("Travel to Karamja?", "Yes", 2956, 3146, "No", -1, -1);
@@ -853,7 +874,7 @@ public class NPCClickHandler {
 			if (c.getInventoryHandler().freeSlots() < 24)
 				c.getClientMethodHandler().npcdialogue("Captain Barnaby", 381, "If you wish to travel to Entrana,","then you are only permitted to", "carry up to four items.");
 			else c.getClientMethodHandler().selectOptionTravel2("Travel to Entrana?", "Yes", 2832, 3335, "No", -1, -1);
-			
+
 			break;
 
 		case 599:
@@ -1151,5 +1172,5 @@ public class NPCClickHandler {
 			break;
 		}
 	}
-	
+
 }

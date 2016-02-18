@@ -56,6 +56,7 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(1163,"What brings you out to these parts?");
 			add(1837,"Maybe one day I'll let a human use the cannon...");
 			add(2151,"Welcome to my shop!");
 			add(2161,"Fine clothes sold in the palace!");

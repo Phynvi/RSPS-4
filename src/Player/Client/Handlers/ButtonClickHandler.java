@@ -231,6 +231,17 @@ public class ButtonClickHandler {
 				}				
 				break;
 				
+			case 16: //Tai Bwo Wannai Cleanup, using 5 light spar
+				if(c.getInventoryHandler().hasItemOfAtLeastAmount(6281, 5)){
+					for(int i = 0; i < 5; i++)
+						c.getInventoryHandler().deleteItem(6281);
+					c.sendMessage("You use five light spars to repair the fence and gain some favour.");
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);
+				}
+				else c.sendMessage("You need five light spars to do that.");
+				c.getFrameMethodHandler().RemoveAllWindows();				
+				break;
+				
 				default:
 					c.getFrameMethodHandler().RemoveAllWindows();
 			}
@@ -386,7 +397,18 @@ public class ButtonClickHandler {
 					c.getFrameMethodHandler().RemoveAllWindows();
 					c.sendMessage("You need "+c.fletchinglonglvl+" fletching for that bow.");
 				}
-				break;
+				break;			
+				
+			case 16: //Tai Bwo Wannai Cleanup, using 3 medium spar
+					if(c.getInventoryHandler().hasItemOfAtLeastAmount(6283, 3)){
+						for(int i = 0; i < 3; i++)
+							c.getInventoryHandler().deleteItem(6283);
+						c.sendMessage("You use three medium spars to repair the fence and gain some favour.");
+						c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);			
+					}
+					else c.sendMessage("You need three medium spars to do that.");
+					c.getFrameMethodHandler().RemoveAllWindows();				
+					break;
 				
 				default:
 					c.getFrameMethodHandler().RemoveAllWindows();
@@ -503,6 +525,16 @@ public class ButtonClickHandler {
 				c.fletchingitem = 52;
 				c.fletchingprocessshort = 4;
 				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+				
+			case 16: //Tai Bwo Wannai Cleanup, using 1 dense spar
+				if(c.getInventoryHandler().hasItem(6285)){
+					c.getInventoryHandler().deleteItem(6285);
+					c.sendMessage("You use one dense spar to repair the fence and gain some favour.");
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);	
+				}
+				else c.sendMessage("You need one dense spar to do that.");
+				c.getFrameMethodHandler().RemoveAllWindows();				
 				break;
 				
 				default:
@@ -835,6 +867,7 @@ public class ButtonClickHandler {
 			switch(c.menuChoice){
 			case 30:
 				c.teleport(c.travel2_X1,c.travel2_Y1,c.travelHeight);
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 32:
@@ -847,6 +880,7 @@ public class ButtonClickHandler {
 					c.spinningTimer = 4;
 				}
 				else c.sendMessage("You need flax to spin bowstrings.");
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 31:
@@ -882,17 +916,34 @@ public class ButtonClickHandler {
 					c.startAnimation(712);
 					c.fletchingitem = c.fletchingshort;
 					c.fletchingprocessshort = 4;
-					c.getFrameMethodHandler().RemoveAllWindows();
 					c.stringing = true;
 				}
-				else if (c.playerLevel[9] != c.fletchingshortlvl){
-					c.getFrameMethodHandler().RemoveAllWindows();
+				else if (c.playerLevel[9] != c.fletchingshortlvl)
 					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+				
+			case 36:
+				if(c.favour < 10) c.getClientMethodHandler().npcdialogue(1168, "Gain more favour if you would like to use my shop.");
+				else{
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(-10);
+					c.getFrameMethodHandler().openUpShopFrame(38);
 				}
+				break;
+				
+			case 37:
+				if(c.favour < 10) c.getClientMethodHandler().npcdialogue(1164, "Gain more favour if you would like to use my shop.");
+				else{
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(-10);
+					c.getFrameMethodHandler().openUpShopFrame(34);
+				}
+				break;
+				
+			default:
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 			}
 
-			c.getFrameMethodHandler().RemoveAllWindows();
 
 			break;
 
@@ -901,6 +952,7 @@ public class ButtonClickHandler {
 			switch(c.menuChoice){
 			case 30:
 				c.teleport(c.travel2_X2,c.travel2_Y2,c.travelHeight);
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 31:
@@ -910,11 +962,14 @@ public class ButtonClickHandler {
 			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
 				break;
+				
+				default:
+					c.getFrameMethodHandler().RemoveAllWindows();
+					break;
 
 			}
 
 
-			c.getFrameMethodHandler().RemoveAllWindows();
 
 			break; 
 

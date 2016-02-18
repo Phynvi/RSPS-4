@@ -55,6 +55,16 @@ public class ObjectClick {
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
 		switch(objectID) {
+		case 9020:
+		case 9015:
+		case 9010:
+			c.getMiniGameHandler().getTaiBwoWannaiPickup().cutJungle(objectID, objectX, objectY);
+			break;
+		
+		case 9025:
+			c.getFrameMethodHandler().select4Options(16, "Repair Fence", "Using 5 Light Thatch", "Using 3 Medium Thatch", "Using 1 Dense Thatch", "Nevermind");
+			break;
+		
 		case 8742:
 			if(c.absY >= 3193 && c.absY <= 3196){
 				if(c.absX == 2306)
@@ -64,6 +74,11 @@ public class ObjectClick {
 			}
 			break;
 		
+		case 2231:
+			if(!c.getAgilityHandler().agilityObstacle(2791,objectY, objectX+3,objectY, 1115, 1, 0, false, false, 0, "") && !c.getAgilityHandler().agilityObstacle(2795,objectY, objectX-3,objectY, 1115, 1, 0, false, false, 0, ""))
+				c.sendMessage("I should stand directly in front of the rocks before climbing them.");
+			break;
+			
 		case 2781: case 2785: case 11666: //furnace
 			c.getSmithingHandler().smithingBarMenuPage1();
 			break;
@@ -1913,6 +1928,25 @@ break;*/
 		}
 
 		switch (objectID) {			
+		
+		case 9020:
+		case 9021:
+		case 9022:
+		case 9023:
+		case 9024:
+		case 9015:
+		case 9016:
+		case 9017:
+		case 9018:
+		case 9019:
+		case 9010:
+		case 9011:
+		case 9012:
+		case 9013:
+		case 9014:
+			c.getMiniGameHandler().getTaiBwoWannaiPickup().cutJungle(objectID, objectX, objectY);
+			break;
+			
 		default:
 			c.debug("Unhandled objectID in objectClick4 : "+objectID);
 			break;

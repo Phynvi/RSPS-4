@@ -5,7 +5,7 @@ import java.util.Hashtable;
 public class NPCHandler {
 	public static BST aggressiveNPCS = new BST(871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(199,1101,3068,3069,3070,3071,871,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
-	public static BST ignoreCombatLevel = new BST(199,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
+	public static BST ignoreCombatLevel = new BST(2499,2501,2503,199,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();
 
 	private static int NPCFightType; 
@@ -652,6 +652,10 @@ public class NPCHandler {
 
 	//New drops by AAA mods
 	private void dropItem(int NPCID, int dropID){	
+		if(dropID == 6306){
+			ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, misc.random(1)+1, GetNpcKiller(NPCID), false);
+			return;
+		}
 		if(lists.bones.exists(dropID)){
 			ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, 1, GetNpcKiller(NPCID), false);
 			return;
@@ -706,6 +710,11 @@ public class NPCHandler {
 		giveSlayerEXP(c,npcs[NPCID].npcType);
 
 		switch (npcs[NPCID].npcType){
+		case 2499: case 2501: case 2503: //broodo victims
+			dropItem(NPCID, 6306); //trading sticks
+			dropItem(NPCID, DropList.BONES);
+			break;			
+		
 		case 374: //ogre
 		case 852: //ogre chieften
 		case 2044:
@@ -1690,7 +1699,7 @@ WORLDMAP 2: (not-walk able places)
 					if (c.PMelee)
 						hitDiff = 0;
 					else{
-						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeAtkEquipmentBonus();
+						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeDefEquipmentBonus();
 						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
 					}
 				}
@@ -1753,7 +1762,6 @@ WORLDMAP 2: (not-walk able places)
 				server.playerHandler.players[playerID].updateRequired = true;
 				server.playerHandler.players[playerID].hitUpdateRequired = true;
 				server.playerHandler.players[playerID].appearanceUpdateRequired = true;
-				c.getFrameMethodHandler().closeInterface();
 				npcs[NPCID].animUpdateRequired = true;
 				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 				npcs[NPCID].faceplayer(playerID);
@@ -1963,7 +1971,7 @@ WORLDMAP 2: (not-walk able places)
 		if(myBonus < 2) myBonus = 2; 
 		int myRandom = misc.random(myBonus); //declaring for debugging purposes
 		int eRandom = misc.random(enemyBonus);
-		if(server.debugmode) misc.println("NPC Attack Bonus : "+myBonus+" Enemy Def Bonus : "+enemyBonus);
+		if(server.debugmode) misc.println("NPC Attack Bonus : "+myBonus+", Enemy Def Bonus : "+enemyBonus);
 		return (myRandom > eRandom);
 	}
 

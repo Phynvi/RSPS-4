@@ -302,6 +302,8 @@ public class FileLoading {
 						c.questPoints = Integer.parseInt(token2);
 					else if (token.equals("chatRoomName"))
 						c.defaultChatRoomName = token2;
+					else if (token.equals("favour"))
+						c.favour = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -564,6 +566,9 @@ public class FileLoading {
 			characterfile.newLine();
 			String s15 = "chatRoomName = "; characterfile.write(s15, 0, s15.length());
 			characterfile.write(c.defaultChatRoomName, 0, c.defaultChatRoomName.length());
+			characterfile.newLine();
+			String s16 = "favour = "; characterfile.write(s16, 0, s16.length());
+			characterfile.write(Integer.toString(c.favour), 0, Integer.toString(c.favour).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

@@ -6,8 +6,10 @@ public class GlobalObjectHandler {
 	public LinkedList<Object> bufferList = new LinkedList<Object>();
 	public LinkedList<RockObject> rockList = new LinkedList<RockObject>();
 	public LinkedList<TreeObject> treeList = new LinkedList<TreeObject>();
-	
-	
+
+	public static final int EMPTYTILE = 6951;
+
+
 	public RockObject findRock(int x, int y){
 		for(RockObject r : rockList){
 			if(r.X == x && r.Y == y)
@@ -22,14 +24,14 @@ public class GlobalObjectHandler {
 		}
 		return null;
 	}
-	
-	
+
+
 
 	public GlobalObjectHandler(){
 		/* Initialize permanent static objects here */
-		
+
 		objectList.add(new StaticObject(3560, 3402, 12802, 2,null)); //coffin from quest dwarf problems i
-		
+
 		objectList.add(new StaticObject(2853, 3609, 4421, 1,null));			
 		objectList.add(new StaticObject(2838, 3596, 4421, 1,null));
 
@@ -67,34 +69,39 @@ public class GlobalObjectHandler {
 	}
 
 	public void process(){ //called every 500ms
-		for(Object o : bufferList){
-			GlobalObject g = (GlobalObject) o;
-			g.process();
-			if(g.isVisible){
-				if(g.playerName != null){
-					for(int i = 0; i < server.playerHandler.players.length; i++){
-						if(server.playerHandler.players[i] != null && server.playerHandler.players[i].playerName.equalsIgnoreCase(g.playerName) && server.playerHandler.players[i].distanceToPoint(g.X, g.Y) <= 60){
-							client playerClient = (client) server.playerHandler.players[i];
-							if(playerClient != null)
-								playerClient.getFrameMethodHandler().createNewTileObject(g.X, g.Y, g.originalObjectID, g.direction, 10);
-						}
-					} 
+		try{
+			for(Object o : bufferList){
+				GlobalObject g = (GlobalObject) o;
+				g.process();
+				if(g.isVisible){
+					if(g.playerName != null){
+						for(int i = 0; i < server.playerHandler.players.length; i++){
+							if(server.playerHandler.players[i] != null && server.playerHandler.players[i].playerName.equalsIgnoreCase(g.playerName) && server.playerHandler.players[i].distanceToPoint(g.X, g.Y) <= 60){
+								client playerClient = (client) server.playerHandler.players[i];
+								if(playerClient != null)
+									playerClient.getFrameMethodHandler().createNewTileObject(g.X, g.Y, g.originalObjectID, g.direction, 10);
+							}
+						} 
+					}
+					else{
+						for(int i = 0; i < server.playerHandler.players.length; i++){
+							if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(g.X, g.Y) <= 60){
+								client playerClient = (client) server.playerHandler.players[i];
+								if(playerClient != null)
+									playerClient.getFrameMethodHandler().createNewTileObject(g.X, g.Y, g.originalObjectID, g.direction, 10);
+							}
+						}		
+					}
 				}
-				else{
-					for(int i = 0; i < server.playerHandler.players.length; i++){
-						if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(g.X, g.Y) <= 60){
-							client playerClient = (client) server.playerHandler.players[i];
-							if(playerClient != null)
-								playerClient.getFrameMethodHandler().createNewTileObject(g.X, g.Y, g.originalObjectID, g.direction, 10);
-						}
-					}		
-				}
-			}
-			
-			if(g.deleteObject){
-				g.destruct();
-			}
 
+				if(g.deleteObject){
+					g.destruct();
+				}
+
+			}
+		}
+		catch(Exception e){
+			misc.println("[ERROR] In GlobalObjectHandler : "+e.toString());
 		}
 	}
 
@@ -141,7 +148,7 @@ public class GlobalObjectHandler {
 		replaceObject r = new replaceObject(x,y,originalObjectID,direction,seconds, newObjectID, playerName);
 		bufferList.add(r);
 	}
-	
+
 	public void createStaticObject(int x, int y, int objectID, int direction, String playerName){
 		deleteGlobalObject(x,y,playerName); //delete duplicates
 		this.objectList.add(new StaticObject(x,y,objectID,direction, playerName));

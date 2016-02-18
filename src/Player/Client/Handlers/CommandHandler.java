@@ -26,39 +26,53 @@ public class CommandHandler {
 	public void passCommand(String fullCommand, String[] args){
 
 		c.debug("playerCommand: "+fullCommand);
+		try{
+			switch(args[0].toLowerCase()){
 
-		switch(args[0].toLowerCase()){
-		case "create":
-			String chatRoomName = getEverythingAfterCommand(args);
-			if(chatRoomName.length() >= 10 || chatRoomName.length() <= 3){
-				c.sendMessage("Chat room names must be at least 3 characters long and shorter than 10 characters.");
+			case "tile":
+				c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), Integer.parseInt(args[2]), 10);
+				break;
+
+			case "coords":
+				c.sendMessage("x,y : "+c.absX+", "+c.absY);
+				c.debug("x,y : "+c.absX+", "+c.absY);
+				break;
+
+			case "create":
+				String chatRoomName = getEverythingAfterCommand(args);
+				if(chatRoomName.length() >= 10 || chatRoomName.length() <= 3){
+					c.sendMessage("Chat room names must be at least 3 characters long and shorter than 10 characters.");
+					return;
+				}
+				if(server.globalChatRoomHandler.findChatRoom(chatRoomName) != null) c.sendMessage("A chatroom with the name "+chatRoomName+" already exists.");
+				else{
+					try{
+						Files.write(Paths.get("./data/chatrooms.txt"), ("\n"+chatRoomName+"\n0\n").getBytes(), StandardOpenOption.APPEND);
+						server.globalChatRoomHandler.addChatRoom(chatRoomName, 0);
+						c.sendMessage("The chatroom "+chatRoomName+" has been created successfully.");
+					}
+					catch(Exception e){
+						misc.println("Error while writing to chatroom file, "+e.toString());
+					}
+				}
+				return;
+
+			case "/":
+				c.getChatRoomHandler().sendChatMessage(getEverythingAfterCommand(args));
+				return;
+
+			case "join":
+				String s = getEverythingAfterCommand(args);
+				ChatRoom ch = server.globalChatRoomHandler.findChatRoom(s);
+				if(ch != null){
+					c.getChatRoomHandler().joinChatRoom(ch);
+				}
+				else c.sendMessage("The ChatRoom "+s+" could not be found.");
 				return;
 			}
-			if(server.globalChatRoomHandler.findChatRoom(chatRoomName) != null) c.sendMessage("A chatroom with the name "+chatRoomName+" already exists.");
-			else{
-				try{
-					Files.write(Paths.get("./data/chatrooms.txt"), ("\n"+chatRoomName+"\n0\n").getBytes(), StandardOpenOption.APPEND);
-					server.globalChatRoomHandler.addChatRoom(chatRoomName, 0);
-					c.sendMessage("The chatroom "+chatRoomName+" has been created successfully.");
-				}
-				catch(Exception e){
-					misc.println("Error while writing to chatroom file, "+e.toString());
-				}
-			}
-			return;
-
-		case "/":
-			c.getChatRoomHandler().sendChatMessage(getEverythingAfterCommand(args));
-			return;
-
-		case "join":
-			String s = getEverythingAfterCommand(args);
-			ChatRoom ch = server.globalChatRoomHandler.findChatRoom(s);
-			if(ch != null){
-				c.getChatRoomHandler().joinChatRoom(ch);
-			}
-			else c.sendMessage("The ChatRoom "+s+" could not be found.");
-			return;
+		}
+		catch(Exception e){
+			c.sendMessage("Invalid command.");
 		}
 
 		if(fullCommand.startsWith("npc")){

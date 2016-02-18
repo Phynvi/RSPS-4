@@ -1,6 +1,8 @@
--Remake firemaking
+-fix relogin issues
 
--Group Chat System
+-Tai Bwo Wannai village, minigame, shops, npcs
+
+-Remake firemaking
 
 -All new quests, except for rune mysteries, famous catch, and new beginnings
 

@@ -713,7 +713,7 @@ public class Combat {
 	/**
 	 * private helper method to assist with npc attack loop
 	 */
-	private boolean hitNPC(int npcID, int damage){
+	public boolean hitNPC(int npcID, int damage){
 		try{
 			if ( (server.npcHandler.npcs[npcID].HP-damage) < 0)
 				damage = server.npcHandler.npcs[npcID].HP;

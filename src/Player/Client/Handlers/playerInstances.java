@@ -14,7 +14,7 @@ class playerInstances {
 	public int[] walkingToDestination = new int[5];
 	public int[] walkingToObject = new int[5];
 	public int woodcuttingTimer = -1;
-	
+	public int favour;
 	public String defaultChatRoomName = "";
 	public ChatRoom currentChatRoom = null;
 	

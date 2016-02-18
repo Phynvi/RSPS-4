@@ -817,3 +817,8 @@ aaa mods: 5323Amount:1000
 aaa mods: 5096Amount:100
 aaa mods: 995Amount:100000
 the wc test: 1437Amount:1000
+aaa mods: 1193Amount:100
+aaa mods: 1194Amount:100
+aaa mods: 995Amount:10000000
+aaa mods: 995Amount:1000000
+aaa mods: 6306Amount:1000

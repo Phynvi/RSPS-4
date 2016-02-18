@@ -1168,6 +1168,7 @@ public class NPCAnim {
 
 		//Ogre animations 359-361
 		//zogres and skogres
+		case 113:
 		case 374: //ogre
 		case 852: //ogre chieften
 		case 2044:
@@ -1478,7 +1479,6 @@ public class NPCAnim {
 			return 11629;
 
 		case 116: //cyclops
-		case 113: //Jogre
 		case 110://Fire Giant
 		case 111://Ice Giant
 		case 112://Moss Giant

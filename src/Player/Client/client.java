@@ -12,6 +12,11 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private MiniGameHandler miniGameHandler = new MiniGameHandler(this);
+	public MiniGameHandler getMiniGameHandler(){
+		return this.miniGameHandler;
+	}
+	
 	private CommandHandler commandHandler = new CommandHandler(this);
 	public CommandHandler getCommandHandler(){
 		return this.commandHandler;
@@ -998,9 +1003,8 @@ playerName.trim();*/
 		for(int i = 83; i <= 100; i++)
 			getFrameMethodHandler().frame36(i,0); //disabling all prayer sprites
 
-		if(!newUser) 
-			getFrameMethodHandler().loginscreen();
-		else getFrameMethodHandler().showInterface(3559);
+		if(newUser) 
+			getFrameMethodHandler().showInterface(3559);
 
 		getInventoryHandler().ResetBonus();
 		getInventoryHandler().GetBonus();
@@ -1313,7 +1317,7 @@ playerName.trim();*/
 			if (DClawsDmg > 0){
 				DClawsHit2 = DClawsDmg/2; //2nd hit is first hit divided by 2
 				if (IsAttackingNPC) //if attacking NPC
-					this.getCombatHandler().SpecDamgNPC2(DClawsHit2); //directly dmg
+					this.getCombatHandler().hitNPC(c.attacknpc, DClawsHit2); //directly dmg
 				if (IsAttacking){ //if attacking player
 					int dmg = DClawsHit2;
 					if(PMelee) dmg = (int)(dmg*0.6);
@@ -1372,6 +1376,9 @@ playerName.trim();*/
 	
 
 	public boolean process() { 	// is being called regularily every 500ms	
+		checkSpecialTimers();
+		getMiniGameHandler().miniGameTimers();
+		if(c.playerRights > 0) this.frameMethodHandler.setmusictab();
 		followNPC(followingNPCID);
 		followplayer(followingPlayerID);
 		getInventoryHandler().scanPickup();
@@ -1621,6 +1628,9 @@ playerName.trim();*/
 		if(packetType != 0)
 			updateIdle();
 		//debug("packetType : "+packetType);
+
+		if (noClick)
+			return;
 		
 		switch(packetType) {
 		case 0: break;		// idle packet - keeps on reseting timeOutCounter
@@ -1951,9 +1961,6 @@ playerName.trim();*/
 			//TODO - maybe move all these resets to beginning of packet handling
 			if (IsDead == false) {
 				updateIdle();
-				if (noClick){
-					break;
-				}
 				getFrameMethodHandler().closeInterface();	
 				stopAnimations();
 				if(getFishingHandler().fishingTimer > 0)
@@ -1966,6 +1973,7 @@ playerName.trim();*/
 				smithingTimer = -1;
 				woodcuttingTimer = -1;
 				miningTimer = -1;
+				getMiniGameHandler().getTaiBwoWannaiPickup().taiCounter = -1;
 
 				if(frozenTimer >= 1 && !IsDead) { // uses event manager
 					teleport(absX,absY);
@@ -2004,9 +2012,7 @@ playerName.trim();*/
 				}
 				poimiY = firstStepY;
 				poimiX = firstStepX;
-
-
-
+				
 				//pick up item check
 				if (WannePickUp == true) {
 					PickUpID = 0;

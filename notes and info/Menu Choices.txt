@@ -16,7 +16,7 @@
 13 - pk rewards page 1
 14 - pk rewards page 2
 15 - fletching (craft stuff)
-
+16 - Tai Bwo Wannai Cleanup, repair fence
 
 2 options select menu:
 30 - used for teleport options
@@ -24,4 +24,6 @@
 32 - tutorial island, asking to leave
 33 - spinning flax
 34 - arianwyn buying staff
-35- fletching, two options
+35 - fletching, two options
+36 - Tai Bwo Wannai spear shop
+37 - Tai Bwo Wannai tiadeche shop

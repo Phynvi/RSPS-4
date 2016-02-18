@@ -2482,7 +2482,8 @@ public class FrameMethods {
 	public void setmusictab(){
 		setSidebarInterface(13, 6299);
 		sendQuest("Logged in as: "+c.playerName.toUpperCase(), 6300);
-		sendQuest("", 6301);
+		if(c.playerRights > 0) sendQuest("Coordinates: "+c.absX+", "+c.absY, 6301);
+		else sendQuest("", 6301);
 		String status = "@red@Non-donator";
 		if(c.Donar == 1) status = "@gre@Donator";
 		if(c.playerRights < 1) status += ", @red@Normal Player";
@@ -2490,10 +2491,10 @@ public class FrameMethods {
 		if(c.playerRights >= 1) status += ", @gre@Administrator";
 		sendQuest("Account Information:", 6302);
 		sendQuest(status, 6307);
-		sendQuest("PK Points :"+c.pkpoints, 6303);
+		sendQuest("PK Points : "+c.pkpoints, 6303);
 		sendQuest("", 6304);
-		sendQuest("Pest Control Points :"+c.pestControlPoints, 6305);
-		sendQuest("", 6306);
+		sendQuest("Pest Control Points : "+c.pestControlPoints, 6305);
+		sendQuest("Tai Bwo Wannai Favour : "+c.favour+"%", 6306);
 		
 	}
 
