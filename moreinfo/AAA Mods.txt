@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160118
+character-lastlogintime = 20160124
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -33,7 +33,7 @@ character-dragcharge = 50
 character-beta = 1
 slayerNPC = 1624
 slayerCount = 23
-specialDelay = 5
+specialDelay = 10
 masteries = 21
 pirate = 11
 homeTeleportTimer = 0
@@ -42,10 +42,10 @@ armadyl = 1
 prevarmadyl = 0
 prevbandos = 38
 spellbook = 1
-pestcontrolpoints = 2
+pestcontrolpoints = 0
 questPoints = 7
-chatRoomName = Administrator Chat
-favour = 13
+chatRoomName = Public Chat
+favour = 66
 
 [QUESTS]
 character-questpoints = 0

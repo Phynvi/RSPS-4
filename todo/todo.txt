@@ -1,6 +1,8 @@
 -fix relogin issues
 
--Tai Bwo Wannai village, minigame, shops, npcs
+-Add a skillhandler with its own process
+
+-make players a linked list?
 
 -Remake firemaking
 

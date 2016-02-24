@@ -27,3 +27,5 @@
 35 - fletching, two options
 36 - Tai Bwo Wannai spear shop
 37 - Tai Bwo Wannai tiadeche shop
+38 - Tai Bwo Wannai murcaily choices
+39 - Tai Bwo Wannai rionasta bank

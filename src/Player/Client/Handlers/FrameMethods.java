@@ -2716,6 +2716,11 @@ public class FrameMethods {
 	}
 
 	public void openUpShopFrame(int ShopID) {
+		openUpShopFrame(ShopID, 995); //default is coins
+	}
+	
+	public void openUpShopFrame(int ShopID, int currency) {
+		c.currency = currency;
 		sendFrame126(server.shopHandler.ShopName[ShopID], 3901);
 		sendFrame248(3824, 3822);
 		resetItems(3823);

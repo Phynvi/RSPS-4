@@ -685,50 +685,39 @@ public class ItemUse {
 				c.sendMessage("You need to beat The Famous Catch to cook Sea Turtle!");
 			}
 		}
-		else if (useItemID == 2148 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using Raw Lava Eel
-		{
-			if(c.actionTimer == 0){
+		
+		else if(atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732 || atObjectID == Firemaking.BLUE_FIRE || atObjectID == Firemaking.GREEN_FIRE
+				 || atObjectID == Firemaking.RED_FIRE || atObjectID == Firemaking.NORMAL_FIRE){
+			
+			switch(useItemID){
+			case 2148:
 				Cooking.cookingvoid(c, 450, "Lava Eel", 45, 2149, 317, 1, 2146);
-			}
-		}
-		else if (useItemID == 317 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using shrimp on range
-		{
-			if(c.actionTimer == 0){
+				break;
+			case 317:
 				Cooking.cookingvoid(c, 120, "Shrimp", 0, 315, 317, 1, 323);
-			}
-		}
-		else if (useItemID == 349 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using pike on range
-		{
-			Cooking.cookingvoid(c, 240, "Pike", 15, 351, 349, 3, 343);	
-		}
-		else if (useItemID == 359 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using tuna on range
-		{
-			if(c.actionTimer == 0){
+				break;
+			case 349:
+				Cooking.cookingvoid(c, 240, "Pike", 15, 351, 349, 3, 343);	
+				break;
+			case 359:
 				Cooking.cookingvoid(c, 400, "Tuna", 25, 361, 359, 5, 357);
-			}
-		}
-		else if (useItemID == 377 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using raw Lobster on range
-		{
-			if(c.actionTimer == 0){
+				break;
+			case 377:
 				Cooking.cookingvoid(c, 450, "Lobster", 40, 379, 377, 7, 381);
-			}
-		}
-		else if (useItemID == 371 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using raw Swordfish on range
-		{
-			if(c.actionTimer == 0){
+				break;
+			case 371:
 				Cooking.cookingvoid(c, 565, "Swordfish", 55, 373, 371, 12, 375);
-			}
-		}
-		else if (useItemID == 383 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using raw Shark on range
-		{
-			Cooking.cookingvoid(c, 850, "Shark", 70, 385, 383, 15, 387);
-		}
-		else if (useItemID == 389 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using raw manta ray on range
-		{
-			if(c.actionTimer == 0){
+				break;
+			case 383:
+				Cooking.cookingvoid(c, 850, "Shark", 70, 385, 383, 15, 387);
+				break;
+			case 389:
 				Cooking.cookingvoid(c, 1200, "Manta Ray", 90, 391, 389, 16, 393);
+				break;
 			}
+			
 		}
+
 		else if (useItemID == 526 && atObjectID == 4092)//Broken Fire Altar with Bones
 		{
 			if(c.eastergift == 2){
@@ -1000,10 +989,9 @@ public class ItemUse {
 			return true;
 		}
 		// tj007razor: firemaking uses
-		if (itemUsed == 590 && (useWith == 1511 || useWith == 1521 || useWith == 1519 || useWith == 1517 || useWith == 1515 || useWith == 1513)){
-			Firemaking.addFire(c, useWith);
-			return true;
-		}
+		if (itemUsed == 590)
+			return c.getSkillHandler().getFireMakingHandler().tinderboxUsedWith(useWith);
+		
 		// end firemaking
 		return false;
 	}

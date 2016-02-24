@@ -11,16 +11,16 @@ public class ObjectClick {
 		if(objectDest8.exists(objectID)) return 8;
 		return 1;
 	}
-	
+
 	public static BST doorOpen = new BST(8742,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
-	
+
 	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
 	public static BST objectDest2 = new BST();
-	public static BST objectDest4 = new BST(5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013);
+	public static BST objectDest4 = new BST(5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
 	public static BST objectDest8 = new BST(8742,2491);
 
 	public ObjectClick(client pc){
@@ -60,11 +60,11 @@ public class ObjectClick {
 		case 9010:
 			c.getMiniGameHandler().getTaiBwoWannaiPickup().cutJungle(objectID, objectX, objectY);
 			break;
-		
+
 		case 9025:
 			c.getFrameMethodHandler().select4Options(16, "Repair Fence", "Using 5 Light Thatch", "Using 3 Medium Thatch", "Using 1 Dense Thatch", "Nevermind");
 			break;
-		
+
 		case 8742:
 			if(c.absY >= 3193 && c.absY <= 3196){
 				if(c.absX == 2306)
@@ -73,47 +73,47 @@ public class ObjectClick {
 					c.teleport(2306,c.absY);
 			}
 			break;
-		
+
 		case 2231:
 			if(!c.getAgilityHandler().agilityObstacle(2791,objectY, objectX+3,objectY, 1115, 1, 0, false, false, 0, "") && !c.getAgilityHandler().agilityObstacle(2795,objectY, objectX-3,objectY, 1115, 1, 0, false, false, 0, ""))
 				c.sendMessage("I should stand directly in front of the rocks before climbing them.");
 			break;
-			
+
 		case 2781: case 2785: case 11666: //furnace
 			c.getSmithingHandler().smithingBarMenuPage1();
 			break;
-			
+
 		case 55:
 			c.teleport(2820,9882,0);
 			break;
-			
+
 		case 54:
 			c.teleport(2820,3486,0);
 			break;
-		
+
 		case 57:
 			if(objectX == 2876 && objectY == 3480)
 				c.teleport(2876,9879);
 			break;
-		
+
 		case 56:
 			if(objectX == 2876 && objectY == 9880)
 				c.teleport(2877,3482,0);
 			break;
-		
+
 		case 1754:
 			c.teleport(2893,9907);
 			break;
-		
+
 		case 1757:
 			c.teleport(2893,3507,0);
 			break;
-			
+
 		case 1738:
 			if(objectX == 2895 && objectY == 3513)
-					c.teleport(2897,3513,1);
+				c.teleport(2897,3513,1);
 			break;
-			
+
 		case 2624: case 2625:
 			if(c.isInArea(2902, 3508, 2904, 3513)){ //outside heroes guild door			
 				if(c.combat < 100)
@@ -123,7 +123,7 @@ public class ObjectClick {
 			}
 			else c.teleport(2902,3510);
 			break;
-		
+
 		case 2391: case 2392:
 			if(c.questPoints < 7)
 				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least 7 questt","to get in there. Sorry mate.");
@@ -143,7 +143,7 @@ public class ObjectClick {
 				break;
 			}
 			break;
-			
+
 		case 9324:
 			if( !c.getAgilityHandler().agilityObstacle(2722, 3592, 2722, 3596, 762, 90, 10, false, false, 0, "") )
 				c.sendMessage("I should stand directly in front of the obstacle before using it.");
@@ -599,7 +599,7 @@ public class ObjectClick {
 			objtimer = System.currentTimeMillis()-2000;
 			c.startAnimation(794);
 			c.getFrameMethodHandler().makeGlobalObject(objectX, objectY, objectID+8, 0, 10);
-			ItemHandler.addItem(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), objectX, objectY, 1, c.playerId, false);
+			ItemHandler.addItem(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), objectX, objectY, 1, c.playerId, false, false);
 			break;
 
 			//QUEST_1 OBJECTS
@@ -1262,15 +1262,15 @@ public class ObjectClick {
 		case 5013:
 			c.teleport(2796,3615);
 			break;
-			
+
 		case 5014:
 			c.teleport(2730,3713);
 			break;
-			
+
 		case 5008:
 			c.teleport(2773,10162);
 			break;
-			
+
 		case 5973:
 			c.teleport(2838,10124);
 			break;
@@ -1464,7 +1464,7 @@ break;*/
 			c.teleport(2336,9794,0);
 			break;
 
-
+		case 3863:
 		case 411:
 		case 409:
 			c.sendMessage("You restore all your prayer points.");
@@ -1472,6 +1472,13 @@ break;*/
 			c.playerLevel[5] = c.getLevelForXP(c.playerXP[5]);
 			c.getFrameMethodHandler().sendFrame126(""+c.playerLevel[5]+"", 4012);
 			c.requirePlayerUpdate();
+			break;
+
+		case 9038:
+		case 9039:
+			if(!c.isInArea(2817, 3082, 2818, 3085))
+				c.getClientMethodHandler().npcdialogue(2530, "You can't get in there for free.");
+			else if(server.globalObjectHandler.find(2817, 3084) == null) server.globalObjectHandler.createObjectForSeconds(0, 2817, 3084, 6951, 0, 6951, c.playerName);
 			break;
 
 			//Mining by AAA Mods
@@ -1563,9 +1570,12 @@ break;*/
 		case 1309: //Yew Tree
 
 		case 1306: //Magic Tree
+			
+		case 9034: //Mahogany
+		case 9036: //Teak
 			c.getWoodcuttingHandler().cutTree(objectID, objectX, objectY, 0);	
 			break;
-			
+
 			//WC by aaa mods
 
 		case 5162: //Chest
@@ -1764,7 +1774,7 @@ break;*/
 		case 2407:
 			c.teleport(2887,3350);
 			break;
-			
+
 		case 2025:
 			if(c.playerLevel[c.playerFishing] >= 68) c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
 			else c.sendMessage("You need at least 68 Fishing to do that.");
@@ -1786,7 +1796,7 @@ break;*/
 				c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
 				return;
 			}
-			
+
 			c.error("in class ObjectClick, method objectClick, unhandled object ID "+objectID);
 			break;
 		}
@@ -1811,6 +1821,31 @@ break;*/
 		}
 
 		switch(objectID) {
+
+		case 9039:
+		case 9038:
+			if(c.isInArea(2817, 3082, 2818, 3085)){ //inside the grove
+				if(server.globalObjectHandler.find(2817, 3084) == null && server.globalObjectHandler.find(2817,3083) == null)
+					c.getClientMethodHandler().npcdialogue(2530, "You do not need to pay me again.");
+				else c.getClientMethodHandler().npcdialogue(2530, "The door is already open my friend.");
+			}
+			else{
+				if(c.favour < 50)
+					c.sendMessage("You need more favour to speak with Murcaily.");			
+				else{
+					if(c.getInventoryHandler().hasItemOfAtLeastAmount(Item.TRADING_STICKS, 100)){
+						if(server.globalObjectHandler.find(2817, 3084) == null && server.globalObjectHandler.find(2817,3083) == null){
+							c.getClientMethodHandler().npcdialogue(2530, "Thank you for your payment.");
+							server.globalObjectHandler.createObjectForSeconds(0, 2817, 3084, GlobalObjectHandler.EMPTYTILE, 0, GlobalObjectHandler.EMPTYTILE, c.playerName);
+							c.getInventoryHandler().deleteItem(Item.TRADING_STICKS, c.getInventoryHandler().getItemSlot(Item.TRADING_STICKS), 100);
+						}
+						else c.getClientMethodHandler().npcdialogue(2530, "The door is already open my friend.");
+					}
+					else c.getClientMethodHandler().npcdialogue(2530, "You need at least 100 trading sticks to enter my grove.");
+				}
+			}
+			break;
+
 		case 2781: case 2785: case 11666: //furnace
 			c.getSmithingHandler().smithingBarMenuPage1();
 			break;
@@ -1889,7 +1924,7 @@ break;*/
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
-		
+
 		c.viewTo(objectX, objectY);
 
 		switch (objectID) {			
@@ -1918,7 +1953,7 @@ break;*/
 
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
-		
+
 		c.viewTo(objectX, objectY);
 
 		if(lists.growingList.exists(objectID) || lists.grownList.exists(objectID) || lists.guideList.exists(objectID) || 
@@ -1928,7 +1963,7 @@ break;*/
 		}
 
 		switch (objectID) {			
-		
+
 		case 9020:
 		case 9021:
 		case 9022:
@@ -1946,7 +1981,7 @@ break;*/
 		case 9014:
 			c.getMiniGameHandler().getTaiBwoWannaiPickup().cutJungle(objectID, objectX, objectY);
 			break;
-			
+
 		default:
 			c.debug("Unhandled objectID in objectClick4 : "+objectID);
 			break;

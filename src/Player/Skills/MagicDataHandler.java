@@ -9,7 +9,7 @@ public class MagicDataHandler {
 	
 	public void magicOnItems(int castSpell, int castOnItem, int castOnSlot){
 
-		int alchvaluez = (int)Math.floor(Item.GetItemShopValue(castOnItem, 0.75)); // 75% value
+		int alchvaluez = (int)Math.floor(Item.GetItemShopValue(castOnItem, 0.75,995)); // 75% value
 		
 		if(castSpell == 1162) //Low Alch
 		{

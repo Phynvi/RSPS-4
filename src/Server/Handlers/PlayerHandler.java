@@ -161,7 +161,6 @@ public class PlayerHandler {
 				players[ i ].error("In packet processing, "+e.toString());
 				players[ i ].disconnected = true; //originally was there
 				}
-			Firemaking.process();
 
 			players[i].getNextPlayerMovement();
 

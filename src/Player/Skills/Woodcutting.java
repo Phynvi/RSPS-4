@@ -6,10 +6,10 @@ public class Woodcutting {
 	
 	private class TreeInformation{
 		private int stumpID,levelRequired,exp, logType, deadTime, numberOfLogs;
-		public TreeInformation(int sID, int lR, int ex, int logType, int deadTime, int numberOfLogs){
-			this.stumpID = sID;
-			this.levelRequired = lR;
-			this.exp = ex;
+		public TreeInformation(int stumpID, int levelRequired, int exp, int logType, int deadTime, int numberOfLogs){
+			this.stumpID = stumpID;
+			this.levelRequired = levelRequired;
+			this.exp = exp;
 			this.logType = logType;
 			this.deadTime = deadTime;
 			this.numberOfLogs = numberOfLogs;
@@ -50,6 +50,8 @@ public class Woodcutting {
 		this.treeInformation[4] = new TreeInformation(7402, 60,175, 1515, 40,28); //Yew
 		this.treeInformation[5] = new TreeInformation(7401, 75,250,1513,50,35); //magic
 		this.treeInformation[0] = new TreeInformation(1349, 1, 25, 1511, 10,5); //normal
+		this.treeInformation[6] = new TreeInformation(9035, 50, 125, 6332, 37,27); //mahogany
+		this.treeInformation[7] = new TreeInformation(9037, 35, 85, 6333, 25,23); //teak
 		
 		treeTable.put(10083, treeInformation[1]); //oak
 		treeTable.put(3037, treeInformation[1]);
@@ -67,6 +69,10 @@ public class Woodcutting {
 		treeTable.put(1309, treeInformation[4]); //yew
 		
 		treeTable.put(1306, treeInformation[5]); //magic
+		
+		treeTable.put(9034, treeInformation[6]); //mahogany
+		
+		treeTable.put(9036, treeInformation[7]); //teak
 		
 	}
 	

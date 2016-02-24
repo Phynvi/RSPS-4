@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160116
+character-lastlogintime = 20160124
 character-ancients = 12
 character-starter = 1
 character-easterevent = 2
@@ -45,6 +45,7 @@ spellbook = 0
 pestcontrolpoints = 2
 questPoints = 0
 chatRoomName = Public Chat
+favour = 0
 
 [QUESTS]
 character-questpoints = 0

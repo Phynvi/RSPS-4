@@ -40,7 +40,6 @@ public class NPCClickHandler {
 
 		/* Shops */
 		switch(NPCID){		
-
 		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
 			c.getFrameMethodHandler().openUpBankFrame();
 			return;
@@ -121,8 +120,8 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(19); //crafting
 			return;
 
-		case 2520:
-			c.getFrameMethodHandler().openUpShopFrame(20); //Gabooty Shop
+		case 2520: case 2521:
+			c.getFrameMethodHandler().openUpShopFrame(20, Item.TRADING_STICKS); //Gabooty Shop
 			return;
 
 		case 519: case 2152:
@@ -194,8 +193,7 @@ public class NPCClickHandler {
 			return;
 
 		case 3788:
-			if(c.pestControlPoints < 30) c.getClientMethodHandler().npcdialogue(3788, "You need at least 30 Pest Control Points","to view the shop. You currently","have "+c.pestControlPoints+" points.");
-			else c.getFrameMethodHandler().openUpShopFrame(60); //Void Knight Shop rewards
+			c.getFrameMethodHandler().openUpShopFrame(60, -1); //Void Knight Shop rewards
 			return;
 		}
 
@@ -318,7 +316,22 @@ public class NPCClickHandler {
 		}
 
 		switch(NPCID){ //for conditionals
-
+		case 2520: case 2521:
+			c.getFrameMethodHandler().openUpShopFrame(20, Item.TRADING_STICKS); //Gabooty Shop
+			return;
+			
+		case 1162:
+			c.getFrameMethodHandler().select2Options(40, "Options", "Exchange 50 Favour for 50 Trading Sticks", "Nevermind");
+			return;
+			
+		case 2533:
+			c.getFrameMethodHandler().select2Options(39, "Options", "Use 25% favour to open bank", "Nevermind");
+			return;
+		
+		case 2530:
+			c.getFrameMethodHandler().select2Options(38, "Options", "Pay 100 Trading Sticks to enter grove", "Nevermind");
+			return;
+			
 		case 1164:
 			c.getFrameMethodHandler().select2Options(37, "Options", "Use 10% favour to open shop", "Nevermind");
 			return;

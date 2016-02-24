@@ -43,7 +43,7 @@ public class ButtonClickHandler {
 				c.getChatRoomHandler().joinChatRoom(server.globalChatRoomHandler.findChatRoom(c.defaultChatRoomName));
 			else c.getChatRoomHandler().leaveChatRoom();
 			break;
-			
+
 		case 57065: // help/chat info
 			ch = c.currentChatRoom;
 			if(ch != null) c.getChatRoomHandler().playersInChatMenu();
@@ -230,20 +230,21 @@ public class ButtonClickHandler {
 					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
 				}				
 				break;
-				
+
 			case 16: //Tai Bwo Wannai Cleanup, using 5 light spar
 				if(c.getInventoryHandler().hasItemOfAtLeastAmount(6281, 5)){
 					for(int i = 0; i < 5; i++)
 						c.getInventoryHandler().deleteItem(6281);
 					c.sendMessage("You use five light spars to repair the fence and gain some favour.");
-					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(3+misc.random(3));
+					c.startAnimation(1895);
 				}
 				else c.sendMessage("You need five light spars to do that.");
 				c.getFrameMethodHandler().RemoveAllWindows();				
 				break;
-				
-				default:
-					c.getFrameMethodHandler().RemoveAllWindows();
+
+			default:
+				c.getFrameMethodHandler().RemoveAllWindows();
 			}
 
 			break;
@@ -398,20 +399,21 @@ public class ButtonClickHandler {
 					c.sendMessage("You need "+c.fletchinglonglvl+" fletching for that bow.");
 				}
 				break;			
-				
+
 			case 16: //Tai Bwo Wannai Cleanup, using 3 medium spar
-					if(c.getInventoryHandler().hasItemOfAtLeastAmount(6283, 3)){
-						for(int i = 0; i < 3; i++)
-							c.getInventoryHandler().deleteItem(6283);
-						c.sendMessage("You use three medium spars to repair the fence and gain some favour.");
-						c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);			
-					}
-					else c.sendMessage("You need three medium spars to do that.");
-					c.getFrameMethodHandler().RemoveAllWindows();				
-					break;
-				
-				default:
-					c.getFrameMethodHandler().RemoveAllWindows();
+				if(c.getInventoryHandler().hasItemOfAtLeastAmount(6283, 3)){
+					for(int i = 0; i < 3; i++)
+						c.getInventoryHandler().deleteItem(6283);
+					c.sendMessage("You use three medium spars to repair the fence and gain some favour.");
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(3+misc.random(3));			
+					c.startAnimation(1895);
+				}
+				else c.sendMessage("You need three medium spars to do that.");
+				c.getFrameMethodHandler().RemoveAllWindows();				
+				break;
+
+			default:
+				c.getFrameMethodHandler().RemoveAllWindows();
 			}
 			break;
 
@@ -526,19 +528,20 @@ public class ButtonClickHandler {
 				c.fletchingprocessshort = 4;
 				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
-				
+
 			case 16: //Tai Bwo Wannai Cleanup, using 1 dense spar
 				if(c.getInventoryHandler().hasItem(6285)){
 					c.getInventoryHandler().deleteItem(6285);
 					c.sendMessage("You use one dense spar to repair the fence and gain some favour.");
-					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);	
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(3+misc.random(3));	
+					c.startAnimation(1895);
 				}
 				else c.sendMessage("You need one dense spar to do that.");
 				c.getFrameMethodHandler().RemoveAllWindows();				
 				break;
-				
-				default:
-					c.getFrameMethodHandler().RemoveAllWindows();
+
+			default:
+				c.getFrameMethodHandler().RemoveAllWindows();
 
 			}
 
@@ -572,10 +575,10 @@ public class ButtonClickHandler {
 			case 2:
 				c.getSmithingHandler().smithingBarMenuPage3();
 				break;
-				
-				default:
-					c.getFrameMethodHandler().RemoveAllWindows();
-					break;
+
+			default:
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
 
 			}
 
@@ -861,7 +864,7 @@ public class ButtonClickHandler {
 			}
 			break;
 
-
+			//TODO - Select two options
 		case 9157: //1st choice
 
 			switch(c.menuChoice){
@@ -922,23 +925,69 @@ public class ButtonClickHandler {
 					c.sendMessage("You need "+c.fletchingshortlvl+" fletching for that bow.");
 				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
-				
+
 			case 36:
 				if(c.favour < 10) c.getClientMethodHandler().npcdialogue(1168, "Gain more favour if you would like to use my shop.");
 				else{
 					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(-10);
-					c.getFrameMethodHandler().openUpShopFrame(38);
+					c.getFrameMethodHandler().openUpShopFrame(38, Item.TRADING_STICKS);
 				}
 				break;
-				
+
 			case 37:
 				if(c.favour < 10) c.getClientMethodHandler().npcdialogue(1164, "Gain more favour if you would like to use my shop.");
 				else{
 					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(-10);
-					c.getFrameMethodHandler().openUpShopFrame(34);
+					c.getFrameMethodHandler().openUpShopFrame(34, Item.TRADING_STICKS);
+				}
+				break;
+
+			case 38:
+				if(c.isInArea(2817, 3082, 2818, 3085)){ //inside the grove
+					if(server.globalObjectHandler.find(2817, 3084) == null && server.globalObjectHandler.find(2817,3083) == null)
+						c.getClientMethodHandler().npcdialogue(2530, "You do not need to pay me again.");
+					else c.getClientMethodHandler().npcdialogue(2530, "The door is already open my friend.");
+				}
+				else{
+					if(c.favour < 50)
+						c.getClientMethodHandler().npcdialogue(2530, "Get some more favour before speaking with me.");	
+					else{
+						if(c.getInventoryHandler().hasItemOfAtLeastAmount(Item.TRADING_STICKS, 100)){
+							if(server.globalObjectHandler.find(2817, 3084) == null && server.globalObjectHandler.find(2817,3083) == null){
+								c.getClientMethodHandler().npcdialogue(2530, "Thank you for your payment.");
+								server.globalObjectHandler.createObjectForSeconds(0, 2817, 3084, GlobalObjectHandler.EMPTYTILE, 0, GlobalObjectHandler.EMPTYTILE, c.playerName);
+								c.getInventoryHandler().deleteItem(Item.TRADING_STICKS, c.getInventoryHandler().getItemSlot(Item.TRADING_STICKS), 100);
+							}
+							else c.getClientMethodHandler().npcdialogue(2530, "The door is already open my friend.");
+						}
+						else c.getClientMethodHandler().npcdialogue(2530, "You need at least 100 trading sticks to enter my grove.");
+					}
 				}
 				break;
 				
+			case 39:
+				if(c.favour > 25){
+					c.getFrameMethodHandler().openUpBankFrame();
+					c.sendMessage("Rionasta magically brings forth your bank.");
+					c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(-25);
+					c.getFileLoadingHandler().savemoreinfo();
+				}
+				else c.getClientMethodHandler().npcdialogue(2533, "You should try helping out for more favour.");
+				break;
+				
+			case 40:
+				if(c.favour >= 50){
+					if(c.getInventoryHandler().freeSlots() < 1 || !c.getInventoryHandler().hasItem(Item.TRADING_STICKS))
+						c.getClientMethodHandler().npcdialogue(1162, "You do not have enough room in your inventory.");
+					else{
+						c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(-50);
+						c.getClientMethodHandler().npcdialogue(1162, "Thank you for your help, here is your pay.");
+						c.getInventoryHandler().addItem(Item.TRADING_STICKS,50);
+					}
+				}
+				else c.getClientMethodHandler().npcdialogue(1162, "You need at least 50% Favour.");
+				break;
+
 			default:
 				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
@@ -962,10 +1011,10 @@ public class ButtonClickHandler {
 			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
 				break;
-				
-				default:
-					c.getFrameMethodHandler().RemoveAllWindows();
-					break;
+
+			default:
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
 
 			}
 

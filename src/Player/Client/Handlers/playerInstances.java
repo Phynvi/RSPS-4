@@ -17,6 +17,7 @@ class playerInstances {
 	public int favour;
 	public String defaultChatRoomName = "";
 	public ChatRoom currentChatRoom = null;
+	public int currency = 995;
 	
 	public int smithingTimer = -1;
 	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;

@@ -43,7 +43,6 @@ public class MiniGameHandler {
 	public class TaiBwoWannaiPickup{
 
 		public int taiCounter = -1;
-		private int[] machetes = {975,6313,6315,6317};		
 		private int spar,deadDelay,jungleID,X,Y,exp;
 		
 		public void giveFavour(int amount){
@@ -56,6 +55,10 @@ public class MiniGameHandler {
 			int macheteBonus = getMacheteBonus(c.playerEquipment[c.playerWeapon]);
 			if(macheteBonus == -1){
 				c.sendMessage("You need to be wielding a machete to do that.");
+				return;
+			}
+			if(c.getInventoryHandler().freeSlots() < 1){
+				c.sendMessage("Your inventory is full.");
 				return;
 			}
 			c.repeatAnimation(910, 2);
@@ -109,8 +112,14 @@ public class MiniGameHandler {
 			case 6315: return 4; //Jade
 			case 6313: return 2;//Opal
 			case 975: return 0; //normal
-			default: return -1;
 			}
+
+			if(c.getInventoryHandler().playerHasItem(6317)) return 6; //Red Topaz
+			else if(c.getInventoryHandler().playerHasItem(6315)) return 4; //Jade
+			else if(c.getInventoryHandler().playerHasItem(6313)) return 2; //Opal
+			else if(c.getInventoryHandler().playerHasItem(975)) return 0; //Normal
+			
+			return -1;
 		}
 
 	}

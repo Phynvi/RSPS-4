@@ -25,7 +25,7 @@ public class ClientMethodHandler {
 	public ClientMethodHandler(client pc){
 		this.c = pc;
 	}
-	
+
 	public void populate(LinkedList<Drop> list, Drop ... drops){
 		for(int i = 0; i < drops.length; i++){
 			for(int j = 0; j < drops[i].getPercent(); j++){
@@ -81,7 +81,7 @@ public class ClientMethodHandler {
 		c.isteleportingy = y;
 		c.ithl = h;
 	}
-	
+
 	/**
 	 * Will start an animation for time and then teleport to x,y,h
 	 */
@@ -772,7 +772,11 @@ public class ClientMethodHandler {
 
 
 
-	public boolean sellItem(int itemID, int fromSlot, int amount) {		
+	public boolean sellItem(int itemID, int fromSlot, int amount, int currency) {		
+		if(Item.GetItemShopValue(itemID, 1.0,currency) <= -1 || currency <= -1){
+			c.sendMessage("I cannot sell "+Item.getItemName(itemID)+" here.");
+			return false;
+		}
 		if (amount > 0 && itemID == (c.playerItems[fromSlot] - 1)) {
 			if (server.shopHandler.ShopSModifier[c.MyShopID] > 1) {
 				boolean IsIn = false;
@@ -801,14 +805,14 @@ public class ClientMethodHandler {
 			int TotPrice2;
 			int Overstock;
 			for (int i = amount; i > 0; i--) {
-				TotPrice2 = (int)Math.floor(Item.GetItemShopValue(itemID, 1.0));
+				TotPrice2 = (int)Math.floor(Item.GetItemShopValue(itemID, 1.0,currency));
 				if (c.getInventoryHandler().freeSlots() >= 0) {
 					if (Item.itemIsNote[itemID] == false) {
 						c.getInventoryHandler().deleteItem(itemID, c.getInventoryHandler().getItemSlot(itemID), 1);
 					} else {
 						c.getInventoryHandler().deleteItem(itemID, fromSlot, 1);
 					}
-					c.getInventoryHandler().addItem(995, TotPrice2);
+					c.getInventoryHandler().addItem(currency, TotPrice2);
 					addShopItem(itemID, 1);
 				} else {
 					c.sendMessage("Inventory is full.");
@@ -823,13 +827,24 @@ public class ClientMethodHandler {
 		return true;
 	}
 
-	public boolean buyItem(int itemID, int fromSlot, int amount) {
+	public String getCurrencyName(int currency){
+		switch(currency){
+		case Item.TRADING_STICKS:
+			return "Trading Sticks";
+		case -1:
+			return "Pest Control Points";
+		default:
+			return "coins";
+		}
+	}
+
+	public boolean buyItem(int itemID, int fromSlot, int amount, int currency) {
 		if (amount > 0 && itemID == (server.shopHandler.ShopItems[c.MyShopID][fromSlot] - 1)) {
 			if (amount > server.shopHandler.ShopItemsN[c.MyShopID][fromSlot]) {
 				amount = server.shopHandler.ShopItemsN[c.MyShopID][fromSlot];
 			}
 
-			int itemPrice = (int)Math.floor(Item.GetItemShopValue(itemID, 1.0));
+			int itemPrice = (int)Math.floor(Item.GetItemShopValue(itemID, 1.0,currency));
 			int totalItemsPrice = itemPrice*amount;
 
 			if(c.getInventoryHandler().freeSlots() == 0 && !c.getInventoryHandler().playerHasItem(itemID)){
@@ -837,16 +852,33 @@ public class ClientMethodHandler {
 				return false;
 			}				
 
-			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(995,totalItemsPrice)){
-				c.sendMessage("You do not have enough coins to do that.");
-				return false;
+			switch(currency){
+			case -1: //pest control points
+				if(c.pestControlPoints < totalItemsPrice){
+					c.sendMessage("You do not have enough "+getCurrencyName(currency)+" to do that.");
+					return false;
+				}
+				break;
+			default:
+				if(!c.getInventoryHandler().hasItemOfAtLeastAmount(currency,totalItemsPrice)){
+					c.sendMessage("You do not have enough "+getCurrencyName(currency)+" to do that.");
+					return false;
+				}
+				break;
 			}
 
 			if(server.shopHandler.ShopItemsN[c.MyShopID][fromSlot] < amount)
 				amount = server.shopHandler.ShopItemsN[c.MyShopID][fromSlot];
 
 			if(Item.itemStackable[itemID]){ //add to inventory all at once
-				c.getInventoryHandler().deleteItem(995,c.getInventoryHandler().getItemSlot(995),totalItemsPrice);
+				switch(currency){
+				case -1: //pest control pts
+					c.pestControlPoints -= totalItemsPrice;
+					break;
+				default:
+					c.getInventoryHandler().deleteItem(currency,c.getInventoryHandler().getItemSlot(currency),totalItemsPrice);
+					break;
+				}				
 				c.getInventoryHandler().addItem(itemID, amount);
 				server.shopHandler.ShopItemsN[c.MyShopID][fromSlot] -= amount;
 				server.shopHandler.ShopItemsDelay[c.MyShopID][fromSlot] = 0;
@@ -857,7 +889,14 @@ public class ClientMethodHandler {
 			else{ //buy each individually until inventory filled
 				for(int i = amount; i > 0; i--){
 					if(c.getInventoryHandler().freeSlots() > 0){
-						c.getInventoryHandler().deleteItem(995,c.getInventoryHandler().getItemSlot(995),itemPrice);
+						switch(currency){
+						case -1: //pest control pts
+							c.pestControlPoints -= itemPrice;
+							break;
+						default:
+							c.getInventoryHandler().deleteItem(currency,c.getInventoryHandler().getItemSlot(currency),itemPrice);
+							break;
+						}
 						c.getInventoryHandler().addItem(itemID);
 						server.shopHandler.ShopItemsN[c.MyShopID][fromSlot] -= 1;
 						server.shopHandler.ShopItemsDelay[c.MyShopID][fromSlot] = 0;
@@ -1033,7 +1072,7 @@ public class ClientMethodHandler {
 		}
 
 	}
-	
+
 
 	public void UpdatePlayerShop() {
 		for (int i = 1; i < PlayerHandler.maxPlayers; i++) {

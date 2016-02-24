@@ -79,9 +79,14 @@ public class ItemHandler {
 		return 0;							// Phate: Item doesnt exist
 	}
 
-	public static void addItem(int itemID, int itemX, int itemY, int itemAmount, int itemController, boolean itemStatic) {
-		for (int i = 0; i <= 5000; i++) {		// Phate: Loop through all item spots
-			if(globalItemID[i] == itemID && globalItemX[i] == itemX && globalItemY[i] == itemY){
+	/**
+	 * @param itemController Player ID where the item is from.
+	 * @param itemStatic Item does not disappear, I think?
+	 * @param showItemsToEveryone Will immediately spawn the item for everyone to see for a limited time.
+	 */
+	public static void addItem(int itemID, int itemX, int itemY, int itemAmount, int itemController, boolean itemStatic, boolean showItemsToEveryone) {
+		for (int i = 0; i <= 5000; i++) {		// found a stackable item in that slot already, so increase the amount
+			if(globalItemID[i] == itemID && globalItemX[i] == itemX && globalItemY[i] == itemY && Item.itemStackable[itemID]){
 				removeItemAll(globalItemID[i], globalItemX[i], globalItemY[i]);
 				globalItemController[i] =	itemController;
 				globalItemID[i] =			itemID;
@@ -89,7 +94,8 @@ public class ItemHandler {
 				globalItemY[i] =			itemY;
 				globalItemAmount[i] +=		itemAmount;
 				globalItemStatic[i] =		itemStatic;
-				globalItemTicks[i] =		0;
+				if(showItemsToEveryone || server.debugmode) globalItemTicks[i] =		59;
+				else globalItemTicks[i] =		0;
 				spawnItem(globalItemID[i], globalItemX[i], globalItemY[i], globalItemAmount[i], globalItemController[i]);
 				break;
 			}
@@ -100,7 +106,8 @@ public class ItemHandler {
 				globalItemY[i] =			itemY;
 				globalItemAmount[i] =		itemAmount;
 				globalItemStatic[i] =		itemStatic;
-				globalItemTicks[i] =		0;
+				if(showItemsToEveryone || server.debugmode) globalItemTicks[i] =		59;
+				else globalItemTicks[i] =		0;
 				if (globalItemController[i] != -1 && globalItemController[i] != 0)
 					spawnItem(globalItemID[i], globalItemX[i], globalItemY[i], globalItemAmount[i], globalItemController[i]);
 				break;
@@ -117,7 +124,7 @@ public class ItemHandler {
 	public static void removeItem(int itemID, int itemX, int itemY, int itemAmount) {
 		for (int i = 0; i <= 5000; i++) {	// Phate: Loop through all item spots
 			if(globalItemID[i] == itemID && globalItemX[i] == itemX && globalItemY[i] == itemY && globalItemAmount[i] == itemAmount) {
-				removeItemAll(globalItemID[i], globalItemX[i], globalItemY[i]);
+				removeItemAll(globalItemID[i], globalItemX[i], globalItemY[i]); //idk why this is here? 
 				globalItemController[i] =	0;
 				globalItemID[i] =			0;
 				globalItemX[i] =			0;
@@ -125,6 +132,7 @@ public class ItemHandler {
 				globalItemAmount[i] =		0;
 				globalItemTicks[i] =		0;
 				globalItemStatic[i] =	false;
+				return;
 			}
 		}
 	}

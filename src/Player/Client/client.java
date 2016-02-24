@@ -12,6 +12,11 @@ import java.security.*;
 
 public class client extends Player implements Runnable {
 	
+	private SkillHandler skillHandler = new SkillHandler(this);
+	public SkillHandler getSkillHandler(){
+		return this.skillHandler;
+	}
+	
 	private MiniGameHandler miniGameHandler = new MiniGameHandler(this);
 	public MiniGameHandler getMiniGameHandler(){
 		return this.miniGameHandler;
@@ -325,7 +330,7 @@ public class client extends Player implements Runnable {
 	}
 
 	public void shutdownError(String errorMessage) {
-		destruct("fatal error");
+		destruct(errorMessage);
 	}
 	public void destruct(String reason) {
 		if(mySock == null) return;		// already shutdown
@@ -1376,6 +1381,7 @@ playerName.trim();*/
 	
 
 	public boolean process() { 	// is being called regularily every 500ms	
+		getSkillHandler().process();
 		checkSpecialTimers();
 		getMiniGameHandler().miniGameTimers();
 		if(c.playerRights > 0) this.frameMethodHandler.setmusictab();
@@ -1963,6 +1969,7 @@ playerName.trim();*/
 				updateIdle();
 				getFrameMethodHandler().closeInterface();	
 				stopAnimations();
+				getSkillHandler().setSkillTimer(-1);
 				if(getFishingHandler().fishingTimer > 0)
 					getFishingHandler().resetFishing();
 				cookingon = false;
@@ -2468,33 +2475,37 @@ playerName.trim();*/
 					if (IsIn == false) {
 						sendMessage("You cannot sell "+Item.getItemName(removeID)+" in this store.");
 					} else {
-						int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
+						int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0,currency));
 						String ShopAdd = "";
 						if (ShopValue <= 1)
 						{
-							ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
+							ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0,currency));
 						}
-						if (ShopValue >= 1000 && ShopValue < 1000000) {
+						if(ShopValue == -1 || c.currency <= -1){
+							c.sendMessage("I cannot sell "+Item.getItemName(removeID)+" here.");
+							break;
+						}
+						else if (ShopValue >= 1000 && ShopValue < 1000000) {
 							ShopAdd = " (" + (ShopValue / 1000) + "K)";
 						} else if (ShopValue >= 1000000) {
 							ShopAdd = " (" + (ShopValue / 1000000) + " million)";
 						}
-						sendMessage(Item.getItemName(removeID)+": shop will buy for "+ShopValue+" coins"+ShopAdd);
+						sendMessage(Item.getItemName(removeID)+": shop will buy for "+ShopValue+" "+getClientMethodHandler().getCurrencyName(currency)+" "+ShopAdd);
 					}
 				}
 			} else if (interfaceID == 3900) { //Show value to buy items
-				int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
+				int ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0,currency));
 				String ShopAdd = "";
 				if (ShopValue <= 1)
 				{
-					ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0));
+					ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0,currency));
 				}
 				if (ShopValue >= 1000 && ShopValue < 1000000) {
 					ShopAdd = " (" + (ShopValue / 1000) + "K)";
 				} else if (ShopValue >= 1000000) {
 					ShopAdd = " (" + (ShopValue / 1000000) + " million)";
 				}
-				sendMessage(Item.getItemName(removeID)+": currently costs "+ShopValue+" coins"+ShopAdd);
+				sendMessage(Item.getItemName(removeID)+": currently costs "+ShopValue+" "+getClientMethodHandler().getCurrencyName(currency)+" "+ShopAdd);
 			} 
 			else getSmithingHandler().removeBarAndSmithItem(interfaceID, removeID, removeSlot, 1);
 
@@ -2518,9 +2529,9 @@ playerName.trim();*/
 			} else if (interfaceID == 3415) { //remove from trade window
 				getClientMethodHandler().fromTrade(removeID, removeSlot, 5);
 			} else if (interfaceID == 3823) { //Show value to sell items
-				getClientMethodHandler().sellItem(removeID, removeSlot, 1);
+				getClientMethodHandler().sellItem(removeID, removeSlot, 1, currency);
 			} else if (interfaceID == 3900) { //Show value to buy items
-				getClientMethodHandler().buyItem(removeID, removeSlot, 1);
+				getClientMethodHandler().buyItem(removeID, removeSlot, 1, currency);
 			} 
 			else getSmithingHandler().removeBarAndSmithItem(interfaceID, removeID, removeSlot, 5);
 
@@ -2544,9 +2555,9 @@ playerName.trim();*/
 			} else if (interfaceID == 3415) { //remove from trade window
 				getClientMethodHandler().fromTrade(removeID, removeSlot, 10);
 			} else if (interfaceID == 3823) { //Show value to sell items
-				getClientMethodHandler().sellItem(removeID, removeSlot, 5);
+				getClientMethodHandler().sellItem(removeID, removeSlot, 5, currency);
 			} else if (interfaceID == 3900) { //Show value to buy items
-				getClientMethodHandler().buyItem(removeID, removeSlot, 5);
+				getClientMethodHandler().buyItem(removeID, removeSlot, 5, currency);
 			} 
 			else getSmithingHandler().removeBarAndSmithItem(interfaceID, removeID, removeSlot, 10);
 
@@ -2578,9 +2589,9 @@ playerName.trim();*/
 			} else if (interfaceID == 3415) { //remove from trade window
 				getClientMethodHandler().fromTrade(removeID, removeSlot, playerTItemsN[removeSlot]);
 			} else if (interfaceID == 3823) { //Show value to sell items
-				getClientMethodHandler().sellItem(removeID, removeSlot, 10);
+				getClientMethodHandler().sellItem(removeID, removeSlot, 10, currency);
 			} else if (interfaceID == 3900) { //Show value to buy items
-				getClientMethodHandler().buyItem(removeID, removeSlot, 10);
+				getClientMethodHandler().buyItem(removeID, removeSlot, 10, currency);
 			} 
 
 			break;
@@ -2606,7 +2617,7 @@ playerName.trim();*/
 
 			else if (XinterfaceID == 3900) { //Shop
 				if (EnteredAmount <= 250)
-					getClientMethodHandler().buyItem(XremoveID, XremoveSlot, EnteredAmount);
+					getClientMethodHandler().buyItem(XremoveID, XremoveSlot, EnteredAmount, currency);
 				else
 					sendMessage("You cannot buy more than 250 items at a time.");
 			}

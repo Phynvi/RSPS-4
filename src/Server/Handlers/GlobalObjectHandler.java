@@ -6,6 +6,7 @@ public class GlobalObjectHandler {
 	public LinkedList<Object> bufferList = new LinkedList<Object>();
 	public LinkedList<RockObject> rockList = new LinkedList<RockObject>();
 	public LinkedList<TreeObject> treeList = new LinkedList<TreeObject>();
+	public LinkedList<Object> deleteBuffer = new LinkedList<Object>();
 
 	public static final int EMPTYTILE = 6951;
 
@@ -72,14 +73,20 @@ public class GlobalObjectHandler {
 		try{
 			for(Object o : bufferList){
 				GlobalObject g = (GlobalObject) o;
+				if(g.deleteObject){
+					deleteBuffer.add(g);
+					continue;
+				}
 				g.process();
 				if(g.isVisible){
 					if(g.playerName != null){
 						for(int i = 0; i < server.playerHandler.players.length; i++){
 							if(server.playerHandler.players[i] != null && server.playerHandler.players[i].playerName.equalsIgnoreCase(g.playerName) && server.playerHandler.players[i].distanceToPoint(g.X, g.Y) <= 60){
 								client playerClient = (client) server.playerHandler.players[i];
-								if(playerClient != null)
+								if(playerClient != null){
 									playerClient.getFrameMethodHandler().createNewTileObject(g.X, g.Y, g.originalObjectID, g.direction, 10);
+									//playerClient.debug("Object : "+g.originalObjectID+" for player "+g.playerName+" at coords "+g.X+","+g.Y+" is visible.");
+								}
 							}
 						} 
 					}
@@ -94,14 +101,20 @@ public class GlobalObjectHandler {
 					}
 				}
 
-				if(g.deleteObject){
-					g.destruct();
-				}
-
 			}
 		}
 		catch(Exception e){
-			misc.println("[ERROR] In GlobalObjectHandler : "+e.toString());
+			misc.println("[ERROR] In GlobalObjectHandler, first try statement : "+e.toString());
+		}
+		
+		try{
+			while(!deleteBuffer.isEmpty()){
+				GlobalObject g = (GlobalObject) deleteBuffer.removeFirst();
+				g.destruct();
+			}				
+		}
+		catch(Exception e){
+			misc.println("[ERROR] In GlobalObjectHandler, second try statement : "+e.toString());
 		}
 	}
 
@@ -141,7 +154,8 @@ public class GlobalObjectHandler {
 	}
 
 	/**
-	 * Will create an object for certain amount of seconds, then be replaced by original object
+	 * Will create an object for certain amount of seconds, then be replaced by original object.
+	 * If an object is created for zero seconds, it will exist until deleted.
 	 */
 	public void createObjectForSeconds(int seconds, int x, int y, int originalObjectID, int direction, int newObjectID, String playerName){
 		deleteGlobalObject(x,y,playerName); //delete duplicates
@@ -149,6 +163,9 @@ public class GlobalObjectHandler {
 		bufferList.add(r);
 	}
 
+	/**
+	 * Creates a permanent map object for player, that is called by loading areas
+	 */
 	public void createStaticObject(int x, int y, int objectID, int direction, String playerName){
 		deleteGlobalObject(x,y,playerName); //delete duplicates
 		this.objectList.add(new StaticObject(x,y,objectID,direction, playerName));
@@ -172,8 +189,15 @@ public class GlobalObjectHandler {
 		private int delayCounter = -1;
 		private int tempObjectID = 0;
 
-		public replaceObject(int x, int y, int originalObjectID, int direction, int seconds, int newObjectID, String playerName) {
+		public replaceObject(int x, int y, int originalObjectID, int direction, int seconds, int newObjectID, String playerName) {			
 			super(x, y, newObjectID, direction,playerName);
+			for(int i = 0; i < server.playerHandler.players.length; i++){
+				if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(this.X, this.Y) <= 90){
+					client playerClient = (client) server.playerHandler.players[i];
+					if(playerClient != null)
+						playerClient.getFrameMethodHandler().ReplaceObject(this.X, this.Y, newObjectID, direction);
+				}
+			}
 			this.delayCounter = seconds*2;
 			this.isVisible = true;
 			this.tempObjectID = originalObjectID;

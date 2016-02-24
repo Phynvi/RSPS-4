@@ -1,128 +1,144 @@
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.Hashtable;
 
+public class Firemaking {
 
-public class Firemaking
-{
+	private client c;
 
-	private static ArrayList<FireObjects> fires = new ArrayList<FireObjects>(50); // list of fires
-	
-	// add a fire to the list
-	public static void addFire(client c, int logID)
-	{
-		if (c.playerLevel[11] >= findLvl(logID))
-		{
-			fires.add(new FireObjects(findTime(logID), ((int)(findTime(logID)+(c.getLevelForXP(c.playerXP[11])*.42))), c.absX, c.absY, c.playerId));
-			c.getClientMethodHandler().addSkillXP(findXP(logID), 11);
-			fire(2732, fires.size()-1);
-			c.sendMessage("You light the "+Item.getItemName(logID)+".");
-			c.getInventoryHandler().deleteItem(logID, c.getInventoryHandler().getItemSlot(logID), 1);
-			c.startAnimation(733);
-		}
-		else
-			c.sendMessage("You need level "+findLvl(logID)+"+ firemaking to burn "+Item.getItemName(logID)+".");
+	public Firemaking(client pc){
+		this.c = pc;
 	}
-	
 
-	// processing of the fires
-	public static void process()
-	{
-		for (int i = 0; i < fires.size(); i++)
-		{
-			if (fires.get(i).fireDie())
-			{
-				fire(6951, i);
-				ItemHandler.addItem(592, fires.get(i).getCoords()[0], fires.get(i).getCoords()[1], 1, fires.get(i).getController(), false);
-				fires.remove(i);
-			}
+	private int logtype = -1;
+	private int exp = -1;
+	private int firelife = -1;
+	private int objectID = -1;
+
+	public int getLogType(){ return this.logtype; }
+	public int getEXP(){ return this.exp; }
+	public int getFireLife(){ return this.firelife; }
+	public int getObbjectID(){ return this.objectID; }
+
+	private boolean lightFire(int logType, int level, int exp, int object, int fireLife){
+		if(c.playerLevel[c.playerFiremaking] < level){
+			c.sendMessage("You need at least "+level+" Firemaking to do that.");
+			return false;
 		}
+
+		this.logtype = logType;
+		this.exp = exp;
+		this.firelife = fireLife;
+		this.objectID = object;
+
+		double a = c.playerLevel[c.playerFiremaking] / level;
+		int playerBonus = (int)Math.ceil(a);
+		int d = level/10;
+		int totalTime = (misc.random(d)+d)-playerBonus;
+		if(totalTime < 3) totalTime = 2;
+		c.getSkillHandler().startSkillTimerForSkill(totalTime, c.playerFiremaking);
+		c.repeatAnimation(733, 3);		
+		return true;
 	}
+
+	static final int NORMAL_FIRE = 2732;
+	static final int RED_FIRE = 11404;
+	static final int GREEN_FIRE = 11405;
+	static final int BLUE_FIRE = 11406;
 	
-	// handles actual fire object
-	private static void fire(int fireID, int position)
-	{
-		for (Player p : server.playerHandler.players)
-		{
-			if (p != null)
-			{
-				client person = (client)p;
-				if (person.playerName != null || person.playerName != "null")
-				{
-					if (person.distanceToPoint(fires.get(position).getCoords()[0], fires.get(position).getCoords()[1]) <= 60)
-						person.getFrameMethodHandler().createNewTileObject(fires.get(position).getCoords()[0], fires.get(position).getCoords()[1], fireID, 1, 10);
+	
+	public void walk(){
+		if(server.worldMap.getWalkableGridAtHeight(c.heightLevel)[c.absX-1][c.absY] != -1 && !doesFireExistHere(c.absX-1,c.absY)) //means not walkable
+			c.walkTo(-1, 0);
+		else if(server.worldMap.getWalkableGridAtHeight(c.heightLevel)[c.absX+1][c.absY] != -1 && !doesFireExistHere(c.absX+1,c.absY)) //means not walkable
+			c.walkTo(1, 0);
+		else if(server.worldMap.getWalkableGridAtHeight(c.heightLevel)[c.absX][c.absY-1] != -1 && !doesFireExistHere(c.absX,c.absY-1)) //means not walkable
+			c.walkTo(0, -1);
+		else if(server.worldMap.getWalkableGridAtHeight(c.heightLevel)[c.absX][c.absY+1] != -1 && !doesFireExistHere(c.absX,c.absY+1)) //means not walkable
+			c.walkTo(0, 1);
+	}
+
+	public boolean doesFireExistHere(int x, int y){
+		return (server.globalObjectHandler.find(x, y) instanceof Fire);
+	}
+
+	private static final int FIREMAKING_RATE = 2;
+
+	public void createFire(){
+		c.stopAnimations();
+		if(!c.getInventoryHandler().hasItem(this.logtype)){
+			c.sendMessage("You need logs to do that.");
+			return;
+		}
+		if(doesFireExistHere(c.absX,c.absY)){
+			c.sendMessage("A fire already exists here.");
+			return;
+		}
+		c.getInventoryHandler().deleteItem(this.logtype);
+		this.walk();
+		new Fire(this.firelife, c.absX, c.absY, this.objectID, 1, null);
+		int totExp = this.exp*c.rate*FIREMAKING_RATE;
+		c.getClientMethodHandler().addSkillXP(this.exp, c.playerFiremaking);
+	}
+
+	public boolean tinderboxUsedWith(int itemID){
+
+		switch(itemID){
+		case 1511: //logs, lvl 1, 40 exp
+			return lightFire(itemID, 1, 40, NORMAL_FIRE,5);
+		case 1521: //oak logs, 15, 60
+			return lightFire(itemID, 15, 60, NORMAL_FIRE,10);
+		case 1519: //willow, 30, 90
+			return lightFire(itemID, 30, 90, NORMAL_FIRE,15);
+		case 6333: //teak, 35, 105
+			return lightFire(itemID, 35, 105, NORMAL_FIRE,20);
+		case 1517: //maple, 45, 135
+			return lightFire(itemID, 45, 135, NORMAL_FIRE,25);
+		case 6332: //mahogany, 50, 157.5
+			return lightFire(itemID, 50, 158, NORMAL_FIRE,30);
+		case 1515: //yew, 60, 202.5
+			return lightFire(itemID, 60, 203, NORMAL_FIRE,45);
+		case 1513: //magic, 75, 303.8
+			return lightFire(itemID, 75, 304, BLUE_FIRE,60);
+		}
+
+
+		return true;
+	}
+
+	private static final int ASHES = 592;
+
+	private class Fire extends GlobalObject{
+
+		private int fireTimer = -1;
+
+		public Fire(int seconds, int x, int y, int object, int _direction, String playerName) {
+			super(x, y, object, _direction, playerName);
+			server.globalObjectHandler.deleteGlobalObject(x,y,playerName); //delete duplicates
+			server.globalObjectHandler.bufferList.add(this);
+			fireTimer = seconds*2;
+			this.isVisible = true;
+		}
+
+		@Override
+		public void process() {
+			if(this.fireTimer > 0 && --this.fireTimer == 0){
+				this.deleteObject = true;
+			}			
+		}
+
+		@Override
+		public void destruct() {
+			server.itemHandler.addItem(ASHES, this.X, this.Y, 1, 0, false, true);			
+			for(int i = 0; i < server.playerHandler.players.length; i++){
+				if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(this.X, this.Y) <= 90){
+					client playerClient = (client) server.playerHandler.players[i];
+					if(playerClient != null)
+						playerClient.getFrameMethodHandler().createNewTileObject(this.X, this.Y, server.globalObjectHandler.EMPTYTILE, this.direction, 10);
 				}
 			}
+			server.globalObjectHandler.bufferList.remove(this);			
 		}
+
 	}
-	
-	// find base time for given log
-	private static int findTime(int logID)
-	{
-		switch (logID)
-		{
-			case 1511:
-				return 15;
-			case 1521:
-				return 17;
-			case 1519:
-				return 19;
-			case 1517:
-				return 21;
-			case 1515:
-				return 23;
-			case 1513:
-				return 25;
-			default:
-				return 0;
-		}
-	}
-	
-	// find amount of XP to add for making specific fire
-	private static int findXP(int logID)
-	{
-			int rate = 3;
-		switch (logID)
-		{
-			case 1511:
-				return 80*rate;
-			case 1521:
-				return 150*rate;
-			case 1519:
-				return 250*rate;
-			case 1517:
-				return 550*rate;
-			case 1515:
-				return 750*rate;
-			case 1513:
-				return 1000*rate;
-			default:
-				return 0;
-		}
-	}
-	
-	// find the level req for making specific fire
-	private static int findLvl(int logID)
-	{
-		switch (logID)
-		{
-			case 1511:
-				return 1;
-			case 1521:
-				return 15;
-			case 1519:
-				return 30;
-			case 1517:
-				return 47;
-			case 1515:
-				return 64;
-			case 1513:
-				return 83;
-			default:
-				return 0;
-		}
-	}
-	
-	
+
+
 }
-
-

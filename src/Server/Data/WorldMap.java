@@ -182,7 +182,6 @@ RandomAccessFile in = null;
    private static int[][] walkableGridHeight3 = new int[5000][11000];
    
    /**
-    * 
     * @return if the array returns -1, it is NOT walkable
     */
    public static int[][] getWalkableGridAtHeight(int height){

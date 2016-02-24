@@ -264,7 +264,7 @@ public class InventoryHandler {
 				if (addItem(c.apickupid, itemAmount))
 				{//only removes the item when has enough space!
 					ItemHandler.removeItem(c.apickupid, c.apickupx, c.apickupy, itemAmount);
-					c.getFrameMethodHandler().removeGroundItem(c.apickupx, c.apickupy, c.apickupid);
+					//c.getFrameMethodHandler().removeGroundItem(c.apickupx, c.apickupy, c.apickupid);
 					c.apickupid = -1;
 					c.apickupx = -1;
 					c.apickupy = -1;
@@ -329,8 +329,9 @@ public class InventoryHandler {
 	public int itemAmount(int itemID) {
 		int tempAmount = 0;
 		for (int i = 0; i < c.playerItems.length; i++)
-			if (c.playerItems[i] == itemID+1) 
+			if (c.playerItems[i] == itemID)
 				tempAmount += c.playerItemsN[i];
+		
 		return tempAmount;
 	}
 
@@ -358,7 +359,7 @@ public class InventoryHandler {
 			int itemID = c.playerItems[i]-1;
 			if(itemID > 0){
 				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.PRAY.ProtectItem && itemID == c.keepItem4) )
-					ItemHandler.addItem(c.playerItems[i]-1, c.absX, c.absY, c.playerItemsN[i], playerDropID, false);
+					ItemHandler.addItem(c.playerItems[i]-1, c.absX, c.absY, c.playerItemsN[i], playerDropID, false, true);
 			}
 			c.playerItems[i] = 0;
 			c.playerItemsN[i] = 0;
@@ -367,7 +368,7 @@ public class InventoryHandler {
 			int itemID = c.playerEquipment[i];
 			if(itemID > 0){
 				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.PRAY.ProtectItem && itemID == c.keepItem4) )
-					ItemHandler.addItem(c.playerEquipment[i], c.absX, c.absY, c.playerEquipmentN[i], playerDropID, false);
+					ItemHandler.addItem(c.playerEquipment[i], c.absX, c.absY, c.playerEquipmentN[i], playerDropID, false, true);
 			}
 		}
 		removeAllEquipment();
@@ -1003,7 +1004,7 @@ public class InventoryHandler {
 	public void dropItem(int droppedItem, int slot) {
 		//	misc.printlnTag("droppeditem ["+c.playerItems[slot]+"] which is ["+(droppedItem+1)+"]");
 		if(c.playerItemsN[slot] != 0 && droppedItem != -1 && c.playerItems[slot] == droppedItem+1) {
-			ItemHandler.addItem(c.playerItems[slot]-1, c.absX, c.absY, c.playerItemsN[slot], c.playerId, false);
+			ItemHandler.addItem(c.playerItems[slot]-1, c.absX, c.absY, c.playerItemsN[slot], c.playerId, false, false);
 			//createGroundItem(droppedItem, c.absX, c.absY, c.playerItemsN[slot]);
 			deleteItem(droppedItem, slot, c.playerItemsN[slot]);
 			c.updateRequired = true;
@@ -1198,10 +1199,10 @@ public class InventoryHandler {
 		int[] sortedN = new int[totalItems];
 
 		for(int i = 0; i < c.playerItems.length; i++){
-			int value = (int)Math.floor(Item.GetItemShopValue(c.playerItems[i]-1, 1.0)); //item 1 from player inventory
+			int value = (int)Math.floor(Item.GetItemShopValue(c.playerItems[i]-1, 1.0, 995)); //item 1 from player inventory
 			boolean insert = false;
 			for(int j = 0; j < sorted.length && !insert; j++){ //iterate to find where to insert
-				int value2 = (int)Math.floor(Item.GetItemShopValue(sorted[j], 1.0)); //item at index in sorted array
+				int value2 = (int)Math.floor(Item.GetItemShopValue(sorted[j], 1.0, 995)); //item at index in sorted array
 				if(value >= value2){ //if player inventory item is worth more, then we insert 
 					for(int k = totalItems-1; k > j; k--) //move everything aside one
 						sorted[k] = sorted[k-1];
@@ -1212,10 +1213,10 @@ public class InventoryHandler {
 			}
 		}
 		for(int i = 0; i < c.playerEquipment.length; i++){
-			int value = (int)Math.floor(Item.GetItemShopValue(c.playerEquipment[i]-1, 1.0)); //item 1 from player inventory
+			int value = (int)Math.floor(Item.GetItemShopValue(c.playerEquipment[i]-1, 1.0, 995)); //item 1 from player inventory
 			boolean insert = false;
 			for(int j = 0; j < sorted.length && !insert; j++){ //iterate to find where to insert
-				int value2 = (int)Math.floor(Item.GetItemShopValue(sorted[j], 1.0)); //item at index in sorted array
+				int value2 = (int)Math.floor(Item.GetItemShopValue(sorted[j], 1.0, 995)); //item at index in sorted array
 				if(value >= value2){ //if player inventory item is worth more, then we insert 
 					for(int k = totalItems-1; k > j; k--) //move everything aside one
 						sorted[k] = sorted[k-1];

@@ -30,7 +30,8 @@ public class CommandHandler {
 			switch(args[0].toLowerCase()){
 
 			case "tile":
-				c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), Integer.parseInt(args[2]), 10);
+				if(args.length >= 3) c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), Integer.parseInt(args[2]), 10);
+				else c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), 0, 10);
 				break;
 
 			case "coords":
@@ -440,10 +441,10 @@ public class CommandHandler {
 			for(int i = 0; i < server.itemHandler.ItemListArray.length; i++){
 				if( server.itemHandler.ItemListArray[i] != null && server.itemHandler.ItemListArray[i].itemName.equalsIgnoreCase(itemName) ){
 					foundItem = true;
-					int ShopValue = (int)Math.floor(Item.GetItemShopValue(i, 1.0));
+					int ShopValue = (int)Math.floor(Item.GetItemShopValue(i, 1.0,995));
 					String ShopAdd = "";
 					if (ShopValue <= 1){
-						ShopValue = (int)Math.floor(Item.GetItemShopValue(i, 1.0));
+						ShopValue = (int)Math.floor(Item.GetItemShopValue(i, 1.0,995));
 					}
 					if (ShopValue >= 1000 && ShopValue < 1000000) {
 						ShopAdd = " (" + (ShopValue / 1000) + "K)";

@@ -822,3 +822,10 @@ aaa mods: 1194Amount:100
 aaa mods: 995Amount:10000000
 aaa mods: 995Amount:1000000
 aaa mods: 6306Amount:1000
+aaa mods: 6306Amount:99
+aaa mods: 6306Amount:100000
+aaa mods: 6306Amount:99
+aaa mods: 1522Amount:1000
+aaa mods: 1514Amount:1000
+the wc test: 1519Amount:1000
+the wc test: 1520Amount:1000

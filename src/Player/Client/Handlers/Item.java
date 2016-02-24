@@ -55,6 +55,7 @@ public class Item {
 	static final int RAPID = -200;
 	static final int LONGRANGE = -300;
 	static final int MAGIC = -400;
+	static final int TRADING_STICKS = 6306;
 
 	/**
 	 * Gets the delay for the item passed in
@@ -222,7 +223,7 @@ public class Item {
 		case KARILSCROSSBOW:
 		case 3101:
 			return 3; //rune claws
-			
+
 		case 1434: //dargon mace? 
 			return 2;
 
@@ -271,7 +272,7 @@ public class Item {
 
 		return "!! NOT EXISTING ITEM !!! - ID:"+ItemID;
 	}
-	
+
 	public static int GetUnnotedItem(int ItemID) {
 		String NotedName = "";
 		for (int i = 0; i < ItemHandler.MaxListedItems; i++) {
@@ -292,20 +293,97 @@ public class Item {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * 
 	 * @param buyPercentage Percentage which store buys item for its shop value
 	 * @return
 	 */
-	public static double GetItemShopValue(int ItemID, double buyPercentage) {
+	public static double GetItemShopValue(int ItemID, double buyPercentage, int currency) {
 		if(ItemID <= 0) return -1;
 		double ShopValue = 1;
 		double Overstock = 0;
 		double TotPrice = 0;
 		if(Item.itemIsNote[ItemID]) ItemID -= 1;
-		if (ItemHandler.ItemList.exists(ItemID)){
-			ShopValue = ItemHandler.ItemList.getCurrentItem().ShopValue;
+		switch(currency){
+		
+		case -1: //Pest Control Points
+			switch(ItemID){
+			case 11663: case 11664: case 11665: case 8839: case 8840: case 8841: case 12003: case 10887:
+				ShopValue = 20;
+				break;
+			}
+			break;
+		
+		case TRADING_STICKS:
+			switch(ItemID){
+			case 975: case 976: //machete
+				ShopValue = 100;
+				break;
+			case 6313: case 6314: //opal machete
+				ShopValue = 600;
+				break;
+			case 6315: case 6316: //Jade Machete
+				ShopValue = 1200;
+				break;
+			case 6317: case 6318: //Red Topaz Machete
+				ShopValue = 2400;
+				break;				
+			case 13303:
+				ShopValue = 200000;
+				break;
+			case 3142: case 3143: //uncooked karambwan
+				ShopValue = 150;
+				break;
+			case 3144: case 3145: //cooked karambwan
+				ShopValue = 300;
+				break;
+			case 1237: case 1238: //Bronze spear
+			case 1239: case 1240: //Iron Spear
+			case 1241: case 1242: //Steel Spear
+				ShopValue = 100;
+				break;
+			case 1243: case 1244: //Mithril Spear
+				ShopValue = 250;
+			break;
+			case 1245: case 1246: //Adamant Spear
+				ShopValue = 1000;
+				break;
+			case 1247: case 1248: //Rune Spear
+				ShopValue = 3000;
+				break;
+			case 1249: case 1250: //Dragon Spear
+				ShopValue = 20000;
+				break;
+			case 6332: //Mahogany
+				ShopValue = 50;
+				break;
+			case 6333: case 6334: //Teak
+				ShopValue = 35;
+				break;
+				
+			default:
+				for(int i = 6335; i <= 6380; i++){
+					if(i == ItemID)
+						ShopValue = 200;
+				}
+				for(int i = 1617; i <= 1632; i++){
+					if(i == ItemID)
+						ShopValue = 200;
+				}
+				if(ShopValue == 1)
+					return -1;
+				break;
+			}
+			break;
+		
+		case 995:
+		default:
+			if (ItemHandler.ItemList.exists(ItemID)){
+				ShopValue = ItemHandler.ItemList.getCurrentItem().ShopValue;
+			}
+			break;
+		
 		}
 
 		/*Overstock = server.shopHandler.ShopItemsN[MyShopID][fromSlot] - server.shopHandler.ShopItemsSN[MyShopID][fromSlot];*/
@@ -529,10 +607,18 @@ public class Item {
 		{
 			return 402;
 		}
-		else
-		{
-			return 1067;
+		
+		if (c.FightType == 1){
+			return 395;
 		}
+		else if (c.FightType == 2 || c.FightType == 4){
+			return 390;
+		}
+		else if (c.FightType == 3){
+			return 412;
+		}
+		
+		return 395;
 	}
 
 
@@ -866,9 +952,9 @@ public class Item {
 	public static boolean isBow(int itemID){
 		return lists.bows.exists(itemID);
 	}
-	
+
 	private static BST untradeableItems = new BST();
-	
+
 	public static boolean isUntradable(int item) {
 		return untradeableItems.exists(item);
 	}
@@ -884,7 +970,7 @@ public class Item {
 		}
 		return -1;
 	}
-	
+
 	public static void createItemOnGround(int newItemID, int x, int y, int height, int playerID) {
 		int Maxi = server.itemHandler.DropItemCount;
 		for (int i = 0; i <= Maxi; i++) {
@@ -945,7 +1031,7 @@ public class Item {
 		//Default
 		return playerWeapon;
 	}
-	
+
 
 	/*Equipment level checking*/
 	public static int GetCLAttack(int ItemID) {
@@ -1137,7 +1223,7 @@ public class Item {
 
 		return 1;
 	}
-	
+
 	public static int GetCLPrayer(int ItemID){
 		switch(ItemID){
 		case 3627: case 3629: case 3637: //Arcane, Spectral, and Elysian spirit shields
