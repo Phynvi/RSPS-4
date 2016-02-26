@@ -9,7 +9,7 @@ public class ButtonClickHandler {
 	public void clickButton(int actionButtonId){
 
 
-		c.debug("Case 185: "+actionButtonId);
+		c.debug("Case 185: "+actionButtonId+", menuChoice : "+c.menuChoice);
 		if(lists.prayerList.exists(actionButtonId)){
 			c.PRAY.checkPrayer(actionButtonId);
 			return;
@@ -222,7 +222,7 @@ public class ButtonClickHandler {
 				if (c.playerLevel[9] >= c.fletchingshortlvl){
 					c.startAnimation(1248);
 					c.fletchingitem = c.fletchingshort;
-					c.fletchingprocessshort = 4;
+					c.getSkillHandler().startSkillTimerForSkill(4, 3);
 					c.getFrameMethodHandler().RemoveAllWindows();
 				}
 				else if (c.playerLevel[9] != c.fletchingshortlvl){
@@ -391,7 +391,7 @@ public class ButtonClickHandler {
 					c.startAnimation(1248);
 					c.fletchingexp += c.fletchingexp/5;
 					c.fletchingitem = c.fletchinglong;
-					c.fletchingprocessshort = 4;
+					c.getSkillHandler().startSkillTimerForSkill(4, 3);
 					c.getFrameMethodHandler().RemoveAllWindows();
 				}
 				else if (c.playerLevel[9] != c.fletchinglonglvl){
@@ -525,7 +525,7 @@ public class ButtonClickHandler {
 				c.startAnimation(1248);
 				c.fletchingexp = 30;
 				c.fletchingitem = 52;
-				c.fletchingprocessshort = 4;
+				c.getSkillHandler().startSkillTimerForSkill(4, 3);
 				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
@@ -553,28 +553,28 @@ public class ButtonClickHandler {
 				c.teleport(c.oX4, c.oY4);
 				break;
 
+			case 1:
+				c.getSmithingHandler().smithingBarMenuPage2();
+				return;
+
+			case 2:
+				c.getSmithingHandler().smithingBarMenuPage3();
+				return;
+
 			case 7:
 				if(c.slayerMaster == 1208)
 					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
 				if(c.slayerMaster == 1596)
 					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"Take care as you travel South,","naught but foulness infests those lands."});
-				break;
+				return;
 
 			case 8:
 				c.getFrameMethodHandler().select4Options(12,"Options", "1 Server Token - Arcane Spirit Shield", "1 Server Token - Elysian Spirit Shield", "1 Server Token - Spectral Spirit Shield", "Cancel");
-				break;
+				return;
 
 			case 13:
 				c.getFrameMethodHandler().select4Options(14,"You have "+c.pkpoints+" pts", "Defence-"+c.playerLevel[1]*c.soulbonus+" exp-10pts", "Range-"+c.playerLevel[4]*c.soulbonus+" exp-10pts", "Pray-"+c.playerLevel[5]*c.soulbonus+" exp-10pts", "Cancel.");
-				break;
-
-			case 1:
-				c.getSmithingHandler().smithingBarMenuPage2();
-				break;
-
-			case 2:
-				c.getSmithingHandler().smithingBarMenuPage3();
-				break;
+				return;
 
 			default:
 				c.getFrameMethodHandler().RemoveAllWindows();
@@ -880,7 +880,7 @@ public class ButtonClickHandler {
 			case 33:
 				if(c.getInventoryHandler().playerHasItem(1779)){
 					c.repeatAnimation(894, 3);
-					c.spinningTimer = 4;
+					c.getSkillHandler().startSkillTimerForSkill(4, 2);
 				}
 				else c.sendMessage("You need flax to spin bowstrings.");
 				c.getFrameMethodHandler().RemoveAllWindows();
@@ -914,11 +914,11 @@ public class ButtonClickHandler {
 				break;
 
 			case 35:
-				c.fletchingprocessshort = 0;
+				c.getSkillHandler().resetTimers();
 				if (c.playerLevel[9] >= c.fletchingshortlvl){
 					c.startAnimation(712);
 					c.fletchingitem = c.fletchingshort;
-					c.fletchingprocessshort = 4;
+					c.getSkillHandler().startSkillTimerForSkill(4, 3);
 					c.stringing = true;
 				}
 				else if (c.playerLevel[9] != c.fletchingshortlvl)
@@ -1166,7 +1166,7 @@ public class ButtonClickHandler {
 		case 50235: //Ancients teleport Mudskipper point
 			if(c.MAGICDATAHANDLER.checkMagicRunes(50235)){
 				c.MAGICDATAHANDLER.removeMagicRunes(50235);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2996,3117, 0);
+				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2694,3484, 0);
 				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
 			}
 			break;

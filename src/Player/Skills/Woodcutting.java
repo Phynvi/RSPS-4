@@ -26,14 +26,10 @@ public class Woodcutting {
 	public int[] getWoodcuttingObjectCoordinates(){
 		return new int[]{this.woodcuttingTreeX,this.woodcuttingTreeY};
 	}
-	
-	public void resetWoodcuttingProcessByWalking(){
-		c.woodcuttingTimer = -1;
-	}
-	
+		
 	public void resetWoodcuttingProcess(){
 		c.stopAnimations();
-		c.woodcuttingTimer = -1;
+		c.getSkillHandler().resetTimers();
 		this.woodcuttingTreeX = 0;
 		this.woodcuttingTreeY = 0;
 		this.woodcuttingTreeID = -1;
@@ -93,7 +89,7 @@ public class Woodcutting {
 			return;
 		}
 		this.woodcuttingTreeID = objectID;
-		c.woodcuttingTimer = this.getLogDelay(objectID); //time in seconds between each log
+		c.getSkillHandler().startSkillTimerForSkill(this.getLogDelay(objectID), 6);
 		c.repeatAnimation(this.getAxeEmote(), 5);
 		this.woodcuttingTreeX = x;
 		this.woodcuttingTreeY = y;
@@ -136,7 +132,7 @@ public class Woodcutting {
 		}
 		
 		c.getInventoryHandler().addItem(this.tree.getLogType());
-		c.woodcuttingTimer = this.getLogDelay(this.woodcuttingTreeID);
+		c.getSkillHandler().startSkillTimerForSkill(this.getLogDelay(this.woodcuttingTreeID), 6);
 		c.getClientMethodHandler().addSkillXP(this.getEXP(), c.playerWoodcutting);
 		this.tree.removeLog();
 		

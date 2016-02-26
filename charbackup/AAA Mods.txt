@@ -4,8 +4,8 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2663
-character-posy = 2655
+character-posx = 2320
+character-posy = 3171
 character-rights = 2
 character-ismember = 1
 character-messages = 0
@@ -49,9 +49,9 @@ character-skill = 5	99	16486488
 character-skill = 6	99	19988140
 character-skill = 7	99	16184120
 character-skill = 8	99	16396805
-character-skill = 9	99	14749475
+character-skill = 9	99	14867735
 character-skill = 10	99	17079674
-character-skill = 11	99	14093165
+character-skill = 11	99	14102589
 character-skill = 12	99	14585523
 character-skill = 13	99	14281102
 character-skill = 14	99	15904270
@@ -67,16 +67,15 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	591	1
-character-item = 3	1522	1
-character-item = 4	1522	1
-character-item = 5	1522	1
-character-item = 6	1522	1
-character-item = 7	1522	1
-character-item = 8	1522	1
-character-item = 9	1522	1
-character-item = 10	1522	1
-character-item = 11	1522	1
+character-item = 0	947	1
+character-item = 1	862	1
+character-item = 2	862	1
+character-item = 3	862	1
+character-item = 4	71	1
+character-item = 5	71	1
+character-item = 6	71	1
+character-item = 7	71	1
+character-item = 8	53	45
 
 [BANK]
 character-bank = 0	392	56
@@ -101,7 +100,10 @@ character-bank = 18	2350	5
 character-bank = 19	2352	2
 character-bank = 20	2364	1
 character-bank = 21	8842	10
-character-bank = 22	1522	990
+character-bank = 22	1522	987
+character-bank = 23	1514	936
+character-bank = 24	1778	977
+character-bank = 25	862	3
 
 [FRIENDS]
 character-friend = 0	487891978

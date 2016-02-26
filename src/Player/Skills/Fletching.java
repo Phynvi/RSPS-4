@@ -17,57 +17,33 @@ public class Fletching {
 		c.fletchingexp = xp;
 		c.stringing = stringon;
 	}
-
-	public static void fletchingTimers(client playerClient){
-
-		if(playerClient.spinningTimer > 0){
-			playerClient.spinningTimer -= 1;
-			if(playerClient.spinningTimer == 0){
-				if(playerClient.getInventoryHandler().playerHasItem(1779)){
-					playerClient.spinningTimer = 4;
-					playerClient.getInventoryHandler().deleteItem(1779, playerClient.getInventoryHandler().getItemSlot(1779), 1);
-					playerClient.getInventoryHandler().addItem(1777, 1);
-					playerClient.getClientMethodHandler().addSkillXP(25*playerClient.rate, playerClient.playerCrafting);
-				}
-				else{
-					playerClient.spinningTimer = -1;
-					playerClient.stopAnimations();
-				}
-			}
+	
+	public void fletchItem(){
+		if( 
+				((c.getInventoryHandler().playerHasItemAmount(c.fletchingremove, 1)==false || 
+				c.getInventoryHandler().playerHasItemAmount(1777, 1)==false) && c.stringing == true) ||
+				((c.getInventoryHandler().playerHasItemAmount(c.fletchingremove, 1)==false || 
+				c.getInventoryHandler().playerHasItemAmount(946, 1)==false) && c.stringing == false) 
+				){
+			c.getSkillHandler().resetTimers();
+			c.stopAnimations();
+			return;
 		}
-		if (playerClient.fletchingprocessshort > 1){
-			if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.getInventoryHandler().playerHasItemAmount(946, 1)==true) && playerClient.stringing == false){
-				playerClient.fletchingprocessshort -= 1;
-			}
-			else if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==true && playerClient.getInventoryHandler().playerHasItemAmount(1777, 1)==true) && playerClient.stringing == true){
-				playerClient.stringing = true;
-				playerClient.fletchingprocessshort -= 1;
-			}
-			else if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==false || playerClient.getInventoryHandler().playerHasItemAmount(946, 1)==false) && playerClient.stringing == false){
-				playerClient.fletchingprocessshort = 0;
-			}
-			else if ((playerClient.getInventoryHandler().playerHasItemAmount(playerClient.fletchingremove, 1)==false || playerClient.getInventoryHandler().playerHasItemAmount(1777, 1)==false) && playerClient.stringing == true){
-				playerClient.stringing = false;
-				playerClient.fletchingprocessshort = 0;
-			}
+		c.getClientMethodHandler().addSkillXP(c.fletchingexp*c.rate, 9);
+		if (c.stringing == false){
+			c.startAnimation(1248);
 		}
-
-		if (playerClient.fletchingprocessshort == 1){
-			playerClient.getClientMethodHandler().addSkillXP(playerClient.fletchingexp*playerClient.rate, 9);
-			if (playerClient.stringing == false){
-				playerClient.startAnimation(1248);
-			}
-			else if (playerClient.stringing == true){
-				playerClient.startAnimation(712);
-				playerClient.getInventoryHandler().deleteItem(1777, playerClient.getInventoryHandler().getItemSlot(1777), 1);
-			}
-			playerClient.getInventoryHandler().deleteItem(playerClient.fletchingremove, playerClient.getInventoryHandler().getItemSlot(playerClient.fletchingremove), 1);
-			if(playerClient.fletchingitem != 52)
-				playerClient.getInventoryHandler().addItem(playerClient.fletchingitem, 1);
-			else playerClient.getInventoryHandler().addItem(playerClient.fletchingitem, 15); //arrowshafts
-			playerClient.fletchingprocessshort = 5;
+		else if (c.stringing == true){
+			c.startAnimation(712);
+			c.getInventoryHandler().deleteItem(1777, c.getInventoryHandler().getItemSlot(1777), 1);
 		}
+		c.getInventoryHandler().deleteItem(c.fletchingremove, c.getInventoryHandler().getItemSlot(c.fletchingremove), 1);
+		if(c.fletchingitem != 52)
+			c.getInventoryHandler().addItem(c.fletchingitem, 1);
+		else c.getInventoryHandler().addItem(c.fletchingitem, 15); //arrowshafts
+		c.getSkillHandler().setSkillTimer(4);
 	}
+	
 
 	private boolean fletchingCheckLevel(int _level){
 		if(c.getClientMethodHandler().checkLevel(c.playerFletching, _level))

@@ -1,12 +1,25 @@
 
 public class Crafting {
-	private client playerClient;
+	private client c;
 	
-	public Crafting(client c){
-		playerClient = c;
+	public Crafting(client pc){
+		c = pc;
 	}
 	
-
+	public void spinFlax(){
+		if(c.getInventoryHandler().playerHasItem(1779)){
+			c.getInventoryHandler().deleteItem(1779, c.getInventoryHandler().getItemSlot(1779), 1);
+			c.getInventoryHandler().addItem(1777, 1);
+			c.getClientMethodHandler().addSkillXP(25*c.rate, c.playerCrafting);
+			c.getSkillHandler().setSkillTimer(4);
+		}
+		else{
+			c.getSkillHandler().resetTimers();
+			c.stopAnimations();
+		}
+	}
+	
+	
 	/**
 	 * Item 1 is used with Item 2
 	 */
@@ -90,28 +103,28 @@ public class Crafting {
 	}
 	
 	public boolean craftingvoid(int level, int delete, int delete2, int add) {
-		if(playerClient.playerLevel[12] >= level) {
-			playerClient.startAnimation(885);
-			playerClient.getInventoryHandler().deleteItem(delete, playerClient.getInventoryHandler().getItemSlot(delete), 1);
-			playerClient.getInventoryHandler().deleteItem(delete2, playerClient.getInventoryHandler().getItemSlot(delete2), 1);
-			playerClient.getInventoryHandler().addItem(add, 1);
-			playerClient.getClientMethodHandler().addSkillXP(playerClient.playerLevel[12]*6*playerClient.rate, 12);
+		if(c.playerLevel[12] >= level) {
+			c.startAnimation(885);
+			c.getInventoryHandler().deleteItem(delete, c.getInventoryHandler().getItemSlot(delete), 1);
+			c.getInventoryHandler().deleteItem(delete2, c.getInventoryHandler().getItemSlot(delete2), 1);
+			c.getInventoryHandler().addItem(add, 1);
+			c.getClientMethodHandler().addSkillXP(c.playerLevel[12]*6*c.rate, 12);
 			return true;
 		} 
-		playerClient.sendMessage("You need a crafting level of "+level+" to do that.");
+		c.sendMessage("You need a crafting level of "+level+" to do that.");
 		return false;
 	}			
 
 	
 	public boolean craftingvoid(int level, int delete, int add) {
-		if(playerClient.playerLevel[12] >= level) {
-			playerClient.startAnimation(885);
-			playerClient.getInventoryHandler().deleteItem(delete, playerClient.getInventoryHandler().getItemSlot(delete), 1);
-			playerClient.getInventoryHandler().addItem(add, 1);
-			playerClient.getClientMethodHandler().addSkillXP(playerClient.playerLevel[12]*6*playerClient.rate, 12);
+		if(c.playerLevel[12] >= level) {
+			c.startAnimation(885);
+			c.getInventoryHandler().deleteItem(delete, c.getInventoryHandler().getItemSlot(delete), 1);
+			c.getInventoryHandler().addItem(add, 1);
+			c.getClientMethodHandler().addSkillXP(c.playerLevel[12]*6*c.rate, 12);
 			return true;
 		} 
-		playerClient.sendMessage("You need a crafting level of "+level+" to do that.");
+		c.sendMessage("You need a crafting level of "+level+" to do that.");
 		return false;
 	}			
 

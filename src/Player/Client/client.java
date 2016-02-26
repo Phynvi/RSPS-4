@@ -42,11 +42,6 @@ public class client extends Player implements Runnable {
 		return this.woodcuttingHandler;
 	}
 	
-	private Fishing fishingHandler = new Fishing(this);
-	public Fishing getFishingHandler(){
-		return this.fishingHandler;
-	}
-
 	private FoodHandler foodHandler = new FoodHandler(this);
 	public FoodHandler getFoodHandler(){
 		return this.foodHandler;
@@ -157,12 +152,10 @@ public class client extends Player implements Runnable {
 		this.Events = new EventManager();
 		DIALOGUEHANDLER = new npcDialogueBST();
 		this.MISCSTRUCTS = new FoodHandler(this);
-		this.FLETCHING = new Fletching(this);
 		this.MAGICDATAHANDLER = new MagicDataHandler(this);
 		this.BOWHANDLER = new RangeDataHandler(this);
 		this.SLAYER = new Slayer(this);
 		this.PRAY = new Prayer(this);
-		this.CRAFT = new Crafting(this);
 		this.menuHandler = new MenuHandler(this);
 		this.RUNECRAFTING = new Runecrafting(this);
 		this.AGILITY = new Agility(this);
@@ -1391,10 +1384,8 @@ playerName.trim();*/
 		getFrameMethodHandler().createAreaDisplayType();
 		getFrameMethodHandler().AddDroppedItemsToGroundAndSendFrames();
 		tradeCheckTimers();
-		Fletching.fletchingTimers(this);
 		getAgilityHandler().agilityTimers();
-		getFishingHandler().fishingLoopProcess();
-		Prayer.prayTimers(this);
+		Prayer.prayTimers(this); //TODO
 
 		if (isRunning && getRunningEnergy() <= 0) {
 			isRunning = false;
@@ -1413,18 +1404,6 @@ playerName.trim();*/
 		if (cookingon) Cooking.cookingProcess(this);
 
 		if(actionTimer > 0) actionTimer -= 1; 
-
-		if(woodcuttingTimer > 0){
-			if(--woodcuttingTimer == 0){
-				this.getWoodcuttingHandler().deliverLog();
-			}
-		}
-
-		if(miningTimer > 0){
-			if(--miningTimer == 0){
-				this.getMiningHandler().deliverOre();
-			}
-		}
 		
 		PoisonDelay -= 1;
 
@@ -1966,30 +1945,7 @@ playerName.trim();*/
 		case 98:	// walk on command
 			//TODO - maybe move all these resets to beginning of packet handling
 			if (IsDead == false) {
-				updateIdle();
-				getFrameMethodHandler().closeInterface();	
-				stopAnimations();
-				getSkillHandler().setSkillTimer(-1);
-				if(getFishingHandler().fishingTimer > 0)
-					getFishingHandler().resetFishing();
-				cookingon = false;
-				stringing = false;
-				fletchingprocessshort = 0;
-				followingPlayerID = -1;
-				followingNPCID = -1;
-				smithingTimer = -1;
-				woodcuttingTimer = -1;
-				miningTimer = -1;
-				getMiniGameHandler().getTaiBwoWannaiPickup().taiCounter = -1;
-
-				if(frozenTimer >= 1 && !IsDead) { // uses event manager
-					teleport(absX,absY);
-					sendMessage("A magical force stops you from moving.");
-					break;
-				}
-
-				if(faceNPC > 0) 
-					getCombatHandler().ResetAttackNPC();
+				
 				newWalkCmdSteps = packetSize - 5;
 				if(newWalkCmdSteps % 2 != 0)
 					debug("Warning: walkTo("+packetType+") command malformed: "+misc.Hex(inStream.buffer, 0, packetSize));
@@ -2019,6 +1975,23 @@ playerName.trim();*/
 				}
 				poimiY = firstStepY;
 				poimiX = firstStepX;
+				
+				updateIdle();
+				getFrameMethodHandler().closeInterface();	
+				stopAnimations();
+				getSkillHandler().resetTimers();
+				cookingon = false;
+				followingPlayerID = -1;
+				followingNPCID = -1;
+
+				if(frozenTimer >= 1 && !IsDead) { // uses event manager
+					teleport(absX,absY);
+					sendMessage("A magical force stops you from moving.");
+					break;
+				}
+
+				if(faceNPC > 0) 
+					getCombatHandler().ResetAttackNPC();
 				
 				//pick up item check
 				if (WannePickUp == true) {

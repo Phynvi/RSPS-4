@@ -34,7 +34,7 @@ public class Firemaking {
 		int d = level/10;
 		int totalTime = (misc.random(d)+d)-playerBonus;
 		if(totalTime < 3) totalTime = 2;
-		c.getSkillHandler().startSkillTimerForSkill(totalTime, c.playerFiremaking);
+		c.getSkillHandler().startSkillTimerForSkill(totalTime, 1);
 		c.repeatAnimation(733, 3);		
 		return true;
 	}
@@ -63,6 +63,7 @@ public class Firemaking {
 	private static final int FIREMAKING_RATE = 2;
 
 	public void createFire(){
+		c.getSkillHandler().resetTimers();
 		c.stopAnimations();
 		if(!c.getInventoryHandler().hasItem(this.logtype)){
 			c.sendMessage("You need logs to do that.");
@@ -76,7 +77,7 @@ public class Firemaking {
 		this.walk();
 		new Fire(this.firelife, c.absX, c.absY, this.objectID, 1, null);
 		int totExp = this.exp*c.rate*FIREMAKING_RATE;
-		c.getClientMethodHandler().addSkillXP(this.exp, c.playerFiremaking);
+		c.getClientMethodHandler().addSkillXP(totExp, c.playerFiremaking);
 	}
 
 	public boolean tinderboxUsedWith(int itemID){

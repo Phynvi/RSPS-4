@@ -20,7 +20,6 @@ public class Fishing{
 	private int[] deliverFish = null;
 	private int deliverFishEXP = -1;
 	private int removeID = -1;
-	public int fishingTimer = -1;
 	private int requiredLevel = -1;
 	private int npcID = -1;
 	private int requiredTool = -1;
@@ -71,18 +70,19 @@ public class Fishing{
 	public void resetFishing(){
 		deliverFish = null;
 		removeID = -1;
-		fishingTimer = -1;
 		deliverFishEXP = -1;
 		requiredLevel = -1;
 		npcID = -1;
 		requiredTool = -1;
 		fishingAnimation = -1;
+		c.getSkillHandler().resetTimers();
 		c.stopAnimations();
 	}
 
 	private void setFishingTimer(){
 		double bonus = requiredLevel/c.playerLevel[c.playerFishing];
-		fishingTimer = 4+misc.random( (int)(4*bonus) );
+		int fTime = 4+misc.random( (int)(4*bonus) );
+		c.getSkillHandler().startSkillTimerForSkill(fTime, 4);
 	}
 
 	public void deliverFishAndResetTimers(){
@@ -117,12 +117,6 @@ public class Fishing{
 	private final int FISHING_BAIT = 313;
 	private final int FEATHER = 314;
 
-	public void fishingLoopProcess(){
-		if(fishingTimer > 0)
-			fishingTimer -= 1;
-		if(fishingTimer == 0)
-			deliverFishAndResetTimers();
-	}
 
 	private static int RAW_SHRIMPS = 317;
 	private static int RAW_ANCHOVIES = 321;

@@ -5,37 +5,31 @@ public class SkillHandler {
 	private int skillType = -1;
 	private client c;
 	
-	final private int playerAttack = 0;
-	final private int playerDefence = 1;
-	final private int playerStrength = 2;
-	final private int playerHitpoints = 3;
-	final private int playerRanged = 4;
-	final private int playerPrayer = 5;
-	final private int playerMagic = 6;
-	final private int playerCooking = 7;
-	final private int playerWoodcutting = 8;
-	final private int playerFletching = 9;
-	final private int playerFishing = 10;
-	final private int playerFiremaking = 11;
-	final private int playerCrafting = 12;
-	final private int playerSmithing = 13;
-	final private int playerMining = 14;
-	final private int playerHerblore = 15;
-	final private int playerAgility = 16;
-	final private int playerThieving = 17;
-	final private int playerSlayer = 18;
-	final private int playerFarming = 19;
-	final private int playerRunecrafting = 20;
+	private Fishing fishingHandler;
+	public Fishing getFishingHandler(){
+		return this.fishingHandler;
+	}
 	
-
+	private Fletching fletchingHandler;
+	public Fletching getFletchingHandler(){
+		return this.fletchingHandler;
+	}
+	
 	private Firemaking firemakingHandler;
 	public Firemaking getFireMakingHandler(){
 		return this.firemakingHandler;
 	}
 	
+	private Crafting craftingHandler;
+	public Crafting getCraftingHandler(){
+		return this.craftingHandler;
+	}
+	
 	public SkillHandler(client pc){
 		this.c = pc;
 		this.firemakingHandler = new Firemaking(pc);
+		this.craftingHandler = new Crafting(pc);
+		this.fletchingHandler = new Fletching(pc);
 	}
 	
 	public void resetTimers(){
@@ -59,9 +53,29 @@ public class SkillHandler {
 	public void process(){
 		if(this.skillTimer > 0 && --this.skillTimer == 0){
 			switch(this.skillType){
-			case playerFiremaking:
-				this.skillTimer = -1;
+			case 1: //firemaking
 				getFireMakingHandler().createFire();
+				return;
+			case 2: //spinning flax
+				getCraftingHandler().spinFlax();
+				return;
+			case 3: //fletching
+				getFletchingHandler().fletchItem();
+				return;
+			case 4: //fishing
+				getFishingHandler().deliverFishAndResetTimers();
+				return;
+			case 5: //smelting
+				c.getSmithingHandler().removeOreAndSmeltBar();
+				return;
+			case 6: //Woodcutting
+				c.getWoodcuttingHandler().deliverLog();
+				return;		
+			case 7: //Mining
+				c.getMiningHandler().deliverOre();
+				return;
+			case 8: //Tai Bwo Wannai cut down jungle
+				c.getMiniGameHandler().getTaiBwoWannaiPickup().cutDownJungle();
 				return;
 			}
 		}

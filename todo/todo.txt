@@ -1,4 +1,8 @@
+-redo cooking
+
 -fix relogin issues
+
+-Redo dropped items handler
 
 -Add a skillhandler with its own process
 

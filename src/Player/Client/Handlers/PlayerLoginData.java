@@ -341,8 +341,8 @@ public class PlayerLoginData {
 		c.getFrameMethodHandler().sendQuest("A single target smoke attack", 12942);
 		c.getFrameMethodHandler().sendQuest("Level 52 : Shadow Rush", 12989);
 		c.getFrameMethodHandler().sendQuest("A single target shadow attack", 12990);
-		c.getFrameMethodHandler().sendQuest("Mudskipper Point", 13037);
-		c.getFrameMethodHandler().sendQuest("Teleport to Mudskipper Point", 13038);
+		c.getFrameMethodHandler().sendQuest("Seers' Village", 13037);
+		c.getFrameMethodHandler().sendQuest("Teleport to Seers' Village", 13038);
 		c.getFrameMethodHandler().sendQuest("Level 56 : Blood Rush", 12903);
 		c.getFrameMethodHandler().sendQuest("A single target blood attack", 12904);
 		c.getFrameMethodHandler().sendQuest("Level 58 : Ice Rush", 12863);

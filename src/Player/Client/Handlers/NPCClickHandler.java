@@ -205,7 +205,7 @@ public class NPCClickHandler {
 		case 2067: case 2068: case 316: case 319: case 320: case 323: case 325: case 326: case 327: case 330: case 1331:  case 332: // net/bait
 		case 3019: case 314: case 315: case 317: case 318: case 328: case 329: case 331: case 927: case 1189: case 1190: case 309:
 		case 310: case 311: // lure/bait
-			c.getFishingHandler().fishingClick2(NPCID);
+			c.getSkillHandler().getFishingHandler().fishingClick2(NPCID);
 			break;	
 
 		case 462:
@@ -385,7 +385,7 @@ public class NPCClickHandler {
 		case 2067: case 2068: case 316: case 319: case 320: case 323: case 325: case 326: case 327: case 330: case 1331: case 332: // net/bait
 		case 3019: case 314: case 315: case 317: case 318: case 328: case 329: case 331: case 927: case 1189: case 1190: case 309:
 		case 310: case 311: // lure/bait
-			c.getFishingHandler().fishingClick1(NPCID);
+			c.getSkillHandler().getFishingHandler().fishingClick1(NPCID);
 			break;	
 
 		case 3788:

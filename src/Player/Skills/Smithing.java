@@ -187,7 +187,7 @@ public class Smithing {
 			return;
 		
 		currentBarType = barType;
-		c.smithingTimer = SMITHING_ANIMATION_DELAY;
+		c.getSkillHandler().startSkillTimerForSkill(SMITHING_ANIMATION_DELAY, 5);
 		c.repeatAnimation(899, 3);
 		
 	}
@@ -197,7 +197,7 @@ public class Smithing {
 	public boolean removeOreAndSmeltBar(){
 		for(int i = 0; i < currentOreRequirements.length-1; i += 2){
 			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(currentOreRequirements[i+1], currentOreRequirements[i])){
-				c.smithingTimer = -1;
+				c.getSkillHandler().resetTimers();
 				c.stopAnimations();
 				return false;
 			}
@@ -245,8 +245,7 @@ public class Smithing {
 			break;
 		}
 		c.getClientMethodHandler().addSkillXP(EXP*SMITHINGRATE, c.playerSmithing);
-		c.smithingTimer = SMITHING_ANIMATION_DELAY;
-		
+		c.getSkillHandler().startSkillTimerForSkill(SMITHING_ANIMATION_DELAY, 5);
 		return true;
 	}
 	
@@ -255,7 +254,7 @@ public class Smithing {
 		c.sendMessage("You make a "+Item.getItemName(barID));
 	}
 	
-	private static final int SMITHING_ANIMATION_DELAY = 2;
+	private static final int SMITHING_ANIMATION_DELAY = 3;
 	
 	public boolean removeBarAndSmithItem(int interfaceID, int removeID, int removeSlot, int maxAmountOfTimes){
 		//Smith Column 1,2,3,4

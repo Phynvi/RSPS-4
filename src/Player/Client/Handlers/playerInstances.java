@@ -13,18 +13,16 @@ class playerInstances {
 	public int[] walkingToObjectY = new int[5];
 	public int[] walkingToDestination = new int[5];
 	public int[] walkingToObject = new int[5];
-	public int woodcuttingTimer = -1;
 	public int favour;
 	public String defaultChatRoomName = "";
 	public ChatRoom currentChatRoom = null;
 	public int currency = 995;
 	
-	public int smithingTimer = -1;
 	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;
-	public int spinningTimer = 0;
+
 	public static npcDialogueBST DIALOGUEHANDLER;
 	public String bankRearrange = "swap"; //default
 	public FoodHandler MISCSTRUCTS;
@@ -36,7 +34,6 @@ class playerInstances {
 	protected int masteries = 0;
 	protected int homeTeleportTimer = 0;
 	public DropList DROPHANDLER = new DropList();
-	public Fletching FLETCHING;
 
 	public MagicDataHandler MAGICDATAHANDLER;
 	public int deadAnimTimer = -1;
@@ -60,9 +57,7 @@ class playerInstances {
 	public Fishing FISHING;
 	public Agility AGILITY;
 	public Runecrafting RUNECRAFTING;
-	public Crafting CRAFT;
 	public boolean cycleItems = false;
-	public int miningTimer = -1;
 	//public ArrayList<RespawnObject> cutTrees = new ArrayList<RespawnObject>();
 	public int currentItem = 0;
 
@@ -111,7 +106,6 @@ public int idleTimer = 0;
 	public int fletchingshortlvl = 0;
 	public int fletchinglong = 0;
 	public int fletchinglonglvl = 0;
-	public int fletchingprocessshort = 0;
 	public int fletchingitem = 0;
 	public int fletchingexp = 0;
 	public boolean stringing = false;

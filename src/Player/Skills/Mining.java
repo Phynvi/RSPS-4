@@ -169,7 +169,7 @@ public class Mining {
 			return;
 		}
 		this.miningObjectID = objectID;
-		c.miningTimer = getRockDelay(objectID);		
+		c.getSkillHandler().startSkillTimerForSkill(getRockDelay(objectID), 7);
 		c.repeatAnimation(this.getPickAxeEmote(playerPickaxe), 4);
 		this.miningObjectX = x;
 		this.miningObjectY = y;
@@ -207,7 +207,7 @@ public class Mining {
 
 	public void stopMiningProcess(){
 		c.stopAnimations();
-		c.miningTimer = -1;
+		c.getSkillHandler().resetTimers();
 		this.rock = null;
 		this.miningObjectID = -1;
 		this.miningObjectX = -1;
@@ -223,7 +223,7 @@ public class Mining {
 		}
 		
 		c.getInventoryHandler().addItem(this.rock.getOreType());
-		c.miningTimer = this.getRockDelay(this.miningObjectID);
+		c.getSkillHandler().startSkillTimerForSkill(this.getRockDelay(this.miningObjectID), 7);
 		c.getClientMethodHandler().addSkillXP(this.getEXP(), c.playerMining);
 		this.rock.removeOre();
 

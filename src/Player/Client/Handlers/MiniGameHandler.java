@@ -12,43 +12,49 @@ public class MiniGameHandler {
 	public TaiBwoWannaiPickup getTaiBwoWannaiPickup(){
 		return this.taiBwoWannaiPickup;
 	}
+	
+	public void addPestControlPoints(int amount){
+		c.pestControlPoints = c.pestControlPoints+amount;
+		if(c.pestControlPoints < 0) c.pestControlPoints = 0;
+		c.getFrameMethodHandler().setmusictab();		
+	}
 
-	public void miniGameTimers(){
-		if(this.taiBwoWannaiPickup.taiCounter > 0){
-			if(--this.taiBwoWannaiPickup.taiCounter == 0){
-				c.stopAnimations();
-				int futureJungle = this.taiBwoWannaiPickup.jungleID+1;
-				int oldJungle = this.taiBwoWannaiPickup.jungleID;
-				int totalTime = this.taiBwoWannaiPickup.deadDelay;
-				if(futureJungle == 9024){
-					oldJungle = 9020;
-					totalTime = this.taiBwoWannaiPickup.deadDelay+60;
-				}
-				if(futureJungle == 9019){
-					oldJungle = 9015;
-					totalTime = this.taiBwoWannaiPickup.deadDelay+50;
-				}
-				if(futureJungle == 9014){
-					oldJungle = 9010;
-					totalTime = this.taiBwoWannaiPickup.deadDelay+40;
-				}
-				if(c.getInventoryHandler().addItem(this.taiBwoWannaiPickup.spar)) c.sendMessage("You hack down some of the jungle and get some thatch.");
-				server.globalObjectHandler.createObjectForSeconds(totalTime, this.taiBwoWannaiPickup.X, this.taiBwoWannaiPickup.Y, 
-						oldJungle, 0, futureJungle, null);
-			}
-		}
+	
+	public void miniGameTimers(){ //called every 500 ms
+
 	}
 
 
 	public class TaiBwoWannaiPickup{
-
-		public int taiCounter = -1;
+		
 		private int spar,deadDelay,jungleID,X,Y,exp;
 		
 		public void giveFavour(int amount){
 			if (c.favour+amount > 100) c.favour = 100;
 			else c.favour += amount;
 			c.getFrameMethodHandler().setmusictab();
+		}
+		
+		public void cutDownJungle(){
+			c.stopAnimations();
+			int futureJungle = this.jungleID+1;
+			int oldJungle = this.jungleID;
+			int totalTime = this.deadDelay;
+			if(futureJungle == 9024){
+				oldJungle = 9020;
+				totalTime = this.deadDelay+60;
+			}
+			if(futureJungle == 9019){
+				oldJungle = 9015;
+				totalTime = this.deadDelay+50;
+			}
+			if(futureJungle == 9014){
+				oldJungle = 9010;
+				totalTime = this.deadDelay+40;
+			}
+			if(c.getInventoryHandler().addItem(this.spar)) c.sendMessage("You hack down some of the jungle and get some thatch.");
+			server.globalObjectHandler.createObjectForSeconds(totalTime, this.X, this.Y, 
+					oldJungle, 0, futureJungle, null);
 		}
 
 		public void cutJungle(int objectID, int X, int Y){
@@ -73,7 +79,7 @@ public class MiniGameHandler {
 			case 9023:
 			case 9024:
 				if(c.playerLevel[c.playerWoodcutting] >= 35){
-					this.taiCounter = 20-macheteBonus;
+					c.getSkillHandler().startSkillTimerForSkill(20-macheteBonus, 8);
 					this.deadDelay = 15;
 					this.spar = 6285;
 					return;
@@ -85,7 +91,7 @@ public class MiniGameHandler {
 			case 9018:
 			case 9019:
 				if(c.playerLevel[c.playerWoodcutting] >= 20){
-					this.taiCounter = 16-macheteBonus;
+					c.getSkillHandler().startSkillTimerForSkill(16-macheteBonus, 8);
 					this.deadDelay = 10;
 					this.spar = 6283;
 					return;
@@ -97,7 +103,7 @@ public class MiniGameHandler {
 			case 9013:
 			case 9014:
 				if(c.playerLevel[c.playerWoodcutting] >= 15){
-					this.taiCounter = 12-macheteBonus;
+					c.getSkillHandler().startSkillTimerForSkill(12-macheteBonus, 8);
 					this.deadDelay = 5;
 					this.spar = 6281;
 					return;

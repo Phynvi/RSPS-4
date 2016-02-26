@@ -56,11 +56,6 @@ public class EventManager{
 
 			case 1: //Called every second	
 				// Walking to object check	
-				if(c.smithingTimer > 0){
-					if(--c.smithingTimer == 0)
-						c.getSmithingHandler().removeOreAndSmeltBar();
-				}
-
 				if (c.SpecEmoteTimer > 0)
 					c.SpecEmoteTimer -= 1;
 				if (c.frozenTimer > 0)
