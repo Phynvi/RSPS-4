@@ -155,7 +155,6 @@ public class client extends Player implements Runnable {
 		this.MAGICDATAHANDLER = new MagicDataHandler(this);
 		this.BOWHANDLER = new RangeDataHandler(this);
 		this.SLAYER = new Slayer(this);
-		this.PRAY = new Prayer(this);
 		this.menuHandler = new MenuHandler(this);
 		this.RUNECRAFTING = new Runecrafting(this);
 		this.AGILITY = new Agility(this);
@@ -616,7 +615,6 @@ playerName.trim();*/
 			//loadsave(); - quoted out because although it fucking owns 
 			if(readSave() != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
 				getFileLoadingHandler().loadmoreinfo();
-				menuHandler.questMenus();
 				getFileLoadingHandler().appendConnected();
 				loggedinpm();
 				NewHP = playerLevel[3];
@@ -893,11 +891,6 @@ playerName.trim();*/
 	}
 
 
-	private PlayerLoginData PLD = new PlayerLoginData(this);
-	public PlayerLoginData getPlayerLoginData(){
-		return this.PLD;
-	}
-
 	// upon connection of a new client all the info has to be sent to client prior to starting the regular communication
 	public void initialize()
 	{
@@ -1061,10 +1054,10 @@ playerName.trim();*/
 
 		if(spellbook == 0) getFrameMethodHandler().setSidebarInterface(6, 1151); //old magics
 		else getFrameMethodHandler().setSidebarInterface(6, 12855); //ancient magics
-
-		PLD.loadquestinterface();
-		PLD.sendQuests();
-		PLD.loadChatRoom();
+		
+		getFrameMethodHandler().loadQuestTab();
+		getFrameMethodHandler().sendQuests();
+		getFrameMethodHandler().loadChatRoom();
 		
 	}
 
@@ -1385,7 +1378,6 @@ playerName.trim();*/
 		getFrameMethodHandler().AddDroppedItemsToGroundAndSendFrames();
 		tradeCheckTimers();
 		getAgilityHandler().agilityTimers();
-		Prayer.prayTimers(this); //TODO
 
 		if (isRunning && getRunningEnergy() <= 0) {
 			isRunning = false;
@@ -1397,20 +1389,17 @@ playerName.trim();*/
 		else if(getRunningEnergy() < 100)
 			setRunningEnergy( getRunningEnergy() + (double)(0.20+(playerLevel[playerAgility]*0.0045) ) ); //0.25 originally
 		
-
 		getFrameMethodHandler().CheckBar();
 		getFrameMethodHandler().getFilling();
 		
-		if (cookingon) Cooking.cookingProcess(this);
-
-		if(actionTimer > 0) actionTimer -= 1; 
+		if(actionTimer > 0) actionTimer -= 1; //TODO get rid of this shit
 		
-		PoisonDelay -= 1;
+		//PoisonDelay -= 1; //TODO - look into poison 
 
 		//If killed apply dead
 		if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
 			startAnimation(2304);
-			if(PRAY.Retribution){
+			if(getSkillHandler().getPrayerHandler().Retribution){
 				getCombatHandler().attackNPCSWithin((getLevelForXP(playerXP[playerPrayer])/4), 3, absX, absY); //max dmg = 25% of player's prayer level, 3x3 square
 				getFrameMethodHandler().gfx100(437);
 			}
@@ -1421,7 +1410,7 @@ playerName.trim();*/
 		if (NewHP < 136) {
 			playerLevel[playerHitpoints] = NewHP;
 			getFrameMethodHandler().setSkillLevel(playerHitpoints, NewHP, playerXP[playerHitpoints]);
-			NewHP = playerLevel[3];
+			//NewHP = playerLevel[3];
 		}
 
 		if (UpdateShop) {
@@ -1456,7 +1445,7 @@ playerName.trim();*/
 		if (AnimDelay > 10)
 			AnimDelay -= 1;
 
-		if (AnimDelay <=10 && AnimDelay != 0)
+		if(AnimDelay <=10 && AnimDelay != 0)
 			AnimDelay = 0;
 
 		if(isteleporting > 10)
@@ -1980,7 +1969,6 @@ playerName.trim();*/
 				getFrameMethodHandler().closeInterface();	
 				stopAnimations();
 				getSkillHandler().resetTimers();
-				cookingon = false;
 				followingPlayerID = -1;
 				followingNPCID = -1;
 
@@ -2463,7 +2451,7 @@ playerName.trim();*/
 						} else if (ShopValue >= 1000000) {
 							ShopAdd = " (" + (ShopValue / 1000000) + " million)";
 						}
-						sendMessage(Item.getItemName(removeID)+": shop will buy for "+ShopValue+" "+getClientMethodHandler().getCurrencyName(currency)+" "+ShopAdd);
+						sendMessage(Item.getItemName(removeID)+": shop will buy for "+ShopValue+" "+Item.getCurrencyName(currency)+" "+ShopAdd);
 					}
 				}
 			} else if (interfaceID == 3900) { //Show value to buy items
@@ -2478,7 +2466,7 @@ playerName.trim();*/
 				} else if (ShopValue >= 1000000) {
 					ShopAdd = " (" + (ShopValue / 1000000) + " million)";
 				}
-				sendMessage(Item.getItemName(removeID)+": currently costs "+ShopValue+" "+getClientMethodHandler().getCurrencyName(currency)+" "+ShopAdd);
+				sendMessage(Item.getItemName(removeID)+": currently costs "+ShopValue+" "+Item.getCurrencyName(currency)+" "+ShopAdd);
 			} 
 			else getSmithingHandler().removeBarAndSmithItem(interfaceID, removeID, removeSlot, 1);
 
@@ -2622,9 +2610,6 @@ playerName.trim();*/
 			if(Item.isUntradable(droppedItem)) {
 				sendMessage("You drop the "+Item.getItemName(droppedItem)+", it vanishes into the ground.");
 				getInventoryHandler().deleteItem(droppedItem, slot, playerItemsN[slot]);
-			}
-			if(droppedItem == 744 && absX == 2780 && absY == 3515 && q3stage == 5) {
-				server.npcHandler.newNPC(1645, absX+1, absY, heightLevel, absX + 3, absY + 3, absX + -3, absY + -3, 1, server.npcHandler.getHP(1645), false);      
 			}                          
 			else if(wearing == false && playerItems[slot] == droppedItem+1){
 				getInventoryHandler().dropItem(droppedItem, slot);

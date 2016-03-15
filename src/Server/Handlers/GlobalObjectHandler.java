@@ -31,8 +31,6 @@ public class GlobalObjectHandler {
 	public GlobalObjectHandler(){
 		/* Initialize permanent static objects here */
 
-		objectList.add(new StaticObject(3560, 3402, 12802, 2,null)); //coffin from quest dwarf problems i
-
 		objectList.add(new StaticObject(2853, 3609, 4421, 1,null));			
 		objectList.add(new StaticObject(2838, 3596, 4421, 1,null));
 

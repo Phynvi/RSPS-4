@@ -9,18 +9,18 @@ public class Prayer {
 	private boolean ThickSkin,BurstOfStrength,ClarityOfThought,RockSkin,SuperhumanStrength,ImprovedReflexes,SteelSkin,UltimateStrength,IncredibleReflexes;
 	public boolean RapidRestore,RapidHeal,Retribution,Redemption,Smite,ProtectItem;
 
-	public static void prayTimers(client playerClient){
-		if(playerClient.PRAY.Redemption){
-			int hpLvl = playerClient.getLevelForXP(playerClient.playerXP[3]); //player's full HP
+	public void prayTimers(){
+		if(this.Redemption){
+			int hpLvl = c.getLevelForXP(c.playerXP[3]); //player's full HP
 			hpLvl = hpLvl/10;
-			if(playerClient.playerLevel[3] < hpLvl){ //plaer is below 10%
-				int heal = playerClient.getLevelForXP(playerClient.playerXP[playerClient.playerPrayer]);
+			if(c.playerLevel[3] < hpLvl){ //plaer is below 10%
+				int heal = c.getLevelForXP(c.playerXP[c.playerPrayer]);
 				heal = heal/4;
-				playerClient.NewHP += heal;
-				if(playerClient.NewHP > playerClient.getLevelForXP(playerClient.playerXP[3])) 
-					playerClient.NewHP = playerClient.getLevelForXP(playerClient.playerXP[3]);
-				playerClient.PRAY.Redemption = false;
-				playerClient.playerLevel[playerClient.playerPrayer] = 1;
+				c.NewHP += heal;
+				if(c.NewHP > c.getLevelForXP(c.playerXP[3])) 
+					c.NewHP = c.getLevelForXP(c.playerXP[3]);
+				this.Redemption = false;
+				c.playerLevel[c.playerPrayer] = 1;
 			}
 		}
 	}

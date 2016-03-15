@@ -10,24 +10,20 @@ public class MenuHandler {
 
 	public static String cookingGuide(){
 		return("@gre@Cooking Menu##"+
-				"#@whi@Fish by Level:"+
-				"#@bla@1 - Shrimp"+
-				"#15 - Pike"+
-				"#25 - Tuna"+
-				"#40 - Lobster, Lava Eel"+
-				"#70 - Shark"+
-				"#90 - Manta Ray"+
-				"#90 - Sea Turtle");
+				"#@gre@Level required to cook:"+
+				"#@bla@1 - Shrimp, Anchovie, Sardine, Karambwan"+
+				"#5 - Herring"+
+				"#10 - Mackerel"+
+				"#15 - Trout"+
+				"#20 - Pike"+
+				"#25 - Salmon"+
+				"#30 - Tuna"+
+				"#43 - Bass"+
+				"#45 - Swordfish, Lobster"+
+				"#80 - Shark"+
+				"#82 - Sea Turtle"+
+				"#91 - Manta Ray##");
 	}	
-
-
-	public static String ancients2finished(){
-		return("Dwarf Problems II####@gre@QUEc.ST COMPLETED!#@bla@You receive:#200,000 Magic EXP#Ability to convert to ancient magics#by having the Staff equipped.#");
-	}
-
-	public static String ancientsfinished(){
-		return("Dwarf Problems I###@gre@QUEST COMPLETED!#@bla@You receive:#100,000 Thieving EXP#");
-	}
 
 	public static String[] Rules(){
 		return new String[]{"@gre@Rules of "+server.SERVERNAME,"","",
@@ -98,7 +94,117 @@ public class MenuHandler {
 				"Further information on each skill can be learned",
 		"from each skill's respective tab in the skills tab."};
 	}
-
+	
+	public String[] barrowedThings(){
+		if(c.barrowed < 1){
+			return new String[]{"@gre@Barrowed Things","","",
+					"@whi@Summary: The bartender in Canifis needs help",
+					"fetching a few items.",
+					"",
+					"@whi@Requirements: High Prayer reccommended",
+					"",
+					"I can start this quest by speaking to Roavar",
+					"in the Canifis pub."
+					};
+		}
+		else if(c.barrowed == 1){
+			return new String[]{"@gre@Barrowed Things","","",
+					"@whi@Summary: The bartender in Canifis needs help",
+					"fetching a few items.",
+					"",
+					"@whi@Requirements: High Prayer reccommended",
+					"",
+					"Roavar is interested in acquiring a full set of barrows armor",
+					"to sell to a collector. I need to go to the barrows",
+					"and acquire a full set.",
+					""
+					};
+		}
+		return new String[]{"@gre@Barrowed Things","","",
+				"@whi@Summary: The bartender in Canifis needs help",
+				"fetching a few items.",
+				"",
+				"@gre@Quest completed!",
+				"@gre@You have been rewarded:",
+				"1 Quest Point",
+				"240,000 Gold",
+				"",
+				};
+	}
+	
+	public String[] runeMysteries(){
+		if(c.RM == 0){
+			return new String[]{"@gre@Rune Mysteries","","",
+					"@whi@Summary: A mysterious talisman holds the",
+					"@whi@key to discovery.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"I can start this quest by speaking to Frumscone.",
+					"He can be found in the Wizards' Tower in Yanille."};
+		}
+		else if(c.RM == 1){
+			return new String[]{"@gre@Rune Mysteries","","",
+					"@whi@Summary: A mysterious talisman holds the",
+					"@whi@key to discovery.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Frumscone has discovered some sort of ancient",
+					"artifact and would like me to run it to his",
+					"colleague Brimstail. Frumscone said that",
+					"Brimstail should be near the South entrance",
+					"of Falador."};
+		}
+		else if(c.RM == 2){
+			return new String[]{"@gre@Rune Mysteries","","",
+					"@whi@Summary: A mysterious talisman holds the",
+					"@whi@key to discovery.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Frumscone has discovered some sort of ancient",
+					"artifact and would like me to run it to his",
+					"colleague Brimstail. Frumscone said that",
+					"Brimstail should be near the South entrance",
+					"of Falador.",
+					"",
+					"Brimstail has told me that I should inform",
+					"Frumscone that he was interested."};
+		}
+		else if(c.RM == 3){
+			return new String[]{"@gre@Rune Mysteries","","",
+					"@whi@Summary: A mysterious talisman holds the",
+					"@whi@key to discovery.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Frumscone has discovered some sort of ancient",
+					"artifact and would like me to run it to his",
+					"colleague Brimstail. Frumscone said that",
+					"Brimstail should be near the South entrance",
+					"of Falador.",
+					"",
+					"Brimstail has told me that I should inform",
+					"Frumscone that he was interested.",
+					"",
+					"Frumscone has given me notes to bring back",
+					"to Brimstail."};
+		}
+		else if(c.RM >= 4){
+			return new String[]{"@gre@Rune Mysteries","","",
+					"@whi@Summary: A mysterious talisman holds the",
+					"@whi@key to discovery.",
+					"",
+					"@gre@Quest completed!",
+					"@gre@You have been rewarded:",
+					"Teleportation to mining Rune Essence from",
+					"either Brimstail near the South entrance of Falador",
+					"or from the Wizards' Tower in Yanille."};
+		}
+		return null;
+	}
+	
 	public String[] newBeginnings(){
 		if(c.pirate < 10){
 			return new String[]{"@gre@New Beginnings","","",
@@ -126,8 +232,10 @@ public class MenuHandler {
 					"",
 					"@gre@Quest completed!",
 					"@gre@You have been rewarded:",
+					"1 Quest Point",
 					"Safe passage from tutorial island to Port Sarim.",
-			"5000 Gold"};
+					"5000 Gold"
+					};
 		}
 		return null;
 	}
@@ -196,8 +304,8 @@ public class MenuHandler {
 				"",
 				"@whi@Obstacles",
 				"Level 35 - Rocks (God Wars)",
-				"Level 50 - Underground pass",
-				"Level 60 - Log (Tirannwn)",
+				"Level 50 - Underground pass, South Karamja (log)",
+				"Level 60 - Tirannwn (log)",
 				"Level 70 - Pipe (Brimhaven Dungeon)",
 		"Level 85 - Stepping Stone (Brimhaven Dungeon)",
 		"Level 90 - Godwars Log Cross"};
@@ -322,7 +430,9 @@ public class MenuHandler {
 				"@gre@The altar North of Port Sarim can craft:",
 				"@bla@Air, Mind, Water, Earth, Fire, Body, Cosmic, and Chaos.",
 				"@gre@The altar on Northern Entrana can craft:",
-				"@bla@Nature, Law, Death, Blood, and Soul.",
+				"@bla@Nature, Law, and Death runes",
+				"@gre@The altar North of Shilo Village can craft:",
+				"@bla@Blood and Soul runes",
 				"",
 				"@gre@Levels",
 				"@bla@Level 1 - Air, Mind",
@@ -402,32 +512,6 @@ public class MenuHandler {
 				"#Deep in East Mort Myre Swamp there lies a graveyard."+
 				"#In this graveyard exists a tomb which is different then"+
 				"#most others. Search this tomb.#");
-	}
-
-	public String ancientsmenu2(){
-		if (c.ancients <= 8)
-			return("Dwarf Problems II####Requirements:#50 Magic##I must have completed the following quests:#Dwarf Problems I##I can start this quest by talk to#Hammerspike Stoutbeard#");
-
-		if (c.ancients > 8 && c.ancients < 12)
-			return("Dwarf Problems II####I have started this quest.##My objective is to destory#a black demon accidentally awoken.#");
-
-		if (c.ancients == 12)
-			return("Dwarf Problems II####QUEc.ST COMPLETED!##I now have the ability to use ancient magics#by equipping the Staff, which will#convert my normal magics spellbook to ancient#magics while it is equipped.#");
-
-		return "";
-	}
-
-	public String ancientsmenu(){
-		if (c.ancients == 0)
-			return("Dwarf Problems I####Requirements:#40 Thieving##I can start this quest by speaking to#Johanhus Ulsbrecht. He is located#in the Pub near the carts in Keldagrim.#");
-
-		if (c.ancients >= 1 && c.ancients < 8)
-			return("Dwarf Problems I####I Have started this quest.#");
-
-		if (c.ancients >= 8)
-			return("Dwarf Problems I####QUEc.ST COMPLETED!#");	
-
-		return "";	
 	}
 
 	public static String BarrowsQuest2(){
@@ -563,145 +647,6 @@ public class MenuHandler {
 				"#Level 60 - Watchman"+
 				"#Level 75 - Paladin"+
 				"#Level 80 - Hero#");
-	}
-
-
-	/*QUEc.ST VOIDS*/
-	public void questMenus()
-	{
-		/* QUEc.ST 1 */
-		if(c.questid == 1)
-		{
-			if(c.wb == 0)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "I can start this quest by talking to the", "ghost villager near the barrow tombs.", "Requirements:", "Must have completed Bandit Trouble", "50 Crafting", "50 Agility", "30 Thieving", "60 Strength", "");
-			}
-			if(c.wb == 1)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "The ghost has told me to go to his", "friend Aggie, she lives", "in a house on the east side of the slayer house", "which is at the northern tip of", "Morytania, north of Canifis.", "", "", "", "");
-			}
-			if(c.wb == 2)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "The witch has given me a book", "containing a list of ingredients", "that I need to gather.", "", "", "", "", "", "");
-			}
-			if(c.wb == 3)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "I have read the book, I must collect:", "Swamp Tar from the trader in Mort'ton", "Cut Diamond", "Raw Mackerel from the Fisherman who is far south", "of Port Sarim.", "An empty vial", "", "", "");
-			}
-			if(c.wb == 4)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "Nora has given me a special mix,", "after I drink it I should talk to her again.", "", "", "", "", "", "", "");
-			}
-			if(c.wb == 5)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "I have been instructed to steal", "a fire orb from the tombs below the Mausoleum", " east of her house. I can get inside", " by pushing aside the Memorial.", "The fire orb is in a chest somewhere", "within the tombs.", "From past experience a guard might", "be looking over it.", "");
-			}
-			if(c.wb == 6)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Witch's Brew", "QUEc.ST COMPLETE!", "", "", "", "", "", "", "", "");
-			}
-		}
-		else if(c.questid == 2)
-		{
-			if(c.easterevent == 0)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "I can start this quest by talking to the Old Man in Mort'ton", "No requirements.", "High prayer recommended", "", "", "", "", "", "");
-			}
-			if(c.easterevent == 1)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "I have to ask around to see what the trouble is.", "", "", "", "", "", "", "", "");
-			}
-			if(c.eastergift == 2)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "Now I must go to the bandits hideout and get the", "Ghost's Head. I can get in by using bones", "on the Broken Fire Altar north of Mort'ton.", "", "", "", "", "", "");
-			}
-			if(c.eastergift == 3)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "Now I must return the Ghost's Head to", "the gardener ghost.", "", "", "", "", "", "", "");
-			}
-			if(c.eastergift == 1)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "I was told by Horacio to talk to the gardener ghost", "with the Talisman in my inventory. The ghost is", "north of Mort'ton by the broken fire altar.", "", "", "", "", "", "");
-			}
-			if(c.eastergift == 4)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Bandit Trouble", "QUEc.ST COMPLETED!", "", "", "", "", "", "", "", "");
-			}
-		}
-
-		//npc is 220 for fishing king
-
-		else if(c.questid == 3)
-		{
-			if(c.ST == 0)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I can start this quest by talking to the Fishing King.", "He can be found in Entrana.", "Requirements:", "90 Fishing", "90 Cooking", "", "", "", "");
-			}
-			if(c.ST == 1)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "The Fishing King told me to obtain magic logs", "and use them with prayer potion(3) to make", "an special potion.", "Once I have done this I should speak with", "him again.", "", "", "", "");
-			}
-			if(c.ST == 2)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I was given fish food by the Fish King.", "I must get poison from the Wizard in the Port Sarim", "Tavern and use it on the fish food.", "When I have the poisoned fish food I return", "to the Fishing King for further", "instructions.", "", "", "");
-			}
-			if(c.ST == 3)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I now must return to the Fish King", "with the Poisoned Fish Food.", "", "", "", "", "", "", "");
-			}
-			if(c.ST == 4)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I was instructed to catch a raw sea turtle.", "it can be caught in the fishing area", "on entrana, on the north bank of the river.", "I need to have the poisoned fish", "food and a harpoon in my inventory", "when trying to catch sea turtle.", "", "", "");
-			}
-			if(c.ST == 5)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "I must now cook the Raw Sea Turtle.", "", "", "", "", "", "", "", "");
-			}
-			if(c.ST == 6)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("The Famous Catch", "QUEc.ST COMPLETED!", "I can now catch Raw Sea Turtle!", "I can now cook Sea Turtle!", "", "", "", "", "", "");
-			}
-		}
-
-		else if(c.questid == 4)
-		{
-			if(c.DH == 0)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Point Arena Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Varrock Portal", "at Ardougne.", "", "", "", "", "", "");
-			}
-		}
-
-		else if(c.questid == 5)
-		{
-			if(c.DH == 0)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("King Black Dragon Minigame", "No requirements, recomended for higher levels.", "I can find this minigame through the Lumbridge Portal", "at Ardougne.", "", "", "", "", "", "");
-			}
-		}
-
-		else if(c.questid == 6)
-		{
-			if(c.RM == 0){
-				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "No requirements", "I can start this quest by talking to Frumscone", "in the Wizard's Guild in Yanille.", "", "", "", "", "", "");
-			}
-			else if(c.RM == 1)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "I have been sent by Frumscone", "to deliver the Air Talisman to Brimstail.", "He was last seen wandering around", "near the South entrance of Falador.", "", "", "", "", "");
-			}
-			else if(c.RM == 2)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "Brimstail has alerted me to report", "back to Frumscone to gather more", "information on the talisman.", "", "", "", "", "", "");
-			}
-			else if(c.RM == 3)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "Frumscone has given me notes, I now", "must deliver them to Brimstail.", "", "", "", "", "", "", "");
-			}
-			else if(c.RM == 4)
-			{
-				c.getFrameMethodHandler().loadquestsFrame("Rune Mysteries", "QUEc.ST COMPLETED!", "I can now mine Rune Essence!", "", "I can speak to Brimstail to teleport", "to the rune essence this.MINE.", "", "", "", "");
-			}
-		}
-
 	}
 
 	public void playersOnlineMenu(){

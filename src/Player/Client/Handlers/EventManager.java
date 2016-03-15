@@ -45,7 +45,7 @@ public class EventManager{
 			switch (this.EventIndex){ //Creates event depending on event index
 
 			case 0: //Called every minute
-				if(c.PRAY.RapidHeal)
+				if(c.getSkillHandler().getPrayerHandler().RapidHeal)
 					c.getClientMethodHandler().heal(1);				
 				if(c.homeTeleportTimer > 0)
 					c.homeTeleportTimer -= 1;
@@ -78,7 +78,7 @@ public class EventManager{
 				for(int i = 0; i <= 20; i++){
 					resAmount = 1; //default rate
 
-					if(c.PRAY.RapidHeal && (i != 3 && i != 5)) resAmount = 2; //means rapid restore is on, so ignore HP and prayer
+					if(c.getSkillHandler().getPrayerHandler().RapidHeal && (i != 3 && i != 5)) resAmount = 2; //means rapid restore is on, so ignore HP and prayer
 
 					if(c.playerLevel[i] > c.getLevelForXP(c.playerXP[i]))
 						c.playerLevel[i] -= 1;
@@ -103,7 +103,7 @@ public class EventManager{
 
 					if(c.playerLevel[5] <= 0){
 						c.playerLevel[5] = 0;
-						c.PRAY.disableAllPrayer();
+						c.getSkillHandler().getPrayerHandler().disableAllPrayer();
 						c.sendMessage("You have run out of prayer points.");
 					}
 					c.getFrameMethodHandler().refreshSkills();

@@ -17,6 +17,7 @@
 14 - pk rewards page 2
 15 - fletching (craft stuff)
 16 - Tai Bwo Wannai Cleanup, repair fence
+17 - Barrowed stuff quest selection for bar tender
 
 2 options select menu:
 30 - used for teleport options
@@ -29,3 +30,6 @@
 37 - Tai Bwo Wannai tiadeche shop
 38 - Tai Bwo Wannai murcaily choices
 39 - Tai Bwo Wannai rionasta bank
+40 - Tai Bwo Wannai Trading Sticks for Favour
+41 - Cooking
+42 - bar tender canifis

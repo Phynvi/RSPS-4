@@ -294,6 +294,19 @@ public class Item {
 		return 0;
 	}
 
+	public static String getCurrencyName(int currency){
+		switch(currency){
+		case Item.TRADING_STICKS:
+			return "Trading Sticks";
+		case -1:
+			return "Pest Control Points";
+		case -2:
+			return "PVP Points";
+		default:
+			return "coins";
+		}
+	}
+	
 	/**
 	 * 
 	 * @param buyPercentage Percentage which store buys item for its shop value
@@ -314,7 +327,9 @@ public class Item {
 				break;
 			}
 			break;
-		
+		case -2: //PVP Points
+			ShopValue = 20;
+			break;
 		case TRADING_STICKS:
 			switch(ItemID){
 			case 975: case 976: //machete

@@ -1,36 +1,18 @@
--redo cooking
+-south karamja
 
 -fix relogin issues
 
 -Redo dropped items handler
 
--Add a skillhandler with its own process
-
--make players a linked list?
-
--Remake firemaking
-
--All new quests, except for rune mysteries, famous catch, and new beginnings
-
--south karamja
-
--Place fishing spots across map
+-All new quests
 
 -pvp points
 
 -Smithing loops
 
--Add silver as mining
-
--Rebuild skill master list
-
 -Add in farming patches
 
 -follow run
-
--Finish specials, add rune claws 
-
--NPC projectiles
 
 -NPC poison/player poison
 	

@@ -3,9 +3,9 @@ import java.util.Hashtable;
 
 
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST aggressiveNPCS = new BST(113,871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(199,1101,3068,3069,3070,3071,871,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
-	public static BST ignoreCombatLevel = new BST(2499,2501,2503,199,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
+	public static BST ignoreCombatLevel = new BST(1267,1265,62,2499,2501,2503,199,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();
 
 	private static int NPCFightType; 
@@ -84,6 +84,9 @@ public class NPCHandler {
 			newNPC.attackDistance = 4;
 			newNPC.agroRange = 7;
 		}
+		if(npcType == 1265 || npcType == 1267) //rock crabs
+			newNPC.agroRange = 1;
+		
 		if(aggressiveNPCS.exists(npcType))
 			newNPC.isAggressive = true;
 		if(ignoreCombatLevel.exists(npcType))
@@ -604,9 +607,6 @@ public class NPCHandler {
 								server.pestControlHandler.pestControlRandomRespawn(i);
 							else{
 								int old1 = npcs[i].npcType;
-								if (old1 == 1267 ||old1 == 1265) {
-									old1 += 1;
-								}
 								int old2 = npcs[i].makeX;
 								int old3 = npcs[i].makeY;
 								int old4 = npcs[i].heightLevel;
@@ -964,24 +964,6 @@ public class NPCHandler {
 		case 1160: //Kalphite Queen	
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
 			dropItem(NPCID, DropList.DRAGONBONES);
-			break;
-
-		case 677: //boss demon for dwarf problems ii
-			if (c.ancients == 11){
-				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
-				c.getClientMethodHandler().ancients2finished();
-				c.ancients = 12;
-				c.getClientMethodHandler().addSkillXP(20000, 18);
-				c.sendMessage("You gain 20,000 Slayer Exp.");
-				c.sendMessage("You have completed Dwarf Problems II.");
-				c.questPoints += 1;
-				c.getPlayerLoginData().loadquestinterface();
-			}
-			else {
-				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
-				c.getClientMethodHandler().addSkillXP(20000, 18);
-				c.sendMessage("You gain 20,000 Slayer Exp.");
-			}
 			break;
 
 		case 912: //battle mages, slayer

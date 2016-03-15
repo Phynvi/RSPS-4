@@ -463,7 +463,6 @@ public abstract class Player extends playerInstances {
 	public int deathcount = 0;
 	public int pkpoints = 0;
 	public String lastKill = "";
-	public int ancients = 0;
 
 	public int torag = 0;
 	public int guthan = 0;
@@ -474,16 +473,15 @@ public abstract class Player extends playerInstances {
 	public int hasset = 0;
 
 	public int dragcharge = 0;
-	public int wb = 0;
-	public int wbMackerel = 0;
-	public int wbTar = 0;
-	public int smix = 0;
+
 	public int beta = 0;
 
 	public int RM = 0;
-	public int ST = 0;
-	public int STC = 0;
 
+	private int questPoints = 0;
+	public void setQuestPoints(int amt){ this.questPoints = amt; }
+	public int getQuestPoints(){ return this.questPoints; }
+	
 	public int chickenleave = 0;
 	public int Donar = 0;
 	public int bandit = 0;

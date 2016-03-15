@@ -25,7 +25,7 @@ public class PestControlHandler {
 		c.getCombatHandler().ResetAttackNPC();
 		c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);
 		c.teleport(2657,2639);
-		c.PRAY.disableAllPrayer();
+		c.getSkillHandler().getPrayerHandler().disableAllPrayer();
 	}
 	
 	public void process(){

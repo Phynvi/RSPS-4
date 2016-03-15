@@ -207,12 +207,7 @@ public class Fishing{
 			break;	
 
 		case 1176: case 1177: case 1178: //Fish here
-			if(c.ST >= 4 || c.STC >= 1){
 				setVariablesAndCheckRequirements(79, new int[]{RAW_SEA_TURTLE}, POISON, HARPOON);
-				}
-			else{
-				c.sendMessage("You need to beat The Famous Catch to fish Sea Turtle!");
-			}
 			break;	
 
 		}

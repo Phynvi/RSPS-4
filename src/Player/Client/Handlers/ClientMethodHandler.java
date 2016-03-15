@@ -12,6 +12,12 @@ import java.util.LinkedList;
 public class ClientMethodHandler {
 
 	client c = null;
+	
+	public void addQuestPoints(int amt){
+		c.setQuestPoints(c.getQuestPoints()+amt);
+		c.getFileLoadingHandler().savemoreinfo();
+		c.getFrameMethodHandler().loadQuestTab();
+	}
 
 	public static ClientMethodHandler getClientMethodHandler(int playerIndex){
 		client player = (client) server.playerHandler.players[playerIndex];
@@ -348,18 +354,6 @@ public class ClientMethodHandler {
 		if(((c.combat + c.WildyLevel >= pcombat) && (pcombat >= c.combat)) || ((c.combat - c.WildyLevel <= pcombat) && (pcombat <= c.combat)))
 			c.inWildRange = true;
 		else c.inWildRange = true; //default false
-	}
-
-
-	public void ancientsfinished(){
-		addSkillXP(100000, 17);
-		c.getInventoryHandler().deleteItem(2372,c.getInventoryHandler().getItemSlot(2372),1);
-		c.getFrameMethodHandler().Menu(c.getMenuHandler().ancientsfinished());
-	}
-
-	public void ancients2finished(){
-		addSkillXP(100000, 6);
-		c.getFrameMethodHandler().Menu(c.getMenuHandler().ancients2finished());
 	}
 
 
@@ -827,17 +821,6 @@ public class ClientMethodHandler {
 		return true;
 	}
 
-	public String getCurrencyName(int currency){
-		switch(currency){
-		case Item.TRADING_STICKS:
-			return "Trading Sticks";
-		case -1:
-			return "Pest Control Points";
-		default:
-			return "coins";
-		}
-	}
-
 	public boolean buyItem(int itemID, int fromSlot, int amount, int currency) {
 		if (amount > 0 && itemID == (server.shopHandler.ShopItems[c.MyShopID][fromSlot] - 1)) {
 			if (amount > server.shopHandler.ShopItemsN[c.MyShopID][fromSlot]) {
@@ -855,13 +838,13 @@ public class ClientMethodHandler {
 			switch(currency){
 			case -1: //pest control points
 				if(c.pestControlPoints < totalItemsPrice){
-					c.sendMessage("You do not have enough "+getCurrencyName(currency)+" to do that.");
+					c.sendMessage("You do not have enough "+Item.getCurrencyName(currency)+" to do that.");
 					return false;
 				}
 				break;
 			default:
 				if(!c.getInventoryHandler().hasItemOfAtLeastAmount(currency,totalItemsPrice)){
-					c.sendMessage("You do not have enough "+getCurrencyName(currency)+" to do that.");
+					c.sendMessage("You do not have enough "+Item.getCurrencyName(currency)+" to do that.");
 					return false;
 				}
 				break;
@@ -927,7 +910,7 @@ public class ClientMethodHandler {
 			c.teleport(3025,3207);
 			c.resetAnimation();
 			c.sendMessage("Oh dear, you are dead.");
-			c.PRAY.disableAllPrayer();
+			c.getSkillHandler().getPrayerHandler().disableAllPrayer();
 			return true;
 		}
 		c.getInventoryHandler().generateKeepItems();
@@ -938,7 +921,7 @@ public class ClientMethodHandler {
 			c.getInventoryHandler().addItem(c.keepItem2, c.keepItemAmount2);
 		if(c.keepItem3 > 0)
 			c.getInventoryHandler().addItem(c.keepItem3, c.keepItemAmount3);
-		if(c.PRAY.ProtectItem && c.keepItem4 > 0)
+		if(c.getSkillHandler().getPrayerHandler().ProtectItem && c.keepItem4 > 0)
 			c.getInventoryHandler().addItem(c.keepItem4, c.keepItemAmount4);
 
 		if(c.KillerId != c.playerId && PlayerHandler.players[c.KillerId] != null){
@@ -976,14 +959,14 @@ public class ClientMethodHandler {
 		c.deadAnimTimer = -1;
 		c.getCombatHandler().ResetAttack();
 		c.getCombatHandler().ResetAttackNPC();
-		c.PRAY.disableAllPrayer();
+		c.getSkillHandler().getPrayerHandler().disableAllPrayer();
 		c.NewHP = c.getLevelForXP(c.playerXP[3]);
 		c.getFrameMethodHandler().setSkillLevel(3, c.getLevelForXP(c.playerXP[3]), c.playerXP[c.playerHitpoints]);
 		c.playerLevel[3] = c.getLevelForXP(c.playerXP[3]);
 		c.getFrameMethodHandler().refreshSkills();
 		c.KillerId = c.playerId;
 		resetKeepItem();
-		c.teleport(3156,3735);
+		c.teleport(2726,3485,0);
 		c.resetAnimation();
 		c.IsDead = false;
 		return true;

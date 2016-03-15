@@ -63,12 +63,22 @@ public class Runecrafting {
 
 	private final int FALADOR_ALTAR = 2452;
 	private final int ENTRANA_ALTAR = 2459;
+	private final int KARAMJA_ALTAR = 2460;
 
 	public boolean craftRunes(int altarID, int talismanID){
 
 		c.debug("altarID : "+altarID+", talismanID : "+talismanID);
-		
+
 		switch(altarID){
+		case KARAMJA_ALTAR:
+			switch(talismanID){
+			case BLOOD_TALISMAN:
+				return checkRequirementsAndCraft(80,14,BLOOD_RUNE,42); 
+			case SOUL_TALISMAN:
+				return checkRequirementsAndCraft(80,14,SOUL_RUNE,42); 
+			}
+			break;
+
 		case FALADOR_ALTAR:
 			switch(talismanID){
 			case AIR_TALISMAN:
@@ -98,10 +108,6 @@ public class Runecrafting {
 				return checkRequirementsAndCraft(54,9.5,LAW_RUNE,48); 
 			case DEATH_TALISMAN:
 				return checkRequirementsAndCraft(65,10,DEATH_RUNE,49); 
-			case BLOOD_TALISMAN:
-				return checkRequirementsAndCraft(80,14,BLOOD_RUNE,42); 
-			case SOUL_TALISMAN:
-				return checkRequirementsAndCraft(80,14,SOUL_RUNE,42); 
 			}
 			break;
 		}

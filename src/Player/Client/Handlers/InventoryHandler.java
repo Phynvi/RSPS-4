@@ -344,6 +344,7 @@ public class InventoryHandler {
 		c.getFrameMethodHandler().resetItems(3214);
 	}
 
+	//TODO REDO THIS
 	/**
 	 * Private helper method used when dying
 	 */
@@ -358,7 +359,7 @@ public class InventoryHandler {
 		for (int i = 0; i < c.playerItems.length; i++) {
 			int itemID = c.playerItems[i]-1;
 			if(itemID > 0){
-				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.PRAY.ProtectItem && itemID == c.keepItem4) )
+				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.getSkillHandler().getPrayerHandler().ProtectItem && itemID == c.keepItem4) )
 					ItemHandler.addItem(c.playerItems[i]-1, c.absX, c.absY, c.playerItemsN[i], playerDropID, false, true);
 			}
 			c.playerItems[i] = 0;
@@ -367,7 +368,7 @@ public class InventoryHandler {
 		for (int i = 0; i < c.playerEquipment.length; i++) {
 			int itemID = c.playerEquipment[i];
 			if(itemID > 0){
-				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.PRAY.ProtectItem && itemID == c.keepItem4) )
+				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.getSkillHandler().getPrayerHandler().ProtectItem && itemID == c.keepItem4) )
 					ItemHandler.addItem(c.playerEquipment[i], c.absX, c.absY, c.playerEquipmentN[i], playerDropID, false, true);
 			}
 		}
@@ -1012,6 +1013,14 @@ public class InventoryHandler {
 	}
 
 	/**
+	 * Deletes multiple items from player inventory at once
+	 */
+	public void deleteItems(int ... IDs){
+		for(int i : IDs)
+			deleteItem(i);
+	}
+	
+	/**
 	 * Deletes first occurence of item in player inventory by one
 	 */
 	public boolean deleteItem(int id){
@@ -1213,14 +1222,14 @@ public class InventoryHandler {
 			}
 		}
 		for(int i = 0; i < c.playerEquipment.length; i++){
-			int value = (int)Math.floor(Item.GetItemShopValue(c.playerEquipment[i]-1, 1.0, 995)); //item 1 from player inventory
+			int value = (int)Math.floor(Item.GetItemShopValue(c.playerEquipment[i], 1.0, 995)); //item 1 from player inventory
 			boolean insert = false;
 			for(int j = 0; j < sorted.length && !insert; j++){ //iterate to find where to insert
 				int value2 = (int)Math.floor(Item.GetItemShopValue(sorted[j], 1.0, 995)); //item at index in sorted array
 				if(value >= value2){ //if player inventory item is worth more, then we insert 
 					for(int k = totalItems-1; k > j; k--) //move everything aside one
 						sorted[k] = sorted[k-1];
-					sorted[j] = c.playerEquipment[i]-1; //insert
+					sorted[j] = c.playerEquipment[i]; //insert
 					sortedN[j] = c.playerEquipmentN[i];
 					insert = true;
 				}				

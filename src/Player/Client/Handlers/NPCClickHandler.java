@@ -199,6 +199,11 @@ public class NPCClickHandler {
 
 		/* Second Click, not Shops */
 		switch(NPCID){
+		
+		case 878:
+			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14079,14080,14081, "Defence", c.playerDefence, new String[]{"Yanille needs to be heavily fortified and watched","at all times. The threats of","undead ogres lurk just West of us.",
+					"That Wizard thinks his magic can save","this town? No way, it's through","strength in arms that we survive."});
+			break;
 
 		case 1399: case 321: case 324: case 333: case 312: case 1332: // cage/harpoon
 		case 1405: case 1406: case 313: case 322: case 334: case 1191: case 1333: // net/harpoon
@@ -316,6 +321,18 @@ public class NPCClickHandler {
 		}
 
 		switch(NPCID){ //for conditionals
+		case 1042: 
+			if(c.barrowed < 1){
+				c.getFrameMethodHandler().select2Options(42, "Options", "Any news?", "Need help with anything?");
+			}
+			else if (c.barrowed == 1){
+				c.getFrameMethodHandler().select4Options(17, "Options", "Any news?", "What did you need help with?", "I have a full set of armor for you", "Nevermind");
+			}
+			else if (c.barrowed > 1){
+				c.getFrameMethodHandler().select2Options(42, "Options", "Any news?", "Need help with anything?");
+			}
+			return;
+		
 		case 2520: case 2521:
 			c.getFrameMethodHandler().openUpShopFrame(20, Item.TRADING_STICKS); //Gabooty Shop
 			return;
@@ -389,8 +406,8 @@ public class NPCClickHandler {
 			break;	
 
 		case 3788:
-			c.getClientMethodHandler().npcdialogue(NPCID, "The objective of c game of life or death","is to try and destroy all the portals","in the given timeframe.","",
-					"If you do c successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
+			c.getClientMethodHandler().npcdialogue(NPCID, "The objective of this game of life or death","is to try and destroy all the portals","in the given timeframe.","",
+					"If you do this successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
 			break;
 
 			//put these here so we can attack them still
@@ -490,21 +507,21 @@ public class NPCClickHandler {
 		case 1205: //tyras guard
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
 				c.getClientMethodHandler().npcdialogue(NPCID, "Careful now. Lots of strange things", "have been happening lately.");
-			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside c camp is PVP.");
+			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside this camp is PVP.");
 			break;
 
 		case 1206: //tyras guard
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
 				c.getClientMethodHandler().npcdialogue(NPCID, "People always complain whenever we", "are deployed to a new area.", "They don't realize we are there", "for their safety.");
-			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside c camp is PVP.");
+			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside this camp is PVP.");
 			break;
 
-		case 758: case 2324:
-			skillMaster(NPCID, "Master Farmer", 14136,14137,14138, "Farming", c.playerFarming, new String[]{"I'll keep watch over your plants."});
+		case 2324:
+			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14136,14137,14138, "Farming", c.playerFarming, new String[]{"I'll keep watch over your plants."});
 			break;
 
 		case 618:
-			skillMaster(NPCID, "Examiner", 14130,14131,14132, "Firemaking", c.playerFiremaking, new String[]{"I am here with the Tyras research team.","We had reports of a bad","infestation on c island."});
+			skillMaster(NPCID, "Examiner", 14130,14131,14132, "Firemaking", c.playerFiremaking, new String[]{"I am here with the Tyras research team.","We had reports of a bad","infestation on this island."});
 			break;
 
 		case 536:
@@ -515,16 +532,8 @@ public class NPCClickHandler {
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14127,14128,14129, "Cooking", c.playerCooking, new String[]{"Would you like to look at my cooking wares?"});
 			break;
 
-		case 847:
-			skillMaster(NPCID, "Head Chef", 14127,14128,14129, "Cooking", c.playerCooking, new String[]{"Ah! A fellow cook!","Got any tips?"});
-			break;
-
-		case 1778: case 592:
+		case 592:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14124,14125,14126, "Fishing", c.playerFishing, new String[]{"In need of any fishing supplies?", "Trade with me for your fishing needs."});
-			break;
-
-		case 561:
-			skillMaster(NPCID, "Shop Keeper", 14124,14125,14126, "Fishing", c.playerFishing, new String[]{"In need of any fishing supplies?", "Trade with me for your fishing needs."});
 			break;
 
 		case 1376: 
@@ -536,7 +545,6 @@ public class NPCClickHandler {
 			break;
 
 		case 2356:
-		case 1199:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14110,14109,14111, "Fletching", c.playerFletching, new String[]{"Pay attention to your surroundings,","the road can be rather dangerous at times."});
 			break;
 
@@ -544,28 +552,29 @@ public class NPCClickHandler {
 			skillMaster(NPCID, "Master Crafter", 14106,14107,14108, "Crafting", c.playerCrafting, new String[]{"Welcome to the Crafting Guild."});
 			break;
 
-		case 557:
-			skillMaster(NPCID, "Wydin", 14106,14107,14108, "Crafting", c.playerCrafting, new String[]{"Welcome to my General Store."});
-			break;
-
 		case 1780:
 			skillMaster(NPCID, "Larry", 14103,14104,14105, "Thieving", c.playerThieving, new String[]{"Being a travelling merchant is", "not the easiest of lifestyles."});
 			break;
 
 		case 437:
-			skillMaster(NPCID, "Hamal", 14097,14098,14099, "Agility", c.playerAgility, new String[]{"Activating c portal will teleport you to","the gnome agility course.", "At that course are access to two","agility courses."});
+			skillMaster(NPCID, "Hamal", 14097,14098,14099, "Agility", c.playerAgility, new String[]{"The Brimhaven Agility Course is","one of the most dangerous courses around."});
 			break;
 
 		case 646: 
 			if(c.isInArea(2853,3375,2862,3383)){
 				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", c.playerRunecrafting, 
-						new String[]{"You must use a talisman on c altar","to craft runes.",
-						"My studies show that c altar can","craft Nature, Law, Death,","Blood, and Soul runes."});
+						new String[]{"You must use a talisman on this altar","to craft runes.",
+						"My studies show that this altar can","craft Nature, Law, and Death runes."});
+			}
+			else if(c.isInArea(2869,3010,2874,3016)){
+				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", c.playerRunecrafting, 
+						new String[]{"You must use a talisman on this altar","to craft runes.",
+						"My studies show that this altar can","craft Blood and Soul runes."});
 			}
 			else{
 				skillMaster(NPCID, "Curator", 14091,14092,14093, "Runecrafting", c.playerRunecrafting, 
-						new String[]{"You must use a talisman on c altar","to craft runes.",
-						"My studies show that c altar can","craft Air, Mind, Water, Earth,","Fire, Body, Cosmic, and Chaos runes."});
+						new String[]{"You must use a talisman on this altar","to craft runes.",
+						"My studies show that this altar can","craft Air, Mind, Water, Earth,","Fire, Body, Cosmic, and Chaos runes."});
 			}
 			break;
 
@@ -574,7 +583,7 @@ public class NPCClickHandler {
 			break;
 
 		case 945:
-			skillMaster(NPCID, "Guide", 14094,14095,14096, "Hitpoints", c.playerHitpoints, new String[]{"Your spellbook and quest tab teleports","will allow access to essential locations."});
+			skillMaster(NPCID, "Guide", 14094,14095,14096, "Hitpoints", c.playerHitpoints, new String[]{"This port allows travel to many parts of the world."});
 			break;
 
 		case 944: //
@@ -585,34 +594,27 @@ public class NPCClickHandler {
 			skillMaster(NPCID, "Magic Instructor", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Your fisrt two spells, air and ","water strike do no require","runes to cast."});
 			break;
 
-		case 527:
-			skillMaster(NPCID, "Shop Assistant", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Runes and magical equipment","are my specialty."});
-			break;
-
-		case 552:
-			skillMaster(NPCID, "Shop Keeper", 14073,14074,14075, "Attack", c.playerAttack, new String[]{"Please, have a look at my weapons."});
+		case 606:
+			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14073,14074,14075, "Attack", c.playerAttack, new String[]{"This camp is a major base of operations."});
 			break;
 
 		case 553:
 			skillMaster(NPCID, "Aubury", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Runes and magical equipment","are my specialty."});
 			break;
 
-		case 524:
-			skillMaster(NPCID, "Shop Keeper", 14079,14080,14081, "Defence", c.playerDefence, new String[]{"If you're going into combat,","then you'll need some armor."});
-			break;
-
 		case 548: //Thessalia
 			skillMaster(NPCID, "Thessalia", 14100, 14101, 14102, "Herblore", c.playerHerblore, new String[]{"Trade with me for your herbs,", "vials, and ingredients."});
 			break;
 
-		case 526:
-			skillMaster(NPCID, "Shop Keeper", 14082,14083,14084, "Ranged", c.playerRanged, new String[]{"I sell Ranged equipment."});
+		case 683:
+			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14082,14083,14084, "Ranged", c.playerRanged, new String[]{"Please, take a look at what I am selling.","I boast of nothing but the best","craftsmanship."});
 			break;
 
 		case 70:
 		case 1596:
 		case 1208: //slayer
 			c.getFrameMethodHandler().select4Options(7,"Hello", "I need a new Slayer task", "How much is left of my current task?", "Can I purchase a Slayer Crystal?", "(Click here for more options)");
+			c.slayerMaster = NPCID;
 			break;
 
 		case 410:
@@ -623,125 +625,8 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().select4Options(9,"Options", "Instructions", "Exchange tickets for rewards", "Cancel", "");
 			break;
 
-		case 1840: //quest, dwarf problems i
-			if (c.ancients == 0)
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "If I could only figure out...", "where that stupid gauge...", "Huh? Sorry, speak with Stoutbeard", "");	
-
-			if ((c.ancients == 1 || c.ancients == 2) && c.getInventoryHandler().IsItemInBag(271) == false){
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Well, c stupid machine hasn't", "been working lately. The reason", "is i'm missing a pressure gauge!",
-						"Now I need you to run to Mort'ton", "and buy one from Larry, the", "Traveling Merchant. I know for", 
-						"a fact that he has one. Come", "back to me when you have the Gauge.");	
-				c.ancients = 2;
-				return;
-			}
-			if ((c.ancients == 1 || c.ancients == 2) && c.getInventoryHandler().IsItemInBag(271) == true){
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Perfect, now the machine is back", "in working condition!", "Please speak with Stoutbeard again.", "");
-				c.ancients = 3;
-				c.getInventoryHandler().deleteItem(271,c.getInventoryHandler().getItemSlot(271),1);
-				return;
-			}
-			if (c.ancients == 3)
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Perfect, now the machine is back", "in working condition!", "Please speak with Stoutbeard again.", "");
-
-			if ((c.ancients == 4 || c.ancients == 5) && c.getInventoryHandler().freeSlots() >= 1){
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "As the Stoutbeard told you,", "we need the other 2 remaining", "relic pieces. This book of",
-						"Ancient Dwarven Lore contains", "information on their locations.", "I want you to read the book and", "find relic parts 2 and 3.", "");
-				c.ancients = 5;
-				c.sendMessage("Book of Dwarven Lore has been added to your inventory.");
-				c.getInventoryHandler().addItem(4568, 1);
-				return;
-			}
-			if ((c.ancients == 4 || c.ancients == 5) && c.getInventoryHandler().freeSlots() < 1)
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Speak to me when your", "inventory is not full.", "", "");
-
-			if (c.ancients == 5 && (c.getInventoryHandler().IsItemInBag(2374) == true && c.getInventoryHandler().IsItemInBag(2375) == true)){
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Great! Now that the machine", "is in working order and we", "have all the relic pieces, we",
-						"can now combine all the relic parts.", "Operate the machine to complete", "the relic. When you have the",
-						"finished relic speak with me", "for your reward!");
-				c.ancients = 6;
-				c.getInventoryHandler().deleteItem(2374,c.getInventoryHandler().getItemSlot(2374),1);
-				c.getInventoryHandler().deleteItem(2375,c.getInventoryHandler().getItemSlot(2375),1);
-				return;
-			}	
-			if (c.ancients == 6){
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Great! Now that the machine", "is in working order and we", 
-						"have all the relic pieces, we", "can now combine all the relic parts.", 
-						"Operate the machine to complete", "the relic, when you have the", "finished relic speak with me", 
-						"for your reward!");
-			}
-			if (c.ancients == 7 && c.getInventoryHandler().IsItemInBag(2372) == true){
-				c.ancients = 8;
-				c.questPoints += 1;
-				c.getPlayerLoginData().loadquestinterface();
-				c.getFrameMethodHandler().menu(MenuHandler.ancientsfinished());
-				return;
-			}
-			else if (c.ancients >= 8){
-				c.getClientMethodHandler().npcdialogue("Engineer", NPCID, "Thank you for helping us.");
-			}
-			break;
-
-		case 1794: //quest, dwarf problems
-			if (c.ancients == 0 || c.ancients == 1 || c.ancients == 2){
-				c.getClientMethodHandler().npcdialogue("Hammerspike Stoutbeard", NPCID, "So you must be the lad", "they sent to help me out?", "You look a little scrawny...", "but it'll do.",
-						"Go speak with my engineer, he", "knows the specifics on", "what needs to be done.", "");
-				c.ancients = 1;
-				c.getPlayerLoginData().loadquestinterface();
-			}
-			if (c.ancients == 3 || c.ancients == 4){
-				c.getClientMethodHandler().npcdialogue("Hammerspike Stoutbeard", NPCID, "The real reason I asked for you help", "wasn't to repair my machines.", "I just needed to make sure", "that you are reliable.",
-						"What us dwarves have in our", "possession is an ancient ogre", "relic piece. The complete relic", "is compromised of three pieces.",
-						"I need you to find the remaining", "two pieces. My engineer has more", "information regarding their whereabouts.", "");
-				c.ancients = 4;
-			}
-			if (c.ancients >= 5 && c.ancients < 8){
-				c.getClientMethodHandler().npcdialogue("Hammerspike Stoutbeard", NPCID, "Thank you for helping us!");
-			}
-			if (c.ancients == 8 || c.ancients == 9){
-				c.getClientMethodHandler().npcdialogue("Hammerspike Stoutbeard", NPCID, "That ogre relic has brought", "darkness upon us.", "it has spawned a Black Demon", "of terrible power.",
-						"The elves even sensed the disturbance", "and sent aid.", "Arianwyn has more information", "about the Demon.");
-				c.ancients = 9;
-				c.getPlayerLoginData().loadquestinterface();
-			}
-			if (c.ancients == 10 || c.ancients == 11){
-				c.getClientMethodHandler().npcdialogue("Hammerspike Stoutbeard", NPCID, "We trapped the Demon in", "a secluded part of the desert.", "One of my men, Dondakan, has", "the ability to teleport...",
-						"you to the Demon. Remember that", "you must use the staff", "when fighting c beast,", "else you will be destroyed.");
-				c.ancients = 11;
-			}
-			else if (c.ancients >= 12){
-				c.getClientMethodHandler().npcdialogue("Hammerspike Stoutbeard", NPCID, "You sent that Demon back to the abyss!", "For c, we thank you.");
-			}
-			break;
-
-		case 1202:
-			if (c.ancients <= 8){
-				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "The Dwarves are stubborn and lack intelligence.", "But, they make up for it with", "admirable courage.","");
-			}
-			if (c.ancients == 9 && c.getInventoryHandler().freeSlots() >= 1){
-				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "After some research, it has been","concluded that you may be protected", "from the demon by using", "an ancient form of magithis.",
-						"This ancient magic is harnassed through", "a special staff. When you have", "have it equipped you will be", "protected from the demon's magithis.");
-				c.ancients = 10;
-				c.getInventoryHandler().addItem(13308, 1);
-				return;
-			}
-			if (c.ancients == 10){
-				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "Use the staff to fight the Demon.", "Make sure you have it equipped during","your fight, else you will", "not be protected from its attacks.");
-			}
-			if (c.ancients == 9 && c.getInventoryHandler().freeSlots() < 1){
-				c.getClientMethodHandler().npcdialogue("Arianwyn", NPCID, "Speak to me when your", "inventory is not full.");
-			}
-			else if (c.ancients >= 11){
-				c.getFrameMethodHandler().select4Options(10,"Options", "Speak with Arianwyn", "Change Spellbooks", "Buy a Staff", "Nevermind");
-			}
-			break;
-
-		case 1836:
-			if (c.ancients < 11)
-				c.getClientMethodHandler().npcdialogue("Dondakan", NPCID, "You're the adventurer that", "was sent to help us?", "Seems like we might be in trouble.", "");
-
-			if (c.ancients >= 11){
-				c.getClientMethodHandler().selectOptionTravel2("Teleport to the Black Demon?", "Yes", 3250, 2786, "No", -1,-1);
-			}
+		case 1202: //TODO find a new NPC for this
+			c.getFrameMethodHandler().select4Options(10,"Options", "Speak with Arianwyn", "Change Spellbooks", "Buy a Staff", "Nevermind");
 			break;
 
 		case 1709:
@@ -785,7 +670,7 @@ public class NPCClickHandler {
 				c.getClientMethodHandler().npcdialogue("Brimstail", NPCID, "Mysteries need solving...", "Leave me to my peace.");	
 			}
 			else if (c.RM == 1 && c.getInventoryHandler().IsItemInBag(1438) == true){
-				c.getClientMethodHandler().npcdialogue("Brimstail", NPCID, "You say Frumscone wanted me to take a look", "at something? Hmm, one moment...","This is quite the artifact! I wonder","how he got a hold of c?",
+				c.getClientMethodHandler().npcdialogue("Brimstail", NPCID, "You say Frumscone wanted me to take a look", "at something? Hmm, one moment...","This is quite the artifact! I wonder","how he got a hold of it?",
 						"Please, can you run back to Frumscone","and inform him I am very interested.");	
 				c.getInventoryHandler().deleteItem(1438,c.getInventoryHandler().getItemSlot(1438),1);
 				c.RM = 2;
@@ -803,8 +688,7 @@ public class NPCClickHandler {
 				c.sendMessage("You have completed Rune Mysteries.");
 				c.getInventoryHandler().deleteItem(291,c.getInventoryHandler().getItemSlot(291),1);
 				c.RM = 4;
-				c.questPoints += 1;
-				c.getPlayerLoginData().loadquestinterface();
+				c.getClientMethodHandler().addQuestPoints(1);
 			}
 			else if (c.RM == 4){
 				c.getClientMethodHandler().selectOptionTravel2("Mine rune essence?", "Yes", 2911, 4833, "No", -1,-1);
@@ -813,12 +697,12 @@ public class NPCClickHandler {
 
 		case 460:
 			if (c.RM == 0 && c.getInventoryHandler().freeSlots() >= 1){
-				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hello there! I hope you wouldn't", "mind doing me a favor now?", "Take c talisman, and run it", "to my friend Brimstail.", "He was last seen pacing"
+				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hello there! I hope you wouldn't", "mind doing me a favor now?", "Take this talisman, and run it", "to my friend Brimstail.", "He was last seen pacing"
 						,"around, near the South", "entrance of Falador.");
 				c.sendMessage("An Air Talisman has been given to you.");
 				c.getInventoryHandler().addItem(1438, 1);
 				c.RM = 1;
-				c.getPlayerLoginData().loadquestinterface();
+				c.getFrameMethodHandler().loadQuestTab();
 			}
 			else if (c.RM == 0 && c.getInventoryHandler().freeSlots() < 1){
 				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "I could really use some help from", "someone like you! Can", "you try speaking with me when", "your inventory isn't so full.");
@@ -827,15 +711,16 @@ public class NPCClickHandler {
 				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hopefully Brimstail will be interested in","that artifact.");
 			}
 			else if (c.RM == 2 && c.getInventoryHandler().freeSlots() >= 1){
-				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of this.",
-						"Here are my notes. I'd like","you to take them back to Brimstail.");
+				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful!","I have dechiphered the inscriptions",
+						"from the Talisman. However, it is in","some ancient language. Brimstail","is an expert in that field.",
+						"If you could take my notes to him, he","may be able to put some use","to them.");
 				c.sendMessage("Notes have been added to your inventory.");
 				c.getInventoryHandler().addItem(291, 1);
 				c.RM = 3;
 			}
 			else if (c.RM == 2 && c.getInventoryHandler().freeSlots() < 1){
-				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested? Wonderful,","with his magical prowess and my notes","he may be able to make something","of all of this.",
-						"I'd give you my notes, but it seems like","you have no more room in your inventory.");
+				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Brimstail said he was interested?",
+						"I have some notes for him, but","you'll need some more room in","your inventory.");
 			}
 			else if (c.RM == 3){
 				c.getClientMethodHandler().npcdialogue("Frumscone", NPCID, "Hopefully Brimstail can make sense of all of this.");
@@ -858,11 +743,10 @@ public class NPCClickHandler {
 				}
 				if(c.pirate == 10){ //quest completed
 					if(c.getInventoryHandler().freeSlots() > 1 ||c.getInventoryHandler().hasItemAny(995, 1)){
-						c.getFrameMethodHandler().sendQuest("@gre@New Beginnings", 7338);
 						c.pirate = 11;
 						c.getFrameMethodHandler().menu(c.getMenuHandler().newBeginnings());
 						c.getInventoryHandler().addItem(995,5000);
-						c.questPoints += 1;
+						c.getClientMethodHandler().addQuestPoints(1);
 					}
 					else c.getClientMethodHandler().npcdialogue(518, "I have a reward for you!","But, you need more space in your inventory.");
 					break;
@@ -894,290 +778,12 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().showInterface(3559);
 			break;
 
-		case 1697:
-			if(c.getInventoryHandler().IsItemInBag(681)){
-				if(c.wb == 0){
-					c.getClientMethodHandler().npcdialogue("Ghost", 1697, "You must help!", "I have recieved a disturbing message from my", "good friend Aggie...", "It seems that she has sensed something...",
-							"She has sensed a gathering of spirits", "that plan to take over the world...", "Please go to her and help her!", "", 
-							"Speak with me again, I can teleport you to",	"her if you wish.");
-					c.wb = 1;
-				}
-				else{
-					c.getClientMethodHandler().selectOptionTravel2("Travel to Aggie's House?", "Yes", 3464, 3552, "No", -1,-1);
-				}												
-			}
-			else{
-				c.getClientMethodHandler().npcdialogue("Ghost", 1697, "...");
-				c.sendMessage("The ghost mumbles something you do not understand.");
-			}
-			break;
-
-		case 922:
-
-			if(c.wb == 0)
-				c.getClientMethodHandler().npcdialogue("Aggie", 922, "Scum! Get away!");
-
-			if(c.wb == 1){
-				if(c.getInventoryHandler().freeSlots() >= 1){
-					c.getClientMethodHandler().npcdialogue("Aggie", 922, "So you're the hero my friend told me", "about? He said you solved some bandit", "Problem for the village or something...", "",
-							"Anyways! I need your help dearly!", "Evil spirits plan on rising and we", "Must stop them! Take c book, it", "contains ingredients I need you to gather.",
-							"When you bring them all to me I can make you", "A special mix that will make you able to enter", "Their tombs safely.");
-					c.sendMessage ("A Battered Book has been added to your inventory.");
-					c.wb = 2;
-					c.getInventoryHandler().addItem(2886, 1);
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Aggie", 922, "Speak with me when you clear up", "space in your inventory.");
-					break;
-				}
-
-			}
-			if(c.wb == 2){
-				c.getClientMethodHandler().npcdialogue("Aggie", 922, "Hurry, get the ingredients.");
-				break;
-			}
-
-			if(c.wb == 3){
-				if(c.getInventoryHandler().IsItemInBag(1940) == true && c.getInventoryHandler().IsItemInBag(1601) == true && c.getInventoryHandler().IsItemInBag(353) == true && c.getInventoryHandler().IsItemInBag(229) == true){
-					c.getClientMethodHandler().npcdialogue("Aggie", 922, "Finally you return with the ingredients.", "After you drink c special mix", "talk to me.");
-					c.getInventoryHandler().deleteItem(1940,c.getInventoryHandler().getItemSlot(1940),1);
-					c.getInventoryHandler().deleteItem(1601,c.getInventoryHandler().getItemSlot(1601),1);
-					c.getInventoryHandler().deleteItem(353,c.getInventoryHandler().getItemSlot(353),1);
-					c.getInventoryHandler().deleteItem(229,c.getInventoryHandler().getItemSlot(229),1);
-					c.getInventoryHandler().addItem(197, 1);
-					c.sendMessage("A special mix has been added to your inventory.");
-					c.wb = 4;
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Aggie", 922, "You read the book? Then", "go get the ingredients!");
-					break;
-				}
-
-			}
-			if(c.wb == 4){
-				if(c.smix == 1){
-					c.getClientMethodHandler().npcdialogue("Aggie", 922, "Alright, you seem ready. Now listen,", "east of here is a Mausoleum, you", "need to go there and push aside the", "Memorial.",
-							"This will allow you to go into the tombs.", "Once you have entered you must find a chest", "containing a fire orb, it is the spirits", "power source, without it, they're useless.");
-					c.wb = 5;
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Aggie", 922, "Drink the mix, it will", "make you immune to the evils", "of the tomb.");
-					break;
-				}
-
-			}
-			if(c.wb == 5){
-				c.getClientMethodHandler().npcdialogue("Aggie", 922, "Alright, you seem ready. Now listen,", "east of here is a Mausoleum, you", "need to go there and push aside the", "Memorial.",
-						"This will allow you to go into the tombs.", "Once you have entered you must find a chest", "containing a fire orb, it is the spirits", "power source, without it, they're useless.");
-				break;
-			}
-
-			if(c.wb >= 6){
-				c.getClientMethodHandler().npcdialogue("Aggie", 922, "Without you we would all be dead.");
-				break;
-			}
-
-			break;
-
-		case 220:
-			if (c.playerLevel[10] < 90){
-				c.getClientMethodHandler().npcdialogue("Fishing King", 220, "Ah! A fellow fisherman! Talk", "to me when you have reached", "level 90 fishing! I may have something", "that I need you to do!");
-				break;
-			}
-
-			if(c.playerLevel[10] >= 90 && c.ST == 0){
-				c.getClientMethodHandler().npcdialogue("Fishing King", 220, "Finally you've reached level 90!", "What I need you to do is take Magic", "Logs and use them on a Prayer Potion(3)", "to make a special mix!",
-						"When you are done with c", "come back and talk to me for", "your next set of instructions.");
-				c.ST = 1;
-				break;
-			}
-
-			if(c.ST > 0){
-				if(c.ST == 1){
-					if(c.getInventoryHandler().IsItemInBag(705)){
-						c.getClientMethodHandler().npcdialogue("Fishing King", 220, "Wonderful! Now using the mix, I'll", "make special fish food used for", "sea turtle catches.", "You now need to use Poison on the Fish food.",
-								"You can get Poison by talking to the", "Wizard in the Port Sarim Tavern.", "When you have the Poisoned Fish Food", "return to me.");
-						c.ST = 2;
-						c.getInventoryHandler().deleteItem(705,c.getInventoryHandler().getItemSlot(705),1);
-						c.getInventoryHandler().addItem (272, 1);
-						c.sendMessage ("Fish Food has been added to your inventory.");
-						c.sendMessage ("Mixed Chemicals has been removed from your inventory.");
-					}
-					else c.getClientMethodHandler().npcdialogue("Fishing King", 220, "I told you to return to me when you", "have the mix! Just use", "Prayer Potion(3) with", "magic logs.");
-					break;
-				}
-				if(c.ST == 2){
-					if(c.getInventoryHandler().IsItemInBag(274)){
-						c.getClientMethodHandler().npcdialogue("Fishing King", 220, "What I want from you is a Sea Turtle.", "To catch a raw Sea Turtle, go to the fishing", "spots Northwest of here. ", "",
-								"Make sure you have the poison fish food and", "a harpoon with you when you go.");
-						c.ST = 4;
-						break;
-					}
-					else{
-						c.getClientMethodHandler().npcdialogue("Fishing King", 220, "I told you to return to me when you", "have the Poisoned Fish Food.", "Speak to the Wizard in", "the Port Sarim Tavern.");
-						break;
-					}
-				}
-			}
-			if(c.ST == 3){
-				if(c.getInventoryHandler().IsItemInBag(274)){
-					c.getClientMethodHandler().npcdialogue("Fishing King", NPCID, "Now catch a raw sea turtle.", "Have the poisoned", "fish food and a harpoon in your inventory!", "the fishing spots are",
-							"Northwest of here.", "You will cross over a bridge to get there.");
-					c.ST = 4;
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Fishing King", 220, "I told you to use the Poison", "on the fish food.");
-					break;
-				}
-			}
-			if(c.ST == 4){
-				if(c.getInventoryHandler().IsItemInBag(395)){
-					c.getClientMethodHandler().npcdialogue("Fishing King", 220, "A true fisherman indeed!", "Cook it, and then bring it back to me.");
-					c.ST = 5;
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Fishing King", 220, "Now catch a raw sea turtle.", "Have the poisoned", "fish food and a harpoon in your inventory!", "the fishing spots are",
-							"Northwest of here.", "You will cross over a bridge to get there.");
-					break;
-				}
-			}
-			if(c.ST == 5){
-				if(c.getInventoryHandler().IsItemInBag(397)){
-					c.getFrameMethodHandler().Menu(MenuHandler.STFinish());
-					c.getInventoryHandler().deleteItem(397,c.getInventoryHandler().getItemSlot(397),1);
-					c.getInventoryHandler().addItem (775, 1);
-					c.sendMessage("You recieve 200,000 fishing EXP.");
-					c.sendMessage("You recieve 200,000 cooking EXP.");
-					c.sendMessage("Cooking Gauntlets were added to your inventory.");
-					c.getClientMethodHandler().addSkillXP(200000, 10);
-					c.getClientMethodHandler().addSkillXP(200000, 7);
-					c.ST = 6;
-					c.STC = 1;
-					c.questPoints += 1;
-					c.getPlayerLoginData().loadquestinterface();
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Fishing King", 220, "Cook it the sea turtle, and", "then bring it back to me.");
-					break;
-				}
-			}
-			if(c.ST >= 6){
-				c.getClientMethodHandler().npcdialogue("Fishing King,", 220, "When you wear those gloves, you will", "never burn the item you are", "cooking!");
-				break;
-			}
-			break;
-
 		case 1263:
 			if(c.getInventoryHandler().freeSlots() >= 1){
 				c.getClientMethodHandler().npcdialogue("Wizard", 1263, "Poison? You didn't get it from me.");
 				c.getInventoryHandler().addItem (273, 1);
 				c.sendMessage ("Poison has been added to your inventory.");
-				if(c.ST == 2)
-					c.ST = 3;
-				break;
 			}
-			else{
-				c.getClientMethodHandler().npcdialogue("Wizard", 1263, "I have something that may interest you,", "try freeing up some inventory", "space beforehand.");
-				break;
-			}
-
-		case 1302:
-			if(c.wb != 3){
-				c.getClientMethodHandler().npcdialogue("Fisherman", 1302, "The fish just ain't bitin' today.");
-				break;
-			}
-			else{
-				if(c.getInventoryHandler().freeSlots() >= 1){
-					c.getClientMethodHandler().npcdialogue("Fisherman", 1302, "Need a Mackerel ya say?", "Happened to have caught one earlier.", "Here ya go.");
-					c.wbMackerel = 1;
-					c.sendMessage("Raw Mackerel has been added to your inventory.");
-					c.getInventoryHandler().addItem (353, 1);
-					break;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Fisherman", 1302, "Need a Mackerel ya say?", "Happened to have caught one earlier.", "Your inventory's full though.");
-					break;
-				}
-			}
-
-		case 1283:
-			if(c.easterevent == 1) c.getClientMethodHandler().npcdialogue("Swensen The Navigator", 1283, "The gardner ghost is north by the broken", "fire altar, and that's all I know", "of c matter.");
-			else c.getClientMethodHandler().npcdialogue("Swensen The Navigator", 1283, "The distant lands have always interested me...", "Too bad I have never had the chance of", "leaving Mort'ton.");
-			break;
-
-		case 845:
-			if(c.easterevent == 1){
-				if(c.getInventoryHandler().freeSlots() >= 1){
-					c.getClientMethodHandler().npcdialogue("Horacio", 845, "So you want to solve the problem?", "Good. My father used to be a ghost", "Whisperer, before he died he past on", "to me a Talisman.",
-							"As long as it is in your inventory", "You can communicate with the undead.", "The gardener ghost is north of here by", "the broken fire altar.",
-							"Here, take the Talisman and talk to", "the ghost with it.");
-					c.sendMessage ("Zaros Talisman has been added to your inventory");
-					c.getInventoryHandler().addItem(681, 1);
-					c.eastergift = 1;
-					c.easterevent = 2;
-				}
-				else{
-					c.getClientMethodHandler().npcdialogue("Horacio", 845, "I have something for you, but", "your inventory is full.");
-				}
-			}
-			else c.getClientMethodHandler().npcdialogue("Horacio", 845, "This run-down village wasn't exactly my childhood dream.");
-			break;
-
-		case 1080:
-			if(c.easterevent == 1) c.getClientMethodHandler().npcdialogue("Eohric", 1080, "Ghosts? I am scared of ghosts.", "There is a rumor floating around the village", "that Horacio knows about ghosts.");
-			else c.getClientMethodHandler().npcdialogue("Ehoric", 1080, "Swamps as far as the eye can see...");
-			break;
-
-		case 1675:
-			if(c.getInventoryHandler().IsItemInBag(681)){
-				if(c.eastergift == 1){
-					if(c.getInventoryHandler().freeSlots() >= 1){
-						c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "The thief that took my head dropped", "a book while running away.");
-						c.eastergift = 2;
-						c.getInventoryHandler().addItem(5520, 1);
-						c.sendMessage("The ghost hands you a book.");
-					}
-					else c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "The theif that took my head dropped", "a book while running away.", "Your inventory is full though.");
-				}				
-				if(c.eastergift == 2) c.getClientMethodHandler().npcdialogue("Gardnet Ghost", 1675, "Good luck.");
-				if(c.eastergift == 3 ){
-					if(c.getInventoryHandler().IsItemInBag(4197)){
-						if(c.getInventoryHandler().freeSlots() >= 2){
-							c.getInventoryHandler().deleteItem(4197,c.getInventoryHandler().getItemSlot(4197),1);
-							c.getFrameMethodHandler().Menu(MenuHandler.BarrowsQuest2());
-							c.getInventoryHandler().addItem(14139, 1);
-							c.getInventoryHandler().addItem(14140, 1);
-							c.getClientMethodHandler().addSkillXP(50000, 17);
-							c.getClientMethodHandler().addSkillXP(10000, 18);
-							c.getClientMethodHandler().addSkillXP(50000, 19);
-							c.eastergift = 4;
-							c.questPoints += 1;
-							c.getPlayerLoginData().loadquestinterface();
-						}
-						else c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "I have a reward for you, but you", "need at least two empty inventory", "spaces.");
-					}
-					else c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "Good luck.");
-				}
-				if(c.eastergift >= 4) c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "Thank you dearly.");
-			}
-			else{
-				c.getClientMethodHandler().npcdialogue("Gardner Ghost", 1675, "...");
-				c.sendMessage("The ghost mumbles something you do not understand.");
-			}
-			break;
-
-		case 1696:
-			if(c.easterevent < 4){
-				c.getClientMethodHandler().npcdialogue("Old Man", 1696, "The villagers have been complaining", "about a ghost problem that needs to", "be solved, you should ask around the", "village and see what you can do.");
-				if(c.easterevent == 0) c.easterevent = 1;
-			}
-			if(c.easterevent >= 4) c.getClientMethodHandler().npcdialogue("Old Man", 1696, "I heard you had helped out the village.");						
 			break;
 
 		default:

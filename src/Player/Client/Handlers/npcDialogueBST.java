@@ -56,6 +56,7 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(524,"Please take a look at my shop.");
 			add(1163,"What brings you out to these parts?");
 			add(1837,"Maybe one day I'll let a human use the cannon...");
 			add(2151,"Welcome to my shop!");
@@ -120,7 +121,7 @@ import java.util.Queue;
 			add(388,"My favorite color is white.");
 			add(731,"It's hard running a bar in a town like this.");
 			add(680,"Unfortunately, the tanner's broken.");
-			add(683,"Please, take a look at what I am selling.","I boast of nothing but the best","craftsmanship.");
+
 			add(682,"This stuff's good for the light stuff, don't","expect to take a spear and be fine.");
 			add(679, "Afternoon.");
 			add(1799,"I really really really like rusty swords.");
@@ -133,8 +134,6 @@ import java.util.Queue;
 			add(669,"Many years ago, I helped design","the Grand Tree... The structure"," and monument to my peoples.");
 			add(3109,"Talk to tha' hand coz thish face ain't lishtnin.");
 			add(593,"You call yourself a cook?");
-			add(878,"Yanille needs to be heavily fortified and watched","at all times. The threats of","undead ogres lurk just West of us.",
-					"That Wizard thinks his magic can save","this town? No way, it's through","strength in arms that we survive.");
 			add(3108, "I've found some weird stuff in my","Sandbox before...");
 			add(732,"People tend to just and drink","away their memories.");
 			add(462,"Welcome to the Wizard's Guild!","I do hope you enjoy your stay.");
@@ -155,8 +154,6 @@ import java.util.Queue;
 			add(857, "I make sure the Gnome pilot does not get attacked","by any of the surrounding Jogres.");
 			add(1526,"I'm sorry, but at the moment","we just can't afford","to run the Castle Wars game.");
 			add(1704,"I used to captain one of the finer vessels","that ported here.");
-			add(1042,"Some of these folks here look rather strange.","Rumor has it, they have fangs for teeth.",
-			"But, me personally, I ain't seen any.");
 			add(1038, "Fresh, dank, meat.");
 			add(1041,"I hate the smell of the swamp.");
 			add(1039, "Please take a look at my fine wares.");
@@ -178,7 +175,7 @@ import java.util.Queue;
 			add(1282,"Wish to have a fish?");
 			add(1286, "I once was an adventurer like you.");
 			add(1300, "Care for a pint?");
-			add(1265,"Let me sing you a tune.");
+
 			add(1294,"East of here lies the hoards of monsters","from those foresakened demigods.");
 			
 			add(792,"I am Grip... I think.");

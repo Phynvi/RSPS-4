@@ -4,14 +4,14 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2810
-character-posy = 3441
+character-posx = 2817
+character-posy = 3443
 character-rights = 0
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160102
-character-energy = 36
+character-lastlogin = 20160208
+character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
@@ -50,7 +50,7 @@ character-skill = 6	49	95040
 character-skill = 7	61	317772
 character-skill = 8	38	32400
 character-skill = 9	26	8820
-character-skill = 10	63	370860
+character-skill = 10	68	630060
 character-skill = 11	1	0
 character-skill = 12	1	0
 character-skill = 13	74	1136559
@@ -67,7 +67,34 @@ character-skill = 23	1	0
 character-skill = 24	1	0
 
 [ITEMS]
-character-item = 0	302	1
+character-item = 0	378	1
+character-item = 1	378	1
+character-item = 2	378	1
+character-item = 3	378	1
+character-item = 4	378	1
+character-item = 5	378	1
+character-item = 6	378	1
+character-item = 7	378	1
+character-item = 8	378	1
+character-item = 9	378	1
+character-item = 10	378	1
+character-item = 11	378	1
+character-item = 12	378	1
+character-item = 13	378	1
+character-item = 14	378	1
+character-item = 15	378	1
+character-item = 16	378	1
+character-item = 17	378	1
+character-item = 18	378	1
+character-item = 19	378	1
+character-item = 20	378	1
+character-item = 21	378	1
+character-item = 22	378	1
+character-item = 23	378	1
+character-item = 24	378	1
+character-item = 25	378	1
+character-item = 26	378	1
+character-item = 27	378	1
 
 [BANK]
 character-bank = 0	1008	1
@@ -101,7 +128,7 @@ character-bank = 27	557	291
 character-bank = 28	1439	1
 character-bank = 29	3197	1
 character-bank = 30	352	23
-character-bank = 31	380	38
+character-bank = 31	380	52
 character-bank = 32	5325	77
 character-bank = 33	2553	1
 character-bank = 34	567	26
@@ -129,7 +156,9 @@ character-bank = 55	1318	1
 character-bank = 56	1124	1
 character-bank = 57	1272	1
 character-bank = 58	2348	1
-character-bank = 59	378	27
+character-bank = 59	378	79
+character-bank = 60	302	1
+character-bank = 61	382	14
 
 [FRIENDS]
 

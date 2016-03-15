@@ -1417,7 +1417,8 @@ public class NPCAnim {
 		case 10100://Bulwark Beast
 			return 13005;
 
-		case 1265://Experiment
+		case 1267:
+		case 1265://Rock Crab
 			return 1314;
 
 		case 1677://Experiment

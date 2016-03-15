@@ -1,11 +1,8 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160124
-character-ancients = 12
+character-lastlogintime = 20160215
 character-starter = 1
-character-easterevent = 2
-character-eastergift = 4
 character-hasegg = 0
 character-hasset = 11
 character-pkpoints = 24
@@ -20,14 +17,8 @@ character-ahrim = 1
 character-karil = 0
 character-dharok = 0
 character-bandit = 0
-character-wb = 6
-character-wbMackerel = 1
 character-Donar = 0
-character-wbTar = 0
-character-smix = 1
 character-chickenleave = 0
-character-ST = 6
-character-STC = 1
 character-RM = 4
 character-dragcharge = 50
 character-beta = 1
@@ -41,17 +32,15 @@ bandos = 5
 armadyl = 1
 prevarmadyl = 0
 prevbandos = 38
-spellbook = 1
+spellbook = 0
 pestcontrolpoints = 0
-questPoints = 7
+questPoints = 8
 chatRoomName = Public Chat
 favour = 66
+barrowed = 2
 
 [QUESTS]
 character-questpoints = 0
-character-quest_1 = 0
-character-quest_2 = 0
-character-quest_3 = 0
 
 [LOOK]
 character-look = 0	0

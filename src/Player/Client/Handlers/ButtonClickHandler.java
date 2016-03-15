@@ -11,7 +11,7 @@ public class ButtonClickHandler {
 
 		c.debug("Case 185: "+actionButtonId+", menuChoice : "+c.menuChoice);
 		if(lists.prayerList.exists(actionButtonId)){
-			c.PRAY.checkPrayer(actionButtonId);
+			c.getSkillHandler().getPrayerHandler().checkPrayer(actionButtonId);
 			return;
 		}
 
@@ -23,6 +23,10 @@ public class ButtonClickHandler {
 		//case 59136:
 		//panellist();
 		//break;			
+		
+		case 28164:
+			c.getFrameMethodHandler().menu(c.getMenuHandler().barrowedThings());
+			break;
 
 		case 57064: // make default chat/remove default
 			ChatRoom ch = c.currentChatRoom;
@@ -50,10 +54,14 @@ public class ButtonClickHandler {
 			else c.getFrameMethodHandler().menu(MenuHandler.chatHelp());
 			break;
 
-		case 28170:
+		case 28165:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().newBeginnings());
 			break;
 
+		case 28166:
+			c.getFrameMethodHandler().menu(c.getMenuHandler().runeMysteries());
+			break;
+			
 		case 150: //auto retaliate on
 			c.autoRetaliate = 1;
 			c.getFrameMethodHandler().sendQuest("@gre@Auto Retaliate", 155); //auto retaliate
@@ -154,7 +162,7 @@ public class ButtonClickHandler {
 				break;
 
 			case 10:
-				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "We were able to contain the demon with","your help. Thank you.");
+				c.error("TODO"); //TODO
 				break;
 
 			case 11:
@@ -243,6 +251,10 @@ public class ButtonClickHandler {
 				c.getFrameMethodHandler().RemoveAllWindows();				
 				break;
 
+			case 17:
+				c.getClientMethodHandler().npcdialogue(1042, "People say that some of these","citizens have fangs. But, I ain't","never seen any of it.");
+				break;
+
 			default:
 				c.getFrameMethodHandler().RemoveAllWindows();
 			}
@@ -304,8 +316,8 @@ public class ButtonClickHandler {
 				c.getFrameMethodHandler().select4Options(11,"Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
 				break;
 
-			case 10:
-				c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "I have switched your c.spellbook.");
+			case 10: //TODO dialogue
+				c.sendMessage("Your spellbook has been changed.");
 				if(c.spellbook == 0){
 					c.spellbook = 1;
 					c.getFrameMethodHandler().setSidebarInterface(6, 12855);
@@ -411,10 +423,17 @@ public class ButtonClickHandler {
 				else c.sendMessage("You need three medium spars to do that.");
 				c.getFrameMethodHandler().RemoveAllWindows();				
 				break;
+				
+			case 17:
+				c.getClientMethodHandler().npcdialogue(1042, "There's a collector who comes through here","every month or so, seeking pieces of",
+						"armor from the undead brothers","in the barrows. Last time he","was in town, he requested a full set of armor.","If you could return here","with a full set of barrows armor,",
+						"I would greatly appreciate it.","Of course there would be some reward","associated with it.");
+				break;
 
 			default:
 				c.getFrameMethodHandler().RemoveAllWindows();
 			}
+			
 			break;
 
 		case 32019: //3rd option
@@ -538,6 +557,50 @@ public class ButtonClickHandler {
 				}
 				else c.sendMessage("You need one dense spar to do that.");
 				c.getFrameMethodHandler().RemoveAllWindows();				
+				break;
+
+			case 17:
+				boolean completed = false;
+				if(c.getInventoryHandler().hasItem(4708) && c.getInventoryHandler().hasItem(4712) && c.getInventoryHandler().hasItem(4714)){ 
+					c.getInventoryHandler().deleteItems(4708,4712,4714);
+					completed = true;
+				}
+				else if(c.getInventoryHandler().hasItem(4716) && c.getInventoryHandler().hasItem(4720) && c.getInventoryHandler().hasItem(4722)){ 
+						c.getInventoryHandler().deleteItems(4716,4720,4722);
+						completed = true;
+					}
+				else if(c.getInventoryHandler().hasItem(4724) && c.getInventoryHandler().hasItem(4728) && c.getInventoryHandler().hasItem(4730)){ 
+					c.getInventoryHandler().deleteItems(4724,4728,4730);
+					completed = true;
+				}
+				else if(c.getInventoryHandler().hasItem(4732) && 
+						c.getInventoryHandler().hasItem(4736) && 
+						c.getInventoryHandler().hasItem(4738)){ 
+					c.getInventoryHandler().deleteItems(4732,4736,4738);
+					completed = true;
+				}
+				else if(c.getInventoryHandler().hasItem(4745) && 
+						c.getInventoryHandler().hasItem(4749) && 
+						c.getInventoryHandler().hasItem(4751)){ 
+					c.getInventoryHandler().deleteItems(4745,4749,4751);
+					completed = true;
+				}
+				else if(c.getInventoryHandler().hasItem(4753) && 
+						c.getInventoryHandler().hasItem(4757) && 
+						c.getInventoryHandler().hasItem(4759)){ 
+					c.getInventoryHandler().deleteItems(4753,4757,4759);
+					completed = true;
+				}
+				
+				if (completed){
+					c.getInventoryHandler().addItem(995, 240000);
+					c.sendMessage("You have completed Barrowed Things.");
+					c.barrowed = 2;
+					c.getClientMethodHandler().addQuestPoints(1);			
+					c.getFrameMethodHandler().menu(c.getMenuHandler().barrowedThings());		
+				}
+				else c.getClientMethodHandler().npcdialogue(1042, "What are you talking about?","You don't have a full set of","barrows armor.");
+					
 				break;
 
 			default:
@@ -901,7 +964,7 @@ public class ButtonClickHandler {
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
 				break;
 
-			case 34:
+			case 34: //TODO different NPC
 				if (c.getInventoryHandler().playerHasItemAmount(995, 1000000)){
 					if (c.getInventoryHandler().freeSlots() > 0) {
 						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Here's your staff.", "Once again, thanks for helping us.");
@@ -964,7 +1027,7 @@ public class ButtonClickHandler {
 					}
 				}
 				break;
-				
+
 			case 39:
 				if(c.favour > 25){
 					c.getFrameMethodHandler().openUpBankFrame();
@@ -974,7 +1037,7 @@ public class ButtonClickHandler {
 				}
 				else c.getClientMethodHandler().npcdialogue(2533, "You should try helping out for more favour.");
 				break;
-				
+
 			case 40:
 				if(c.favour >= 50){
 					if(c.getInventoryHandler().freeSlots() < 1 || !c.getInventoryHandler().hasItem(Item.TRADING_STICKS))
@@ -986,6 +1049,15 @@ public class ButtonClickHandler {
 					}
 				}
 				else c.getClientMethodHandler().npcdialogue(1162, "You need at least 50% Favour.");
+				break;
+
+			case 41:
+				c.getSkillHandler().getCookingHandler().startCooking();
+				c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+
+			case 42:
+				c.getClientMethodHandler().npcdialogue(1042, "People say that some of these","citizens have fangs. But, I ain't","never seen any of it.");
 				break;
 
 			default:
@@ -1010,6 +1082,18 @@ public class ButtonClickHandler {
 
 			case 32:
 				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
+				break;
+
+			case 42:			
+				if(c.barrowed < 1){
+					c.barrowed = 1;
+					c.getFrameMethodHandler().loadQuestTab();				
+					c.getClientMethodHandler().npcdialogue(1042, "There's a collector who comes through here","every month or so, seeking pieces of",
+							"armor from the undead brothers","in the barrows. Last time he","was in town, he requested a full set of armor.","If you could return here","with a full set of barrows armor,",
+							"I would greatly appreciate it.","Of course there would be some reward","associated with it.");
+				}
+				else if (c.barrowed > 1)	
+					c.getClientMethodHandler().npcdialogue(1042, "There's nothing else I need your help with","right now. But, if I need you in the future,","I'll let you know.");
 				break;
 
 			default:
@@ -1150,10 +1234,6 @@ public class ButtonClickHandler {
 			c.getFrameMethodHandler().menu(c.getMenuHandler().cookingGuide());
 			break;
 
-		case 28215:
-			c.getFrameMethodHandler().Menu(c.getMenuHandler().ancientsmenu2());
-			break;
-
 		case 33213: 
 			c.getFrameMethodHandler().menu(c.getMenuHandler().herbloremenu());
 			break;
@@ -1281,60 +1361,6 @@ public class ButtonClickHandler {
 			c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2134, 4907, 0);
 			break;
 
-		case 28169:
-			c.getFrameMethodHandler().menu(c.getMenuHandler().skillInformation());
-			break;
-
-		case 28174:
-			c.getFrameMethodHandler().menu(c.getMenuHandler().combatInformation());
-			break;
-
-		case 28168:
-			c.getFrameMethodHandler().Menu(c.getMenuHandler().ancientsmenu());
-			break;
-
-		case 24135: // Clue c.debug set to on
-		{
-			c.sendMessage("Clue c.debugging set to true.");
-			c.cluedebug = true;
-			break;
-		}
-		case 24134: // Clue c.debug set to off
-		{
-			c.sendMessage("Clue c.debugging set to false.");
-			c.cluedebug = false;
-			break;
-		}
-		case 28164: // 
-		{
-			c.questid = 1;
-			c.getMenuHandler().questMenus();
-		}
-		break;
-
-		case 28165: //
-		{
-			c.questid = 2;
-			c.getMenuHandler().questMenus();
-		}
-		break;
-
-		case 28166: // 
-		{
-			c.questid = 3;
-			c.getMenuHandler().questMenus();
-		}
-		break;
-
-
-
-		case 28171: //
-		{
-			c.questid = 6;
-			c.getMenuHandler().questMenus();
-		}
-		break;
-
 		case 47130:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().slayermenu());
 			break;
@@ -1376,10 +1402,6 @@ public class ButtonClickHandler {
 			c.getFrameMethodHandler().menu(c.getMenuHandler().woodcuttingGuide());
 			break;
 
-		case 28175:
-			c.getFrameMethodHandler().menu(c.getMenuHandler().bossInformation());
-			break;
-
 		case 31195: //insert
 			c.bankRearrange = "insert";
 			break;
@@ -1401,8 +1423,19 @@ public class ButtonClickHandler {
 11 = ogre to grand tree
 			 */
 
-		case 3056: case 3059: case 3060:
+		case 3059: case 3060:
 			c.sendMessage("That destination is not reachable from this location.");
+			break;
+			
+		case 3056: //south karamja
+			if(c.isInArea(2461,3496,2470,3508)){ //grand tree
+				c.teleport(2971,2968,0);
+				c.getFrameMethodHandler().setClientConfig(153, 7);
+				c.getFrameMethodHandler().showInterface(802);			
+			}
+			else if(c.isInArea(2963,2961,2978,2975)) //south karamja
+				c.sendMessage("You are already at that location.");
+			else c.sendMessage("That destination is not reachable from this location.");
 			break;
 
 		case 3058: //gnome glider white wolf mountain peak
@@ -1425,6 +1458,11 @@ public class ButtonClickHandler {
 			else if(c.isInArea(2843,3496,2851,3504)){ //white wolf mountain peak area
 				c.teleport(2465,3499,3);
 				c.getFrameMethodHandler().setClientConfig(153, 2);
+				c.getFrameMethodHandler().showInterface(802);
+			}
+			else if(c.isInArea(2963,2961,2978,2975)){ //south karamja
+				c.teleport(2465,3499,3);
+				c.getFrameMethodHandler().setClientConfig(153, 6);
 				c.getFrameMethodHandler().showInterface(802);
 			}
 			else if(c.isInArea(2461,3496,2470,3508)) //grand tree area

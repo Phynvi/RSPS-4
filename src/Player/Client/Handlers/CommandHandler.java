@@ -29,6 +29,10 @@ public class CommandHandler {
 		try{
 			switch(args[0].toLowerCase()){
 
+			case "test":
+				c.getFrameMethodHandler().setClientConfig(153, Integer.parseInt(args[1]));
+			break;
+			
 			case "tile":
 				if(args.length >= 3) c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), Integer.parseInt(args[2]), 10);
 				else c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), 0, 10);
@@ -88,7 +92,7 @@ public class CommandHandler {
 		}
 
 		if(fullCommand.equalsIgnoreCase("questframes")){
-			c.getPlayerLoginData().loadquestinterface();
+			c.getFrameMethodHandler().loadQuestTab();
 			c.sendMessage("Loaded Quest Frames");
 		}
 

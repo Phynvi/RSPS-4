@@ -42,7 +42,7 @@ public class ItemUse {
 		itemTimer = System.currentTimeMillis();
 
 		if(lists.bones.exists(Item))
-			return c.PRAY.buryBones(Item, Slot);
+			return c.getSkillHandler().getPrayerHandler().buryBones(Item, Slot);
 
 		if(lists.food.exists(Item))
 			return c.getFoodHandler().eat(Item,Slot);
@@ -200,32 +200,8 @@ public class ItemUse {
 			c.PoisonDelay = 9999999;
 			break;
 
-		case 197: //Witchs Brew Potion
-			c.txt4 = "You may now enter.";
-			c.startAnimation(1114);
-			c.getFrameMethodHandler().stillgfx(342, c.absY, c.absX);
-			c.getFrameMethodHandler().stillgfx(559, c.absY, c.absX -1);
-			c.getFrameMethodHandler().stillgfx(559, c.absY, c.absX +1);
-			c.getFrameMethodHandler().stillgfx(559, c.absY -1, c.absX);
-			c.getFrameMethodHandler().stillgfx(559, c.absY +1, c.absX);
-			c.sendMessage("You drink the Poison Chalice");
-			c.getInventoryHandler().deleteItem(197, c.getInventoryHandler().GetItemSlot(197), 1);
-			c.smix = 1;
-			c.sendMessage("A voice speaks from above.");
-			c.string4UpdateRequired = true;
-			break;
-
 		case 4568: //Witchs Brew Potion
 			c.getFrameMethodHandler().Menu(c.getMenuHandler().ancientsbook());
-			break;
-
-		case 2886: //Witchs Brew Potion
-			c.getFrameMethodHandler().Menu(c.getMenuHandler().wbBook());
-			c.sendMessage("You open the book containing a list of ingredients.");
-			if (c.wb < 3){
-				c.wb = 3;
-			}
-
 			break;
 
 		case 550: //newcomer map  by me ?
@@ -612,7 +588,7 @@ public class ItemUse {
 			return true;
 		}
 
-		if(atObjectID == 2452 || atObjectID == 2459){
+		if(atObjectID == 2452 || atObjectID == 2459 || atObjectID == 2460){
 			c.RUNECRAFTING.craftRunes(atObjectID, useItemID);
 			return true;
 		}
@@ -676,59 +652,11 @@ public class ItemUse {
 			c.flushOutStream();
 		}
 
-		else if (useItemID == 395 || useItemID == 9682 && (atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732))//Using shrimp on range
-		{
-			if(c.actionTimer == 0 && (c.ST == 5 || c.STC == 1)){
-				Cooking.cookingvoid(c, 1800, "Sea Turtle", 90, 397, 395, 20, 399);
-			}
-			else if (c.actionTimer == 0 && (c.ST < 5 && c.ST > 5 || c.STC == 1)){
-				c.sendMessage("You need to beat The Famous Catch to cook Sea Turtle!");
-			}
-		}
-		
 		else if(atObjectID == 2728 || atObjectID == 5275 || atObjectID == 2732 || atObjectID == Firemaking.BLUE_FIRE || atObjectID == Firemaking.GREEN_FIRE
 				 || atObjectID == Firemaking.RED_FIRE || atObjectID == Firemaking.NORMAL_FIRE){
-			
-			switch(useItemID){
-			case 2148:
-				Cooking.cookingvoid(c, 450, "Lava Eel", 45, 2149, 317, 1, 2146);
-				break;
-			case 317:
-				Cooking.cookingvoid(c, 120, "Shrimp", 0, 315, 317, 1, 323);
-				break;
-			case 349:
-				Cooking.cookingvoid(c, 240, "Pike", 15, 351, 349, 3, 343);	
-				break;
-			case 359:
-				Cooking.cookingvoid(c, 400, "Tuna", 25, 361, 359, 5, 357);
-				break;
-			case 377:
-				Cooking.cookingvoid(c, 450, "Lobster", 40, 379, 377, 7, 381);
-				break;
-			case 371:
-				Cooking.cookingvoid(c, 565, "Swordfish", 55, 373, 371, 12, 375);
-				break;
-			case 383:
-				Cooking.cookingvoid(c, 850, "Shark", 70, 385, 383, 15, 387);
-				break;
-			case 389:
-				Cooking.cookingvoid(c, 1200, "Manta Ray", 90, 391, 389, 16, 393);
-				break;
-			}
-			
+			c.getSkillHandler().getCookingHandler().itemWasUsedWithCookingDevice(useItemID);
 		}
-
-		else if (useItemID == 526 && atObjectID == 4092)//Broken Fire Altar with Bones
-		{
-			if(c.eastergift == 2){
-				c.getInventoryHandler().deleteItem(526,c.getInventoryHandler().getItemSlot(526),1);
-				c.teleport(2501,4952,0);
-			}
-			else {
-				c.sendMessage("I should ask around before experimenting with ancient altars.");
-			}
-		}
-			c.debug("in ItemUse.java : ");
+		
 		return true;
 	}
 	

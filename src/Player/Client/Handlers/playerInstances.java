@@ -18,7 +18,7 @@ class playerInstances {
 	public ChatRoom currentChatRoom = null;
 	public int currency = 995;
 	
-	public int bandos, armadyl, prevbandos, prevarmadyl,questPoints;
+	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;
@@ -44,7 +44,6 @@ class playerInstances {
 	public int noClickTimeout;
 	public Slayer SLAYER;
 	public int slayerNPC,slayerCount,slayerMaster;
-	public Prayer PRAY;
 	public int attEffect = 0;
 	public int strEffect = 0;
 	public int defEffect = 0;
@@ -142,19 +141,6 @@ public int idleTimer = 0;
 	
 	public int followingPlayerID = -1;
 	public int followingNPCID = -1;
-
-
-	//Cooking
-	public int fishdif2 = 0;
-	public int cookingdivide = 0;
-	public int cookingburnt = 0;
-	public int cookingxp = 0;
-	public String cookingname = "";
-	public int cookinglevel = 0;
-	public int cookingdelete = 0;
-	public int cookingitem = 0;
-	public boolean cookingon = false;
-	//Cooking
 
 	public int apickupid = -1;
 	public int apickupx = -1;
@@ -259,11 +245,6 @@ public int idleTimer = 0;
 	public static int more2handed[] = {7158};
 	public static int more2handed(){return more2handed[more2handed.length];}
 
-	public int questid = 0;
-	public int q1stage = 0;
-	public int q2stage = 0;
-	public int q3stage = 0;
-	public int q4stage = 0;
 	public int totalqp = 0;
 	public int dots = 0;
 	public int start[] = {0,0,0,0};
@@ -313,7 +294,7 @@ public int idleTimer = 0;
 	public int Poison = 0;
 	public boolean Poisoned = false;
 	public boolean pkEnabled = true;
-	public boolean cluedebug = false;
+
 	public int heal = 0;
 	public int Read1 = 0;
 	public int Read2 = 0;
@@ -360,8 +341,7 @@ public int idleTimer = 0;
 	public int chest1 = 0;
 	public int chest2 = 0;
 	public int questdone = 0;
-	public int easterevent = 0;
-	public int eastergift = 0;
+	
 	public boolean specglow = false;
 	public int fdelay = 0;
 	public int muterights = 0;

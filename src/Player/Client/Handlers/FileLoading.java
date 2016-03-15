@@ -211,14 +211,8 @@ public class FileLoading {
 						c.playerLastConnect = (token2);
 					} else if (token.equals("character-lastlogintime")) {
 						c.lastlogintime = Integer.parseInt(token2);
-					} else if (token.equals("character-ancients")) {
-						c.ancients = Integer.parseInt(token2);
 					} else if (token.equals("character-starter")) {
 						c.starter = Integer.parseInt(token2);
-					} else if (token.equals("character-eastergift")) {
-						c.eastergift = Integer.parseInt(token2);
-					} else if (token.equals("character-easterevent")) {
-						c.easterevent = Integer.parseInt(token2);
 					} else if (token.equals("character-hasegg")) {
 						c.hasegg = Integer.parseInt(token2);
 					} else if (token.equals("character-hasset")) {
@@ -245,26 +239,14 @@ public class FileLoading {
 						c.dharok = Integer.parseInt(token2);
 					} else if (token.equals("character-bandit")) {
 						c.bandit = Integer.parseInt(token2);
-					} else if (token.equals("character-wb")) {
-						c.wb = Integer.parseInt(token2);
-					} else if (token.equals("character-wbMackerel")) {
-						c.wbMackerel = Integer.parseInt(token2);
 					} else if (token.equals("character-dragcharge")) {
 						c.dragcharge = Integer.parseInt(token2);
-					} else if (token.equals("character-wbTar")) {
-						c.wbTar = Integer.parseInt(token2);
 					} else if (token.equals("character-Donar")) {
 						c.Donar = Integer.parseInt(token2);
-					} else if (token.equals("character-smix")) {
-						c.smix = Integer.parseInt(token2);
 					} else if (token.equals("character-beta")) {
 						c.beta = Integer.parseInt(token2);
 					} else if (token.equals("character-chickenleave")) {
 						c.chickenleave = Integer.parseInt(token2);
-					} else if (token.equals("character-ST")) {
-						c.ST = Integer.parseInt(token2);
-					} else if (token.equals("character-STC")) {
-						c.STC = Integer.parseInt(token2);
 					} else if (token.equals("character-pkpoints")) {
 						c.pkpoints = Integer.parseInt(token2);
 					} else if (token.equals("character-RM")) {
@@ -299,23 +281,18 @@ public class FileLoading {
 					else if (token.equals("pestcontrolpoints"))
 						c.pestControlPoints = Integer.parseInt(token2);
 					else if (token.equals("questPoints"))
-						c.questPoints = Integer.parseInt(token2);
+						c.setQuestPoints(Integer.parseInt(token2));
 					else if (token.equals("chatRoomName"))
 						c.defaultChatRoomName = token2;
 					else if (token.equals("favour"))
 						c.favour = Integer.parseInt(token2);
+					else if (token.equals("barrowed"))
+						c.barrowed = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
 						c.totalqp = Integer.parseInt(token2);
-					} 
-					else if (token.equals("character-quest_1")) {
-						c.q1stage = Integer.parseInt(token2);
-					} else if (token.equals("character-quest_2")) {
-						c.q2stage = Integer.parseInt(token2);
-					} else if (token.equals("character-quest_3")) {
-						c.q3stage = Integer.parseInt(token2);
-					} 
+					}  
 					break;
 				case 3:
 					if (token.equals("character-look")) {
@@ -438,17 +415,8 @@ public class FileLoading {
 			characterfile.write("character-lastlogintime = ", 0, 26);
 			characterfile.write(Integer.toString(c.playerLastLogin), 0, Integer.toString(c.playerLastLogin).length());
 			characterfile.newLine();
-			characterfile.write("character-ancients = ", 0, 21);
-			characterfile.write(Integer.toString(c.ancients), 0, Integer.toString(c.ancients).length());
-			characterfile.newLine();
 			characterfile.write("character-starter = ", 0, 20);
 			characterfile.write(Integer.toString(c.starter), 0, Integer.toString(c.starter).length());
-			characterfile.newLine();
-			characterfile.write("character-easterevent = ", 0, 24);
-			characterfile.write(Integer.toString(c.easterevent), 0, Integer.toString(c.easterevent).length());
-			characterfile.newLine();
-			characterfile.write("character-eastergift = ", 0, 23);
-			characterfile.write(Integer.toString(c.eastergift), 0, Integer.toString(c.eastergift).length());
 			characterfile.newLine();
 			characterfile.write("character-hasegg = ", 0, 19);
 			characterfile.write(Integer.toString(c.hasegg), 0, Integer.toString(c.hasegg).length());
@@ -492,29 +460,11 @@ public class FileLoading {
 			characterfile.write("character-bandit = ", 0, 19);
 			characterfile.write(Integer.toString(c.bandit), 0, Integer.toString(c.bandit).length());
 			characterfile.newLine();
-			characterfile.write("character-wb = ", 0, 15);
-			characterfile.write(Integer.toString(c.wb), 0, Integer.toString(c.wb).length());
-			characterfile.newLine();
-			characterfile.write("character-wbMackerel = ", 0, 23);
-			characterfile.write(Integer.toString(c.wbMackerel), 0, Integer.toString(c.wbMackerel).length());
-			characterfile.newLine();
 			characterfile.write("character-Donar = ", 0, 18);
 			characterfile.write(Integer.toString(c.Donar), 0, Integer.toString(c.Donar).length());
 			characterfile.newLine();
-			characterfile.write("character-wbTar = ", 0, 18);
-			characterfile.write(Integer.toString(c.wbTar), 0, Integer.toString(c.wbTar).length());
-			characterfile.newLine();
-			characterfile.write("character-smix = ", 0, 17);
-			characterfile.write(Integer.toString(c.smix), 0, Integer.toString(c.smix).length());
-			characterfile.newLine();
 			characterfile.write("character-chickenleave = ", 0, 25);
 			characterfile.write(Integer.toString(c.chickenleave), 0, Integer.toString(c.chickenleave).length());
-			characterfile.newLine();
-			characterfile.write("character-ST = ", 0, 15);
-			characterfile.write(Integer.toString(c.ST), 0, Integer.toString(c.ST).length());
-			characterfile.newLine();
-			characterfile.write("character-STC = ", 0, 16);
-			characterfile.write(Integer.toString(c.STC), 0, Integer.toString(c.STC).length());
 			characterfile.newLine();
 			characterfile.write("character-RM = ", 0, 15);
 			characterfile.write(Integer.toString(c.RM), 0, Integer.toString(c.RM).length());
@@ -562,7 +512,7 @@ public class FileLoading {
 			characterfile.write(Integer.toString(c.pestControlPoints), 0, Integer.toString(c.pestControlPoints).length());
 			characterfile.newLine();
 			String s14 = "questPoints = "; characterfile.write(s14, 0, s14.length());
-			characterfile.write(Integer.toString(c.questPoints), 0, Integer.toString(c.questPoints).length());
+			characterfile.write(Integer.toString(c.getQuestPoints()), 0, Integer.toString(c.getQuestPoints()).length());
 			characterfile.newLine();
 			String s15 = "chatRoomName = "; characterfile.write(s15, 0, s15.length());
 			characterfile.write(c.defaultChatRoomName, 0, c.defaultChatRoomName.length());
@@ -570,21 +520,15 @@ public class FileLoading {
 			String s16 = "favour = "; characterfile.write(s16, 0, s16.length());
 			characterfile.write(Integer.toString(c.favour), 0, Integer.toString(c.favour).length());
 			characterfile.newLine();
+			String s17 = "barrowed = "; characterfile.write(s17, 0, s17.length());
+			characterfile.write(Integer.toString(c.barrowed), 0, Integer.toString(c.barrowed).length());
+			characterfile.newLine();
 			characterfile.newLine();
 
 			characterfile.write("[QUESTS]", 0, 8);
 			characterfile.newLine();
 			characterfile.write("character-questpoints = ", 0, 24);
 			characterfile.write(Integer.toString(c.totalqp), 0, Integer.toString(c.totalqp).length());
-			characterfile.newLine();
-			characterfile.write("character-quest_1 = ", 0, 20);
-			characterfile.write(Integer.toString(c.q1stage), 0, Integer.toString(c.q1stage).length());
-			characterfile.newLine();
-			characterfile.write("character-quest_2 = ", 0, 20);
-			characterfile.write(Integer.toString(c.q2stage), 0, Integer.toString(c.q2stage).length());
-			characterfile.newLine();
-			characterfile.write("character-quest_3 = ", 0, 20);
-			characterfile.write(Integer.toString(c.q3stage), 0, Integer.toString(c.q3stage).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

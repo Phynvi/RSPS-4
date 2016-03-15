@@ -5,6 +5,16 @@ public class SkillHandler {
 	private int skillType = -1;
 	private client c;
 	
+	private Prayer prayerHandler;
+	public Prayer getPrayerHandler(){
+		return this.prayerHandler;
+	}
+	
+	private Cooking cookingHandler;
+	public Cooking getCookingHandler(){
+		return this.cookingHandler;
+	}
+	
 	private Fishing fishingHandler;
 	public Fishing getFishingHandler(){
 		return this.fishingHandler;
@@ -30,6 +40,9 @@ public class SkillHandler {
 		this.firemakingHandler = new Firemaking(pc);
 		this.craftingHandler = new Crafting(pc);
 		this.fletchingHandler = new Fletching(pc);
+		this.cookingHandler = new Cooking(pc);
+		this.fishingHandler = new Fishing(pc);
+		this.prayerHandler = new Prayer(pc);
 	}
 	
 	public void resetTimers(){
@@ -51,6 +64,7 @@ public class SkillHandler {
 	
 	//called every 500ms
 	public void process(){
+		this.prayerHandler.prayTimers();
 		if(this.skillTimer > 0 && --this.skillTimer == 0){
 			switch(this.skillType){
 			case 1: //firemaking
@@ -76,6 +90,9 @@ public class SkillHandler {
 				return;
 			case 8: //Tai Bwo Wannai cut down jungle
 				c.getMiniGameHandler().getTaiBwoWannaiPickup().cutDownJungle();
+				return;
+			case 9: //Cooking
+				getCookingHandler().cookFood();
 				return;
 			}
 		}

@@ -19,7 +19,7 @@ public class ObjectClick {
 
 	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
-	public static BST objectDest2 = new BST();
+	public static BST objectDest2 = new BST(1738);
 	public static BST objectDest4 = new BST(5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
 	public static BST objectDest8 = new BST(8742,2491);
 
@@ -55,6 +55,11 @@ public class ObjectClick {
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
 		switch(objectID) {
+		
+		case 2332:
+			c.getAgilityHandler().agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, "");
+			break;
+		
 		case 9020:
 		case 9015:
 		case 9010:
@@ -112,6 +117,8 @@ public class ObjectClick {
 		case 1738:
 			if(objectX == 2895 && objectY == 3513)
 				c.teleport(2897,3513,1);
+			else if(objectX == 3501 && objectY == 3475)
+				c.teleport(3500,3476,1);
 			break;
 
 		case 2624: case 2625:
@@ -125,8 +132,8 @@ public class ObjectClick {
 			break;
 
 		case 2391: case 2392:
-			if(c.questPoints < 7)
-				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least 7 questt","to get in there. Sorry mate.");
+			if(c.getQuestPoints() < 2)
+				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least 2 quest points","to get in there. Sorry mate.");
 			else{
 				c.getFrameMethodHandler().ReplaceObject(objectX, objectY, 6951, -1);
 				c.getClientMethodHandler().npcdialogue(398, "Welcome to the Legends Guild.");
@@ -448,16 +455,18 @@ public class ObjectClick {
 		case 1749:
 			if(objectX == 2896 && objectY == 3513)
 				c.teleport(2897,3513,0);
-			if(objectX == 2466 && objectY == 3495)
+			else if(objectX == 2466 && objectY == 3495)
 				c.teleport(2466,3494,2);
-			if(objectX == 2476 && objectY == 3463)
+			else if(objectX == 2476 && objectY == 3463)
 				c.teleport(2477,3463,0);
-			if(objectX == 2408 && objectY == 3435)
+			else if(objectX == 2408 && objectY == 3435)
 				c.teleport(2408,3436,0);
-			if(objectX == 2423 && objectY == 3442)
+			else if(objectX == 2423 && objectY == 3442)
 				c.teleport(2423,3441,0);
-			if(objectX == 2677 && objectY == 3087)
+			else if(objectX == 2677 && objectY == 3087)
 				c.teleport(2677,3088,0);
+			else if(objectX == 3501 && objectY == 3476)
+				c.teleport(3500,3476,0);
 			break;
 
 		case 1742:
@@ -677,48 +686,6 @@ public class ObjectClick {
 			else if (c.getInventoryHandler().IsItemInBag(2374) == false){
 				c.sendMessage("You reach in and grab a relic part!");
 				c.getInventoryHandler().addItem(2374, 1);
-			}
-			break;
-
-		case 12802:
-			if (c.getInventoryHandler().IsItemInBag(2375) == true){
-				c.sendMessage("Empty!");
-			}
-			else if (c.getInventoryHandler().IsItemInBag(2375) == false && c.ancients >= 5){
-				c.sendMessage("You reach in and grab a relic part!");
-				c.getInventoryHandler().addItem(2375, 1);
-			}
-			else if (c.getInventoryHandler().IsItemInBag(2375) == false && c.ancients < 5){
-				c.sendMessage("I have no reason to go inside a tomb!");
-			}
-			break;
-
-		case 8878:
-			if (c.ancients == 6 && c.getInventoryHandler().freeSlots() >= 1){
-				c.startAnimation(3170);
-				c.sendMessage("You combine all three relic parts!");
-				c.sendMessage("Ogre relic has been added to your inventory.");
-				c.getInventoryHandler().addItem(2372, 1);
-				c.ancients = 7;
-				c.getFrameMethodHandler().createNewTileObject(2033, 4526, 11079, 0, 10);  
-			}
-			else if (c.ancients == 6 && c.getInventoryHandler().freeSlots() < 1){
-				c.sendMessage("I need at least one free slot!");
-			}
-			else if (c.ancients != 6){
-				c.sendMessage("I'd rather not touch that.");
-			}
-			break;
-
-		case 10321:
-			if (c.ancients >= 5){
-				c.startAnimation(828);
-				c.isteleporting = 15;
-				c.isteleportingx = 2906;
-				c.isteleportingy = 9876;
-			}
-			else if (c.ancients < 5){
-				c.sendMessage("I have no reason to enter that filth!");
 			}
 			break;
 
@@ -1377,25 +1344,6 @@ break;*/
 				c.teleport(2489,10131);
 			break;
 
-
-		case 2079:
-			if (c.bandit >= 10 && c.getInventoryHandler().freeSlots() >= 1) // Quest Chest
-			{
-				c.getInventoryHandler().addItem (4197, 1);
-				c.eastergift = 3;
-				c.sendMessage("You open the chest and grab the Ghost's Head, you then teleport away.");
-				c.teleport(3506, 3315,0);
-				c.sendMessage("Talk to the Ghost Gardener to return his head.");
-				c.bandit = 0;
-			}
-
-			else if (c.bandit < 10){
-				c.sendMessage("Kill 10 bandits, then you can open the chest!");
-			}
-			break;
-
-			//	End of Barrows by AAA Mods
-
 		case 2918:
 			if(objectX == 2799 && objectY == 9341)
 			{
@@ -1577,36 +1525,6 @@ break;*/
 			break;
 
 			//WC by aaa mods
-
-		case 5162: //Chest
-			if(c.playerLevel[17] >= 30 && c.wb == 5  && c.getInventoryHandler().freeSlots() >=3) {
-				c.sendMessage("You destroy the Fire Orb");
-				c.sendMessage("You grab some other items.");
-				c.getFrameMethodHandler().Menu(MenuHandler.wbFinish());
-				c.getInventoryHandler().addItem(14497, 1);
-				c.getInventoryHandler().addItem(14499, 1);
-				c.getInventoryHandler().addItem(14501, 1);
-				c.getClientMethodHandler().addSkillXP(100000, 17); //thief
-				c.getClientMethodHandler().addSkillXP(50000, 2);  //str
-				c.getClientMethodHandler().addSkillXP(40000, 16); //agi
-				c.getClientMethodHandler().addSkillXP(20000, 12); //crafting
-				c.wb = 6;
-				c.teleport(3303, 9378, 0);
-				c.questPoints += 1;
-				c.getPlayerLoginData().loadquestinterface();
-			}
-			else if(c.playerLevel[17] >= 30 && c.wb == 5  && c.getInventoryHandler().freeSlots() < 3) {
-				c.sendMessage("You need 3 free inventory slots!");
-			}
-			else if (c.playerLevel[17] < 30 && c.wb == 5){
-				c.sendMessage("You're to clutsy to open the chest,");
-				c.sendMessage("30 Thieving is required to open it.");
-			}
-			else if (c.wb == 6 || c.wb < 5){
-				c.sendMessage("Empty!");
-				c.teleport(3303,9378,0);
-			}
-			break;
 
 		case 4868:
 			c.teleport(3069, 3859, 0);
