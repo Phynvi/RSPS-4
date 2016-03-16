@@ -33,6 +33,7 @@ public class Mining {
 		this.rockList[3] = new RockInformation(MINEDROCK,20,40,SILVER_ORE,7,7); 
 		this.rockList[4] = new RockInformation(MINEDROCK,30,50,COAL,10,8); 
 		this.rockList[5] = new RockInformation(MINEDROCK,40,65,GOLD_ORE,20,10); 
+		this.rockList[11] = new RockInformation(MINEDROCK,40,65,-1,105,1); //gem rock, -1 in this case signfies special case
 		this.rockList[6] = new RockInformation(MINEDROCK,55,80,MITHRIL_ORE,60,20);
 		this.rockList[7] = new RockInformation(MINEDROCK,70,95,ADAMANT_ORE,80,25);
 		this.rockList[8] = new RockInformation(MINEDROCK,85,125,RUNE_ORE,120,30); 
@@ -50,6 +51,7 @@ public class Mining {
 		this.putMultiple(ADAMANT_ROCKS, this.rockList[7]);
 		this.putMultiple(RUNE_ROCKS, this.rockList[8]);
 		this.putMultiple(CLAY_ROCKS, this.rockList[9]);
+		rockTable.put(2111, this.rockList[11]); //gem rock
 		
 	}
 	
@@ -73,9 +75,6 @@ public class Mining {
 	private int getRockDelay(int rockID){
 		int totalDelay = 2; //default
 		switch(rockID){
-		case 2111: //rune essence
-			totalDelay = 6+misc.random(4);
-			break;
 		case 2108: case 2109: //clay
 			
 		case 2091: case 2090: //copper ore
@@ -116,6 +115,10 @@ public class Mining {
 		case 2107: case 2106: //rune ore
 			totalDelay = 15+misc.random(4);
 			break;
+		case 2111: //gem rock
+			totalDelay = 10+misc.random(10);
+			break;
+			
 		}
 		totalDelay -= (c.playerLevel[c.playerWoodcutting]+1)/20; //player bonus for their level, max is 5 seconds
 		totalDelay -= getPickaxeBonus(playerPickaxe()); //reduction based on pickaxe type, max is 8 seconds
@@ -222,7 +225,14 @@ public class Mining {
 			return;
 		}
 		
-		c.getInventoryHandler().addItem(this.rock.getOreType());
+		if(this.rock.getOreType() < 0){ //special cases
+			switch(this.rock.getOreType()){
+			case -1:
+				c.getInventoryHandler().addItem(c.DROPHANDLER.getDrop(DropList.gems));
+				break;
+			}
+		}
+		else c.getInventoryHandler().addItem(this.rock.getOreType());
 		c.getSkillHandler().startSkillTimerForSkill(this.getRockDelay(this.miningObjectID), 7);
 		c.getClientMethodHandler().addSkillXP(this.getEXP(), c.playerMining);
 		this.rock.removeOre();

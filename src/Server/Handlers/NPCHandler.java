@@ -377,6 +377,7 @@ public class NPCHandler {
 
 					if(npcs[i].isOutsideSpawn()) //if the npc has wandered too far
 						npcs[i].reset();
+					
 
 					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply && npcs[i].npcType != 3778 && npcs[i].npcType != 3779 && 
 							npcs[i].npcType != 3780 && npcs[i].npcType != 3777){
@@ -387,7 +388,10 @@ public class NPCHandler {
 								npcs[i].RandomWalk = false;
 								AttackPlayer(i);
 							}
-							else npcs[i].reset();
+							else{
+								npcs[i].reset();
+								//misc.println_debug("Called by NPC: "+npcs[i].npcType+", X,Y: "+npcs[i].absX+","+npcs[i].absY+", StartKilling: "+attackingPlayer.playerName);
+							}
 						}
 					}					
 
@@ -400,10 +404,13 @@ public class NPCHandler {
 
 							if (person != null) {
 								if(person.ignoreCombat) continue;
-								if ( person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= npcs[i].agroRange && person.heightLevel == npcs[i].heightLevel && 
+								if ( 
+										person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= npcs[i].agroRange && 
+										person.heightLevel == npcs[i].heightLevel && 
 										( !person.IsAttackingNPC || person.getClientMethodHandler().isInMultiCombat() ) && 
 										npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn && 
-										( (getCombat(npcs[i].npcType)*2) > person.combat) || npcs[i].isAggressiveIgnoreCombatLevel) {
+										( ((getCombat(npcs[i].npcType)*2) > person.combat) || npcs[i].isAggressiveIgnoreCombatLevel ) 
+										) {
 									npcs[i].StartKilling = person.playerId;
 									npcs[i].RandomWalk = false;
 									npcs[i].IsUnderAttack = true;
@@ -717,6 +724,11 @@ public class NPCHandler {
 			c.sendMessage("You gain a small amount of favour for killing the Broodo Victim.");
 			break;			
 		
+		case 502: //undead one
+		case 503: //undead one
+			dropItem(NPCID, DropList.BONES);
+			break;
+			
 		case 374: //ogre
 		case 852: //ogre chieften
 		case 2044:

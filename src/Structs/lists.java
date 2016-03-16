@@ -11,7 +11,7 @@ public class lists {
 	public static BST craftingList = new BST();
 	public static BST prayerList = new BST();
 	public static BST bones = new BST();
-	public static BST safeNPCs = new BST(878,257,873,874,875,876);
+	public static BST safeNPCs = new BST(132,878,257,873,874,875,876);
 	
 	//Ranged
 	public static BST bows = new BST();

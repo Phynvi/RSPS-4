@@ -477,6 +477,7 @@ public abstract class Player extends playerInstances {
 	public int beta = 0;
 
 	public int RM = 0;
+	public int TUP = 0;
 
 	private int questPoints = 0;
 	public void setQuestPoints(int amt){ this.questPoints = amt; }

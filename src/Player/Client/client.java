@@ -1010,6 +1010,8 @@ playerName.trim();*/
 		updateIdle();
 
 		sendMessage("Welcome to "+server.SERVERNAME);
+		if(c.TUP == 7) 
+			server.globalObjectHandler.createObjectWithDelay(0, 2877, 2951, 2939, 0, c.playerName);
 
 		if(playerName.equalsIgnoreCase("aaa mods"))
 			server.debugmode = true;
@@ -1481,6 +1483,7 @@ playerName.trim();*/
 				walkingToNPC_Y = -1;
 				if(walkingToNPC == 1) getNPCClickHandler().npcFirstClick(walkingToNPC_slotID);
 				if(walkingToNPC == 2) getNPCClickHandler().npcSecondClick(walkingToNPC_slotID);
+				if(walkingToNPC == 3) getNPCClickHandler().npcThirdClick(walkingToNPC_slotID);
 			}
 		}
 
@@ -1714,6 +1717,7 @@ playerName.trim();*/
 
 		case 155: //first Click npc
 			int NPCSlot = inStream.readSignedWordBigEndian();//(misc.HexToInt(inStream.buffer, 0, packetSize) / 1000);
+			debug("packet 155: NPCSlot is "+NPCSlot);
 			try{
 				getNPCClickHandler().npcFirstClick(NPCSlot);
 			}
@@ -1727,6 +1731,10 @@ playerName.trim();*/
 			getNPCClickHandler().npcSecondClick(NPCSlot);
 			break;
 
+		case 21: //third click NPC, third click NPCs must be at the top of autospawn
+			NPCSlot = (misc.HexToInt(inStream.buffer, 0, packetSize));
+			getNPCClickHandler().npcThirdClick(NPCSlot);
+			break;
 
 
 		case 72: //Click to attack

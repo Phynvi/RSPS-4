@@ -18,6 +18,9 @@
 15 - fletching (craft stuff)
 16 - Tai Bwo Wannai Cleanup, repair fence
 17 - Barrowed stuff quest selection for bar tender
+18 - Mosol Rei 
+19 - Timfraku for The Undead Problem
+20 - Shipyard Worker for The Undead Problem
 
 2 options select menu:
 30 - used for teleport options

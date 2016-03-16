@@ -95,6 +95,177 @@ public class MenuHandler {
 		"from each skill's respective tab in the skills tab."};
 	}
 	
+	public String[] theUndeadProblem(){
+		if(c.TUP == 0){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"I can start this quest by speaking with Mosol Rei.",
+					"He can be found outside the gates of Shilo Village."};
+		}
+		else if(c.TUP == 1){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"Mosol Rei wants me to speak with Timfraku",
+					"at Tai Bwo Wannai to see if he can help.",
+					"Mosol Rei has given me a Wampum Belt to bring to Timfraku."};
+		}
+		else if(c.TUP == 2){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"Mosol Rei wants me to speak with Timfraku",
+					"at Tai Bwo Wannai to see if he can help.",
+					"Mosol Rei has given me a Wampum Belt to bring to Timfraku.",
+					"",
+					"Timfraku told me that Shilo Village can be protected",
+					"by a special Totem. He has given me a sketch to bring",
+					"to the Shipyard that is East of Tai Bwo Wannai. I",
+					"should find a worker there who can craft the Totem."};
+		}
+		else if(c.TUP == 3){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"Mosol Rei wants me to speak with Timfraku",
+					"at Tai Bwo Wannai to see if he can help.",
+					"Mosol Rei has given me a Wampum Belt to bring to Timfraku.",
+					"",
+					"Timfraku told me that Shilo Village can be protected",
+					"by a special Totem. He has given me a sketch to bring",
+					"to the Shipyard that is East of Tai Bwo Wannai. I",
+					"should find a worker there who can craft the Totem.",
+					"",
+					"The shipyard worker told me he could make the Totem.",
+					"But, first he needs 20 Mahogany Logs to finish his",
+					"current project."};
+		}
+		else if(c.TUP == 4){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"Mosol Rei wants me to speak with Timfraku",
+					"at Tai Bwo Wannai to see if he can help.",
+					"Mosol Rei has given me a Wampum Belt to bring to Timfraku.",
+					"",
+					"Timfraku told me that Shilo Village can be protected",
+					"by a special Totem. He has given me a sketch to bring",
+					"to the Shipyard that is East of Tai Bwo Wannai. I",
+					"should find a worker there who can craft the Totem.",
+					"",
+					"The shipyard worker told me he could make the Totem.",
+					"But, first he needs 20 Mahogany Logs to finish his",
+					"current project.",
+					"",
+					"I gave the worker the 20 Mahogany Logs he needed.",
+					"He told me that for 5 Teak Logs, he could make me the",
+					"Totem. After I get the Totem made, I should bring it",
+					"back to Timfraku at Tai Bwo Wannai."};
+		}
+		else if(c.TUP == 5){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"Mosol Rei wants me to speak with Timfraku",
+					"at Tai Bwo Wannai to see if he can help.",
+					"Mosol Rei has given me a Wampum Belt to bring to Timfraku.",
+					"",
+					"Timfraku told me that Shilo Village can be protected",
+					"by a special Totem. He has given me a sketch to bring",
+					"to the Shipyard that is East of Tai Bwo Wannai. I",
+					"should find a worker there who can craft the Totem.",
+					"",
+					"The shipyard worker told me he could make the Totem.",
+					"But, first he needs 20 Mahogany Logs to finish his",
+					"current project.",
+					"",
+					"I gave the worker the 20 Mahogany Logs he needed.",
+					"He told me that for 5 Teak Logs, he could make me the",
+					"Totem. After I get the Totem made, I should bring it",
+					"back to Timfraku at Tai Bwo Wannai.",
+					"",
+					"Timfraku said I need to make the Totem gilded.",
+					"I can do this by using a Gold Bar with the Totem."};
+		}
+		else if(c.TUP == 6){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@whi@Requirements:",
+					"60 Crafting",
+					"50 Agility reccommended",
+					"50 Woodcutting reccommended",
+					"",
+					"Mosol Rei wants me to speak with Timfraku",
+					"at Tai Bwo Wannai to see if he can help.",
+					"Mosol Rei has given me a Wampum Belt to bring to Timfraku.",
+					"",
+					"Timfraku told me that Shilo Village can be protected",
+					"by a special Totem. He has given me a sketch to bring",
+					"to the Shipyard that is East of Tai Bwo Wannai. I",
+					"should find a worker there who can craft the Totem.",
+					"",
+					"The shipyard worker told me he could make the Totem.",
+					"But, first he needs 20 Mahogany Logs to finish his",
+					"current project.",
+					"",
+					"I gave the worker the 20 Mahogany Logs he needed.",
+					"He told me that for 5 Teak Logs, he could make me the",
+					"Totem. After I get the Totem made, I should bring it",
+					"back to Timfraku at Tai Bwo Wannai.",
+					"",
+					"Timfraku said I need to make the Totem gilded.",
+					"I can do this by using a Gold Bar with the Totem.",
+					"",
+					"Timfraku has enchanted the Totem and told me to bring",
+					"it back to Mosol Rei at Shilo Village."};
+		}
+		else if(c.TUP == 7){
+			return new String[]{"@gre@The Undead Problem","","",
+					"@whi@Summary: Shilo Village is being overrun by undead.",
+					"",
+					"@gre@Quest completed!",
+					"@gre@You have been rewarded:",
+					"2 Quest Points",
+					"60,000 Crafting Experience",
+					"Passage into Shilo Village",
+					"",
+					};
+		}
+		return null;
+	}
+	
 	public String[] barrowedThings(){
 		if(c.barrowed < 1){
 			return new String[]{"@gre@Barrowed Things","","",
@@ -332,7 +503,9 @@ public class MenuHandler {
 				"Level 1 - Normal Trees",
 				"Level 15 - Oak Trees",
 				"Level 30 - Willow Trees",
+				"Level 35 - Teak Trees",
 				"Level 45 - Maple Trees",
+				"Level 50 - Mahogany",
 				"Level 60 - Yew Trees",
 		"Level 75 - Magic Trees"};
 	}

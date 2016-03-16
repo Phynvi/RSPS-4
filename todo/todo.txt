@@ -1,4 +1,6 @@
--south karamja
+-Fix NPCs attacking
+
+-Quest that uses boxing gloves
 
 -fix relogin issues
 

@@ -9,6 +9,11 @@ public class NPCAnim {
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
 		
+		//skeletons
+		case 502: //undead one
+		case 503: //undead one
+			return 260; //260 - atk, 261 - block, 263 - dead
+		
 		//thrower trolls
 		case 1101:
 		case 1102:
@@ -139,10 +144,6 @@ public class NPCAnim {
 		case 3775: //Brawler
 		case 3776: //Brawler
 			return 3897;
-		
-		case 502:
-		case 90://Skeleton
-			return 5485;
 		
 		case 609: //fortress guard (spear)
 			return POKE;
@@ -916,6 +917,10 @@ public class NPCAnim {
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+		//skeletons
+		case 502: //undead one
+		case 503: //undead one
+			return 261; //260 - atk, 261 - block, 263 - dead
 		//thrower trolls
 		case 1101:
 		case 1102:
@@ -1136,6 +1141,11 @@ public class NPCAnim {
 	//TODO - Dead animations
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
+		//skeletons
+		case 502: //undead one
+		case 503: //undead one
+			return 263; //260 - atk, 261 - block, 263 - dead
+			
 		//thrower trolls
 		case 1101:
 		case 1102:

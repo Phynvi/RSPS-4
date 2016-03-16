@@ -7,6 +7,39 @@ public class NPCClickHandler {
 		this.c = pc;
 	}
 
+	public void npcThirdClick(int slotID){
+		int NPCID = 0;
+		int npcX = 0;
+		int npcY = 0;
+		c.walkingToNPC = 0;
+		try{
+			NPCID = server.npcHandler.npcs[slotID].npcType;
+			npcX = server.npcHandler.npcs[slotID].absX;
+			npcY = server.npcHandler.npcs[slotID].absY;
+		}
+		catch(Exception e){
+			c.error("npcThirdClick : "+e.toString());
+			return;
+		}		
+		c.faceNPC(slotID);
+		c.debug("npcThirdClick: NPCID is "+NPCID);			
+
+		if(!misc.GoodDistance(npcX, npcY, c.absX, c.absY, 1)){
+			c.walkingToNPC_slotID = slotID;
+			c.walkingToNPC = 3;
+			c.walkingToNPC_X = npcX;
+			c.walkingToNPC_Y = npcY;
+			return;
+		}
+
+		switch(NPCID){
+		case 1599:
+			c.getFrameMethodHandler().openUpShopFrame(5); //Duradel's shop
+			return;
+		}
+
+	}
+
 	/**
 	 * Handles second click of NPCs
 	 * @param slotID Slot ID to search for NPC in npcs server list
@@ -40,7 +73,7 @@ public class NPCClickHandler {
 
 		/* Shops */
 		switch(NPCID){		
-		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
+		case 494: case 495: case 496: case 497: case 498: case 499: case 2355: case 2354: case 166: //Bankers
 			c.getFrameMethodHandler().openUpBankFrame();
 			return;
 
@@ -56,12 +89,8 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(3); //Magic Shop
 			return;
 
-		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563: case 2154:
+		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563: case 2154: case 516:
 			c.getFrameMethodHandler().openUpShopFrame(4); //General store
-			return;
-
-		case 580:
-			c.getFrameMethodHandler().openUpShopFrame(5); //PK Shop
 			return;
 
 		case 538: case 1301: case 2353: case 1039: case 875: case 2162:
@@ -112,7 +141,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(17); //Bakery Shop
 			return;
 
-		case 558: case 561: case 576: case 592:
+		case 558: case 561: case 576: case 592: case 517:
 			c.getFrameMethodHandler().openUpShopFrame(18); //Fishing Supplies
 			return;
 
@@ -152,7 +181,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(46); //Graveyard Shop
 			return;
 
-		case 793: case 1300: case 1042:
+		case 793: case 1300: case 1042: case 512:
 			c.getFrameMethodHandler().openUpShopFrame(51); //Tavern Shop
 			return;
 
@@ -199,10 +228,10 @@ public class NPCClickHandler {
 
 		/* Second Click, not Shops */
 		switch(NPCID){
-		
+
 		case 878:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14079,14080,14081, "Defence", c.playerDefence, new String[]{"Yanille needs to be heavily fortified and watched","at all times. The threats of","undead ogres lurk just West of us.",
-					"That Wizard thinks his magic can save","this town? No way, it's through","strength in arms that we survive."});
+				"That Wizard thinks his magic can save","this town? No way, it's through","strength in arms that we survive."});
 			break;
 
 		case 1399: case 321: case 324: case 333: case 312: case 1332: // cage/harpoon
@@ -321,6 +350,45 @@ public class NPCClickHandler {
 		}
 
 		switch(NPCID){ //for conditionals
+
+		case 675:
+			if(c.TUP < 2) c.getClientMethodHandler().npcdialogue(NPCID, "I've got quite a few workers to manage here.");
+			else if(c.TUP == 2){
+				c.getFrameMethodHandler().select4Options(20, "Topics", "Any news?", "I have a sketch for you", "", "Nevermind");
+			}
+			else if(c.TUP == 3){
+				c.getFrameMethodHandler().select4Options(20, "Topics", "Any news?", "I have 20 Mahogany Logs for you", "", "Nevermind");
+			}
+			else if(c.TUP > 3){
+				c.getFrameMethodHandler().select4Options(20, "Topics", "Any news?", "Can you make me a Totem? (5 Teak Logs)", "", "Nevermind");
+			}
+
+			break;
+
+		case 500:
+			if(c.TUP == 0) c.getFrameMethodHandler().select4Options(18, "Ask Mosol Rei", "Any news?", "Need help with anything?", "", "Nevermind");
+			else if(c.TUP >= 1 && c.TUP < 6) c.getFrameMethodHandler().select4Options(18, "Ask Mosol Rei", "Any news?", "Need help with anything?", "I lost the Wampum Belt", "Nevermind");
+			else if(c.TUP == 6){
+				c.getFrameMethodHandler().select4Options(18, "Topics", "Any news?", "I've returned with a Gilded Totem", "", "Nevermind");
+			}
+			else if(c.TUP == 7){
+				c.getClientMethodHandler().npcdialogue(NPCID, "So far, the Totem has been working.");
+			}
+			break;
+
+		case 511: //vigroy cart 
+			if(c.isInArea(2777, 3208, 2783, 3215)){ //brimhaven
+				if(c.TUP == 7){
+					c.getClientMethodHandler().selectOptionTravel2("Travel to Shilo Village?", "Yes", 2832,2954, "no",-1,-1);
+				}
+			}
+			else c.getClientMethodHandler().selectOptionTravel2("Travel to Brimhaven?", "Yes", 2779,3210, "no",-1,-1);
+			return;
+
+		case 512: //shilo village pub
+			c.getFrameMethodHandler().openUpShopFrame(51); //Tavern Shop
+			return;
+
 		case 1042: 
 			if(c.barrowed < 1){
 				c.getFrameMethodHandler().select2Options(42, "Options", "Any news?", "Need help with anything?");
@@ -332,23 +400,35 @@ public class NPCClickHandler {
 				c.getFrameMethodHandler().select2Options(42, "Options", "Any news?", "Need help with anything?");
 			}
 			return;
-		
+
 		case 2520: case 2521:
 			c.getFrameMethodHandler().openUpShopFrame(20, Item.TRADING_STICKS); //Gabooty Shop
 			return;
-			
+
 		case 1162:
-			c.getFrameMethodHandler().select2Options(40, "Options", "Exchange 50 Favour for 50 Trading Sticks", "Nevermind");
+			if(c.TUP == 0 || c.TUP == 7) c.getFrameMethodHandler().select2Options(40, "Options", "Exchange 50 Favour for 50 Trading Sticks", "Nevermind");
+			else if(c.TUP == 1){
+				if(c.getInventoryHandler().hasItem(625)) c.getFrameMethodHandler().select4Options(19, "Topics", "Exchange Favour", "I brought this Wampum Belt for you", "", "Nevermind");
+				else c.getFrameMethodHandler().select2Options(40, "Options", "Exchange 50 Favour for 50 Trading Sticks", "Nevermind");
+			}
+			else if(c.TUP == 2 || c.TUP == 3) 
+				c.getFrameMethodHandler().select4Options(19, "Ask Timfrau", "Exchange Favour", "How can I help Shilo Village?", "I've lost the sketch", "Nevermind");
+			else if(c.TUP == 4) 
+				c.getFrameMethodHandler().select4Options(19, "Topics", "Exchange Favour", "I've brought back the Totem", "", "Nevermind");
+			else if(c.TUP == 5) 
+				c.getFrameMethodHandler().select4Options(19, "Topics", "Exchange Favour", "I've brought back the Gilded Totem", "How do I gild the Totem?", "Nevermind");
+			else if(c.TUP == 6) 
+				c.getFrameMethodHandler().select4Options(19, "Topics", "Exchange Favour", "What should I do with the Gilded Totem?", "", "Nevermind");
 			return;
-			
+
 		case 2533:
 			c.getFrameMethodHandler().select2Options(39, "Options", "Use 25% favour to open bank", "Nevermind");
 			return;
-		
+
 		case 2530:
 			c.getFrameMethodHandler().select2Options(38, "Options", "Pay 100 Trading Sticks to enter grove", "Nevermind");
 			return;
-			
+
 		case 1164:
 			c.getFrameMethodHandler().select2Options(37, "Options", "Use 10% favour to open shop", "Nevermind");
 			return;
@@ -357,7 +437,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().select2Options(36, "Options", "Use 10% favour to open shop", "Nevermind");
 			return;
 
-		case 494: case 495: case 496: case 497: case 2355: case 2354: case 166: //Bankers
+		case 494: case 495: case 496: case 497: case 498: case 499: case 2355: case 2354: case 166: //Bankers
 			c.getFrameMethodHandler().openUpBankFrame();
 			return;
 
@@ -613,6 +693,7 @@ public class NPCClickHandler {
 		case 70:
 		case 1596:
 		case 1208: //slayer
+		case 1599:
 			c.getFrameMethodHandler().select4Options(7,"Hello", "I need a new Slayer task", "How much is left of my current task?", "Can I purchase a Slayer Crystal?", "(Click here for more options)");
 			c.slayerMaster = NPCID;
 			break;

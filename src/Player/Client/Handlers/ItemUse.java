@@ -569,6 +569,10 @@ public class ItemUse {
 			if(c.slayerCount <= 0 && c.slayerNPC != 0) c.sendMessage("Your current slayer task is complete.");
 			if(c.slayerNPC == 0) c.sendMessage("You do not have a current slayer task.");
 			break;
+			
+		case 720:
+			c.sendMessage("Appears to be a sketch of a Totem.");
+			break;
 
 		default:
 			c.sendMessage("Nothing interesting is happening.");
@@ -691,6 +695,18 @@ public class ItemUse {
 			if(c.getSkillHandler().getCraftingHandler().checkCrafting(useWith, itemUsed)) return true;
 		}
 
+		if(itemUsed == 749 && useWith == 2357){
+			if(c.playerLevel[c.playerCrafting] < 60){
+				c.sendMessage("You need at least 60 Crafting to do that.");
+			}
+			else{
+				c.getInventoryHandler().deleteItem(749);
+				c.getInventoryHandler().deleteItem(2357);
+				c.getInventoryHandler().addItem(750);
+				c.sendMessage("You shape the gold around the Totem.");
+			}
+		}
+		
 		//Herblore
 		if(itemUsed == 233 && useWith == 237) 
 			return removeAdd(useWith, 235);

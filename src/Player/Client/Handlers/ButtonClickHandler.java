@@ -23,7 +23,11 @@ public class ButtonClickHandler {
 		//case 59136:
 		//panellist();
 		//break;			
-		
+
+		case 28168:
+			c.getFrameMethodHandler().menu(c.getMenuHandler().theUndeadProblem());
+			break;
+
 		case 28164:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().barrowedThings());
 			break;
@@ -61,7 +65,7 @@ public class ButtonClickHandler {
 		case 28166:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().runeMysteries());
 			break;
-			
+
 		case 150: //auto retaliate on
 			c.autoRetaliate = 1;
 			c.getFrameMethodHandler().sendQuest("@gre@Auto Retaliate", 155); //auto retaliate
@@ -98,10 +102,17 @@ public class ButtonClickHandler {
 			//Autocast
 
 			//4 select option
-		case 32017: //1st option
+		case 32017: //4 options, 1st option TODO
 
 			c.debug("menuChoice is : "+c.menuChoice);
 			switch(c.menuChoice){
+			case 20: //shipyard worker for The Undead Problem
+				c.getClientMethodHandler().npcdialogue(675, "I've got quite a few workers to manage here.");
+				break;
+			case 19: //Timfraku from The Undead Problem
+				c.getFrameMethodHandler().select2Options(40, "Options", "Exchange 50 Favour for 50 Trading Sticks", "Nevermind");
+				break;
+
 			case 0:
 				c.teleport(c.oX1, c.oY1, 0);
 				c.oX1 = -1;
@@ -159,10 +170,6 @@ public class ButtonClickHandler {
 				}
 				else
 					c.getClientMethodHandler().npcdialogue("Token Exchange Master", 410, "You need at least one token.");
-				break;
-
-			case 10:
-				c.error("TODO"); //TODO
 				break;
 
 			case 11:
@@ -255,15 +262,99 @@ public class ButtonClickHandler {
 				c.getClientMethodHandler().npcdialogue(1042, "People say that some of these","citizens have fangs. But, I ain't","never seen any of it.");
 				break;
 
+			case 18: //Mosol Rei
+				c.getClientMethodHandler().npcdialogue(500, "We've been having a big problem","lately with these undead creatues","overrunning our village.",
+						"Thankfully I was able to barricade most of them","between the gates with that cart.","However, many of the undead continue","to attack us at night.");
+				break;
+
 			default:
 				c.getFrameMethodHandler().RemoveAllWindows();
 			}
 
 			break;
 
-		case 32018: //2nd option
+		case 32018: //4 options, 2nd option TODO
 
 			switch(c.menuChoice){
+
+			case 20: //shipyard worker for The Undead Problem
+				if(c.TUP == 2){
+					if(c.getInventoryHandler().hasItem(720)){
+						c.getClientMethodHandler().npcdialogue(675, "","Well, let me take a look at it.","","",
+								"Yup, my boys can definitely create something","like this. However, Just as bad","as you need this Totem, I","need to finish this Mahogany desk.",
+								"Bring me back 20 Mahogany Logs and I can","definitely have your Totem made.");
+						c.getInventoryHandler().deleteItem(720);
+						c.TUP = 3;
+						c.getFileLoadingHandler().saveAll();
+					}
+				}
+				else if(c.TUP == 3){
+					if(c.getInventoryHandler().hasItemOfAtLeastAmount(6332, 20)){
+						for(int i = 0; i < 20; i++)
+							c.getInventoryHandler().deleteItem(6332);
+						c.getClientMethodHandler().npcdialogue(675, "Wonderful! This will allow me to finish","the project much quicker. Now, for","the Totem it looks like I'm going to need","five Teak logs.");
+						c.TUP = 4;
+						c.getFileLoadingHandler().saveAll();
+					}
+					else c.getClientMethodHandler().npcdialogue(675, "I don't think you know how to count.","You do not have the 20 Mahogany Logs I need.");
+				}
+				else if(c.TUP >= 4){
+					if(c.getInventoryHandler().hasItemOfAtLeastAmount(6333, 5)){
+						for(int i = 0; i < 5; i++)
+							c.getInventoryHandler().deleteItem(6333);
+						c.getClientMethodHandler().npcdialogue(675, "Alright, here's your Totem.");
+						c.getInventoryHandler().addItem(749);
+					}
+					else c.getClientMethodHandler().npcdialogue(675, "If you want a Totem, I'll need","5 Teak Logs.");
+				}
+				break;
+
+			case 19: //Timfraku from The Undead Problem
+				if(c.TUP == 1){
+					if(c.getInventoryHandler().hasItem(625)){
+						c.getInventoryHandler().deleteItem(625);
+						c.getClientMethodHandler().npcdialogue(1162, "This is from Shilo Village. Hmm, let","me see what they need.","","",
+								"This is not good. They were right to consult me.","I have quite the experience with",
+								"the undead. Especially with the Broodoo Victims.", "",
+								"If they are dealing with Undead Ones,","then they will need a Totem to","ward off the unwanted creatures.","",
+								"We do not have any craftsmen skilled enough","to create the type of Totem that","Shilo Village will need.","",
+								"I know that some of the workers down","at the Shipyard should have the","skill required. I would suggest","speaking with them.",
+								"Take this sketch of the Totem. That","should be enough information","for someone to create it.","",
+								"When you get the Totem, you should return to","me, so that I may enchant it.");
+						c.getInventoryHandler().addItem(720);
+						c.TUP = 2;
+						c.getFileLoadingHandler().savechar();
+						c.getFileLoadingHandler().savemoreinfo();					
+					}
+					else c.getClientMethodHandler().npcdialogue(1162, "You do not have that belt with you.");
+				}
+				else if (c.TUP == 2 || c.TUP == 3){
+					c.getClientMethodHandler().npcdialogue(1162, "To protect themselves from the Undead Ones,","they will need a Totem to ward","off unwanted creatures.","",
+							"We do not have any craftsmen skilled enough","to create the type of Totem that","Shilo Village will need.","",
+							"I know that some of the workers down","at the Shipyard should have the","skill required. I would suggest","speaking with them.",
+							"When you get the Totem, you should return to","me, so that I may enchant it.");
+				}
+				else if (c.TUP == 4){
+					if(c.getInventoryHandler().hasItem(749)){
+						c.getClientMethodHandler().npcdialogue(1162, "That Totem looks perfect. The next","step is to make it gilded. In","order to do this, you will","need to use a Gold Bar on the Totem.");
+						c.TUP = 5;
+						c.getFileLoadingHandler().saveAll();
+					}
+					else c.getClientMethodHandler().npcdialogue(1162, "You do not have the Totem.");
+				}
+				else if (c.TUP == 5){
+					if(c.getInventoryHandler().hasItem(750)){
+						c.getClientMethodHandler().npcdialogue(1162, "Now the Totem is complete.","I have also enchanted it for you.","For the final step, just bring it back","to Mosol Rei.");
+						c.TUP = 6;
+						c.getFileLoadingHandler().saveAll();
+					}
+					else c.getClientMethodHandler().npcdialogue(1162, "You do not have the Totem.");
+				}
+				else if (c.TUP == 6){
+					c.getClientMethodHandler().npcdialogue(1162, "Just bring it back to Mosol Rei","at Shilo Village.");
+				}
+				break;
+
 			case 0:
 				c.teleport(c.oX2, c.oY2);
 				c.oX2 = -1;
@@ -316,7 +407,7 @@ public class ButtonClickHandler {
 				c.getFrameMethodHandler().select4Options(11,"Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
 				break;
 
-			case 10: //TODO dialogue
+			case 10: 
 				c.sendMessage("Your spellbook has been changed.");
 				if(c.spellbook == 0){
 					c.spellbook = 1;
@@ -423,21 +514,64 @@ public class ButtonClickHandler {
 				else c.sendMessage("You need three medium spars to do that.");
 				c.getFrameMethodHandler().RemoveAllWindows();				
 				break;
-				
+
 			case 17:
 				c.getClientMethodHandler().npcdialogue(1042, "There's a collector who comes through here","every month or so, seeking pieces of",
 						"armor from the undead brothers","in the barrows. Last time he","was in town, he requested a full set of armor.","If you could return here","with a full set of barrows armor,",
 						"I would greatly appreciate it.","Of course there would be some reward","associated with it.");
 				break;
 
+			case 18:
+				if(c.TUP == 0){
+					if(c.getInventoryHandler().freeSlots() == 0) c.getClientMethodHandler().npcdialogue(500,"I do need your help, but it","involves carrying something.","Your inventory is full though.");
+					else{
+						c.getClientMethodHandler().npcdialogue(500,"If you want to help us with the undead problem,","then I need you to consult Timfraku","at Tai Bwo Wannai. I know he",
+								"has experience with handling the undead.","Take this Wampum Belt. I want you to","give it to Timfraku. It contains",
+								"a message which explains our current situation.","I need to stay here and defend the village.");
+						c.getInventoryHandler().addItem(625);
+						c.TUP = 1;
+						c.getFileLoadingHandler().savechar();
+						c.getFileLoadingHandler().savemoreinfo();
+						c.getFrameMethodHandler().loadQuestTab();
+					}
+				}
+				else if(c.TUP == 1) c.getClientMethodHandler().npcdialogue(500, "I already told you, I need you","to take the Wampum Belt to Timfraku.","He is located at Tai Bwo Wannai,","Northwest of here.");
+				else if(c.TUP == 6){
+					if(c.getInventoryHandler().hasItem(750)){
+						c.TUP = 7;
+						c.getClientMethodHandler().addSkillXP(60000, c.playerCrafting);
+						c.getClientMethodHandler().addQuestPoints(2);
+						c.getFrameMethodHandler().menu(c.getMenuHandler().theUndeadProblem());
+						server.globalObjectHandler.createObjectWithDelay(0, 2877, 2951, 2939, 0, c.playerName);
+					}
+					else c.getClientMethodHandler().npcdialogue(500, "You don't have any Totem with you.");
+				}
+				break;
+
 			default:
 				c.getFrameMethodHandler().RemoveAllWindows();
 			}
-			
+
 			break;
 
-		case 32019: //3rd option
+		case 32019: //4 options, 3rd option TODO
 			switch(c.menuChoice){
+			case 19:
+				if(c.TUP == 2){
+					if(c.getInventoryHandler().freeSlots() == 0)
+						c.getClientMethodHandler().npcdialogue(1162, "I can draw up another one for you, but","your inventory is currently full.");
+					else{
+						c.getClientMethodHandler().npcdialogue(1162, "Here's another one I drew up.");
+						c.getInventoryHandler().addItem(720);
+					}
+				}
+				else if (c.TUP == 5){
+					c.getClientMethodHandler().npcdialogue(1162, "To gild the Totem, just","use a Gold Bar with the Totem.");
+				}
+				else 
+					c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+
 			case 0:
 				c.teleport(c.oX3, c.oY3);
 				c.oX3 = -1;
@@ -566,9 +700,9 @@ public class ButtonClickHandler {
 					completed = true;
 				}
 				else if(c.getInventoryHandler().hasItem(4716) && c.getInventoryHandler().hasItem(4720) && c.getInventoryHandler().hasItem(4722)){ 
-						c.getInventoryHandler().deleteItems(4716,4720,4722);
-						completed = true;
-					}
+					c.getInventoryHandler().deleteItems(4716,4720,4722);
+					completed = true;
+				}
 				else if(c.getInventoryHandler().hasItem(4724) && c.getInventoryHandler().hasItem(4728) && c.getInventoryHandler().hasItem(4730)){ 
 					c.getInventoryHandler().deleteItems(4724,4728,4730);
 					completed = true;
@@ -591,7 +725,7 @@ public class ButtonClickHandler {
 					c.getInventoryHandler().deleteItems(4753,4757,4759);
 					completed = true;
 				}
-				
+
 				if (completed){
 					c.getInventoryHandler().addItem(995, 240000);
 					c.sendMessage("You have completed Barrowed Things.");
@@ -600,7 +734,18 @@ public class ButtonClickHandler {
 					c.getFrameMethodHandler().menu(c.getMenuHandler().barrowedThings());		
 				}
 				else c.getClientMethodHandler().npcdialogue(1042, "What are you talking about?","You don't have a full set of","barrows armor.");
-					
+				break;
+
+			case 18:
+				if(c.TUP == 1){
+					if(c.getInventoryHandler().freeSlots() == 0) c.getClientMethodHandler().npcdialogue(500, "I have another one I can give you.","However, your inventory is full.");
+					else{
+						c.getClientMethodHandler().npcdialogue(500, "Here's another Wampum belt.","Try not to lose it.");
+						c.getInventoryHandler().addItem(625);
+					}
+					break;
+				}					
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			default:
@@ -610,7 +755,7 @@ public class ButtonClickHandler {
 
 			break;
 
-		case 32020: //4th option
+		case 32020: //4 options, 4th option TODO
 			switch(c.menuChoice){
 			case 0:
 				c.teleport(c.oX4, c.oY4);
@@ -629,6 +774,10 @@ public class ButtonClickHandler {
 					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"I travelled halfway across the world to","deal with a infestation problem.","Can you believe that?"});
 				if(c.slayerMaster == 1596)
 					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"Take care as you travel South,","naught but foulness infests those lands."});
+				if(c.slayerMaster == 70)
+					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"I hate it up here. I'm more of","a Al Kharid weather type","of person."});
+				if(c.slayerMaster == 1599)
+					c.getNPCClickHandler().skillMaster(c.slayerMaster, c.getClientMethodHandler().getNpcName(c.slayerMaster), 14112,14113,14114, "Slayer", c.playerSlayer, new String[]{"You think your fit enough to handle my tasks?"});
 				return;
 
 			case 8:
@@ -967,7 +1116,7 @@ public class ButtonClickHandler {
 			case 34: //TODO different NPC
 				if (c.getInventoryHandler().playerHasItemAmount(995, 1000000)){
 					if (c.getInventoryHandler().freeSlots() > 0) {
-						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Here's your staff.", "Once again, thanks for helping us.");
+						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Here's your staff.");
 						c.getInventoryHandler().addItem(13308, 1);
 						c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 1000000);
 					}
@@ -1426,7 +1575,7 @@ public class ButtonClickHandler {
 		case 3059: case 3060:
 			c.sendMessage("That destination is not reachable from this location.");
 			break;
-			
+
 		case 3056: //south karamja
 			if(c.isInArea(2461,3496,2470,3508)){ //grand tree
 				c.teleport(2971,2968,0);

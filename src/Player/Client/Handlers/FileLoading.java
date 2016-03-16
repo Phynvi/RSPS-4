@@ -15,6 +15,11 @@ public class FileLoading {
 		this.c = pc;
 	}
 	
+	public void saveAll(){
+		this.savechar();
+		this.savemoreinfo();
+	}
+	
 
 	public boolean isBanned(String host){
 		try
@@ -251,7 +256,9 @@ public class FileLoading {
 						c.pkpoints = Integer.parseInt(token2);
 					} else if (token.equals("character-RM")) {
 						c.RM = Integer.parseInt(token2);
-					} 
+					} else if (token.equals("TUP")) {
+						c.TUP = Integer.parseInt(token2);
+					}
 					else if (token.equals("slayerNPC")){
 						c.slayerNPC = Integer.parseInt(token2);
 					}
@@ -522,6 +529,9 @@ public class FileLoading {
 			characterfile.newLine();
 			String s17 = "barrowed = "; characterfile.write(s17, 0, s17.length());
 			characterfile.write(Integer.toString(c.barrowed), 0, Integer.toString(c.barrowed).length());
+			characterfile.newLine();
+			String s18 = "TUP = "; characterfile.write(s18, 0, s18.length());
+			characterfile.write(Integer.toString(c.TUP), 0, Integer.toString(c.TUP).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

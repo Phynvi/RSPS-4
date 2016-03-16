@@ -3170,7 +3170,12 @@ public class FrameMethods {
 		else if (c.RM >= 4)
 			sendQuest("@gre@Rune Mysteries", 7334);
 		
-		sendQuest("", 7336); //Quest 4
+		if(c.TUP == 0)
+			sendQuest("The Undead Problem", 7336); //Quest 4
+		else if(c.TUP > 0 && c.TUP < 7)
+			sendQuest("@yel@The Undead Problem", 7336); //Quest 4
+		else if(c.TUP == 7)
+			sendQuest("@gre@The Undead Problem", 7336); //Quest 4
 		sendQuest("", 7383); //Quest 5
 		sendQuest("", 7339); //Quest 6
 		sendQuest("", 7338); //Quest 7

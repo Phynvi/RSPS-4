@@ -56,6 +56,12 @@ import java.util.Queue;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(39, "I've spent many a'years constructin'","and workin' on naught but the","finest vessels.");
+			add(38,"Weather's lookin' rather fair.");
+			add(513,"Careful around here.","Fire and bamboo do not mix well.");
+			add(516,"Welcome to my general store.");
+			add(515,"Hmm, I think I just need one small favour.");
+			add(517, "Are you here to take care of the undead problem?");
 			add(524,"Please take a look at my shop.");
 			add(1163,"What brings you out to these parts?");
 			add(1837,"Maybe one day I'll let a human use the cannon...");
@@ -181,7 +187,7 @@ import java.util.Queue;
 			add(792,"I am Grip... I think.");
 			add(1595, "If you're going down there,","make sure you have a hatchet.","it is required to navigate.");
 			add(846,"You're not from around here.");
-			add(510,"Normally I could send you wherever","you wanted to go in this cart.","Unfortunately, the cart's broken","and is under construction for now.");
+
 			add(2330,"I'm usually watching over","the farming patches. However,","I just wanted to relax today.");
 			add(588,"Need any accessories?");
 			
@@ -246,8 +252,10 @@ import java.util.Queue;
 			add("Banker", 494, "I can assist you with banking.");
 			add("Banker", 495, "I can assist you with banking.");
 			add("Banker", 496, "I can assist you with banking.");
+			add("Banker", 497, "I can assist you with banking.");
+			add("Banker", 498, "I can assist you with banking.");
+			add("Banker", 499, "I can assist you with banking.");
 			add("Banker", 2619, "I can assist you with banking.");
-
 			add("Guard", 925, "Follow the rules and avoid", "being beaten.");
 			add( "Chancy",338, "This portal leads to the Kalphite Queen.", "Good luck my friend.");
 			add("Guild Master", 198, "The area outside of the bank is", "a pking zone.", "This means players can attack you", "if you step outside this building.");
@@ -256,7 +264,6 @@ import java.util.Queue;
 			add("Cave Monk",656,  "Be careful brother.","Once you have entered those","caves there is no exit back","to this location.");
 			add("Reldo", 647, "The open sea warms my heart...");
 			add("Ragnar", 1379, "I left my violent life to", "live in peace.");
-			add("Shipyard Worker",675,  "You should talk to the captain", "if you feel like leaving", "the island.");
 			add("Farmer", 1357, "I reside in the most peaceful island,","how could I not be happy?");
 			add( "Gardener",1377, "This garden just won't grow...");
 			add("Resident",663,  "Please do not bring violence to", "this peaceful sanctuary.");

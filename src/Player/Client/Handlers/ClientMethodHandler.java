@@ -15,7 +15,7 @@ public class ClientMethodHandler {
 	
 	public void addQuestPoints(int amt){
 		c.setQuestPoints(c.getQuestPoints()+amt);
-		c.getFileLoadingHandler().savemoreinfo();
+		c.getFileLoadingHandler().saveAll();
 		c.getFrameMethodHandler().loadQuestTab();
 	}
 
