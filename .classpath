@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="src/Player/Client/Handlers"/>
 	<classpathentry excluding="Handlers/" kind="src" path="src/Player/Client"/>
 	<classpathentry kind="src" path="src/Server/Data"/>
-	<classpathentry excluding="Data/|Handlers/" kind="src" path="src/Server"/>
 	<classpathentry kind="src" path="src/NPC"/>
 	<classpathentry kind="src" path="src/Player/Skills"/>
 	<classpathentry excluding="Skills/|Client/|Client/Handlers/" kind="src" path="src/Player"/>
