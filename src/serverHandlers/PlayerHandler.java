@@ -36,7 +36,7 @@ public class PlayerHandler {
 	public static boolean kickAllPlayers = false;
 	public static String messageToAll = "";
 	public static int playerCount=0;
-	public static String playersCurrentlyOn[] = new String[maxPlayers];
+
 	public static boolean updateAnnounced;
 	public static boolean updateRunning;
 	public static int updateSeconds;
@@ -52,6 +52,7 @@ public class PlayerHandler {
 	public void newPlayerClient(java.net.Socket s, String connectedFrom) {
 		// first, search for a free slot
 		//int slot = -1, i = playerSlotSearchStart;
+		
 		int slot = -1, i = 1;
 		do {
 			if(players[i] == null) {
@@ -65,17 +66,27 @@ public class PlayerHandler {
 
 		client newClient = new client(s, slot);
 		newClient.handler = this;
+		newClient.connectedFrom = connectedFrom;
+		newClient.slot = slot;
 		(new Thread(newClient)).start();
 		if(slot == -1) return;		// no free slot found - world is full
-		players[slot] = newClient;
-		players[slot].connectedFrom = connectedFrom;
-                updatePlayerNames();
-
+		
 		// start at next slot when issuing the next search to speed it up
 		playerSlotSearchStart = slot + 1;
 		if(playerSlotSearchStart > maxPlayers) playerSlotSearchStart = 1;
 		// Note that we don't use slot 0 because playerId zero does not function
 		// properly with the client.
+	}
+	
+	public void removePlayer(String playerName){
+		for(int i = 0; i < players.length; i++){
+			if(players[i] != null){
+				if(players[i].playerName.equalsIgnoreCase(playerName)){
+					misc.println("removePlayer: Found "+playerName+" in players, at index "+i);
+					players[i] = null;
+				}
+			}
+		}
 	}
 
 	public void destruct() {
@@ -89,24 +100,14 @@ public class PlayerHandler {
 	public static int getPlayerCount() {
 		return playerCount;
 	}
-
-	public void updatePlayerNames(){
-		playerCount=0;
-		for(int i = 0; i < maxPlayers; i++) {
-			if(players[i] != null) {
-				playersCurrentlyOn[i] = players[i].playerName;
-                                playerCount++;
-			}
-			else {
-				playersCurrentlyOn[i] = "";
-                        }
-		}
-	}
-
-	public static boolean isPlayerOn(String playerName) {
-		for(int i = 0; i < maxPlayers; i++) {
-			if(playersCurrentlyOn[i] != null){
-				if(playersCurrentlyOn[i].equalsIgnoreCase(playerName)) return true;
+	
+	public static boolean isPlayerOn(String playerName){
+		for(int i = 0; i < players.length; i++){
+			if(players[i] != null){
+				if(players[i].playerName.equalsIgnoreCase(playerName)){
+					misc.println("Found "+playerName+" in players, at index "+i);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -116,9 +117,9 @@ public class PlayerHandler {
 {
 		for(int i = 0; i < maxPlayers; i++) 
 {
-			if(playersCurrentlyOn[i] != null)
+			if(players[i] != null)
  {
-				if(playersCurrentlyOn[i].equalsIgnoreCase(playerName)) return i;
+				if(players[i].playerName.equalsIgnoreCase(playerName)) return i;
 			}
 		}
 		return -1;

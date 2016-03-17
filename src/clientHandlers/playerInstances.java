@@ -64,7 +64,7 @@ public class playerInstances {
 	public int oX1,oX2,oX3,oY1,oY2,oY3,oX4,oY4;
 
 	public Fishing FISHING;
-	public Agility AGILITY;
+
 	public Runecrafting RUNECRAFTING;
 	public boolean cycleItems = false;
 	//public ArrayList<RespawnObject> cutTrees = new ArrayList<RespawnObject>();

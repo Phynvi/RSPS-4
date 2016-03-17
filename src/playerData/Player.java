@@ -15,6 +15,7 @@ public abstract class Player extends playerInstances {
 	
 	public boolean hasLoadedAllNPCs = false;
 
+	public int slot = -1;
 
 	public int distanceTo(Player other) {
 		return (int) Math.sqrt(Math.pow(absX - other.absX, 2) + Math.pow(absY - other.absY, 2));

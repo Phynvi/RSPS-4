@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160208
+character-lastlogintime = 20160217
 character-starter = 1
 character-hasegg = 0
 character-hasset = 0
@@ -27,7 +27,7 @@ slayerCount = 14
 specialDelay = 10
 masteries = 0
 pirate = 11
-homeTeleportTimer = 3
+homeTeleportTimer = 0
 bandos = 0
 armadyl = 0
 prevarmadyl = 0
@@ -38,6 +38,7 @@ questPoints = 2
 chatRoomName = 
 favour = 0
 barrowed = 0
+TUP = 0
 
 [QUESTS]
 character-questpoints = 0

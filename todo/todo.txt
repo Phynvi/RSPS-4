@@ -4,8 +4,6 @@
 
 -Quest that uses boxing gloves
 
--fix relogin issues
-
 -Redo dropped items handler
 
 -All new quests

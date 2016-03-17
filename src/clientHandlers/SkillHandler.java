@@ -6,6 +6,7 @@ import skills.Firemaking;
 import skills.Fishing;
 import skills.Fletching;
 import skills.Prayer;
+import skills.Agility;
 
 
 public class SkillHandler {
@@ -13,6 +14,11 @@ public class SkillHandler {
 	private int skillTimer = -1;
 	private int skillType = -1;
 	private client c;
+	
+	private Agility agilityHandler;
+	public Agility getAgilityHandler(){
+		return this.agilityHandler;
+	}
 	
 	private Prayer prayerHandler;
 	public Prayer getPrayerHandler(){
@@ -52,6 +58,7 @@ public class SkillHandler {
 		this.cookingHandler = new Cooking(pc);
 		this.fishingHandler = new Fishing(pc);
 		this.prayerHandler = new Prayer(pc);
+		this.agilityHandler = new Agility(pc);
 	}
 	
 	public void resetTimers(){
@@ -74,6 +81,7 @@ public class SkillHandler {
 	//called every 500ms
 	public void process(){
 		this.prayerHandler.prayTimers();
+		this.agilityHandler.agilityTimers();
 		if(this.skillTimer > 0 && --this.skillTimer == 0){
 			switch(this.skillType){
 			case 1: //firemaking

@@ -46,37 +46,37 @@ import skills.Woodcutting;
 import struct.lists;
 
 public class client extends Player implements Runnable {
-	
+
 	private SkillHandler skillHandler = new SkillHandler(this);
 	public SkillHandler getSkillHandler(){
 		return this.skillHandler;
 	}
-	
+
 	private MiniGameHandler miniGameHandler = new MiniGameHandler(this);
 	public MiniGameHandler getMiniGameHandler(){
 		return this.miniGameHandler;
 	}
-	
+
 	private CommandHandler commandHandler = new CommandHandler(this);
 	public CommandHandler getCommandHandler(){
 		return this.commandHandler;
 	}
-	
+
 	private ChatRoomHandler chatRoomHandler = new ChatRoomHandler(this);
 	public ChatRoomHandler getChatRoomHandler(){
 		return this.chatRoomHandler;
 	}
-	
+
 	private Mining miningHandler = new Mining(this);
 	public Mining getMiningHandler(){
 		return this.miningHandler;
 	}
-	
+
 	private Woodcutting woodcuttingHandler = new Woodcutting(this);
 	public Woodcutting getWoodcuttingHandler(){
 		return this.woodcuttingHandler;
 	}
-	
+
 	private FoodHandler foodHandler = new FoodHandler(this);
 	public FoodHandler getFoodHandler(){
 		return this.foodHandler;
@@ -137,15 +137,11 @@ public class client extends Player implements Runnable {
 		return this.frameMethodHandler;
 	}
 
-	public Agility getAgilityHandler(){
-		return this.AGILITY;
-	}
-
 	private Farming farmingHandler = new Farming(this);
 	public Farming getFarmingHandler(){
 		return this.farmingHandler;
 	}
-	
+
 	public void disconnectPlayerAndSave(String reason){
 		//disconnected = true;
 		this.Events.stop();
@@ -192,7 +188,7 @@ public class client extends Player implements Runnable {
 		this.SLAYER = new Slayer(this);
 		this.menuHandler = new MenuHandler(this);
 		this.RUNECRAFTING = new Runecrafting(this);
-		this.AGILITY = new Agility(this);
+
 		this.Events.EventStart(60*1000, 0, this); //HP Restore every minute	
 		this.Events.EventStart(1000, 1, this); //Calls event index 1 every second
 		this.Events.EventStart(30*1000, 2, this); //Called every 30 seconds
@@ -342,7 +338,7 @@ public class client extends Player implements Runnable {
 			in = s.getInputStream();
 			out = s.getOutputStream();
 		} catch(java.io.IOException ioe) {
-			misc.println("Rune Unlimited Server (1): Exception!");
+			misc.println("In client constructor: IO Exception");
 			ioe.printStackTrace(); 
 		}
 
@@ -365,8 +361,6 @@ public class client extends Player implements Runnable {
 			if(this.Events != null)
 				this.Events.stop(); //stops calling event timers
 			disconnected = true;
-			server.connectedList.remove(mySock.getInetAddress().getHostName());
-
 			if(in != null) in.close();
 			if(out != null) out.close();
 			mySock.close();
@@ -594,17 +588,19 @@ playerName.replaceAll(">", "_");
 playerName.replaceAll("|", "_");
 playerName.trim();*/
 			returnCode = 2;
-			if(PlayerHandler.isPlayerOn(playerName)){ 
-				for(Player p : server.playerHandler.players){
-					if(p != null){
-						if(p.playerName.equalsIgnoreCase(playerName) && p.playerId != playerId && getFileLoadingHandler().loadGame(playerName, playerPass) != 2){
-							client g = (client) p;
-							g.destruct("Someone else logging onto account.");
-							destruct("Someone is logged into this account.");
-						}
-					}
-				}
-			} 
+			//			if(PlayerHandler.isPlayerOn(playerName)){ 
+			//				for(Player p : server.playerHandler.players){
+			//					if(p != null){
+			//						if(p.playerName.equalsIgnoreCase(playerName) && p.playerId != playerId && getFileLoadingHandler().loadGame(playerName, playerPass) != 2){
+			//							client g = (client) p;
+			//							g.destruct("Someone else logging onto account.");
+			//							destruct("Someone is logged into this account.");
+			//							returnCode = 5;
+			//							return;
+			//						}
+			//					}
+			//				}
+			//			} 
 
 			/*
     String hash = MD5.asHex(MD5.getHash(playerPass));
@@ -646,7 +642,7 @@ playerName.trim();*/
 				savefile = false;
 				disconnected = true;
 			}  
-			
+
 			//loadsave(); - quoted out because although it fucking owns 
 			if(readSave() != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
 				getFileLoadingHandler().loadmoreinfo();
@@ -736,6 +732,7 @@ playerName.trim();*/
 			else out.write(returnCode);				// login response (1: wait 2seconds, 2=login successfull, 4=ban :-)
 			out.write(playerRights);		// mod level
 			out.write(0);					// no log
+			PlayerHandler.players[slot] = this;
 			//if(returnCode == 2 && !playerName.equalsIgnoreCase("_"))
 			//PlayerHandler.messageToAll = playerName+" has logged in! There is now "+PlayerHandler.getPlayerCount() + " players.";
 		} 
@@ -860,6 +857,17 @@ playerName.trim();*/
 			disconnected = true;
 			savefile = false;
 			debug(playerName+" is already online.");
+			if(PlayerHandler.isPlayerOn(playerName)){ 
+				for(Player p : server.playerHandler.players){
+					if(p != null){
+						if(p.playerName.equalsIgnoreCase(playerName) && p.playerId != playerId && getFileLoadingHandler().loadGame(playerName, playerPass) != 2){
+							client g = (client) p;
+							g.disconnectPlayerAndSave("Someone else logging into account");
+							return 3;
+						}
+					}
+				}
+			} 
 			return 3;
 		} else {
 			int LoadGame = getFileLoadingHandler().loadGame(playerName, playerPass);
@@ -957,13 +965,13 @@ playerName.trim();*/
 		getFrameMethodHandler().setSidebarInterface(5, 5608);
 		getFrameMethodHandler().setSidebarInterface(6, 1151);
 		getFrameMethodHandler().setSidebarInterface(7, 14654); //group chat
-//		if (playerRights > 0){
-//			getFrameMethodHandler().setSidebarInterface(7, 6014);
-//			getFrameMethodHandler().adminpanelFrames();
-//		}
-//		else if (playerRights == 0){
-//			getFrameMethodHandler().setSidebarInterface(7, 3209);
-//		}
+		//		if (playerRights > 0){
+		//			getFrameMethodHandler().setSidebarInterface(7, 6014);
+		//			getFrameMethodHandler().adminpanelFrames();
+		//		}
+		//		else if (playerRights == 0){
+		//			getFrameMethodHandler().setSidebarInterface(7, 3209);
+		//		}
 		getFrameMethodHandler().setSidebarInterface(8, 5065);
 		getFrameMethodHandler().setSidebarInterface(9, 5715); 
 		getFrameMethodHandler().setSidebarInterface(10, 2449);
@@ -1091,11 +1099,11 @@ playerName.trim();*/
 
 		if(spellbook == 0) getFrameMethodHandler().setSidebarInterface(6, 1151); //old magics
 		else getFrameMethodHandler().setSidebarInterface(6, 12855); //ancient magics
-		
+
 		getFrameMethodHandler().loadQuestTab();
 		getFrameMethodHandler().sendQuests();
 		getFrameMethodHandler().loadChatRoom();
-		
+
 	}
 
 	public void update()
@@ -1401,7 +1409,7 @@ playerName.trim();*/
 			}
 		}
 	}
-	
+
 
 	public boolean process() { 	// is being called regularily every 500ms	
 		getSkillHandler().process();
@@ -1414,7 +1422,6 @@ playerName.trim();*/
 		getFrameMethodHandler().createAreaDisplayType();
 		getFrameMethodHandler().AddDroppedItemsToGroundAndSendFrames();
 		tradeCheckTimers();
-		getAgilityHandler().agilityTimers();
 
 		if (isRunning && getRunningEnergy() <= 0) {
 			isRunning = false;
@@ -1425,12 +1432,12 @@ playerName.trim();*/
 			setRunningEnergy( getRunningEnergy() - (double)(0.90-(playerLevel[playerAgility]*0.0045) ) ); //0.80 originally
 		else if(getRunningEnergy() < 100)
 			setRunningEnergy( getRunningEnergy() + (double)(0.20+(playerLevel[playerAgility]*0.0045) ) ); //0.25 originally
-		
+
 		getFrameMethodHandler().CheckBar();
 		getFrameMethodHandler().getFilling();
-		
+
 		if(actionTimer > 0) actionTimer -= 1; //TODO get rid of this shit
-		
+
 		//PoisonDelay -= 1; //TODO - look into poison 
 
 		//If killed apply dead
@@ -1643,13 +1650,13 @@ playerName.trim();*/
 
 		if (noClick)
 			return;
-		
+
 		switch(packetType) {
 		case 0: break;		// idle packet - keeps on reseting timeOutCounter
 
 		case 202:			// idle logout packet - ignore for now
 			break;
-			
+
 		case 210: // loads new area
 			break;
 
@@ -1773,57 +1780,57 @@ playerName.trim();*/
 
 
 		case 72: //Click to attack
-				attacknpc = inStream.readUnsignedWordA();
-				if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
-					if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[attacknpc].npcType) && slayerNPC != server.npcHandler.npcs[attacknpc].npcType){
-						sendMessage("You need a higher Slayer level to do that.");
-						break;
-					}
-				}
-				if(server.npcHandler.npcs[attacknpc].moveToSpawn) break;
-				boolean Cant = false;
-				if(server.npcHandler.npcs[attacknpc].attacknpc > 0) {
-					Cant = true;
-					sendMessage("You can't attack a dueling npc!");
-				}
-				int _NPCID = server.npcHandler.npcs[attacknpc].npcType;
-				if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
-					sendMessage("That's a friendly NPC that I should not attack.");
-					stopPlayerMovement();
-					break;
-				}						
-				if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
-					if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCID) && slayerNPC != _NPCID){
-						sendMessage("You need a higher Slayer level to do that.");
-						break;
-					}
-				}
-				if(!this.BOWHANDLER.checkAmmoWithBow()){
-					stopPlayerMovement();
-					sendMessage("You need ammo to use this ranged device.");
+			attacknpc = inStream.readUnsignedWordA();
+			if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
+				if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[attacknpc].npcType) && slayerNPC != server.npcHandler.npcs[attacknpc].npcType){
+					sendMessage("You need a higher Slayer level to do that.");
 					break;
 				}
+			}
+			if(server.npcHandler.npcs[attacknpc].moveToSpawn) break;
+			boolean Cant = false;
+			if(server.npcHandler.npcs[attacknpc].attacknpc > 0) {
+				Cant = true;
+				sendMessage("You can't attack a dueling npc!");
+			}
+			int _NPCID = server.npcHandler.npcs[attacknpc].npcType;
+			if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
+				sendMessage("That's a friendly NPC that I should not attack.");
+				stopPlayerMovement();
+				break;
+			}						
+			if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
+				if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCID) && slayerNPC != _NPCID){
+					sendMessage("You need a higher Slayer level to do that.");
+					break;
+				}
+			}
+			if(!this.BOWHANDLER.checkAmmoWithBow()){
+				stopPlayerMovement();
+				sendMessage("You need ammo to use this ranged device.");
+				break;
+			}
 
-				if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null && !Cant) {
-					if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
-						IsAttacking = false;
-						AttackingOn = 0;
-						IsAttackingNPC = true;
-						server.npcHandler.npcs[attacknpc].StartKilling = playerId;
-						server.npcHandler.npcs[attacknpc].RandomWalk = false;
-						server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-						if(server.npcHandler.npcs[attacknpc].absX != absX && server.npcHandler.npcs[attacknpc].absY != absY)
-							faceNPC(attacknpc);
-					}
-					else {
-						debug("Case 72: Exception1");
-					} 
-				} 
+			if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null && !Cant) {
+				if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
+					IsAttacking = false;
+					AttackingOn = 0;
+					IsAttackingNPC = true;
+					server.npcHandler.npcs[attacknpc].StartKilling = playerId;
+					server.npcHandler.npcs[attacknpc].RandomWalk = false;
+					server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
+					if(server.npcHandler.npcs[attacknpc].absX != absX && server.npcHandler.npcs[attacknpc].absY != absY)
+						faceNPC(attacknpc);
+				}
 				else {
-					debug("Case 72: Attacking NPC conditions invalid");
-					getCombatHandler().ResetAttackNPC();
+					debug("Case 72: Exception1");
 				} 
-			
+			} 
+			else {
+				debug("Case 72: Attacking NPC conditions invalid");
+				getCombatHandler().ResetAttackNPC();
+			} 
+
 			break;
 
 
@@ -1899,7 +1906,7 @@ playerName.trim();*/
 			//				  if(server.debugmode)
 			//					  System.out.println("Case 234: SomeX, SomeY : "+_x+", "+_y+" ObjClick = "+_ID);
 			int range = getObjectClickHandler().getObjectDistance(_ID);
-			
+
 
 			if(misc.GoodDistance(absX, absY, _x, _y, range)) {
 				viewTo(_x, _y);
@@ -1977,7 +1984,7 @@ playerName.trim();*/
 		case 98:	// walk on command
 			//TODO - maybe move all these resets to beginning of packet handling
 			if (IsDead == false) {
-				
+
 				newWalkCmdSteps = packetSize - 5;
 				if(newWalkCmdSteps % 2 != 0)
 					debug("Warning: walkTo("+packetType+") command malformed: "+misc.Hex(inStream.buffer, 0, packetSize));
@@ -2007,7 +2014,7 @@ playerName.trim();*/
 				}
 				poimiY = firstStepY;
 				poimiX = firstStepX;
-				
+
 				updateIdle();
 				getFrameMethodHandler().closeInterface();	
 				stopAnimations();
@@ -2023,7 +2030,7 @@ playerName.trim();*/
 
 				if(faceNPC > 0) 
 					getCombatHandler().ResetAttackNPC();
-				
+
 				//pick up item check
 				if (WannePickUp == true) {
 					PickUpID = 0;
@@ -2107,7 +2114,7 @@ playerName.trim();*/
 			int _Y1 = inStream.readUnsignedWordA();
 			int _range1 = getObjectClickHandler().getObjectDistance(_objectID1);
 
-			
+
 			if(misc.GoodDistance(absX, absY, _X1, _Y1, _range1)) {
 				getObjectClickHandler().objectClick(_objectID1, _X1, _Y1, 0, 0, 1);
 			}

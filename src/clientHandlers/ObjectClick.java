@@ -64,13 +64,13 @@ public class ObjectClick {
 
 		c.stopAnimations();	
 
-		Agility agilityHandler = c.getAgilityHandler();
+		Agility agilityHandler = c.getSkillHandler().getAgilityHandler();
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
 		switch(objectID) {
 		
 		case 2332:
-			c.getAgilityHandler().agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, "");
+			agilityHandler.agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, "");
 			break;
 		
 		case 9020:
@@ -93,7 +93,7 @@ public class ObjectClick {
 			break;
 
 		case 2231:
-			if(!c.getAgilityHandler().agilityObstacle(2791,objectY, objectX+3,objectY, 1115, 1, 0, false, false, 0, "") && !c.getAgilityHandler().agilityObstacle(2795,objectY, objectX-3,objectY, 1115, 1, 0, false, false, 0, ""))
+			if(!agilityHandler.agilityObstacle(2791,objectY, objectX+3,objectY, 1115, 1, 0, false, false, 0, "") && !agilityHandler.agilityObstacle(2795,objectY, objectX-3,objectY, 1115, 1, 0, false, false, 0, ""))
 				c.sendMessage("I should stand directly in front of the rocks before climbing them.");
 			break;
 
@@ -165,7 +165,7 @@ public class ObjectClick {
 			break;
 
 		case 9324:
-			if( !c.getAgilityHandler().agilityObstacle(2722, 3592, 2722, 3596, 762, 90, 10, false, false, 0, "") )
+			if( !agilityHandler.agilityObstacle(2722, 3592, 2722, 3596, 762, 90, 10, false, false, 0, "") )
 				c.sendMessage("I should stand directly in front of the obstacle before using it.");
 			break;
 
