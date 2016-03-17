@@ -588,19 +588,7 @@ playerName.replaceAll(">", "_");
 playerName.replaceAll("|", "_");
 playerName.trim();*/
 			returnCode = 2;
-			//			if(PlayerHandler.isPlayerOn(playerName)){ 
-			//				for(Player p : server.playerHandler.players){
-			//					if(p != null){
-			//						if(p.playerName.equalsIgnoreCase(playerName) && p.playerId != playerId && getFileLoadingHandler().loadGame(playerName, playerPass) != 2){
-			//							client g = (client) p;
-			//							g.destruct("Someone else logging onto account.");
-			//							destruct("Someone is logged into this account.");
-			//							returnCode = 5;
-			//							return;
-			//						}
-			//					}
-			//				}
-			//			} 
+
 
 			/*
     String hash = MD5.asHex(MD5.getHash(playerPass));
@@ -612,6 +600,7 @@ playerName.trim();*/
 			//String hashPW = md5(playerPass);
 			//System.out.println("Player hashPW = "+hashPW);
 
+			
 			if(PlayerHandler.playerCount >= PlayerHandler.maxPlayers) {
 				returnCode = 7;
 				savefile = false;
@@ -635,6 +624,7 @@ playerName.trim();*/
 				savefile = false;
 				disconnected = true;
 			}
+			
 			if(getFileLoadingHandler().checkbannedips() == 5) {
 				returnCode = 4;
 				System.out.println(playerName+" failed to logon because their ip is banned.");
@@ -644,7 +634,10 @@ playerName.trim();*/
 			}  
 
 			//loadsave(); - quoted out because although it fucking owns 
-			if(readSave() != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
+			int readSaveStatus = readSave();
+			println("readSaveStatus: "+readSaveStatus);
+			if(readSaveStatus != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
+				PlayerHandler.players[slot] = this;
 				getFileLoadingHandler().loadmoreinfo();
 				getFileLoadingHandler().appendConnected();
 				loggedinpm();
@@ -652,6 +645,7 @@ playerName.trim();*/
 				//setmusictab();
 				//PlayerHandler.messageToAll = playerName+" has logged in! There is now "+PlayerHandler.getPlayerCount() + " players.";
 			}
+			
 
 			if(getFileLoadingHandler().loadmoreinfo() == 3){
 				returnCode = 5;
@@ -728,11 +722,12 @@ playerName.trim();*/
 			}
 
 
+			
 			if(playerId == -1) out.write(7);		// "This world is full."
 			else out.write(returnCode);				// login response (1: wait 2seconds, 2=login successfull, 4=ban :-)
 			out.write(playerRights);		// mod level
 			out.write(0);					// no log
-			PlayerHandler.players[slot] = this;
+
 			//if(returnCode == 2 && !playerName.equalsIgnoreCase("_"))
 			//PlayerHandler.messageToAll = playerName+" has logged in! There is now "+PlayerHandler.getPlayerCount() + " players.";
 		} 
@@ -781,9 +776,11 @@ playerName.trim();*/
 
 	public void loggedinpm(){
 		getFrameMethodHandler().pmstatusFrame(2);
-		for(int i1 = 0; i1 < handler.maxPlayers; i1++)
-			if(!(handler.players[i1] == null) && handler.players[i1].isActive)
+		for(int i1 = 0; i1 < handler.maxPlayers; i1++){
+			if(!(handler.players[i1] == null) && handler.players[i1].isActive){
 				handler.players[i1].pmupdate(playerId, 1);
+			}
+		}
 		//loadpm(1327848063, 987);
 		boolean pmloaded = false;
 		for(int i = 0; i < friends.length; i++) {
