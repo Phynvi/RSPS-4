@@ -11,6 +11,7 @@ import playerData.client;
 import root.misc;
 import root.server;
 import serverHandlers.ChatRoom;
+import serverHandlers.ItemHandler;
 import serverHandlers.PlayerHandler;
 
 public class CommandHandler {
@@ -37,7 +38,7 @@ public class CommandHandler {
 			switch(args[0].toLowerCase()){
 
 			case "test":
-				c.getFrameMethodHandler().setClientConfig(153, Integer.parseInt(args[1]));
+				server.itemHandler.createGroundItemInSeconds(4151, c.absX, c.absY, 1, true, 0, null);
 			break;
 			
 			case "tile":

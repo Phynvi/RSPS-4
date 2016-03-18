@@ -357,6 +357,38 @@ public class NPCClickHandler {
 
 		switch(NPCID){ //for conditionals
 
+		case 697: //kennith
+			if(c.slug == 0)
+				c.getClientMethodHandler().npcdialogue(697, "Those slugs are too scary! I'm","not going anywhere!");
+			else if(c.slug == 2 || c.slug == 3 || c.slug == 1)
+				c.getFrameMethodHandler().select2Options(43, "Topics", "Your mother is looking for you", "Nevermind.");
+			else if(c.slug == 4)
+				c.getFrameMethodHandler().select2Options(43, "Topics", "Use this torch to get out of here", "Nevermind.");
+			else if(c.slug == 5)
+				c.getClientMethodHandler().npcdialogue(697, "I'll use the torch to get out of here!");
+			break;
+		
+		case 695: //bailey
+		if(c.slug == 0) 
+			c.getClientMethodHandler().npcdialogue(695, "Ever since we started fishing up those","slugs, my men have began acting strange.");
+		else if(c.slug == 1 || c.slug == 2)
+			c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "", "Nevermind");
+		else if(c.slug == 3)
+			c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "What are the slug's weak against?", "Nevermind");
+		else if(c.slug > 3)
+			c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "I lost the torch.", "Nevermind");
+			break;
+			
+		case 696: //caroline
+			if(c.slug >= 0)
+				c.getFrameMethodHandler().select4Options(21, "Topics", "Any news?", "You look worried", "", "Nevermind");
+			else if (c.slug == 5) c.getClientMethodHandler().npcdialogue(NPCID, "Thank you for your help.");
+			break;
+		
+		case 702: case 703: case 704: //fishing platform
+			c.sendMessage("The fisherman appears to be in a zombie-like state.");
+			break;
+		
 		case 675:
 			if(c.TUP < 2) c.getClientMethodHandler().npcdialogue(NPCID, "I've got quite a few workers to manage here.");
 			else if(c.TUP == 2){
@@ -842,12 +874,19 @@ public class NPCClickHandler {
 			c.getClientMethodHandler().selectOptionTravel2("Travel to Port Sarim?", "Yes", 3041,3202, "No", -1, -1);
 			break;
 
+		case 698: //holgart fishing platform travel
+			if(c.isInArea(2716, 3301, 2724, 3309))
+				c.getClientMethodHandler().selectOptionTravel2("Travel to Fishing Platform?", "Yes", 2779,3273, "No", -1,-1);
+			else
+				c.getClientMethodHandler().selectOptionTravel2("Leave Fishing Platform?", "Yes", 2722,3305, "No", -1,-1);
+			break;
+			
 		case 376: //captain tobias
-			if(c.isInArea(3026,3215,3030,3220)){
-				c.getClientMethodHandler().selectOptionTravel2("Travel to Karamja?", "Yes", 2956, 3146, "No", -1, -1);
-				break;
-			}
-			c.getClientMethodHandler().selectOptionTravel2("Travel to Port Sarim?", "Yes", 3029, 3217, "No", -1, -1);
+			if(c.isInArea(3026,3215,3030,3220)) //port sarim
+				c.getFrameMethodHandler().select4Options("Topics", "Travel to Karamja", 2956,3146, "Travel to Catherby", 2803,3423, "", -1, -1, "Nevermind", -1, -1);
+			else if(c.isInArea(2800, 3418, 2808, 3425)) //catherby
+				c.getClientMethodHandler().selectOptionTravel2("Travel to Port Sarim?", "Yes", 3029, 3217, "No", -1, -1);
+			else c.getClientMethodHandler().selectOptionTravel2("Travel to Port Sarim?", "Yes", 3029, 3217, "No", -1, -1);
 			break;
 
 		case 381: 

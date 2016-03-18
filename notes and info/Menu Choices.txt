@@ -21,6 +21,8 @@
 18 - Mosol Rei 
 19 - Timfraku for The Undead Problem
 20 - Shipyard Worker for The Undead Problem
+21 - Caroline for Sluggish Circumstances
+22 - Bailey for sluggish
 
 2 options select menu:
 30 - used for teleport options
@@ -36,3 +38,4 @@
 40 - Tai Bwo Wannai Trading Sticks for Favour
 41 - Cooking
 42 - bar tender canifis
+43 - Kennith from sluggish circumstances

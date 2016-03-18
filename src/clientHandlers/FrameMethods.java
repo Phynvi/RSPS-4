@@ -3184,7 +3184,13 @@ public class FrameMethods {
 			sendQuest("@yel@The Undead Problem", 7336); //Quest 4
 		else if(c.TUP == 7)
 			sendQuest("@gre@The Undead Problem", 7336); //Quest 4
-		sendQuest("", 7383); //Quest 5
+		
+		if(c.slug == 0)
+			sendQuest("Sluggish Circumstances", 7383); //Quest 5
+		else if(c.slug > 0 && c.slug < 5)
+			sendQuest("@yel@Sluggish Circumstances", 7383); //Quest 5
+		else if(c.slug == 5)
+			sendQuest("@gre@Sluggish Circumstances", 7383); //Quest 5
 		sendQuest("", 7339); //Quest 6
 		sendQuest("", 7338); //Quest 7
 		/*1337*/

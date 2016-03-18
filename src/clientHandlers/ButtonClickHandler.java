@@ -33,6 +33,10 @@ public class ButtonClickHandler {
 		//panellist();
 		//break;			
 
+		case 28215:
+			c.getFrameMethodHandler().menu(c.getMenuHandler().sluggishCircumstances());
+			break;
+		
 		case 28168:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().theUndeadProblem());
 			break;
@@ -115,6 +119,15 @@ public class ButtonClickHandler {
 
 			c.debug("menuChoice is : "+c.menuChoice);
 			switch(c.menuChoice){
+			case 22: //bailey
+				c.getClientMethodHandler().npcdialogue(695, "Ever since we started fishing up those","slugs, my men have began acting strange.");
+				break;
+			
+			case 21: //caroline for sluggish circumstances
+				c.getClientMethodHandler().npcdialogue(696, "Ever since that fishing platform has gone up","the only thing people seem to care about","is profit. No one seems to pay attention",
+						"to any harm it may cause.");
+				break;
+			
 			case 20: //shipyard worker for The Undead Problem
 				c.getClientMethodHandler().npcdialogue(675, "I've got quite a few workers to manage here.");
 				break;
@@ -285,7 +298,31 @@ public class ButtonClickHandler {
 		case 32018: //4 options, 2nd option TODO
 
 			switch(c.menuChoice){
+			
+			case 22: //bailey, 695
+				if(c.slug == 1){
+					c.getClientMethodHandler().npcdialogue(695, "I actually think I may have saw a little one","running about earlier.","I'd suggest checking all about the platform.");
+					c.slug = 2;
+					c.getFileLoadingHandler().saveAll();
+				}
+				else 
+					c.getClientMethodHandler().npcdialogue(695, "I actually think I may have saw a little one","running about earlier.","I'd suggest checking all about the platform.");
+				break;
 
+			case 21: //caroline for sluggish circumstances
+				if(c.slug == 0){
+					c.getClientMethodHandler().npcdialogue(696, "My son has gone missing!","Holgart told me he last saw","him boating about near the","fishing platform.",
+							"That damned place has brought us no good","ever since it was created.","Please go there and search","for my son.","His name is Kennith.");
+					c.slug = 1;
+					c.getFileLoadingHandler().saveAll();
+					c.getFrameMethodHandler().loadQuestTab();
+				}
+				else if(c.slug > 0){
+					c.getClientMethodHandler().npcdialogue(696, "My son has gone missing!","Holgart told me he last saw","him boating about near the","fishing platform.",
+							"That damned place has brought us no good","ever since it was created.","Please go there and search","for my son.","His name is Kennith.");
+				}
+				break;
+			
 			case 20: //shipyard worker for The Undead Problem
 				if(c.TUP == 2){
 					if(c.getInventoryHandler().hasItem(720)){
@@ -565,6 +602,29 @@ public class ButtonClickHandler {
 
 		case 32019: //4 options, 3rd option TODO
 			switch(c.menuChoice){
+			case 22: //bailey
+				if(c.slug == 3){
+					if(c.getInventoryHandler().freeSlots() == 0) 
+						c.getClientMethodHandler().npcdialogue(695, "The slugs hate fire, I can make you a","torch, but your inventory is full.");
+					else{
+					c.getClientMethodHandler().npcdialogue(695, "The slugs hate fire. You can take","this torch I made to help.","All you need to do is light it.");
+					c.slug = 4;
+					c.getInventoryHandler().addItem(596);
+					c.getFileLoadingHandler().saveAll();
+					}
+				}
+				else if(c.slug > 3){
+					if(c.getInventoryHandler().freeSlots() == 0) 
+						c.getClientMethodHandler().npcdialogue(695, "Your inventory is full.");
+					else{
+					c.getClientMethodHandler().npcdialogue(695, "Try not to lose this one.");
+					c.getInventoryHandler().addItem(596);
+					}
+				}
+				else 
+					c.getFrameMethodHandler().RemoveAllWindows();
+				break;
+			
 			case 19:
 				if(c.TUP == 2){
 					if(c.getInventoryHandler().freeSlots() == 0)
@@ -1089,6 +1149,27 @@ public class ButtonClickHandler {
 		case 9157: //1st choice
 
 			switch(c.menuChoice){
+			
+			case 43:
+				if(c.slug == 2 || c.slug == 1){
+					c.getClientMethodHandler().npcdialogue(697, "It's scary out there! ","I'm not leaving unless I can get","past those slugs!");
+					c.slug = 3;
+					c.getFileLoadingHandler().saveAll();
+				}
+				else if(c.slug == 3)
+					c.getClientMethodHandler().npcdialogue(697, "It's scary out there! ","I'm not leaving unless I can get","past those slugs!");
+				else if(c.slug == 4){
+					if(c.getInventoryHandler().hasItem(594)){
+						c.slug = 5;
+						c.getInventoryHandler().deleteItem(594);
+						c.getFrameMethodHandler().menu(c.getMenuHandler().sluggishCircumstances());
+						c.getClientMethodHandler().addQuestPoints(1);
+						c.sendMessage("Kennith takes the lit torch.");
+					}
+					else c.getClientMethodHandler().npcdialogue(697, "You don't have a lit torch!");
+				}
+				break;
+			
 			case 30:
 				c.teleport(c.travel2_X1,c.travel2_Y1,c.travelHeight);
 				c.getFrameMethodHandler().RemoveAllWindows();

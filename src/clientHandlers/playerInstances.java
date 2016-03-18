@@ -28,7 +28,7 @@ public class playerInstances {
 	public ChatRoom currentChatRoom = null;
 	public int currency = 995;
 	
-	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed;
+	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;
@@ -155,7 +155,7 @@ public int idleTimer = 0;
 	public int apickupid = -1;
 	public int apickupx = -1;
 	public int apickupy = -1;
-	public boolean hasntLoggedin = false;
+
 	public int runningemote = 0;
 	public int walkingemote2 = 0;
 	public int agilX = 0;

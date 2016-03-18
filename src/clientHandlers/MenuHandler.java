@@ -271,6 +271,81 @@ public class MenuHandler {
 		return null;
 	}
 	
+	public String[] sluggishCircumstances(){
+		if(c.slug == 0){
+			return new String[]{"@gre@Sluggish Circumstances","","",
+					"@whi@Summary: Caroline's son is missing.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"I can start this quest by speaking to Caroline",
+					"who is located East of Ardougne."};
+		}
+		else if(c.slug == 1){
+			return new String[]{"@gre@Sluggish Circumstances","","",
+					"@whi@Summary: Caroline's son is missing.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Caroline wants me to go to the Fishing Platform",
+					"to search for her son, Kennith."};
+		}
+		else if(c.slug == 2){
+			return new String[]{"@gre@Sluggish Circumstances","","",
+					"@whi@Summary: Caroline's son is missing.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Caroline wants me to go to the Fishing Platform",
+					"to search for her son, Kennith.",
+					"",
+					"Bailey has informed me that he believes he may",
+					"have saw someone running about earlier. He",
+					"advised that I search the platform."};
+		}
+		else if(c.slug == 3){
+			return new String[]{"@gre@Sluggish Circumstances","","",
+					"@whi@Summary: Caroline's son is missing.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Caroline wants me to go to the Fishing Platform",
+					"to search for her son, Kennith.",
+					"",
+					"I found Kennith at the top floor of the Fishing",
+					"Platform. He is too scared to leave. I should",
+					"probably ask someone what the slugs are weak against."};
+		}
+		else if(c.slug == 4){
+			return new String[]{"@gre@Sluggish Circumstances","","",
+					"@whi@Summary: Caroline's son is missing.",
+					"",
+					"@whi@Requirements: None",
+					"",
+					"Caroline wants me to go to the Fishing Platform",
+					"to search for her son, Kennith.",
+					"",
+					"I found Kennith at the top floor of the Fishing",
+					"Platform. He is too scared to leave. I should",
+					"probably ask someone what the slugs are weak against.",
+					"",
+					"Bailey has told me that the slugs are weak against",
+					"fire. He has given me a homemade torch and said",
+					"I should light it. Maybe there's some materials",
+					"On the platform I can use to light the torch."};
+		}
+		else if(c.slug == 5){
+			return new String[]{"@gre@Sluggish Circumstances","","",
+					"@whi@Summary: Caroline's son is missing.",
+					"",
+					"@gre@Quest completed!",
+					"@gre@You have been rewarded:",
+					"1 Quest Point",
+					""};
+		}
+		return null;
+	}
+	
 	public String[] barrowedThings(){
 		if(c.barrowed < 1){
 			return new String[]{"@gre@Barrowed Things","","",

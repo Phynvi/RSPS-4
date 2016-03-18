@@ -14,7 +14,7 @@ import root.server;
 import struct.itemListBST;
 import clientHandlers.Item;
 
-public class ItemHandler {
+public class ItemHandlerAlt {
 
 	private class GroundItem{
 		private int x,y,id,amount,timer,deleteTimer;
@@ -56,22 +56,43 @@ public class ItemHandler {
 
 	}
 
+	// Phate: Setting VARS
+	public static int showItemTimer = 60;
+	public static int hideItemTimer = 60;
+
+	// Phate: Global Item VARS
+	public static int[] globalItemController =		new int[5001];
+	public static int[] globalItemID =				new int[5001];
+	public static int[] globalItemX =				new int[5001];
+	public static int[] globalItemY =				new int[5001];
+	public static int[] globalItemAmount =			new int[5001];
+	public static boolean[] globalItemStatic =		new boolean[5001];
+
+	public static int[] globalItemTicks =			new int[5001];
 
 	private static LinkedList<GroundItem> groundItems = new LinkedList<GroundItem>();
-	private static LinkedList<GroundItem> staticItems = new LinkedList<GroundItem>();
-	
 
-	public ItemHandler() {			
 
+	public ItemHandlerAlt() {			
+		for (int i = 0; i <= 5000; i++) {
+			globalItemController[i] =	0;
+			globalItemID[i] =			0;
+			globalItemX[i] =			0;
+			globalItemY[i] =			0;
+			globalItemAmount[i] =		0;
+			globalItemTicks[i] =		0;
+			globalItemStatic[i]  =	false;
+		}
+		for(int i = 0; i < MaxDropItems; i++) {
+			ResetItem(i);
+		}
 		loadItemList("item.cfg");
 		loadItemPrices("itemprices.cfg");
 		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
-		createGroundItemInSeconds(1469, 2762,3285, 1, true, 0, null);
-		createGroundItemInSeconds(1469, 2763,3288, 1, true, 0, null);
-		createGroundItemInSeconds(1467,2787,3287, 1, true, 0, null);
-		
+
+
 	}
-		
+	
 	public static void playerPickupAndRemoveGroundItem(int x, int y, int id, client pc){
 		if(pc.getInventoryHandler().freeSlots() == 0){
 			pc.sendMessage("Your inventory is full.");
@@ -80,17 +101,6 @@ public class ItemHandler {
 			pc.apickupy = -1;
 			return;
 		}
-		
-		for(GroundItem g : staticItems){
-			if(g.x == x && g.y == y && g.id == id){
-				removeItemAll(g.id, g.x, g.y);
-				pc.getInventoryHandler().addItem(g.id, g.amount);
-				pc.apickupid = -1;
-				pc.apickupx = -1;
-				pc.apickupy = -1;
-			}
-		}
-		
 		Iterator<GroundItem> itr = groundItems.iterator();
 		while(itr.hasNext()){
 			GroundItem g = itr.next();
@@ -130,13 +140,9 @@ public class ItemHandler {
 				return;
 			}				
 		}
-		GroundItem g = new GroundItem(id,x,y,amount,isStatic,seconds, pc);
+		groundItems.add(new GroundItem(id,x,y,amount,isStatic,seconds, pc));
 		if(isStatic || pc == null)
 			createItemAll(id, x, y, amount);
-		if(isStatic)
-			staticItems.add(g);
-		else 
-			groundItems.add(g);
 	}
 	
 	public static int itemAmount(int id, int x, int y){
@@ -155,34 +161,19 @@ public class ItemHandler {
 		return false;
 	}
 
-	private int staticTimer = 20;
-	
 	public void process() {
 		Iterator<GroundItem> itr = groundItems.iterator();
 		while(itr.hasNext()){
 			GroundItem g = itr.next();
+
 			g.process();
 			if(g.deleteItem){
 				removeItemAll(g.id, g.x, g.y);
+				if(g.isStatic){
+					groundItems.add(new GroundItem(g.id,g.x,g.y,g.amount,true,0, null));
+				}
 				itr.remove();
 			}
-
-		}
-		
-		if(this.staticTimer > 0 && --this.staticTimer == 0){
-			LinkedList<GroundItem> temp = new LinkedList<GroundItem>();
-			while(!staticItems.isEmpty()){
-				GroundItem g = staticItems.pop();
-				removeItemAll(g.id, g.x, g.y);
-				GroundItem t = new GroundItem(g.id,g.x,g.y,g.amount,g.isStatic,g.timer, g.pc);
-				createItemAll(g.id,g.x,g.y,g.amount);
-				temp.add(t);
-			}
-			staticItems = temp;
-			this.staticTimer = 20;
-		}
-		
-			
 			
 //			else if(g.isStatic || g.showItem){
 //				if(g.pc != null){ //means we show to only player
@@ -200,6 +191,7 @@ public class ItemHandler {
 //				}
 //			}
 
+		}
 
 
 		//		for (int i = 0; i <= 5000; i++) {
@@ -229,15 +221,16 @@ public class ItemHandler {
 	private static void createItemAll(int id, int x, int y, int amount){
 		for(Player p : server.playerHandler.players){
 			client pc = (client) p;
-			if(pc != null && pc.distanceToPoint(x,y) <= 60)
+			if(pc != null)
 				pc.getFrameMethodHandler().createGroundItem(id, x, y, amount);
 		}
 	}
 	
 	private static void removeItemAll(int itemID, int itemX, int itemY) {
+		misc.println("Removing item at "+itemX+","+itemY);
 		for(Player p : server.playerHandler.players){
 			client pc = (client) p;
-			if(pc != null && pc.distanceToPoint(itemX, itemY) <= 60)
+			if(pc != null)
 				pc.getFrameMethodHandler().removeGroundItem(itemX, itemY, itemID);
 		}
 	}

@@ -299,6 +299,8 @@ public class FileLoading {
 						c.favour = Integer.parseInt(token2);
 					else if (token.equals("barrowed"))
 						c.barrowed = Integer.parseInt(token2);
+					else if (token.equals("slug"))
+						c.slug = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -536,6 +538,9 @@ public class FileLoading {
 			characterfile.newLine();
 			String s18 = "TUP = "; characterfile.write(s18, 0, s18.length());
 			characterfile.write(Integer.toString(c.TUP), 0, Integer.toString(c.TUP).length());
+			characterfile.newLine();
+			String s19 = "slug = "; characterfile.write(s19, 0, s19.length());
+			characterfile.write(Integer.toString(c.slug), 0, Integer.toString(c.slug).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

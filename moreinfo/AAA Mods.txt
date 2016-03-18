@@ -9,7 +9,7 @@ character-pkpoints = 24
 character-killcount = 21
 character-deathcount = 1
 character-mutedate = 0
-character-height = 0
+character-height = 1
 character-torag = 0
 character-verac = 0
 character-guthan = 0
@@ -34,11 +34,12 @@ prevarmadyl = 0
 prevbandos = 38
 spellbook = 0
 pestcontrolpoints = 0
-questPoints = 10
+questPoints = 11
 chatRoomName = Public Chat
 favour = 68
 barrowed = 2
 TUP = 7
+slug = 5
 
 [QUESTS]
 character-questpoints = 0

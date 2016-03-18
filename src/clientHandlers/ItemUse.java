@@ -565,7 +565,12 @@ public class ItemUse {
 		case 1529:
 			return identify(70, 150, Item, 267); //identify dwarf weed
 
-
+		case 594:
+			c.getInventoryHandler().deleteItem(594);
+			c.getInventoryHandler().addItem(596);
+			c.sendMessage("You extinguish the torch.");
+			break;
+			
 		case 611:
 			c.getFrameMethodHandler().stillgfx(336, c.absY, c.absX);
 			c.startAnimation(1333);
@@ -580,6 +585,15 @@ public class ItemUse {
 			c.sendMessage("Appears to be a sketch of a Totem.");
 			break;
 
+		case 1468:
+			if(c.getInventoryHandler().hasItem(596)){
+				c.sendMessage("You rub the sticks together and light the torch.");
+				c.getInventoryHandler().deleteItem(596);
+				c.getInventoryHandler().deleteItem(1468);
+				c.getInventoryHandler().addItem(594);
+			}
+			break;
+			
 		default:
 			c.sendMessage("Nothing interesting is happening.");
 			c.error("Unhandled Item - ItemID: "+Item);
@@ -711,6 +725,20 @@ public class ItemUse {
 				c.getInventoryHandler().addItem(750);
 				c.sendMessage("You shape the gold around the Totem.");
 			}
+		}
+		
+		if(itemUsed == 596 && useWith == 1468){
+			c.getInventoryHandler().deleteItem(1468);
+			c.getInventoryHandler().deleteItem(596);
+			c.getInventoryHandler().addItem(594);
+			c.sendMessage("You light the torch with the dry sticks.");
+		}
+		
+		if(itemUsed == 1469 && useWith == 1467){
+			c.getInventoryHandler().deleteItem(1469);
+			c.getInventoryHandler().deleteItem(1467);
+			c.getInventoryHandler().addItem(1468);
+			c.sendMessage("You shave the sticks with the broken glass.");
 		}
 		
 		//Herblore

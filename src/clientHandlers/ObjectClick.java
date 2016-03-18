@@ -52,10 +52,25 @@ public class ObjectClick {
 		return false;
 	}
 
+	private int oX, oY;
+	
+	private boolean isObjectXY(int x, int y){
+		return(x == oX && y == oY);			
+	}
+	
+	private void ladderTeleport(int x, int y, int h){
+		c.getClientMethodHandler().teleportWithAnimation(828, 2, x, y, h);
+	}
+	
+	private void ladder(int x, int y, int xD, int yD, int hD){
+		if(isObjectXY(x,y))
+			ladderTeleport(x+xD, y+yD, c.heightLevel+hD);
+	}
+	
 	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
 		c.WalkingTo = false;
 		c.debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
-
+		
 		if(isObjSpamming()) return;
 
 		c.viewTo(objectX, objectY);
@@ -67,7 +82,14 @@ public class ObjectClick {
 		Agility agilityHandler = c.getSkillHandler().getAgilityHandler();
 		ClientMethodHandler clientMethodHandler = c.getClientMethodHandler();
 
+		oX = objectX; 
+		oY = objectY;
+		
 		switch(objectID) {
+		
+		case 2517:
+			ladder(2784,3286,0,1,1);
+			break;
 		
 		case 2332:
 			agilityHandler.agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, "");
@@ -473,6 +495,7 @@ public class ObjectClick {
 		case 1740:
 		case 5281:
 		case 1749:
+			ladder(2784,3286,0,1,-1);
 			if(objectX == 2861 && objectY == 2997)
 				c.teleport(2861,2998,0);
 			else if(objectX == 2871 && objectY == 2971)
@@ -632,7 +655,7 @@ public class ObjectClick {
 			objtimer = System.currentTimeMillis()-2000;
 			c.startAnimation(794);
 			c.getFrameMethodHandler().makeGlobalObject(objectX, objectY, objectID+8, 0, 10);
-			ItemHandler.addItem(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), objectX, objectY, 1, c.playerId, false, false);
+			server.itemHandler.createGroundItemInSeconds(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), objectX, objectY, 1, false, 30, c);
 			break;
 
 			//QUEST_1 OBJECTS

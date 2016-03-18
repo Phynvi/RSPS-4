@@ -134,7 +134,7 @@ public class Firemaking {
 
 		@Override
 		public void destruct() {
-			server.itemHandler.addItem(ASHES, this.X, this.Y, 1, 0, false, true);			
+			server.itemHandler.createGroundItemInSeconds(ASHES, this.X, this.Y, 1, false, 0, null);
 			for(int i = 0; i < server.playerHandler.players.length; i++){
 				if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(this.X, this.Y) <= 90){
 					client playerClient = (client) server.playerHandler.players[i];

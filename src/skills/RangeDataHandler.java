@@ -23,7 +23,7 @@ public class RangeDataHandler {
 					c.getInventoryHandler().addItem(c.playerEquipment[c.playerArrows], 1);
 					c.sendMessage("The accumulator has attracted an arrow.");
 				}
-				else ItemHandler.addItem(c.playerEquipment[c.playerArrows], XCoord, YCoord, 1, c.playerId, false, false);
+				else server.itemHandler.createGroundItemInSeconds(c.playerEquipment[c.playerArrows], XCoord, YCoord, 1, false, 30, c);
 			}
 			c.getFrameMethodHandler().frameDeleteArrow();
 		}

@@ -1837,7 +1837,6 @@ playerName.trim();*/
 			// this guys loading is done. Also wait with regular player updates
 			// until we receive this command.
 			//println_debug("Loading finished.");
-			hasntLoggedin = true;		
 			if(isInArea(2621, 2557, 2689, 2622)){ //Pest control objects
 				getFrameMethodHandler().makeLocalObject(2629, 2591, 107, 0, 10);
 				getFrameMethodHandler().makeLocalObject(2629, 2593, 107, 0, 10);
@@ -1931,7 +1930,7 @@ playerName.trim();*/
 				{
 					int itemAmount = ItemHandler.itemAmount(magicOnItemID, magicOnItemX, magicOnItemY);
 					getFrameMethodHandler().pickUpItemAndFrames(magicOnItemID, itemAmount);
-					ItemHandler.removeItem(magicOnItemID, magicOnItemX, magicOnItemY, itemAmount);
+					ItemHandler.removeGroundItem(magicOnItemID, magicOnItemX, magicOnItemY);
 					getFrameMethodHandler().removeGroundItem(magicOnItemX, magicOnItemY, magicOnItemID);
 					getFrameMethodHandler().resetItems(3214); // THIS MIGHT STOP CLIENT HACKS HMM?
 				}

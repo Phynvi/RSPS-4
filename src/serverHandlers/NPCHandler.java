@@ -673,11 +673,11 @@ public class NPCHandler {
 	//New drops by AAA mods
 	private void dropItem(int NPCID, int dropID){	
 		if(dropID == 6306){
-			ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, misc.random(100)+1, GetNpcKiller(NPCID), false, false);
+			server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, misc.random(100)+1, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 		if(lists.bones.exists(dropID)){
-			ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, 1, GetNpcKiller(NPCID), false, false);
+			server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, 1, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 
@@ -689,33 +689,33 @@ public class NPCHandler {
 		int value = (int)GetItemShopValue(dropID,amount);
 
 		if(value < 10000){
-			ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false, false);
+			server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 
 		if(value >= 1000000){ // 60%
 			int chance = misc.random(9);
 			if(chance != 4 && chance != 1 && chance != 2 && chance != 3)
-				ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false, false);
+				server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 		if(value >= 500000){ // 70%
 			int chance = misc.random(9);
 			if(chance != 1 && chance != 2 && chance != 3)
-				ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false, false);
+				server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 		if(value >= 100000){ //80%
 			int chance = misc.random(9);
 			if(chance != 1 && chance != 2)
 				if(misc.random(1) == 0)
-					ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false, false);
+					server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 		if(value >= 10000){ //90%
 			int chance = misc.random(9);
 			if(chance != 1)
-				ItemHandler.addItem(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, GetNpcKiller(NPCID), false, false);
+				server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		} 
 	}
@@ -785,7 +785,7 @@ public class NPCHandler {
 
 		case 1692:
 		case 41: //chicken
-			ItemHandler.addItem(314, npcs[NPCID].absX, npcs[NPCID].absY, (misc.random(45)+15), GetNpcKiller(NPCID), false, false);
+			server.itemHandler.createGroundItemInSeconds(314, npcs[NPCID].absX, npcs[NPCID].absY, (misc.random(45)+15), false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			dropItem(NPCID, DropList.BONES);
 			break;
 
@@ -854,7 +854,7 @@ public class NPCHandler {
 
 		case 2028:
 			p.karil = 1;
-			ItemHandler.addItem(4740, npcs[NPCID].absX, npcs[NPCID].absY, (misc.random(30)+15), GetNpcKiller(NPCID), false, false);
+			server.itemHandler.createGroundItemInSeconds(4740, npcs[NPCID].absX, npcs[NPCID].absY, (misc.random(30)+15), false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			break;
 
 		case 2025:

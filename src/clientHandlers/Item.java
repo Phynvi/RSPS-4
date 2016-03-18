@@ -983,17 +983,6 @@ public class Item {
 	}
 
 
-	public int GetGroundItemID(int ItemID, int itemX, int itemY) {
-		for (int i = 0; i < 19999; i++) {
-			if (server.itemHandler.globalItemID[i] > -1) {
-				if (server.itemHandler.globalItemID[i] == ItemID && server.itemHandler.globalItemX[i] == itemX && server.itemHandler.globalItemY[i] == itemY) {
-					return i;
-				}
-			}
-		}
-		return -1;
-	}
-
 	public static void createItemOnGround(int newItemID, int x, int y, int height, int playerID) {
 		int Maxi = server.itemHandler.DropItemCount;
 		for (int i = 0; i <= Maxi; i++) {

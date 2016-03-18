@@ -39,6 +39,7 @@ chatRoomName = Public Chat
 favour = 2
 barrowed = 0
 TUP = 0
+slug = 0
 
 [QUESTS]
 character-questpoints = 0
