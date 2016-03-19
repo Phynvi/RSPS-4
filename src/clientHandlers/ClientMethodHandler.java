@@ -16,6 +16,8 @@ import root.server;
 import serverHandlers.PlayerHandler;
 import struct.Drop;
 
+import root.misc;
+
 public class ClientMethodHandler {
 
 	client c = null;
@@ -153,35 +155,77 @@ public class ClientMethodHandler {
 	{
 		switch(skill)  
 		{
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-		case 12:
-		case 13:
-		case 14:
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-		case 19:
-		case 20:
-			c.sendMessage("You have gained a level.");
-			c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX);
-			if (c.playerLevel[skill] >= 99){
-				c.masteries += 1;
-				c.sendMessage("Congratulations on skill mastery. Skill capes and hoods are");
-				c.sendMessage("available at their respective skill masters.");
-			}
+		case 0: 
+			c.getFrameMethodHandler().showLevelUpSprite(6247, skill);
 			break;
+		case 1:
+			c.getFrameMethodHandler().showLevelUpSprite(6253, skill);
+			break;
+		case 2:
+			c.getFrameMethodHandler().showLevelUpSprite(6206, skill);
+			break;
+		case 3:
+			c.getFrameMethodHandler().showLevelUpSprite(6216, skill);
+			break;
+		case 4:
+			c.getFrameMethodHandler().showLevelUpSprite(4443, skill,5453,6114,6147);
+			break;
+		case 5:
+			c.getFrameMethodHandler().showLevelUpSprite(6242, skill);
+			break;
+		case 6:
+			c.getFrameMethodHandler().showLevelUpSprite(6211, skill);
+			break;
+		case 7:
+			c.getFrameMethodHandler().showLevelUpSprite(6226, skill);
+			break;
+		case 8:
+			//c.getFrameMethodHandler().showLevelUpSprite(, skill);
+			break;
+		case 9:
+			c.getFrameMethodHandler().showLevelUpSprite(6231, skill);
+			break;
+		case 10:
+			c.getFrameMethodHandler().showLevelUpSprite(6258, skill);
+			break;
+		case 11:
+			//c.getFrameMethodHandler().showLevelUpSprite(, skill);
+			break;
+		case 12:
+			c.getFrameMethodHandler().showLevelUpSprite(6263, skill);
+			break;
+		case 13:
+			c.getFrameMethodHandler().showLevelUpSprite(6221, skill);
+			break;
+		case 14:
+			c.getFrameMethodHandler().showLevelUpSprite(4416, skill, 4417,4438,4440);
+			break;
+		case 15:
+			c.getFrameMethodHandler().showLevelUpSprite(6237, skill);
+			break;
+		case 16:
+			//c.getFrameMethodHandler().showLevelUpSprite(, skill);
+			break;
+		case 17:
+			//c.getFrameMethodHandler().showLevelUpSprite(, skill);
+			break;
+		case 18:
+			c.getFrameMethodHandler().showLevelUpSprite(12122, skill);
+			break;
+		case 19:
+			//c.getFrameMethodHandler().showLevelUpSprite(, skill);
+			break;
+		case 20:
+			c.getFrameMethodHandler().showLevelUpSprite(6247, skill);
+			break;
+		}			
+		c.sendMessage("Congratulations, you just advanced a "+c.getSkillHandler().getSkillName(skill)+" level.");
+		c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX);
+		if (c.playerLevel[skill] >= 99){
+			c.masteries += 1;
+			c.sendMessage("You have reached a skill mastery. Skill capes and hoods are");
+			c.sendMessage("available at their respective skill masters.");
+			c.getFileLoadingHandler().saveAll();
 		}
 		int totalLevel = 0;
 		for(int i = 0; i <= 20; i++)
@@ -208,7 +252,85 @@ public class ClientMethodHandler {
 
 		c.getFrameMethodHandler().setSkillLevel(skill, c.playerLevel[skill], playerXP[skill]);
 		c.getFrameMethodHandler().refreshSkills();
+		
+		if(skill != c.playerAttack && 
+				skill != c.playerStrength && 
+				skill != c.playerDefence && 
+				skill != c.playerRanged && 
+				skill != c.playerPrayer && 
+				skill != c.playerMagic && 
+				skill != c.playerHitpoints){
+			switch(misc.random(100)){
+			case 0:
+				if(!c.isInArea(2369, 3611, 2379, 3621)){
+					c.randomx = c.absX;
+					c.randomy = c.absY;
+					c.randomh = c.heightLevel;
+				}
+				c.teleport(2374,3615,0);
+				c.sendMessage("You are teleported to a strange place.");
+				break;
+			}			
+		}
+		
 		return true;
+	}
+
+	public void danceMarionette(int id){
+		c.startAnimation(3006);
+		switch(id){
+		case 6865: //blue
+			c.getFrameMethodHandler().gfx0(514);
+			break;
+		case 6866: //green
+			c.getFrameMethodHandler().gfx0(518);
+			break;
+		case 6867: //red
+			c.getFrameMethodHandler().gfx0(510);
+			break;
+		}
+	}
+	public void bowMarionette(int id){
+		c.startAnimation(3005);
+		switch(id){
+		case 6865: //blue
+			c.getFrameMethodHandler().gfx0(513);
+			break;
+		case 6866: //green
+			c.getFrameMethodHandler().gfx0(517);
+			break;
+		case 6867: //red
+			c.getFrameMethodHandler().gfx0(509);
+			break;
+		}
+	}
+	public void jumpMarionette(int id){
+		c.startAnimation(3003);
+		switch(id){
+		case 6865: //blue
+			c.getFrameMethodHandler().gfx0(511);
+			break;
+		case 6866: //green
+			c.getFrameMethodHandler().gfx0(515);
+			break;
+		case 6867: //red
+			c.getFrameMethodHandler().gfx0(507);
+			break;
+		}
+	}
+	public void walkMarionette(int id){
+		c.startAnimation(3004);
+		switch(id){
+		case 6865: //blue
+			c.getFrameMethodHandler().gfx0(512);
+			break;
+		case 6866: //green
+			c.getFrameMethodHandler().gfx0(516);
+			break;
+		case 6867: //red
+			c.getFrameMethodHandler().gfx0(508);
+			break;
+		}
 	}
 
 	/**

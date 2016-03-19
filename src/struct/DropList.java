@@ -67,9 +67,10 @@ public class DropList {
 	
 	public static int[] runes = {554,555,556,557,558,559,560,561,562,563,564,565,566};
 
-	public static int[] halloweenRares = {1419, 1959, 9117, 1053, 1055, 1057, 6722, 9118}; 
-	public static int[] easterRares = {7927, 7928, 7929, 7930, 7931, 7932, 7933};
-	public static int[] xmasRares = {9092, 10097, 10091, 4079, 1050};
+	public static int[] halloweenRares = {4558,4559,4560,4561,4562,4563,4564,1419, 1959, 9117, 1053, 1055, 1057, 6722, 9118}; 
+	public static int[] easterRares = {1961,4565,1037,7927, 7928, 7929, 7930, 7931, 7932, 7933};
+	public static int[] xmasRares = {6865,6866,6867,962,4079, 1050,4566};
+	public static int[] partyhats = {1040,1042,1044,1046,1048};
 
 	public static int[] magicStaffs = {1381, 1383, 1385, 1387, 1389, 1391, 1393, 1395, 1397, 1399, 1401, 1403, 1405, 1407, 1409, 2415, 2416, 2417, 3054, 3055, 3056, 4170};
 
@@ -105,6 +106,7 @@ public class DropList {
 	public static int blackDHide[] = lists.blackDhideEquipment.toArray();
 	
 	public static LinkedList<Drop> RARES = new LinkedList<Drop>(); //all caps because we should be careful when using this
+	public static LinkedList<Drop> HOLIDAYITEMS = new LinkedList<Drop>();
 
 	public static LinkedList<Drop> newLowLevelDrop = new LinkedList<Drop>();
 	public static LinkedList<Drop> midLevelDrop = new LinkedList<Drop>();
@@ -183,7 +185,8 @@ public class DropList {
 				new Drop(1, a3rdAgeSet, bandosSet),
 				new Drop(1, godSwords, DCLAWS, WHIP, FIRECAPE, SERVERTOKEN));
 		
-		populate(RARES, new Drop(1, xmasRares, halloweenRares, easterRares));
+		populate(RARES, new Drop(1, xmasRares, halloweenRares, easterRares, partyhats));
+		populate(HOLIDAYITEMS, new Drop(1, xmasRares, halloweenRares, easterRares));
 		
 		populate(abbyDrop, 
 				new Drop(2, WHIP), 

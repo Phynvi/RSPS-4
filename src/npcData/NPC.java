@@ -44,7 +44,7 @@ public class NPC {
 
 	private class playerDamage{
 		private int playerID, totalDamage;
-		
+
 		public playerDamage(int pID, int tDamage){
 			playerID = pID;
 			totalDamage = tDamage;
@@ -233,19 +233,19 @@ public class NPC {
 		faceUpdateRequired = true;
 		updateRequired = true;
 	}
-	
-//	public void faceplayer(int i)
-//	{
-//		int playerX = server.playerHandler.players[i].absX;
-//		int playerY = server.playerHandler.players[i].absY;
-//		int moveX = 0;
-//		int moveY = 0;
-//		if(absX > playerX) moveX = 1;
-//		if(absX < playerX) moveX = -1;
-//		if(absY > playerY) moveY = 1;
-//		if(absY < playerY) moveY = -1;
-//		turnNpc(moveX, moveY);
-//	}
+
+	//	public void faceplayer(int i)
+	//	{
+	//		int playerX = server.playerHandler.players[i].absX;
+	//		int playerY = server.playerHandler.players[i].absY;
+	//		int moveX = 0;
+	//		int moveY = 0;
+	//		if(absX > playerX) moveX = 1;
+	//		if(absX < playerX) moveX = -1;
+	//		if(absY > playerY) moveY = 1;
+	//		if(absY < playerY) moveY = -1;
+	//		turnNpc(moveX, moveY);
+	//	}
 	public boolean faceUpdateRequired;
 	public void updateface(stream stream1)
 	{
@@ -281,6 +281,7 @@ public class NPC {
 		if(!updateRequired) return ;		// nothing required
 		int updateMask = 0;
 		if(animUpdateRequired) updateMask |= 0x10;
+		if(mask80update) updateMask |= 0x80;
 		//if(hitUpdateRequired) updateMask |= 0x8;
 		if(textUpdateRequired) updateMask |= 1;
 		if(hitUpdateRequired) updateMask |= 0x40;
@@ -307,6 +308,7 @@ public class NPC {
 			str.writeString(textUpdate);
 		}
 		if (animUpdateRequired) appendAnimUpdate(str);
+		if(mask80update)   appendMask80Update(str);
 		if (hitUpdateRequired) appendHitUpdate(str);
 		if (dirUpdateRequired) appendFaceEntity(str);
 		if (dirUpdateRequired) appendDirUpdate(str);
@@ -314,6 +316,30 @@ public class NPC {
 		if (faceUpdateRequired && faceUp) updateface(str);
 		if(turnUpdateRequired) appendSetFocusDestination(str);		
 		// TODO: add the various other update blocks
+	}
+
+	public void gfx100(int gfx)
+	{
+		mask80var1 = gfx;
+		mask80var2 = 6553600;
+		mask80update = true;
+		updateRequired = true;
+	}
+	public void gfx0(int gfx)
+	{
+		mask80var1 = gfx;
+		mask80var2 = 65536;
+		mask80update = true;
+		updateRequired = true;
+	}
+
+	public int mask80var1 = 0;
+	public int mask80var2 = 0;
+	public boolean mask80update = false;
+	public void appendMask80Update(stream str) {
+		str.writeWord(mask80var1);
+		str.writeDWord(mask80var2);
+		System.out.println("GFX: " +mask80var1+"HEIGHT: "+mask80var2);
 	}
 
 	public void clearUpdateFlags() {
@@ -329,6 +355,7 @@ public class NPC {
 		focusPointX = -1; 
 		focusPointY = -1; 
 		turnUpdateRequired = false;
+		mask80update = false;
 	}
 
 	// returns 0-7 for next walking direction or -1, if we're not moving

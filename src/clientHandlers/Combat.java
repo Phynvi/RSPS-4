@@ -739,7 +739,7 @@ public class Combat {
 			return true;
 		}
 		catch(Exception e){
-			c.error("In hitNPC : "+e.toString());
+			c.error("In hitNPC, given npcID : "+npcID+", error: "+e.toString());
 			return false;
 		}
 	}
@@ -754,7 +754,7 @@ public class Combat {
 	public boolean updateDelayAndHitNPC(int npcID, int damage){
 		c.LoopAttDelay = c.PkingDelay;
 		c.hitDelayTimer = System.currentTimeMillis();
-		return hitNPC(c.attacknpc, damage);
+		return hitNPC(npcID, damage);
 	}
 
 	private void addCombatXP(int damage){

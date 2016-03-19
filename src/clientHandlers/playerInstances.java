@@ -28,7 +28,7 @@ public class playerInstances {
 	public ChatRoom currentChatRoom = null;
 	public int currency = 995;
 	
-	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug;
+	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug,randomx,randomy,randomh;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;

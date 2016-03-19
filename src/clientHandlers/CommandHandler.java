@@ -1,10 +1,19 @@
 package clientHandlers;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.imageio.ImageIO;
 
 import playerData.Player;
 import playerData.client;
@@ -37,9 +46,39 @@ public class CommandHandler {
 		try{
 			switch(args[0].toLowerCase()){
 
+			case "screenshot":
+				try//Try & catch
+				{
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+				Date date = new Date();
+				System.out.println(); //2014/08/06 15:59:48
+					Robot robot = new Robot();//Initializes the robot
+					Rectangle area = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());//Uses the size of the screen (Needed for different resolutions)
+					String name = dateFormat.format(date).trim();
+					File target = new File("./screenshots/"+name+".png");//Creates the file
+					ImageIO.write(robot.createScreenCapture(area), "png", target);
+				} catch(Exception e) {} 
+				break;
+			
+			case "noclick":
+				if(c.noClick) c.noClick = false;
+				else c.noClick = true;
+				break;
+			
+			case "interface":
+				int r = Integer.parseInt(args[2]);
+				int intname = Integer.parseInt(args[1]);
+				c.getFrameMethodHandler().setSidebarInterface(7, intname);
+				c.getFrameMethodHandler().showInterface(intname);
+				for(int i = intname-r; i <= intname+r; i++){
+					if(i <= 0) i = 1;
+					c.getFrameMethodHandler().sendQuest(""+i,i);
+				}
+				break;
+			
 			case "test":
-				server.itemHandler.createGroundItemInSeconds(4151, c.absX, c.absY, 1, true, 0, null);
-			break;
+				c.getFrameMethodHandler().showLevelUpSprite(Integer.parseInt(args[1]), c.playerAttack);
+				break;
 			
 			case "tile":
 				if(args.length >= 3) c.getFrameMethodHandler().createNewTileObject(c.absX, c.absY, Integer.parseInt(args[1]), Integer.parseInt(args[2]), 10);
@@ -483,24 +522,6 @@ public class CommandHandler {
 			}
 			return;
 		}
-
-		if (fullCommand.startsWith("interface") && c.playerRights >= 2) {
-			try {
-				int intname = Integer.parseInt(fullCommand.substring(10));
-				c.getFrameMethodHandler().setSidebarInterface(7, intname);
-				c.getFrameMethodHandler().showInterface(intname);
-				for(int i = intname-200; i <= intname+200; i++){
-					if(i <= 0) i = 1;
-					c.getFrameMethodHandler().sendQuest(""+i,i);
-				}
-				c.sendMessage(intname+" interface opened.");
-			}
-			catch(Exception e) {
-				c.sendMessage("Wrong Syntax! Use as ::int #");
-			}
-			return;
-		}
-
 
 		if (fullCommand.startsWith("shop") && c.playerRights >= 2) {
 			try {

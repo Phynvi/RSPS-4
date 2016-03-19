@@ -461,11 +461,16 @@ public class ItemUse {
 		case 3040: // mage pot (4)
 			return pot(6,Item,3042,Slot);
 
+		case 6865:
+		case 6866:
+		case 6867:
+			c.getClientMethodHandler().jumpMarionette(Item);
+			break;
 
 		case 6199: // Mystery Box
 			c.startAnimation(862);
 			c.getInventoryHandler().deleteItem(6199, c.getInventoryHandler().GetItemSlot(6199), 1);
-			c.getInventoryHandler().addItem(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), 1);
+			c.getInventoryHandler().addItem(c.DROPHANDLER.getDrop(c.DROPHANDLER.HOLIDAYITEMS), 1);
 			c.sendMessage("You open the box and recieve an item!");
 			break;
 

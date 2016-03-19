@@ -1641,13 +1641,14 @@ playerName.trim();*/
 		int junk2;
 		int junk3;
 
-		if(packetType != 0)
-			updateIdle();
 		//debug("packetType : "+packetType);
 
 		if (noClick)
 			return;
 
+		if(packetType != 0)
+			updateIdle();
+		
 		switch(packetType) {
 		case 0: break;		// idle packet - keeps on reseting timeOutCounter
 
@@ -1690,6 +1691,11 @@ playerName.trim();*/
 			System.out.println("Item2ID3: "+item2ID3);
 			System.out.println("Item2ID4: "+item2ID4);
 
+			if(item2ID3 == 6865 || item2ID3 == 6866 || item2ID3 == 6867){
+				getClientMethodHandler().danceMarionette(item2ID3);
+				break;
+			}
+			
 			if (item2ID3 == 227) {
 				getInventoryHandler().deleteItem(227, getInventoryHandler().getItemSlot(227), 1);
 				getInventoryHandler().addItem (229, 1);
@@ -1701,6 +1707,11 @@ playerName.trim();*/
 
 			int item_id = inStream.readSignedWordA();
 
+			if(item_id == 6865 || item_id == 6866 || item_id == 6867){
+				getClientMethodHandler().bowMarionette(item_id);
+				break;
+			}
+			
 			if(server.debugmode)
 				System.out.println("Item id: "+item_id);
 
@@ -2346,8 +2357,11 @@ playerName.trim();*/
 
 
 		case 131: //Magic on NPCs
+			getCombatHandler().ResetAttack();
+			getCombatHandler().ResetAttackNPC();
 			int npcIndex = inStream.readSignedWordBigEndianA();
 			_NPCID = server.npcHandler.npcs[npcIndex].npcType;
+			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+_NPCID);
 			if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
 				sendMessage("That's a friendly NPC that I should not attack.");
 				stopPlayerMovement();
@@ -2361,7 +2375,6 @@ playerName.trim();*/
 			}
 			spellID = inStream.readSignedWordA();
 			MAGICDATAHANDLER.magicOnNPC(npcIndex);
-			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+_NPCID);
 			break;
 
 
@@ -2401,6 +2414,10 @@ playerName.trim();*/
 
 		case 41: // wear item
 			int wearID = inStream.readUnsignedWord();
+			if(wearID == 6865 || wearID == 6866 || wearID == 6867){
+				getClientMethodHandler().walkMarionette(wearID);
+				break;
+			}
 			int wearSlot = inStream.readUnsignedWordA();
 			interfaceID = inStream.readUnsignedWordA();
 			if (!getInventoryHandler().canwear(wearID, wearSlot))
@@ -2650,6 +2667,7 @@ playerName.trim();*/
 
 		case 87:		// drop item
 			int droppedItem = inStream.readUnsignedWordA();
+
 			somejunk = inStream.readUnsignedByte()+inStream.readUnsignedByte();
 			int slot = inStream.readUnsignedWordA();
 			//println_debug("dropItem: "+droppedItem+" Slot: "+slot);

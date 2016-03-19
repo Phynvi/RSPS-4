@@ -19,11 +19,5 @@
 	
 -Level gain sprites
 
--Teleport in ardougne (elena) is open, catherby boat
-
--Fishing colony and karamja travel
-
--cast on npc errors out
-
 -Make NPCs +1,+1 spawn if they need it
 

@@ -301,6 +301,12 @@ public class FileLoading {
 						c.barrowed = Integer.parseInt(token2);
 					else if (token.equals("slug"))
 						c.slug = Integer.parseInt(token2);
+					else if (token.equals("randomx"))
+						c.randomx = Integer.parseInt(token2);
+					else if (token.equals("randomy"))
+						c.randomy = Integer.parseInt(token2);
+					else if (token.equals("randomh"))
+						c.randomh = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -541,6 +547,15 @@ public class FileLoading {
 			characterfile.newLine();
 			String s19 = "slug = "; characterfile.write(s19, 0, s19.length());
 			characterfile.write(Integer.toString(c.slug), 0, Integer.toString(c.slug).length());
+			characterfile.newLine();
+			String s20 = "randomx = "; characterfile.write(s20, 0, s20.length());
+			characterfile.write(Integer.toString(c.randomx), 0, Integer.toString(c.randomx).length());
+			characterfile.newLine();
+			String s21 = "randomy = "; characterfile.write(s21, 0, s21.length());
+			characterfile.write(Integer.toString(c.randomy), 0, Integer.toString(c.randomy).length());
+			characterfile.newLine();
+			String s22 = "randomh = "; characterfile.write(s22, 0, s22.length());
+			characterfile.write(Integer.toString(c.randomh), 0, Integer.toString(c.randomh).length());
 			characterfile.newLine();
 			characterfile.newLine();
 

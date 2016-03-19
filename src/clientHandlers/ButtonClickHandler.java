@@ -33,6 +33,18 @@ public class ButtonClickHandler {
 		//panellist();
 		//break;			
 
+		case 55117:
+		case 55118: //incorrect selections of odd one out
+			c.teleport(c.randomx, c.randomy, c.randomh);
+			c.getClientMethodHandler().npcdialogue(410, "You did not select the correct one.");
+			break;
+			
+		case 55119:
+			c.teleport(c.randomx, c.randomy, c.randomh);
+			c.getClientMethodHandler().npcdialogue(410, "You selected the correct one.","Take a gift.");
+			c.getInventoryHandler().addItem(6199);
+			break;
+		
 		case 28215:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().sluggishCircumstances());
 			break;

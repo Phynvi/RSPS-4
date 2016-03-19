@@ -357,6 +357,15 @@ public class NPCClickHandler {
 
 		switch(NPCID){ //for conditionals
 
+		case 410: //mysterious old man
+			if(c.getInventoryHandler().freeSlots() == 0) 
+				c.getClientMethodHandler().npcdialogue(NPCID, "Speak to me when your inventory is not full.");
+			else{
+				c.getFrameMethodHandler().sendFrame164(14191);
+				c.getFrameMethodHandler().sendQuest("Pick the odd one out", 14200);
+			}
+			break;
+
 		case 697: //kennith
 			if(c.slug == 0)
 				c.getClientMethodHandler().npcdialogue(697, "Those slugs are too scary! I'm","not going anywhere!");
@@ -367,28 +376,28 @@ public class NPCClickHandler {
 			else if(c.slug == 5)
 				c.getClientMethodHandler().npcdialogue(697, "I'll use the torch to get out of here!");
 			break;
-		
+
 		case 695: //bailey
-		if(c.slug == 0) 
-			c.getClientMethodHandler().npcdialogue(695, "Ever since we started fishing up those","slugs, my men have began acting strange.");
-		else if(c.slug == 1 || c.slug == 2)
-			c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "", "Nevermind");
-		else if(c.slug == 3)
-			c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "What are the slug's weak against?", "Nevermind");
-		else if(c.slug > 3)
-			c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "I lost the torch.", "Nevermind");
+			if(c.slug == 0) 
+				c.getClientMethodHandler().npcdialogue(695, "Ever since we started fishing up those","slugs, my men have began acting strange.");
+			else if(c.slug == 1 || c.slug == 2)
+				c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "", "Nevermind");
+			else if(c.slug == 3)
+				c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "What are the slug's weak against?", "Nevermind");
+			else if(c.slug > 3)
+				c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "I lost the torch.", "Nevermind");
 			break;
-			
+
 		case 696: //caroline
 			if(c.slug >= 0)
 				c.getFrameMethodHandler().select4Options(21, "Topics", "Any news?", "You look worried", "", "Nevermind");
 			else if (c.slug == 5) c.getClientMethodHandler().npcdialogue(NPCID, "Thank you for your help.");
 			break;
-		
+
 		case 702: case 703: case 704: //fishing platform
 			c.sendMessage("The fisherman appears to be in a zombie-like state.");
 			break;
-		
+
 		case 675:
 			if(c.TUP < 2) c.getClientMethodHandler().npcdialogue(NPCID, "I've got quite a few workers to manage here.");
 			else if(c.TUP == 2){
@@ -736,7 +745,7 @@ public class NPCClickHandler {
 			c.slayerMaster = NPCID;
 			break;
 
-		case 410:
+		case 3352:
 			c.getFrameMethodHandler().select4Options(8,"Options", "1 Server Token - Zamorak Godsword", "1 Server Token - Bandos Godsword", "1 Server Token - Saradomin Godsword", "More Options (Spirit Shields)");
 			break;
 
@@ -880,7 +889,7 @@ public class NPCClickHandler {
 			else
 				c.getClientMethodHandler().selectOptionTravel2("Leave Fishing Platform?", "Yes", 2722,3305, "No", -1,-1);
 			break;
-			
+
 		case 376: //captain tobias
 			if(c.isInArea(3026,3215,3030,3220)) //port sarim
 				c.getFrameMethodHandler().select4Options("Topics", "Travel to Karamja", 2956,3146, "Travel to Catherby", 2803,3423, "", -1, -1, "Nevermind", -1, -1);

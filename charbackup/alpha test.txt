@@ -3,14 +3,14 @@ character-username = alpha test
 character-password = lollol
 
 [CHARACTER]
-character-height = 0
-character-posx = 2817
-character-posy = 3443
+character-height = 1
+character-posx = 2766
+character-posy = 3284
 character-rights = 0
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160217
+character-lastlogin = 20160218
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -67,34 +67,8 @@ character-skill = 23	1	0
 character-skill = 24	1	0
 
 [ITEMS]
-character-item = 0	382	1
-character-item = 1	382	1
-character-item = 2	380	1
-character-item = 3	380	1
-character-item = 4	380	1
-character-item = 5	380	1
-character-item = 6	380	1
-character-item = 7	380	1
-character-item = 8	382	1
-character-item = 9	382	1
-character-item = 10	382	1
-character-item = 11	382	1
-character-item = 12	382	1
-character-item = 13	382	1
-character-item = 14	380	1
-character-item = 15	382	1
-character-item = 16	380	1
-character-item = 17	380	1
-character-item = 18	382	1
-character-item = 19	380	1
-character-item = 20	380	1
-character-item = 21	380	1
-character-item = 22	380	1
-character-item = 23	380	1
-character-item = 24	380	1
-character-item = 25	380	1
-character-item = 26	382	1
-character-item = 27	380	1
+character-item = 0	380	1
+character-item = 1	380	1
 
 [BANK]
 character-bank = 0	1008	1
@@ -128,7 +102,7 @@ character-bank = 27	557	291
 character-bank = 28	1439	1
 character-bank = 29	3197	1
 character-bank = 30	352	23
-character-bank = 31	380	72
+character-bank = 31	380	118
 character-bank = 32	5325	77
 character-bank = 33	2553	1
 character-bank = 34	567	26
@@ -156,9 +130,8 @@ character-bank = 55	1318	1
 character-bank = 56	1124	1
 character-bank = 57	1272	1
 character-bank = 58	2348	1
-character-bank = 59	378	51
-character-bank = 60	302	1
-character-bank = 61	382	22
+character-bank = 59	302	1
+character-bank = 60	382	53
 
 [FRIENDS]
 

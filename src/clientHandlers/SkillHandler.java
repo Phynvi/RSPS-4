@@ -10,7 +10,56 @@ import skills.Agility;
 
 
 public class SkillHandler {
+	
+	private final int Attack = 0;
+	private final int Defence = 1;
+	private final int Strength = 2;
+	private final int Hitpoints = 3;
+	private final int Ranged = 4;
+	private final int Prayer = 5;
+	private final int Magic = 6;
+	private final int Cooking = 7;
+	private final int Woodcutting = 8;
+	private final int Fletching = 9;
+	private final int Fishing = 10;
+	private final int Firemaking = 11;
+	private final int Crafting = 12;
+	private final int Smithing = 13;
+	private final int Mining = 14;
+	private final int Herblore = 15;
+	private final int Agility = 16;
+	private final int Thieving = 17;
+	private final int Slayer = 18;
+	private final int Farming = 19;
+	private final int Runecrafting = 20;
 
+	public String getSkillName(int id){
+		switch(id){
+		case Attack: return "Attack";
+		case Defence: return "Defence";
+		case Strength: return "Strength";
+		case Hitpoints: return "Hitpoints";
+		case Ranged: return "Ranged";
+		case Prayer: return "Prayer";
+		case Magic: return "Magic";
+		case Cooking: return "Cooking";
+		case Woodcutting: return "Woodcutting";
+		case Fletching: return "Fletching";
+		case Fishing: return "Fishing";
+		case Firemaking: return "Firemaking";
+		case Crafting: return "Crafting";
+		case Smithing: return "Smithing";
+		case Mining: return "Mining";
+		case Herblore: return "Herblore";
+		case Agility: return "Agility";
+		case Thieving: return "Thieving";
+		case Slayer: return "Slayer";
+		case Farming: return "Farming";
+		case Runecrafting: return "Runecrafting";
+		}
+		return null;
+	}
+	
 	private int skillTimer = -1;
 	private int skillType = -1;
 	private client c;
@@ -60,6 +109,7 @@ public class SkillHandler {
 		this.prayerHandler = new Prayer(pc);
 		this.agilityHandler = new Agility(pc);
 	}
+	
 	
 	public void resetTimers(){
 		this.skillTimer = -1;

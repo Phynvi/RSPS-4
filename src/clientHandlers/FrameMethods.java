@@ -8,7 +8,25 @@ import serverHandlers.PlayerHandler;
 
 
 public class FrameMethods {
-
+	
+	public void showLevelUpSprite(int id, int skill){
+				c.debug("Sprite "+id);
+				sendFrame164(id);
+		sendFrame126("Congratulations, you just advanced a "+c.getSkillHandler().getSkillName(skill)+" level.", id+1);
+		sendFrame126("Your "+c.getSkillHandler().getSkillName(skill)+" is now "+c.getLevelForXP(c.playerXP[skill])+".", id+2);
+		sendFrame126("Click here to continue", id+3);
+		
+	}
+	
+	public void showLevelUpSprite(int id, int skill, int lineID1, int lineID2, int lineID3){
+				c.debug("Sprite "+id);
+				sendFrame164(id);
+		sendFrame126("Congratulations, you just advanced a "+c.getSkillHandler().getSkillName(skill)+" level.", lineID1);
+		sendFrame126("Your "+c.getSkillHandler().getSkillName(skill)+" is now "+c.getLevelForXP(c.playerXP[skill])+".", lineID2);
+		sendFrame126("Click here to continue", lineID3);
+		
+	}
+	
 	private int[] QuestInterface = {
 			8145, 8147, 8148, 8149, 8150, 8151, 8152, 8153, 8154, 8155, 8156, 8157, 8158, 8159, 8160, 8161, 8162, 
 			8163, 8164, 8165, 8166, 8167, 8168, 8169, 8170, 8171, 8172, 8173, 8174, 8175, 8176, 8177, 8178, 8179,
@@ -966,7 +984,13 @@ public class FrameMethods {
 		c.updateRequired = true;
 	}
 
-
+	public void gfx0(int gfx)
+	{
+		c.mask100var1 = gfx;
+		c.mask100var2 = 65536;
+		c.mask100update = true;
+		c.updateRequired = true;
+	}
 
 	public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
 			int startHeight, int endHeight, int lockon,int delay) {
