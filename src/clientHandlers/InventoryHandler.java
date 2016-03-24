@@ -336,7 +336,6 @@ public class InventoryHandler {
 		c.getFrameMethodHandler().resetItems(3214);
 	}
 
-	//TODO REDO THIS
 	/**
 	 * Private helper method used when dying
 	 */

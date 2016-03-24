@@ -42,6 +42,15 @@ public class NPC {
 	public String textUpdate;
 	private ArrayList<playerDamage> attackingPlayers = new ArrayList<playerDamage>();
 
+	/**
+	 * Will display a text above NPC
+	 */
+	public void showText(String s){
+		updateRequired = true;
+		textUpdateRequired = true;
+		textUpdate = s;
+	}
+
 	private class playerDamage{
 		private int playerID, totalDamage;
 
@@ -162,6 +171,7 @@ public class NPC {
 		int pID = -1;
 		int highest = -1;
 		for(playerDamage pD : attackingPlayers){
+			if(pD == null) continue;
 			if((server.playerHandler.players[pD.getPlayerID()].distanceToPoint(this.absX, this.absY) <= this.agroRange) && (pD.getDamage() >= highest)){
 				highest = pD.getDamage();
 				pID = pD.getPlayerID();

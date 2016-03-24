@@ -714,7 +714,7 @@ public class NPCClickHandler {
 			break;
 
 		case 944: //
-			skillMaster(NPCID, "Combat Instructor", 14076,14077,14078, "Strength", c.playerStrength, new String[]{"I help train the new recruits.",});
+			skillMaster(NPCID, "Combat Instructor", 14076,14077,14078, "Strength", c.playerStrength, new String[]{"East of here are some Giant Rats.","They may be more towards your level."});
 			break;
 
 		case 946:

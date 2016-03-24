@@ -98,8 +98,8 @@ public class NPCHandler {
 			newNPC.agroRange = 7;
 		}
 		if(npcType == 1265 || npcType == 1267) //rock crabs
-			newNPC.agroRange = 1;
-		
+			newNPC.agroRange = 2;
+
 		if(aggressiveNPCS.exists(npcType))
 			newNPC.isAggressive = true;
 		if(ignoreCombatLevel.exists(npcType))
@@ -390,23 +390,6 @@ public class NPCHandler {
 
 					if(npcs[i].isOutsideSpawn()) //if the npc has wandered too far
 						npcs[i].reset();
-					
-
-					if((npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && !npcs[i].DeadApply && npcs[i].npcType != 3778 && npcs[i].npcType != 3779 && 
-							npcs[i].npcType != 3780 && npcs[i].npcType != 3777){
-						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
-						Player attackingPlayer = server.playerHandler.players[npcs[i].StartKilling];
-						if(attackingPlayer != null){
-							if((attackingPlayer.distanceToPoint(npcs[i].absX, npcs[i].absY) < npcs[i].agroRange) && attackingPlayer.heightLevel == npcs[i].heightLevel){
-								npcs[i].RandomWalk = false;
-								AttackPlayer(i);
-							}
-							else{
-								npcs[i].reset();
-								//misc.println_debug("Called by NPC: "+npcs[i].npcType+", X,Y: "+npcs[i].absX+","+npcs[i].absY+", StartKilling: "+attackingPlayer.playerName);
-							}
-						}
-					}					
 
 					if(npcs[i].isAggressive || npcs[i].isAggressiveIgnoreCombatLevel){
 
@@ -421,7 +404,8 @@ public class NPCHandler {
 										person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= npcs[i].agroRange && 
 										person.heightLevel == npcs[i].heightLevel && 
 										( !person.IsAttackingNPC || person.getClientMethodHandler().isInMultiCombat() ) && 
-										npcs[i].StartKilling <= 0 && !npcs[i].moveToSpawn && 
+										npcs[i].StartKilling <= 0 && 
+										!npcs[i].moveToSpawn && 
 										( ((getCombat(npcs[i].npcType)*2) > person.combat) || npcs[i].isAggressiveIgnoreCombatLevel ) 
 										) {
 									npcs[i].StartKilling = person.playerId;
@@ -432,13 +416,38 @@ public class NPCHandler {
 
 						}
 
-					}
+					}					
+
+					if(
+							(npcs[i].IsUnderAttack || npcs[i].StartKilling > 0) && 
+							!npcs[i].DeadApply && 
+							npcs[i].npcType != 3778 && 
+							npcs[i].npcType != 3779 && 
+							npcs[i].npcType != 3780 && 
+							npcs[i].npcType != 3777
+							){
+						npcs[i].setPlayerAgroID(); //agro check, which sets startkilling ID
+						Player attackingPlayer = server.playerHandler.players[npcs[i].StartKilling];
+						if(attackingPlayer != null){
+							if(
+									(attackingPlayer.distanceToPoint(npcs[i].absX, npcs[i].absY) <= npcs[i].agroRange) && 
+									attackingPlayer.heightLevel == npcs[i].heightLevel
+									){
+								npcs[i].RandomWalk = false;
+								AttackPlayer(i);
+							}
+							else{
+								npcs[i].reset();
+								//misc.println_debug("Called by NPC: "+npcs[i].npcType+", X,Y: "+npcs[i].absX+","+npcs[i].absY+", StartKilling: "+attackingPlayer.playerName);
+							}
+						}
+					}					
 
 					boolean exitFor = false; //checks to see if is standing on top of another npc
 					for(int k = 1; k < maxNPCs && !exitFor; k++){
 						if(npcs[k] == null)
 							break;
-						if(npcs[k] != null && npcs[k] != npcs[i]){
+						if(npcs[k] != npcs[i]){
 							if(npcs[k].absX == npcs[i].absX && npcs[k].absY == npcs[i].absY){
 								int rX = misc.random(1);
 								int rY = misc.random(1);
@@ -454,108 +463,47 @@ public class NPCHandler {
 							}
 						}
 					}
+					
+					switch(npcs[i].npcType){
+					case 1691:
+					case 81:
+					case 397:
+					case 1766:
+					case 1767:
+					case 1768:
+						if(misc.random(50) == 0)
+							npcs[i].showText("Moo");
+						break;
 
-					if (npcs[i].npcType == 1691 || npcs[i].npcType == 81 || npcs[i].npcType == 397 || npcs[i].npcType == 1766 || npcs[i].npcType == 1767 || npcs[i].npcType == 1768) {
-						if (misc.random2(50) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Moo";
-						}
-					}
-					if (npcs[i].npcType == 2366) {
-						npcs[i].updateRequired = true;
-						npcs[i].textUpdateRequired = true;
-						npcs[i].textUpdate = "Everything West of here is PVP";
-					}
-					if (npcs[i].npcType == 1385) {
-						npcs[i].updateRequired = true;
-						npcs[i].textUpdateRequired = true;
-						npcs[i].textUpdate = "I have information on God Wars";
-					}
-					if (npcs[i].npcType == 1210) {
-						npcs[i].updateRequired = true;
-						npcs[i].textUpdateRequired = true;
-						npcs[i].textUpdate = "Everything North of here is PVP";
-					}
-					if (npcs[i].npcType == 2369) {
-						npcs[i].updateRequired = true;
-						npcs[i].textUpdateRequired = true;
-						npcs[i].textUpdate = "Everything outside this tent is PVP";
-					}
-					if (npcs[i].npcType == 1660) {
-						if (misc.random2(3) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Let's go fairy boy!";
-						}
-					}
-					if (npcs[i].npcType == 1661) {
-						if (misc.random2(3) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Pick up the speed you degenerate!";
-						}
-					}					
+					case 2366:
+						npcs[i].showText("Everything West of here is PVP");
+						break;
 
-					if (npcs[i].npcType == 1303) {
-						if (misc.random2(10) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Talk to me if you died!";
-						}
-					}
-					if (npcs[i].npcType == 943) {
-						if (misc.random2(5) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Newcomers talk to me!";
-						}
-					}
+					case 1385:
+						npcs[i].showText("I have information on God Wars");
+						break;
 
-					if (npcs[i].npcType == 1809) {
-						if (misc.random2(22) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Turn back and save yourself!";
-						}
-					}
-					if (npcs[i].npcType == 1810) {
-						if (misc.random2(22) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Death awaits you.";
-						}
-					}
-					if (npcs[i].npcType == 1696) {
-						if (misc.random2(22) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Hello Adventurer! Please talk to me!";
-						}
-					}
-					if (npcs[i].npcType == 2024) {
-						if (misc.random2(22) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "Dead... All of them... Dead...";
-						}
-					}
-					if (npcs[i].npcType == 1675) {
-						if (misc.random2(5) == 1) {
-							npcs[i].updateRequired = true;
-							npcs[i].textUpdateRequired = true;
-							npcs[i].textUpdate = "ARGHHH!!!";
-						}
-					}
+					case 1210:
+						npcs[i].showText("Everything North of here is PVP");
+						break;
 
+					case 2369:
+						npcs[i].showText("Everything outside this tent is PVP");
+						break;
 
+					case 943:
+						npcs[i].showText("Nowcomers, speak with me");
+						break;
 
-					//man123 - dieing
+					}
 
 				} else if (npcs[i].IsDead == true) {
 					int npcID = npcs[i].npcType;
 					npcs[i].resetAttackingPlayers();
 					if (npcs[i].actionTimer == 0 && npcs[i].DeadApply == false && npcs[i].NeedRespawn == false) {
+						
+						
+						
 						if (npcs[i].npcType == 81 || npcs[i].npcType == 397 || npcs[i].npcType == 1766 || npcs[i].npcType == 1767 || npcs[i].npcType == 1768) {
 							npcs[i].animNumber = 0x03E; //cow dead
 						} else if (npcs[i].npcType == 41) {
@@ -736,12 +684,12 @@ public class NPCHandler {
 			c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);
 			c.sendMessage("You gain a small amount of favour for killing the Broodo Victim.");
 			break;			
-		
+
 		case 502: //undead one
 		case 503: //undead one
 			dropItem(NPCID, DropList.BONES);
 			break;
-			
+
 		case 374: //ogre
 		case 852: //ogre chieften
 		case 2044:

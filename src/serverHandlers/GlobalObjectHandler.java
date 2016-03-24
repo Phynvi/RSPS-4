@@ -49,6 +49,8 @@ public class GlobalObjectHandler {
 		objectList.add(new StaticObject(3070,3278,4421,1,null));
 		objectList.add(new StaticObject(3070,3277,4421,1,null));
 		objectList.add(new StaticObject(3070,3276,4421,1,null));
+		
+		objectList.add(new StaticObject(2280,3160,2107,1,null));
 	}
 
 	/**

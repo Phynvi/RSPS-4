@@ -15,6 +15,9 @@ public class NPCAnim {
 		case 503: //undead one
 			return 260; //260 - atk, 261 - block, 263 - dead
 		
+		case 86: case 87: //giant rat
+			return 138; //138 - atk, 139 - block, 141 - dead
+			
 		//thrower trolls
 		case 1101:
 		case 1102:
@@ -918,6 +921,10 @@ public class NPCAnim {
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+
+		case 86: case 87: //giant rat
+			return 139; //138 - atk, 139 - block, 141 - dead
+			
 		//skeletons
 		case 502: //undead one
 		case 503: //undead one
@@ -1142,6 +1149,10 @@ public class NPCAnim {
 	//TODO - Dead animations
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
+
+		case 86: case 87: //giant rat
+			return 141; //138 - atk, 139 - block, 141 - dead
+			
 		//skeletons
 		case 502: //undead one
 		case 503: //undead one

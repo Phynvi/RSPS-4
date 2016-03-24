@@ -466,6 +466,10 @@ public class ItemUse {
 		case 6867:
 			c.getClientMethodHandler().jumpMarionette(Item);
 			break;
+			
+		case 4079:
+			c.startAnimation(1457);
+			break;
 
 		case 6199: // Mystery Box
 			c.startAnimation(862);
@@ -608,6 +612,8 @@ public class ItemUse {
 	}
 
 	public boolean useItemOnObject(int useItemID, int atObjectID, int atObjectY, int atObjectX, int itemSlot, int objectDirection){
+		
+		c.TurnPlayerTo(atObjectX, atObjectY);
 		
 		if(useItemID == 954 && atObjectID == 3830)
 			c.teleport(3507,9494,0);

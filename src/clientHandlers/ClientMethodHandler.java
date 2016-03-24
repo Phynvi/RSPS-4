@@ -153,6 +153,8 @@ public class ClientMethodHandler {
 
 	public void levelup(int skill)
 	{
+		c.getSkillHandler().resetTimers();
+		c.stopAnimations();
 		switch(skill)  
 		{
 		case 0: 
@@ -269,6 +271,8 @@ public class ClientMethodHandler {
 				}
 				c.teleport(2374,3615,0);
 				c.sendMessage("You are teleported to a strange place.");
+				c.getSkillHandler().resetTimers();
+				c.stopAnimations();
 				break;
 			}			
 		}

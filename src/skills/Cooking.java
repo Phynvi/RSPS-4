@@ -144,8 +144,10 @@ public class Cooking {
 			c.sendMessage("You burn the "+Item.getItemName(fishID));
 		}
 		else{
+			c.getClientMethodHandler().addSkillXP(this.EXP, c.playerFishing);
 			c.getInventoryHandler().addItem(cookID);
 			c.sendMessage("You cook the "+Item.getItemName(fishID));
+			
 		}
 
 		c.getSkillHandler().startSkillTimerForSkill(COOKING_DELAY, 9);

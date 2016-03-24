@@ -1695,6 +1695,10 @@ playerName.trim();*/
 				getClientMethodHandler().danceMarionette(item2ID3);
 				break;
 			}
+			if(item2ID3 == 4079){
+				c.startAnimation(1460);
+				break;
+			}
 			
 			if (item2ID3 == 227) {
 				getInventoryHandler().deleteItem(227, getInventoryHandler().getItemSlot(227), 1);
@@ -1709,6 +1713,11 @@ playerName.trim();*/
 
 			if(item_id == 6865 || item_id == 6866 || item_id == 6867){
 				getClientMethodHandler().bowMarionette(item_id);
+				break;
+			}
+
+			if(item_id == 4079){
+				c.startAnimation(1459);
 				break;
 			}
 			
@@ -2092,7 +2101,6 @@ playerName.trim();*/
 			getItemUseHandler().useItemOnPlayer(itemUseID, itemUseSlot, useOnPlayer);
 			break;
 
-			//TODO - use local variables in the objects to try and fix bugs
 		case 252: // atObject2
 			int _objectID2 = inStream.readUnsignedWordBigEndianA(); //5292 bankwindow
 			int _objectY = inStream.readSignedWordBigEndian();
@@ -2418,6 +2426,10 @@ playerName.trim();*/
 				getClientMethodHandler().walkMarionette(wearID);
 				break;
 			}
+			if(wearID == 4079){
+				c.startAnimation(1458);
+				break;
+			}
 			int wearSlot = inStream.readUnsignedWordA();
 			interfaceID = inStream.readUnsignedWordA();
 			if (!getInventoryHandler().canwear(wearID, wearSlot))
@@ -2657,7 +2669,6 @@ playerName.trim();*/
 			String name = inStream.readString(); // Xerozcheez: I don't know if this is right method, because in the client it sends using method404 which I have not seen before
 			break;
 
-			//todo - wtf is this
 		case 79: // light item
 			int itemY2 = inStream.readSignedWordBigEndian();
 			int itemID2 = inStream.readUnsignedWord();
