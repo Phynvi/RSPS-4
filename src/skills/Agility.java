@@ -165,7 +165,7 @@ public class Agility {
 				}
 				return true;
 			}
-			c.sendMessage("You should probably stand in front of the obstacle attempting to use it.");
+			c.sendMessage("You should probably stand in front of the obstacle before attempting to use it.");
 			return false;
 		}
 		else {

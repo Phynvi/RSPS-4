@@ -10,7 +10,21 @@ public class NPCAnim {
 
 		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
 		
+		//hell hound
+		case 49:
+			return 158; //158 - attack, 159 - block, 161 - dead
+		
+		//scorpions
+		case 107:
+		case 108:
+		case 109:
+			return 246; //246 - atk, 247 - block, 248 - dead
+		
 		//skeletons
+		case 90:
+		case 91:
+		case 92:
+		case 93:
 		case 502: //undead one
 		case 503: //undead one
 			return 260; //260 - atk, 261 - block, 263 - dead
@@ -922,10 +936,24 @@ public class NPCAnim {
 
 		switch(npcID){
 
+		//hell hound
+		case 49:
+			return 159; //158 - attack, 159 - block, 161 - dead
+			
+		//scorpions
+		case 107:
+		case 108:
+		case 109:
+			return 247; //246 - atk, 247 - block, 248 - dead
+
 		case 86: case 87: //giant rat
 			return 139; //138 - atk, 139 - block, 141 - dead
 			
 		//skeletons
+		case 90:
+		case 91:
+		case 92:
+		case 93:
 		case 502: //undead one
 		case 503: //undead one
 			return 261; //260 - atk, 261 - block, 263 - dead
@@ -1150,10 +1178,24 @@ public class NPCAnim {
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
 
+		//hell hound
+		case 49:
+			return 161; //158 - attack, 159 - block, 161 - dead
+			
+		//scorpions
+		case 107:
+		case 108:
+		case 109:
+			return 248; //246 - atk, 247 - block, 248 - dead
+
 		case 86: case 87: //giant rat
 			return 141; //138 - atk, 139 - block, 141 - dead
 			
 		//skeletons
+		case 90:
+		case 91:
+		case 92:
+		case 93:
 		case 502: //undead one
 		case 503: //undead one
 			return 263; //260 - atk, 261 - block, 263 - dead

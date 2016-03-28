@@ -41,7 +41,7 @@ public class DropList {
 	public static int[] miscDrops = {2347,436, 438, 440, 442, 444, 447, 449, 451, 2349, 2351, 2353, 2355, 2357, 2359, 2361, 2363, 1511, 1513, 1515, 1517, 1519, 1521,1617,1619,1621,1623,1631}; //pots, ores, bars, logs, gems
 	public static int[] potions = {121, 133, 115, 127, 133, 139, 145, 157, 163, 169, 3042}; //all potions
 	public static int[] food = lists.food.toArray();
-	public static int[] craftedJew = {9102, 7803, 140, 1704, 1712, 1725, 1727, 1729, 1731, 6040, 6585, 1635, 1637, 1639, 1641, 1643, 1645, 2550, 2552, 2570, 2572, 6735, 6733, 6731, 6737, 6735, 6735, 6731}; //rings and amulets
+	public static int[] craftedJew = {7803, 140, 1704, 1712, 1725, 1727, 1729, 1731, 6040, 1635, 1637, 1639, 1641, 1643, 1645, 2550, 2552, 2570, 2572}; //rings and amulets
 
 	public static int[] obbyItems = {6523, 6524, 6525, 6526, 6527, 6528}; //obsidian weaps and shield
 	public static int[] a3rdAgeSet = {14511, 14512, 14513, 14514, 14507, 14508, 14509, 14503, 14504, 14600, 14506}; //all 3rd age armors
@@ -54,9 +54,9 @@ public class DropList {
 	//zamorak crozier,
 	
 	public static int[] rareGear = {6575,6571,9101,9096,9097,9098,9004,4224,3633,3635,3840,3842,3844,14860, 11342, 14638, 15352, 15195, 9099,3749,3751,3753,3755,2491,2497,2503,2581,
-		13601, 13602, 13603}; 
+		13601, 13602, 13603,9102,6731,6733,6735,6737}; 
 	//rare gear: helm of neiz, ava's, fighter torso, drag boots, drag helm, zammy cape, archer helm, serker helm, warrior helm, farseer helm, black d'hide stuff, ranger hat, mage books
-	//spirit shield, blessed spirit shield, crystal shield, monkey bag, zamorak robes and stole, onyx ring and gem, defenders
+	//spirit shield, blessed spirit shield, crystal shield, monkey bag, zamorak robes and stole, onyx ring and gem, defenders, strength amulet t, warrior ring, berserker ring, seers ring, archer ring
 
 	public static int[] PRESENT = {6199};
 	public static int[] DFS = {13361};

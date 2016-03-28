@@ -557,7 +557,8 @@ public class MenuHandler {
 				"Level 35 - Rocks (God Wars)",
 				"Level 50 - Underground pass, South Karamja (log)",
 				"Level 60 - Tirannwn (log)",
-				"Level 70 - Pipe (Brimhaven Dungeon)",
+				"Level 70 - Pipe (Brimhaven Dungeon), Pipe (Taverley Dungeon)",
+				"Level 80 - Strange Floor (Taverley Dungeon)",
 		"Level 85 - Stepping Stone (Brimhaven Dungeon)",
 		"Level 90 - Godwars Log Cross"};
 	}

@@ -66,9 +66,12 @@ public class ItemHandler {
 		loadItemList("item.cfg");
 		loadItemPrices("itemprices.cfg");
 		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
+		
+						// initiate ground items here
 		createGroundItemInSeconds(1469, 2762,3285, 1, true, 0, null);
 		createGroundItemInSeconds(1469, 2763,3288, 1, true, 0, null);
 		createGroundItemInSeconds(1467,2787,3287, 1, true, 0, null);
+		createGroundItemInSeconds(1590,2896,9766, 1, true, 0, null);
 		
 	}
 		

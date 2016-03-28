@@ -357,6 +357,10 @@ public class NPCClickHandler {
 
 		switch(NPCID){ //for conditionals
 
+		case 201:
+			c.sendMessage("I do not think I want to talk to him. He looks angry.");
+			break;
+		
 		case 410: //mysterious old man
 			if(c.getInventoryHandler().freeSlots() == 0) 
 				c.getClientMethodHandler().npcdialogue(NPCID, "Speak to me when your inventory is not full.");
@@ -918,6 +922,16 @@ public class NPCClickHandler {
 				c.getClientMethodHandler().npcdialogue("Wizard", 1263, "Poison? You didn't get it from me.");
 				c.getInventoryHandler().addItem (273, 1);
 				c.sendMessage ("Poison has been added to your inventory.");
+			}
+			break;
+			
+		case 798: //velrak the explorer
+			if(c.getInventoryHandler().freeSlots() == 0)
+				c.getClientMethodHandler().npcdialogue(NPCID, "I have something for you, but","your inventory is full.");
+			else{
+				c.getClientMethodHandler().npcdialogue(NPCID, "You have rescued me!","Take this dusty key as my thanks.");
+				c.getInventoryHandler().addItem(1590);
+				c.sendMessage("Velrak gives you a dusty key.");
 			}
 			break;
 

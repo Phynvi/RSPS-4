@@ -1,4 +1,6 @@
--Fix combat
+-Falador
+
+-teleport interruptible during combat
 
 -Redo crafting, add in tanning, etc
 
@@ -15,4 +17,3 @@
 -NPC poison/player poison
 	
 -Make NPCs +1,+1 spawn if they need it
-

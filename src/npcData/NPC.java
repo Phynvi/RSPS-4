@@ -171,7 +171,7 @@ public class NPC {
 		int pID = -1;
 		int highest = -1;
 		for(playerDamage pD : attackingPlayers){
-			if(pD == null) continue;
+			if(pD == null || server.playerHandler.players[pD.getPlayerID()] == null) continue;
 			if((server.playerHandler.players[pD.getPlayerID()].distanceToPoint(this.absX, this.absY) <= this.agroRange) && (pD.getDamage() >= highest)){
 				highest = pD.getDamage();
 				pID = pD.getPlayerID();

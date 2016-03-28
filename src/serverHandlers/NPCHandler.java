@@ -16,7 +16,7 @@ import clientHandlers.Item;
 
 
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(113,871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST aggressiveNPCS = new BST(49,190,134,82,104,90,91,92,93,113,871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(1101,3068,3069,3070,3071,871,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(1267,1265,62,2499,2501,2503,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();
@@ -618,14 +618,22 @@ public class NPCHandler {
 		return ShopValue*0.6*amount;
 	}
 
-	//New drops by AAA mods
-	private void dropItem(int NPCID, int dropID){	
+	/**
+	 * Will drop an item at the NPC's location
+	 * @param NPCID ID in array
+	 * @param dropID Item ID to be dropped, amount is calculated inside method
+	 */
+	private void dropItem(int NPCID, int dropID){
+		dropItem(NPCID, dropID, true);
+	}
+	
+	/**
+	 * @param dropID Item ID of item that will be placed on ground
+	 * @param withoutChance Mark true if the item should be spawned regardless of its rarity
+	 */
+	private void dropItem(int NPCID, int dropID, boolean withoutChance){	
 		if(dropID == 6306){
 			server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, misc.random(100)+1, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
-			return;
-		}
-		if(lists.bones.exists(dropID)){
-			server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, 1, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
 			return;
 		}
 
@@ -633,6 +641,11 @@ public class NPCHandler {
 
 		if(Item.itemStackable[dropID])
 			amount = misc.random(npcs[NPCID].MaxHP)+10;
+		
+		if(withoutChance){
+			server.itemHandler.createGroundItemInSeconds(dropID, npcs[NPCID].absX, npcs[NPCID].absY, amount, false, 30, (client) server.playerHandler.players[GetNpcKiller(NPCID)]);
+			return;
+		}
 
 		int value = (int)GetItemShopValue(dropID,amount);
 
@@ -684,6 +697,10 @@ public class NPCHandler {
 			c.getMiniGameHandler().getTaiBwoWannaiPickup().giveFavour(1);
 			c.sendMessage("You gain a small amount of favour for killing the Broodo Victim.");
 			break;			
+			
+		case 201: //jailer
+			dropItem(NPCID, 1591);
+			break;
 
 		case 502: //undead one
 		case 503: //undead one
@@ -710,24 +727,24 @@ public class NPCHandler {
 		case 114: //Ogre 
 		case 115: //Ogre
 		case 270: //khazard ogre
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop), false);
 			dropItem(NPCID, DropList.BIGBONES);
 			break;
 
 			//Dark Beast
 		case 2783:
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.darkBeastDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.darkBeastDrop),false);
 			dropItem(NPCID, DropList.BIGBONES);
 			break;
 
 			//Skeletal Wyvern
 		case 3070:
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			dropItem(NPCID, DropList.WYVERNBONES);
 			break;
 
 		case 2573:
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop),false);
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
@@ -738,30 +755,30 @@ public class NPCHandler {
 			break;
 
 		case 7: //farmer
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.farmSeeds));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.farmSeeds),false);
 			dropItem(NPCID, DropList.BONES);
 			break;
 
 		case 941: //Green Dragon
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop),false);
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.greenDHideWithTrim));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
 		case 55: //Blue dragon	
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop),false);
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.blueDHideWithTrim));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;	
 
 		case 53: //Red Dragon
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop),false);
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.redDHide));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
 		case 54: //Black Dragon
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop),false);
 			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.blackDHide));
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
@@ -769,7 +786,7 @@ public class NPCHandler {
 		case 1590: //Bronze Dragon
 		case 1591: //Iron Dragon
 		case 1592: //Steel Dragon
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.dragonDrop),false);
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
@@ -780,7 +797,7 @@ public class NPCHandler {
 		case 1183:
 		case 2361: //""
 		case 2362: //elf warrior
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop),false);
 			dropItem(NPCID, DropList.BONES);
 			break;
 
@@ -816,7 +833,7 @@ public class NPCHandler {
 		case 185:
 			if(c.pirate < 10)
 				c.pirate += 1;
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
@@ -829,52 +846,53 @@ public class NPCHandler {
 		case 1101: //dangerous thrower troll used in gw
 		case 1115: //troll general used in gw
 		case 871: //ogre shaman used in godwars
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			dropItem(NPCID, DropList.BIGBONES);
 			break;
 
 		case 3000: //general graardor
 			int chance = c.prevbandos+1;
 			if(misc.random(40/chance) == 0)
-				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.graardor));
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.graardor),false);
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
 		case 3001: //kree
 			int chance2 = c.prevarmadyl+1;
 			if(misc.random(60/chance2) == 0)
-				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.kree));
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+				dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.kree),false);
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
 		case 194: //necromancer
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
 		case 1153: //Kalphite worker
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.newLowLevelDrop),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
 		case 172: //dark wizard	
 		case 86:
 		case 222: //monks
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runesTalismanHerbs));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runesTalismanHerbs),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
+		case 181:
 		case 14: //druids
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runesTalismanHerbs));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runesTalismanHerbs),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
 		case 1611: //gargoyle, mob with general graador
 		case 1647: //infernal mage, mob with general graador
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes),false);
 			dropItem(NPCID, DropList.BIGBONES); //regular bones
 			break;
 
@@ -884,7 +902,7 @@ public class NPCHandler {
 		case 123: //hobgoblin
 			if(c.getClientMethodHandler().isInGodWars())
 				c.bandos += 1;
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
@@ -892,7 +910,7 @@ public class NPCHandler {
 		case 64: 
 			if(c.getClientMethodHandler().isInGodWars())
 				c.armadyl += 1;
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
@@ -901,21 +919,21 @@ public class NPCHandler {
 		case 476: //mid-level NPCs
 		case 193:
 		case 178:
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop),false);
 			dropItem(NPCID, DropList.BONES); //regular bones
 			break;
 
 		case 1615: //abby demons
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.abbyDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.abbyDrop),false);
 			break;
 
 		case 1154: //kalphite soldier	
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop),false);
 			dropItem(NPCID, DropList.BIGBONES); //big bones
 			break;
 
 		case 1155: case 1157: //Kalphite Guardian
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			dropItem(NPCID, DropList.BIGBONES); //big bones
 			break;
 
@@ -923,26 +941,26 @@ public class NPCHandler {
 		case 83: //greater demon
 		case 117: //hill giants
 		case 112: //moss giant
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.midLevelDrop),false);
 			dropItem(NPCID, DropList.BIGBONES); //big bones
 			break;
 
 		case 110: //fire giants
 		case 84: //black demon
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop),false);
 			dropItem(NPCID, DropList.BIGBONES); //big bones
 			break;
 
 		case 50: //KBD
 		case 1160: //Kalphite Queen	
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.bossDrop),false);
 			dropItem(NPCID, DropList.DRAGONBONES);
 			break;
 
 		case 912: //battle mages, slayer
 		case 913: 
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop),false);
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.runes),false);
 			dropItem(NPCID, DropList.BONES);
 			break;
 
@@ -950,11 +968,11 @@ public class NPCHandler {
 		case 1246: //Riyl shade
 		case 1250: //Fiyr Shade
 		case 1248: //Asyn Shade	
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.higherLevelDrop),false);
 			break;
 
 		case 1604: //Aberrant Specter
-			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop));
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.highLevelDrop),false);
 			break;
 
 		case 205:
@@ -1355,6 +1373,7 @@ WORLDMAP 2: (not-walk able places)
 				case 172: //dark wizard
 				case 173: //necromancer
 				case 14: //druid - mage npc
+				case 181: //chaos druid
 					magic(npcs[NPCID].MaxHit);
 					npcs[NPCID].animNumber = 711;
 					c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);

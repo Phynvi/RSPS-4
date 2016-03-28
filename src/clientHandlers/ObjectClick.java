@@ -32,7 +32,7 @@ public class ObjectClick {
 
 	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
-	public static BST objectDest2 = new BST(1738);
+	public static BST objectDest2 = new BST(9293,1738);
 	public static BST objectDest4 = new BST(5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
 	public static BST objectDest8 = new BST(8742,2491);
 
@@ -167,8 +167,8 @@ public class ObjectClick {
 			break;
 
 		case 2391: case 2392:
-			if(c.getQuestPoints() < 2)
-				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least 2 quest points","to get in there. Sorry mate.");
+			if(c.getQuestPoints() < 3)
+				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least three quest points","to get in there. Sorry mate.");
 			else{
 				c.getFrameMethodHandler().ReplaceObject(objectX, objectY, 6951, -1);
 				c.getClientMethodHandler().npcdialogue(398, "Welcome to the Legends Guild.");
@@ -853,7 +853,7 @@ public class ObjectClick {
 			}
 			break;
 		case 9293:
-			c.sendMessage("That area is currently under construction.");
+			c.getSkillHandler().getAgilityHandler().agilityTeleport(2886,9799,2892,9799, 746, 70, 40, false, 0, "");
 			break;
 
 		case 1759:
@@ -1746,6 +1746,28 @@ break;*/
 			if(c.playerLevel[c.playerFishing] >= 68) c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
 			else c.sendMessage("You need at least 68 Fishing to do that.");
 			break;
+			
+		case 2623:
+			if(c.getInventoryHandler().hasItem(1590)){
+				clearTile(objectX,objectY);
+				c.sendMessage("You unlock the door with the Dusty Key.");
+			}
+			else
+				c.sendMessage("The door is locked.");
+			break;
+			
+		case 9294:
+			c.getSkillHandler().getAgilityHandler().agilityObstacle(2878,9813, 2880,9813, 3067, 80, 20, false, false, 0, "");
+			break;
+			
+		case 2631:
+			if(c.getInventoryHandler().hasItem(1591)){
+				clearTile(objectX,objectY);
+				c.sendMessage("You unlock the door with the Jail Key.");
+			}
+			else
+				c.sendMessage("The cell door is locked.");
+			break;
 
 			/*case 1734:
 println_c.debug("going up");
@@ -1769,6 +1791,12 @@ break;*/
 		}
 	}
 
+	/**
+	 * Will replace object and x and y with clear tile 6951
+	 */
+	private void clearTile(int x, int y){
+		c.getFrameMethodHandler().ReplaceObject(x,y,6951, -1);
+	}
 
 	/*OBJECT CLICK TWO*/
 

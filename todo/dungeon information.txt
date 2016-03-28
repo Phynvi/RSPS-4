@@ -1,10 +1,21 @@
-Dungeon Information
+-Dungeon Information-
+
 Karamja - Giant Spiders, Deadly Red Spiders, Moss Giants
+
 Brimhaven - Moss Giants, Hill Giants, Fire Giants, Red Dragons, Black Demons, Iron Dragons, Steel Dragons, Bronze Dragons
+
 Underground Pass - Moss Giant, Hill Giants, Giant Spiders, Aberrant Specters, Battle Mages, Asyn Shades, Riyl Shades, Fiyr Shades, Blue Dragons
+
 Entrana Dungeon - Fire Giants, Black Dragons, Abyssal Demons
-Taverley Dungeon - Giant Spiders, Tower Archers, Green Dragons
+
+Taverley Dungeon - Skeletons, Ghosts, Chaos Druids, Green Dragons, Black Knights, Lesser Demons, Otherwordly Beings, 
+	Poison Scorpions, Chaos Dwarves, Baby Blue Dragons, Blue Dragons, Hill Giants, Black Demons, Jailer, Poison Spiders,
+	Monks of Zamorak, Black Dragons, Hell Hounds
+
 Barrows - Crypt Rats, Giant Crypt Spiders, Giant Crypt Rats, Fever Spiders
+
 Kalphite Lair - Kalphite Workers, Kalphite Soldiers, Kalphite Guarians, Kalphite Queen
+
 Ice Dungeon - Muggers, Pirates, Ice Warriors, Ice Giants, Skeleton Wyverns
+
 Heroes Dungeon - Giant Bats, Blue Dragon

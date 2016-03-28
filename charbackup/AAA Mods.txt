@@ -4,31 +4,31 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2278
-character-posy = 3160
+character-posx = 2834
+character-posy = 9815
 character-rights = 2
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160222
+character-lastlogin = 20160228
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
 [EQUIPMENT]
-character-equip = 0	-1	0	
-character-equip = 1	-1	0	
-character-equip = 2	-1	0	
-character-equip = 3	-1	0	
-character-equip = 4	-1	0	
+character-equip = 0	14860	1	
+character-equip = 1	15150	1	
+character-equip = 2	6585	1	
+character-equip = 3	15335	1	
+character-equip = 4	14512	1	
 character-equip = 5	-1	0	
 character-equip = 6	-1	0	
-character-equip = 7	-1	0	
+character-equip = 7	14511	1	
 character-equip = 8	-1	0	
-character-equip = 9	-1	0	
-character-equip = 10	-1	0	
+character-equip = 9	12003	1	
+character-equip = 10	15350	1	
 character-equip = 11	-1	0	
-character-equip = 12	-1	0	
+character-equip = 12	6737	1	
 character-equip = 13	-1	0	
 
 [LOOK]
@@ -40,10 +40,10 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	31914400
+character-skill = 0	99	31960400
 character-skill = 1	99	16267980
 character-skill = 2	99	35609600
-character-skill = 3	99	56849660
+character-skill = 3	99	56895660
 character-skill = 4	99	20141680
 character-skill = 5	99	16486488
 character-skill = 6	99	19990360
@@ -67,28 +67,33 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	452	1
-character-item = 1	452	1
-character-item = 2	1276	1
-character-item = 3	4152	1
-character-item = 4	14639	1
-character-item = 5	14861	1
-character-item = 6	14512	1
-character-item = 7	14513	1
-character-item = 8	15351	1
-character-item = 9	15151	1
-character-item = 10	3632	1
-character-item = 11	12004	1
-character-item = 12	13309	1
-character-item = 13	6586	1
-character-item = 14	4735	1
+character-item = 0	4152	1
+character-item = 1	14639	1
+character-item = 3	13309	1
+character-item = 4	4735	1
+character-item = 5	3632	1
+character-item = 6	1592	1
+character-item = 7	1591	1
+character-item = 8	392	1
+character-item = 9	392	1
+character-item = 10	392	1
+character-item = 11	392	1
+character-item = 12	2435	1
+character-item = 13	2435	1
+character-item = 14	2435	1
 character-item = 15	2435	1
-character-item = 16	2435	1
-character-item = 17	2435	1
-character-item = 18	2435	1
-character-item = 19	6738	1
-character-item = 20	15336	1
-character-item = 21	4741	10000
+character-item = 16	392	1
+character-item = 17	392	1
+character-item = 18	4741	10000
+character-item = 19	392	1
+character-item = 20	392	1
+character-item = 21	392	1
+character-item = 22	392	1
+character-item = 23	392	1
+character-item = 24	392	1
+character-item = 25	392	1
+character-item = 26	392	1
+character-item = 27	392	1
 
 [BANK]
 character-bank = 0	392	57
