@@ -75,8 +75,6 @@ public class NPCClickHandler {
 			return;
 		}
 
-
-
 		/* Shops */
 		switch(NPCID){		
 		case 494: case 495: case 496: case 497: case 498: case 499: case 2355: case 2354: case 166: //Bankers
@@ -95,6 +93,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(3); //Magic Shop
 			return;
 
+		case 582:
 		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563: case 2154: case 516:
 			c.getFrameMethodHandler().openUpShopFrame(4); //General store
 			return;
@@ -102,7 +101,7 @@ public class NPCClickHandler {
 		case 538: case 1301: case 2353: case 1039: case 875: case 2162:
 			c.getFrameMethodHandler().openUpShopFrame(6); //Clothes
 			return;
-
+			
 		case 546: 
 			c.getFrameMethodHandler().openUpShopFrame(7); //Food 
 			return;
@@ -123,10 +122,6 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(11); //Store?
 			return;
 
-		case 584:
-			c.getFrameMethodHandler().openUpShopFrame(12); //Crafting
-			return;
-
 		case 2198:
 			c.getFrameMethodHandler().openUpShopFrame(13); //Kebab Shop - Keldagrim
 			return;
@@ -139,7 +134,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(15); //Warhammers
 			return;
 
-		case 1860: case 582: //582 = dwarf
+		case 1860: //582 = dwarf
 			c.getFrameMethodHandler().openUpShopFrame(16); //Pickaxe
 			return;
 
@@ -151,6 +146,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(18); //Fishing Supplies
 			return;
 
+			
 		case 2158: //2158 - dwarf
 			c.getFrameMethodHandler().openUpShopFrame(19); //crafting
 			return;
@@ -159,13 +155,28 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(20, Item.TRADING_STICKS); //Gabooty Shop
 			return;
 
+		case 580:
+			c.getFrameMethodHandler().openUpShopFrame(21); //Flynn's mace
+			return;
+
+		case 581: //Wayne's Chains
+			c.getFrameMethodHandler().openUpShopFrame(22);
+			
 		case 519: case 2152:
 			c.getFrameMethodHandler().openUpShopFrame(23); //Basic Weapons
 			return;
+			
+		case 584:
+			c.getFrameMethodHandler().openUpShopFrame(24); //Gems
+			return;
 
-		case 524: case 525: case 1041: case 873: case 2153:
+		case 524: case 525: case 1041: case 873: case 2153: case 577:
 			c.getFrameMethodHandler().openUpShopFrame(26); //Armor
 			return;
+			
+		case 579:
+			c.getFrameMethodHandler().openUpShopFrame(35); //Drogo's Mining Emporium
+			break;
 
 		case 536:
 			c.getFrameMethodHandler().openUpShopFrame(36); //Hatchet Shop
@@ -185,6 +196,10 @@ public class NPCClickHandler {
 
 		case 1303:
 			c.getFrameMethodHandler().openUpShopFrame(46); //Graveyard Shop
+			return;
+
+		case 594:
+			c.getFrameMethodHandler().openUpShopFrame(47); //Nurmof's Pickaxe Shop
 			return;
 
 		case 793: case 1300: case 1042: case 512:
@@ -235,6 +250,10 @@ public class NPCClickHandler {
 		/* Second Click, not Shops */
 		switch(NPCID){
 
+		case 1217:
+			c.getClientMethodHandler().dialogue(1217, "Just trimming the birds.");
+			break;
+		
 		case 878:
 			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14079,14080,14081, "Defence", c.playerDefence, new String[]{"Yanille needs to be heavily fortified and watched","at all times. The threats of","undead ogres lurk just West of us.",
 				"That Wizard thinks his magic can save","this town? No way, it's through","strength in arms that we survive."});
@@ -357,13 +376,57 @@ public class NPCClickHandler {
 
 		switch(NPCID){ //for conditionals
 
+		case 938: //ranalph devere
+			c.getClientMethodHandler().dialogue(938, "@pla@","Hello There.","","",
+					"","I know you're not a Black Knight.","","",
+					"@pla@","Huh? I don't know what you're talking about!","","",
+					"","He can smell it.","","",
+					"@npc@221","Smell!","","",
+					"","@pla@Oh, well that's great.","","",
+					"So, what did you want? Must","be important since you're","being all sneaky.","",
+					"@pla@","Why do you want to poison people?","","",
+					"@npc@221","Smell!","","",
+					"Ok, calm down there.","Did you know that Rimmington was","built on top of a battlefield?","",
+					"@pla@","Today I learned.","","",
+					"It is quite the ancient battlefield actually.","It's where I died.","And they had the nerve","to put a village up there.",
+					"It disturbed me and a few of my friends.","I hope you don't think I'm the only one","seeking revenge?","",
+					"There's a couple more like me.","And we want revenge for being awoken.","I think poison can do the trick.","",
+					"@npc@221","Kill?","","",
+					"Yes, I suppose.");
+			break;
+		
+		case 605:
+			if(c.PD == 0 || c.PD == 1 || c.PD > 4)
+				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "Need help with anything?", "", "Nevermind");
+			else if(c.PD == 2)
+				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "I have some important plans for you.", "", "Nevermind");
+			else if(c.PD == 3)
+				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "What am I supposed to do?", "", "Nevermind");
+			else if(c.PD == 4)
+				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "I have stopped the poisoning!", "", "Nevermind");
+			break;
+		
+		case 606:
+			if(c.PD == 0)
+				c.getFrameMethodHandler().select4Options(23, "Topics", "Any news?", "Need help with anything?", "", "Nevermind");
+			else if(c.PD == 1)
+				c.getFrameMethodHandler().select4Options(23, "Topics", "Any news?", "I've returned with the plans!", "", "Nevermind");
+			else if(c.PD > 1)
+				c.getFrameMethodHandler().select4Options(23, "Topics", "Any news?", "What am I supposed to do?", "", "Nevermind");
+			break;
+		
+		//hairdresser
+		case 598: 
+			c.getFrameMethodHandler().showInterface(3559);
+			break;
+		
 		case 201:
 			c.sendMessage("I do not think I want to talk to him. He looks angry.");
 			break;
 		
 		case 410: //mysterious old man
 			if(c.getInventoryHandler().freeSlots() == 0) 
-				c.getClientMethodHandler().npcdialogue(NPCID, "Speak to me when your inventory is not full.");
+				c.getClientMethodHandler().dialogue(NPCID, "Speak to me when your inventory is not full.");
 			else{
 				c.getFrameMethodHandler().sendFrame164(14191);
 				c.getFrameMethodHandler().sendQuest("Pick the odd one out", 14200);
@@ -372,18 +435,18 @@ public class NPCClickHandler {
 
 		case 697: //kennith
 			if(c.slug == 0)
-				c.getClientMethodHandler().npcdialogue(697, "Those slugs are too scary! I'm","not going anywhere!");
+				c.getClientMethodHandler().dialogue(697, "Those slugs are too scary! I'm","not going anywhere!");
 			else if(c.slug == 2 || c.slug == 3 || c.slug == 1)
 				c.getFrameMethodHandler().select2Options(43, "Topics", "Your mother is looking for you", "Nevermind.");
 			else if(c.slug == 4)
 				c.getFrameMethodHandler().select2Options(43, "Topics", "Use this torch to get out of here", "Nevermind.");
 			else if(c.slug == 5)
-				c.getClientMethodHandler().npcdialogue(697, "I'll use the torch to get out of here!");
+				c.getClientMethodHandler().dialogue(697, "I'll use the torch to get out of here!");
 			break;
 
 		case 695: //bailey
 			if(c.slug == 0) 
-				c.getClientMethodHandler().npcdialogue(695, "Ever since we started fishing up those","slugs, my men have began acting strange.");
+				c.getClientMethodHandler().dialogue(695, "Ever since we started fishing up those","slugs, my men have began acting strange.");
 			else if(c.slug == 1 || c.slug == 2)
 				c.getFrameMethodHandler().select4Options(22, "Topics", "Any news?", "Have you seen Kennith?", "", "Nevermind");
 			else if(c.slug == 3)
@@ -395,7 +458,7 @@ public class NPCClickHandler {
 		case 696: //caroline
 			if(c.slug >= 0)
 				c.getFrameMethodHandler().select4Options(21, "Topics", "Any news?", "You look worried", "", "Nevermind");
-			else if (c.slug == 5) c.getClientMethodHandler().npcdialogue(NPCID, "Thank you for your help.");
+			else if (c.slug == 5) c.getClientMethodHandler().dialogue(NPCID, "Thank you for your help.");
 			break;
 
 		case 702: case 703: case 704: //fishing platform
@@ -403,7 +466,7 @@ public class NPCClickHandler {
 			break;
 
 		case 675:
-			if(c.TUP < 2) c.getClientMethodHandler().npcdialogue(NPCID, "I've got quite a few workers to manage here.");
+			if(c.TUP < 2) c.getClientMethodHandler().dialogue(NPCID, "I've got quite a few workers to manage here.");
 			else if(c.TUP == 2){
 				c.getFrameMethodHandler().select4Options(20, "Topics", "Any news?", "I have a sketch for you", "", "Nevermind");
 			}
@@ -423,7 +486,7 @@ public class NPCClickHandler {
 				c.getFrameMethodHandler().select4Options(18, "Topics", "Any news?", "I've returned with a Gilded Totem", "", "Nevermind");
 			}
 			else if(c.TUP == 7){
-				c.getClientMethodHandler().npcdialogue(NPCID, "So far, the Totem has been working.");
+				c.getClientMethodHandler().dialogue(NPCID, "So far, the Totem has been working.");
 			}
 			break;
 
@@ -513,7 +576,7 @@ public class NPCClickHandler {
 			break;
 
 		case 1065:
-			c.getClientMethodHandler().npcdialogue(NPCID, "Sorry, the castle games-room is closed.");
+			c.getClientMethodHandler().dialogue(NPCID, "Sorry, the castle games-room is closed.");
 			break;
 
 		case 2180:
@@ -521,7 +584,7 @@ public class NPCClickHandler {
 			break;
 
 		case 2181:
-			c.getClientMethodHandler().selectOptionTravel2("Travel to Dwarven Passage (Taverly)?", "Yes", 2876,9871, "no",-1,-1);
+			c.getFrameMethodHandler().select4Options("Travel Options", "Dwarven Passage (Taverley)", 2876,9871, "Dwarven Mine (Falador)", 2998,9836, "", -1, -1, "Cancel", -1,-1);
 			break;
 
 		case 1174: case 1175: case 952: //net
@@ -537,7 +600,7 @@ public class NPCClickHandler {
 			break;	
 
 		case 3788:
-			c.getClientMethodHandler().npcdialogue(NPCID, "The objective of this game of life or death","is to try and destroy all the portals","in the given timeframe.","",
+			c.getClientMethodHandler().dialogue(NPCID, "The objective of this game of life or death","is to try and destroy all the portals","in the given timeframe.","",
 					"If you do this successfully, you will be awarded points.","In exchange, I may give you","an item or two.");
 			break;
 
@@ -546,7 +609,7 @@ public class NPCClickHandler {
 		case 254:
 		case 255:
 		case 256:
-			c.getClientMethodHandler().npcdialogue(NPCID, "Everyone hears 'Khazard' and just immediately","assume we are the bad guys.");
+			c.getClientMethodHandler().dialogue(NPCID, "Everyone hears 'Khazard' and just immediately","assume we are the bad guys.");
 			break;
 
 		case 3792: //squire void knight
@@ -610,7 +673,7 @@ public class NPCClickHandler {
 			break;
 
 		case 290:
-			c.getClientMethodHandler().npcdialogue(NPCID, "I can tend your wounds.");
+			c.getClientMethodHandler().dialogue(NPCID, "I can tend your wounds.");
 			c.NewHP = c.getLevelForXP(c.playerXP[3]);
 			c.sendMessage("The doctor restores you to full health.");
 			break;
@@ -631,20 +694,20 @@ public class NPCClickHandler {
 
 		case 1207:
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
-				c.getClientMethodHandler().npcdialogue(NPCID, "There's sort of an infestation problem here,", "and that's all I'm allowed to say", "on the matter.");
-			else c.getClientMethodHandler().npcdialogue(NPCID, "You don't look too tough.");
+				c.getClientMethodHandler().dialogue(NPCID, "There's sort of an infestation problem here,", "and that's all I'm allowed to say", "on the matter.");
+			else c.getClientMethodHandler().dialogue(NPCID, "You don't look too tough.");
 			break;
 
 		case 1205: //tyras guard
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
-				c.getClientMethodHandler().npcdialogue(NPCID, "Careful now. Lots of strange things", "have been happening lately.");
-			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside this camp is PVP.");
+				c.getClientMethodHandler().dialogue(NPCID, "Careful now. Lots of strange things", "have been happening lately.");
+			else c.getClientMethodHandler().dialogue(NPCID, "Everything outside this camp is PVP.");
 			break;
 
 		case 1206: //tyras guard
 			if(!c.isInArea(2174,3131,2201,3163)) //tyras pvp camp
-				c.getClientMethodHandler().npcdialogue(NPCID, "People always complain whenever we", "are deployed to a new area.", "They don't realize we are there", "for their safety.");
-			else c.getClientMethodHandler().npcdialogue(NPCID, "Everything outside this camp is PVP.");
+				c.getClientMethodHandler().dialogue(NPCID, "People always complain whenever we", "are deployed to a new area.", "They don't realize we are there", "for their safety.");
+			else c.getClientMethodHandler().dialogue(NPCID, "Everything outside this camp is PVP.");
 			break;
 
 		case 2324:
@@ -723,10 +786,6 @@ public class NPCClickHandler {
 
 		case 946:
 			skillMaster(NPCID, "Magic Instructor", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Your fisrt two spells, air and ","water strike do no require","runes to cast."});
-			break;
-
-		case 606:
-			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14073,14074,14075, "Attack", c.playerAttack, new String[]{"This camp is a major base of operations."});
 			break;
 
 		case 553:
@@ -870,7 +929,7 @@ public class NPCClickHandler {
 			if(c.isInArea(3682,2953,3685,2956)){ //tutorial island
 				if(c.pirate < 10){
 					int remaining = 10-c.pirate;
-					c.getClientMethodHandler().npcdialogue(518, "These c.pirate ships are blocking us","from safely leaving. They landed", "North of here. I need you to kill",""+remaining+" c.pirates before we can leave.");
+					c.getClientMethodHandler().dialogue(518, "These c.pirate ships are blocking us","from safely leaving. They landed", "North of here. I need you to kill",""+remaining+" c.pirates before we can leave.");
 					break;
 				}
 				if(c.pirate == 10){ //quest completed
@@ -880,7 +939,7 @@ public class NPCClickHandler {
 						c.getInventoryHandler().addItem(995,5000);
 						c.getClientMethodHandler().addQuestPoints(1);
 					}
-					else c.getClientMethodHandler().npcdialogue(518, "I have a reward for you!","But, you need more space in your inventory.");
+					else c.getClientMethodHandler().dialogue(518, "I have a reward for you!","But, you need more space in your inventory.");
 					break;
 				}
 			}
@@ -927,9 +986,9 @@ public class NPCClickHandler {
 			
 		case 798: //velrak the explorer
 			if(c.getInventoryHandler().freeSlots() == 0)
-				c.getClientMethodHandler().npcdialogue(NPCID, "I have something for you, but","your inventory is full.");
+				c.getClientMethodHandler().dialogue(NPCID, "I have something for you, but","your inventory is full.");
 			else{
-				c.getClientMethodHandler().npcdialogue(NPCID, "You have rescued me!","Take this dusty key as my thanks.");
+				c.getClientMethodHandler().dialogue(NPCID, "You have rescued me!","Take this dusty key as my thanks.");
 				c.getInventoryHandler().addItem(1590);
 				c.sendMessage("Velrak gives you a dusty key.");
 			}

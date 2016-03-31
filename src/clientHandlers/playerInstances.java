@@ -19,6 +19,8 @@ import skills.Slayer;
 import struct.DropList;
 
 public class playerInstances {
+
+	public boolean PDAggro = false;
 	public int[] walkingToObjectX = new int[5];
 	public int[] walkingToObjectY = new int[5];
 	public int[] walkingToDestination = new int[5];
@@ -28,7 +30,7 @@ public class playerInstances {
 	public ChatRoom currentChatRoom = null;
 	public int currency = 995;
 	
-	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug,randomx,randomy,randomh;
+	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug,randomx,randomy,randomh,PD;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;

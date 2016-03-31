@@ -14,16 +14,16 @@ import root.misc;
 public class FileLoading {
 
 	private client c = null;
-	
+
 	public FileLoading(client pc){
 		this.c = pc;
 	}
-	
+
 	public void saveAll(){
 		this.savechar();
 		this.savemoreinfo();
 	}
-	
+
 
 	public boolean isBanned(String host){
 		try
@@ -87,12 +87,12 @@ public class FileLoading {
 		}
 
 	}
-	
 
-/**
- * Returns a array with the X Y coords to teleport to.
- * Returns null if destination was not found
- */
+
+	/**
+	 * Returns a array with the X Y coords to teleport to.
+	 * Returns null if destination was not found
+	 */
 	@SuppressWarnings("resource")
 	public int[] loadCoords(String FileName, String CName) {
 		String line = "";
@@ -167,7 +167,7 @@ public class FileLoading {
 	}
 
 
-	
+
 
 	@SuppressWarnings("resource")
 	public int loadmoreinfo() {
@@ -307,6 +307,8 @@ public class FileLoading {
 						c.randomy = Integer.parseInt(token2);
 					else if (token.equals("randomh"))
 						c.randomh = Integer.parseInt(token2);
+					else if (token.equals("PD"))
+						c.PD = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -417,6 +419,17 @@ public class FileLoading {
 		}
 		try { characterfile.close(); } catch(IOException ioexception) { }
 		return 0;
+	}
+
+	public void writeToCharacterFile(BufferedWriter b, int actualVar, String varName){
+		try{
+			String s = varName+" = "; b.write(s, 0, s.length());
+			b.write(Integer.toString(actualVar), 0, Integer.toString(actualVar).length());
+			b.newLine();
+		}
+		catch(Exception e){
+			c.error("In FileLoading, writeToCharacterFile: "+e.toString());
+		}
 	}
 
 	public boolean savemoreinfo() {
@@ -557,6 +570,7 @@ public class FileLoading {
 			String s22 = "randomh = "; characterfile.write(s22, 0, s22.length());
 			characterfile.write(Integer.toString(c.randomh), 0, Integer.toString(c.randomh).length());
 			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.PD, "PD");
 			characterfile.newLine();
 
 			characterfile.write("[QUESTS]", 0, 8);
@@ -1440,7 +1454,7 @@ public class FileLoading {
 		}
 		return 0;
 	} 
-	
+
 
 
 	public void appendConnected() {
@@ -1463,7 +1477,7 @@ public class FileLoading {
 		}
 
 	}
-	
+
 
 	public void ReportAbuse(String report, int rule, int mute)
 	{
@@ -1567,7 +1581,7 @@ public class FileLoading {
 			}
 		}
 	}
-	
+
 
 	public boolean writeReport(String receivedPlayerName,int rule){
 
@@ -1598,5 +1612,5 @@ public class FileLoading {
 		}
 		return true;
 	}
-	
+
 }

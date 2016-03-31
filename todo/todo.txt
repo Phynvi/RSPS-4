@@ -17,3 +17,5 @@
 -NPC poison/player poison
 	
 -Make NPCs +1,+1 spawn if they need it
+
+-Attack Mastery npc

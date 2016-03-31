@@ -11,6 +11,9 @@ public class Agility {
 		this.c = input;
 	}
 
+	public final int CRAWL_EMOTE = 844;
+	
+	
 	/**
 	 * 
 	 * @param x1 side 1 X

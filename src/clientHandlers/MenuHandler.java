@@ -271,6 +271,59 @@ public class MenuHandler {
 		return null;
 	}
 	
+	private String[] combineStringArrays(String[] ... stringList){
+		
+		int totalSize = 0;
+		for(int i = 0; i < stringList.length; i++)
+			totalSize += stringList[i].length;
+		
+		String[] combined = new String[totalSize];
+		
+		for(int i = 0, k = 0; i < stringList.length; i++){
+			for(int j = 0; j < stringList[i].length; j++){
+				combined[k] = stringList[i][j];
+				k += 1;
+			}
+		}
+		
+		return combined;
+	}
+	
+	public String[] PoisonDiversion(){
+		String[] summary = new String[]{"@gre@Sluggish Circumstances","","",
+				"@whi@Summary: The Black Knights are up to something suspicious.",
+				"",
+				"@whi@Requirements: High combat level recommended",
+				"",
+				"I can start this quest by speaking to the Squire",
+				"at the White Knights Castle in Falador.",
+				""};
+		String[] stage1 = {};
+		if(c.PD >= 1)
+			stage1 = new String[]{"The squire has told me that I need to search",
+				"the black knights hideout for some evidence.",
+				"they are located in the Taverley Dungeon.",
+				"It is suggested I dress in black armor as a disguise."};
+		
+		String[] stage2 = {};
+		if(c.PD >= 2)
+			stage2 = new String[]{"","The squire has told me that I should deliver",
+					"the plans to Sir Vyvin, who is located",
+					"on the second floor of the castle."};
+		
+		String[] stage3 = {};
+		if(c.PD >= 3)
+			stage3 = new String[]{"","Sir Vyvin wants me to go back",
+					"to the Black Knights and kill whoever",
+					"is creating the poison."};
+		
+		if(c.PD == 4){
+			
+		}
+		
+		return combineStringArrays(summary,stage1,stage2,stage3);
+	}
+	
 	public String[] sluggishCircumstances(){
 		if(c.slug == 0){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -554,7 +607,10 @@ public class MenuHandler {
 				"Level 75 - Brimhaven Agility Course",
 				"",
 				"@whi@Obstacles",
+				"Level 5 - Crumbling Wall (Falador)",
+				"Level 26 - Underwall Tunnel (Falador)",
 				"Level 35 - Rocks (God Wars)",
+				"Level 42 - Crevice (Dwarven Mine)",
 				"Level 50 - Underground pass, South Karamja (log)",
 				"Level 60 - Tirannwn (log)",
 				"Level 70 - Pipe (Brimhaven Dungeon), Pipe (Taverley Dungeon)",

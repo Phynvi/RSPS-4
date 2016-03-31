@@ -47,6 +47,50 @@ import struct.lists;
 
 public class client extends Player implements Runnable {
 
+	/**
+	 * Will check if the NPC is currently attackable
+	 * @param ID of npc in npcs array
+	 */
+	private boolean canIAttackNPC(int npcID){
+		if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[npcID].npcType)){ //slayer NPC
+			if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[npcID].npcType) && slayerNPC != server.npcHandler.npcs[npcID].npcType){
+				sendMessage("You need a higher Slayer level to do that.");
+				return false;
+			}
+		}
+		
+		if(server.npcHandler.npcs[npcID].moveToSpawn) 
+			return false;
+		
+		if(server.npcHandler.npcs[npcID].attacknpc > 0) {
+			sendMessage("That NPC is already under attack.");
+			return false;
+		}
+		int _NPCTYPE = server.npcHandler.npcs[npcID].npcType;
+		
+		if(lists.safeNPCs.exists(_NPCTYPE) || DIALOGUEHANDLER.exists(_NPCTYPE)){
+			sendMessage("That's a friendly NPC that I should not attack.");
+			stopPlayerMovement();
+			return false;
+		}						
+		
+		if((_NPCTYPE == 221 || _NPCTYPE == 938) && !PDAggro){
+			sendMessage("I don't think I want to do that.");
+			stopPlayerMovement();
+			return false;
+		}
+		
+		if(SLAYER.slayerNPC.exists(_NPCTYPE)){ //slayer NPC
+			if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCTYPE) && slayerNPC != _NPCTYPE){
+				sendMessage("You need a higher Slayer level to do that.");
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
 	private SkillHandler skillHandler = new SkillHandler(this);
 	public SkillHandler getSkillHandler(){
 		return this.skillHandler;
@@ -1659,14 +1703,8 @@ playerName.trim();*/
 			break;
 
 		case 40: //clicking next in npc dialogue
-			if(!npcLines.isEmpty()){
-				getClientMethodHandler().npcChat();
-				return;
-			}			
-			else{
-				getFrameMethodHandler().closeInterface();
-				return;
-			}
+			getButtonClickHandler().nextDialogue();
+			return;
 
 
 			//debug("Unhandled packet [" + packetType + ", InterFaceId: "
@@ -1797,38 +1835,20 @@ playerName.trim();*/
 
 
 		case 72: //Click to attack
-			attacknpc = inStream.readUnsignedWordA();
-			if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[attacknpc].npcType)){ //slayer NPC
-				if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[attacknpc].npcType) && slayerNPC != server.npcHandler.npcs[attacknpc].npcType){
-					sendMessage("You need a higher Slayer level to do that.");
-					break;
-				}
-			}
-			if(server.npcHandler.npcs[attacknpc].moveToSpawn) break;
-			boolean Cant = false;
-			if(server.npcHandler.npcs[attacknpc].attacknpc > 0) {
-				Cant = true;
-				sendMessage("You can't attack a dueling npc!");
-			}
-			int _NPCID = server.npcHandler.npcs[attacknpc].npcType;
-			if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
-				sendMessage("That's a friendly NPC that I should not attack.");
-				stopPlayerMovement();
+			int npcid = inStream.readUnsignedWordA();
+					
+			if(!canIAttackNPC(npcid))
 				break;
-			}						
-			if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
-				if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCID) && slayerNPC != _NPCID){
-					sendMessage("You need a higher Slayer level to do that.");
-					break;
-				}
-			}
+
+			attacknpc = npcid;
+			
 			if(!this.BOWHANDLER.checkAmmoWithBow()){
 				stopPlayerMovement();
 				sendMessage("You need ammo to use this ranged device.");
 				break;
 			}
 
-			if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null && !Cant) {
+			if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null) {
 				if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
 					IsAttacking = false;
 					AttackingOn = 0;
@@ -2368,19 +2388,14 @@ playerName.trim();*/
 			getCombatHandler().ResetAttack();
 			getCombatHandler().ResetAttackNPC();
 			int npcIndex = inStream.readSignedWordBigEndianA();
-			_NPCID = server.npcHandler.npcs[npcIndex].npcType;
-			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+_NPCID);
-			if(lists.safeNPCs.exists(_NPCID) || DIALOGUEHANDLER.exists(_NPCID)){
-				sendMessage("That's a friendly NPC that I should not attack.");
-				stopPlayerMovement();
+			
+			if(!canIAttackNPC(npcIndex))
 				break;
-			}			
-			if(SLAYER.slayerNPC.exists(_NPCID)){ //slayer NPC
-				if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCID) && slayerNPC != _NPCID){
-					sendMessage("You need a higher Slayer level to do that.");
-					break;
-				}
-			}
+			
+			attacknpc = npcIndex;
+			
+			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+server.npcHandler.npcs[npcIndex].npcType);
+			
 			spellID = inStream.readSignedWordA();
 			MAGICDATAHANDLER.magicOnNPC(npcIndex);
 			break;
@@ -2505,7 +2520,8 @@ playerName.trim();*/
 								break;
 							}
 						}
-					} else {
+					} 
+					else {
 						IsIn = true;
 					}
 					if (IsIn == false) {
@@ -2517,7 +2533,7 @@ playerName.trim();*/
 						{
 							ShopValue = (int)Math.floor(Item.GetItemShopValue(removeID, 1.0,currency));
 						}
-						if(ShopValue == -1 || c.currency <= -1){
+						if(ShopValue == -1 || c.currency <= -1 || !server.shopHandler.canItemBeSoldAt(MyShopID, removeID)){
 							c.sendMessage("I cannot sell "+Item.getItemName(removeID)+" here.");
 							break;
 						}

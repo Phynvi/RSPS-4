@@ -59,6 +59,12 @@ import root.server;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(594,"");
+			add(1795,"Get out of my face.");
+			add(1796,"Oi mate.");
+			add(1797,"Sleep with an eye open.");
+			add(1794, "Mind your manners there son.");
+			add(665,"Hello there.");
 			add(39, "I've spent many a'years constructin'","and workin' on naught but the","finest vessels.");
 			add(38,"Weather's lookin' rather fair.");
 			add(513,"Careful around here.","Fire and bamboo do not mix well.");
@@ -238,7 +244,8 @@ import root.server;
 			add(2358, "We don't usually see humans in these parts.");
 			add(2367, "You look suspicious.");
 			add(2364, "You remind me of the last Tyras","Spy that we caught.");
-
+			add(584,"Gems are precious, unlike you.");
+			add(579,"Careful down here.");
 			
 			add(2354, "Welcome to the bank.");
 			add(2355, "Welcome to the bank.");
@@ -249,7 +256,7 @@ import root.server;
 			add(2366, "Beyond this point, the environment", "is player vs. player.");		
 			add(1210,  "North, beyond this point, the environment", "is player vs. player.");		
 			
-			
+			add(581,"Chainmail here.");
 			add(1216, "Pete", "Weather's hot and sticky up here.", "At least the poor structure of my", "house offers a breeze.");
 			add(666,"This is such a sad, small, village.");
 			add("Banker", 494, "I can assist you with banking.");
@@ -263,7 +270,7 @@ import root.server;
 			add( "Chancy",338, "This portal leads to the Kalphite Queen.", "Good luck my friend.");
 			add("Guild Master", 198, "The area outside of the bank is", "a pking zone.", "This means players can attack you", "if you step outside this building.");
 			add("Flynn", 580, "My shop has necessary items for", "your survival.");
-			add("Cassie", 577, "When you have 100 PK points or more,", "you can trade me for", "special items.");
+			add("Cassie", 577, "You could use a good shield.");
 			add("Cave Monk",656,  "Be careful brother.","Once you have entered those","caves there is no exit back","to this location.");
 			add("Reldo", 647, "The open sea warms my heart...");
 			add("Ragnar", 1379, "I left my violent life to", "live in peace.");

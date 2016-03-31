@@ -37,14 +37,16 @@ public class GlobalObjectHandler {
 
 	public GlobalObjectHandler(){
 		/* Initialize permanent static objects here */
+		//4421 is a barricade
 
+		objectList.add(new StaticObject(3039,3391, 4421, 1,null));			
+		objectList.add(new StaticObject(3039,3390, 4421, 1,null));			
+		objectList.add(new StaticObject(3045,3404, 4421, 1,null));			
+		objectList.add(new StaticObject(2987,3425, 4421, 1,null));			
+		objectList.add(new StaticObject(2988,3425, 4421, 1,null));	
+		
 		objectList.add(new StaticObject(2853, 3609, 4421, 1,null));			
 		objectList.add(new StaticObject(2838, 3596, 4421, 1,null));
-
-		objectList.add(new StaticObject(3005, 3323, 4421, 1,null));
-		objectList.add(new StaticObject(3006, 3323, 4421, 1,null));
-		objectList.add(new StaticObject(3007, 3323, 4421, 1,null));
-		objectList.add(new StaticObject(3008, 3323, 4421, 1,null));			
 
 		objectList.add(new StaticObject(3070,3278,4421,1,null));
 		objectList.add(new StaticObject(3070,3277,4421,1,null));

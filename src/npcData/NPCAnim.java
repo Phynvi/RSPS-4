@@ -4,17 +4,20 @@ public class NPCAnim {
 
 	//TODO - Attack animations
 	public static int getAttackAnimation(int npcID){
-		int SLASH = 451;
-		int CRUSH = 401;
-		int POKE = 412;
+		//humanoid emotes
+		final int SLASH = 451;
+		final int CRUSH = 401;
+		final int POKE = 412;
+		final int TWO_HAND_CRUSH = 437;
 
-		switch(npcID){ //Thank you Kellin Quinn from Rune-server, http://www.rune-server.org/runescape-development/rs2-server/configuration/436906-pi-some-npc-attack-death-animation-cases.html
-		
+		switch(npcID){ 
+				
 		//hell hound
 		case 49:
 			return 158; //158 - attack, 159 - block, 161 - dead
 		
 		//scorpions
+		case 144:
 		case 107:
 		case 108:
 		case 109:
@@ -887,7 +890,7 @@ public class NPCAnim {
 			return 1341;
 
 		case 19://White Knight
-			return 451;
+			return TWO_HAND_CRUSH;
 
 		case 116: //cyclops
 		case 113: //Jogre
@@ -941,6 +944,7 @@ public class NPCAnim {
 			return 159; //158 - attack, 159 - block, 161 - dead
 			
 		//scorpions
+		case 144:
 		case 107:
 		case 108:
 		case 109:
@@ -1183,7 +1187,8 @@ public class NPCAnim {
 			return 161; //158 - attack, 159 - block, 161 - dead
 			
 		//scorpions
-		case 107:
+		case 144: //king
+		case 107: //regular
 		case 108:
 		case 109:
 			return 248; //246 - atk, 247 - block, 248 - dead

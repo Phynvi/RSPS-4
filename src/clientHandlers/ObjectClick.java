@@ -25,15 +25,15 @@ public class ObjectClick {
 		return 1;
 	}
 
-	public static BST doorOpen = new BST(2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,1530,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
 
 	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
-	public static BST objectDest2 = new BST(9293,1738);
-	public static BST objectDest4 = new BST(5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
+	public static BST objectDest2 = new BST(11729,9293,1738);
+	public static BST objectDest4 = new BST(1734,1733,5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
 	public static BST objectDest8 = new BST(8742,2491);
 
 	public ObjectClick(client pc){
@@ -53,24 +53,24 @@ public class ObjectClick {
 	}
 
 	private int oX, oY;
-	
+
 	private boolean isObjectXY(int x, int y){
 		return(x == oX && y == oY);			
 	}
-	
+
 	private void ladderTeleport(int x, int y, int h){
 		c.getClientMethodHandler().teleportWithAnimation(828, 2, x, y, h);
 	}
-	
+
 	private void ladder(int x, int y, int xD, int yD, int hD){
 		if(isObjectXY(x,y))
 			ladderTeleport(x+xD, y+yD, c.heightLevel+hD);
 	}
-	
+
 	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
 		c.WalkingTo = false;
 		c.debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
-		
+
 		if(isObjSpamming()) return;
 
 		c.viewTo(objectX, objectY);
@@ -84,17 +84,61 @@ public class ObjectClick {
 
 		oX = objectX; 
 		oY = objectY;
-		
+
 		switch(objectID) {
 		
+		case 1530: //door
+			if(isObjectXY(2918,9709) && c.PD != 3){ //PD
+					c.sendMessage("I don't think I should go in there.");
+			}
+			else{
+				if(c.isInArea(2918, 9706, 2925, 9713))
+					c.sendMessage("It's locked.");
+				else{
+					if(c.playerEquipment[c.playerHat] == 1165 && 
+							c.playerEquipment[c.playerChest] == 1125 && 
+							c.playerEquipment[c.playerLegs] == 1077){
+						if(c.getInventoryHandler().freeSlots() == 28){
+							c.teleport(2918,9709);
+							c.sendMessage("The door locks behind you.");
+						}
+						else c.getClientMethodHandler().dialogue(609, "You can't go in there with","anything in your inventory.");							
+					}
+					else c.getClientMethodHandler().dialogue(609, "Only Black Knights are allowed in there.");
+				}
+			}
+			break;
+
+		case 1733:
+			c.teleport(2727,9774,0);
+			break;
+		case 1734:
+			c.teleport(2723,3375,0);
+			break;
+
+
+		case 2112:
+			if(isObjectXY(3046, 9756)){
+				if(c.playerLevel[c.playerMining] < 60)
+					c.sendMessage("You need at least 60 mining to do that.");
+				else
+					this.clearTile(objectX, objectY);
+			}
+			else this.clearTile(objectX, objectY);
+			break;
+
+		case 9325:
+			c.getSkillHandler().getAgilityHandler().agilityTeleport(3035, 9806, 3028,9806, c.getSkillHandler().getAgilityHandler().CRAWL_EMOTE, 42, 40, false, 0, "");
+			break;
+
 		case 2517:
 			ladder(2784,3286,0,1,1);
 			break;
-		
+
 		case 2332:
 			agilityHandler.agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, "");
 			break;
-		
+
 		case 9020:
 		case 9015:
 		case 9010:
@@ -141,12 +185,51 @@ public class ObjectClick {
 				c.teleport(2877,3482,0);
 			break;
 
+		case 11731:
+			c.teleport(c.absX, c.absY, c.heightLevel-1);
+			break;
+		case 11728:
+			ladderTeleport(c.absX, c.absY, c.heightLevel-1);
+			break;
+			
+		case 11729:
+			c.teleport(c.absX, c.absY, c.heightLevel+1);
+			break;
+		case 11727:
+			ladderTeleport(c.absX, c.absY, c.heightLevel+1);
+			break;
+			
+			//ladder down
+		case 100:
 		case 1754:
-			c.teleport(2893,9907);
+			ladderTeleport(c.absX,c.absY+6400,0);
 			break;
 
+			//ladder up
+		case 1755:
+			if(isObjectXY(3020,9739) || isObjectXY(3019,9738) || isObjectXY(3018,9739) || isObjectXY(3019,9740)){ //dwarven mines
+				int xDif = c.absX-3019;
+				int yDif = c.absY-9739;
+				ladderTeleport(3019+xDif,3339+yDif,0);
+				break;
+			}
+			if(objectX == 2884 && objectY == 9797){
+				c.teleport(2884,3396);
+				break;
+			}
+
+			if (c.absX >=2906  && c.absX <=2908 && c.absY >=9875  && c.absY <=9877) {
+				c.getClientMethodHandler().teleportWithAnimation(828, 13, 3018, 3233, 0);
+				break;
+			}
+
+			if (objectX == 3008 && objectY == 9550) {
+				c.getClientMethodHandler().teleportWithAnimation(828, 13, 3009,3150, 0);
+				break;
+			}
+
 		case 1757:
-			c.teleport(2893,3507,0);
+			ladderTeleport(c.absX,c.absY-6400,0);
 			break;
 
 		case 1738:
@@ -159,7 +242,7 @@ public class ObjectClick {
 		case 2624: case 2625:
 			if(c.isInArea(2902, 3508, 2904, 3513)){ //outside heroes guild door			
 				if(c.combat < 100)
-					c.getClientMethodHandler().npcdialogue(796, "You need to be at least 100 combat","to enter my guild.");
+					c.getClientMethodHandler().dialogue(796, "You need to be at least 100 combat","to enter my guild.");
 				else 
 					c.teleport(2901,3510);
 			}
@@ -168,10 +251,10 @@ public class ObjectClick {
 
 		case 2391: case 2392:
 			if(c.getQuestPoints() < 3)
-				c.getClientMethodHandler().npcdialogue(398, "You need to complete at least three quest points","to get in there. Sorry mate.");
+				c.getClientMethodHandler().dialogue(398, "You need to complete at least three quest points","to get in there. Sorry mate.");
 			else{
 				c.getFrameMethodHandler().ReplaceObject(objectX, objectY, 6951, -1);
-				c.getClientMethodHandler().npcdialogue(398, "Welcome to the Legends Guild.");
+				c.getClientMethodHandler().dialogue(398, "Welcome to the Legends Guild.");
 			}
 			break;
 
@@ -194,7 +277,7 @@ public class ObjectClick {
 		case 2514:
 			if( c.absX == 2657 || c.absY == 3438 && c.absX == 2657 || c.absY == 3439 && c.absX == 2658 || c.absY == 3439){ //outside guild
 				if(c.playerLevel[c.playerRanged] >= 40) c.teleport(2659,3437);
-				else c.getClientMethodHandler().npcdialogue(679, "Sorry sir, you need 40 ranged to enter.");
+				else c.getClientMethodHandler().dialogue(679, "Sorry sir, you need 40 ranged to enter.");
 			}
 			if(c.absX == 2658 && c.absY == 3437 || c.absX == 2659 && c.absY == 3437 || c.absX == 2659 && c.absY == 3438)
 				c.teleport(2657,3439);
@@ -470,7 +553,7 @@ public class ObjectClick {
 			if(objectX == 2861 && objectY == 2997)
 				c.teleport(2861,2998,1);
 			break;
-			
+
 		case 1747:
 			if(objectX == 2871 && objectY == 2971)
 				c.teleport(2871,2970,1);
@@ -745,17 +828,23 @@ public class ObjectClick {
 			break;
 			//Dwarf Problems I
 
-		case 1755:
-			if(objectX == 2884 && objectY == 9797)
-				c.teleport(2884,3396);
-
-			if (c.absX >=2906  && c.absX <=2908 && c.absY >=9875  && c.absY <=9877) 
-				c.getClientMethodHandler().teleportWithAnimation(828, 13, 3018, 3233, 0);
-
-			if (objectX == 3008 && objectY == 9550) 
-				c.getClientMethodHandler().teleportWithAnimation(828, 13, 3009,3150, 0);
-
+		case 2113:
+			if(isObjectXY(3020,3339) || isObjectXY(3019,3340) || isObjectXY(3018,3339) || isObjectXY(3019,3338)){
+				if(c.playerLevel[c.playerMining] < 60)
+					c.sendMessage("You need at least 60 mining to do that.");
+				else{
+					int xDif = c.absX-3019;
+					int yDif = c.absY-3339;
+					ladderTeleport(3019+xDif,9739+yDif,0);
+				}
+			}
 			break;
+
+		case 9310:
+		case 9309:
+			c.getSkillHandler().getAgilityHandler().agilityTeleport(2948, 3309, 2948,3313, c.getSkillHandler().getAgilityHandler().CRAWL_EMOTE, 26, 26, false, 0, "");
+			break;
+
 
 		case 2174:
 			if ((c.absX == 2012 && c.absY == 4826) || (c.absX == 2020 && c.absY == 4824)) {
@@ -1293,7 +1382,12 @@ public class ObjectClick {
 			c.teleport(2780,10161);
 			break;
 
+		case 11844:
+			c.getSkillHandler().getAgilityHandler().agilityObstacle(2936, 3355, 2934, 3355, 2750, 5, 5, false, false, 0, "");
+			break;
+
 			//Bank booth
+		case 11758:
 		case 5276:
 		case 6084:
 		case 4483:
@@ -1472,7 +1566,7 @@ break;*/
 		case 9038:
 		case 9039:
 			if(!c.isInArea(2817, 3082, 2818, 3085))
-				c.getClientMethodHandler().npcdialogue(2530, "You can't get in there for free.");
+				c.getClientMethodHandler().dialogue(2530, "You can't get in there for free.");
 			else if(server.globalObjectHandler.find(2817, 3084) == null) server.globalObjectHandler.createObjectForSeconds(0, 2817, 3084, 6951, 0, 6951, c.playerName);
 			break;
 
@@ -1514,7 +1608,7 @@ break;*/
 		case 14859:
 		case 14860:
 		case 2107: //Runite Ore
-			
+
 		case 2111: //Gem rocks Shilo Village	
 			c.getMiningHandler().mineRock(objectID, objectX, objectY);
 			break;
@@ -1567,7 +1661,7 @@ break;*/
 		case 1309: //Yew Tree
 
 		case 1306: //Magic Tree
-			
+
 		case 9034: //Mahogany
 		case 9036: //Teak
 			c.getWoodcuttingHandler().cutTree(objectID, objectX, objectY, 0);	
@@ -1746,7 +1840,7 @@ break;*/
 			if(c.playerLevel[c.playerFishing] >= 68) c.getFrameMethodHandler().ReplaceObject(objectX,objectY,6951, -1);
 			else c.sendMessage("You need at least 68 Fishing to do that.");
 			break;
-			
+
 		case 2623:
 			if(c.getInventoryHandler().hasItem(1590)){
 				clearTile(objectX,objectY);
@@ -1755,11 +1849,11 @@ break;*/
 			else
 				c.sendMessage("The door is locked.");
 			break;
-			
+
 		case 9294:
 			c.getSkillHandler().getAgilityHandler().agilityObstacle(2878,9813, 2880,9813, 3067, 80, 20, false, false, 0, "");
 			break;
-			
+
 		case 2631:
 			if(c.getInventoryHandler().hasItem(1591)){
 				clearTile(objectX,objectY);
@@ -1821,8 +1915,8 @@ break;*/
 		case 9038:
 			if(c.isInArea(2817, 3082, 2818, 3085)){ //inside the grove
 				if(server.globalObjectHandler.find(2817, 3084) == null && server.globalObjectHandler.find(2817,3083) == null)
-					c.getClientMethodHandler().npcdialogue(2530, "You do not need to pay me again.");
-				else c.getClientMethodHandler().npcdialogue(2530, "The door is already open my friend.");
+					c.getClientMethodHandler().dialogue(2530, "You do not need to pay me again.");
+				else c.getClientMethodHandler().dialogue(2530, "The door is already open my friend.");
 			}
 			else{
 				if(c.favour < 50)
@@ -1830,13 +1924,13 @@ break;*/
 				else{
 					if(c.getInventoryHandler().hasItemOfAtLeastAmount(Item.TRADING_STICKS, 100)){
 						if(server.globalObjectHandler.find(2817, 3084) == null && server.globalObjectHandler.find(2817,3083) == null){
-							c.getClientMethodHandler().npcdialogue(2530, "Thank you for your payment.");
+							c.getClientMethodHandler().dialogue(2530, "Thank you for your payment.");
 							server.globalObjectHandler.createObjectForSeconds(0, 2817, 3084, GlobalObjectHandler.EMPTYTILE, 0, GlobalObjectHandler.EMPTYTILE, c.playerName);
 							c.getInventoryHandler().deleteItem(Item.TRADING_STICKS, c.getInventoryHandler().getItemSlot(Item.TRADING_STICKS), 100);
 						}
-						else c.getClientMethodHandler().npcdialogue(2530, "The door is already open my friend.");
+						else c.getClientMethodHandler().dialogue(2530, "The door is already open my friend.");
 					}
-					else c.getClientMethodHandler().npcdialogue(2530, "You need at least 100 trading sticks to enter my grove.");
+					else c.getClientMethodHandler().dialogue(2530, "You need at least 100 trading sticks to enter my grove.");
 				}
 			}
 			break;

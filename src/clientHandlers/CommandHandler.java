@@ -46,6 +46,27 @@ public class CommandHandler {
 		try{
 			switch(args[0].toLowerCase()){
 
+			case "snpc":
+				BufferedWriter bw = null;
+				try {
+					int newNPC = Integer.parseInt(args[1]);
+					int distance = Integer.parseInt(args[2]);
+					int absXM = c.absX - distance;
+					int absYM = c.absY - distance;
+					int absXA = c.absX + distance;
+					int absYA = c.absY + distance;
+					server.npcHandler.newNPC(newNPC, c.absX, c.absY, c.heightLevel, absXM, absYM, absXA, absYA, 1, server.npcHandler.getHP(newNPC), false);
+					bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
+					bw.write("spawn = "+newNPC+"	"+c.absX+"	"+c.absY+"	"+c.heightLevel+"	"+(c.absX+distance)+"	"+(c.absY+distance)+"	"+c.absX+"	"+c.absY+"	2");
+					bw.newLine();	 
+					bw.flush();
+					c.sendMessage(c.getClientMethodHandler().getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
+				}
+				catch(Exception e) {
+					c.sendMessage("Use as ::snpc # #");
+				}
+				break;
+			
 			case "screenshot":
 				try//Try & catch
 				{
@@ -75,9 +96,25 @@ public class CommandHandler {
 					c.getFrameMethodHandler().sendQuest(""+i,i);
 				}
 				break;
-			
+				
 			case "test":
-				c.getFrameMethodHandler().showLevelUpSprite(Integer.parseInt(args[1]), c.playerAttack);
+				c.getClientMethodHandler().dialogue(0, "This is a test of the new system.","","","",
+						"@pla@Let's see if my face is here?!","","","",
+						"@npc@0001Back to a different npc now?!","","","",
+						"@npc@Back to hans now?");
+				break;
+				
+			case "resetPD":
+				c.PD = 0;
+				c.getFrameMethodHandler().loadQuestTab();
+				c.getFileLoadingHandler().saveAll();
+				break;
+			
+			case "ladderdown":
+				c.teleport(c.absX,c.absY+6400);
+				break;
+			case "ladderup":
+				c.teleport(c.absX,c.absY-6400);
 				break;
 			
 			case "tile":
@@ -576,28 +613,6 @@ public class CommandHandler {
 			}
 			catch(Exception e){
 				c.sendMessage("Invalid coordinates entered.");
-			}
-		}
-
-		if (fullCommand.startsWith("snpc") && c.playerRights >= 2) {
-			BufferedWriter bw = null;
-
-			try {
-				int newNPC = Integer.parseInt(fullCommand.substring(5,9));
-				int distance = Integer.parseInt(fullCommand.substring(10));
-				int absXM = c.absX - distance;
-				int absYM = c.absY - distance;
-				int absXA = c.absX + distance;
-				int absYA = c.absY + distance;
-				server.npcHandler.newNPC(newNPC, c.absX, c.absY, c.heightLevel, absXM, absYM, absXA, absYA, 1, server.npcHandler.getHP(newNPC), false);
-				bw = new BufferedWriter(new FileWriter("CFG/autospawn.cfg", true));
-				bw.write("spawn = "+newNPC+"	"+c.absX+"	"+c.absY+"	"+c.heightLevel+"	"+(c.absX+distance)+"	"+(c.absY+distance)+"	"+c.absX+"	"+c.absY+"	2");
-				bw.newLine();	 
-				bw.flush();
-				c.sendMessage(c.getClientMethodHandler().getNpcName(newNPC)+" sucessful input. ID was "+newNPC);
-			}
-			catch(Exception e) {
-				c.sendMessage("Use as ::snpc #### #");
 			}
 		}
 

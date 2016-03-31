@@ -21,7 +21,7 @@ import root.misc;
 public class ClientMethodHandler {
 
 	client c = null;
-	
+
 	public void addQuestPoints(int amt){
 		c.setQuestPoints(c.getQuestPoints()+amt);
 		c.getFileLoadingHandler().saveAll();
@@ -131,7 +131,13 @@ public class ClientMethodHandler {
 		return server.npcHandler.NPCListArray[npcTypeID].npcName;
 	}
 
-	public void npcdialogue(int id, String ... lines){
+
+	/**
+	 * Tags such as @npc@ followed by a number will change the npc id for that dialogue.
+	 * e.g. @npc@162 Hello!
+	 * The @pla@ tag will change to player face for that dialogue
+	 */
+	public void dialogue(int id, String ... lines){
 		c.npcLines.clear();
 		c.npcID = id;
 		c.npcName = getNpcName(id);
@@ -254,7 +260,7 @@ public class ClientMethodHandler {
 
 		c.getFrameMethodHandler().setSkillLevel(skill, c.playerLevel[skill], playerXP[skill]);
 		c.getFrameMethodHandler().refreshSkills();
-		
+
 		if(skill != c.playerAttack && 
 				skill != c.playerStrength && 
 				skill != c.playerDefence && 
@@ -276,7 +282,7 @@ public class ClientMethodHandler {
 				break;
 			}			
 		}
-		
+
 		return true;
 	}
 
@@ -900,7 +906,7 @@ public class ClientMethodHandler {
 
 
 	public boolean sellItem(int itemID, int fromSlot, int amount, int currency) {		
-		if(Item.GetItemShopValue(itemID, 1.0,currency) <= -1 || currency <= -1){
+		if(Item.GetItemShopValue(itemID, 1.0,currency) <= -1 || currency <= -1 || !server.shopHandler.canItemBeSoldAt(c.MyShopID, itemID)){
 			c.sendMessage("I cannot sell "+Item.getItemName(itemID)+" here.");
 			return false;
 		}
@@ -1130,8 +1136,6 @@ public class ClientMethodHandler {
 	}
 
 
-
-
 	/**
 	 * Relies on global variables npcID and npcName being up to date
 	 */
@@ -1149,23 +1153,61 @@ public class ClientMethodHandler {
 			++i;
 		}
 
-		c.getFrameMethodHandler().sendFrame200(4901, 591);
+		boolean playerDialogue = false;
+		int temp = c.npcID;
+		String tempName = c.npcName;
 
-		c.getFrameMethodHandler().sendFrame126(c.npcName, 4902);
+		for(int j = 0; j < 4; j++){
+			if(lines[j] != null && lines[j].length() > 4){
+				String s = lines[j].substring(0, 5);
+				if(s.equalsIgnoreCase("@pla@")){
+					playerDialogue = true;
+					lines[j] = lines[j].substring(5);
+				}
+				else if(s.equalsIgnoreCase("@npc@")){
+					playerDialogue = false;
+					if(lines[j].length() > 8){ //means we have a potential number
+						try{
+							c.npcID = Integer.parseInt(lines[j].substring(5, 9));
+							c.npcName = getNpcName(c.npcID);
+							lines[j] = lines[j].substring(9);
+						}
+						catch(Exception e){
+							c.npcID = temp;
+							c.npcName = tempName;
+						} //this is fine, means no number
+					}
+					else 
+						lines[j] = lines[j].substring(5);
+				}
+			}
+		}
 
-		c.getFrameMethodHandler().sendFrame126(lines[0], 4903);
+		if(!playerDialogue){
+			c.getFrameMethodHandler().sendFrame200(4901, 591);
+			c.getFrameMethodHandler().sendFrame126(c.npcName, 4902);
+			c.getFrameMethodHandler().sendFrame126(lines[0], 4903);
+			c.getFrameMethodHandler().sendFrame126(lines[1], 4904);
+			c.getFrameMethodHandler().sendFrame126(lines[2], 4905);
+			c.getFrameMethodHandler().sendFrame126(lines[3], 4906);
+			c.getFrameMethodHandler().sendFrame126("Click here to continue", 4907);
+			c.getFrameMethodHandler().sendFrame75(c.npcID, 4901);
+			c.getFrameMethodHandler().sendFrame164(4900);
+			c.npcID = temp;
+			c.npcName = tempName;
+		}
+		else{
+			c.getFileLoadingHandler().saveAll();
+			c.getFrameMethodHandler().sendFrame200(987, 591);
+			c.getFrameMethodHandler().sendFrame126(c.playerName, 988);
+			c.getFrameMethodHandler().sendFrame126(lines[0], 989);
+			c.getFrameMethodHandler().sendFrame126(lines[1], 990);
+			c.getFrameMethodHandler().sendFrame126(lines[2], 991);
+			c.getFrameMethodHandler().sendFrame126(lines[3], 992);
+			c.getFrameMethodHandler().sendFrame185(987);
+			c.getFrameMethodHandler().sendFrame164(986);
+		}
 
-		c.getFrameMethodHandler().sendFrame126(lines[1], 4904);
-
-		c.getFrameMethodHandler().sendFrame126(lines[2], 4905);
-
-		c.getFrameMethodHandler().sendFrame126(lines[3], 4906);
-
-		c.getFrameMethodHandler().sendFrame126("Click here to continue", 4907);
-
-		c.getFrameMethodHandler().sendFrame75(c.npcID, 4901);
-
-		c.getFrameMethodHandler().sendFrame164(4900);
 	}
 
 

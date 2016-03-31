@@ -18,4 +18,6 @@ Kalphite Lair - Kalphite Workers, Kalphite Soldiers, Kalphite Guarians, Kalphite
 
 Ice Dungeon - Muggers, Pirates, Ice Warriors, Ice Giants, Skeleton Wyverns
 
-Heroes Dungeon - Giant Bats, Blue Dragon
+Heroes Guild Dungeon - Giant Bats, Blue Dragon
+
+Legends Guild Dungeon - Pit Scorpions, Giant Bats, Shadow Warriors

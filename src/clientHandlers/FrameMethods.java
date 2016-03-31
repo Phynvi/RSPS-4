@@ -3215,7 +3215,12 @@ public class FrameMethods {
 			sendQuest("@yel@Sluggish Circumstances", 7383); //Quest 5
 		else if(c.slug == 5)
 			sendQuest("@gre@Sluggish Circumstances", 7383); //Quest 5
-		sendQuest("", 7339); //Quest 6
+		
+		if(c.PD == 0)
+			sendQuest("A Poisonous Diversion", 7339); //Quest 6
+		else if(c.PD > 0)
+			sendQuest("@yel@A Poisonous Diversion", 7339); //Quest 6
+		
 		sendQuest("", 7338); //Quest 7
 		/*1337*/
 

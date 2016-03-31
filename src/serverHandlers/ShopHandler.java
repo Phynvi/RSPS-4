@@ -35,6 +35,29 @@ public class ShopHandler {
 		TotalShops = 0;
 		loadShops("shops.cfg");
 	}
+	
+	/**
+	 * Will check if an item can be sold at a shop
+	 */
+	public boolean canItemBeSoldAt(int shopID, int itemID){
+		if(ShopBModifier[shopID] == 1)
+			return true;
+		if(ShopBModifier[shopID] == 0 && doesShopContainItem(shopID, itemID))
+			return true;
+		return false;
+	}
+	
+	/**
+	 * Will check if a shop has an item
+	 */
+	public boolean doesShopContainItem(int shopID, int itemID){
+		for(int i = 0; i < ShopItems[shopID].length; i++){
+			if( (ShopItems[shopID][i]-1) == itemID ){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void process() {
 		boolean DidUpdate = false;

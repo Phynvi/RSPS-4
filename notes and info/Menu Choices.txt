@@ -23,6 +23,8 @@
 20 - Shipyard Worker for The Undead Problem
 21 - Caroline for Sluggish Circumstances
 22 - Bailey for sluggish
+23 - Squire for PD
+24 - sir vyvin for PD
 
 2 options select menu:
 30 - used for teleport options
