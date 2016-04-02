@@ -308,7 +308,7 @@ public class FileLoading {
 					else if (token.equals("randomh"))
 						c.randomh = Integer.parseInt(token2);
 					else if (token.equals("PD"))
-						c.PD = Integer.parseInt(token2);
+						c.PD.setValue(Integer.parseInt(token2));
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -570,7 +570,7 @@ public class FileLoading {
 			String s22 = "randomh = "; characterfile.write(s22, 0, s22.length());
 			characterfile.write(Integer.toString(c.randomh), 0, Integer.toString(c.randomh).length());
 			characterfile.newLine();
-			writeToCharacterFile(characterfile, c.PD, "PD");
+			writeToCharacterFile(characterfile, c.PD.getValue(), "PD");
 			characterfile.newLine();
 
 			characterfile.write("[QUESTS]", 0, 8);

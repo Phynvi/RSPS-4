@@ -88,7 +88,7 @@ public class ObjectClick {
 		switch(objectID) {
 		
 		case 1530: //door
-			if(isObjectXY(2918,9709) && c.PD != 3){ //PD
+			if(isObjectXY(2918,9709) && c.PD.getValue() != 3){ //PD
 					c.sendMessage("I don't think I should go in there.");
 			}
 			else{
@@ -429,7 +429,7 @@ public class ObjectClick {
 
 		case 2492: //portal from rune essence mine
 			c.walkTo(objectX-c.absX, objectY-c.absY);
-			c.getClientMethodHandler().teleportWithDelay(4, 2595,3087,2);
+			c.getClientMethodHandler().teleportWithAnimation(2595,3087,2, 819, 2);
 			break;
 
 			//Pest control ladder
@@ -1396,15 +1396,6 @@ public class ObjectClick {
 		case 2213:
 		case 9480: 
 			c.getFrameMethodHandler().openUpBankFrame(); 
-			break;
-
-		case 4157:
-			if (c.deadtele == 1){
-				c.getClientMethodHandler().deadreturn();
-			}
-			else{
-				c.sendMessage("Speak with Skulgrimen before leaving!");
-			}
 			break;
 
 			//Search banana tree

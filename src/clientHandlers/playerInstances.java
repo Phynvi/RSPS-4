@@ -7,10 +7,9 @@ package clientHandlers;
  **/
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
+import playerData.QuestVariable;
 import serverHandlers.ChatRoom;
-import skills.Agility;
 import skills.Fishing;
 import skills.MagicDataHandler;
 import skills.RangeDataHandler;
@@ -20,6 +19,8 @@ import struct.DropList;
 
 public class playerInstances {
 
+	public QuestVariable PD = new QuestVariable(0);
+	
 	public boolean PDAggro = false;
 	public int[] walkingToObjectX = new int[5];
 	public int[] walkingToObjectY = new int[5];
@@ -30,7 +31,7 @@ public class playerInstances {
 	public ChatRoom currentChatRoom = null;
 	public int currency = 995;
 	
-	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug,randomx,randomy,randomh,PD;
+	public int bandos, armadyl, prevbandos, prevarmadyl, barrowed,slug,randomx,randomy,randomh;
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;
@@ -47,7 +48,6 @@ public class playerInstances {
 	protected int homeTeleportTimer = 0;
 	public DropList DROPHANDLER = new DropList();
 
-	public MagicDataHandler MAGICDATAHANDLER;
 	public int deadAnimTimer = -1;
 	public long magicSpamTimer = 0;
 	public boolean autocast = false;
@@ -126,9 +126,11 @@ public int idleTimer = 0;
 	public int objectX2 = 0;
 	public int objectY2 = 0;
 
-	public int isteleporting = 0;
-	public int isteleportingx = 0;
-	public int isteleportingy = 0;
+	public boolean teleportDelayCast = false;
+	public boolean teleportDelayCastAncients = false;
+	public int teleportDelayX, teleportDelayY, teleportDelayH, teleportDelayCastID, teleportDelayXP;
+	public int teleportDelay = -1;
+	
 	public long spamtimer = 0;
 	public boolean dharokisalive = false;
 	public boolean veracisalive = false;
@@ -141,7 +143,6 @@ public int idleTimer = 0;
 	public int chicken = 0;
 	public int chickenkill = 0;
 	public int DH = 0;
-	public int ithl = 0;
 	public int rockcount = 0;
 	public int xpgiven = 0;
 	public long lastYell = 20001;

@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160229
+character-lastlogintime = 20160301
 character-starter = 1
 character-hasegg = 0
 character-hasset = 0
@@ -43,6 +43,7 @@ slug = 5
 randomx = 2836
 randomy = 3432
 randomh = 0
+PD = 1
 
 [QUESTS]
 character-questpoints = 0

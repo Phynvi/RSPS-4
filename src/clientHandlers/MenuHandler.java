@@ -290,7 +290,7 @@ public class MenuHandler {
 	}
 	
 	public String[] PoisonDiversion(){
-		String[] summary = new String[]{"@gre@Sluggish Circumstances","","",
+		String[] summary = new String[]{"@gre@A Poisonous Diversion","","",
 				"@whi@Summary: The Black Knights are up to something suspicious.",
 				"",
 				"@whi@Requirements: High combat level recommended",
@@ -299,29 +299,44 @@ public class MenuHandler {
 				"at the White Knights Castle in Falador.",
 				""};
 		String[] stage1 = {};
-		if(c.PD >= 1)
+		if(c.PD.getValue() >= 1)
 			stage1 = new String[]{"The squire has told me that I need to search",
 				"the black knights hideout for some evidence.",
 				"they are located in the Taverley Dungeon.",
 				"It is suggested I dress in black armor as a disguise."};
 		
 		String[] stage2 = {};
-		if(c.PD >= 2)
+		if(c.PD.getValue() >= 2)
 			stage2 = new String[]{"","The squire has told me that I should deliver",
 					"the plans to Sir Vyvin, who is located",
 					"on the second floor of the castle."};
 		
 		String[] stage3 = {};
-		if(c.PD >= 3)
+		if(c.PD.getValue() >= 3)
 			stage3 = new String[]{"","Sir Vyvin wants me to go back",
 					"to the Black Knights and kill whoever",
 					"is creating the poison."};
-		
-		if(c.PD == 4){
-			
+
+		String[] stage4 = {};
+		if(c.PD.getValue() >= 4){
+			if(c.PD.getValue() >= 3)
+				stage4 = new String[]{"","Now that I've stopped the poison maker, I should",
+						"return to Sir Vyvin and tell him what happened."};
 		}
 		
-		return combineStringArrays(summary,stage1,stage2,stage3);
+		else if(c.PD.getValue() == 5){
+			return new String[]{"@gre@A Poisonous Diversion","","",
+					"@whi@Summary: The Black Knights are up to something suspicious.",
+					"",
+					"@gre@Quest completed!",
+					"@gre@You have been rewarded:",
+					"1 Quest Point",
+					"10,000 Attack XP",
+					"7,500 Prayer XP",
+					"5,000 Thieving XP"};
+		}
+		
+		return combineStringArrays(summary,stage1,stage2,stage3,stage4);
 	}
 	
 	public String[] sluggishCircumstances(){

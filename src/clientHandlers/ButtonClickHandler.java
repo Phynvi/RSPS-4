@@ -1,4 +1,5 @@
 package clientHandlers;
+import playerData.QuestVariable;
 import playerData.client;
 import root.misc;
 import root.server;
@@ -15,9 +16,9 @@ public class ButtonClickHandler {
 		this.c = pc;
 	}
 
-	Integer nextAdvance = null;
+	QuestVariable nextAdvance = null;
 
-	private void advanceQuestVariableAtEndOfDialogue(Integer v){
+	private void advanceQuestVariableAtEndOfDialogue(QuestVariable v){
 		nextAdvance = v;
 	}
 
@@ -28,21 +29,29 @@ public class ButtonClickHandler {
 		}			
 		else{
 			switch(c.npcID){
+			case 410: //mysterious old man
+				c.getFrameMethodHandler().sendFrame164(14191);
+				c.getFrameMethodHandler().sendQuest("Pick the odd one out", 14200);
+				break;
 			case 938: //ranalph devere for pd
 				c.PDAggro = true;
 				break;
 			case 605: //quest complete for pd, sir vyvin
-				if(c.PD == 4){
-					//TODO Quest completed
+				if(c.PD.getValue() == 4){
+					c.getFrameMethodHandler().showQuestComplete("A Poisonous Diversion", "10,000 Attack XP", "7,500 Prayer XP", "5,000 Thieving XP", "", "", "", 1);
 					c.getClientMethodHandler().addSkillXP(5000, c.playerThieving);
 					c.getClientMethodHandler().addSkillXP(7500, c.playerPrayer);
 					c.getClientMethodHandler().addSkillXP(10000, c.playerAttack);
 					c.getClientMethodHandler().addQuestPoints(1);
+					c.getFrameMethodHandler().loadQuestTab();
+					c.getFileLoadingHandler().saveAll();
+					c.PD.setValue(5);
+					return;
 				}
 				break;
 			}
 			if(nextAdvance != null){
-				nextAdvance += 1;
+				nextAdvance.increment();
 				nextAdvance = null;
 				c.getFrameMethodHandler().loadQuestTab();
 				c.getFileLoadingHandler().saveAll();
@@ -362,11 +371,11 @@ public class ButtonClickHandler {
 			switch(c.menuChoice){
 
 			case 24: //sir vyvin for PD
-				if(c.PD == 0 || c.PD == 1){
+				if(c.PD.getValue() == 0 || c.PD.getValue() == 1){
 					c.getClientMethodHandler().dialogue(605, "","@pla@Need help with anything?","","",
 							"I'd say go speak with my squire.","He's out in the courtyard. That","guy always needs help with something.");
 				}
-				else if(c.PD == 2){
+				else if(c.PD.getValue() == 2){
 					if(!c.getInventoryHandler().hasItem(1850)){
 						c.getClientMethodHandler().dialogue(605, "","@pla@I have some important plans for you.","","",
 								"","Well, where are they?","","",
@@ -382,28 +391,28 @@ public class ButtonClickHandler {
 						advanceQuestVariableAtEndOfDialogue(c.PD);
 					}
 				}
-				else if(c.PD == 3){
+				else if(c.PD.getValue() == 3){
 					c.getClientMethodHandler().dialogue(605, "@pla@","What did you want me to do again?","","",
 							"I told you, I want you to infiilitrate","the Black Knights again, and kill","whoever is making this poison.");
 				}
-				else if(c.PD == 4){
+				else if(c.PD.getValue() == 4){
 					c.getClientMethodHandler().dialogue(605, "@pla@","I killed the ghost behind this!","","",
 							"","Ghost?","","",
-							"@pla@Yup! It was a ghost soldier","who wanted to poison the towns.","He had been awoken from his rest","when rimmington was built.",
-							"@play@It was built on top of","an ancient battlefield.","The ghost said there might be more","like him lookig for revenge."
+							"@pla@Oh... yea, turns out it was a ghost","who wanted to poison the towns.","He had been awoken from his rest","when rimmington was built.",
+							"@pla@It was built on top of","an ancient battlefield.","The ghost said there might be more","like him looking for revenge."
 							,"","That's not good news at all.","","",
 							"","@pla@Oh, no... I guess not.","But, I still stopped the poison!","",
 							"Well, yes you did. I am sure","those of the surrounding towns thank you.","Also, I thank you.");
 					advanceQuestVariableAtEndOfDialogue(c.PD);
 				}
-				else if(c.PD > 4){
+				else if(c.PD.getValue() > 4){
 					c.getClientMethodHandler().dialogue(605, "","@pla@Anything you need help with?","","",
 							"Currently? There's nothing I can think of.");
 				}
 				break;
 
 			case 23: //squire for PD
-				if(c.PD == 0){
+				if(c.PD.getValue() == 0){
 					c.getClientMethodHandler().dialogue(606, "","@pla@Is there anything you need help with?","","",
 							"","Well, actually... We had a strange...","incident happen.","",
 							"","@pla@Go on...","","",
@@ -417,7 +426,7 @@ public class ButtonClickHandler {
 							"If you wear a black full helmet,","chestpiece, and platelegs, it","should be enough to trick them","so you can look around.");
 					advanceQuestVariableAtEndOfDialogue(c.PD);
 				}
-				else if(c.PD == 1){
+				else if(c.PD.getValue() == 1){
 					if(!c.getInventoryHandler().hasItem(1850)){
 						c.getClientMethodHandler().dialogue(606, "","@pla@I Have returned with the plans!","","",
 								"No you haven't!");
@@ -430,7 +439,7 @@ public class ButtonClickHandler {
 						advanceQuestVariableAtEndOfDialogue(c.PD);
 					}
 				}
-				else if(c.PD > 1){
+				else if(c.PD.getValue() > 1){
 					c.getClientMethodHandler().dialogue(606, "","@pla@Umm... what am I supposed to do again?","","",
 							"I told you, go bring the plans to","sir Vyvin.","He's on the second floor of the castle.");
 				}
@@ -1457,7 +1466,7 @@ public class ButtonClickHandler {
 				break;
 
 			case 32:
-				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your c.spellbook and important","information can be found","in your quest tab.");
+				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your spellbook and important","information can be found","in your quest tab.");
 				break;
 
 			case 42:			
@@ -1485,100 +1494,100 @@ public class ButtonClickHandler {
 			//c.autocast
 
 		case 7038: //Wind Strike 
-			c.MAGICDATAHANDLER.setAutocast(1152);
+			c.getMagicHandler().setAutocast(1152);
 			break;
 		case 7039://Water Strike
-			c.MAGICDATAHANDLER.setAutocast(1154);
+			c.getMagicHandler().setAutocast(1154);
 			break;
 		case 7040://Earth Strike
-			c.MAGICDATAHANDLER.setAutocast(1156);
+			c.getMagicHandler().setAutocast(1156);
 			break;
 		case 7041://Fire Strike
-			c.MAGICDATAHANDLER.setAutocast(1158);
+			c.getMagicHandler().setAutocast(1158);
 			break;
 		case 7042://Wind Bolt
-			c.MAGICDATAHANDLER.setAutocast(1160);
+			c.getMagicHandler().setAutocast(1160);
 			break;
 		case 7043://Water Bolt
-			c.MAGICDATAHANDLER.setAutocast(1163);
+			c.getMagicHandler().setAutocast(1163);
 			break;
 		case 7044://Earth Bolt
-			c.MAGICDATAHANDLER.setAutocast(1166);
+			c.getMagicHandler().setAutocast(1166);
 			break;
 		case 7045://Fire Bolt
-			c.MAGICDATAHANDLER.setAutocast(1169);
+			c.getMagicHandler().setAutocast(1169);
 			break;
 		case 7046://Wind Blast
-			c.MAGICDATAHANDLER.setAutocast(1172);
+			c.getMagicHandler().setAutocast(1172);
 			break;
 		case 7047://Water Blast
-			c.MAGICDATAHANDLER.setAutocast(1175);
+			c.getMagicHandler().setAutocast(1175);
 			break;
 		case 7048://Earth Blast
-			c.MAGICDATAHANDLER.setAutocast(1177);
+			c.getMagicHandler().setAutocast(1177);
 			break;
 		case 7049://Fire Blast
-			c.MAGICDATAHANDLER.setAutocast(1181);
+			c.getMagicHandler().setAutocast(1181);
 			break;
 		case 7050://Wind Wave
-			c.MAGICDATAHANDLER.setAutocast(1183);
+			c.getMagicHandler().setAutocast(1183);
 			break;
 		case 7051://Water Wave
-			c.MAGICDATAHANDLER.setAutocast(1185);
+			c.getMagicHandler().setAutocast(1185);
 			break;
 		case 7052://Earth Wave
-			c.MAGICDATAHANDLER.setAutocast(1188);
+			c.getMagicHandler().setAutocast(1188);
 			break;
 		case 7053://Fire Wave
-			c.MAGICDATAHANDLER.setAutocast(1189);
+			c.getMagicHandler().setAutocast(1189);
 			break;
 		case 51133: //Smoke Rush
-			c.MAGICDATAHANDLER.setAutocast(12939);
+			c.getMagicHandler().setAutocast(12939);
 			break;
 		case 51185: //Shadow Rush
-			c.MAGICDATAHANDLER.setAutocast(12987);
+			c.getMagicHandler().setAutocast(12987);
 			break;
 		case 51091: //Blood Rush
-			c.MAGICDATAHANDLER.setAutocast(12901);
+			c.getMagicHandler().setAutocast(12901);
 			break;
 		case 24018: //Ice Rush
-			c.MAGICDATAHANDLER.setAutocast(12861);
+			c.getMagicHandler().setAutocast(12861);
 			break;
 		case 51159: //Smoke Burst
-			c.MAGICDATAHANDLER.setAutocast(12963);
+			c.getMagicHandler().setAutocast(12963);
 			break;
 		case 51211: //Shadow Burst
-			c.MAGICDATAHANDLER.setAutocast(13011);
+			c.getMagicHandler().setAutocast(13011);
 			break;
 		case 51111: //Blood Burst
-			c.MAGICDATAHANDLER.setAutocast(12919);
+			c.getMagicHandler().setAutocast(12919);
 			break;
 		case 51069: //Ice Burst
-			c.MAGICDATAHANDLER.setAutocast(12881);
+			c.getMagicHandler().setAutocast(12881);
 			break;
 		case 51146: //Smoke Blitz
-			c.MAGICDATAHANDLER.setAutocast(12951);
+			c.getMagicHandler().setAutocast(12951);
 			break;
 		case 51198: //Shadow Blitz
-			c.MAGICDATAHANDLER.setAutocast(12999);
+			c.getMagicHandler().setAutocast(12999);
 			break;
 		case 51102: //Blood Blitz
-			c.MAGICDATAHANDLER.setAutocast(12911);
+			c.getMagicHandler().setAutocast(12911);
 			break;
 		case 51058: //Ice Blitz
-			c.MAGICDATAHANDLER.setAutocast(12871);
+			c.getMagicHandler().setAutocast(12871);
 			break;
 		case 51172: //Smoke Barrage
-			c.MAGICDATAHANDLER.setAutocast(12975);
+			c.getMagicHandler().setAutocast(12975);
 			break;
 		case 51224: //Shadow Barrage
-			c.MAGICDATAHANDLER.setAutocast(13023);
+			c.getMagicHandler().setAutocast(13023);
 			break;
 		case 51122: //Blood Barrage
-			c.MAGICDATAHANDLER.setAutocast(12929);
+			c.getMagicHandler().setAutocast(12929);
 			break;
 		case 51080: //Ice Barrage
-			c.MAGICDATAHANDLER.setAutocast(12891);
+			c.getMagicHandler().setAutocast(12891);
 			break;
 
 		case 1093:
@@ -1620,121 +1629,75 @@ public class ButtonClickHandler {
 
 
 		case 50235: //Ancients teleport Mudskipper point
-			if(c.MAGICDATAHANDLER.checkMagicRunes(50235)){
-				c.MAGICDATAHANDLER.removeMagicRunes(50235);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2694,3484, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
-			break;
-
-		case 4143: //S Teleport
-			if(c.homeTeleportTimer <= 0){
-				if(c.getClientMethodHandler().canPlayersTeleportInThisArea()){
-					c.homeTeleportTimer = 15;
-					c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2958,3224, 0);
-				}
-				else c.sendMessage("You can't use that teleport in this area.");
-			}
-			else c.sendMessage("You need to wait "+c.homeTeleportTimer+" minutes before using this.");
-			break;
-
-		case 4140: //H teleport
-			if(c.MAGICDATAHANDLER.checkMagicRunes(1)){
-				c.MAGICDATAHANDLER.removeMagicRunes(1);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3024, 3206, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(2694,3484, 0, actionButtonId, 60);
 			break;
 
 		case 50245: //PVP ancients teleport
-		case 4146: //PVP normal teleport
-			if(c.getClientMethodHandler().canPlayersTeleportInThisArea())
-				c.getFrameMethodHandler().select4Options("PVP Teleports", "Lletya [PVP]",2331,3170,"Tyras Camp [PVP]", 2187,3148, "Elf Camp [PVP]", 2207,3258, "Cancel",-1,-1);
-			else c.sendMessage("You cannot activate teleports in this area.");
+		case 4143: //S Teleport, PVP normal teleport
+			c.getFrameMethodHandler().select4Options("PVP Teleports", "Lletya [PVP]",2331,3170,"Tyras Camp [PVP]", 2187,3148, "Elf Camp [PVP]", 2207,3258, "Cancel",-1,-1);
+			break;
+
+		case 4140: //H teleport
+			if(c.homeTeleportTimer <= 0)
+				c.getMagicHandler().castAncientTeleport(3025,3207, 0, -1, 60);
+			else
+				c.sendMessage("You need to wait "+(15-c.homeTeleportTimer)+" minutes before doing that.");
+			break;
+
+		case 4146: //falador teleport
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castNormalTeleport(2967,3382, 0, actionButtonId, 60);
 			break;
 
 		case 50253: //Gu'Tanoth
-			if(c.MAGICDATAHANDLER.checkMagicRunes(50253)){
-				c.MAGICDATAHANDLER.removeMagicRunes(50253);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2556,3059, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(2556,3059, 0, actionButtonId, 60);
 			break;
 
 		case 51005: //Entrana
-			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2828,3344, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(2828,3344, 0, actionButtonId, 60);
 			break;
 
 		case 51013: //Karamja
-			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2801,3176, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(2801,3176, 0, actionButtonId, 60);
 			break;
 
 		case 51023: //Barrows
-			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 3662,3495, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(3662,3495, 0, actionButtonId, 60);
 			break;
 
 		case 51031: //West Ardougne
-			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2493,3314, 0);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(2493,3314, 0, actionButtonId, 60);
 			break;
 
 		case 51039: //Grand Tree
-			if(c.MAGICDATAHANDLER.checkMagicRunes(actionButtonId)){
-				c.MAGICDATAHANDLER.removeMagicRunes(actionButtonId);
-				c.getClientMethodHandler().isteleporting2(392, 1161, 20, 2464,3496,1);
-				c.getClientMethodHandler().addSkillXP(60*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castAncientTeleport(2464,3496, 0, actionButtonId, 60);
 			break;	
 
 		case 29031: //tree gnome stronghold
-			if(c.MAGICDATAHANDLER.checkMagicRunes(29031)){
-				c.MAGICDATAHANDLER.removeMagicRunes(29031);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2459,3414, 0);
-				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castNormalTeleport(2459,3414, 0, actionButtonId, 60);
 			break;
 
 		case 4150: //Camelot Teleport
-			if(c.MAGICDATAHANDLER.checkMagicRunes(4150)){
-				c.MAGICDATAHANDLER.removeMagicRunes(4150);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2757,3477, 0);
-				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castNormalTeleport(2757,3477, 0, actionButtonId, 60);
 			break;
 
 		case 6004: //east ardy teleport 
-			if(c.MAGICDATAHANDLER.checkMagicRunes(6004)){
-				c.MAGICDATAHANDLER.removeMagicRunes(6004);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2661, 3308, 0);
-				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
-			}
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castNormalTeleport(2661,3308, 0, actionButtonId, 60);
 			break;
 
 		case 6005: //canifis teleport
-			if(c.MAGICDATAHANDLER.checkMagicRunes(6005)){
-				c.MAGICDATAHANDLER.removeMagicRunes(6005);
-				c.getClientMethodHandler().isteleporting2(409, 1818, 15, 3491,3484, 0);
-				c.getClientMethodHandler().addSkillXP(40*c.rate, c.playerMagic);
-			}
-			break;
-
-		case 59135:
-			c.getClientMethodHandler().isteleporting2(409, 1818, 15, 2134, 4907, 0);
+			if(c.getMagicHandler().checkMagicRunes(actionButtonId))
+				c.getMagicHandler().castNormalTeleport(3491,3484, 0, actionButtonId, 60);
 			break;
 
 		case 47130:

@@ -381,37 +381,37 @@ public class NPCClickHandler {
 					"","I know you're not a Black Knight.","","",
 					"@pla@","Huh? I don't know what you're talking about!","","",
 					"","He can smell it.","","",
-					"@npc@221","Smell!","","",
+					"@npc@0221","Smell!","","",
 					"","@pla@Oh, well that's great.","","",
 					"So, what did you want? Must","be important since you're","being all sneaky.","",
 					"@pla@","Why do you want to poison people?","","",
-					"@npc@221","Smell!","","",
+					"@npc@0221","Smell!","","",
 					"Ok, calm down there.","Did you know that Rimmington was","built on top of a battlefield?","",
 					"@pla@","Today I learned.","","",
 					"It is quite the ancient battlefield actually.","It's where I died.","And they had the nerve","to put a village up there.",
 					"It disturbed me and a few of my friends.","I hope you don't think I'm the only one","seeking revenge?","",
 					"There's a couple more like me.","And we want revenge for being awoken.","I think poison can do the trick.","",
-					"@npc@221","Kill?","","",
+					"@npc@0221","Kill?","","",
 					"Yes, I suppose.");
 			break;
 		
 		case 605:
-			if(c.PD == 0 || c.PD == 1 || c.PD > 4)
+			if(c.PD.getValue() == 0 || c.PD.getValue() == 1 || c.PD.getValue() > 4)
 				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "Need help with anything?", "", "Nevermind");
-			else if(c.PD == 2)
+			else if(c.PD.getValue() == 2)
 				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "I have some important plans for you.", "", "Nevermind");
-			else if(c.PD == 3)
+			else if(c.PD.getValue() == 3)
 				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "What am I supposed to do?", "", "Nevermind");
-			else if(c.PD == 4)
+			else if(c.PD.getValue() == 4)
 				c.getFrameMethodHandler().select4Options(24, "Topics", "Any news?", "I have stopped the poisoning!", "", "Nevermind");
 			break;
 		
 		case 606:
-			if(c.PD == 0)
+			if(c.PD.getValue() == 0)
 				c.getFrameMethodHandler().select4Options(23, "Topics", "Any news?", "Need help with anything?", "", "Nevermind");
-			else if(c.PD == 1)
+			else if(c.PD.getValue() == 1)
 				c.getFrameMethodHandler().select4Options(23, "Topics", "Any news?", "I've returned with the plans!", "", "Nevermind");
-			else if(c.PD > 1)
+			else if(c.PD.getValue() > 1)
 				c.getFrameMethodHandler().select4Options(23, "Topics", "Any news?", "What am I supposed to do?", "", "Nevermind");
 			break;
 		
@@ -428,8 +428,10 @@ public class NPCClickHandler {
 			if(c.getInventoryHandler().freeSlots() == 0) 
 				c.getClientMethodHandler().dialogue(NPCID, "Speak to me when your inventory is not full.");
 			else{
-				c.getFrameMethodHandler().sendFrame164(14191);
-				c.getFrameMethodHandler().sendQuest("Pick the odd one out", 14200);
+				c.getClientMethodHandler().dialogue(NPCID, "","@pla@What's going on?","","",
+						"","Ready to win a prize?","","",
+						"@pla@","Umm, sure?","","",
+						"Here we go!");
 			}
 			break;
 
@@ -830,7 +832,8 @@ public class NPCClickHandler {
 
 		case 943:
 			if(c.starter == 0)
-				c.getClientMethodHandler().npcdialogue("Surivival Expert", NPCID, "Welcome newcomer!", "To get your c.starter kit, head", "Northwest of here and talk to", "Professor Oddenstein.",
+				c.getClientMethodHandler().dialogue(NPCID, "","@pla@Hello, I'm new here.","","", 
+						"Welcome newcomer!", "To get your starter kit, head", "Northwest of here and talk to", "Professor Oddenstein.",
 						"He can be found North, in the clothes shop.");
 			else {
 				c.getFrameMethodHandler().select2Options(32,"How can I help you?", "I'm ready to leave!", "Got any tips?");

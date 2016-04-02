@@ -665,6 +665,8 @@ public class Combat {
 				}
 
 				addCombatXP(damage);
+				if(opponentClient.teleportDelayCast && opponentClient.teleportDelay > 0)
+					opponentClient.interruptTeleport();
 				return updateDelayAndDamagePlayer(c.AttackingOn, damage);
 			}
 		}
@@ -698,13 +700,16 @@ public class Combat {
 
 				addCombatRangedXP(damage);
 
+				if(opponentClient.teleportDelayCast && opponentClient.teleportDelay > 0)
+					opponentClient.interruptTeleport();
+				
 				return updateDelayAndDamagePlayer(c.AttackingOn, damage);			
 			}
 		}
 
 		/* Magic */
 		if(c.autocast){
-			return c.MAGICDATAHANDLER.AttackPlayerMagic(c.AttackingOn);
+			return c.getMagicHandler().AttackPlayerMagic(c.AttackingOn);
 		}	
 
 		c.isPVP = false;
@@ -900,7 +905,7 @@ public class Combat {
 			if(c.autocast){
 				final int AUTOCASTDISTANCE = 6;
 				if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, AUTOCASTDISTANCE)){ 
-					if(c.MAGICDATAHANDLER.magicOnNPC(c.attacknpc))
+					if(c.getMagicHandler().magicOnNPC(c.attacknpc))
 						return true;
 					else{
 						c.stopPlayerMovement();

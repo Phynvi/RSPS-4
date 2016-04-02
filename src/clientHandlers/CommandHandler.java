@@ -105,7 +105,7 @@ public class CommandHandler {
 				break;
 				
 			case "resetPD":
-				c.PD = 0;
+				c.PD.setValue(0);
 				c.getFrameMethodHandler().loadQuestTab();
 				c.getFileLoadingHandler().saveAll();
 				break;

@@ -16,6 +16,29 @@ public class MagicDataHandler {
 		c = pc;
 	}
 	
+	public void castNormalTeleport(int x, int y, int h, int castID, int xp){
+		c.teleportDelayCast = true;
+		c.teleportDelay = 3;
+		c.teleportDelayH = h;
+		c.teleportDelayX = x;
+		c.teleportDelayY = y;
+		c.teleportDelayCastID = castID;
+		c.teleportDelayXP = xp*c.rate;
+		c.startAnimation(714);
+		c.getFrameMethodHandler().playerGfx(308, 50);
+	}
+	
+	public void castAncientTeleport(int x, int y, int h, int castID, int xp){
+		c.teleportDelayCast = true;
+		c.teleportDelay = 3;
+		c.teleportDelayH = h;
+		c.teleportDelayX = x;
+		c.teleportDelayY = y;
+		c.teleportDelayCastID = castID;
+		c.teleportDelayXP = xp*c.rate;
+		c.startAnimation(725);
+		c.getFrameMethodHandler().gfx0(392);
+	}
 	
 	public void magicOnItems(int castSpell, int castOnItem, int castOnSlot){
 
@@ -557,6 +580,9 @@ public class MagicDataHandler {
 			if (exp < 0) exp = 4*c.CombatExpRate;
 			c.getClientMethodHandler().addSkillXP(exp, 6);
 
+			if(castOnPlayer.teleportDelayCast && castOnPlayer.teleportDelay > 0)
+				castOnPlayer.interruptTeleport();			
+			
 			return c.getCombatHandler().updateDelayAndDamagePlayer(playerIndex, damage);			
 		}
 		return false;
@@ -694,7 +720,7 @@ public class MagicDataHandler {
 				if(misc.distanceBetweenPoints(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y) <= range && !server.npcHandler.npcs[i].IsDead)
 				{				
 					int damage = 0;
-					if(c.getCombatHandler().doIHitNPCWithMagic(i)) damage = misc.random(c.MAGICDATAHANDLER.calculateMagicMaxHit(maxDamage, level));
+					if(c.getCombatHandler().doIHitNPCWithMagic(i)) damage = misc.random(calculateMagicMaxHit(maxDamage, level));
 					else gfx = 339;
 					totalDamage += damage;
 					c.getFrameMethodHandler().stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
@@ -1026,8 +1052,12 @@ public class MagicDataHandler {
 
 	private int[] magicRunes(int magicID){
 		switch(magicID){ 
-		case 1: //H Teleport
-			return new int[]{1,FIRE,3,AIR,1,LAW};
+		case -1: //home teleport
+			return new int[]{-1};
+		case 0: //no runes
+			return new int[]{-1};
+		case 4146: //Falador Teleport
+			return new int[]{1,WATER,3,AIR,1,LAW};
 		case 50235: // Mudskipper point ancient
 			return new int[]{2,LAW,1,FIRE,1,AIR};
 		case 50245: //PVP teleport ancients

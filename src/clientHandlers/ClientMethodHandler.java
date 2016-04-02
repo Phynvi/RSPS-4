@@ -27,6 +27,16 @@ public class ClientMethodHandler {
 		c.getFileLoadingHandler().saveAll();
 		c.getFrameMethodHandler().loadQuestTab();
 	}
+	
+	/**
+	 * @param delay MS to wait until teleport
+	 */
+	public void teleportWithAnimation(int x, int y, int h, int emote, int delay){
+		c.teleportDelayX = x;
+		c.teleportDelayY = y;
+		c.teleportDelayH = h;
+		c.teleportDelay = delay;
+	}
 
 	public static ClientMethodHandler getClientMethodHandler(int playerIndex){
 		client player = (client) server.playerHandler.players[playerIndex];
@@ -67,45 +77,6 @@ public class ClientMethodHandler {
 		//			return true;
 
 		return false;
-	}
-
-	public boolean canPlayersTeleportInThisArea(){
-		if((c.isInArea(3644,2937,3716,3011) && c.pirate < 10) || isInPKZone() || c.isInArea(3455,9470,3522,9536) || (c.absX >=2002  && c.absX <=2035 && c.absY >=4814  && c.absY <=4833) || (c.absX >=3121  && c.absX <=3125 && c.absY >=3240  && c.absY <=3243) || (c.absX >=3138  && c.absX <=3186 && c.absY >=3718  && c.absY <=3748))
-			return false;
-		return true;
-	}
-
-	/**
-	 * Does animation and gfx, until time is zero, then teleports to x and y
-	 */
-	public void isteleporting2(int gfx, int anim, int time, int x, int y, int h){
-		c.getFrameMethodHandler().stillgfx(gfx, c.absY, c.absX);
-		c.startAnimation(anim);
-		c.isteleporting = time;
-		c.isteleportingx = x;
-		c.isteleportingy = y;
-		c.ithl = h;
-	}
-
-	/**
-	 * Will delay teleport for time (500ms) and then teleport to x,y,h
-	 */
-	public void teleportWithDelay(int time, int x, int y, int h){
-		c.isteleporting = time;
-		c.isteleportingx = x;
-		c.isteleportingy = y;
-		c.ithl = h;
-	}
-
-	/**
-	 * Will start an animation for time and then teleport to x,y,h
-	 */
-	public void teleportWithAnimation(int anim, int time, int x, int y, int h){
-		c.startAnimation(anim);
-		c.isteleporting = time;
-		c.isteleportingx = x;
-		c.isteleportingy = y;
-		c.ithl = h;
 	}
 
 	public void selectOptionTravel2(String question, String place1, int x1, int y1, String place2, int x2, int y2){
@@ -379,12 +350,6 @@ public class ClientMethodHandler {
 		return false;
 	}
 
-	public void deadreturn(){
-		c.deadtele = 0;
-		c.teleport(3024,3206,c.ithl);
-		c.isteleporting = 0;
-	}
-
 	public boolean isInBarrows() {
 		if (c.isInArea(3522, 9720, 3583, 9675)) return true;
 		if (c.isInArea(3546, 3305, 3583, 3264)) return true;
@@ -479,9 +444,7 @@ public class ClientMethodHandler {
 	}
 
 	public boolean isInMultiCombat(){
-		if(isInGodWars())
-			return true;
-		return false;
+		return (c.isInArea(2918, 9706, 2925, 9713) || isInGodWars());
 	}
 
 	public boolean isInGodWars(){

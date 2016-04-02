@@ -30,6 +30,9 @@ public class NPCAnim {
 		case 93:
 		case 502: //undead one
 		case 503: //undead one
+		case 936: //san tojalon
+		case 937: //irvig senay
+		case 938: //ranalph devere
 			return 260; //260 - atk, 261 - block, 263 - dead
 		
 		case 86: case 87: //giant rat
@@ -898,6 +901,7 @@ public class NPCAnim {
 		case 111://Ice Giant
 		case 112://Moss Giant
 		case 117://Hill Giant
+		case 221: //black knight titan
 			return 128;
 
 		case 2452://Giant Rock Crab
@@ -960,6 +964,9 @@ public class NPCAnim {
 		case 93:
 		case 502: //undead one
 		case 503: //undead one
+		case 936: //san tojalon
+		case 937: //irvig senay
+		case 938: //ranalph devere
 			return 261; //260 - atk, 261 - block, 263 - dead
 		//thrower trolls
 		case 1101:
@@ -1167,6 +1174,7 @@ public class NPCAnim {
 		case 111://Ice Giant
 		case 112://Moss Giant
 		case 117://Hill Giant
+		case 221: //black knight titan
 			return 129;	
 
 		default:
@@ -1203,6 +1211,9 @@ public class NPCAnim {
 		case 93:
 		case 502: //undead one
 		case 503: //undead one
+		case 936: //san tojalon
+		case 937: //irvig senay
+		case 938: //ranalph devere
 			return 263; //260 - atk, 261 - block, 263 - dead
 			
 		//thrower trolls
@@ -1553,6 +1564,7 @@ public class NPCAnim {
 		case 111://Ice Giant
 		case 112://Moss Giant
 		case 117://Hill Giant
+		case 221: //black knight titan
 			return 4653;
 
 		case 1250://Fiyr Shade

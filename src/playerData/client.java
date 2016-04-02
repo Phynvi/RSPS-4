@@ -91,6 +91,11 @@ public class client extends Player implements Runnable {
 		return true;
 	}
 	
+	private MagicDataHandler magicHandler = new MagicDataHandler(this);
+	public MagicDataHandler getMagicHandler(){
+		return this.magicHandler;
+	}
+	
 	private SkillHandler skillHandler = new SkillHandler(this);
 	public SkillHandler getSkillHandler(){
 		return this.skillHandler;
@@ -227,7 +232,6 @@ public class client extends Player implements Runnable {
 		this.Events = new EventManager();
 		DIALOGUEHANDLER = new npcDialogueBST();
 		this.MISCSTRUCTS = new FoodHandler(this);
-		this.MAGICDATAHANDLER = new MagicDataHandler(this);
 		this.BOWHANDLER = new RangeDataHandler(this);
 		this.SLAYER = new Slayer(this);
 		this.menuHandler = new MenuHandler(this);
@@ -1532,21 +1536,8 @@ playerName.trim();*/
 
 		if(AnimDelay <=10 && AnimDelay != 0)
 			AnimDelay = 0;
-
-		if(isteleporting > 10)
-			isteleporting -= 1;
-
-		if (isteleporting <= 10 && isteleporting != 0){
-			if(!getClientMethodHandler().canPlayersTeleportInThisArea()){
-				sendMessage("You can't teleport out of here!");
-				isteleporting = 0;
-			}
-			else if (!getClientMethodHandler().isInPKZone()){
-				teleport(isteleportingx, isteleportingy, ithl);
-				isteleporting = 0;
-			} //
-		}
-
+		
+		
 		if(deadAnimTimer >= 0){ //reduces timer to -1
 			deadAnimTimer -= 1;
 			if(deadAnimTimer == 0)
@@ -1558,8 +1549,26 @@ playerName.trim();*/
 				noClick = false;
 			noClickTimeout -= 1;
 		}
-
-
+		
+		if(teleportDelay > 0 && --teleportDelay == 0){
+			teleport(teleportDelayX,teleportDelayY,teleportDelayH);
+			if(teleportDelayCast){
+				getMagicHandler().removeMagicRunes(teleportDelayCastID);
+				teleportDelayCast = false;
+				if(!teleportDelayCastAncients)
+					c.startAnimation(715);
+					
+				else{
+					c.startAnimation(715);
+					c.getFrameMethodHandler().gfx0(455);
+				}
+				if(teleportDelayCastID == -1) //home teleport
+					c.homeTeleportTimer = 15;
+				else 
+					getClientMethodHandler().addSkillXP(teleportDelayXP, playerMagic);
+			}
+		}
+		
 		if(walkingToNPC != 0){
 			if(misc.GoodDistance(walkingToNPC_X, walkingToNPC_Y, absX, absY, 1)){
 				walkingToNPC_X = -1;
@@ -2357,7 +2366,7 @@ playerName.trim();*/
 			int castSpell = inStream.readSignedWordA();
 			if(server.debugmode){
 				debug("castOnSlot: "+castOnSlot+" castOnItem: "+castOnItem+" e3: "+e3+" castSpell: "+castSpell);}
-			this.MAGICDATAHANDLER.magicOnItems(castSpell, castOnItem, castOnSlot);
+			getMagicHandler().magicOnItems(castSpell, castOnItem, castOnSlot);
 
 			break;
 
@@ -2377,7 +2386,7 @@ playerName.trim();*/
 
 				if(getClientMethodHandler().isInPKZone()) {	
 					MageAttackIndex = playerIndexx+1;
-					this.MAGICDATAHANDLER.AttackPlayerMagic(playerIndexx);
+					getMagicHandler().AttackPlayerMagic(playerIndexx);
 				}
 				else sendMessage("That player is in a safe zone.");
 			}
@@ -2397,7 +2406,7 @@ playerName.trim();*/
 			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+server.npcHandler.npcs[npcIndex].npcType);
 			
 			spellID = inStream.readSignedWordA();
-			MAGICDATAHANDLER.magicOnNPC(npcIndex);
+			getMagicHandler().magicOnNPC(npcIndex);
 			break;
 
 

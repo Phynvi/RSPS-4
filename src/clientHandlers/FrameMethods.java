@@ -3178,6 +3178,18 @@ public class FrameMethods {
 		setClientConfig(531,01);
 	}
 
+	public void showQuestComplete(String questName, String l1, String l2, String l3, String l4, String l5, String l6, int questPointsRewarded){
+		showInterface(12140);
+		sendQuest(l1,12150);
+		sendQuest(l1,12151);
+		sendQuest(l2,12152);
+		sendQuest(l3,12153);
+		sendQuest(l4,12154);
+		sendQuest(l5,12155);
+		sendQuest(""+questPointsRewarded,12147);
+			
+	}
+	
 	public void loadQuestTab()
 	{
 		sendQuest("@whi@Quest Points: "+c.getQuestPoints(), 663);
@@ -3216,10 +3228,12 @@ public class FrameMethods {
 		else if(c.slug == 5)
 			sendQuest("@gre@Sluggish Circumstances", 7383); //Quest 5
 		
-		if(c.PD == 0)
+		if(c.PD.getValue() == 0)
 			sendQuest("A Poisonous Diversion", 7339); //Quest 6
-		else if(c.PD > 0)
+		else if(c.PD.getValue() > 0 && c.PD.getValue() < 5)
 			sendQuest("@yel@A Poisonous Diversion", 7339); //Quest 6
+		else if(c.PD.getValue() == 5)
+			sendQuest("@gre@A Poisonous Diversion", 7339); //Quest 6
 		
 		sendQuest("", 7338); //Quest 7
 		/*1337*/
@@ -3469,20 +3483,20 @@ public class FrameMethods {
 		sendQuest("Converts an item into gold", 1285);
 		sendQuest("Level 23 - Water Bolt", 1291);
 		sendQuest("A low level Water missile", 1292);
-		sendQuest("Port Sarim", 1300);
-		sendQuest("Teleport to Port Sarim", 1301);
+		sendQuest("Free Teleport - Port Sarim", 1300);
+		sendQuest("Has a 15 minute cooldown", 1301);
 		sendQuest("Level 27 - Lvl-2 Enchant", 1309);
 		sendQuest("For use on emerald jewellery", 1310);
 		sendQuest("Level 29 - Earth Bolt", 1316);
 		sendQuest("A low level Earth missile", 1317);
-		sendQuest("Free Teleport - Rimmington", 1325);
-		sendQuest("Has a 15 minute cooldown", 1326);
+		sendQuest("PVP", 1325);
+		sendQuest("Requires no runes", 1326);
 		sendQuest("Level 33 - Telekinetic Grab", 1334);
 		sendQuest("Take an item you can't reach", 1336);
 		sendQuest("Level 35 - Fire Bolt", 1341);
 		sendQuest("A low level Fire missile", 1342);
-		sendQuest("PVP", 1350);
-		sendQuest("", 1351);
+		sendQuest("Falador", 1350);
+		sendQuest("Teleport to Falador", 1351);
 		sendQuest("Level 39 - Crumble Undead", 1359);
 		sendQuest("Hits un-dead monsters hard", 1360);
 		sendQuest("Level 41 - Wind Blast", 1368);

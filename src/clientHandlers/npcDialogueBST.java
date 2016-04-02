@@ -59,7 +59,7 @@ import root.server;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
-			add(594,"");
+			add(609,"Only Black Knights are allowed in there.");
 			add(1795,"Get out of my face.");
 			add(1796,"Oi mate.");
 			add(1797,"Sleep with an eye open.");

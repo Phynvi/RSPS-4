@@ -416,11 +416,12 @@ public class NPCHandler {
 										case 221: //Black Knight Titans
 											if(!person.PDAggro)
 												break AGGROCHECK;
+											break;
 											
 										case 938: //Ranalph Devere
 											if(!person.PDAggro)
 												break AGGROCHECK;
-											else npcs[i].showText("Kill!");
+											break;
 										
 										case 178: case 179: //black knights
 											if(person.playerEquipment[person.playerHat] == 1165 && 
@@ -529,10 +530,12 @@ public class NPCHandler {
 							int playerId = npcs[i].getPlayerAgroID();
 							client c = (client) server.playerHandler.players[playerId];
 							if(c != null){
-								if(c.PD == 3){
-									c.PD = 4;
+								if(c.PD.getValue() == 3){
+									c.PD.increment();
 									c.teleport(2916,9709);
 									c.sendMessage("Sir Vyvin should be made aware that you killed the poison maker.");
+									c.PDAggro = false;
+									c.getFileLoadingHandler().saveAll();
 								}
 							}
 						}
@@ -724,6 +727,11 @@ public class NPCHandler {
 		giveSlayerEXP(c,npcs[NPCID].npcType);
 
 		switch (npcs[NPCID].npcType){
+		case 178: case 179: //black knights
+			dropItem(NPCID, c.DROPHANDLER.getDrop(DropList.blackItemsNoTrim));
+			dropItem(NPCID, DropList.BONES);
+			break;
+		
 		case 2499: case 2501: case 2503: //broodo victims
 			dropItem(NPCID, 6306); //trading sticks
 			dropItem(NPCID, DropList.BONES);
@@ -1776,6 +1784,8 @@ WORLDMAP 2: (not-walk able places)
 					c.attacknpc = NPCID;
 					c.getCombatHandler().AttackNPC();
 				}
+				if(c.teleportDelayCast && c.teleportDelay > 0)
+					c.interruptTeleport();
 				return true;
 			}
 		}

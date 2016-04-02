@@ -72,6 +72,7 @@ public class ItemHandler {
 		createGroundItemInSeconds(1469, 2763,3288, 1, true, 0, null);
 		createGroundItemInSeconds(1467,2787,3287, 1, true, 0, null);
 		createGroundItemInSeconds(1590,2896,9766, 1, true, 0, null);
+		createGroundItemInSeconds(1850,2917,9680, 1, true, 0, null);
 		
 	}
 		
