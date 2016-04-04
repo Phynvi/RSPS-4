@@ -1,7 +1,3 @@
--Falador
-
--teleport interruptible during combat
-
 -Redo crafting, add in tanning, etc
 
 -Quest that uses boxing gloves

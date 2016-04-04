@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160301
+character-lastlogintime = 20160303
 character-starter = 1
 character-hasegg = 0
 character-hasset = 11
@@ -9,7 +9,7 @@ character-pkpoints = 24
 character-killcount = 21
 character-deathcount = 1
 character-mutedate = 0
-character-height = 1
+character-height = 0
 character-torag = 0
 character-verac = 0
 character-guthan = 0
@@ -27,14 +27,14 @@ slayerCount = 23
 specialDelay = 10
 masteries = 21
 pirate = 11
-homeTeleportTimer = 10
+homeTeleportTimer = 0
 bandos = 5
 armadyl = 1
 prevarmadyl = 0
 prevbandos = 38
 spellbook = 0
 pestcontrolpoints = 0
-questPoints = 12
+questPoints = 13
 chatRoomName = 
 favour = 68
 barrowed = 2
@@ -43,7 +43,7 @@ slug = 5
 randomx = 2723
 randomy = 3492
 randomh = 0
-PD = 4
+PD = 5
 
 [QUESTS]
 character-questpoints = 0

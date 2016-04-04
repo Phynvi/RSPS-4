@@ -428,6 +428,7 @@ public class NPCClickHandler {
 			if(c.getInventoryHandler().freeSlots() == 0) 
 				c.getClientMethodHandler().dialogue(NPCID, "Speak to me when your inventory is not full.");
 			else{
+				c.getButtonClickHandler().mysteriousOldManFirst = true;
 				c.getClientMethodHandler().dialogue(NPCID, "","@pla@What's going on?","","",
 						"","Ready to win a prize?","","",
 						"@pla@","Umm, sure?","","",

@@ -99,7 +99,7 @@ public class MenuHandler {
 				"Further information on each skill can be learned",
 		"from each skill's respective tab in the skills tab."};
 	}
-	
+
 	public String[] theUndeadProblem(){
 		if(c.TUP == 0){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -111,7 +111,7 @@ public class MenuHandler {
 					"50 Woodcutting reccommended",
 					"",
 					"I can start this quest by speaking with Mosol Rei.",
-					"He can be found outside the gates of Shilo Village."};
+			"He can be found outside the gates of Shilo Village."};
 		}
 		else if(c.TUP == 1){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -124,7 +124,7 @@ public class MenuHandler {
 					"",
 					"Mosol Rei wants me to speak with Timfraku",
 					"at Tai Bwo Wannai to see if he can help.",
-					"Mosol Rei has given me a Wampum Belt to bring to Timfraku."};
+			"Mosol Rei has given me a Wampum Belt to bring to Timfraku."};
 		}
 		else if(c.TUP == 2){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -142,7 +142,7 @@ public class MenuHandler {
 					"Timfraku told me that Shilo Village can be protected",
 					"by a special Totem. He has given me a sketch to bring",
 					"to the Shipyard that is East of Tai Bwo Wannai. I",
-					"should find a worker there who can craft the Totem."};
+			"should find a worker there who can craft the Totem."};
 		}
 		else if(c.TUP == 3){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -164,7 +164,7 @@ public class MenuHandler {
 					"",
 					"The shipyard worker told me he could make the Totem.",
 					"But, first he needs 20 Mahogany Logs to finish his",
-					"current project."};
+			"current project."};
 		}
 		else if(c.TUP == 4){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -191,7 +191,7 @@ public class MenuHandler {
 					"I gave the worker the 20 Mahogany Logs he needed.",
 					"He told me that for 5 Teak Logs, he could make me the",
 					"Totem. After I get the Totem made, I should bring it",
-					"back to Timfraku at Tai Bwo Wannai."};
+			"back to Timfraku at Tai Bwo Wannai."};
 		}
 		else if(c.TUP == 5){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -221,7 +221,7 @@ public class MenuHandler {
 					"back to Timfraku at Tai Bwo Wannai.",
 					"",
 					"Timfraku said I need to make the Totem gilded.",
-					"I can do this by using a Gold Bar with the Totem."};
+			"I can do this by using a Gold Bar with the Totem."};
 		}
 		else if(c.TUP == 6){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -254,7 +254,7 @@ public class MenuHandler {
 					"I can do this by using a Gold Bar with the Totem.",
 					"",
 					"Timfraku has enchanted the Totem and told me to bring",
-					"it back to Mosol Rei at Shilo Village."};
+			"it back to Mosol Rei at Shilo Village."};
 		}
 		else if(c.TUP == 7){
 			return new String[]{"@gre@The Undead Problem","","",
@@ -266,29 +266,29 @@ public class MenuHandler {
 					"60,000 Crafting Experience",
 					"Passage into Shilo Village",
 					"",
-					};
+			};
 		}
 		return null;
 	}
-	
+
 	private String[] combineStringArrays(String[] ... stringList){
-		
+
 		int totalSize = 0;
 		for(int i = 0; i < stringList.length; i++)
 			totalSize += stringList[i].length;
-		
+
 		String[] combined = new String[totalSize];
-		
+
 		for(int i = 0, k = 0; i < stringList.length; i++){
 			for(int j = 0; j < stringList[i].length; j++){
 				combined[k] = stringList[i][j];
 				k += 1;
 			}
 		}
-		
+
 		return combined;
 	}
-	
+
 	public String[] PoisonDiversion(){
 		String[] summary = new String[]{"@gre@A Poisonous Diversion","","",
 				"@whi@Summary: The Black Knights are up to something suspicious.",
@@ -297,34 +297,32 @@ public class MenuHandler {
 				"",
 				"I can start this quest by speaking to the Squire",
 				"at the White Knights Castle in Falador.",
-				""};
+		""};
 		String[] stage1 = {};
 		if(c.PD.getValue() >= 1)
 			stage1 = new String[]{"The squire has told me that I need to search",
-				"the black knights hideout for some evidence.",
-				"they are located in the Taverley Dungeon.",
-				"It is suggested I dress in black armor as a disguise."};
-		
+					"the black knights hideout for some evidence.",
+					"they are located in the Taverley Dungeon.",
+		"It is suggested I dress in black armor as a disguise."};
+
 		String[] stage2 = {};
 		if(c.PD.getValue() >= 2)
 			stage2 = new String[]{"","The squire has told me that I should deliver",
 					"the plans to Sir Vyvin, who is located",
-					"on the second floor of the castle."};
-		
+		"on the second floor of the castle."};
+
 		String[] stage3 = {};
 		if(c.PD.getValue() >= 3)
 			stage3 = new String[]{"","Sir Vyvin wants me to go back",
 					"to the Black Knights and kill whoever",
-					"is creating the poison."};
+		"is creating the poison."};
 
 		String[] stage4 = {};
-		if(c.PD.getValue() >= 4){
-			if(c.PD.getValue() >= 3)
-				stage4 = new String[]{"","Now that I've stopped the poison maker, I should",
-						"return to Sir Vyvin and tell him what happened."};
-		}
-		
-		else if(c.PD.getValue() == 5){
+		if(c.PD.getValue() >= 4)
+			stage4 = new String[]{"","Now that I've stopped the poison maker, I should",
+		"return to Sir Vyvin and tell him what happened."};		
+
+		if(c.PD.getValue() == 5)
 			return new String[]{"@gre@A Poisonous Diversion","","",
 					"@whi@Summary: The Black Knights are up to something suspicious.",
 					"",
@@ -333,12 +331,11 @@ public class MenuHandler {
 					"1 Quest Point",
 					"10,000 Attack XP",
 					"7,500 Prayer XP",
-					"5,000 Thieving XP"};
-		}
-		
+			"5,000 Thieving XP"};
+
 		return combineStringArrays(summary,stage1,stage2,stage3,stage4);
 	}
-	
+
 	public String[] sluggishCircumstances(){
 		if(c.slug == 0){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -347,7 +344,7 @@ public class MenuHandler {
 					"@whi@Requirements: None",
 					"",
 					"I can start this quest by speaking to Caroline",
-					"who is located East of Ardougne."};
+			"who is located East of Ardougne."};
 		}
 		else if(c.slug == 1){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -356,7 +353,7 @@ public class MenuHandler {
 					"@whi@Requirements: None",
 					"",
 					"Caroline wants me to go to the Fishing Platform",
-					"to search for her son, Kennith."};
+			"to search for her son, Kennith."};
 		}
 		else if(c.slug == 2){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -369,7 +366,7 @@ public class MenuHandler {
 					"",
 					"Bailey has informed me that he believes he may",
 					"have saw someone running about earlier. He",
-					"advised that I search the platform."};
+			"advised that I search the platform."};
 		}
 		else if(c.slug == 3){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -382,7 +379,7 @@ public class MenuHandler {
 					"",
 					"I found Kennith at the top floor of the Fishing",
 					"Platform. He is too scared to leave. I should",
-					"probably ask someone what the slugs are weak against."};
+			"probably ask someone what the slugs are weak against."};
 		}
 		else if(c.slug == 4){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -400,7 +397,7 @@ public class MenuHandler {
 					"Bailey has told me that the slugs are weak against",
 					"fire. He has given me a homemade torch and said",
 					"I should light it. Maybe there's some materials",
-					"On the platform I can use to light the torch."};
+			"On the platform I can use to light the torch."};
 		}
 		else if(c.slug == 5){
 			return new String[]{"@gre@Sluggish Circumstances","","",
@@ -409,11 +406,11 @@ public class MenuHandler {
 					"@gre@Quest completed!",
 					"@gre@You have been rewarded:",
 					"1 Quest Point",
-					""};
+			""};
 		}
 		return null;
 	}
-	
+
 	public String[] barrowedThings(){
 		if(c.barrowed < 1){
 			return new String[]{"@gre@Barrowed Things","","",
@@ -424,7 +421,7 @@ public class MenuHandler {
 					"",
 					"I can start this quest by speaking to Roavar",
 					"in the Canifis pub."
-					};
+			};
 		}
 		else if(c.barrowed == 1){
 			return new String[]{"@gre@Barrowed Things","","",
@@ -437,7 +434,7 @@ public class MenuHandler {
 					"to sell to a collector. I need to go to the barrows",
 					"and acquire a full set.",
 					""
-					};
+			};
 		}
 		return new String[]{"@gre@Barrowed Things","","",
 				"@whi@Summary: The bartender in Canifis needs help",
@@ -448,9 +445,9 @@ public class MenuHandler {
 				"1 Quest Point",
 				"240,000 Gold",
 				"",
-				};
+		};
 	}
-	
+
 	public String[] runeMysteries(){
 		if(c.RM == 0){
 			return new String[]{"@gre@Rune Mysteries","","",
@@ -460,7 +457,7 @@ public class MenuHandler {
 					"@whi@Requirements: None",
 					"",
 					"I can start this quest by speaking to Frumscone.",
-					"He can be found in the Wizards' Tower in Yanille."};
+			"He can be found in the Wizards' Tower in Yanille."};
 		}
 		else if(c.RM == 1){
 			return new String[]{"@gre@Rune Mysteries","","",
@@ -473,7 +470,7 @@ public class MenuHandler {
 					"artifact and would like me to run it to his",
 					"colleague Brimstail. Frumscone said that",
 					"Brimstail should be near the South entrance",
-					"of Falador."};
+			"of Falador."};
 		}
 		else if(c.RM == 2){
 			return new String[]{"@gre@Rune Mysteries","","",
@@ -489,7 +486,7 @@ public class MenuHandler {
 					"of Falador.",
 					"",
 					"Brimstail has told me that I should inform",
-					"Frumscone that he was interested."};
+			"Frumscone that he was interested."};
 		}
 		else if(c.RM == 3){
 			return new String[]{"@gre@Rune Mysteries","","",
@@ -508,7 +505,7 @@ public class MenuHandler {
 					"Frumscone that he was interested.",
 					"",
 					"Frumscone has given me notes to bring back",
-					"to Brimstail."};
+			"to Brimstail."};
 		}
 		else if(c.RM >= 4){
 			return new String[]{"@gre@Rune Mysteries","","",
@@ -519,11 +516,11 @@ public class MenuHandler {
 					"@gre@You have been rewarded:",
 					"Teleportation to mining Rune Essence from",
 					"either Brimstail near the South entrance of Falador",
-					"or from the Wizards' Tower in Yanille."};
+			"or from the Wizards' Tower in Yanille."};
 		}
 		return null;
 	}
-	
+
 	public String[] newBeginnings(){
 		if(c.pirate < 10){
 			return new String[]{"@gre@New Beginnings","","",
@@ -554,7 +551,7 @@ public class MenuHandler {
 					"1 Quest Point",
 					"Safe passage from tutorial island to Port Sarim.",
 					"5000 Gold"
-					};
+			};
 		}
 		return null;
 	}
@@ -630,7 +627,7 @@ public class MenuHandler {
 				"Level 60 - Tirannwn (log)",
 				"Level 70 - Pipe (Brimhaven Dungeon), Pipe (Taverley Dungeon)",
 				"Level 80 - Strange Floor (Taverley Dungeon)",
-		"Level 85 - Stepping Stone (Brimhaven Dungeon)",
+				"Level 85 - Stepping Stone (Brimhaven Dungeon)",
 		"Level 90 - Godwars Log Cross"};
 	}
 
@@ -864,7 +861,7 @@ public class MenuHandler {
 	public String Stats2(){
 		return("Your stats!####Pk Points: "+c.pkpoints+"#"+"Kills: "+c.killcount+"#"+"Deaths: "+c.deathcount+"#####");
 	}
-	
+
 	public static String[] chatHelp(){
 		return new String[]{"@whi@Chat Room Help","","","",
 				"@whi@General Information",
@@ -978,7 +975,7 @@ public class MenuHandler {
 		c.getFrameMethodHandler().sendQuest("Players Online: "+PlayerHandler.getPlayerCount(), 174);
 		c.getFrameMethodHandler().sendQuest(""+PlayerHandler.getPlayerCount()+"", 18802);
 	}
-	
-	
+
+
 
 }

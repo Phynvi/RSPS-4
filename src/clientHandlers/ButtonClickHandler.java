@@ -22,6 +22,8 @@ public class ButtonClickHandler {
 		nextAdvance = v;
 	}
 
+	public boolean mysteriousOldManFirst = false;
+
 	public void nextDialogue(){
 		if(!c.npcLines.isEmpty()){
 			c.getClientMethodHandler().npcChat();
@@ -30,9 +32,13 @@ public class ButtonClickHandler {
 		else{
 			switch(c.npcID){
 			case 410: //mysterious old man
-				c.getFrameMethodHandler().sendFrame164(14191);
-				c.getFrameMethodHandler().sendQuest("Pick the odd one out", 14200);
-				break;
+				if(mysteriousOldManFirst){
+					c.getFrameMethodHandler().sendFrame164(14191);
+					c.getFrameMethodHandler().sendQuest("Pick the odd one out", 14200);
+					mysteriousOldManFirst = false; //needed so we dont loop this
+					return;
+				}
+				else break;
 			case 938: //ranalph devere for pd
 				c.PDAggro = true;
 				break;
@@ -43,9 +49,9 @@ public class ButtonClickHandler {
 					c.getClientMethodHandler().addSkillXP(7500, c.playerPrayer);
 					c.getClientMethodHandler().addSkillXP(10000, c.playerAttack);
 					c.getClientMethodHandler().addQuestPoints(1);
+					c.PD.setValue(5);
 					c.getFrameMethodHandler().loadQuestTab();
 					c.getFileLoadingHandler().saveAll();
-					c.PD.setValue(5);
 					return;
 				}
 				break;
@@ -403,7 +409,6 @@ public class ButtonClickHandler {
 							,"","That's not good news at all.","","",
 							"","@pla@Oh, no... I guess not.","But, I still stopped the poison!","",
 							"Well, yes you did. I am sure","those of the surrounding towns thank you.","Also, I thank you.");
-					advanceQuestVariableAtEndOfDialogue(c.PD);
 				}
 				else if(c.PD.getValue() > 4){
 					c.getClientMethodHandler().dialogue(605, "","@pla@Anything you need help with?","","",

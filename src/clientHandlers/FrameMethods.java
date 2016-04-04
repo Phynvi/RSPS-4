@@ -3180,6 +3180,7 @@ public class FrameMethods {
 
 	public void showQuestComplete(String questName, String l1, String l2, String l3, String l4, String l5, String l6, int questPointsRewarded){
 		showInterface(12140);
+		sendQuest("You have completed "+questName, 12144);
 		sendQuest(l1,12150);
 		sendQuest(l1,12151);
 		sendQuest(l2,12152);

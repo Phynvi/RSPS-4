@@ -31,7 +31,7 @@ public class ClientMethodHandler {
 	/**
 	 * @param delay MS to wait until teleport
 	 */
-	public void teleportWithAnimation(int x, int y, int h, int emote, int delay){
+	public void teleportWithAnimationDelay(int x, int y, int h, int emote, int delay){
 		c.teleportDelayX = x;
 		c.teleportDelayY = y;
 		c.teleportDelayH = h;
