@@ -59,6 +59,8 @@ import root.server;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(561,"@pla@","Say, What do you sell?","","",
+					"Trade with me and you can find out.");
 			add(609,"Only Black Knights are allowed in there.");
 			add(1795,"Get out of my face.");
 			add(1796,"Oi mate.");
@@ -114,7 +116,6 @@ import root.server;
 			add(455,"Restoring this stone circle","to its previous glory is","my goal.");
 			add(454,"I have a theory...","that some of my druids are hoarding","their runes.");
 			add(528,"You're reknowned throughout the lands.","For your service, I offer you","the ability to utilize my special shop.");
-			add(400,"If you continue down the path into the main","building, there is an interesting shop there.");
 			add(398,"I apologize for my friend, he","can be mean at times.");
 			add(399,"Careful now, don't accidentally run into my spear.");
 			add(389,"They call me a Sorcerer...");

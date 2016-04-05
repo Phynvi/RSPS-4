@@ -88,6 +88,7 @@ public class ChatRoomHandler {
 			else{
 				c.getFrameMethodHandler().sendQuest("", 14655);
 				c.getFrameMethodHandler().sendQuest("", 14656);
+				c.getFrameMethodHandler().sendQuest("Chatroom Help", 14657);
 			}
 		}
 		c.getFrameMethodHandler().sendQuest("", 14661);

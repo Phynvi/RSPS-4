@@ -186,6 +186,19 @@ public class ButtonClickHandler {
 
 			c.debug("menuChoice is : "+c.menuChoice);
 			switch(c.menuChoice){
+			case 10:
+				c.getClientMethodHandler().dialogue(400, "@pla@","What is this place?","","",
+						"This is the legends guild. A place where","heroes, such as yourself, can be recognized","for their great deeds.","",
+						"We offer special services, such as a","unique shop and dungeon.");
+				break;
+			
+			case -2:
+				if(c.optionDialogue1 == null)
+					c.getFrameMethodHandler().RemoveAllWindows();
+				else
+					c.getClientMethodHandler().dialogue(c.npcID, c.optionDialogue1);
+				break;
+			
 			case 24: //Sir Vyvrin for PD
 				c.getClientMethodHandler().dialogue(605, "","@pla@Hello!","","",
 						"These are some of the finest knights in the kingdom.");
@@ -375,6 +388,12 @@ public class ButtonClickHandler {
 		case 32018: //4 options, 2nd option TODO
 
 			switch(c.menuChoice){
+			case -2:
+				if(c.optionDialogue2 == null)
+					c.getFrameMethodHandler().RemoveAllWindows();
+				else
+					c.getClientMethodHandler().dialogue(c.npcID, c.optionDialogue2);
+				break;
 
 			case 24: //sir vyvin for PD
 				if(c.PD.getValue() == 0 || c.PD.getValue() == 1){
@@ -605,7 +624,8 @@ public class ButtonClickHandler {
 				break;
 
 			case 10: 
-				c.sendMessage("Your spellbook has been changed.");
+				c.getClientMethodHandler().dialogue(400, "@pla@","Can you change my spellbook?","","",
+						"Sure.","Your spellbook has been changed.");
 				if(c.spellbook == 0){
 					c.spellbook = 1;
 					c.getFrameMethodHandler().setSidebarInterface(6, 12855);
@@ -753,6 +773,12 @@ public class ButtonClickHandler {
 
 		case 32019: //4 options, 3rd option TODO
 			switch(c.menuChoice){
+			case -2:
+				if(c.optionDialogue3 == null)
+					c.getFrameMethodHandler().RemoveAllWindows();
+				else
+					c.getClientMethodHandler().dialogue(c.npcID, c.optionDialogue3);
+				break;
 			case 22: //bailey
 				if(c.slug == 3){
 					if(c.getInventoryHandler().freeSlots() == 0) 
@@ -835,7 +861,7 @@ public class ButtonClickHandler {
 				break;
 
 			case 10:
-				c.getFrameMethodHandler().select2Options(34,"Buy a Staff for 1,000,000 GP?", "Sure thing!", "No");
+				c.getFrameMethodHandler().select2Options(34,"Buy a Staff of Light?", "Yes (1,000,000 gold)", "No");
 				break;
 
 			case 7:
@@ -977,6 +1003,9 @@ public class ButtonClickHandler {
 
 		case 32020: //4 options, 4th option TODO
 			switch(c.menuChoice){
+			case -2:
+				c.getClientMethodHandler().optionsDialogue();
+				return;
 			case 0:
 				c.teleport(c.oX4, c.oY4);
 				break;
@@ -1354,16 +1383,16 @@ public class ButtonClickHandler {
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "I don't do deals around here.", "It's 100,000 GP, and you don't", "have enough.");
 				break;
 
-			case 34: //TODO different NPC
+			case 34: 
 				if (c.getInventoryHandler().playerHasItemAmount(995, 1000000)){
 					if (c.getInventoryHandler().freeSlots() > 0) {
-						c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Here's your staff.");
+						c.getClientMethodHandler().dialogue(400, "Here's your staff.");
 						c.getInventoryHandler().addItem(13308, 1);
 						c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), 1000000);
 					}
-					else if (c.getInventoryHandler().freeSlots() == 0) c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Your inventory is full.");
+					else if (c.getInventoryHandler().freeSlots() == 0) c.getClientMethodHandler().dialogue(400,"Your inventory is full.");
 				}
-				else c.getClientMethodHandler().npcdialogue("Arianwyn", 1202, "Seems like you don't have enough money.");
+				else c.getClientMethodHandler().dialogue(400, "Seems like you don't have enough money.");
 				break;
 
 			case 35:
@@ -1468,10 +1497,6 @@ public class ButtonClickHandler {
 
 			case 31:
 				c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Alright, I'll be seeing ya.");
-				break;
-
-			case 32:
-				c.getClientMethodHandler().npcdialogue("Survival Expert", 943, "Some tips? Of course!", "Your teleports can be foudn in","your spellbook and important","information can be found","in your quest tab.");
 				break;
 
 			case 42:			
@@ -1645,9 +1670,9 @@ public class ButtonClickHandler {
 
 		case 4140: //H teleport
 			if(c.homeTeleportTimer <= 0)
-				c.getMagicHandler().castAncientTeleport(3025,3207, 0, -1, 60);
+				c.getMagicHandler().castNormalTeleport(3025,3207, 0, -1, 60);
 			else
-				c.sendMessage("You need to wait "+(15-c.homeTeleportTimer)+" minutes before doing that.");
+				c.sendMessage("You need to wait "+(c.homeTeleportTimer)+" minutes before doing that.");
 			break;
 
 		case 4146: //falador teleport

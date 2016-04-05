@@ -819,8 +819,8 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().select4Options(9,"Options", "Instructions", "Exchange tickets for rewards", "Cancel", "");
 			break;
 
-		case 1202: //TODO find a new NPC for this
-			c.getFrameMethodHandler().select4Options(10,"Options", "Speak with Arianwyn", "Change Spellbooks", "Buy a Staff", "Nevermind");
+		case 400: 
+			c.getFrameMethodHandler().select4Options(10,"Topics", "Got any news?", "Can you change my spellbook?", "Can I buy a staff of light?", "Nevermind");
 			break;
 
 		case 1709:
@@ -837,14 +837,33 @@ public class NPCClickHandler {
 						"Welcome newcomer!", "To get your starter kit, head", "Northwest of here and talk to", "Professor Oddenstein.",
 						"He can be found North, in the clothes shop.");
 			else {
-				c.getFrameMethodHandler().select2Options(32,"How can I help you?", "I'm ready to leave!", "Got any tips?");
+				c.getClientMethodHandler().optionsAndDialogue(NPCID, 
+						new String[]{"I'm ready to leave!"}, 
+						new String[]{"@pla@","How do I get out of this place?","","",
+								"You can speak with Captain Shanks to leave."},
+						new String[]{"Tell me about Quests?"},
+						new String[]{"@pla@","What's a quest?","","",
+								"Quests are how you make yourself known!","They also help you gain","items and experience.","You can find quests",
+								"in your quest tab.","Also, having more quest points","can be used to do more quests","or have access to certain locations."},
+						new String[]{"Tell me about Chatrooms?"},
+						new String[]{"Chatroom information can be viewed in","the Chatroom tab.","The tab is located to the left","of your friends list tab."},
+						new String[]{"How can I run?"},
+						new String[]{"@pla@","How can I get myself running?","","",
+								"This can be done from the Player Controls tab.","It's the tab that looks like a player,","to the left of the Music Tab."},
+						new String[]{"Tell me about the Options Tab?"},
+						new String[]{"@pla@","How do I change the game options?","","",
+								"The options tab is the tab with the","icon of a wrench. Options do not save","to the account. Each time you log in, ","you will have to edit the options again."},
+						new String[]{"How do I report someone?"},
+						new String[]{"@pla@","How can I report someone?","","",
+								"This can be done by selecting 'Report Abuse,' ","which is located underneath the chat window."});
 			}
 			break;
 
 		case 286: //Professor Oddenstein
 			if(c.starter == 0)
 				c.getFrameMethodHandler().select4Options(4,"Combat Style?", "Warrior", "Magic", "Ranged", "Nevermind.");
-			else c.getClientMethodHandler().npcdialogue("Oddenstein", NPCID, "The Surivival Expert has further instructions.");
+			else c.getClientMethodHandler().dialogue(NPCID, "@pla@","What now?","","",
+					"Now, you leave me alone.","The Surivival Expert has further instructions for you.");
 			break;
 
 		case 1303:

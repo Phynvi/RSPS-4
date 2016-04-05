@@ -571,7 +571,8 @@ public class MenuHandler {
 
 	public static String miningGuide(){
 		return("@gre@Mining Guide###@whi@Level requriement per rock: #@bla@1 - Rune Essence, Copper, and Tin#15 - Iron#40 - Gold, Coal"
-				+ "#55 - Mithril#70 - Adamantite# 80 - Runite##@whi@Level requirement per pick:#@bla@1 - Bronze, Iron#6 - Steel#21 - Mithril#31 - Adamantite#41 - Runite##");
+				+ "#55 - Mithril#70 - Adamantite# 80 - Runite##@whi@Level requirement per pick:#@bla@1 - Bronze, Iron#6 - Steel"
+				+ "#20 - Elemental#21 - Mithril#31 - Adamantite#41 - Runite##");
 	}
 
 	public static String fishingGuide()	{

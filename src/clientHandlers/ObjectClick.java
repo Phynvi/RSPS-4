@@ -32,7 +32,7 @@ public class ObjectClick {
 
 	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
-	public static BST objectDest2 = new BST(11729,9293,1738);
+	public static BST objectDest2 = new BST(3416,11729,9293,1738);
 	public static BST objectDest4 = new BST(1734,1733,5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
 	public static BST objectDest8 = new BST(8742,2491);
 
@@ -86,6 +86,16 @@ public class ObjectClick {
 		oY = objectY;
 
 		switch(objectID) {
+		
+		case 3416:
+			if(isObjectXY(2714,9887))
+				c.teleport(2709,3498);
+			break;
+			
+		case 3415:
+			if(isObjectXY(2710,3497))
+				c.teleport(2715,9889);
+			break;
 		
 		case 1530: //door
 			if(isObjectXY(2918,9709) && c.PD.getValue() != 3){ //PD
@@ -1599,6 +1609,8 @@ break;*/
 		case 14859:
 		case 14860:
 		case 2107: //Runite Ore
+			
+		case 3403: //Elemental Ore
 
 		case 2111: //Gem rocks Shilo Village	
 			c.getMiningHandler().mineRock(objectID, objectX, objectY);

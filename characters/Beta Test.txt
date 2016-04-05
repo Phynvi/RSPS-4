@@ -9,9 +9,9 @@ character-posy = 3303
 character-rights = 0
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160303
-character-energy = 97
+character-lastconnection = uit-bol241-d13.ad.uwm.edu
+character-lastlogin = 20160305
+character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 

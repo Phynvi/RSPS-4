@@ -58,44 +58,44 @@ public class client extends Player implements Runnable {
 				return false;
 			}
 		}
-		
+
 		if(server.npcHandler.npcs[npcID].moveToSpawn) 
 			return false;
-		
+
 		if(server.npcHandler.npcs[npcID].attacknpc > 0) {
 			sendMessage("That NPC is already under attack.");
 			return false;
 		}
 		int _NPCTYPE = server.npcHandler.npcs[npcID].npcType;
-		
+
 		if(lists.safeNPCs.exists(_NPCTYPE) || DIALOGUEHANDLER.exists(_NPCTYPE)){
 			sendMessage("That's a friendly NPC that I should not attack.");
 			stopPlayerMovement();
 			return false;
 		}						
-		
+
 		if((_NPCTYPE == 221 || _NPCTYPE == 938) && !PDAggro){
 			sendMessage("I don't think I want to do that.");
 			stopPlayerMovement();
 			return false;
 		}
-		
+
 		if(SLAYER.slayerNPC.exists(_NPCTYPE)){ //slayer NPC
 			if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCTYPE) && slayerNPC != _NPCTYPE){
 				sendMessage("You need a higher Slayer level to do that.");
 				return false;
 			}
-			
+
 		}
-		
+
 		return true;
 	}
-	
+
 	private MagicDataHandler magicHandler = new MagicDataHandler(this);
 	public MagicDataHandler getMagicHandler(){
 		return this.magicHandler;
 	}
-	
+
 	private SkillHandler skillHandler = new SkillHandler(this);
 	public SkillHandler getSkillHandler(){
 		return this.skillHandler;
@@ -648,7 +648,7 @@ playerName.trim();*/
 			//String hashPW = md5(playerPass);
 			//System.out.println("Player hashPW = "+hashPW);
 
-			
+
 			if(PlayerHandler.playerCount >= PlayerHandler.maxPlayers) {
 				returnCode = 7;
 				savefile = false;
@@ -672,7 +672,7 @@ playerName.trim();*/
 				savefile = false;
 				disconnected = true;
 			}
-			
+
 			if(getFileLoadingHandler().checkbannedips() == 5) {
 				returnCode = 4;
 				System.out.println(playerName+" failed to logon because their ip is banned.");
@@ -693,7 +693,7 @@ playerName.trim();*/
 				//setmusictab();
 				//PlayerHandler.messageToAll = playerName+" has logged in! There is now "+PlayerHandler.getPlayerCount() + " players.";
 			}
-			
+
 
 			if(getFileLoadingHandler().loadmoreinfo() == 3){
 				returnCode = 5;
@@ -770,7 +770,7 @@ playerName.trim();*/
 			}
 
 
-			
+
 			if(playerId == -1) out.write(7);		// "This world is full."
 			else out.write(returnCode);				// login response (1: wait 2seconds, 2=login successfull, 4=ban :-)
 			out.write(playerRights);		// mod level
@@ -1159,32 +1159,32 @@ playerName.trim();*/
 	}
 
 	public static final int packetSizes[] = {
-		0, 0, 0, 1, -1, 0, 0, 0, 0, 0, //0
-		0, 0, 0, 0, 8, 0, 6, 2, 2, 0,  //10
-		0, 2, 0, 6, 0, 12, 0, 0, 0, 0, //20
-		0, 0, 0, 0, 0, 8, 4, 0, 0, 2,  //30
-		2, 6, 0, 6, 0, -1, 0, 0, 0, 0, //40
-		0, 0, 0, 12, 0, 0, 0, 0, 8, 0, //50
-		0, 8, 0, 0, 0, 0, 0, 0, 0, 0,  //60
-		6, 0, 2, 2, 8, 6, 0, -1, 0, 6, //70
-		0, 0, 0, 0, 0, 1, 4, 6, 0, 0,  //80
-		0, 0, 0, 0, 0, 3, 0, 0, -1, 0, //90
-		0, 13, 0, -1, 0, 0, 0, 0, 0, 0,//100
-		0, 0, 0, 0, 0, 0, 0, 6, 0, 0,  //110
-		1, 0, 6, 0, 0, 0, -1, 0, 2, 6, //120
-		0, 4, 6, 8, 0, 6, 0, 0, 0, 2,  //130
-		0, 0, 0, 0, 0, 6, 0, 0, 0, 0,  //140
-		0, 0, 1, 2, 0, 2, 6, 0, 0, 0,  //150
-		0, 0, 0, 0, -1, -1, 0, 0, 0, 0,//160
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  //170
-		0, 8, 0, 3, 0, 2, 0, 0, 8, 1,  //180
-		0, 0, 12, 0, 0, 0, 0, 0, 0, 0, //190
-		2, 0, 0, 0, 0, 0, 0, 0, 4, 0,  //200
-		4, 0, 0, 0, 7, 8, 0, 0, 10, 0, //210
-		0, 0, 0, 0, 0, 0, -1, 0, 6, 0, //220
-		1, 0, 0, 0, 6, 0, 6, 8, 1, 0,  //230
-		0, 4, 0, 0, 0, 0, -1, 0, -1, 4,//240
-		0, 0, 6, 6, 0, 0, 0            //250
+			0, 0, 0, 1, -1, 0, 0, 0, 0, 0, //0
+			0, 0, 0, 0, 8, 0, 6, 2, 2, 0,  //10
+			0, 2, 0, 6, 0, 12, 0, 0, 0, 0, //20
+			0, 0, 0, 0, 0, 8, 4, 0, 0, 2,  //30
+			2, 6, 0, 6, 0, -1, 0, 0, 0, 0, //40
+			0, 0, 0, 12, 0, 0, 0, 0, 8, 0, //50
+			0, 8, 0, 0, 0, 0, 0, 0, 0, 0,  //60
+			6, 0, 2, 2, 8, 6, 0, -1, 0, 6, //70
+			0, 0, 0, 0, 0, 1, 4, 6, 0, 0,  //80
+			0, 0, 0, 0, 0, 3, 0, 0, -1, 0, //90
+			0, 13, 0, -1, 0, 0, 0, 0, 0, 0,//100
+			0, 0, 0, 0, 0, 0, 0, 6, 0, 0,  //110
+			1, 0, 6, 0, 0, 0, -1, 0, 2, 6, //120
+			0, 4, 6, 8, 0, 6, 0, 0, 0, 2,  //130
+			0, 0, 0, 0, 0, 6, 0, 0, 0, 0,  //140
+			0, 0, 1, 2, 0, 2, 6, 0, 0, 0,  //150
+			0, 0, 0, 0, -1, -1, 0, 0, 0, 0,//160
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  //170
+			0, 8, 0, 3, 0, 2, 0, 0, 8, 1,  //180
+			0, 0, 12, 0, 0, 0, 0, 0, 0, 0, //190
+			2, 0, 0, 0, 0, 0, 0, 0, 4, 0,  //200
+			4, 0, 0, 0, 7, 8, 0, 0, 10, 0, //210
+			0, 0, 0, 0, 0, 0, -1, 0, 6, 0, //220
+			1, 0, 0, 0, 6, 0, 6, 8, 1, 0,  //230
+			0, 4, 0, 0, 0, 0, -1, 0, -1, 4,//240
+			0, 0, 6, 6, 0, 0, 0            //250
 	};
 
 	public int packetSize = 0, packetType = -1;
@@ -1536,8 +1536,8 @@ playerName.trim();*/
 
 		if(AnimDelay <=10 && AnimDelay != 0)
 			AnimDelay = 0;
-		
-		
+
+
 		if(deadAnimTimer >= 0){ //reduces timer to -1
 			deadAnimTimer -= 1;
 			if(deadAnimTimer == 0)
@@ -1549,7 +1549,7 @@ playerName.trim();*/
 				noClick = false;
 			noClickTimeout -= 1;
 		}
-		
+
 		if(teleportDelay > 0 && --teleportDelay == 0){
 			teleport(teleportDelayX,teleportDelayY,teleportDelayH);
 			if(teleportDelayCast){
@@ -1557,7 +1557,7 @@ playerName.trim();*/
 				teleportDelayCast = false;
 				if(!teleportDelayCastAncients)
 					c.startAnimation(715);
-					
+
 				else{
 					c.startAnimation(715);
 					c.getFrameMethodHandler().gfx0(455);
@@ -1568,7 +1568,7 @@ playerName.trim();*/
 					getClientMethodHandler().addSkillXP(teleportDelayXP, playerMagic);
 			}
 		}
-		
+
 		if(walkingToNPC != 0){
 			if(misc.GoodDistance(walkingToNPC_X, walkingToNPC_Y, absX, absY, 1)){
 				walkingToNPC_X = -1;
@@ -1701,7 +1701,7 @@ playerName.trim();*/
 
 		if(packetType != 0)
 			updateIdle();
-		
+
 		switch(packetType) {
 		case 0: break;		// idle packet - keeps on reseting timeOutCounter
 
@@ -1746,7 +1746,7 @@ playerName.trim();*/
 				c.startAnimation(1460);
 				break;
 			}
-			
+
 			if (item2ID3 == 227) {
 				getInventoryHandler().deleteItem(227, getInventoryHandler().getItemSlot(227), 1);
 				getInventoryHandler().addItem (229, 1);
@@ -1767,7 +1767,7 @@ playerName.trim();*/
 				c.startAnimation(1459);
 				break;
 			}
-			
+
 			if(server.debugmode)
 				System.out.println("Item id: "+item_id);
 
@@ -1845,12 +1845,12 @@ playerName.trim();*/
 
 		case 72: //Click to attack
 			int npcid = inStream.readUnsignedWordA();
-					
+
 			if(!canIAttackNPC(npcid))
 				break;
 
 			attacknpc = npcid;
-			
+
 			if(!this.BOWHANDLER.checkAmmoWithBow()){
 				stopPlayerMovement();
 				sendMessage("You need ammo to use this ranged device.");
@@ -2397,14 +2397,14 @@ playerName.trim();*/
 			getCombatHandler().ResetAttack();
 			getCombatHandler().ResetAttackNPC();
 			int npcIndex = inStream.readSignedWordBigEndianA();
-			
+
 			if(!canIAttackNPC(npcIndex))
 				break;
-			
+
 			attacknpc = npcIndex;
-			
+
 			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+server.npcHandler.npcs[npcIndex].npcType);
-			
+
 			spellID = inStream.readSignedWordA();
 			getMagicHandler().magicOnNPC(npcIndex);
 			break;
@@ -2777,6 +2777,12 @@ playerName.trim();*/
 	public String npcName;
 	public int npcID;
 	public Queue<String> npcLines = new LinkedList<String>();
+
+	public Queue<String> options = new LinkedList<String>();
+	public Queue<String[]> optionsDialogue = new LinkedList<String[]>();
+	public String[] optionDialogue1, optionDialogue2, optionDialogue3;
+	
+
 
 	public boolean ResetPlayerVars() {
 		teleportToX = 0;

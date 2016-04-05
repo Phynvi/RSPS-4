@@ -45,6 +45,7 @@ public class Mining {
 		this.rockList[8] = new RockInformation(MINEDROCK,85,125,RUNE_ORE,120,30); 
 		this.rockList[9] = new RockInformation(MINEDROCK,1,5,CLAY,3,5); 
 		this.rockList[10] = new RockInformation(MINEDROCK,1,5,RUNE_ESSENCE,-1,-1); //-1 and -1 signify infinite
+		this.rockList[11] = new RockInformation(MINEDROCK,20,0,ELEMENTAL_ORE,30,1); //-1 and -1 signify infinite
 		
 		rockTable.put(2491, this.rockList[10]); //rune essence
 		this.putMultiple(COPPER_ROCKS, this.rockList[1]); 
@@ -58,6 +59,7 @@ public class Mining {
 		this.putMultiple(RUNE_ROCKS, this.rockList[8]);
 		this.putMultiple(CLAY_ROCKS, this.rockList[9]);
 		rockTable.put(2111, this.rockList[11]); //gem rock
+		this.putMultiple(ELEMENTAL_ROCKS, this.rockList[11]);
 		
 	}
 	
@@ -77,10 +79,12 @@ public class Mining {
 	private static final int[] MITHRIL_ROCKS = {2103,2102};
 	private static final int[] ADAMANT_ROCKS = {2105,2104};
 	private static final int[] RUNE_ROCKS = {14859,14860,2107,2106};
+	private static final int[] ELEMENTAL_ROCKS = {3403};
 	
 	private int getRockDelay(int rockID){
 		int totalDelay = 2; //default
 		switch(rockID){
+		case 3404: //elemental ore
 		case 2108: case 2109: //clay
 			
 		case 2091: case 2090: //copper ore
@@ -261,6 +265,7 @@ public class Mining {
 	private final static int CLAY = 434;
 	private final static int RUNE_ESSENCE = 1436;
 	private static final int COAL = 453;
+	private static final int ELEMENTAL_ORE = 2892;
 
 	public int getPickaxeLevel(int ID){
 		switch (ID){

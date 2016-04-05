@@ -96,13 +96,54 @@ public class ClientMethodHandler {
 		c.travelHeight = finishHeight;
 	}
 
+	public void optionsAndDialogue(int npcID, String[] ... sList){
+		c.npcID = npcID;
+		boolean turn = true;
+		for(String[] sArray : sList){
+			if(turn){
+				c.options.add(sArray[0]);
+				turn = false;
+			}
+			else{
+				c.optionsDialogue.add(sArray);
+				turn = true;
+			}
+		}
+		c.debug("1");
+		optionsDialogue();
+	}
+	
+	public void optionsDialogue(){
+		String s1 = c.options.poll();
+		if(s1 == null){
+			c.getFrameMethodHandler().RemoveAllWindows();
+			return;
+		}		
+		String s2 = ifNullConvert(c.options.poll());
+		String s3 = ifNullConvert(c.options.poll());
+		String s4 = "More Topics";
+		if(s2.equalsIgnoreCase("") || s3.equalsIgnoreCase("") || c.options.isEmpty())
+			s4 = "Nevermind";
+		
+		c.optionDialogue1 = c.optionsDialogue.poll();
+		c.optionDialogue2 = c.optionsDialogue.poll();
+		c.optionDialogue3 = c.optionsDialogue.poll();
 
+		c.debug("2");
+		c.getFrameMethodHandler().select4Options(-2, "Topics", s1, s2, s3, s4);
+	}
+	
+	private String ifNullConvert(String s){
+		if(s == null)
+			return "";
+		else return s;
+	}
+	
 	/*NPC Talking*/
 	public String getNpcName(int npcTypeID) {
 		return server.npcHandler.NPCListArray[npcTypeID].npcName;
 	}
-
-
+	
 	/**
 	 * Tags such as @npc@ followed by a number will change the npc id for that dialogue.
 	 * e.g. @npc@162 Hello!
