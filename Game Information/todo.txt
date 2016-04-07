@@ -1,0 +1,19 @@
+-Quest with ancient magics
+
+-Redo crafting, add in tanning, etc
+
+-Quest that uses boxing gloves
+
+-pvp points
+
+-Smithing loops
+
+-Add in farming patches
+
+-follow run
+
+-NPC poison/player poison
+	
+-Make NPCs +1,+1 spawn if they need it
+
+-Attack Mastery npc

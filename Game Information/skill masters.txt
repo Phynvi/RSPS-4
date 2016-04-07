@@ -1,0 +1,26 @@
+Skill - NPC, Location
+
+Agility - Hamal, Brimhaven
+Attack - 
+Defence - Colonel Radick, Yanille
+Cooking - Gethin, Lletya
+Crafting - Master Crafter, Crafting Guild
+Farming - Dantaera, Catherby farming patch
+Fishing - Roachey, Fishing Guild
+Firemaking - Examiner, Karamja volcano entrance
+Fletching - Dalldav, Lletya
+Herblore - Thessalia, Entrana
+Hitpoints - Runescape Guide, Port Sarim
+Magic - Magic Instructor, Tutorial Island
+Mining - Brian, Ardougne Mine
+Prayer - Priest, Ardougne Chapel
+Ranged - Bow and Arrow Salesman, Ranging Guild
+Runecrafting - Curators, any Runecrafting Altar
+Slayer - Any Slayer master; Canifis, Burthorpe, Karamja
+Smithing - Derrik, Entrana
+Strength - Combat Instructor, Tutorial Island
+Thieving - Larry, Mort'ton
+Woodcutting - Valaine, Northwest of Rimmington, near the Yew trees
+
+
+
