@@ -154,7 +154,10 @@ public int idleTimer = 0;
 	
 	public int followingPlayerID = -1;
 	public int followingNPCID = -1;
-
+	public boolean isWalkingEmote = false;
+	public int isWalkingX = -1;
+	public int isWalkingY = -1;
+	
 	public int apickupid = -1;
 	public int apickupx = -1;
 	public int apickupy = -1;

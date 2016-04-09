@@ -615,6 +615,11 @@ public class ItemUse {
 		
 		c.TurnPlayerTo(atObjectX, atObjectY);
 		
+		if(useItemID == 954 && atObjectID == 2020 && atObjectX == 2512 && atObjectY == 3465){
+			c.getClientMethodHandler().teleportWithAnimationDelay(2511, 3463, 0, 775, 1);
+			return true;
+		}
+		
 		if(useItemID == 954 && atObjectID == 3830)
 			c.teleport(3507,9494,0);
 

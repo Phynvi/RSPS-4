@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = uit-bol241-d13.ad.uwm.edu
-character-lastlogintime = 20160305
+character-lastlogin = WRT610N
+character-lastlogintime = 20160309
 character-starter = 1
 character-hasegg = 0
 character-hasset = 11
@@ -32,7 +32,7 @@ bandos = 5
 armadyl = 1
 prevarmadyl = 0
 prevbandos = 38
-spellbook = 1
+spellbook = 0
 pestcontrolpoints = 0
 questPoints = 13
 chatRoomName = 

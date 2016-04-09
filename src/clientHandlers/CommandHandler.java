@@ -25,6 +25,8 @@ import serverHandlers.PlayerHandler;
 
 public class CommandHandler {
 
+	public static int changeableInt = 0;
+	
 	private client c;
 
 	public CommandHandler(client pc){
@@ -40,12 +42,30 @@ public class CommandHandler {
 		return msg;
 	}
 
+	private int getNumber(String s){
+		try{
+			return Integer.parseInt(s);
+		}
+		catch(Exception e){
+			c.error("CommandHandler: in getNumber: "+e.toString());
+		}
+		return 0;
+	}
+	
 	public void passCommand(String fullCommand, String[] args){
 
 		c.debug("playerCommand: "+fullCommand);
 		try{
 			switch(args[0].toLowerCase()){
 
+			case "change":
+				CommandHandler.changeableInt = getNumber(args[1]);
+				break;
+			
+			case "dmg":
+				c.getCombatHandler().damagePlayer(c.playerId, getNumber(args[1]));
+				break;
+			
 			case "snpc":
 				BufferedWriter bw = null;
 				try {
@@ -102,6 +122,14 @@ public class CommandHandler {
 						"@pla@Let's see if my face is here?!","","","",
 						"@npc@0001Back to a different npc now?!","","","",
 						"@npc@Back to hans now?");
+				break;
+				
+			case "agilitytesting":
+				if(!c.getSkillHandler().getAgilityHandler().agilityTesting)
+					c.getSkillHandler().getAgilityHandler().agilityTesting = true;
+				else
+					c.getSkillHandler().getAgilityHandler().agilityTesting = false;
+				c.sendMessage("Agility Testing is "+c.getSkillHandler().getAgilityHandler().agilityTesting);
 				break;
 				
 			case "resetPD":

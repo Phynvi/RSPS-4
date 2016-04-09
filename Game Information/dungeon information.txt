@@ -21,3 +21,5 @@ Ice Dungeon - Muggers, Pirates, Ice Warriors, Ice Giants, Skeleton Wyverns
 Heroes Guild Dungeon - Giant Bats, Blue Dragon
 
 Legends Guild Dungeon - Pit Scorpions, Giant Bats, Shadow Warriors
+
+Waterfall Dungeon - Fire Giants, Shadow Spiders, Skeleton, Skeleton Mage, Giant Bat

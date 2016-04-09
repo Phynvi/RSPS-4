@@ -32,6 +32,7 @@ public class ClientMethodHandler {
 	 * @param delay MS to wait until teleport
 	 */
 	public void teleportWithAnimationDelay(int x, int y, int h, int emote, int delay){
+		c.startAnimation(emote);
 		c.teleportDelayX = x;
 		c.teleportDelayY = y;
 		c.teleportDelayH = h;
@@ -58,7 +59,36 @@ public class ClientMethodHandler {
 			}
 		}
 	}
+	
+	public void walkWithEmote(int emote, int x, int y){
+		c.playerSEW = emote;
+		c.playerSER = emote;
+		c.isWalkingEmote = true;
+		c.isWalkingX = x;
+		c.isWalkingY = y;
+	}
 
+	public void walkWithEmote_h(){
+		if(c.absX == c.isWalkingX && c.absY == c.isWalkingY){
+			c.isWalkingEmote = false;
+			c.isWalkingX = -1;
+			c.isWalkingY = -1;
+			c.playerSEW = Item.GetWalkAnim(c.playerEquipment[c.playerWeapon]);
+			c.playerSER = Item.GetRunAnim(c.playerEquipment[c.playerWeapon]);
+			return;
+		}
+
+		int walkToX = 0;
+		int walkToY = 0;
+		
+		if(c.absX > c.isWalkingX) walkToX = -1;
+		if(c.absX < c.isWalkingX) walkToX = 1;
+		if(c.absY > c.isWalkingY) walkToY = -1;
+		if(c.absY < c.isWalkingY) walkToY = 1;
+		//c.error("My coords: "+c.absX+","+c.absY+" : follow coords:"+c.isWalkingX+","+c.isWalkingY+" : walkToX,Y:"+walkToX+","+walkToY);
+		c.walkTo(walkToX, walkToY);
+	}
+	
 	public void sendEnergy() {
 		c.getFrameMethodHandler().sendFrame126((int)c.runningEnergy + "%", 149);
 	}

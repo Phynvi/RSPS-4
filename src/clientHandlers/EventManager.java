@@ -76,7 +76,7 @@ public class EventManager{
 				}
 				break;
 
-			case 4: //called every 15 seconds for stat restoration	//TODO - take prayer out of stat restoration
+			case 4: //called every 15 seconds for stat restoration
 				int resAmount = 1;
 				for(int i = 0; i <= 20; i++){
 					resAmount = 1; //default rate
@@ -86,7 +86,7 @@ public class EventManager{
 					if(c.playerLevel[i] > c.getLevelForXP(c.playerXP[i]))
 						c.playerLevel[i] -= 1;
 
-					if(c.playerLevel[i] < c.getLevelForXP(c.playerXP[i]))
+					if(i != c.playerPrayer && (c.playerLevel[i] < c.getLevelForXP(c.playerXP[i])))
 						c.playerLevel[i] += resAmount;
 
 				}

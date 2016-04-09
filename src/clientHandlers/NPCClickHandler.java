@@ -93,7 +93,7 @@ public class NPCClickHandler {
 			c.getFrameMethodHandler().openUpShopFrame(3); //Magic Shop
 			return;
 
-		case 582:
+		case 582: case 1334:
 		case 531: case 530: case 557: case 545: case 1699: case 2352: case 570: case 571: case 876: case 563: case 2154: case 516:
 			c.getFrameMethodHandler().openUpShopFrame(4); //General store
 			return;

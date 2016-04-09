@@ -1,6 +1,10 @@
 -Quest with ancient magics
 
+-call player dmg whenever
+
 -Redo crafting, add in tanning, etc
+
+-Fileloading TODO 
 
 -Quest that uses boxing gloves
 

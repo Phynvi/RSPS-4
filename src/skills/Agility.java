@@ -12,8 +12,8 @@ public class Agility {
 	}
 
 	public final int CRAWL_EMOTE = 844;
-	
-	
+
+
 	/**
 	 * 
 	 * @param x1 side 1 X
@@ -137,6 +137,18 @@ public class Agility {
 	}
 
 
+
+	public boolean[] barbObstacles = new boolean[6];
+	private int failedObstacleCase = -1;
+	public boolean agilityTesting = false;
+	private int damageBecauseFailed = 0;
+
+	public boolean agilityObstacleOneWay(int x1, int y1,int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, int specialCase){
+		if(c.absX == x2 && c.absY == y2)
+			return false;
+		return agilityObstacle(x1,y1,x2, y2, emote, level, exp, isFast, dmg, amount, specialCase);
+	}
+
 	/**
 	 * 
 	 * @param x1 side 1 X
@@ -149,27 +161,75 @@ public class Agility {
 	 * @param isFast Set to True if c.running during emote
 	 * @return
 	 */
-	public boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, String msg){
+	public boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, int specialCase){
 		if(c.playerLevel[c.playerAgility] >= level){
-			int chance = c.playerLevel[c.playerAgility]-level;	
+			boolean tookDamage = false;
+			if((dmg && misc.random(c.playerLevel[c.playerAgility]-level) == 0) || agilityTesting){
+				if(specialCase <= 0){
+					c.getCombatHandler().damagePlayer(c.playerId, misc.random(amount)+1);
+					c.sendMessage("You injure yourself.");
+				}
+				else{
+					tookDamage = true;
+					damageBecauseFailed = misc.random(amount)+1;
+				}
+			}
+
+			switch(specialCase){
+			case 1: //rope swing barbarian agility
+				if((c.absX == 2550 || c.absX == 2551 || c.absX == 2552) && c.absY == 3554){
+					if(!tookDamage){
+						walkingemote(emote, 2551,3549, exp, isFast);
+						return true;
+					}
+					else{
+						c.teleport(2550,9950,0);
+						c.startAnimation(1258);
+						return false;
+					}
+				}
+				return false;
+
+			case 2:
+				if(c.absX == 2536 && c.absY == 3547){
+					walkingemote(emote, 2532,3547, exp, isFast);
+					if(tookDamage){
+						failedObstacleCase = specialCase;
+						return false;
+					}
+					return true;
+				}
+				return false;				
+
+			case 3:
+				if(c.absX == 2551 && c.absY == 3546){
+					if(!tookDamage){
+						walkingemote(emote, 2541,3546, exp, isFast);
+						return true;
+					}
+					else{
+						failedObstacleCase = specialCase;
+						walkingemote(emote, 2546,3546, exp, isFast);
+						return false;
+					}
+				}
+				return false;
+
+
+			}
+
 			if(c.absX == x1 && c.absY == y1){
 				walkingemote(emote, x2, y2, exp, isFast);
-				if(dmg && misc.random(chance) == 0){
-					c.getCombatHandler().damagePlayer(c.playerId, misc.random(amount));
-					c.sendMessage("You injure yourself.");
-				}
 				return true;
 			}
-			if(c.absX == x2 && c.absY == y2){
+			else if(c.absX == x2 && c.absY == y2){
 				walkingemote(emote, x1, y1, exp, isFast);
-				if(dmg && misc.random(chance) == 0){
-					c.getCombatHandler().damagePlayer(c.playerId, misc.random(amount));
-					c.sendMessage("You injure yourself.");
-				}
 				return true;
 			}
-			c.sendMessage("You should probably stand in front of the obstacle before attempting to use it.");
-			return false;
+			else{
+				c.sendMessage("You should probably stand in front of the obstacle before attempting to use it.");
+				return false;
+			}
 		}
 		else {
 			c.sendMessage("You need "+level+" agility to do that.");
@@ -177,7 +237,8 @@ public class Agility {
 		}
 	}
 
-
+	private int waitToSwimTimer = -1;
+	
 	public void agilityTimers(){
 		if (c.absX == c.agilX && c.absY == c.agilY){
 			if (c.wasrunning == true){
@@ -196,6 +257,35 @@ public class Agility {
 			c.playerSER = Item.GetRunAnim(c.playerEquipment[c.playerWeapon]);
 			c.agilX = 0;
 			c.agilY = 0;
+		}
+
+		if(failedObstacleCase > -1){
+			switch(failedObstacleCase){
+			case 2: //balance ledge from barb agility
+				if(c.absX == 2532 && c.absY == 3547){
+					failedObstacleCase = -1;
+					c.getClientMethodHandler().teleportWithAnimationDelay(2533, 3545, 0, 1258, 2);
+					c.getCombatHandler().damagePlayer(c.playerId, damageBecauseFailed);
+					c.sendMessage("You fall down.");
+				}
+				break;
+				
+			case 3: //balance log from barb agility
+				if(c.absX == 2546 && c.absY == 3547){
+					if(waitToSwimTimer > 0 && --waitToSwimTimer == 0){
+						walkingemote(772, 2546,3550, 14, false);
+						failedObstacleCase = -1;
+					}
+				}
+				if(c.absX == 2546 && c.absY == 3546){
+					c.teleport(2546, 3547, 0);
+					c.getCombatHandler().damagePlayer(c.playerId, damageBecauseFailed);
+					c.sendMessage("You fall in the water!");
+					waitToSwimTimer = 1;
+				}
+				break;
+				
+			}
 		}
 
 		//Brimhaven Agility

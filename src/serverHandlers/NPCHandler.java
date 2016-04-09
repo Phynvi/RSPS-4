@@ -13,10 +13,9 @@ import struct.BST;
 import struct.DropList;
 import struct.lists;
 import clientHandlers.Item;
-
-
+	
 public class NPCHandler {
-	public static BST aggressiveNPCS = new BST(158,109,78,107,144,49,190,134,82,104,90,91,92,93,113,871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
+	public static BST aggressiveNPCS = new BST(1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,158,109,78,107,144,49,190,134,82,104,90,91,92,93,113,871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
 	public static BST rangedNPC = new BST(1101,3068,3069,3070,3071,871,1611,1647,14,1246,1248,1250,1157,3001,2028,2025,912,913,914,2361,2362,689,690,688,691,27,10,678,66,67,68); //for ranged and magic NPCs
 	public static BST ignoreCombatLevel = new BST(221,938,178,179,1267,1265,62,2499,2501,2503,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();

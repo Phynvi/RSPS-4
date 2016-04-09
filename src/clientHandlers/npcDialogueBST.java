@@ -59,6 +59,10 @@ import root.server;
 		public void generateLists(){			
 			//System.out.println("npcDialogueBST : Loading NPC Dialogue lists ... ");
 			//long starting = System.currentTimeMillis();
+			add(1334,"","'ere the horrors from the deep lie.","","",
+					"@pla@","Uhh... okay...","","");
+			add(304,"@pla@","Nice up here, isn't it?","","",
+					"Yea, I'd say so, I really","do like it.");
 			add(561,"@pla@","Say, What do you sell?","","",
 					"Trade with me and you can find out.");
 			add(609,"Only Black Knights are allowed in there.");

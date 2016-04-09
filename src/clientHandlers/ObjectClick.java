@@ -25,15 +25,15 @@ public class ObjectClick {
 		return 1;
 	}
 
-	public static BST doorOpen = new BST(11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(4545,4546,4577,1542,1544,3390,3391,11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
 
 	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
-	public static BST objectDest2 = new BST(3416,11729,9293,1738);
-	public static BST objectDest4 = new BST(1734,1733,5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
+	public static BST objectDest2 = new BST(4616,4615,4569,4570,4568,4550,4559,4557,4555,4553,4551,2287,3416,11729,9293,1738);
+	public static BST objectDest4 = new BST(2282,1734,1733,5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
 	public static BST objectDest8 = new BST(8742,2491);
 
 	public ObjectClick(client pc){
@@ -66,6 +66,13 @@ public class ObjectClick {
 		if(isObjectXY(x,y))
 			ladderTeleport(x+xD, y+yD, c.heightLevel+hD);
 	}
+	
+	private void ladderDown(){
+		c.teleport(c.absX,c.absY+6400);
+	}
+	private void ladderUp(){
+		c.teleport(c.absX,c.absY-6400);
+	}
 
 	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
 		c.WalkingTo = false;
@@ -86,6 +93,93 @@ public class ObjectClick {
 		oY = objectY;
 
 		switch(objectID) {
+		case 4485:
+			ladderTeleport(2515,10008,0);
+			break;
+			
+		case 4413:
+			ladderTeleport(2515,10005,1);
+			break;
+		
+		case 4544: case 4543:
+			c.sendMessage("Looks creepy.");
+			break;
+		
+		case 4383:
+			ladderTeleport(2519, 9995, 1);
+			break;
+		
+		case 4412:
+			ladderTeleport(2510,3644,0);
+			break;
+			
+		case 4569:
+			c.sendMessage("I should right click and select an option instead.");
+			break;
+		case 4570:
+		case 4568:
+			c.teleport(2505,3641,1);
+			break;
+		
+		case 4615:
+		case 4616:
+			c.getClientMethodHandler().teleportWithAnimationDelay(objectX,objectY,0,3067,1);
+			break;
+		
+		case 4559:
+		case 4558:
+		case 4557:
+		case 4556:
+		case 4555:
+		case 4554:
+		case 4552:
+		case 4553:
+		case 4551:
+		case 4550:
+			if(c.playerLevel[c.playerAgility] >= 35){ //TODO damage
+				c.getClientMethodHandler().teleportWithAnimationDelay(objectX,objectY,0,3067,1);
+			}
+			else
+				c.sendMessage("You need at least 35 agility to do that.");
+			break;
+		
+		case 2010:
+			c.teleport(2575,9862,0);
+			break;
+		
+		case 2000:
+			c.teleport(2511,3463,0);
+			break;
+			
+		case 3205:
+			ladderTeleport(2532, 3546, 0);
+			break;
+		
+		case 2302: //balancing ledge
+			if(c.getSkillHandler().getAgilityHandler().agilityObstacle(2536, 3547, 2532, 3547, 756, 0, 22, false, true, 3, 2))
+				c.getSkillHandler().getAgilityHandler().barbObstacles[3] = true;
+			break;
+		
+		case 2284: //obstacle net
+			c.getClientMethodHandler().teleportWithAnimationDelay(2537, 3545, 1, 828, 2);
+			c.getClientMethodHandler().addSkillXP(8, c.playerAgility);
+			c.getSkillHandler().getAgilityHandler().barbObstacles[2] = true;
+			break;
+		
+		case 2294: //log barb agility
+			if(c.getSkillHandler().getAgilityHandler().agilityObstacle(2551,3546,2541,3546, 762, 1, 14, false, false, 1, 3))
+				c.getSkillHandler().getAgilityHandler().barbObstacles[1] = true;
+			break;
+		
+		//barb rope swing
+		case 2282:
+			if(c.getSkillHandler().getAgilityHandler().agilityObstacle(2551,3554,2551,3549, 1766, 0, 22, true, true, 3, 1))
+				c.getSkillHandler().getAgilityHandler().barbObstacles[0] = true;
+			break;
+		
+		case 2287:
+			c.getSkillHandler().getAgilityHandler().agilityObstacle(2552, 3558, 2552, 3561, 749, 1, 0, false, false, 0, 0);
+			break;
 		
 		case 3416:
 			if(isObjectXY(2714,9887))
@@ -96,12 +190,21 @@ public class ObjectClick {
 			if(isObjectXY(2710,3497))
 				c.teleport(2715,9889);
 			break;
+			
+		case 1987:
+			c.teleport(2512,3481);
+			c.sendMessage("The raft crashes.");
+			break;
+			
+		case 10283: //swim waterfall
+			c.getClientMethodHandler().walkWithEmote(772, 2513,3468);
+			break;
 		
 		case 1530: //door
 			if(isObjectXY(2918,9709) && c.PD.getValue() != 3){ //PD
 					c.sendMessage("I don't think I should go in there.");
 			}
-			else{
+			else if(isObjectXY(2918,9709)){
 				if(c.isInArea(2918, 9706, 2925, 9713))
 					c.sendMessage("It's locked.");
 				else{
@@ -117,6 +220,17 @@ public class ObjectClick {
 					else c.getClientMethodHandler().dialogue(609, "Only Black Knights are allowed in there.");
 				}
 			}
+			else
+				this.clearTile(objectX, objectY);
+			break;
+			
+		case 2020:
+			if(c.getInventoryHandler().IsItemInBag(954)){
+				c.getClientMethodHandler().teleportWithAnimationDelay(2511, 3463, 0, 775, 1);
+			}
+			else{
+				c.sendMessage("I should probably try a rope.");
+			}
 			break;
 
 		case 1733:
@@ -124,6 +238,26 @@ public class ObjectClick {
 			break;
 		case 1734:
 			c.teleport(2723,3375,0);
+			break;
+			
+			
+		case 1948:
+			if(isObjectXY(2536,3553) && c.getSkillHandler().getAgilityHandler().agilityObstacleOneWay(2535, 3553,2537, 3553, 839, 0, 14, false, true, 2, 0))
+					c.getSkillHandler().getAgilityHandler().barbObstacles[4] = true;
+			
+			if(isObjectXY(2539,3553) && c.getSkillHandler().getAgilityHandler().agilityObstacleOneWay(2538,3553,2540,3553, 839, 0, 14, false, true, 2, 0))
+				c.getSkillHandler().getAgilityHandler().barbObstacles[5] = true;
+			
+			if(isObjectXY(2542,3553) && c.getSkillHandler().getAgilityHandler().agilityObstacleOneWay(2541,3553,2543,3553, 839, 0, 14, false, true, 2, 0)){
+				boolean earnedFullEXP = true;
+				for(int i = 0; i < c.getSkillHandler().getAgilityHandler().barbObstacles.length; i++){
+					if(!c.getSkillHandler().getAgilityHandler().barbObstacles[i])
+						earnedFullEXP = false;
+					c.getSkillHandler().getAgilityHandler().barbObstacles[i] = false;
+				}
+				if(earnedFullEXP)
+					c.getClientMethodHandler().addSkillXP(140, c.playerAgility);
+			}			
 			break;
 
 
@@ -146,7 +280,7 @@ public class ObjectClick {
 			break;
 
 		case 2332:
-			agilityHandler.agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, "");
+			agilityHandler.agilityObstacle(2910,3049,2906,3049, 762, 50, 15, false, false, 0, 0);
 			break;
 
 		case 9020:
@@ -169,7 +303,7 @@ public class ObjectClick {
 			break;
 
 		case 2231:
-			if(!agilityHandler.agilityObstacle(2791,objectY, objectX+3,objectY, 1115, 1, 0, false, false, 0, "") && !agilityHandler.agilityObstacle(2795,objectY, objectX-3,objectY, 1115, 1, 0, false, false, 0, ""))
+			if(!agilityHandler.agilityObstacle(2791,objectY, objectX+3,objectY, 1115, 1, 0, false, false, 0, 0) && !agilityHandler.agilityObstacle(2795,objectY, objectX-3,objectY, 1115, 1, 0, false, false, 0, 0))
 				c.sendMessage("I should stand directly in front of the rocks before climbing them.");
 			break;
 
@@ -280,7 +414,7 @@ public class ObjectClick {
 			break;
 
 		case 9324:
-			if( !agilityHandler.agilityObstacle(2722, 3592, 2722, 3596, 762, 90, 10, false, false, 0, "") )
+			if( !agilityHandler.agilityObstacle(2722, 3592, 2722, 3596, 762, 90, 10, false, false, 0,0) )
 				c.sendMessage("I should stand directly in front of the obstacle before using it.");
 			break;
 
@@ -333,11 +467,11 @@ public class ObjectClick {
 			break;
 
 		case 3748: //godwars rocks
-			agilityHandler.agilityObstacle(2856,3613,2856,3611, 839, 35, 55, false, true, 2, "You injure yourself on the rocks.");
-			agilityHandler.agilityObstacle(2857,3613,2857,3611, 839, 35, 55, false, true, 2, "You injure yourself on the rocks.");
-			agilityHandler.agilityObstacle(2834,3629,2834,3627, 839, 35, 55, false, true, 2, "You injure yourself on the rocks.");
-			agilityHandler.agilityObstacle(2833,3629,2833,3627, 839, 35, 55, false, true, 2, "You injure yourself on the rocks.");
-			agilityHandler.agilityObstacle(2820,3635,2822,3635, 839, 35, 55, false, true, 2, "You injure yourself on the rocks.");
+			agilityHandler.agilityObstacle(2856,3613,2856,3611, 839, 35, 55, false, true, 2, 0);
+			agilityHandler.agilityObstacle(2857,3613,2857,3611, 839, 35, 55, false, true, 2, 0);
+			agilityHandler.agilityObstacle(2834,3629,2834,3627, 839, 35, 55, false, true, 2, 0);
+			agilityHandler.agilityObstacle(2833,3629,2833,3627, 839, 35, 55, false, true, 2, 0);
+			agilityHandler.agilityObstacle(2820,3635,2822,3635, 839, 35, 55, false, true, 2, 0);
 			break;
 
 		case 5090: //glitchy log in brimhaven dungeon
@@ -366,8 +500,8 @@ public class ObjectClick {
 
 		case 5259:
 
-			if(agilityHandler.agilityObstacle(3659, 3509, 3659, 3507, 841, 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(3660, 3509, 3660, 3507, 841, 0, 0, false, false, 0, "") ||
-					agilityHandler.agilityObstacle(3653, 3485, 3651, 3485, 841, 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(3653, 3486, 3651, 3486, 841, 0, 0, false, false, 0, ""))
+			if(agilityHandler.agilityObstacle(3659, 3509, 3659, 3507, 841, 0, 0, false, false, 0, 0) || agilityHandler.agilityObstacle(3660, 3509, 3660, 3507, 841, 0, 0, false, false, 0, 0) ||
+					agilityHandler.agilityObstacle(3653, 3485, 3651, 3485, 841, 0, 0, false, false, 0, 0) || agilityHandler.agilityObstacle(3653, 3486, 3651, 3486, 841, 0, 0, false, false, 0, 0))
 				c.sendMessage("You pass through the barrier.");
 			else c.sendMessage("Stand directly in front of the barrier to use it.");
 			break;
@@ -404,9 +538,9 @@ public class ObjectClick {
 		case 5104: //brimhaven dungeon vines after entrance	
 		case 5103: //vines at entrance of brimhaven dungeon
 			if(c.getInventoryHandler().ItemInBagOrEquipped(lists.axes.toArray())){
-				if( agilityHandler.agilityObstacle(2676,9479,2674,9479, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || 
-						agilityHandler.agilityObstacle(2693,9482,2695,9482, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(2672,9499,2674,9499, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || 
-						agilityHandler.agilityObstacle(2683,9570,2683,9568, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") || agilityHandler.agilityObstacle(2691,9564,2689,9564, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, "") )
+				if( agilityHandler.agilityObstacle(2676,9479,2674,9479, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, 0) || 
+						agilityHandler.agilityObstacle(2693,9482,2695,9482, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, 0) || agilityHandler.agilityObstacle(2672,9499,2674,9499, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, 0) || 
+						agilityHandler.agilityObstacle(2683,9570,2683,9568, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, 0) || agilityHandler.agilityObstacle(2691,9564,2689,9564, c.getWoodcuttingHandler().getAxeEmote(), 0, 0, false, false, 0, 0) )
 					c.sendMessage("You cut your way through.");
 			}
 			else c.sendMessage("I need an axe to do that.");
@@ -420,7 +554,7 @@ public class ObjectClick {
 
 			//jumping barrier near gutanoth
 		case 2834:
-			if(!agilityHandler.agilityObstacle(2566,3021,2568,3021, 839, 0, 0, false,false, 0, "") && !agilityHandler.agilityObstacle(2566,3022,2568,3022, 839, 0, 0, false,false, 0, ""))
+			if(!agilityHandler.agilityObstacle(2566,3021,2568,3021, 839, 0, 0, false,false, 0, 0) && !agilityHandler.agilityObstacle(2566,3022,2568,3022, 839, 0, 0, false,false, 0, 0))
 				c.sendMessage("I should stand directly in front of the battlement before jumping them.");
 			break;
 
@@ -433,7 +567,7 @@ public class ObjectClick {
 
 			//obstacles at gu'tanoth
 		case 2832:
-			if(!agilityHandler.agilityObstacle(2506,3011,2508,3011, 839, 0, 0, false, false, 0, "") && !agilityHandler.agilityObstacle(2506,3012,2508,3012, 839, 0, 0, false, false, 0, ""))
+			if(!agilityHandler.agilityObstacle(2506,3011,2508,3011, 839, 0, 0, false, false, 0, 0) && !agilityHandler.agilityObstacle(2506,3012,2508,3012, 839, 0, 0, false, false, 0, 0))
 				c.sendMessage("I should stand directly in front of the barricade to climb over it.");
 			break;
 
@@ -489,10 +623,10 @@ public class ObjectClick {
 			break;
 
 		case 5099: //brimhaven red dragon pipe	
-			agilityHandler.agilityObstacle(2698,9500,2698,9492, 844, 70, 45, true, false, 0, "");
+			agilityHandler.agilityObstacle(2698,9500,2698,9492, 844, 70, 45, true, false, 0, 0);
 			break;
 		case 5100: //brimhaven first floor pipe
-			agilityHandler.agilityObstacle(2655,9573,2655,9566, 844, 70, 45, true, false, 0, "");
+			agilityHandler.agilityObstacle(2655,9573,2655,9566, 844, 70, 45, true, false, 0, 0);
 			break;
 
 		case 5083: //brimhaven dungeon entrance
@@ -528,7 +662,7 @@ public class ObjectClick {
 
 		case 3235:
 		case 3236:
-			agilityHandler.agilityObstacle(2451, 9694, 2451,9688, 844, 50, 30, true, false, 0, "");
+			agilityHandler.agilityObstacle(2451, 9694, 2451,9688, 844, 50, 30, true, false, 0, 0);
 			break;
 
 		case 2274:
@@ -565,7 +699,9 @@ public class ObjectClick {
 			break;
 
 		case 1747:
-			if(objectX == 2871 && objectY == 2971)
+			if(isObjectXY(2532,3545))
+				ladderTeleport(2532, 3546, 1);
+			else if(objectX == 2871 && objectY == 2971)
 				c.teleport(2871,2970,1);
 			else if(objectX == 2466 && objectY == 3495)
 				c.teleport(2466,3494,1);
@@ -956,7 +1092,8 @@ public class ObjectClick {
 			break;
 
 		case 1759:
-			c.teleport(2884,9798);
+			ladderDown();
+			//c.teleport(2884,9798);
 			break;
 
 			//
@@ -993,18 +1130,18 @@ public class ObjectClick {
 			break;
 
 		case 3309:
-			agilityHandler.agilityObstacle(2479, 9721, 2477, 9721, 1115, 50, 40, false, true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2479, 9724, 2477, 9724, 1115, 50, 40, false, true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2485,9722, 2485,9720, 1115, 50, 40, false, true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2480,9712,2480,9714, 1115, 50, 40, false, true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2470,9706,2472,9706, 1115, 50, 40, false, true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2458,9711,2458,9713, 1115, 50, 40, false,true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2460,9721,2460,9719, 1115, 50, 40, false,true, 4, "You slip on the rock and injure yourself.");
-			agilityHandler.agilityObstacle(2466,9723,2468,9723, 1115, 50, 40, false,true, 4, "You slip on the rock and injure yourself.");
+			agilityHandler.agilityObstacle(2479, 9721, 2477, 9721, 1115, 50, 40, false, true, 4, 0);
+			agilityHandler.agilityObstacle(2479, 9724, 2477, 9724, 1115, 50, 40, false, true, 4, 0);
+			agilityHandler.agilityObstacle(2485,9722, 2485,9720, 1115, 50, 40, false, true, 4, 0);
+			agilityHandler.agilityObstacle(2480,9712,2480,9714, 1115, 50, 40, false, true, 4, 0);
+			agilityHandler.agilityObstacle(2470,9706,2472,9706, 1115, 50, 40, false, true, 4, 0);
+			agilityHandler.agilityObstacle(2458,9711,2458,9713, 1115, 50, 40, false,true, 4, 0);
+			agilityHandler.agilityObstacle(2460,9721,2460,9719, 1115, 50, 40, false,true, 4, 0);
+			agilityHandler.agilityObstacle(2466,9723,2468,9723, 1115, 50, 40, false,true, 4, 0);
 			break;
 
 		case 3933:
-			if(agilityHandler.agilityObstacle(2290, 3232, 2290, 3239, 762, 60, 40, false, false, 0, ""))
+			if(agilityHandler.agilityObstacle(2290, 3232, 2290, 3239, 762, 60, 40, false, false, 0, 0))
 				c.sendMessage("You cross the slippery log.");
 			break;
 
@@ -1021,7 +1158,7 @@ public class ObjectClick {
 			break;
 
 		case 13878: 
-			c.getClientMethodHandler().teleportWithAnimationDelay(3021, 5209, 0,844, 13);
+			c.getClientMethodHandler().teleportWithAnimationDelay(3021, 5209, 0,844, 3);
 			break;
 
 		case 13882:
@@ -1030,17 +1167,26 @@ public class ObjectClick {
 
 		case 2285:
 			c.xpgiven = c.playerLevel[16]*10*c.rate;
-			c.getClientMethodHandler().teleportWithAnimationDelay(2474, 3424, 1,828, 5);
+			c.getClientMethodHandler().teleportWithAnimationDelay(2474, 3424, 1,828, 2);
 			c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			break;
 
 		case 2313:
 			c.xpgiven = c.playerLevel[16]*10*c.rate;
-			c.getClientMethodHandler().teleportWithAnimationDelay(2473, 3420, 2,828, 5);
+			c.getClientMethodHandler().teleportWithAnimationDelay(2473, 3420, 2,828, 2);
 			c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			break;
 
 
+		case 2115: case 2116: //barb agility gates entrance
+			if(isObjectXY(2545,3569) || isObjectXY(2545,3570)){
+				if(c.playerLevel[c.playerAgility] < 35)
+					c.sendMessage("You need 35 Agility to do that.");
+				else
+					clearTile(objectX, objectY);
+			}
+			break;
+			
 		case 2312:
 			if (c.absX == 2477 && c.absY == 3420) {
 				c.xpgiven = c.playerLevel[16]*11*c.rate;
@@ -1048,8 +1194,9 @@ public class ObjectClick {
 			}
 			break;
 
+		case 2315:
 		case 2314:
-			c.getClientMethodHandler().teleportWithAnimationDelay(2485, 3421, 0,828, 5);   
+			c.getClientMethodHandler().teleportWithAnimationDelay(2485, 3421, 0,828, 2);   
 			c.xpgiven = c.playerLevel[16]*10*c.rate;
 			c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			break;
@@ -1058,7 +1205,7 @@ public class ObjectClick {
 		case 2286:
 			c.xpgiven = c.playerLevel[16]*11*c.rate;
 			if ((c.absX == 2483 || c.absX == 2484 || c.absX == 2485 || c.absX == 2486 || c.absX == 2487 || c.absX == 2488) && c.absY == 3425) {
-				c.getClientMethodHandler().teleportWithAnimationDelay(2485, 3427, 0,828, 5);
+				c.getClientMethodHandler().teleportWithAnimationDelay(2485, 3427, 0,828, 3);
 				c.getClientMethodHandler().addSkillXP(c.xpgiven, 16);
 			}
 			break;
@@ -1393,7 +1540,7 @@ public class ObjectClick {
 			break;
 
 		case 11844:
-			c.getSkillHandler().getAgilityHandler().agilityObstacle(2936, 3355, 2934, 3355, 2750, 5, 5, false, false, 0, "");
+			c.getSkillHandler().getAgilityHandler().agilityObstacle(2936, 3355, 2934, 3355, 2750, 5, 5, false, false, 0, 0);
 			break;
 
 			//Bank booth
@@ -1854,7 +2001,7 @@ break;*/
 			break;
 
 		case 9294:
-			c.getSkillHandler().getAgilityHandler().agilityObstacle(2878,9813, 2880,9813, 3067, 80, 20, false, false, 0, "");
+			c.getSkillHandler().getAgilityHandler().agilityObstacle(2878,9813, 2880,9813, 3067, 80, 20, false, false, 0, 0);
 			break;
 
 		case 2631:
@@ -1914,6 +2061,10 @@ break;*/
 
 		switch(objectID) {
 
+		case 4569:
+			c.teleport(2505,3641,2);
+			break;
+		
 		case 9039:
 		case 9038:
 			if(c.isInArea(2817, 3082, 2818, 3085)){ //inside the grove
@@ -2020,6 +2171,10 @@ break;*/
 		c.viewTo(objectX, objectY);
 
 		switch (objectID) {			
+		case 4569:
+			c.teleport(2505,3641,0);
+			break;
+		
 		case 2884:
 			if(objectX == 2466 && objectY == 3495)
 				c.teleport(2466,3494,1);

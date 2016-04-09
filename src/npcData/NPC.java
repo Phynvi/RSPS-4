@@ -325,7 +325,7 @@ public class NPC {
 		if (faceToUpdateRequired) appendFaceToUpdate(str);
 		if (faceUpdateRequired && faceUp) updateface(str);
 		if(turnUpdateRequired) appendSetFocusDestination(str);		
-		// TODO: add the various other update blocks
+
 	}
 
 	public void gfx100(int gfx)

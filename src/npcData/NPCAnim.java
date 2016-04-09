@@ -1,5 +1,7 @@
 package npcData;
 
+import clientHandlers.CommandHandler;
+
 public class NPCAnim {
 
 	//TODO - Attack animations
@@ -11,6 +13,26 @@ public class NPCAnim {
 		final int TWO_HAND_CRUSH = 437;
 
 		switch(npcID){ 
+		
+		//Daggonoths
+		case 1338: case 1339: case 1340:
+		case 1341: case 1342: case 1343:
+		case 1344: case 1345: case 1346:
+		case 1347:		
+		return 1342; //1340 - block? 1341 - bite, 1342 - dead, 1343 - idk, 1344 - swim
+		
+		//barbarians
+		case 3247:
+		case 3246:
+		case 3248:
+		case 3250:
+		case 3251:
+		case 3252:
+		case 3253:
+				return TWO_HAND_CRUSH;
+		case 3249:
+			return CRUSH;
+				
 				
 		//hell hound
 		case 49:
@@ -887,11 +909,6 @@ public class NPCAnim {
 		case 20://Paladin
 			return 451;	
 
-		case 1338://Dagannoth
-		case 1340://Dagannoth
-		case 1342://Dagannoth
-			return 1341;
-
 		case 19://White Knight
 			return TWO_HAND_CRUSH;
 
@@ -942,6 +959,13 @@ public class NPCAnim {
 	public static int getBlockAnimation(int npcID){
 
 		switch(npcID){
+		
+		//Daggonoths
+		case 1338: case 1339: case 1340:
+		case 1341: case 1342: case 1343:
+		case 1344: case 1345: case 1346:
+		case 1347:		
+		return 1340; //1340 - block? 1341 - bite, 1342 - dead, 1343 - idk, 1344 - swim
 
 		//hell hound
 		case 49:
@@ -1189,6 +1213,13 @@ public class NPCAnim {
 	//TODO - Dead animations
 	public static int getDeadAnimation(int npcID){
 		switch(npcID){
+		
+		//Daggonoths
+		case 1338: case 1339: case 1340:
+		case 1341: case 1342: case 1343:
+		case 1344: case 1345: case 1346:
+		case 1347:		
+		return 1342; //1340 - block? 1341 - bite, 1342 - dead, 1343 - idk, 1344 - swim
 
 		//hell hound
 		case 49:
@@ -1737,11 +1768,6 @@ public class NPCAnim {
 		case 1692:
 		case 41://Chicken
 			return 57;
-
-		case 1338://Dagannoth
-		case 1340://Dagannoth
-		case 1342://Dagannoth
-			return 1342;
 
 		case 2881://Dagannoth Supreme
 		case 2882://Dagannoth Prime

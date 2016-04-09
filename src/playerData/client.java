@@ -34,7 +34,6 @@ import root.server;
 import serverHandlers.GlobalObject;
 import serverHandlers.ItemHandler;
 import serverHandlers.PlayerHandler;
-import skills.Agility;
 import skills.Farming;
 import skills.MagicDataHandler;
 import skills.Mining;
@@ -1467,6 +1466,8 @@ playerName.trim();*/
 		getFrameMethodHandler().createAreaDisplayType();
 		getFrameMethodHandler().AddDroppedItemsToGroundAndSendFrames();
 		tradeCheckTimers();
+		if(c.isWalkingEmote)
+			getClientMethodHandler().walkWithEmote_h();
 
 		if (isRunning && getRunningEnergy() <= 0) {
 			isRunning = false;
