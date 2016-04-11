@@ -25,12 +25,12 @@ public class ObjectClick {
 		return 1;
 	}
 
-	public static BST doorOpen = new BST(4545,4546,4577,1542,1544,3390,3391,11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(89,90,94,95,4545,4546,4577,1542,1544,3390,3391,11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
 
-	public static BST objectDest3 = new BST(1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
+	public static BST objectDest3 = new BST(96,1723,5097,5083,6707,6703,6702,6704,6705,6706,1722,3214,6823,6771,6821,6773,6822,6772,6912, 10083, 3037, 1281, 5552, 5553, 5554, 5551, 1308, 4674, 1307, 1309, 1306);
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
 	public static BST objectDest2 = new BST(4616,4615,4569,4570,4568,4550,4559,4557,4555,4553,4551,2287,3416,11729,9293,1738);
 	public static BST objectDest4 = new BST(2282,1734,1733,5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
@@ -54,6 +54,10 @@ public class ObjectClick {
 
 	private int oX, oY;
 
+	private void clearTile(){
+		clearTile(oX, oY);
+	}
+
 	private boolean isObjectXY(int x, int y){
 		return(x == oX && y == oY);			
 	}
@@ -66,7 +70,7 @@ public class ObjectClick {
 		if(isObjectXY(x,y))
 			ladderTeleport(x+xD, y+yD, c.heightLevel+hD);
 	}
-	
+
 	private void ladderDown(){
 		c.teleport(c.absX,c.absY+6400);
 	}
@@ -74,7 +78,11 @@ public class ObjectClick {
 		c.teleport(c.absX,c.absY-6400);
 	}
 
-	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {	
+	private String[] iceChests = new String[6];
+	private boolean ikovLever = false;
+	private Boolean[] bloodRuneChests = new Boolean[]{false,false};
+
+	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {			
 		c.WalkingTo = false;
 		c.debug("atObject: "+objectX+","+objectY+" objectID: "+objectID); 
 
@@ -93,26 +101,106 @@ public class ObjectClick {
 		oY = objectY;
 
 		switch(objectID) {
+
+		case 2569:
+			if(c.playerLevel[c.playerThieving] >= 46){
+				
+				if(!c.getInventoryHandler().hasItem(565) && !c.getInventoryHandler().hasItem(995) && c.getInventoryHandler().freeSlots() < 2){
+					c.sendMessage("Your inventory is full.");
+					break;
+				}
+				
+				if(isObjectXY(2586,9737)){
+					if(!bloodRuneChests[0]){
+						c.sendMessage("A trap goes off, injuring you.");
+						c.startAnimation(779);
+						c.getCombatHandler().damagePlayer(c.playerId, misc.random(3)+1);
+						break;
+					}
+					else bloodRuneChests[0] = false;
+				}
+				else{ 
+					if(!bloodRuneChests[1]){
+						c.sendMessage("A trap goes off, injuring you.");
+						c.startAnimation(779);
+						c.getCombatHandler().damagePlayer(c.playerId, misc.random(3)+1);
+						break;
+					}
+					else bloodRuneChests[1] = false;
+				}
+				server.globalObjectHandler.createObjectForSeconds(30, objectX, objectY, 2569, 2, 2574, null);
+				c.getInventoryHandler().addItem(565, misc.random(20)+2);
+				c.getInventoryHandler().addItem(995,500);
+				c.startAnimation(536);
+				c.getClientMethodHandler().addSkillXP(250*c.rate, c.playerThieving);
+			}
+			else c.sendMessage("You need at least 46 Thieving to do that.");
+
+			break;
+
+		case 99:
+			if(c.isInArea(2658, 3495, 2655, 3496)){
+				c.teleport(2657,3497);
+				c.sendMessage("The door locks behind you.");
+			}
+			else c.sendMessage("It's locked.");
+			break;
+
+		case 1586:
+			if(c.getInventoryHandler().hasItem(85)){
+				clearTile();
+				c.sendMessage("You insert the key into the small key sized hole.");
+			}
+			else c.sendMessage("It won't budge. You notice a small key sized hole in the wall.");
+			break;
+
+		case 103:
+			String t = ""+objectX+""+objectY;
+			for(int i = 0; i < iceChests.length; i++){
+				if(iceChests[i] == null){
+					if(c.getInventoryHandler().freeSlots() > 0 || c.getInventoryHandler().hasItem(78)){
+						iceChests[i] = t;
+						c.getInventoryHandler().addItem(78,10);
+						c.sendMessage("You take 10 Ice Arrows from the chest.");
+					}
+					else c.sendMessage("Your inventory is full.");
+					break;
+				}
+				else if(iceChests[i].equals(t)){
+					c.sendMessage("The chest is empty.");
+					break;
+				}
+			}
+			break;
+
+		case 96:
+			c.teleport(2649,9805);
+			break;
+
+		case 98:
+			c.teleport(2641,9764);
+			break;
+
 		case 4485:
 			ladderTeleport(2515,10008,0);
 			break;
-			
+
 		case 4413:
 			ladderTeleport(2515,10005,1);
 			break;
-		
+
 		case 4544: case 4543:
 			c.sendMessage("Looks creepy.");
 			break;
-		
+
 		case 4383:
 			ladderTeleport(2519, 9995, 1);
 			break;
-		
+
 		case 4412:
 			ladderTeleport(2510,3644,0);
 			break;
-			
+
 		case 4569:
 			c.sendMessage("I should right click and select an option instead.");
 			break;
@@ -120,12 +208,12 @@ public class ObjectClick {
 		case 4568:
 			c.teleport(2505,3641,1);
 			break;
-		
+
 		case 4615:
 		case 4616:
 			c.getClientMethodHandler().teleportWithAnimationDelay(objectX,objectY,0,3067,1);
 			break;
-		
+
 		case 4559:
 		case 4558:
 		case 4557:
@@ -142,67 +230,67 @@ public class ObjectClick {
 			else
 				c.sendMessage("You need at least 35 agility to do that.");
 			break;
-		
+
 		case 2010:
 			c.teleport(2575,9862,0);
 			break;
-		
+
 		case 2000:
 			c.teleport(2511,3463,0);
 			break;
-			
+
 		case 3205:
 			ladderTeleport(2532, 3546, 0);
 			break;
-		
+
 		case 2302: //balancing ledge
 			if(c.getSkillHandler().getAgilityHandler().agilityObstacle(2536, 3547, 2532, 3547, 756, 0, 22, false, true, 3, 2))
 				c.getSkillHandler().getAgilityHandler().barbObstacles[3] = true;
 			break;
-		
+
 		case 2284: //obstacle net
 			c.getClientMethodHandler().teleportWithAnimationDelay(2537, 3545, 1, 828, 2);
 			c.getClientMethodHandler().addSkillXP(8, c.playerAgility);
 			c.getSkillHandler().getAgilityHandler().barbObstacles[2] = true;
 			break;
-		
+
 		case 2294: //log barb agility
 			if(c.getSkillHandler().getAgilityHandler().agilityObstacle(2551,3546,2541,3546, 762, 1, 14, false, false, 1, 3))
 				c.getSkillHandler().getAgilityHandler().barbObstacles[1] = true;
 			break;
-		
-		//barb rope swing
+
+			//barb rope swing
 		case 2282:
 			if(c.getSkillHandler().getAgilityHandler().agilityObstacle(2551,3554,2551,3549, 1766, 0, 22, true, true, 3, 1))
 				c.getSkillHandler().getAgilityHandler().barbObstacles[0] = true;
 			break;
-		
+
 		case 2287:
 			c.getSkillHandler().getAgilityHandler().agilityObstacle(2552, 3558, 2552, 3561, 749, 1, 0, false, false, 0, 0);
 			break;
-		
+
 		case 3416:
 			if(isObjectXY(2714,9887))
 				c.teleport(2709,3498);
 			break;
-			
+
 		case 3415:
 			if(isObjectXY(2710,3497))
 				c.teleport(2715,9889);
 			break;
-			
+
 		case 1987:
 			c.teleport(2512,3481);
 			c.sendMessage("The raft crashes.");
 			break;
-			
+
 		case 10283: //swim waterfall
 			c.getClientMethodHandler().walkWithEmote(772, 2513,3468);
 			break;
-		
+
 		case 1530: //door
 			if(isObjectXY(2918,9709) && c.PD.getValue() != 3){ //PD
-					c.sendMessage("I don't think I should go in there.");
+				c.sendMessage("I don't think I should go in there.");
 			}
 			else if(isObjectXY(2918,9709)){
 				if(c.isInArea(2918, 9706, 2925, 9713))
@@ -223,7 +311,7 @@ public class ObjectClick {
 			else
 				this.clearTile(objectX, objectY);
 			break;
-			
+
 		case 2020:
 			if(c.getInventoryHandler().IsItemInBag(954)){
 				c.getClientMethodHandler().teleportWithAnimationDelay(2511, 3463, 0, 775, 1);
@@ -239,15 +327,15 @@ public class ObjectClick {
 		case 1734:
 			c.teleport(2723,3375,0);
 			break;
-			
-			
+
+
 		case 1948:
 			if(isObjectXY(2536,3553) && c.getSkillHandler().getAgilityHandler().agilityObstacleOneWay(2535, 3553,2537, 3553, 839, 0, 14, false, true, 2, 0))
-					c.getSkillHandler().getAgilityHandler().barbObstacles[4] = true;
-			
+				c.getSkillHandler().getAgilityHandler().barbObstacles[4] = true;
+
 			if(isObjectXY(2539,3553) && c.getSkillHandler().getAgilityHandler().agilityObstacleOneWay(2538,3553,2540,3553, 839, 0, 14, false, true, 2, 0))
 				c.getSkillHandler().getAgilityHandler().barbObstacles[5] = true;
-			
+
 			if(isObjectXY(2542,3553) && c.getSkillHandler().getAgilityHandler().agilityObstacleOneWay(2541,3553,2543,3553, 839, 0, 14, false, true, 2, 0)){
 				boolean earnedFullEXP = true;
 				for(int i = 0; i < c.getSkillHandler().getAgilityHandler().barbObstacles.length; i++){
@@ -335,18 +423,36 @@ public class ObjectClick {
 		case 11728:
 			ladderTeleport(c.absX, c.absY, c.heightLevel-1);
 			break;
-			
+
 		case 11729:
 			c.teleport(c.absX, c.absY, c.heightLevel+1);
 			break;
 		case 11727:
 			ladderTeleport(c.absX, c.absY, c.heightLevel+1);
 			break;
-			
+
 			//ladder down
 		case 100:
 		case 1754:
-			ladderTeleport(c.absX,c.absY+6400,0);
+			if(!isObjectXY(2665,9855) && !isObjectXY(2665,9849)){
+				ladderTeleport(c.absX,c.absY+6400,0);
+			}
+			break;
+
+		case 93:
+			c.sendMessage("It's locked.");
+			break;
+
+		case 92:
+			if(ikovLever)
+				clearTile();
+			else c.sendMessage("It's locked.");
+			break;
+
+		case 91:
+			c.sendMessage("You pull the lever.");
+			c.startAnimation(2140);
+			this.ikovLever = true;
 			break;
 
 			//ladder up
@@ -884,7 +990,7 @@ public class ObjectClick {
 			objtimer = System.currentTimeMillis()-2000;
 			c.startAnimation(794);
 			c.getFrameMethodHandler().makeGlobalObject(objectX, objectY, objectID+8, 0, 10);
-			server.itemHandler.createGroundItemInSeconds(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), objectX, objectY, 1, false, 30, c);
+			server.itemHandler.createGroundItemInSeconds(c.DROPHANDLER.getDrop(c.DROPHANDLER.RARES), objectX, objectY, c.heightLevel, 1, false, 30, c);
 			break;
 
 			//QUEST_1 OBJECTS
@@ -1186,7 +1292,7 @@ public class ObjectClick {
 					clearTile(objectX, objectY);
 			}
 			break;
-			
+
 		case 2312:
 			if (c.absX == 2477 && c.absY == 3420) {
 				c.xpgiven = c.playerLevel[16]*11*c.rate;
@@ -1756,7 +1862,7 @@ break;*/
 		case 14859:
 		case 14860:
 		case 2107: //Runite Ore
-			
+
 		case 3403: //Elemental Ore
 
 		case 2111: //Gem rocks Shilo Village	
@@ -2048,10 +2154,12 @@ break;*/
 
 	public void objectClick2(int objectID, int objectX, int objectY, int direction) {
 		c.debug("atObject2: "+objectX+","+objectY+" objectID: "+objectID); 
-
 		if(isObjSpamming()) return;
 		objtimer = System.currentTimeMillis();
 
+		oX = objectX; 
+		oY = objectY;
+		
 		c.viewTo(objectX, objectY);
 
 		if(lists.grownList.exists(objectID) || lists.growingList.exists(objectID) || lists.patchList.exists(objectID) || lists.brushList.exists(objectID) || lists.inspectInfoList.exists(objectID) || lists.deadPlantList.exists(objectID)){
@@ -2061,10 +2169,43 @@ break;*/
 
 		switch(objectID) {
 
+		case 2569:
+			if(c.playerLevel[c.playerThieving] >= 46){
+
+				c.startAnimation(2244);
+				int chance = c.playerLevel[c.playerThieving]/46;
+				if(misc.random(chance) == 0){
+					c.sendMessage("You fail to disable the trap and injure yourself.");
+					c.getCombatHandler().damagePlayer(c.playerId, 1);
+					break;
+				}
+				else c.sendMessage("You disable the trap.");
+				
+				if(isObjectXY(2586,9737)){
+					if(bloodRuneChests[0]){
+						c.sendMessage("This trap is already disabled.");
+						break;
+					}
+					else bloodRuneChests[0] = true;
+				}
+				else{ 
+					if(bloodRuneChests[1]){
+						c.sendMessage("This trap is already disabled.");
+						break;
+					}
+					else bloodRuneChests[1] = true;
+				}
+				
+				c.getClientMethodHandler().addSkillXP(25*c.rate, c.playerThieving);
+			}
+			else c.sendMessage("You need at least 46 Thieving to do that.");
+			//c.debug("Search for traps: bloodRuneChests[0]:"+bloodRuneChests[0]+", bloodRuneChests[1]:"+bloodRuneChests[1]);
+			break;
+
 		case 4569:
 			c.teleport(2505,3641,2);
 			break;
-		
+
 		case 9039:
 		case 9038:
 			if(c.isInArea(2817, 3082, 2818, 3085)){ //inside the grove
@@ -2174,7 +2315,7 @@ break;*/
 		case 4569:
 			c.teleport(2505,3641,0);
 			break;
-		
+
 		case 2884:
 			if(objectX == 2466 && objectY == 3495)
 				c.teleport(2466,3494,1);

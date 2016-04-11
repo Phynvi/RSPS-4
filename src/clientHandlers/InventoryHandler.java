@@ -351,7 +351,7 @@ public class InventoryHandler {
 			int itemID = c.playerItems[i]-1;
 			if(itemID > 0){
 				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.getSkillHandler().getPrayerHandler().ProtectItem && itemID == c.keepItem4) )
-					server.itemHandler.createGroundItemInSeconds(c.playerItems[i]-1, c.absX, c.absY, c.playerItemsN[i], false, 60, (client)server.playerHandler.players[playerDropID]);
+					server.itemHandler.createGroundItemInSeconds(c.playerItems[i]-1, c.absX, c.absY, c.heightLevel, c.playerItemsN[i], false, 60, (client)server.playerHandler.players[playerDropID]);
 			}
 			c.playerItems[i] = 0;
 			c.playerItemsN[i] = 0;
@@ -360,7 +360,7 @@ public class InventoryHandler {
 			int itemID = c.playerEquipment[i];
 			if(itemID > 0){
 				if(itemID != c.keepItem && itemID != c.keepItem2 && itemID != c.keepItem3 && !(c.getSkillHandler().getPrayerHandler().ProtectItem && itemID == c.keepItem4) )
-					server.itemHandler.createGroundItemInSeconds(c.playerEquipment[i], c.absX, c.absY, c.playerEquipmentN[i], false, 60, (client)server.playerHandler.players[playerDropID]);
+					server.itemHandler.createGroundItemInSeconds(c.playerEquipment[i], c.absX, c.absY, c.heightLevel, c.playerEquipmentN[i], false, 60, (client)server.playerHandler.players[playerDropID]);
 			}
 		}
 		removeAllEquipment();
@@ -996,7 +996,7 @@ public class InventoryHandler {
 	public void dropItem(int droppedItem, int slot) {
 		//	misc.printlnTag("droppeditem ["+c.playerItems[slot]+"] which is ["+(droppedItem+1)+"]");
 		if(c.playerItemsN[slot] != 0 && droppedItem != -1 && c.playerItems[slot] == droppedItem+1) {
-			server.itemHandler.createGroundItemInSeconds(c.playerItems[slot]-1, c.absX, c.absY, c.playerItemsN[slot], false, 30, c);
+			server.itemHandler.createGroundItemInSeconds(c.playerItems[slot]-1, c.absX, c.absY, c.heightLevel, c.playerItemsN[slot], false, 30, c);
 			//createGroundItem(droppedItem, c.absX, c.absY, c.playerItemsN[slot]);
 			deleteItem(droppedItem, slot, c.playerItemsN[slot]);
 			c.updateRequired = true;

@@ -1,7 +1,7 @@
 Skill - NPC, Location
 
 Agility - Hamal, Brimhaven
-Attack - 
+Attack - Brundt The Chieftain, Rellekka
 Defence - Colonel Radick, Yanille
 Cooking - Gethin, Lletya
 Crafting - Master Crafter, Crafting Guild

@@ -12,7 +12,7 @@ import serverHandlers.NPCHandler;
 import serverHandlers.PlayerHandler;
 
 public abstract class Player extends playerInstances {
-	
+
 	public boolean hasLoadedAllNPCs = false;
 
 	public int slot = -1;
@@ -23,7 +23,7 @@ public abstract class Player extends playerInstances {
 	public int distanceToPoint(int pointX,int pointY) {
 		return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
 	}	
-	
+
 	public void debug(String str) {
 		if(server.debugmode)
 			System.out.println("[DEBUG-"+playerId+"-"+playerName+"]: "+str);
@@ -43,12 +43,12 @@ public abstract class Player extends playerInstances {
 		FocusPointX = 2*pointX+1;
 		FocusPointY = 2*pointY+1;
 	}		
-	
+
 	public void requirePlayerUpdate(){
 		updateRequired = true;
 		appearanceUpdateRequired = true;
 	}
-	
+
 	private void appendSetFocusDestination(stream str) {
 		str.writeWordBigEndianA(FocusPointX);
 		str.writeWordBigEndian(FocusPointY);
@@ -70,14 +70,14 @@ public abstract class Player extends playerInstances {
 		this.runningEnergy = runningEnergy;
 		c.getClientMethodHandler().sendEnergy();
 	}
-	
+
 	public void viewTo(int coordX, int coordY) {
 		viewToX = ((2 * coordX) + 1);
 		viewToY = ((2 * coordY) + 1);
 		dirUpdate2Required = true;
 		requirePlayerUpdate();
 	}
-	
+
 	public boolean newhptype = false;
 
 	public int hptype = 0;
@@ -88,7 +88,7 @@ public abstract class Player extends playerInstances {
 	public String[] clanMembers = new String[17]; //19 total
 	public int[] CCID = { 11941, 4287, 4288, 4289, 4290, 11134, 4291, 4292, 4293, 4294, 4295, 4296, 8935, 4297, 4298, 4299, 4300 };
 	public int clanRights = 0;
-	
+
 	public boolean ignoreCombat = false;
 	public boolean roundTimerFrameCreated = false;
 
@@ -247,10 +247,18 @@ public abstract class Player extends playerInstances {
 		int walkToY = 0;
 		if(misc.GoodDistance(absX, absY, p.absX, p.absY, 15)){
 			if(!misc.GoodDistance(absX, absY, p.absX, p.absY, 1)){
-				if(p.absX > absX) walkToX = 1;
-				if(p.absX < absX) walkToX = -1;
-				if(p.absY > absY) walkToY = 1;
-				if(p.absY < absY) walkToY = -1;
+				if(this.distanceToPoint(p.absX, p.absY) > 2){
+					if(p.absX > absX) walkToX = 2;
+					if(p.absX < absX) walkToX = -2;
+					if(p.absY > absY) walkToY = 2;
+					if(p.absY < absY) walkToY = -2;
+				}
+				else{
+					if(p.absX > absX) walkToX = 1;
+					if(p.absX < absX) walkToX = -1;
+					if(p.absY > absY) walkToY = 1;
+					if(p.absY < absY) walkToY = -1;
+				}
 				//			println("My coords: "+absX+","+absY+" : follow coords:"+p.absX+","+p.absY+" : walkToX,Y:"+walkToX+","+walkToY);
 
 				/*pathfinding*/
@@ -284,7 +292,7 @@ public abstract class Player extends playerInstances {
 			faceNPCupdate = true;
 		}
 	}
-	
+
 	public void followNPC(int npcIndex)
 	{
 		if(npcIndex == -1) return;
@@ -331,7 +339,7 @@ public abstract class Player extends playerInstances {
 			faceNPCupdate = true;
 		}
 	}
-	
+
 
 	public void walkTo(int x, int y) {
 		newWalkCmdSteps = Math.abs(y)+Math.abs(x);
@@ -359,7 +367,7 @@ public abstract class Player extends playerInstances {
 			newWalkCmdY[i] += firstStepY;
 		}
 	}
-	
+
 	/**
 	 * Repeats animation until told to stop	with stopAnimations() method
 	 * @param anim Animation ID number
@@ -405,7 +413,7 @@ public abstract class Player extends playerInstances {
 		updateRequired = true; 
 		appearanceUpdateRequired = true;
 	}
-	
+
 	/**
 	 * Is the common teleport method to call when changing x and y
 	 */
@@ -417,7 +425,7 @@ public abstract class Player extends playerInstances {
 		teleportDelay = -1;
 		resetAnimation();
 	}
-	
+
 	public void teleport(int x, int y, int h){
 		if(x < 0 || y < 0){
 			error("In teleport, given coordinates with x or y less than zero : x,y : "+x+","+y);
@@ -439,7 +447,7 @@ public abstract class Player extends playerInstances {
 	public void updateIdle(){
 		idleTimer = 6;
 	}
-	
+
 	public void destruct(String reason) {
 		playerListSize = 0;
 		for(int i = 0; i < maxPlayerListSize; i++) playerList[i] = null;
@@ -498,7 +506,7 @@ public abstract class Player extends playerInstances {
 	private int questPoints = 0;
 	public void setQuestPoints(int amt){ this.questPoints = amt; }
 	public int getQuestPoints(){ return this.questPoints; }
-	
+
 	public int chickenleave = 0;
 	public int Donar = 0;
 	public int bandit = 0;
@@ -1441,19 +1449,19 @@ public abstract class Player extends playerInstances {
 		}
 		return 99;
 	}
-	
-//	public int getLevelForXP(int exp) {
-//		int points = 0;
-//		int output = 0;
-//
-//		for (int lvl = 1; lvl <= 150; lvl++) {
-//			points += Math.floor((double)lvl + 300.0 * Math.pow(2.0, (double)lvl / 7.0));
-//			output = (int)Math.floor(points / 4);
-//			if (output >= exp)
-//				return lvl;
-//		}
-//		return 0;
-//	}
+
+	//	public int getLevelForXP(int exp) {
+	//		int points = 0;
+	//		int output = 0;
+	//
+	//		for (int lvl = 1; lvl <= 150; lvl++) {
+	//			points += Math.floor((double)lvl + 300.0 * Math.pow(2.0, (double)lvl / 7.0));
+	//			output = (int)Math.floor(points / 4);
+	//			if (output >= exp)
+	//				return lvl;
+	//		}
+	//		return 0;
+	//	}
 	public int animationRequest = -1, animationWaitCycles = 0;
 	protected boolean animationUpdateRequired = false;
 	public void startAnimation(int animIdx)
@@ -1504,12 +1512,12 @@ public abstract class Player extends playerInstances {
 	protected boolean mask400update = false;
 	public void appendMask400Update(stream str) { // Xerozcheez: Something to do with direction
 		str.writeByteA(m4001);
-	str.writeByteA(m4002);
-	str.writeByteA(m4003);
-	str.writeByteA(m4004);
-	str.writeWordA(m4005);
-	str.writeWordBigEndianA(m4006);
-	str.writeByteA(m4007); // direction
+		str.writeByteA(m4002);
+		str.writeByteA(m4003);
+		str.writeByteA(m4004);
+		str.writeWordA(m4005);
+		str.writeWordBigEndianA(m4006);
+		str.writeByteA(m4007); // direction
 	}
 	public String txt4 = "testing update mask string";
 	public boolean string4UpdateRequired = false;

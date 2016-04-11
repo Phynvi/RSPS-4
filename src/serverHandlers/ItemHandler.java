@@ -17,13 +17,14 @@ import clientHandlers.Item;
 public class ItemHandler {
 
 	private class GroundItem{
-		private int x,y,id,amount,timer,deleteTimer;
+		private int x,y,id,amount,timer,deleteTimer,h;
 		private boolean isStatic;
 		private boolean deleteItem;
 		private client pc;
 
 
-		public GroundItem(int id, int x, int y, int amount, boolean isStatic, int t, client pc){
+		public GroundItem(int id, int x, int y, int h, int amount, boolean isStatic, int t, client pc){
+			this.h = h;
 			this.id = id;
 			this.x = x;
 			this.y = y;
@@ -43,7 +44,7 @@ public class ItemHandler {
 			if(this.timer > 0 && --this.timer == 0){
 				for(Player p : server.playerHandler.players){
 					client c = (client) p;
-					if(c != null && c != pc)
+					if(c != null && c != pc && p.heightLevel == this.h)
 						c.getFrameMethodHandler().createGroundItem(this.id, this.x, this.y, this.amount);
 				}
 				this.pc = null;
@@ -68,11 +69,18 @@ public class ItemHandler {
 		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
 		
 						// initiate ground items here
-		createGroundItemInSeconds(1469, 2762,3285, 1, true, 0, null);
-		createGroundItemInSeconds(1469, 2763,3288, 1, true, 0, null);
-		createGroundItemInSeconds(1467,2787,3287, 1, true, 0, null);
-		createGroundItemInSeconds(1590,2896,9766, 1, true, 0, null);
-		createGroundItemInSeconds(1850,2917,9680, 1, true, 0, null);
+		createGroundItemInSeconds(1469, 2762,3285,0, 1, true, 0, null);
+		createGroundItemInSeconds(1469, 2763,3288,0, 1, true, 0, null);
+		createGroundItemInSeconds(1467,2787,3287,0, 1, true, 0, null);
+		createGroundItemInSeconds(1590,2896,9766,0, 1, true, 0, null);
+		createGroundItemInSeconds(1850,2917,9680,0, 1, true, 0, null);
+		
+		createGroundItemInSeconds(1333,2639,9825,0, 1, true, 0, null); //rune scimmy perm spawn
+		
+		createGroundItemInSeconds(84,2641,9906,0, 1, true, 0, null); //staff of armadyl
+		createGroundItemInSeconds(85,2630,9859,0, 1, true, 0, null); //
+		
+		
 		
 	}
 		
@@ -86,7 +94,7 @@ public class ItemHandler {
 		}
 		
 		for(GroundItem g : staticItems){
-			if(g.x == x && g.y == y && g.id == id){
+			if(g.x == x && g.y == y && g.id == id && pc.heightLevel == g.h){
 				removeItemAll(g.id, g.x, g.y);
 				pc.getInventoryHandler().addItem(g.id, g.amount);
 				pc.apickupid = -1;
@@ -127,16 +135,16 @@ public class ItemHandler {
 	 * After certain amount of seconds, everyone can see.
 	 * If seconds is set to zero, item is visible immediately
 	 */
-	public void createGroundItemInSeconds(int id, int x, int y, int amount, boolean isStatic,int seconds, client pc){
+	public void createGroundItemInSeconds(int id, int x, int y,int h, int amount, boolean isStatic,int seconds, client pc){
 		for(GroundItem g : groundItems){
 			if(g.x == x && g.y == y && g.id == id && Item.itemStackable[g.id]){
 				g.amount += amount;
 				return;
 			}				
 		}
-		GroundItem g = new GroundItem(id,x,y,amount,isStatic,seconds, pc);
+		GroundItem g = new GroundItem(id,x,y,h,amount,isStatic,seconds, pc);
 		if(isStatic || pc == null)
-			createItemAll(id, x, y, amount);
+			createItemAll(id, x, y,h, amount);
 		if(isStatic)
 			staticItems.add(g);
 		else 
@@ -178,8 +186,8 @@ public class ItemHandler {
 			while(!staticItems.isEmpty()){
 				GroundItem g = staticItems.pop();
 				removeItemAll(g.id, g.x, g.y);
-				GroundItem t = new GroundItem(g.id,g.x,g.y,g.amount,g.isStatic,g.timer, g.pc);
-				createItemAll(g.id,g.x,g.y,g.amount);
+				GroundItem t = new GroundItem(g.id,g.x,g.y,g.h,g.amount,g.isStatic,g.timer, g.pc);
+				createItemAll(g.id,g.x,g.y,g.h,g.amount);
 				temp.add(t);
 			}
 			staticItems = temp;
@@ -230,10 +238,10 @@ public class ItemHandler {
 		//		}
 	}
 
-	private static void createItemAll(int id, int x, int y, int amount){
+	private static void createItemAll(int id, int x, int y, int h, int amount){
 		for(Player p : server.playerHandler.players){
 			client pc = (client) p;
-			if(pc != null && pc.distanceToPoint(x,y) <= 60)
+			if(pc != null && pc.distanceToPoint(x,y) <= 60 && p.heightLevel == h)
 				pc.getFrameMethodHandler().createGroundItem(id, x, y, amount);
 		}
 	}

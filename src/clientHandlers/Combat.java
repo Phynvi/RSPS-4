@@ -858,6 +858,11 @@ public class Combat {
 
 					hitDiff = getSpecialDamageAndModifySpecialDelay(hitDiff);
 
+					if(server.npcHandler.npcs[c.attacknpc].npcType == 277){
+						c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
+						hitDiff = 0;
+					}
+					
 					addCombatXP(hitDiff);
 					c.inCombat(); 
 					c.followingNPCID = -1;
@@ -892,6 +897,12 @@ public class Combat {
 
 					addCombatRangedXP(hitDiff);
 					c.followingNPCID = -1;
+
+					if(server.npcHandler.npcs[c.attacknpc].npcType == 277 && c.playerEquipment[c.playerArrows] != 78){
+						c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
+						hitDiff = 0;
+					}
+					
 					return updateDelayAndHitNPC(c.attacknpc, hitDiff);
 				}	
 				else{

@@ -958,6 +958,9 @@ public class MenuHandler {
 
 	public static String thiefmenu(){
 		return("@gre@Thieving Guide##"+
+				"#whi@Chests"+
+				"#Level 46 - Blood Rune Chest"+
+				"#"+
 				"#@whi@Stalls"+
 				"#Level 1 - Baker's Stall"+
 				"#Level 35 - Gem Stall"+

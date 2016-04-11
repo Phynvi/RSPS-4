@@ -200,13 +200,13 @@ public class GlobalObjectHandler {
 
 		public replaceObject(int x, int y, int originalObjectID, int direction, int seconds, int newObjectID, String playerName) {			
 			super(x, y, newObjectID, direction,playerName);
-			for(int i = 0; i < server.playerHandler.players.length; i++){
-				if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(this.X, this.Y) <= 90){
-					client playerClient = (client) server.playerHandler.players[i];
-					if(playerClient != null)
-						playerClient.getFrameMethodHandler().ReplaceObject(this.X, this.Y, newObjectID, direction);
-				}
-			}
+//			for(int i = 0; i < server.playerHandler.players.length; i++){
+//				if(server.playerHandler.players[i] != null && server.playerHandler.players[i].distanceToPoint(this.X, this.Y) <= 90){
+//					client playerClient = (client) server.playerHandler.players[i];
+//					if(playerClient != null)
+//						playerClient.getFrameMethodHandler().ReplaceObject(this.X, this.Y, newObjectID, direction);
+//				}
+//			}
 			this.delayCounter = seconds*2;
 			this.isVisible = true;
 			this.tempObjectID = originalObjectID;

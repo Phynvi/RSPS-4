@@ -250,6 +250,12 @@ public class NPCClickHandler {
 		/* Second Click, not Shops */
 		switch(NPCID){
 
+		case 274:
+		case 275:
+			c.getClientMethodHandler().dialogue(NPCID, "@pla@","What are you doing"," all the way down here?","",
+					"We devote our lives to the protection","of Armadyl. Intruders beware.");
+			break;
+		
 		case 1217:
 			c.getClientMethodHandler().dialogue(1217, "Just trimming the birds.");
 			break;
@@ -375,6 +381,14 @@ public class NPCClickHandler {
 		}
 
 		switch(NPCID){ //for conditionals
+		
+		case 276:
+			c.getClientMethodHandler().selectOptionTravel2("Teleport across Lava?", "Yes", 2662,9880, "No", -1,-1);
+			break;
+		
+		case 1294:
+			skillMaster(NPCID, c.getClientMethodHandler().getNpcName(NPCID), 14073,14074,14075, "Attack", c.playerDefence, new String[]{"East of here lies the hoards of monsters","from those foresakened demigods."});
+			break;
 
 		case 938: //ranalph devere
 			c.getClientMethodHandler().dialogue(938, "@pla@","Hello There.","","",

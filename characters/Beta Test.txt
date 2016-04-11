@@ -3,15 +3,15 @@ character-username = beta test
 character-password = lollol
 
 [CHARACTER]
-character-height = 1
-character-posx = 2765
-character-posy = 3285
+character-height = 0
+character-posx = 2678
+character-posy = 3404
 character-rights = 0
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160309
-character-energy = 100
+character-lastlogin = 20160310
+character-energy = 74
 character-gametime = 0
 character-gamecount = 0
 
@@ -43,10 +43,10 @@ character-look = 5	0
 character-skill = 0	99	15401600
 character-skill = 1	84	3013200
 character-skill = 2	92	6822200
-character-skill = 3	79	25528955
+character-skill = 3	99	25528955
 character-skill = 4	62	343000
 character-skill = 5	85	3322440
-character-skill = 6	97	11458063
+character-skill = 6	97	11459143
 character-skill = 7	94	8184850
 character-skill = 8	95	8779800
 character-skill = 9	71	826740
@@ -67,8 +67,9 @@ character-skill = 23	1	0
 character-skill = 24	1	0
 
 [ITEMS]
-character-item = 0	564	24
-character-item = 1	566	8
+character-item = 0	564	18
+character-item = 1	557	17
+character-item = 2	555	16
 
 [BANK]
 character-bank = 0	996	2433449
@@ -246,11 +247,11 @@ character-bank = 171	5107	39
 character-bank = 172	5299	8
 character-bank = 173	682	1
 character-bank = 174	692	1
-character-bank = 175	555	2429
+character-bank = 175	555	2409
 character-bank = 176	562	1762
 character-bank = 177	564	171
 character-bank = 178	558	336
-character-bank = 179	557	438
+character-bank = 179	557	418
 character-bank = 180	567	588
 character-bank = 181	563	597
 character-bank = 182	560	199
@@ -258,7 +259,7 @@ character-bank = 183	559	358
 character-bank = 184	556	479
 character-bank = 185	565	469
 character-bank = 186	561	527
-character-bank = 187	566	366
+character-bank = 187	566	373
 character-bank = 188	140	7
 character-bank = 189	134	1
 character-bank = 190	955	1
@@ -280,6 +281,7 @@ character-bank = 205	1420	1
 character-bank = 206	751	1
 character-bank = 207	6307	4173
 character-bank = 208	6318	1
+character-bank = 209	1468	1
 
 [FRIENDS]
 character-friend = 0	97229002984747107

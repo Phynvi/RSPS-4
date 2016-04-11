@@ -724,6 +724,10 @@ public class MagicDataHandler {
 					else gfx = 339;
 					totalDamage += damage;
 					c.getFrameMethodHandler().stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
+					if(server.npcHandler.npcs[i].npcType == 277){
+						c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
+						damage = 0;
+					}
 					c.getCombatHandler().updateDelayAndHitNPC(i, damage);
 				}
 			}
@@ -940,6 +944,12 @@ public class MagicDataHandler {
 					if(!c.getCombatHandler().doIHitNPCWithMagic(npcIndex)) hitDiff = 0;
 
 					c.followingNPCID = -1;
+					
+					if(server.npcHandler.npcs[npcIndex].npcType == 277){
+						c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
+						hitDiff = 0;
+					}
+					
 					return c.getCombatHandler().updateDelayAndHitNPC(npcIndex, hitDiff);
 				}
 				catch(Exception e) {

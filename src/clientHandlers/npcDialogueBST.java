@@ -195,8 +195,6 @@ import root.server;
 			add(1282,"Wish to have a fish?");
 			add(1286, "I once was an adventurer like you.");
 			add(1300, "Care for a pint?");
-
-			add(1294,"East of here lies the hoards of monsters","from those foresakened demigods.");
 			
 			add(792,"I am Grip... I think.");
 			add(1595, "If you're going down there,","make sure you have a hatchet.","it is required to navigate.");
@@ -298,7 +296,7 @@ import root.server;
 			add("Peksa", 538, "Find yer' outfits her");
 			add("Dommik", 545, "I sell supplies.");
 			add("Bob", 519, "Get your basic weapons here.");
-			add("Game Keeper", 276, "To enter the dragon's lair, you", "must have a shiny key in your", "inventory, which can be found in", "a chest somewhere in this maze.");
+
 			add("Game Keeper", 1048, "The King Black Dragon can be found", "in this portal.");
 			add("Game Keeper",1050, "God Wars Minigame is in this portal.");
 			add("Scavvo", 537, "Mastered a skill? I sell", "the legendary 99 hoods.", "", "");

@@ -620,7 +620,7 @@ public class ButtonClickHandler {
 				break;
 
 			case 6:
-				c.getFrameMethodHandler().select4Options(11,"Purchase?", "c.skillcape (99,000 GP)", "c.skillcape(t) (90,000 GP)", "Hood (99,000 GP)", "Nevermind.");
+				c.getFrameMethodHandler().select4Options(11,"Purchase?", c.skillName+" Skillcape (99,000 GP)", c.skillName+" Skillcape(t) (90,000 GP)", c.skillName+" Hood (99,000 GP)", "Nevermind.");
 				break;
 
 			case 10: 
