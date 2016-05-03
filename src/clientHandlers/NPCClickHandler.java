@@ -383,7 +383,7 @@ public class NPCClickHandler {
 		switch(NPCID){ //for conditionals
 		
 		case 1041: //sbott		
-		case 680: //leather worker (ranged guild)
+		case 680: //leather worker (ranged guild) 
 			c.getFrameMethodHandler().sendQuest("Leather", 14777);
 			c.getFrameMethodHandler().sendQuest("1 Gold Each", 14785);
 
