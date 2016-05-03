@@ -718,6 +718,14 @@ public class MenuHandler {
 				"the approrpriate ring or amulet mold.",
 				"To string an amulet, use a ball of wool",
 				"on the unstrung amulet.",
+				"@whi@Hides (Tanning)",
+				"Level 1 - Leather (Cowhide)",
+				"Level 28 - Hard Leather (Cowhide)",
+				"Level 45 - Snakeskin (Snake Hide)",
+				"Level 57 - Green Dragon Leather (Green Dragonhide)",
+				"Level 66 - Blue Dragon Leather (Blue Dragonhide)",
+				"Level 73 - Red Dragon Leather (Red Dragonhide)",
+				"Level 79 - Black Dragon Leather (Black Dragonhide)",
 				"",
 				"@whi@Gems",
 				"Level 1 - Sapphire",
@@ -958,8 +966,10 @@ public class MenuHandler {
 
 	public static String thiefmenu(){
 		return("@gre@Thieving Guide##"+
-				"#whi@Chests"+
-				"#Level 46 - Blood Rune Chest"+
+				"#@whi@Chests"+
+				"#Level 28 - Nature Rune Chest (Ardougne Market)"+
+				"#Level 46 - Blood Rune Chest (Chaos Druid Tower Dungeon)"+
+				"#Level 72 - Paladin Chest (Ardougne Palace)"+
 				"#"+
 				"#@whi@Stalls"+
 				"#Level 1 - Baker's Stall"+

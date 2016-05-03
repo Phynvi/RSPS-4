@@ -382,6 +382,35 @@ public class NPCClickHandler {
 
 		switch(NPCID){ //for conditionals
 		
+		case 1041: //sbott		
+		case 680: //leather worker (ranged guild)
+			c.getFrameMethodHandler().sendQuest("Leather", 14777);
+			c.getFrameMethodHandler().sendQuest("1 Gold Each", 14785);
+
+			c.getFrameMethodHandler().sendQuest("Hard Leather", 14778);
+			c.getFrameMethodHandler().sendQuest("3 Gold Each", 14786);
+
+			c.getFrameMethodHandler().sendQuest("Snakeskin", 14779);
+			c.getFrameMethodHandler().sendQuest("20 Gold Each", 14787);
+
+			c.getFrameMethodHandler().sendQuest("Green Dragonhide", 14780);
+			c.getFrameMethodHandler().sendQuest("20 Gold Each", 14788);
+
+			c.getFrameMethodHandler().sendQuest("Blue Dragonhide", 14781);
+			c.getFrameMethodHandler().sendQuest("20 Gold Each", 14789);
+
+			c.getFrameMethodHandler().sendQuest("Red Dragonhide", 14782);
+			c.getFrameMethodHandler().sendQuest("20 Gold Each", 14790);
+
+			c.getFrameMethodHandler().sendQuest("Black Dragonhide", 14783);
+			c.getFrameMethodHandler().sendQuest("20 Gold Each", 14791);
+
+			c.getFrameMethodHandler().sendQuest("", 14784);
+			c.getFrameMethodHandler().sendQuest("", 14792);
+			
+			c.getFrameMethodHandler().showInterface(14670);
+			break;
+		
 		case 276:
 			c.getClientMethodHandler().selectOptionTravel2("Teleport across Lava?", "Yes", 2662,9880, "No", -1,-1);
 			break;

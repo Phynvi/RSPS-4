@@ -4,13 +4,13 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2560
-character-posy = 3357
+character-posx = 2727
+character-posy = 9774
 character-rights = 2
 character-ismember = 1
 character-messages = 0
 character-lastconnection = WRT610N
-character-lastlogin = 20160310
+character-lastlogin = 20160316
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0

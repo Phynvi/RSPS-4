@@ -25,7 +25,7 @@ public class ObjectClick {
 		return 1;
 	}
 
-	public static BST doorOpen = new BST(89,90,94,95,4545,4546,4577,1542,1544,3390,3391,11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
+	public static BST doorOpen = new BST(2555,2550,2551,89,90,94,95,4545,4546,4577,1542,1544,3390,3391,11717,11719,11721,11716,11714,11707,2261,2262,2260,2259,2438,2439,2266,6114,6110,6102,6975,6106,6108,6977,2896,2897,71,72,2554,2186,79,81,82,2788,2789,2786,2787,4696,14233,14235,3507,3506,2647,2546,2548,2596,2602,2595,7050,7049,5186,5183,2117,5244,733,1600,1601,1599,1598,10553,3014,3015,3016,3017,3018,3019,3024,3025,1528,3026,
 			1597,1596,1558,1557,1560,1519,1516,12349,12350,1536,2607,2608,1553,1551,5254,2112,1512,59,1533,8695, 6739, 6720, 6743, 6738, 6740, 10264, 10262, 1810,1811,190,
 			6744,6725,6727,6746,6724,6737,6718,6745,6726,6748,6729,6749,6730,6747,6728,6741,6722,6735,6716,6723,6742,6750,6731,6717,6736,2559,2706,2705,2041,2039, 2184,
 			2997,2535,2036, 6721,6719,2626,2627,4250,4312,4311,5889,5891,5893,5887,3782,3783);
@@ -80,7 +80,6 @@ public class ObjectClick {
 
 	private String[] iceChests = new String[6];
 	private boolean ikovLever = false;
-	private Boolean[] bloodRuneChests = new Boolean[]{false,false};
 
 	public void objectClick(Integer objectID, int objectX, int objectY, int face, int face2, int GateID) {			
 		c.WalkingTo = false;
@@ -101,45 +100,21 @@ public class ObjectClick {
 		oY = objectY;
 
 		switch(objectID) {
+		
+		case 2570:
+			c.getSkillHandler().getThievingHandler().openChest(objectID, objectX, objectY, 3, 50, 72, new int[]{995,5000, 451,1, 1623,1});
+		break;
+		
+		case 2566:
+			c.getSkillHandler().getThievingHandler().openChest(objectID, objectX, objectY, 1, 10, 28, new int[]{995,50, 561,10});
+			break;
 
 		case 2569:
-			if(c.playerLevel[c.playerThieving] >= 46){
-				
-				if(!c.getInventoryHandler().hasItem(565) && !c.getInventoryHandler().hasItem(995) && c.getInventoryHandler().freeSlots() < 2){
-					c.sendMessage("Your inventory is full.");
-					break;
-				}
-				
-				if(isObjectXY(2586,9737)){
-					if(!bloodRuneChests[0]){
-						c.sendMessage("A trap goes off, injuring you.");
-						c.startAnimation(779);
-						c.getCombatHandler().damagePlayer(c.playerId, misc.random(3)+1);
-						break;
-					}
-					else bloodRuneChests[0] = false;
-				}
-				else{ 
-					if(!bloodRuneChests[1]){
-						c.sendMessage("A trap goes off, injuring you.");
-						c.startAnimation(779);
-						c.getCombatHandler().damagePlayer(c.playerId, misc.random(3)+1);
-						break;
-					}
-					else bloodRuneChests[1] = false;
-				}
-				server.globalObjectHandler.createObjectForSeconds(30, objectX, objectY, 2569, 2, 2574, null);
-				c.getInventoryHandler().addItem(565, misc.random(20)+2);
-				c.getInventoryHandler().addItem(995,500);
-				c.startAnimation(536);
-				c.getClientMethodHandler().addSkillXP(250*c.rate, c.playerThieving);
-			}
-			else c.sendMessage("You need at least 46 Thieving to do that.");
-
+			c.getSkillHandler().getThievingHandler().openChest(objectID, objectX, objectY, 2, 30, 46, new int[]{995,500, 565,20});
 			break;
 
 		case 99:
-			if(c.isInArea(2658, 3495, 2655, 3496)){
+			if(c.isInArea(2655, 3495, 2658, 3496)){
 				c.teleport(2657,3497);
 				c.sendMessage("The door locks behind you.");
 			}
@@ -322,10 +297,17 @@ public class ObjectClick {
 			break;
 
 		case 1733:
-			c.teleport(2727,9774,0);
+			if(isObjectXY(3058,3376)) //falador to dwarven mines
+				c.teleport(3058,9776,0);
+			else if(isObjectXY(2724,3374)) //legends guild
+				c.teleport(2727,9774,0);
 			break;
+			
 		case 1734:
-			c.teleport(2723,3375,0);
+			if(isObjectXY(2724,9774)) //legends guild
+				c.teleport(2723,3375,0);
+			else if(isObjectXY(3059,9776)) //dwarven mines
+				c.teleport(3061,3376,0);
 			break;
 
 
@@ -1854,6 +1836,7 @@ break;*/
 		case 2096:
 		case 2097: //Coal Ore
 
+		case 2102:
 		case 2103: //Mithril Ore
 
 		case 2104:
@@ -2169,37 +2152,16 @@ break;*/
 
 		switch(objectID) {
 
-		case 2569:
-			if(c.playerLevel[c.playerThieving] >= 46){
+		case 2570:
+			c.getSkillHandler().getThievingHandler().disarmTrap(objectID, objectX, objectY, 72);
+			break;
 
-				c.startAnimation(2244);
-				int chance = c.playerLevel[c.playerThieving]/46;
-				if(misc.random(chance) == 0){
-					c.sendMessage("You fail to disable the trap and injure yourself.");
-					c.getCombatHandler().damagePlayer(c.playerId, 1);
-					break;
-				}
-				else c.sendMessage("You disable the trap.");
-				
-				if(isObjectXY(2586,9737)){
-					if(bloodRuneChests[0]){
-						c.sendMessage("This trap is already disabled.");
-						break;
-					}
-					else bloodRuneChests[0] = true;
-				}
-				else{ 
-					if(bloodRuneChests[1]){
-						c.sendMessage("This trap is already disabled.");
-						break;
-					}
-					else bloodRuneChests[1] = true;
-				}
-				
-				c.getClientMethodHandler().addSkillXP(25*c.rate, c.playerThieving);
-			}
-			else c.sendMessage("You need at least 46 Thieving to do that.");
-			//c.debug("Search for traps: bloodRuneChests[0]:"+bloodRuneChests[0]+", bloodRuneChests[1]:"+bloodRuneChests[1]);
+		case 2566:
+			c.getSkillHandler().getThievingHandler().disarmTrap(objectID, objectX, objectY, 28);
+			break;
+		
+		case 2569:
+			c.getSkillHandler().getThievingHandler().disarmTrap(objectID, objectX, objectY, 46);
 			break;
 
 		case 4569:

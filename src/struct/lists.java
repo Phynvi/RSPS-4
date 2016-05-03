@@ -118,6 +118,7 @@ public class lists {
 		adamArrows.addRange(926,933);
 		runeArrows.addRange(934,941);
 		arrows.addRange(882,941);		
+		arrows.add(78);
 		
 		//Ranged
 		

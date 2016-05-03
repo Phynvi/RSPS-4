@@ -140,7 +140,6 @@ import root.server;
 			add(806,"I'm sorry sir.","The Sinclairs are currently away","on vacation.");
 			add(388,"My favorite color is white.");
 			add(731,"It's hard running a bar in a town like this.");
-			add(680,"Unfortunately, the tanner's broken.");
 
 			add(682,"This stuff's good for the light stuff, don't","expect to take a spear and be fine.");
 			add(679, "Afternoon.");
@@ -175,7 +174,7 @@ import root.server;
 			add(1526,"I'm sorry, but at the moment","we just can't afford","to run the Castle Wars game.");
 			add(1704,"I used to captain one of the finer vessels","that ported here.");
 			add(1038, "Fresh, dank, meat.");
-			add(1041,"I hate the smell of the swamp.");
+
 			add(1039, "Please take a look at my fine wares.");
 			add(1054,"They gave me a big responsibility,","to make sure this gate is guarded.");
 			add(1701,"Strange how we died and could not rest,","yet, the cows do it year after year.");

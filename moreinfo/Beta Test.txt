@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = WRT610N
-character-lastlogintime = 20160310
+character-lastlogintime = 20160318
 character-starter = 1
 character-hasegg = 0
 character-hasset = 1
@@ -32,18 +32,18 @@ bandos = 22
 armadyl = 0
 prevarmadyl = 0
 prevbandos = 46
-spellbook = 1
+spellbook = 0
 pestcontrolpoints = 0
-questPoints = 6
+questPoints = 7
 chatRoomName = Public Chat
 favour = 50
 barrowed = 2
 TUP = 7
 slug = 5
-randomx = 2826
-randomy = 3083
+randomx = 2857
+randomy = 2965
 randomh = 0
-PD = 0
+PD = 5
 
 [QUESTS]
 character-questpoints = 0

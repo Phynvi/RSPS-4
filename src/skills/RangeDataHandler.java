@@ -289,7 +289,8 @@ public class RangeDataHandler {
 			return 22;
 		if(lists.runeArrows.exists(curAmmo))
 			return 24;
-
+		if(curAmmo == 78)
+			return 25;
 		return -1;
 	}
 
@@ -312,6 +313,8 @@ public class RangeDataHandler {
 			return 13;
 		if(lists.runeArrows.exists(curAmmo))
 			return 15;
+		if(curAmmo == 78)
+			return 16;
 
 		c.error("Error in getArrowGFX, ammo not found");
 		return -1;

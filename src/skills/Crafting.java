@@ -9,6 +9,24 @@ public class Crafting {
 		c = pc;
 	}
 	
+	public void tanHides(int level, int unTanned, int tanned, int cost, int amount){
+		if(c.playerLevel[c.playerCrafting] < level){
+			c.sendMessage("You need at least "+level+" Crafting to do that.");
+			return;
+		}
+		if(amount == -1)
+			amount = c.getInventoryHandler().itemAmount(unTanned);
+		for(int i = 0; i < amount; i++){
+			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(995, cost)){
+				c.sendMessage("You do not have enough gold to do that.");
+				return;
+			}
+			c.getInventoryHandler().deleteItem(unTanned);
+			c.getInventoryHandler().addItem(tanned);
+		}
+		
+	}
+	
 	public void spinFlax(){
 		if(c.getInventoryHandler().playerHasItem(1779)){
 			c.getInventoryHandler().deleteItem(1779, c.getInventoryHandler().getItemSlot(1779), 1);
