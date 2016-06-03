@@ -622,16 +622,22 @@ public class Combat {
 			ResetAttack();
 			return false;
 		}
-		if (!misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance) && !c.autocast) //autocast is handled seperately
+
+		//boolean halberd = false;
+		
+		if(lists.halberd.exists(c.playerEquipment[c.playerWeapon]))
+			distance = 2;
+		
+		if (!misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance) && !c.autocast){ //autocast is handled seperately
 			c.followingPlayerID = c.AttackingOn;
+			c.stopPlayerMovement();
+		}
+		
 		if(c.LoopAttDelay > 1)
 			return false;
 
 		/* Melee */
-		if(distance == 1 && !c.autocast) { 
-
-			if(lists.halberd.exists(c.playerEquipment[c.playerWeapon]))
-				distance = 2;
+		if(distance == 1 && !c.autocast) { 		
 
 			if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance)) {
 				if (PlayerHandler.players[c.AttackingOn].IsDead == true) {

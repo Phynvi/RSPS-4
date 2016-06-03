@@ -3,27 +3,27 @@ character-username = alpha test
 character-password = lollol
 
 [CHARACTER]
-character-height = 1
-character-posx = 2986
-character-posy = 3343
+character-height = 0
+character-posx = 2947
+character-posy = 3368
 character-rights = 0
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160310
-character-energy = 100
+character-lastconnection = uit-bol241-d13.ad.uwm.edu
+character-lastlogin = 20160406
+character-energy = 87
 character-gametime = 0
 character-gamecount = 0
 
 [EQUIPMENT]
-character-equip = 0	1165	1	
+character-equip = 0	-1	0	
 character-equip = 1	1031	1	
 character-equip = 2	1731	1	
 character-equip = 3	1371	1	
-character-equip = 4	1125	1	
+character-equip = 4	1123	1	
 character-equip = 5	1199	1	
 character-equip = 6	-1	0	
-character-equip = 7	1077	1	
+character-equip = 7	1073	1	
 character-equip = 8	-1	0	
 character-equip = 9	778	1	
 character-equip = 10	4129	1	
@@ -144,8 +144,9 @@ character-bank = 71	140	1
 character-bank = 72	1541	1
 character-bank = 73	1290	1
 character-bank = 74	996	166092
-character-bank = 75	1124	1
-character-bank = 76	1074	1
+character-bank = 75	1126	1
+character-bank = 76	1166	1
+character-bank = 77	1078	1
 
 [FRIENDS]
 

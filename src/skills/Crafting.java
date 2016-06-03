@@ -15,12 +15,17 @@ public class Crafting {
 			return;
 		}
 		if(amount == -1)
-			amount = c.getInventoryHandler().itemAmount(unTanned);
+			amount = c.getInventoryHandler().itemAmount(unTanned+1);
 		for(int i = 0; i < amount; i++){
 			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(995, cost)){
 				c.sendMessage("You do not have enough gold to do that.");
 				return;
 			}
+			if(!c.getInventoryHandler().hasItemOfAtLeastAmount(unTanned, 1)){
+				c.sendMessage("You do not have the correct hide to do that.");
+				return;
+			}
+			c.getInventoryHandler().deleteItem(995, c.getInventoryHandler().getItemSlot(995), cost);
 			c.getInventoryHandler().deleteItem(unTanned);
 			c.getInventoryHandler().addItem(tanned);
 		}

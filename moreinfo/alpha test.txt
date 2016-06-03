@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = WRT610N
-character-lastlogintime = 20160310
+character-lastlogin = uit-bol241-d13.ad.uwm.edu
+character-lastlogintime = 20160406
 character-starter = 1
 character-hasegg = 0
 character-hasset = 0
@@ -9,7 +9,7 @@ character-pkpoints = 0
 character-killcount = 0
 character-deathcount = 0
 character-mutedate = 0
-character-height = 1
+character-height = 0
 character-torag = 0
 character-verac = 0
 character-guthan = 0

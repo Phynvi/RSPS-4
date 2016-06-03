@@ -1,6 +1,7 @@
--Quest with ancient magics
+-Place tanners at locations throughout world
+-Add ability to craft from hides
 
--Redo crafting, add in tanning, etc
+-Quest with ancient magics
 
 -Quest that uses boxing gloves
 

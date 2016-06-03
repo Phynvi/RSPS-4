@@ -318,6 +318,10 @@ public class InventoryHandler {
 		return freeS;
 	}
 
+	/**
+	 * @param itemID need to be +1 of actual id
+	 * @return
+	 */
 	public int itemAmount(int itemID) {
 		int tempAmount = 0;
 		for (int i = 0; i < c.playerItems.length; i++)

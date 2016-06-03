@@ -92,56 +92,78 @@ public class ButtonClickHandler {
 		case 57210: //x hard leather
 		case 57209: //x leather
 			c.sendMessage("That feature is currently not available.");
+			break;
 		
 		case 57225: //1 leather
 			c.getSkillHandler().getCraftingHandler().tanHides(1, 1739, 1741, 1, 1);
+			break;
 		case 57217: //5 leather
 			c.getSkillHandler().getCraftingHandler().tanHides(1, 1739, 1741, 1, 5);
+			break;
 		case 57201: //all leather
 			c.getSkillHandler().getCraftingHandler().tanHides(1, 1739, 1741, 1, -1);
+			break;
 			
 			
 		case 57226: //1 hard leather
 			c.getSkillHandler().getCraftingHandler().tanHides(28, 1739, 1743, 3, 1);
+			break;
 		case 57218: //5 hard leather
 			c.getSkillHandler().getCraftingHandler().tanHides(28, 1739, 1743, 3, 5);
+			break;
 		case 57202: //all hard leather
 			c.getSkillHandler().getCraftingHandler().tanHides(28, 1739, 1743, 3, -1);
+			break;
 			
 		case 57227: //1 Snakeskin
 			c.getSkillHandler().getCraftingHandler().tanHides(45, 6287,6289,20,1);
+			break;
 		case 57219: //5 snakeskin
 			c.getSkillHandler().getCraftingHandler().tanHides(45, 6287,6289,20,5);
+			break;
 		case 57203: //all snakeskin
 			c.getSkillHandler().getCraftingHandler().tanHides(45, 6287,6289,20,-1);
+			break;
 			
 		case 57228: //1 green dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(57,1753,1745,20,1);
+			break;
 		case 57220: //5 green dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(57,1753,1745,20,5);
+			break;
 		case 57204: //all green dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(57,1753,1745,20,-1);
+			break;
 			
 		case 57229: //1 blue dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(66,1751,2505,20,1);
+			break;
 		case 57221: //5 blue dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(66,1751,2505,20,5);
+			break;
 		case 57205: //all blue dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(66,1751,2505,20,-1);
+			break;
 			
 		case 57230: //1 red dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(73,1749,2507,20,1);
+			break;
 		case 57222: //5 red dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(73,1749,2507,20,5);
+			break;
 		case 57206: //all red dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(73,1749,2507,20,-1);
+			break;
 			
 		case 57231: //1 black dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(79,1747,2509,20,1);
+			break;
 		case 57223: //5 black dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(79,1747,2509,20,5);
+			break;
 		case 57207: //all black dhide
 			c.getSkillHandler().getCraftingHandler().tanHides(79,1747,2509,20,-1);
+			break;
 
 		case 28171:
 			c.getFrameMethodHandler().menu(c.getMenuHandler().PoisonDiversion());
