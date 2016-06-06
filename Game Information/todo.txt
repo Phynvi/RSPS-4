@@ -1,3 +1,5 @@
+-reimplement BSTs as hash tables
+
 -Place tanners at locations throughout world
 -Add ability to craft from hides
 

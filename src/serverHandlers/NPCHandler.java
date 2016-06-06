@@ -647,8 +647,7 @@ public class NPCHandler {
 		double ShopValue = 1;
 		double Overstock = 0;
 		double TotPrice = 0;
-		if (server.itemHandler.ItemList.exists(ItemID))
-			ShopValue = server.itemHandler.ItemList.getCurrentItem().ShopValue;
+		ShopValue = server.itemHandler.ItemListArray[ItemID].ShopValue;
 
 		return ShopValue*0.6*amount;
 	}

@@ -275,10 +275,11 @@ public class Item {
 		if (ItemID == -1) {
 			return "Unarmed";
 		}
-		if (server.itemHandler.ItemList.exists(ItemID))
-			return server.itemHandler.ItemList.getCurrentItem().itemName;
 
-		return "!! NOT EXISTING ITEM !!! - ID:"+ItemID;
+		String temp = server.itemHandler.ItemListArray[ItemID].itemName;
+		if(temp.equals(""))
+			return "Name Not Found, Item ID:"+ItemID;
+		return temp;
 	}
 
 	public static int GetUnnotedItem(int ItemID) {
@@ -402,9 +403,7 @@ public class Item {
 		
 		case 995:
 		default:
-			if (ItemHandler.ItemList.exists(ItemID)){
-				ShopValue = ItemHandler.ItemList.getCurrentItem().ShopValue;
-			}
+			ShopValue = ItemHandler.ItemListArray[ItemID].ShopValue;
 			break;
 		
 		}

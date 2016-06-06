@@ -11,7 +11,6 @@ import playerData.client;
 import struct.ItemList;
 import root.misc;
 import root.server;
-import struct.itemListBST;
 import clientHandlers.Item;
 
 public class ItemHandlerAlt {
@@ -88,7 +87,6 @@ public class ItemHandlerAlt {
 		}
 		loadItemList("item.cfg");
 		loadItemPrices("itemprices.cfg");
-		ItemList.buildBalancedTree(ItemListArray, 0, ItemListArray.length-1);
 
 
 	}
@@ -254,7 +252,6 @@ public class ItemHandlerAlt {
 	public static int[] DroppedItemsDeletecount = new int[MaxDropItems];
 	public static boolean[] DroppedItemsAlwaysDrop = new boolean[MaxDropItems];
 	public static ItemList ItemListArray[] = new ItemList[MaxListedItems];
-	public static itemListBST ItemList = new itemListBST();
 
 
 	/*ItemHandler() {

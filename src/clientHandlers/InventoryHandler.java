@@ -13,7 +13,7 @@ public class InventoryHandler {
 	public InventoryHandler(client pc){
 		this.c = pc;
 	}
-	
+
 
 	public boolean wear(int wearID, int slot) {
 		int targetSlot = 0;
@@ -213,7 +213,7 @@ public class InventoryHandler {
 		c.sendMessage("I need at least 99 "+cape+" to equip c.");
 		return false;
 	}
-	
+
 
 	public void removeItemFromEquipmentSlot(int slot) {
 		c.getCombatHandler().allSdisable();
@@ -247,20 +247,13 @@ public class InventoryHandler {
 	public void GetBonus() {
 		for (int i = 0; i < c.playerEquipment.length; i++) {
 			if (c.playerEquipment[i] > -1) {
-				if (server.itemHandler.ItemList.exists(c.playerEquipment[i])){
-					for (int k = 0; k < c.playerBonus.length; k++){ 
-						try{
-							c.playerBonus[k] += server.itemHandler.ItemList.getCurrentItem().Bonuses[k];
-						}
-						catch(Exception e){
-							c.println("Exception in GetBonus for itemID "+c.playerEquipment[i]);
-						}
-					}
+				for (int k = 0; k < c.playerBonus.length; k++){ 
+					c.playerBonus[k] += server.itemHandler.ItemListArray[c.playerEquipment[i]].Bonuses[k];
 				}
 			}
 		}
 	}
-	
+
 	public void scanPickup()
 	{
 		//c.error("pickup x y :"+c.apickupx+","+c.apickupy);
@@ -269,7 +262,7 @@ public class InventoryHandler {
 			ItemHandler.playerPickupAndRemoveGroundItem(c.apickupx, c.apickupy, c.apickupid, c);
 		}
 	}
-	
+
 	public void removeAllEquipment() {
 		for(int i = 0; i < c.playerEquipment.length; i++){
 			c.playerEquipment[i] = -1;
@@ -327,7 +320,7 @@ public class InventoryHandler {
 		for (int i = 0; i < c.playerItems.length; i++)
 			if (c.playerItems[i] == itemID)
 				tempAmount += c.playerItemsN[i];
-		
+
 		return tempAmount;
 	}
 
@@ -909,7 +902,7 @@ public class InventoryHandler {
 		}
 		return -1;
 	}
-	
+
 	public boolean hasItem(int itemID){
 		for(int i = 0; i < c.playerItems.length; i++){
 			if(c.playerItems[i] == itemID+1)
@@ -939,7 +932,7 @@ public class InventoryHandler {
 		}
 		return true;
 	}
-	
+
 	public void deleteAllItemsOf(int itemID){
 		for(int i = c.playerItems.length-1; i >= 0; i--){
 			if(c.playerItems[i] == itemID+1){
@@ -958,7 +951,7 @@ public class InventoryHandler {
 				c.outStream.endFrameVarSizeWord();
 			}
 		}
-		
+
 	}
 
 	public void replaceAllItemsOfTypeWith(int itemID, int withID){
@@ -1014,7 +1007,7 @@ public class InventoryHandler {
 		for(int i : IDs)
 			deleteItem(i);
 	}
-	
+
 	/**
 	 * Deletes first occurence of item in player inventory by one
 	 */
@@ -1032,7 +1025,7 @@ public class InventoryHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean deleteItem(int id, int slot){
 		if(c.playerItems[slot] - 1 == id){ //delete item
 			c.playerItemsN[slot] -= 1;
@@ -1045,7 +1038,7 @@ public class InventoryHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean deleteItem(int id, int slot, int amount) {
 		c.debug("deleteItem : id :"+id+", slot:"+slot+", amount:"+amount);
 		if (slot > -1 && slot < c.playerItems.length) {
@@ -1120,7 +1113,7 @@ public class InventoryHandler {
 		}
 		else return false;
 	}
-	
+
 	public boolean addItem(int itemID){
 		return addItem(itemID, 1);
 	}
@@ -1188,12 +1181,12 @@ public class InventoryHandler {
 			return false;
 		}
 	}
-	
+
 
 	public void generateKeepItemsAndDropRest(){
-		
+
 	}
-	
+
 
 	public void generateKeepItems(){
 

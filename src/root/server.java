@@ -14,7 +14,6 @@ import serverHandlers.PlayerHandler;
 import serverHandlers.ShopHandler;
 import serverHandlers.WorldMap;
 import serverHandlers.cHandler;
-import struct.itemspawnpoints;
 import struct.lists;
 
 public class server implements Runnable {
@@ -40,7 +39,7 @@ public static boolean debugmode = false;
 	public static int updateSeconds = 180; //180 because it doesnt make the time jump at the start :P
 	public static long startTime;
 	public static long upTime;
-	public static boolean showDelay = false;
+	public static boolean showDelay = true;
 	public static GlobalObjectHandler globalObjectHandler = null;
 	public static GlobalChatRoomHandler globalChatRoomHandler = null;
 	
@@ -58,7 +57,6 @@ public static boolean debugmode = false;
 		itemHandler = new ItemHandler();
 		shopHandler = new ShopHandler();
 		muteHandler = new MuteHandler();
-		itemspawnpoints = new itemspawnpoints();
 		GraphicsHandler = new GraphicsHandler();
 		globalObjectHandler = new GlobalObjectHandler();
 		globalChatRoomHandler = new GlobalChatRoomHandler();
@@ -115,7 +113,7 @@ public static boolean debugmode = false;
 						", PC:"+pestControlTimeSpentProcessing+", GlobalObject: "+globalObjectTimeSpentProcessing);
 				
 				totals += (playerTimeSpentProcessing+npcTimeSpentProcessing+itemTimeSpentProcessing+
-						shopTimeSpentProcessing+pestControlTimeSpentProcessing+globalObjectTimeSpentProcessing)/4;
+						shopTimeSpentProcessing+pestControlTimeSpentProcessing+globalObjectTimeSpentProcessing)/6;
 				averages += 1;
 				if(averages%10 == 0){
 					System.out.println("[KERNEL] [AVERAGES] : Last 10 Processes Averages : "+(totals/10));
@@ -171,7 +169,6 @@ public static int stradd = 2;
 	public static ItemHandler itemHandler = null;
 	public static ShopHandler shopHandler = null;
 	public static MuteHandler muteHandler = null;
-      public static itemspawnpoints itemspawnpoints = null;
       public static GraphicsHandler GraphicsHandler = null;
 
       public static PestControlHandler pestControlHandler = null;
