@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = uit-bol241-d13.ad.uwm.edu
-character-lastlogintime = 20160406
+character-lastlogin = WRT610N
+character-lastlogintime = 20160506
 character-starter = 1
 character-hasegg = 0
 character-hasset = 11

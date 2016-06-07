@@ -1,6 +1,4 @@
 package root;
-import java.sql.*;
-import java.io.*;
 import java.util.*;
 
 import clientHandlers.GraphicsHandler;
@@ -15,11 +13,14 @@ import serverHandlers.ShopHandler;
 import serverHandlers.WorldMap;
 import serverHandlers.cHandler;
 import struct.lists;
+import tests.AllTests;
+import tests.Test;
 
 public class server implements Runnable {
 	
 public static WorldMap worldMap = null;	
 
+public static LinkedList<Test> tests = new LinkedList<Test>();
 
 public static ArrayList<String> connectedList = new ArrayList<String>();
 public static final String SERVERNAME = "SarimScape";
@@ -39,9 +40,11 @@ public static boolean debugmode = false;
 	public static int updateSeconds = 180; //180 because it doesnt make the time jump at the start :P
 	public static long startTime;
 	public static long upTime;
-	public static boolean showDelay = true;
+	public static boolean showDelay = false;
 	public static GlobalObjectHandler globalObjectHandler = null;
 	public static GlobalChatRoomHandler globalChatRoomHandler = null;
+	
+	public static boolean RUN_TESTS = false;
 	
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
@@ -118,6 +121,15 @@ public static boolean debugmode = false;
 				if(averages%10 == 0){
 					System.out.println("[KERNEL] [AVERAGES] : Last 10 Processes Averages : "+(totals/10));
 					totals = 0;
+				}
+				if(RUN_TESTS){
+					System.out.println("[KERNEL] [UNIT TESTING] : Initiating Tests");
+					
+					AllTests allTests = new AllTests(tests);
+					allTests.RunAllTests();
+					
+					System.out.println("[KERNEL] [UNIT TESTING] : Testing Completed");					
+					RUN_TESTS = false;
 				}
 			}
 			if(timeSpent >= cycleTime) {

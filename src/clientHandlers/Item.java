@@ -277,7 +277,7 @@ public class Item {
 		}
 
 		String temp = server.itemHandler.ItemListArray[ItemID].itemName;
-		if(temp.equals(""))
+		if(temp == null || temp.equals(""))
 			return "Name Not Found, Item ID:"+ItemID;
 		return temp;
 	}

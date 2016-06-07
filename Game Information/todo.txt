@@ -1,4 +1,4 @@
--reimplement BSTs as hash tables
+-WRITE UNIT TESTS
 
 -Place tanners at locations throughout world
 -Add ability to craft from hides
