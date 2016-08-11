@@ -8,6 +8,7 @@ package clientHandlers;
 
 import java.util.ArrayList;
 
+import npcInformation.npcDialogueBST;
 import playerData.QuestVariable;
 import serverHandlers.ChatRoom;
 import skills.Fishing;
@@ -54,7 +55,7 @@ public class playerInstances {
 	public RangeDataHandler BOWHANDLER;
 	public final int SPAMAMOUNT = 2000;
 	public int noClickTimeout;
-	public Slayer SLAYER;
+
 	public int slayerNPC,slayerCount,slayerMaster;
 	public int attEffect = 0;
 	public int strEffect = 0;
@@ -93,7 +94,7 @@ public class playerInstances {
 	public int DClawsHit4 = 0;
 	public int SpecEmoteTimer = 0;
 	public int SpecTimer;
-	public boolean isPVP;
+	
 	public int frozenTimer;
 
 	public int deadtele = 0;

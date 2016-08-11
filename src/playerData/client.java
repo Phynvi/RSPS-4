@@ -14,7 +14,6 @@ import java.security.*;
 import clientHandlers.ButtonClickHandler;
 import clientHandlers.ChatRoomHandler;
 import clientHandlers.ClientMethodHandler;
-import clientHandlers.Combat;
 import clientHandlers.CommandHandler;
 import clientHandlers.EventManager;
 import clientHandlers.FileLoading;
@@ -25,10 +24,12 @@ import clientHandlers.Item;
 import clientHandlers.ItemUse;
 import clientHandlers.MenuHandler;
 import clientHandlers.MiniGameHandler;
-import clientHandlers.NPCClickHandler;
 import clientHandlers.ObjectClick;
 import clientHandlers.SkillHandler;
-import clientHandlers.npcDialogueBST;
+import clientHandlers.combat.Enemy;
+import clientHandlers.combat.Combat;
+import npcInformation.NPCClickHandler;
+import npcInformation.npcDialogueBST;
 import root.misc;
 import root.server;
 import serverHandlers.GlobalObject;
@@ -46,49 +47,6 @@ import struct.lists;
 
 public class client extends Player implements Runnable {
 
-	/**
-	 * Will check if the NPC is currently attackable
-	 * @param ID of npc in npcs array
-	 */
-	private boolean canIAttackNPC(int npcID){
-		if(SLAYER.slayerNPC.exists(server.npcHandler.npcs[npcID].npcType)){ //slayer NPC
-			if(playerLevel[18] < this.SLAYER.getTaskLevel(server.npcHandler.npcs[npcID].npcType) && slayerNPC != server.npcHandler.npcs[npcID].npcType){
-				sendMessage("You need a higher Slayer level to do that.");
-				return false;
-			}
-		}
-
-		if(server.npcHandler.npcs[npcID].moveToSpawn) 
-			return false;
-
-		if(server.npcHandler.npcs[npcID].attacknpc > 0) {
-			sendMessage("That NPC is already under attack.");
-			return false;
-		}
-		int _NPCTYPE = server.npcHandler.npcs[npcID].npcType;
-
-		if(lists.safeNPCs.exists(_NPCTYPE) || DIALOGUEHANDLER.exists(_NPCTYPE)){
-			sendMessage("That's a friendly NPC that I should not attack.");
-			stopPlayerMovement();
-			return false;
-		}						
-
-		if((_NPCTYPE == 221 || _NPCTYPE == 938) && !PDAggro){
-			sendMessage("I don't think I want to do that.");
-			stopPlayerMovement();
-			return false;
-		}
-
-		if(SLAYER.slayerNPC.exists(_NPCTYPE)){ //slayer NPC
-			if(playerLevel[18] < this.SLAYER.getTaskLevel(_NPCTYPE) && slayerNPC != _NPCTYPE){
-				sendMessage("You need a higher Slayer level to do that.");
-				return false;
-			}
-
-		}
-
-		return true;
-	}
 
 	private MagicDataHandler magicHandler = new MagicDataHandler(this);
 	public MagicDataHandler getMagicHandler(){
@@ -232,7 +190,6 @@ public class client extends Player implements Runnable {
 		DIALOGUEHANDLER = new npcDialogueBST();
 		this.MISCSTRUCTS = new FoodHandler(this);
 		this.BOWHANDLER = new RangeDataHandler(this);
-		this.SLAYER = new Slayer(this);
 		this.menuHandler = new MenuHandler(this);
 		this.RUNECRAFTING = new Runecrafting(this);
 
@@ -1308,28 +1265,8 @@ playerName.trim();*/
 
 	public void attackLoops(){
 
-		if (IsAttacking == true && IsDead == false) {
-			if (PlayerHandler.players[AttackingOn] != null) {
-				if (PlayerHandler.players[AttackingOn].IsDead == false) {
-					this.getCombatHandler().Attack();
-				} else {
-					this.getCombatHandler().ResetAttack();
-				}
-			} else {
-				this.getCombatHandler().ResetAttack();
-			}
-		}
-		//Attacking an NPC
-		if (IsAttackingNPC == true && IsDead == false) {
-			if (server.npcHandler.npcs[attacknpc] != null) {
-				if (server.npcHandler.npcs[attacknpc].IsDead == false) {
-					this.getCombatHandler().AttackNPC();
-				} else {
-					this.getCombatHandler().ResetAttackNPC();
-				}
-			} else {
-				this.getCombatHandler().ResetAttackNPC();
-			}
+		if(this.Enemy != null){
+			this.getCombatHandler().Attack(Enemy);
 		}
 
 	}
@@ -1338,84 +1275,48 @@ playerName.trim();*/
 
 		if (SpecTimer > 0)
 			SpecTimer -= 1;
-		if (SpecTimer == 1 && (IsAttackingNPC || IsAttacking)){
+		if (SpecTimer == 1 && (this.Enemy != null)){
 
 			if (playerEquipment[playerWeapon] == 4153){ // g maul
-				if (IsAttackingNPC){
-					this.getCombatHandler().SpecDamgNPC(this.getCombatHandler().getMaxMeleeHit());	
-					this.getFrameMethodHandler().stillgfxz(337, server.npcHandler.npcs[attacknpc].absY, server.npcHandler.npcs[attacknpc].absX, 100, 10);
-				}
-				if (IsAttacking){
-					int dmg = misc.random(this.getCombatHandler().getMaxMeleeHit());
-					if(PMelee) dmg = (int)(dmg*0.6);
-					this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-				}
+				this.Enemy.inflictMeleeDamage(this.getCombatHandler().getMaxMeleeHit());
+				this.getFrameMethodHandler().stillgfxz(337, this.Enemy.getY(), this.Enemy.getX(), 100, 10);				
 				startAnimation(1667);
 			}
 
 			//drag daggers
-			if (playerEquipment[playerWeapon] == 5698 || playerEquipment[playerWeapon] == 1215 || playerEquipment[playerWeapon] == 1231 || playerEquipment[playerWeapon] == 5680){
-				if (IsAttackingNPC)
-					this.getCombatHandler().SpecDamgNPC(this.getCombatHandler().getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11));	
-				if (IsAttacking){
-					int dmg = misc.random(this.getCombatHandler().getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11));
-					if(PMelee) dmg = (int)(dmg*0.6);
-					this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-				}
+			if (playerEquipment[playerWeapon] == 5698 || 
+					playerEquipment[playerWeapon] == 1215 || 
+					playerEquipment[playerWeapon] == 1231 || 
+					playerEquipment[playerWeapon] == 5680){
+				this.Enemy.inflictMeleeDamage(this.getCombatHandler().getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11));
 			}
 
 			if(playerEquipment[playerWeapon] == 861){ //magic shortbow
 				startAnimation(426);
-				if(IsAttackingNPC){
-					this.getCombatHandler().SpecDamgNPC(this.getCombatHandler().getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25));	
-				}
-				if (IsAttacking){
-					int dmg = misc.random(this.getCombatHandler().getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25));
-					if (PRange) dmg = (int)(dmg*0.6);
-					this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-				}
+				this.Enemy.inflictRangeDamage(this.getCombatHandler().getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25));
 			}
+			
 			if(playerEquipment[playerWeapon] == Item.DARKBOW){ 
 				startAnimation(426);
-				if(IsAttackingNPC){
-					int maxHit = this.getCombatHandler().getMaxRangedHit();
-					this.getCombatHandler().SpecDamgNPC(maxHit + (int)(maxHit*0.3) );	
-				}
-				if (IsAttacking){
-					int maxHit = this.getCombatHandler().getMaxRangedHit();
-					int dmg = misc.random(maxHit + (int)(maxHit*0.3) );
-					if (PRange) dmg = (int)(dmg*0.6);
-					this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-				}
+				int maxHit = this.getCombatHandler().getMaxRangedHit();
+				this.Enemy.inflictRangeDamage(maxHit + (int)((double)maxHit*0.3));
 			}
 
 		}
 
 		if (DClawsTimer > 0)
 			DClawsTimer -= 1;
-		if (DClawsHit1 == true && (IsAttackingNPC || IsAttacking) && DClawsTimer == 8){
-			if (DClawsDmg > 0){
+		if (DClawsHit1 == true && (this.Enemy != null) && DClawsTimer == 8){
+			if (DClawsDmg > 0){ //if first hit is greater than 0
 				DClawsHit2 = DClawsDmg/2; //2nd hit is first hit divided by 2
-				if (IsAttackingNPC) //if attacking NPC
-					this.getCombatHandler().hitNPC(c.attacknpc, DClawsHit2); //directly dmg
-				if (IsAttacking){ //if attacking player
-					int dmg = DClawsHit2;
-					if(PMelee) dmg = (int)(dmg*0.6);
-					this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-				}
+				this.Enemy.inflictMeleeDamage(DClawsHit2);
 				DClawsHit3 = (DClawsHit2/2)-misc.random(2); //3rd and 4th hit add up to 2nd hit
 				DClawsHit4 = DClawsHit2-DClawsHit3;
 			}
 
 			if (DClawsDmg == 0){ //if zero damage dealt on first hit
 				DClawsHit2 = misc.random(this.getCombatHandler().getMaxMeleeHit());
-				if (IsAttackingNPC) //if attacking NPC
-					this.getCombatHandler().SpecDamgNPC2(DClawsHit2); //directly dmg
-				if (IsAttacking){ //if attacking player
-					int dmg = DClawsHit2;
-					if(PMelee) dmg = (int)(dmg*0.6);
-					this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-				}
+				this.Enemy.inflictMeleeDamage(DClawsHit2);
 				if (DClawsHit2 == 0){ //if zero damage dealt on second hit
 					int maxHit = this.getCombatHandler().getMaxMeleeHit();
 					DClawsHit3 = misc.random(maxHit); //3rd is normal hit	
@@ -1434,23 +1335,13 @@ playerName.trim();*/
 			}
 			DClawsHit1= false;
 		}
-		if ((IsAttackingNPC || IsAttacking) && DClawsTimer == 7){
-			if (IsAttackingNPC) //if attacking NPC
-				this.getCombatHandler().SpecDamgNPC2(DClawsHit3); //directly dmg
-			if (IsAttacking){ //if attacking player
-				int dmg = DClawsHit3;
-				if(PMelee) dmg = (int)(dmg*0.6);
-				this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-			}
+		
+		if (this.Enemy != null && DClawsTimer == 7){
+			this.Enemy.inflictMeleeDamage(DClawsHit3);
 		}
-		if ((IsAttackingNPC || IsAttacking) && DClawsTimer == 6){
-			if (IsAttackingNPC) //if attacking NPC
-				this.getCombatHandler().SpecDamgNPC2(DClawsHit4); //directly dmg
-			if (IsAttacking){ //if attacking player
-				int dmg = DClawsHit4;
-				if(PMelee) dmg = (int)(dmg*0.6);
-				this.getCombatHandler().damagePlayer(AttackingOn, dmg); 
-			}
+		
+		if (this.Enemy != null && DClawsTimer == 6){
+			this.Enemy.inflictMeleeDamage(DClawsHit4);
 		}
 	}
 
@@ -1516,7 +1407,7 @@ playerName.trim();*/
 			outStream.writeByteA(1);		// 0 or 1; 1 if command should be placed on top in context menu
 			outStream.writeString("Attack");
 			outStream.endFrameVarSize();
-			IsInWilderness = true;
+			isInWilderness = true;
 		} 
 
 		//Pick Up Item Check
@@ -1847,36 +1738,14 @@ playerName.trim();*/
 		case 72: //Click to attack
 			int npcid = inStream.readUnsignedWordA();
 
-			if(!canIAttackNPC(npcid))
+			this.Enemy = null;
+			this.Enemy = new Enemy(server.npcHandler.npcs[npcid]);
+			
+			if(this.getCombatHandler().canIAttackMyEnemy(this.Enemy))
 				break;
-
-			attacknpc = npcid;
-
-			if(!this.BOWHANDLER.checkAmmoWithBow()){
-				stopPlayerMovement();
-				sendMessage("You need ammo to use this ranged device.");
-				break;
-			}
-
-			if (attacknpc >= 0 && attacknpc < server.npcHandler.maxNPCs && server.npcHandler.npcs[attacknpc] != null) {
-				if(server.npcHandler.npcs[attacknpc].followPlayer < 1 || server.npcHandler.npcs[attacknpc].followPlayer == playerId) {
-					IsAttacking = false;
-					AttackingOn = 0;
-					IsAttackingNPC = true;
-					server.npcHandler.npcs[attacknpc].StartKilling = playerId;
-					server.npcHandler.npcs[attacknpc].RandomWalk = false;
-					server.npcHandler.npcs[attacknpc].IsUnderAttack = true;
-					if(server.npcHandler.npcs[attacknpc].absX != absX && server.npcHandler.npcs[attacknpc].absY != absY)
-						faceNPC(attacknpc);
-				}
-				else {
-					debug("Case 72: Exception1");
-				} 
-			} 
-			else {
-				debug("Case 72: Attacking NPC conditions invalid");
-				getCombatHandler().ResetAttackNPC();
-			} 
+			
+			if(this.Enemy.getX() != absX && this.Enemy.getY() != absY)
+				faceNPC(this.Enemy.getNPCId());
 
 			break;
 
@@ -2305,31 +2174,17 @@ playerName.trim();*/
 				sendMessage("You are in a safe zone.");
 				break;
 			}
-			if(isPlayerSpamming()) break;
-			playerSpamTimer = System.currentTimeMillis();
+			
+			this.Enemy = null;
+			this.Enemy = new Enemy((client) server.playerHandler.players[inStream.readSignedWordBigEndian()]);
 
-			AttackingOn = inStream.readSignedWordBigEndian();
-
-			client plz = (client) server.playerHandler.players[AttackingOn];
-
-			if(!plz.getClientMethodHandler().isInPKZone()){
+			if(!this.Enemy.getPlayerClient().getClientMethodHandler().isInPKZone()){
 				sendMessage("That player is in a safe zone.");
+				this.Enemy = null;
 				break;
 			}
-
-			if(plz != null) {
-				IsAttacking = true;
-				IsAttackingNPC = false;
-				attacknpc = -1;
-			} 
-
-			if(server.playerHandler.players[AttackingOn] != null) {
-				if(server.playerHandler.players[AttackingOn].absX != absX && server.playerHandler.players[AttackingOn].absY != absY){
-					//viewTo(server.playerHandler.players[AttackingOn].absX, server.playerHandler.players[AttackingOn].absY);
-					faceNPC = 32768+AttackingOn;
-					faceNPCupdate = true;
-				}
-			}
+			
+			this.facePlayer(this.Enemy.getPlayerIndex());
 
 			break;
 
@@ -2399,10 +2254,11 @@ playerName.trim();*/
 			getCombatHandler().ResetAttackNPC();
 			int npcIndex = inStream.readSignedWordBigEndianA();
 
-			if(!canIAttackNPC(npcIndex))
+			this.Enemy = null;
+			this.Enemy = new Enemy(server.npcHandler.npcs[npcIndex]);
+			
+			if(!this.getCombatHandler().canIAttackMyEnemy(this.Enemy))
 				break;
-
-			attacknpc = npcIndex;
 
 			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+server.npcHandler.npcs[npcIndex].npcType);
 

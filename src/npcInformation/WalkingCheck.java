@@ -1,4 +1,4 @@
-package npcData;
+package npcInformation;
 import java.util.Map;
 import java.util.HashMap;
 

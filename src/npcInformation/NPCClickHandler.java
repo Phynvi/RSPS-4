@@ -1,4 +1,5 @@
-package clientHandlers;
+package npcInformation;
+import clientHandlers.Item;
 import playerData.client;
 import root.misc;
 import root.server;
@@ -275,7 +276,7 @@ public class NPCClickHandler {
 
 		case 462:
 			if (c.RM == 4){
-				c.getClientMethodHandler().c.getClientMethodHandler().selectOptionTravel2("Mine rune essence?", "Yes", 2911, 4833, "No", -1,-1);
+				c.getClientMethodHandler().selectOptionTravel2("Mine rune essence?", "Yes", 2911, 4833, "No", -1,-1);
 			}
 			else c.sendMessage("You need to complete Rune Mysteries to do that.");
 			return;

@@ -1,4 +1,4 @@
-package npcData;
+package npcInformation;
 public class Tile
 {
 	public Tile(int x, int y){

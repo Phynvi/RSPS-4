@@ -1,4 +1,4 @@
-package npcData;
+package npcInformation;
 
 import clientHandlers.CommandHandler;
 

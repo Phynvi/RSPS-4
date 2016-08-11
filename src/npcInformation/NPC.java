@@ -1,4 +1,4 @@
-package npcData;
+package npcInformation;
 import java.util.ArrayList;
 
 import playerData.stream;
@@ -85,6 +85,8 @@ public class NPC {
 			IsDead = true;
 		}
 		hitUpdateRequired = true;
+		RandomWalk = false;
+		IsUnderAttack = true;
 	}
 
 	private void appendSetFocusDestination(stream str) {

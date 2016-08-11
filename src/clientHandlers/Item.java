@@ -64,6 +64,8 @@ public class Item {
 	public static final int LONGRANGE = -300;
 	public static final int MAGIC = -400;
 	public static final int TRADING_STICKS = 6306;
+	
+	public static int[] halberds = new int[]{1419,1413,3190,3192,3194,3196,3198,3200,3202,3204};
 
 	/**
 	 * Gets the delay for the item passed in
@@ -93,7 +95,6 @@ public class Item {
 	}
 
 
-
 	/**
 	 * Checks to see if the player has a bow and ammo equipped
 	 * Will modify PkingDelay if a bow is equipped
@@ -102,22 +103,19 @@ public class Item {
 	 * Returns 1 as default if no bow is equipped.
 	 */
 	public static int ifHasBowAndAmmoUpdateDelay(client c){
-		if(lists.bows.exists(c.playerEquipment[c.playerWeapon]) || lists.xbow.exists(c.playerEquipment[c.playerWeapon])){ //Check to see if a bow is equipped
-			if(!c.BOWHANDLER.checkAmmoWithBow())
-				return -1;
-			switch (c.FightType) {
-			case 1:
-				c.PkingDelay = getItemDelay(ACCURATE); 
-				return 4;
-			case 2: //rapid
-				c.PkingDelay = getItemDelay(RAPID); 
-				return 3;
-			case 3:
-				c.PkingDelay = getItemDelay(LONGRANGE); 
-				return 6;
-			}		
+		if(!c.BOWHANDLER.checkAmmoWithBow())
+			return -1;
+		switch (c.FightType) {
+		default:
+			c.PkingDelay = getItemDelay(ACCURATE); 
+			return 4;
+		case 2:
+			c.PkingDelay = getItemDelay(RAPID); 
+			return 3;
+		case 3:
+			c.PkingDelay = getItemDelay(LONGRANGE); 
+			return 6;
 		}
-		return 1; //default distance, no bow equipped
 	}
 
 	public static boolean[] itemStackable = new boolean[17000];
@@ -995,7 +993,7 @@ public class Item {
 	}
 
 	public static boolean isBow(int itemID){
-		return lists.bows.exists(itemID);
+		return lists.bows.exists(itemID) || lists.xbow.exists(itemID);
 	}
 
 	private static BST untradeableItems = new BST();

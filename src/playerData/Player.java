@@ -3,9 +3,10 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import npcData.NPC;
 import clientHandlers.Item;
 import clientHandlers.playerInstances;
+import clientHandlers.combat.Enemy;
+import npcInformation.NPC;
 import root.misc;
 import root.server;
 import serverHandlers.NPCHandler;
@@ -17,6 +18,23 @@ public abstract class Player extends playerInstances {
 
 	public int slot = -1;
 
+	public void followEnemy(Enemy e){
+		int id = e.getID();
+		if(e.isNPC()){
+			this.followingNPCID = id;
+			this.followNPC(id);
+		}
+		else{
+			this.followingPlayerID = id;
+			this.followplayer(id);
+		}
+	}
+	
+	public void stopFollow(){
+		this.followingNPCID = -1;
+		this.followingPlayerID = -1;
+	}
+	
 	public int distanceTo(Player other) {
 		return (int) Math.sqrt(Math.pow(absX - other.absX, 2) + Math.pow(absY - other.absY, 2));
 	}
@@ -78,6 +96,15 @@ public abstract class Player extends playerInstances {
 		requirePlayerUpdate();
 	}
 
+	private Enemy Enemy;
+	public Enemy getEnemy(){
+		return this.Enemy;
+	}
+	
+	public void setEnemy(Enemy a){
+		this.Enemy = a;
+	}
+	
 	public boolean newhptype = false;
 
 	public int hptype = 0;
@@ -402,6 +429,10 @@ public abstract class Player extends playerInstances {
 	public void inCombat(){
 		LogoutDelay = System.currentTimeMillis();
 	}
+	
+	public boolean isInCombat(){
+		return (LogoutDelay > 0);
+	}
 
 	/**
 	 * @param seconds Seconds to be frozen for
@@ -511,8 +542,6 @@ public abstract class Player extends playerInstances {
 	public int Donar = 0;
 	public int bandit = 0;
 
-	public int AttackingOn = 0;
-
 	public int OptionObject = -1;
 
 	public boolean Climbing = false;
@@ -558,6 +587,8 @@ public abstract class Player extends playerInstances {
 	public boolean Killedqueen = false;
 	// end of quest1 stuff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+	public boolean isInWilderness = false;
+	
 	public boolean takeAsNote = false;
 
 	public abstract void initialize();
@@ -1485,11 +1516,24 @@ public abstract class Player extends playerInstances {
 	public void appendMask1Update(stream str) {
 		str.writeWordBigEndian(mask1var);
 	}
+	
+	public void faceEnemy(Enemy e){
+		if(e.isNPC())
+			faceNPC(e.getNPCId());
+		else
+			facePlayer(e.getPlayerIndex());
+	}
+	
 	public void faceNPC(int index) {
 		faceNPC = index;
 		faceNPCupdate = true;
-		updateRequired = true;
 	}
+
+	public void facePlayer(int index) {
+		faceNPC = 32768+index;
+		faceNPCupdate = true;
+	}
+	
 	public boolean faceNPCupdate = false;
 	public int faceNPC = -1;
 	public void appendFaceNPCUpdate(stream str) {
@@ -1607,11 +1651,9 @@ public abstract class Player extends playerInstances {
 	protected boolean dirUpdate2Required = false;
 	public boolean IsCutting = false;
 	public boolean WannePickUp = false;
-	public boolean IsInWilderness = false;
-	public boolean IsAttacking = false;
+	
 	public boolean IsMining = false;
-	public boolean IsAttackingNPC = false;
-	public int attacknpc = -1;
+
 	public int Essence;
 	public boolean IsShopping = false;
 	public int MyShopID = 0;

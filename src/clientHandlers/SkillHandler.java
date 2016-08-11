@@ -8,6 +8,7 @@ import skills.Fletching;
 import skills.Prayer;
 import skills.Agility;
 import skills.Thieving;
+import skills.Slayer;
 
 
 public class SkillHandler {
@@ -65,6 +66,11 @@ public class SkillHandler {
 	private int skillType = -1;
 	private client c;
 	
+	private Slayer slayerHandler;
+	public Slayer getSlayerHandler(){
+		return this.slayerHandler;
+	}
+	
 	private Thieving thievingHandler;
 	public Thieving getThievingHandler(){
 		return this.thievingHandler;
@@ -115,6 +121,7 @@ public class SkillHandler {
 		this.prayerHandler = new Prayer(pc);
 		this.agilityHandler = new Agility(pc);
 		this.thievingHandler = new Thieving(pc);
+		this.slayerHandler = new Slayer(pc);
 	}
 	
 	

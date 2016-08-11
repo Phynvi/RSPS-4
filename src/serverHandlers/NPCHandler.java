@@ -2,8 +2,6 @@ package serverHandlers;
 import java.io.*;
 import java.util.Hashtable;
 
-import npcData.NPC;
-import npcData.NPCAnim;
 import struct.NPCList;
 import playerData.Player;
 import playerData.client;
@@ -13,6 +11,8 @@ import struct.BST;
 import struct.DropList;
 import struct.lists;
 import clientHandlers.Item;
+import npcInformation.NPC;
+import npcInformation.NPCAnim;
 	
 public class NPCHandler {
 	public static BST aggressiveNPCS = new BST(277,1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,158,109,78,107,144,49,190,134,82,104,90,91,92,93,113,871,1198,3073,111,172,173,1616,1608,2850,1611,1647,3000,122,123,64,125,1590,1591,1592,84,50,2745,1154,1155,1157,1160,2035,2033,941,55,54,53); //aggressive NPCs, agro by player combat level
