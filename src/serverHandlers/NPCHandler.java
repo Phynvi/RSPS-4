@@ -11,6 +11,7 @@ import struct.BST;
 import struct.DropList;
 import struct.lists;
 import clientHandlers.Item;
+import clientHandlers.combat.Enemy;
 import npcInformation.NPC;
 import npcInformation.NPCAnim;
 	
@@ -404,7 +405,7 @@ public class NPCHandler {
 									if ( 
 											person.distanceToPoint(npcs[i].absX, npcs[i].absY) <= npcs[i].agroRange && 
 											person.heightLevel == npcs[i].heightLevel && 
-											( !person.IsAttackingNPC || person.getClientMethodHandler().isInMultiCombat() ) && 
+											( person.getEnemy() == null || person.getClientMethodHandler().isInMultiCombat() ) && 
 											npcs[i].StartKilling <= 0 && 
 											!npcs[i].moveToSpawn && 
 											( ((getCombat(npcs[i].npcType)*2) > person.combat) || npcs[i].isAggressiveIgnoreCombatLevel ) 
@@ -634,7 +635,7 @@ public class NPCHandler {
 		//if(c.debugmode) c.sendMessage("npcID is "+npcID+", slayerNPC is "+c.slayerNPC+", slayerCount is "+c.slayerCount);
 		if(c == null) return;
 		if(c.slayerNPC == npcID && c.slayerCount > 0){
-			int amount = c.SLAYER.generateEXP(npcID);
+			int amount = c.getSkillHandler().getSlayerHandler().generateEXP(npcID);
 			c.sendMessage("For killing your current Slayer task, you receive "+amount+" EXP.");
 			c.getClientMethodHandler().addSkillXP(amount, 18);		
 			c.slayerCount -= 1;
@@ -1263,17 +1264,11 @@ WORLDMAP 2: (not-walk able places)
 		int playerY = server.playerHandler.players[playerID].absY;
 		npcs[NPCID].enemyX = playerX;
 		npcs[NPCID].enemyY = playerY;
+		Enemy e = new Enemy(npcs[NPCID]);
 
 		int _npcID = npcs[NPCID].npcType;
 
 		int EnemyHP = server.playerHandler.players[playerID].playerLevel[server.playerHandler.players[playerID].playerHitpoints];
-
-		if(server.playerHandler.players[playerID].attacknpc == NPCID) {
-			server.playerHandler.players[playerID].faceNPC = NPCID; // Xerozcheez: sets npc index for player to view
-			server.playerHandler.players[playerID].faceNPCupdate = true; // Xerozcheez: updates face npc index so player faces npcs
-			server.playerHandler.players[playerID].attacknpc = NPCID; // Xerozcheez: makes it so if player runs away the player attacks back when npc follows
-			server.playerHandler.players[playerID].IsAttackingNPC = true; // Xerozcheez: makes it so if player runs away the player attacks back when npc follows
-		}
 
 		if(playerX == npcs[NPCID].absX && playerY == npcs[NPCID].absY){ //steps off player if on top of player
 			int rX = misc.random(1);
@@ -1782,10 +1777,9 @@ WORLDMAP 2: (not-walk able places)
 				npcs[NPCID].faceplayer(playerID);
 				c.getFrameMethodHandler().RemoveAllWindows();
 
-				if( c.autoRetaliate == 1 && !c.IsAttackingNPC ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
-					c.IsAttackingNPC = true;
-					c.attacknpc = NPCID;
-					c.getCombatHandler().AttackNPC();
+				if( c.autoRetaliate == 1 && c.getEnemy() == null ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
+					c.setEnemy(e);
+					c.getCombatHandler().Attack();
 				}
 				if(c.teleportDelayCast && c.teleportDelay > 0)
 					c.interruptTeleport();

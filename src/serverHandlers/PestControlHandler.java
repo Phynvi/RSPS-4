@@ -28,7 +28,7 @@ public class PestControlHandler {
 	}
 	
 	private void sendPlayerBackToOutpostAndHeal(client c){
-		c.getCombatHandler().ResetAttackNPC();
+		c.getCombatHandler().resetAttack();
 		c.NewHP = c.getLevelForXP(c.playerXP[c.playerHitpoints]);
 		c.teleport(2657,2639);
 		c.getSkillHandler().getPrayerHandler().disableAllPrayer();

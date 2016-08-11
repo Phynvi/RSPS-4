@@ -583,7 +583,7 @@ public class ItemUse {
 		case 611:
 			c.getFrameMethodHandler().stillgfx(336, c.absY, c.absX);
 			c.startAnimation(1333);
-			String task = c.SLAYER.getTaskName(c.slayerNPC);
+			String task = c.getSkillHandler().getSlayerHandler().getTaskName(c.slayerNPC);
 			if(c.slayerCount > 1) task += "s";
 			if(c.slayerCount > 0) c.sendMessage("Remaining : "+c.slayerCount+" more "+task+".");
 			if(c.slayerCount <= 0 && c.slayerNPC != 0) c.sendMessage("Your current slayer task is complete.");

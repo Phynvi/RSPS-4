@@ -1130,8 +1130,7 @@ public class ClientMethodHandler {
 		c.sendMessage("Oh dear, you are dead.");
 		c.hitDiff = 0;	
 		c.deadAnimTimer = -1;
-		c.getCombatHandler().ResetAttack();
-		c.getCombatHandler().ResetAttackNPC();
+		c.getCombatHandler().resetAttack();
 		c.getSkillHandler().getPrayerHandler().disableAllPrayer();
 		c.NewHP = c.getLevelForXP(c.playerXP[3]);
 		c.getFrameMethodHandler().setSkillLevel(3, c.getLevelForXP(c.playerXP[3]), c.playerXP[c.playerHitpoints]);

@@ -1,11 +1,9 @@
 package clientHandlers.combat;
 
-import clientHandlers.Item;
 import npcInformation.NPC;
-import npcInformation.NPCAnim;
+import playerData.Player;
 import playerData.client;
 import root.server;
-import serverHandlers.PlayerHandler;
 
 
 public class Enemy {
@@ -29,6 +27,10 @@ public class Enemy {
 
 	public Enemy(client c){
 		this.selfPlayer = c;
+	}
+	
+	public Enemy(Player p){
+		this.selfPlayer = (client)p;
 	}
 
 	public int getX(){
@@ -126,61 +128,38 @@ public class Enemy {
 		this.inflictDamage(amount, attackingPlayerIndex);
 	}
 
-	//TODO
 	private void inflictDamage(int amount, int attackerPlayerIndex){
+		client attacker = (client)server.playerHandler.players[attackerPlayerIndex];
 		if(this.isNPC()){
-			this.opponent.getPlayerClient().getCombatHandler().hitNPC(this.getNPCId(), amount, attackerPlayerIndex);
+			attacker.getCombatHandler().hitNPC(this.getNPCId(), amount, attackerPlayerIndex);
 		}
 		else{
-			
+			attacker.getCombatHandler().hitPlayer(this.getPlayerIndex(), amount);
 		}		
-		
-		if(this.n != null){
-			this.getPlayerClient().getCombatHandler().hitNPC(this.getNPCId(), amount, this.getPlayerIndex());
-		}
-		else{
-
-			this.opponent.facePlayer(this.getPlayerIndex());
-			
-			this.attackClient.KillerId = this.opponent.playerId;
-			
-			if(this.opponent.autoRetaliate == 1 && !this.opponent.isInCombat()) //1 means on
-				this.opponent.getCombatHandler().opponentAutoAttack(this.attackClient);
-			this.opponent.inCombat();
-			if (this.attackClient.SpecEmoteTimer == 0)
-				this.attackClient.startAnimation(Item.GetBlockAnim(this.attackClient.playerEquipment[this.attackClient.playerWeapon]));
-		}
 	}
 
-	//TODO
 	public void facePlayer(int playerIndex){
-		
+		if(this.isNPC())
+			this.getNPC().faceplayer(playerIndex);
+		else
+			this.getPlayerClient().facePlayer(playerIndex);		
 	}
 
-	//TODO
 	public boolean isDead(){
-		return false;
+		if(this.isNPC()){
+			return(this.getNPC().IsDead);
+		}
+		
+		return this.getPlayerClient().IsDead;
 	}
 	
 	/**
 	 * @return Player index in playerhandler Players array
 	 */
 	public int getPlayerIndex(){
-		return attackClient.playerId;
+		return this.selfPlayer.playerId;
 	}
-	
-	public void attackTarget(){
-		if(this.attackClient != null){
-			this.n.RandomWalk= false;
-			this.n.IsUnderAttack = true;
-			this.n.StartKilling = this.opponent.playerId;
-		}
-		else if (this.n != null){
-			//TODO
-		}
-	}
-
-	
+		
 	public client getPlayerClient(){
 		return this.selfPlayer;
 	}
@@ -193,9 +172,10 @@ public class Enemy {
 	 * @return Either player index ID or npc index ID
 	 */
 	public int getID(){
-		if(this.attackClient == null)
-			return this.n.npcId;
-		return this.attackClient.playerId;
+		if(this.isNPC())
+			return this.selfNPC.npcId;
+		
+		return this.selfPlayer.playerId;
 	}
 
 }

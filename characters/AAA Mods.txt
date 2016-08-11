@@ -1,35 +1,35 @@
 [ACCOUNT]
-character-username = aaa mods
+character-username = AAA Mods
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2669
-character-posy = 3435
+character-posx = 2726
+character-posy = 3485
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160507
+character-lastconnection = 192.168.1.100
+character-lastlogin = 20160710
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
 [EQUIPMENT]
 character-equip = 0	-1	0	
-character-equip = 1	1031	1	
-character-equip = 2	1712	1	
-character-equip = 3	3204	1	
-character-equip = 4	544	1	
+character-equip = 1	-1	0	
+character-equip = 2	-1	0	
+character-equip = 3	-1	0	
+character-equip = 4	-1	0	
 character-equip = 5	-1	0	
 character-equip = 6	-1	0	
-character-equip = 7	542	1	
+character-equip = 7	-1	0	
 character-equip = 8	-1	0	
-character-equip = 9	3060	1	
-character-equip = 10	3105	1	
+character-equip = 9	-1	0	
+character-equip = 10	-1	0	
 character-equip = 11	-1	0	
-character-equip = 12	6735	1	
-character-equip = 13	78	1059	
+character-equip = 12	-1	0	
+character-equip = 13	-1	0	
 
 [LOOK]
 character-look = 0	0
@@ -40,12 +40,12 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	32229000
+character-skill = 0	99	32229200
 character-skill = 1	99	16267980
-character-skill = 2	99	35618400
-character-skill = 3	99	57157860
+character-skill = 2	99	35631600
+character-skill = 3	99	57171260
 character-skill = 4	99	20146480
-character-skill = 5	96	16501488
+character-skill = 5	99	16501488
 character-skill = 6	99	20083300
 character-skill = 7	99	16184120
 character-skill = 8	99	16554305
@@ -67,9 +67,9 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	1	1
-character-item = 1	2	1
-character-item = 2	996	963
+character-item = 0	6736	1
+character-item = 1	3205	1
+character-item = 2	1713	1
 
 [BANK]
 character-bank = 0	392	57

@@ -343,10 +343,10 @@ public class ButtonClickHandler {
 				break;
 
 			case 7:
-				if(c.slayerCount < 10){
-					c.SLAYER.generateTask();
-					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You want to help us rid the world", "of annc.oYing monsters?", "I am fine with this.", "Sure, I'll give you a task.",
-							"I want you to slay "+c.slayerCount+" "+c.SLAYER.getTaskName(c.slayerNPC)+"s.");
+				if (c.slayerCount < 10){
+					c.getSkillHandler().getSlayerHandler().generateTask();
+					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "You want to help us rid the world", "of annoying monsters?", "I am fine with this.", "Sure, I'll give you a task.",
+							"I want you to slay "+c.slayerCount+" "+c.getSkillHandler().getSlayerHandler().getTaskName(c.slayerNPC)+"s.");
 				}
 				else
 					c.getClientMethodHandler().npcdialogue(c.getClientMethodHandler().getNpcName(c.slayerMaster), c.slayerMaster, "Don't try and be sneaky with me.", "I know you still haven't finished", "your original Slayer task!", "Now get out of here.");
@@ -720,7 +720,7 @@ public class ButtonClickHandler {
 				break;
 
 			case 7:
-				String npcName = c.SLAYER.getTaskName(c.slayerNPC);
+				String npcName = c.getSkillHandler().getSlayerHandler().getTaskName(c.slayerNPC);
 				if(c.slayerCount > 1)
 					npcName += "s";
 				if(c.slayerNPC == 0)
@@ -1150,7 +1150,7 @@ public class ButtonClickHandler {
 				if(curWeap == 7158){ //Dragon 2h
 					if(c.specialDelay >= 6){
 						c.litBar = true;
-						if (c.IsAttackingNPC == false)
+						if (c.getEnemy() == null)
 							c.getCombatHandler().Dragon2hSpecial();				
 					}
 					else c.sendMessage("You do not have enough power.");

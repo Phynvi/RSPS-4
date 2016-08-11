@@ -814,7 +814,7 @@ public class MenuHandler {
 				"Slayer monsters may only be attacked if they are a",
 				"slayer task or if you have a high enough Slayer level.",
 				"",
-				"My current Slayer task : @gre@"+c.SLAYER.getTaskName(c.slayerNPC),
+				"My current Slayer task : @gre@"+c.getSkillHandler().getSlayerHandler().getTaskName(c.slayerNPC),
 				"",
 				"@whi@Monsters",
 				"Level 40 - Fever Spider",

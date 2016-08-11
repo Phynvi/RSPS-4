@@ -348,7 +348,7 @@ public class RangeDataHandler {
 		int offsetY = (c.absY - Y3) * -1;
 		//c.ProjectileSpellPlayer(arrowGFX, arrowGFX, arrowGFX, c.absY, c.absX, offsetY, offsetX, c.AttackingOn+1, Y3, X3);
 		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
-		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, c.AttackingOn+1, 40);
+		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, playerIndex+1, 40);
 	}
 
 }

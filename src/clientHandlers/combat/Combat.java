@@ -849,11 +849,11 @@ public class Combat {
 				c.stopPlayerMovement();
 
 				if(e.isNPC()){
-					c.getMagicHandler().magicOnNPC(e.getID());
+					c.getMagicHandler().magicOnNPC(e);
 					return;
 				}
 				else{
-					c.getMagicHandler().AttackPlayerMagic(e.getID());
+					c.getMagicHandler().AttackPlayerMagic(e);
 					return;
 				}
 

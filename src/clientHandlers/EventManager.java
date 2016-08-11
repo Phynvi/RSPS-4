@@ -67,7 +67,7 @@ public class EventManager{
 
 			case 2: //Called every 30 seconds
 				if(c.idleTimer > 0) c.idleTimer -= 1;
-				if(c.idleTimer == 0 && !c.IsAttacking && !c.IsAttackingNPC) 
+				if(c.idleTimer == 0 && !c.isInCombat()) 
 					if(c.playerRights < 1) c.disconnectPlayerAndSave("Idle");
 
 				if (c.specialDelay < 10){
