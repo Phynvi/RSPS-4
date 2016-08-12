@@ -1345,6 +1345,10 @@ playerName.trim();*/
 
 
 	public boolean process() { 	// is being called regularily every 500ms	
+		if(countDown != null && --countDown.counter == 0){
+			countDown.execute();
+			countDown = null;
+		}
 		getSkillHandler().process();
 		checkSpecialTimers();
 		getMiniGameHandler().miniGameTimers();
@@ -1738,13 +1742,6 @@ playerName.trim();*/
 
 			this.setEnemy(null);
 			this.setEnemy(new Enemy(server.npcHandler.npcs[npcid]));
-			
-			if(this.getCombatHandler().canIAttackMyEnemy(this.getEnemy()))
-				break;
-			
-			if(this.getEnemy().getX() != absX && this.getEnemy().getY() != absY)
-				faceNPC(this.getEnemy().getID());
-
 			break;
 
 
@@ -2168,21 +2165,8 @@ playerName.trim();*/
 
 			//Attacking player
 		case 73: 
-			if(!getClientMethodHandler().isInPKZone()){
-				sendMessage("You are in a safe zone.");
-				break;
-			}
-			
 			this.setEnemy(null);
 			this.setEnemy(new Enemy((client) server.playerHandler.players[inStream.readSignedWordBigEndian()]));
-
-			if(!this.getEnemy().getPlayerClient().getClientMethodHandler().isInPKZone()){
-				sendMessage("That player is in a safe zone.");
-				this.getCombatHandler().resetAttack();
-				break;
-			}
-			
-			this.faceEnemy(this.getEnemy());
 			break;
 
 		case 128: //Trade Request
@@ -2225,44 +2209,27 @@ playerName.trim();*/
 
 		case 249: //Magic on Players
 			// MAGE_00
-			int playerIndexx = inStream.readSignedWordA();
-			int pcombat = server.playerHandler.players[playerIndexx].combat;
-			spellID = inStream.readSignedWordBigEndian();
-			client pl2 = (client) server.playerHandler.players[playerIndexx];
-
-			if(!isPlayerSpamming()) {
-				playerSpamTimer = System.currentTimeMillis();
-				if(pl2 == null) return;
-
-				getCombatHandler().resetAttack();
-
-				if(getClientMethodHandler().isInPKZone()) {	
-					MageAttackIndex = playerIndexx+1;
-					this.setEnemy(null);
-					Enemy e = new Enemy(server.playerHandler.players[playerIndexx]);
-					this.setEnemy(e);
-					getMagicHandler().AttackPlayerMagic(e);
-				}
-				else sendMessage("That player is in a safe zone.");
+			int playerIndex = inStream.readSignedWordA();
+			spellID = inStream.readSignedWordBigEndian();			
+			Enemy e = new Enemy(server.playerHandler.players[playerIndex]);
+			if(this.getCombatHandler().canIAttackMyEnemy(e)){
+				getMagicHandler().magicOnEnemy(e, spellID);
 			}
 			break;
 
 
 		case 131: //Magic on NPCs
-			getCombatHandler().resetAttack();
 			int npcIndex = inStream.readSignedWordBigEndianA();
-
-			this.setEnemy(null);
-			Enemy e = new Enemy(server.npcHandler.npcs[npcIndex]);
-			this.setEnemy(e);
-			
-			if(!this.getCombatHandler().canIAttackMyEnemy(this.getEnemy()))
-				break;
+			e = new Enemy(server.npcHandler.npcs[npcIndex]);
 
 			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+server.npcHandler.npcs[npcIndex].npcType);
 
 			spellID = inStream.readSignedWordA();
-			getMagicHandler().magicOnNPC(e);
+			
+			if(this.getCombatHandler().canIAttackMyEnemy(e)){
+				getMagicHandler().magicOnEnemy(e, spellID);
+			}
+					
 			break;
 
 

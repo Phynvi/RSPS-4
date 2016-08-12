@@ -85,7 +85,7 @@ public class NPCHandler {
 		newNPC.heightLevel = heightLevel;
 		newNPC.Respawns = Respawns;
 		npcs[slot] = newNPC;
-		if(newNPC.MaxHP <= 1)
+		if(newNPC.MaxHP <= 1 || lists.safeNPCs.exists(npcType))
 			newNPC.attackable = false;
 		if(largeNPC.get(npcType) != null){ //NPCs larger than one tile, so their attack distance should be 2 if they are melee
 			newNPC.attackDistance = 2;

@@ -18,6 +18,9 @@ import tests.Test;
 
 public class server implements Runnable {
 	
+	public static boolean RUN_TESTS = false;
+	public static boolean showDelay = false;
+	
 public static WorldMap worldMap = null;	
 
 public static LinkedList<Test> tests = new LinkedList<Test>();
@@ -40,11 +43,8 @@ public static boolean debugmode = false;
 	public static int updateSeconds = 180; //180 because it doesnt make the time jump at the start :P
 	public static long startTime;
 	public static long upTime;
-	public static boolean showDelay = false;
 	public static GlobalObjectHandler globalObjectHandler = null;
 	public static GlobalChatRoomHandler globalChatRoomHandler = null;
-	
-	public static boolean RUN_TESTS = false;
 	
 	public static void main(java.lang.String args[]) {
 		lists.generateLists();
@@ -130,6 +130,7 @@ public static boolean debugmode = false;
 					
 					System.out.println("[KERNEL] [UNIT TESTING] : Testing Completed");					
 					RUN_TESTS = false;
+					showDelay = false;
 				}
 			}
 			if(timeSpent >= cycleTime) {

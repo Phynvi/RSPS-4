@@ -137,6 +137,11 @@ public class Combat {
 	 * @return True if can be attacked, false if not.
 	 */
 	public boolean canIAttackMyEnemy(Enemy e){
+
+		if (e.isDead()){
+			return false;
+		}
+		
 		if(e.isNPC()){
 			if(c.getSkillHandler().getSlayerHandler().slayerNPC.exists(e.getNPCType())){ //slayer NPC
 				if(c.playerLevel[18] < c.getSkillHandler().getSlayerHandler().getTaskLevel(e.getNPCType()) && 
@@ -155,7 +160,7 @@ public class Combat {
 			}
 			int _NPCTYPE = e.getNPCType();
 
-			if(lists.safeNPCs.exists(_NPCTYPE) || c.DIALOGUEHANDLER.exists(_NPCTYPE)){
+			if(e.getNPC().attackable){
 				c.sendMessage("That's a friendly NPC that I should not attack.");
 				c.stopPlayerMovement();
 				return false;
@@ -176,13 +181,18 @@ public class Combat {
 			}
 		}
 		else{
-			
+			if(!c.getClientMethodHandler().isInPKZone()){
+				c.sendMessage("You are in a safe zone.");
+				resetAttack();
+				return false;
+			}
+			if(e.getPlayerClient().getClientMethodHandler().isInPKZone()){
+				c.sendMessage("That player is in a safe zone.");
+				resetAttack();
+				return false;
+			}
 		}
 		return true;
-	}
-	
-	public void Attack(Enemy e){
-		
 	}
 
 	/**
@@ -483,20 +493,6 @@ public class Combat {
 		opp.getCombatHandler().Attack();
 	}
 
-	public boolean canAttackOpponent(client opp){
-		if(!c.getClientMethodHandler().isInPKZone()){
-			c.sendMessage("You are in a safe zone.");
-			resetAttack();
-			return false;
-		}
-		if(!opp.getClientMethodHandler().isInPKZone()){
-			c.sendMessage("That player is in a safe zone.");
-			resetAttack();
-			return false;
-		}
-		return true;
-	}
-
 	public void attackPlayersWithin2(int gfx, int maxDamage, int range) {
 		for (Player p : server.playerHandler.players)
 		{
@@ -631,13 +627,13 @@ public class Combat {
 	 */
 	public boolean hitPlayer(int playerId, int damage){
 		try{
-			c.facePlayer(playerId);
-			
 			client playerToHit = (client)server.playerHandler.players[playerId];
-			c.KillerId = playerId;
 			
+			c.KillerId = playerId;
 			playerToHit.KillerId = c.playerId;
+			
 			playerToHit.inCombat();
+			playerToHit.interruptTeleport();
 			
 			if(playerToHit.autoRetaliate == 1 && playerToHit.getEnemy() == null)
 				opponentAutoAttack(playerToHit);
@@ -723,16 +719,12 @@ public class Combat {
 	//TODO
 	public void Attack() {
 		Enemy e = c.getEnemy();
-
-		if (e.isDead()){
-			resetAttack();
+		
+		if(!c.getCombatHandler().canIAttackMyEnemy(e)){
+			c.getCombatHandler().resetAttack();
+			c.stopPlayerMovement();
 			return;
 		}
-
-		if(c.LoopAttDelay > 0)
-			return;
-
-		c.faceEnemy(e);
 
 		//default to melee
 		int distance = 1; 
@@ -743,7 +735,7 @@ public class Combat {
 			if(distance == -1){
 				c.sendMessage("You need the correct ammo to use this ranged weapon.");
 				c.stopPlayerMovement();
-				resetAttack();
+				c.getCombatHandler().resetAttack();
 				return;
 			}
 		}
@@ -760,11 +752,19 @@ public class Combat {
 		int EnemyX = e.getX();
 		int EnemyY = e.getY();
 		int hitDiff = 0;
-
-		int EnemyDistance = misc.distanceBetweenPoints(EnemyX, EnemyY, c.absX, c.absY);
-
+		
 		/* Melee */
 		if((distance == 1 && !c.autocast) || halberd) { 
+
+			if(halberd)
+				c.stopPlayerMovement();
+			
+			c.stopFollow();
+			c.faceEnemy(e);
+			
+			if(c.LoopAttDelay > 0)
+				return;
+			
 			if(e.getNPCType() == 3001){
 				c.sendMessage("You need a ranged weapon to attack this monster.");
 				c.stopPlayerMovement();
@@ -773,6 +773,7 @@ public class Combat {
 			}
 
 			if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance)) {
+				c.stopFollow();
 				c.startAnimation(Item.GetWepAnim(c));
 
 				c.PkingDelay = Item.getItemDelay(c.playerEquipment[c.playerWeapon]);
@@ -804,8 +805,12 @@ public class Combat {
 		/* Ranged */
 		if(distance > 1 && !c.autocast){
 			if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, distance)) {
-				c.stopFollow();
-
+				c.stopPlayerMovement();
+				c.faceEnemy(e);
+				
+				if(c.LoopAttDelay > 0)
+					return;
+				
 				hitDiff = misc.random(getMaxRangedHit());
 
 				if(!this.doIHitEnemyWithRanged(e)) hitDiff = 0;
@@ -844,24 +849,7 @@ public class Combat {
 
 		/* Magic */
 		if(c.autocast){
-			final int AUTOCASTDISTANCE = 6;
-			if (misc.GoodDistance(EnemyX, EnemyY, c.absX, c.absY, AUTOCASTDISTANCE)){ 
-				c.stopPlayerMovement();
-
-				if(e.isNPC()){
-					c.getMagicHandler().magicOnNPC(e);
-					return;
-				}
-				else{
-					c.getMagicHandler().AttackPlayerMagic(e);
-					return;
-				}
-
-			}	
-			else{
-				c.followEnemy(e);
-				return;
-			}
+			c.getMagicHandler().magicOnEnemy(e, c.spellID);
 		}
 	}
 

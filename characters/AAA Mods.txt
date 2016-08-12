@@ -1,11 +1,11 @@
 [ACCOUNT]
-character-username = AAA Mods
+character-username = aaa mods
 character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2726
-character-posy = 3485
+character-posx = 2964
+character-posy = 3387
 character-rights = 2
 character-ismember = 1
 character-messages = 0
@@ -19,7 +19,7 @@ character-gamecount = 0
 character-equip = 0	-1	0	
 character-equip = 1	-1	0	
 character-equip = 2	-1	0	
-character-equip = 3	-1	0	
+character-equip = 3	15335	1	
 character-equip = 4	-1	0	
 character-equip = 5	-1	0	
 character-equip = 6	-1	0	
@@ -29,7 +29,7 @@ character-equip = 9	-1	0
 character-equip = 10	-1	0	
 character-equip = 11	-1	0	
 character-equip = 12	-1	0	
-character-equip = 13	-1	0	
+character-equip = 13	4740	9984	
 
 [LOOK]
 character-look = 0	0
@@ -40,13 +40,13 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	32229200
+character-skill = 0	99	32247000
 character-skill = 1	99	16267980
 character-skill = 2	99	35631600
-character-skill = 3	99	57171260
-character-skill = 4	99	20146480
+character-skill = 3	99	57222660
+character-skill = 4	99	20180080
 character-skill = 5	99	16501488
-character-skill = 6	99	20083300
+character-skill = 6	99	20124460
 character-skill = 7	99	16184120
 character-skill = 8	99	16554305
 character-skill = 9	99	14867735
@@ -67,9 +67,25 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	6736	1
-character-item = 1	3205	1
-character-item = 2	1713	1
+character-item = 0	4152	1
+character-item = 1	14639	1
+character-item = 2	14861	1
+character-item = 3	14512	1
+character-item = 4	14513	1
+character-item = 5	15351	1
+character-item = 6	15151	1
+character-item = 7	3632	1
+character-item = 8	12004	1
+character-item = 9	13309	1
+character-item = 10	6586	1
+character-item = 11	4735	1
+character-item = 12	2435	1
+character-item = 13	2435	1
+character-item = 14	2435	1
+character-item = 15	2435	1
+character-item = 16	6738	1
+character-item = 17	13309	1
+character-item = 18	4741	10000
 
 [BANK]
 character-bank = 0	392	57

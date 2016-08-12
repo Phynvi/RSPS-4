@@ -4,11 +4,17 @@ import playerData.client;
 import clientHandlers.GraphicsHandler;
 import clientHandlers.Item;
 import clientHandlers.combat.Enemy;
+import npcInformation.NPC;
 import root.misc;
 import root.server;
 import serverHandlers.PlayerHandler;
 import struct.lists;
 
+import java.util.LinkedList;
+
+import Resources.Messages;
+import Resources.Tuple;
+import clientHandlers.CountDown;
 
 public class MagicDataHandler {
 	private client c;
@@ -360,236 +366,7 @@ public class MagicDataHandler {
 		return totalDamage;
 	}
 
-	public boolean AttackPlayerMagic(Enemy e) {
-		int magicDistance = 6;
-		int index = e.getID();
-		
-		if (!misc.GoodDistance(server.playerHandler.players[index].absX, server.playerHandler.players[index].absY, c.absX, c.absY, magicDistance))
-			c.followingPlayerID = e.getID();
-
-		if(c.LoopAttDelay > 0)
-			return false;
-
-		c.applySnare = -1;
-		int required = this.checkMagicLevel(c.spellID);
-		if(c.playerLevel[c.playerMagic] < required){
-			c.sendMessage("You need a Magic level of at least "+required+" to do that.");
-			c.stopPlayerMovement();
-			return false;
-		}
-
-		if(!this.checkMagicRunes(c.spellID)){
-			c.stopPlayerMovement();
-			return false;
-		}
-
-		int playerIndex = index;
-		client castOnPlayer = (client) server.playerHandler.players[playerIndex];
-
-		if(!c.getCombatHandler().canAttackOpponent(castOnPlayer)){
-			c.stopPlayerMovement();
-			return false;
-		}
-
-		int EnemyX2 = server.playerHandler.players[playerIndex].absX;
-		int EnemyY2 = server.playerHandler.players[playerIndex].absY;
-		int EnemyHP = server.playerHandler.players[playerIndex].playerLevel[c.playerHitpoints];
-		int heal = 0;
-		int myHP = c.playerLevel[c.playerHitpoints];
-		int damage = 0;	
-
-		int distanceBetweenMeAndMyEnemy = misc.distanceBetweenPoints(EnemyX2, EnemyY2, c.absX, c.absY);
-
-		//inStream.readSignedWordA();
-		if (distanceBetweenMeAndMyEnemy <= magicDistance){				
-			c.debug("playerIndex: "+playerIndex+" spellID: "+c.spellID);
-
-			c.followingPlayerID = -1;
-
-			c.PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
-			c.LoopAttDelay = c.PkingDelay;
-			
-			c.stopPlayerMovement();
-
-			int offsetX = (c.absX - EnemyX2) * -1;
-			int offsetY = (c.absY - EnemyY2) * -1;
-			int BURST = 2; int BARRAGE = 3;
-
-			int X3 = PlayerHandler.players[index].absX;
-			int Y3 = PlayerHandler.players[index].absY;
-			int offsetX3 = (c.absX - X3) * -1;
-			int offsetY3 = (c.absY - Y3) * -1;
-
-			if(castOnPlayer.autoRetaliate == 1 && !castOnPlayer.isInCombat()) //1 means on
-				c.getCombatHandler().opponentAutoAttack(castOnPlayer);
-
-			this.removeMagicRunes(c.spellID);
-
-			switch(c.spellID){ 
-
-			case 1152: //Wind Strike
-				damage = ProjectileSpellPlayer(90, 95, 92, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 2,1);
-				break;
-
-			case 1154: //Water Strike
-				damage = ProjectileSpellPlayer(93, 94, 95, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 4,5);
-				break;
-
-			case 1156: //Earth Strike
-				damage = ProjectileSpellPlayer(96, 97, 98, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 6,9);
-				break;
-
-			case 1158: //Fire Strike
-				damage = ProjectileSpellPlayer(99, 100, 101, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 8,13);
-				break;
-
-			case 1160: //Wind Bolt
-				damage = ProjectileSpellPlayer(117, 118, 119, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 9,17);
-				break;
-			case 1163: //thing
-				damage = ProjectileSpellPlayer(120, 121, 122, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 10,23);
-				break;
-
-			case 1166: //Earth Bolt
-				damage = ProjectileSpellPlayer(123, 124, 125, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 11,29); 
-				break;
-
-			case 1169: //Fire Bolt
-				damage = ProjectileSpellPlayer(126, 127, 128, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 12,35);
-				break;
-
-			case 1172: //Wind Blast
-				damage = ProjectileSpellPlayer(132, 133, 134, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 13,41);
-				break;
-
-			case 1175: //Water Blast
-				damage = ProjectileSpellPlayer(135, 136, 137, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 14,47);
-				break;
-
-			case 1177: //Earth Blast
-				damage = ProjectileSpellPlayer(138, 139, 140, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 15,53);
-				break;
-
-			case 1181: //Fire Blast
-				damage = ProjectileSpellPlayer(129, 130, 131, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 16,59);
-				break;
-
-			case 1183: //Wind Wave
-				damage = ProjectileSpellPlayer(158, 159, 160, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 17,62);
-				break;
-
-			case 1185: //Water Wave
-				damage = ProjectileSpellPlayer(161, 162, 163, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 18,65);
-				break;
-
-			case 1188: //Earth Wave
-				damage = ProjectileSpellPlayer(164, 165, 166, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 19,70);
-				break;
-
-			case 1189: //Fire Wave
-				damage = ProjectileSpellPlayer(155, 156, 157, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 20,75);
-				break;
-
-			case 12861: //Ice Rush - Level 58
-				c.applySnare = 5;
-				damage = ancientsProjectileSpellPlayer(360, 360, 361, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 17,58);
-				break;
-
-			case 12881: //Ice Burst - Level 70
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,363,22,BURST,70,true,10);					
-				return true;
-
-			case 12871: //Ice Blitz - Level 82
-				c.applySnare = 15;
-				damage = ancientsProjectileSpellPlayer(366, 367, 368, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 26,82);
-				break;
-
-			case 12891: //Ice Barrage - Level 94
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94,true,20);					
-				return true;
-
-			case 12939: // Smoke Rush - Level 50
-				damage = ancientsProjectileSpellPlayer(384, 384, 385, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 14,50);
-				break;
-
-			case 12963: // Smoke Burst - Level 62
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,389,18,BURST,62,false,-1);		
-				return true;
-
-			case 12951: //Smoke Blitz - Level 74
-				damage = ancientsProjectileSpellPlayer(386, 386, 387, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 23,74);
-				break;
-
-			case 12975: //Smoke Barrage - Level 86
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86,false,-1);
-				return true;
-
-			case 12987: //Shadow Rush - Level 52
-				damage = ancientsProjectileSpellPlayer(378, 378, 379, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 15,52);
-				break;
-
-			case 13011: //Shadow Burst - Level 64
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,382,19,BURST,64,false,-1);
-				return true;
-
-			case 12999: //Shadow Blitz - Level 76
-				damage = ancientsProjectileSpellPlayer(380, 380, 381, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 24,76);
-				break;
-
-			case 13023: //Shadow Barrage - Level 88
-				ancientsAttackPlayersWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88,false,-1);
-				return true;
-
-			case 12901: //Blood Rush - Level 56
-				damage = ancientsProjectileSpellPlayer(372, 372, 373, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 16,56);
-				c.getClientMethodHandler().heal(damage/4);
-				break;
-
-			case 12919: //Blood Burst - Level 68
-				int total = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,376,21,BURST,68,false,-1);
-				if(total > 7) total = 7; //greatest amount that can be healed is 7
-				c.getClientMethodHandler().heal(total);
-				return true;
-
-			case 12911: //Blood Blitz - Level 80
-				damage = ancientsProjectileSpellPlayer(374, 374, 375, c.absY, c.absX, offsetY, offsetX, e, EnemyY2, EnemyX2, 25,80);
-				int total2 = damage/4;
-				if(total2 > 7) total2 = 7; //greatest amount that can be healed is 7
-				c.getClientMethodHandler().heal(total2);
-				break;
-
-			case 12929: //Blood Barrage - Level 92
-				int total3 = ancientsAttackPlayersWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92,false,-1);
-				if(total3 > 8) total3 = 8; //greatest amount that can be healed is 8
-				c.getClientMethodHandler().heal(total3);
-				return true;				
-			default:
-				c.debug("Unhandled spellID when casting on player : "+c.spellID);
-				break;
-
-			}
-
-			//if(!doesMySpellHitMyEnemy(playerIndex)) damage = 0;
-
-			//damage -= misc.random(   ( (client) server.playerHandler.players[playerIndex] ).playerMagicDefBonusStatic()    );
-
-			if(damage > 0 && c.applySnare > 0)
-				castOnPlayer.frozen(c.applySnare);
-
-			int exp = damage*4*c.CombatExpRate;
-			if (exp < 0) exp = 4*c.CombatExpRate;
-			c.getClientMethodHandler().addSkillXP(exp, 6);
-
-			if(castOnPlayer.teleportDelayCast && castOnPlayer.teleportDelay > 0)
-				castOnPlayer.interruptTeleport();			
-			
-			c.getEnemy().inflictMagicDamage(damage, c.playerId);
-			
-			return true;
-		}
-		return false;
-	}
-
+	//TODO - get rid of this shit
 	public boolean firespell(int castID, int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int movegfxID,int startHeight, int endHeight, int finishID, int enemyY,int enemyX, int Lockon) 
 	{
 		c.fcastid = castID;
@@ -744,241 +521,341 @@ public class MagicDataHandler {
 		c.getClientMethodHandler().addSkillXP((totalDamage * c.mageXP2)*c.rate, 6);
 		return totalDamage;
 	}
+	
+	final int SPELLSPLASH = 85;
 
-	public boolean magicOnNPC(Enemy e){
-		if(c.LoopAttDelay > 0)
-			return false;
-
-		int npcIndex = e.getID();
+	/**
+	 * Will calculate hitDiff on enemy e and create projectile from player c to enemy e.
+	 * Will return hitDiff for EXP calculation as Item1.
+	 * Will inflict magic damage on enemy after delay of spell cast and travel before contact.
+	 * Will distribute magic EXP.
+	 * Will interrupt enemy teleporting if hit.
+	 * Depending on is isAncientMagic, the casting emote will be different.
+	 * If spell fails to hit enemy e, then splash gfx will be displayed on enemy e.
+	 * Will return total damage dealt.
+	 */
+	private int projectileSpell(int startId, int movingId, int finishId, int maxDamage, int levelRequired, boolean isAncientMagic, client caster, Enemy e){
 		
-		if(!server.npcHandler.npcs[npcIndex].attackable) return false;
+		//cast emote and start gfx
+		int castEmote = 711; //default
+		if(isAncientMagic)
+			castEmote = 1978;
+		caster.startAnimation(castEmote);
+		caster.getFrameMethodHandler().gfx100(startId);
+		
+		//hit calculation
+		int hitDiff = misc.random(this.calculateMagicMaxHit(maxDamage, levelRequired));
+		
+		if(!caster.getCombatHandler().doIHitEnemyWithMagic(e))
+			hitDiff = 0;
+		
+		if(hitDiff == 0)
+			finishId = SPELLSPLASH;
+		
+		int casterX = caster.absX;
+		int casterY = caster.absY;
+		int offsetX = (casterX - e.getX()) * -1;
+		int offsetY = (casterY - e.getY()) * -1;
+		
+		caster.getFrameMethodHandler().gfx100(startId);
+		//TODO - cast delay
+		caster.getFrameMethodHandler().createProjectilez(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, e.getID(), false);
+		//TODO hit delay
+		
+		caster.countDown = new CountDown(3, new Object[]{e, hitDiff, finishId, caster.playerId}) {
+			@Override
+			public void execute() {
+				Enemy enemy = (Enemy) this.objects[0];			
+				int hitDiff = (int)this.objects[1];
+				enemy.gfx100((int)this.objects[2]);
+				enemy.inflictMagicDamage(hitDiff, (int)this.objects[3]);
+			}			
+		};
 
-		c.debug("npcIndex: "+npcIndex+" magicID: "+c.spellID);
-
-		int npcID = server.npcHandler.npcs[npcIndex].npcType;             
-		if( (c.DIALOGUEHANDLER.exists(npcID) || lists.safeNPCs.exists(npcID)) && npcID != 1 && npcID != 2 && npcID != 3 &&
-				npcID != 4 && npcID != 5 && npcID != 6 && npcID != 7)
-			return false;
-
-		int required = this.checkMagicLevel(c.spellID);
-		if(c.playerLevel[c.playerMagic] < required){
-			c.sendMessage("You need "+required+" Magic to do that.");
-			c.stopPlayerMovement();
-			return false;
-		}
-
-		if(!this.checkMagicRunes(c.spellID)){
-			c.stopPlayerMovement();
-			return false;
-		}
-
-		int EnemyX2 = server.npcHandler.npcs[npcIndex].absX;
-		int EnemyY2 = server.npcHandler.npcs[npcIndex].absY;
-		int EnemyHP2 = server.npcHandler.npcs[npcIndex].HP;
-		int hitDiff = 0;
-		if(EnemyX2 != c.absX && EnemyY2 != c.absY)
-			c.faceNPC(npcIndex);
-
-		if(server.npcHandler.npcs[npcIndex].attacknpc > 0) {
-			c.sendMessage("You cannot attack this npc currently.");
-			c.stopPlayerMovement();
-			return false;
-		}
-
-
-		if((server.npcHandler.npcs[npcIndex] != null) && (server.npcHandler.npcs[npcIndex].followPlayer < 1 || server.npcHandler.npcs[npcIndex].followPlayer == c.playerId)) {
-			//MageAttackIndex = npcIndex+1;
-			{					
-				try {
-					int distanceBetweenMeAndMyEnemy = misc.distanceBetweenPoints(EnemyX2, EnemyY2, c.absX, c.absY);
-					if (distanceBetweenMeAndMyEnemy > 6) return false;
-
-					c.stopPlayerMovement();
-					
-					server.npcHandler.npcs[npcIndex].StartKilling = c.playerId;
-					server.npcHandler.npcs[npcIndex].RandomWalk = false;
-					server.npcHandler.npcs[npcIndex].IsUnderAttack = true;
-
-					int casterX = c.absX;
-					int casterY = c.absY;
-					int offsetX = (casterX - EnemyX2) * -1;
-					int offsetY = (casterY - EnemyY2) * -1;
-
-					int BURST = 2;
-					int BARRAGE = 3;
-					c.inCombat();
-					this.removeMagicRunes(c.spellID);
-
-					c.PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/6);
-					c.LoopAttDelay = c.PkingDelay;
-					
-					switch(c.spellID){ 
-					case 1152: //Wind Strike
-						hitDiff = ProjectileSpell(90, 95, 92, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 2,1);
-						break;
-
-					case 1154: //Water Strike
-						hitDiff = ProjectileSpell(93, 94, 95, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 4,5);
-						break;
-
-					case 1156: //Earth Strike
-						hitDiff = ProjectileSpell(96, 97, 98, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 6,9);
-						break;
-
-					case 1158: //Fire Strike
-						hitDiff = ProjectileSpell(99, 100, 101, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 8,13);
-						break;
-
-					case 1160: //Wind Bolt
-						hitDiff = ProjectileSpell(117, 118, 119, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 9,17);
-						break;
-					case 1163: //thing
-						hitDiff = ProjectileSpell(120, 121, 122, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 10,23);
-						break;
-
-					case 1166: //Earth Bolt
-						hitDiff = ProjectileSpell(123, 124, 125, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 11,29); 
-						break;
-
-					case 1169: //Fire Bolt
-						hitDiff = ProjectileSpell(126, 127, 128, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 12,35);
-						break;
-
-					case 1172: //Wind Blast
-						hitDiff = ProjectileSpell(132, 133, 134, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 13,41);
-						break;
-
-					case 1175: //Water Blast
-						hitDiff = ProjectileSpell(135, 136, 137, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14,47);
-						break;
-
-					case 1177: //Earth Blast
-						hitDiff = ProjectileSpell(138, 139, 140, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15,53);
-						break;
-
-					case 1181: //Fire Blast
-						hitDiff = ProjectileSpell(129, 130, 131, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16,59);
-						break;
-
-					case 1183: //Wind Wave
-						hitDiff = ProjectileSpell(158, 159, 160, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17,62);
-						break;
-
-					case 1185: //Water Wave
-						hitDiff = ProjectileSpell(161, 162, 163, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 18,65);
-						break;
-
-					case 1188: //Earth Wave
-						hitDiff = ProjectileSpell(164, 165, 166, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 19,70);
-						break;
-
-					case 1189: //Fire Wave
-						hitDiff = ProjectileSpell(155, 156, 157, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 20,75);
-						break;
-
-					case 12861: //Ice Rush - Level 58
-						hitDiff = ancientsProjectileSpell(360, 360, 361, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 17,58);
-						break;
-
-					case 12881: //Ice Burst - Level 70
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,363,22,BURST,70);					
-						return true;
-
-					case 12871: //Ice Blitz - Level 82
-						hitDiff = ancientsProjectileSpell(366, 367, 368, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 26,82);
-						break;
-
-					case 12891: //Ice Barrage - Level 94
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,369,30,BARRAGE,94);					
-						return true;
-
-					case 12939: // Smoke Rush - Level 50
-						hitDiff = ancientsProjectileSpell(384, 384, 385, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 14,50);
-						break;
-
-					case 12963: // Smoke Burst - Level 62
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,389,18,BURST,62);		
-						return true;
-
-					case 12951: //Smoke Blitz - Level 74
-						hitDiff = ancientsProjectileSpell(386, 386, 387, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 23,74);
-						break;
-
-					case 12975: //Smoke Barrage - Level 86
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,391,27,BARRAGE,86);
-						return true;
-
-					case 12987: //Shadow Rush - Level 52
-						hitDiff = ancientsProjectileSpell(378, 378, 379, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 15,52);
-						break;
-
-					case 13011: //Shadow Burst - Level 64
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,382,19,BURST,64);
-						return true;
-
-					case 12999: //Shadow Blitz - Level 76
-						hitDiff = ancientsProjectileSpell(380, 380, 381, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 24,76);
-						break;
-
-					case 13023: //Shadow Barrage - Level 88
-						ancientsAttackNPCSWithin(EnemyX2, EnemyY2,383,28,BARRAGE,88);
-						return true;
-
-					case 12901: //Blood Rush - Level 56
-						hitDiff = ancientsProjectileSpell(372, 372, 373, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 16,56);
-						c.getClientMethodHandler().heal(hitDiff/4);
-						break;
-
-					case 12919: //Blood Burst - Level 68
-						int total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,376,21,BURST,68)/4;
-						if(total > 7) total = 7; //greatest amount that can be healed is 7
-						c.getClientMethodHandler().heal(total);
-						return true;
-
-					case 12911: //Blood Blitz - Level 80
-						hitDiff = ancientsProjectileSpell(374, 374, 375, casterY, casterX, offsetY, offsetX, npcIndex, EnemyY2, EnemyX2, 25,80);
-						total = hitDiff/4;
-						if(total > 7) total = 7; //greatest amount that can be healed is 7
-						c.getClientMethodHandler().heal(total);
-						break;
-
-					case 12929: //Blood Barrage - Level 92
-						total = ancientsAttackNPCSWithin(EnemyX2, EnemyY2,377,29,BARRAGE,92)/4;
-						if(total > 8) total = 8; //greatest amount to heal is 8
-						c.getClientMethodHandler().heal(total);
-						return true;
-
-					default:
-						c.debug("Unhandled magicID : "+c.spellID);
-						return false;
-					}
-
-					
-					
-					if(!c.getCombatHandler().doIHitEnemyWithMagic(e)) hitDiff = 0;
-
-					c.followingNPCID = -1;
-					
-					if(server.npcHandler.npcs[npcIndex].npcType == 277){
-						c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
-						hitDiff = 0;
-					}
-					
-					e.inflictMagicDamage(hitDiff, c.playerId);
-					
-					return true;
-				}
-				catch(Exception ex) {
-					c.error("In magic on NPCs, "+ex.toString());
-					return false;
-				}
-
-			} 
-		}
-		return false;
+		int exp = hitDiff*4*c.CombatExpRate;
+		if (exp < 0) exp = 4*c.CombatExpRate;
+		c.getClientMethodHandler().addSkillXP(exp, 6);
+		
+		return hitDiff;
 	}
+	
+	/**
+	 * Will calculate hitDiff and inflict magic damage on enemy and surrounding enemies in radius range.
+	 * Will add magic exp based on total amount of damage dealt.
+	 * Will return total damage dealt.
+	 */
+	private int AoE_Spell(client caster, Enemy enemy, int startId, int movingId, int finishId, boolean isAncientMagic, int maxDamage, int levelRequired, int range, int bindTimer){
+	//cast emote and start gfx
+			int castEmote = 711; //default
+			if(isAncientMagic)
+				castEmote = 1978;
+			caster.startAnimation(castEmote);
+			caster.getFrameMethodHandler().gfx100(startId);
 
+			int casterX = caster.absX;
+			int casterY = caster.absY;
+			int enemyX = enemy.getX();
+			int enemyY = enemy.getY();
+			int offsetX = (casterX - enemyX) * -1;
+			int offsetY = (casterY - enemyY) * -1;
 
+			//TODO - delayed casting
+			caster.getFrameMethodHandler().createProjectilez(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, enemy.getID(), false);
+			
+			//hit calculation
+			int totalDamage = 0;
+			int hitDiff = misc.random(this.calculateMagicMaxHit(maxDamage, levelRequired));
+			
+			LinkedList<Enemy> enemiesInRange = new LinkedList<Enemy>();
+			
+			for(Player p : server.playerHandler.players){
+				if(misc.distanceBetweenPoints(p.absX, p.absY, enemyX, enemyY) <= range){
+					enemiesInRange.add(new Enemy(p));
+				}
+			}
+			for(NPC n : server.npcHandler.npcs){
+				if(misc.distanceBetweenPoints(n.absX, n.absY, enemyX, enemyY) <= range){
+					enemiesInRange.add(new Enemy(n));
+				}
+			}
+			
+			LinkedList<Tuple<Enemy,Boolean>> hitInfo = new LinkedList<Tuple<Enemy,Boolean>>();
+			
+			for(Enemy e : enemiesInRange){
+				Tuple<Enemy,Boolean> info = new Tuple<Enemy, Boolean>();
+				info.Item1 = e;
+				info.Item2 = caster.getCombatHandler().doIHitEnemyWithMagic(e);
+				hitInfo.add(info);
+			}
+			
+			Object[] arguments = new Object[]{hitInfo, caster.playerId, finishId, SPELLSPLASH, hitDiff};
+			
+			caster.countDown = new CountDown(3, arguments){
+				@SuppressWarnings("unchecked")
+				LinkedList<Tuple<Enemy,Boolean>> hitInfo = (LinkedList<Tuple<Enemy,Boolean>>)this.objects[0];
+				
+				@Override
+				public void execute(){
+					for(Tuple<Enemy, Boolean> info : hitInfo){
+						Enemy e = info.Item1;
+						boolean wasHit = info.Item2;
+						if(wasHit){
+							e.gfx100((int)this.objects[2]);
+						}
+						else{
+							e.gfx100((int)this.objects[3]);
+						}
+						e.inflictMagicDamage((int)this.objects[4], (int)this.objects[1]);
+					}
+				}
+			};
+			
+		return totalDamage;
+	}
+	
+	
+	/**
+	 * Private helper method for magicOnEnemy.
+	 * Will call projectileSpell and AoE spell methods. 
+	 * Will calculate max hit and determine if player hits enemy.
+	 * Will inflict damage to enemy e.
+	 * Will distribute magic exp.
+	 */
+	private void spellOnEnemy(int spellId, Enemy e){
+		int BURST = 1;
+		int BARRAGE = 2;
+		int damageDealt = 0;
+		
+		switch(spellId){ 
+		case 1152: //Wind Strike
+			projectileSpell(90, 95, 92, 2, 1, false, c, e);
+			break;
+
+		case 1154: //Water Strike
+			projectileSpell(93, 94, 95, 4, 5, false, c, e);
+			break;
+
+		case 1156: //Earth Strike
+			projectileSpell(96, 97, 98,  6,9, false, c, e);
+			break;
+
+		case 1158: //Fire Strike
+			projectileSpell(99, 100, 101,  8,13, false, c, e);
+			break;
+
+		case 1160: //Wind Bolt
+			projectileSpell(117, 118, 119,  9,17, false, c, e);
+			break;
+			
+		case 1163: //thing
+			projectileSpell(120, 121, 122,  10,23, false, c, e);
+			break;
+
+		case 1166: //Earth Bolt
+			projectileSpell(123, 124, 125,  11,29, false, c, e); 
+			break;
+
+		case 1169: //Fire Bolt
+			projectileSpell(126, 127, 128,  12,35, false, c, e);
+			break;
+
+		case 1172: //Wind Blast
+			projectileSpell(132, 133, 134,  13,41, false, c, e);
+			break;
+
+		case 1175: //Water Blast
+			projectileSpell(135, 136, 137,  14,47, false, c, e);
+			break;
+
+		case 1177: //Earth Blast
+			projectileSpell(138, 139, 140,  15,53, false, c, e);
+			break;
+
+		case 1181: //Fire Blast
+			projectileSpell(129, 130, 131,  16,59, false, c, e);
+			break;
+
+		case 1183: //Wind Wave
+			projectileSpell(158, 159, 160,  17,62, false, c, e);
+			break;
+
+		case 1185: //Water Wave
+			projectileSpell(161, 162, 163,  18,65, false, c, e);
+			break;
+
+		case 1188: //Earth Wave
+			projectileSpell(164, 165, 166,  19,70, false, c, e);
+			break;
+
+		case 1189: //Fire Wave
+			projectileSpell(155, 156, 157,  20,75, false, c, e);
+			break;
+
+		case 12861: //Ice Rush - Level 58
+			if(projectileSpell(360, 360, 361,  17,58, true, c, e) > 0)
+				e.bind(5);
+			break;
+
+		case 12881: //Ice Burst - Level 70
+			AoE_Spell(c, e, 362, 362, 363, true, 22, 70, BURST,10);
+			break;
+
+		case 12871: //Ice Blitz - Level 82
+			if(projectileSpell(366, 367, 368,  26,82, true, c, e) > 0)
+				e.bind(15);
+			break;
+
+		case 12891: //Ice Barrage - Level 94
+			AoE_Spell(c, e, 366, 367, 369, true, 30, 94, BARRAGE, 20);
+			break;
+
+		case 12939: // Smoke Rush - Level 50
+			projectileSpell(384, 384, 385,  14,50, true, c, e);
+
+		case 12963: // Smoke Burst - Level 62
+			AoE_Spell(c, e, 384, 384, 389, true, 18, 62, BURST,0);
+			break;
+
+		case 12951: //Smoke Blitz - Level 74
+			projectileSpell(386, 386, 387,  23,74, true, c, e);
+
+		case 12975: //Smoke Barrage - Level 86
+			AoE_Spell(c, e, 386, 386, 391, true, 27, 86, BARRAGE,0);
+			break;
+
+		case 12987: //Shadow Rush - Level 52
+			projectileSpell(378, 378, 379,  15,52, true, c, e);
+
+		case 13011: //Shadow Burst - Level 64
+			AoE_Spell(c, e, 378, 378, 382, true, 19, 64, BURST,0);
+			break;
+
+		case 12999: //Shadow Blitz - Level 76
+			projectileSpell(380, 380, 381,  24,76, true, c, e);
+			break;
+
+		case 13023: //Shadow Barrage - Level 88
+			AoE_Spell(c, e, 380, 380, 383, true, 28, 88, BARRAGE,0);
+			break;
+
+		case 12901: //Blood Rush - Level 56
+			damageDealt = projectileSpell(372, 372, 373,  16,56, true, c, e);
+			c.getClientMethodHandler().heal(damageDealt/4);
+			break;
+
+		case 12919: //Blood Burst - Level 68
+			damageDealt = AoE_Spell(c, e, 372, 372, 376, true, 21, 68, BURST,0)/4;
+			if(damageDealt > 7) damageDealt = 7; //greatest amount that can be healed is 7
+			c.getClientMethodHandler().heal(damageDealt);
+			break;
+
+		case 12911: //Blood Blitz - Level 80
+			damageDealt = projectileSpell(374, 374, 375, 25,80, true, c, e);
+			damageDealt = damageDealt/4;
+			if(damageDealt > 7) damageDealt = 7; //greatest amount that can be healed is 7
+			c.getClientMethodHandler().heal(damageDealt);
+			break;
+
+		case 12929: //Blood Barrage - Level 92
+			damageDealt = AoE_Spell(c, e, 374, 374, 377, true, 29, 92, BARRAGE,0)/4;
+			if(damageDealt > 8) damageDealt = 8; //greatest amount to heal is 8
+			c.getClientMethodHandler().heal(damageDealt);
+			break;
+
+		default:
+			c.debug("Unhandled magicID : "+c.spellID);
+			break;
+		}
+	}
+	
+	//TODO
+	
+	final int AUTOCASTDISTANCE = 5;
+	
+	public void magicOnEnemy(Enemy e, int spellId){
+		if(e.isDead()) return;
+		
+		int enemyX = e.getX();
+		int enemyY = e.getY();
+		int distanceBetweenMeAndMyEnemy = misc.distanceBetweenPoints(enemyX, enemyY, c.absX, c.absY);
+		
+		if(distanceBetweenMeAndMyEnemy <= AUTOCASTDISTANCE){
+			c.stopPlayerMovement();
+			
+			if(c.LoopAttDelay > 0)
+				return;
+			
+			if(e.getNPCType() == 277){
+				c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
+				return;
+			}
+			
+			c.faceEnemy(e);
+			c.inCombat();			
+			
+			c.debug("In magicOnEnemy: spellID is "+spellId);
+			
+			int required = this.checkMagicLevel(spellId);
+			if(c.playerLevel[c.playerMagic] < required){
+				c.sendMessage("You need "+required+" Magic to do that.");
+				return;
+			}
+			
+			if(!this.checkMagicRunes(spellId))
+				return;
+			
+			this.removeMagicRunes(spellId);
+
+			c.PkingDelay = Item.getItemDelay(Item.MAGIC)+(distanceBetweenMeAndMyEnemy/AUTOCASTDISTANCE);
+			c.LoopAttDelay = c.PkingDelay;
+			
+			spellOnEnemy(spellId, e);
+		}
+		else{
+			c.followEnemy(e);
+		}
+		
+	}
 	public boolean setAutocast(int magicID){
 		int lvl = this.checkMagicLevel(magicID);
 		if(c.playerLevel[c.playerMagic] >= lvl){

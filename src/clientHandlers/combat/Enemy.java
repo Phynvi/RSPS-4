@@ -11,7 +11,43 @@ public class Enemy {
 	private client selfPlayer;
 	private NPC selfNPC;
 	private Enemy opponent;
-
+	
+	public void interruptTeleport(){
+		if(this.isNPC()){
+			
+		}
+		else{
+			this.selfPlayer.interruptTeleport();
+		}
+	}
+	
+	public void bind(int seconds){
+		if(this.isNPC()){
+			
+		}
+		else{
+			this.selfPlayer.frozen(seconds);
+		}
+	}
+	
+	public void gfx100(int gfxId){
+		if(this.isNPC()){
+			this.selfNPC.gfx100(gfxId);
+		}
+		else{
+			this.selfPlayer.getFrameMethodHandler().gfx100(gfxId);
+		}
+	}
+	
+	public void gfx0(int gfxId){
+		if(this.isNPC()){
+			this.selfNPC.gfx0(gfxId);
+		}
+		else{
+			this.selfPlayer.getFrameMethodHandler().gfx0(gfxId);
+		}
+	}
+	
 	public void setTarget(Enemy e){
 		this.opponent = e;
 	}
@@ -92,6 +128,8 @@ public class Enemy {
 		this.inflictMagicDamage(amount, attackingPlayerIndex, false);
 	}
 
+	//TODO reduce damage by appropriate armor/resists
+	
 	/**
 	 * @param ignorePrayer if attacking a player, ignore prayer
 	 */
@@ -144,13 +182,14 @@ public class Enemy {
 		else
 			this.getPlayerClient().facePlayer(playerIndex);		
 	}
-
+	
 	public boolean isDead(){
 		if(this.isNPC()){
-			return(this.getNPC().IsDead);
+			return this.selfNPC.IsDead;
 		}
-		
-		return this.getPlayerClient().IsDead;
+		else{
+			return this.selfPlayer.IsDead;
+		}
 	}
 	
 	/**

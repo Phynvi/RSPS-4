@@ -1018,7 +1018,35 @@ public class FrameMethods {
 		}
 	}
 
-
+	public void createProjectileWithDelayz(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+			int startHeight, int endHeight, int lockon,int delay, boolean isMage) {
+		for (Player p : server.playerHandler.players) {
+			if(p != null){
+				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
+					client g = (client) p;
+					g.outStream.createFrame(85);
+					g.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
+					g.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
+					g.outStream.createFrame(117);
+					g.outStream.writeByte(angle);                     //Starting place of the projectile
+					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
+					g.outStream.writeByte(offsetX);                //Distance between caster and enemy X
+					if(isMage)
+						g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
+					else
+						g.outStream.writeWord(-lockon);        //The NPC the missle is locked on to
+					g.outStream.writeWord(gfxMoving);             //The moving graphic ID
+					g.outStream.writeByte(startHeight);           //The starting height
+					g.outStream.writeByte(endHeight);             //Destination height
+					g.outStream.writeWord(delay);                        //Time the missle is created
+					g.outStream.writeWord(speed);                     //Speed minus the distance making it set
+					g.outStream.writeByte(16);                        //Initial slope
+					g.outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
+				}
+			}
+		}
+	}
+	
 	public void menu(String ... lines){
 		if(lines.length == 1){ //should be handled by other method
 			Menu(lines[0]);
@@ -1467,6 +1495,8 @@ public class FrameMethods {
 			}
 		}
 	}
+	
+	//TODO what does -lockon do? test this
 	public void createProjectilez(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
 			int startHeight, int endHeight, int Lockon, boolean MagingNPC) {
 		outStream.createFrame(85);

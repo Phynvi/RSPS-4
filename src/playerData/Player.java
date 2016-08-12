@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import clientHandlers.CountDown;
 import clientHandlers.Item;
 import clientHandlers.playerInstances;
 import clientHandlers.combat.Enemy;
@@ -17,6 +18,7 @@ public abstract class Player extends playerInstances {
 	public boolean hasLoadedAllNPCs = false;
 
 	public int slot = -1;
+	public CountDown countDown = null;
 
 	public void followEnemy(Enemy e){
 		int id = e.getID();
@@ -470,6 +472,7 @@ public abstract class Player extends playerInstances {
 	}
 
 	public void stopPlayerMovement(){
+		c.stopFollow();
 		teleportToX = absX;
 		teleportToY = absY;
 		requirePlayerUpdate();
@@ -1518,6 +1521,8 @@ public abstract class Player extends playerInstances {
 	}
 	
 	public void faceEnemy(Enemy e){
+		if(absX == e.getX() && absY == e.getY())
+			return;
 		if(e.isNPC())
 			faceNPC(e.getNPCId());
 		else
