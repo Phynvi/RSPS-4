@@ -268,8 +268,9 @@ public class CommandHandler {
 		}
 
 		if(fullCommand.startsWith("gear") && c.playerRights > 0){
-			c.getInventoryHandler().addItems(4151,14638,14860,14511,14512,15350,15150,3631,12003,13308,6585,4734,2434,2434,2434,2434,6737,15335);
+			c.getInventoryHandler().addItems(4151,14638,14860,14511,14512,15350,15150,3631,12003,13308,6585,4734,2434,2434,2434,2434,6737,15335,861);
 			c.getInventoryHandler().addItem(4740,10000);
+			c.getInventoryHandler().addItem(892,10000);
 			return;
 		}
 

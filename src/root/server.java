@@ -1,7 +1,6 @@
 package root;
 import java.util.*;
 
-import clientHandlers.GraphicsHandler;
 import serverHandlers.GlobalChatRoomHandler;
 import serverHandlers.GlobalObjectHandler;
 import serverHandlers.ItemHandler;
@@ -60,7 +59,6 @@ public static boolean debugmode = false;
 		itemHandler = new ItemHandler();
 		shopHandler = new ShopHandler();
 		muteHandler = new MuteHandler();
-		GraphicsHandler = new GraphicsHandler();
 		globalObjectHandler = new GlobalObjectHandler();
 		globalChatRoomHandler = new GlobalChatRoomHandler();
 		//dialogueHandler = new DialogueHandler(); 
@@ -182,7 +180,6 @@ public static int stradd = 2;
 	public static ItemHandler itemHandler = null;
 	public static ShopHandler shopHandler = null;
 	public static MuteHandler muteHandler = null;
-      public static GraphicsHandler GraphicsHandler = null;
 
       public static PestControlHandler pestControlHandler = null;
       //public static DialogueHandler dialogueHandler = null; 

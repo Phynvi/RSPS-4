@@ -993,7 +993,8 @@ public class FrameMethods {
 	}
 
 	public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
-			int startHeight, int endHeight, int lockon,int delay) {
+			int startHeight, int endHeight, int lockon,int delay, boolean isNPC) {
+		lockon = lockon+1;
 		for (Player p : server.playerHandler.players) {
 			if(p != null){
 				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
@@ -1005,7 +1006,10 @@ public class FrameMethods {
 					g.outStream.writeByte(angle);                     //Starting place of the projectile
 					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
 					g.outStream.writeByte(offsetX);                //Distance between caster and enemy X
-					g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
+					if(isNPC)
+						g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
+					else
+						g.outStream.writeWord(-lockon);        //The player the missle is locked on to
 					g.outStream.writeWord(gfxMoving);             //The moving graphic ID
 					g.outStream.writeByte(startHeight);           //The starting height
 					g.outStream.writeByte(endHeight);             //Destination height
@@ -1018,33 +1022,9 @@ public class FrameMethods {
 		}
 	}
 
-	public void createProjectileWithDelayz(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
-			int startHeight, int endHeight, int lockon,int delay, boolean isMage) {
-		for (Player p : server.playerHandler.players) {
-			if(p != null){
-				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
-					client g = (client) p;
-					g.outStream.createFrame(85);
-					g.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
-					g.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
-					g.outStream.createFrame(117);
-					g.outStream.writeByte(angle);                     //Starting place of the projectile
-					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
-					g.outStream.writeByte(offsetX);                //Distance between caster and enemy X
-					if(isMage)
-						g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
-					else
-						g.outStream.writeWord(-lockon);        //The NPC the missle is locked on to
-					g.outStream.writeWord(gfxMoving);             //The moving graphic ID
-					g.outStream.writeByte(startHeight);           //The starting height
-					g.outStream.writeByte(endHeight);             //Destination height
-					g.outStream.writeWord(delay);                        //Time the missle is created
-					g.outStream.writeWord(speed);                     //Speed minus the distance making it set
-					g.outStream.writeByte(16);                        //Initial slope
-					g.outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
-				}
-			}
-		}
+	public void createProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+			int startHeight, int endHeight, int lockon, boolean isNPC) {
+		this.createProjectileWithDelay(casterY, casterX, offsetY, offsetX, angle, speed, gfxMoving, startHeight, endHeight, lockon, 51, isNPC);
 	}
 	
 	public void menu(String ... lines){
@@ -1469,57 +1449,6 @@ public class FrameMethods {
 		outStream.writeWordBigEndian(settingID);
 		outStream.writeByte(value);
 	}
-
-	public void createProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
-			int startHeight, int endHeight, int lockon) {
-		for (Player p : server.playerHandler.players) {
-			if(p != null){
-				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
-					client g = (client) p;
-					g.outStream.createFrame(85);
-					g.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
-					g.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
-					g.outStream.createFrame(117);
-					g.outStream.writeByte(angle);                     //Starting place of the projectile
-					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
-					g.outStream.writeByte(offsetX);                //Distance between caster and enemy X
-					g.outStream.writeWord(lockon);        //The NPC the missle is locked on to
-					g.outStream.writeWord(gfxMoving);             //The moving graphic ID
-					g.outStream.writeByte(startHeight);           //The starting height
-					g.outStream.writeByte(endHeight);             //Destination height
-					g.outStream.writeWord(51);                        //Time the missle is created
-					g.outStream.writeWord(speed);                     //Speed minus the distance making it set
-					g.outStream.writeByte(16);                        //Initial slope
-					g.outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
-				}
-			}
-		}
-	}
-	
-	//TODO what does -lockon do? test this
-	public void createProjectilez(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
-			int startHeight, int endHeight, int Lockon, boolean MagingNPC) {
-		outStream.createFrame(85);
-		outStream.writeByteC(casterY - 2);	//  Phate:	seems to take a couple off?
-		outStream.writeByteC(casterX - 3);	//  Phate:	seems to take 3 off?
-		outStream.createFrame(117);
-		outStream.writeByte(angle);			//	Phate:	Angle? I think
-		outStream.writeByte(offsetX);	//	Phate:	OffsetY in relevance from the first player
-		outStream.writeByte(offsetY);	//	Phate:	OffsetX in relevance from the first player
-		if(MagingNPC)
-			outStream.writeWord(Lockon);
-		else
-			outStream.writeWord(-Lockon);
-		outStream.writeWord(gfxMoving);		//	Phate:	Magic Moving Graphic ID
-		outStream.writeByte(startHeight);	//	Phate:	Starting height
-		outStream.writeByte(endHeight);		//	Phate:	Finishing height
-		outStream.writeWord(51);			//	Phate:	No idea?
-		outStream.writeWord(speed);			//	Phate:	Speed of Moving Magic
-		outStream.writeByte(16);			//	Phate:	Something static? Doesnt change a lot..
-		outStream.writeByte(64);			//	Phate:	Type of shot possibly? All shoots seemed to be 64
-		c.flushOutStream();
-	}
-
 
 	public void setInterfaceWalkable(int ID){
 

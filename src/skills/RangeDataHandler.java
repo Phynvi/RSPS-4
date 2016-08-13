@@ -1,6 +1,7 @@
 package skills;
 import playerData.client;
 import clientHandlers.Item;
+import clientHandlers.combat.Enemy;
 import root.misc;
 import root.server;
 import serverHandlers.ItemHandler;
@@ -323,32 +324,17 @@ public class RangeDataHandler {
 
 	/**
 	 * Creates an arrow projectile, determined by current bow and current ammo
-	 * Projectile will travel from player to NPC
+	 * Projectile will travel from player to Enemy e
 	 */
-	public void arrowProjectile(int npcIndex){
-		int EnemyX2 = server.npcHandler.npcs[npcIndex].absX;
-		int EnemyY2 = server.npcHandler.npcs[npcIndex].absY;
+	public void arrowProjectile(Enemy e){
+		int EnemyX2 = e.getX();
+		int EnemyY2 = e.getY();
 		int casterX = c.absX;
 		int casterY = c.absY;
 		int offsetX = (casterX - EnemyX2) * -1;
 		int offsetY = (casterY - EnemyY2) * -1;
 		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
-		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, npcIndex+1, 40);
-	}
-
-
-	/**
-	 * Creates an arrow projectile, determined by current bow and current ammo
-	 * Projectile will travel from player to NPC
-	 */
-	public void arrowProjectilePlayer(int playerIndex){
-		int X3 = PlayerHandler.players[playerIndex].absX;
-		int Y3 = PlayerHandler.players[playerIndex].absY;
-		int offsetX = (c.absX - X3) * -1;
-		int offsetY = (c.absY - Y3) * -1;
-		//c.ProjectileSpellPlayer(arrowGFX, arrowGFX, arrowGFX, c.absY, c.absX, offsetY, offsetX, c.AttackingOn+1, Y3, X3);
-		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
-		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, playerIndex+1, 40);
+		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, e.getID(), 40, c.getEnemy().isNPC());
 	}
 
 }

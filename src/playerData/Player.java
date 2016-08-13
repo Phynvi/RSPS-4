@@ -2,6 +2,7 @@ package playerData;
 import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 import clientHandlers.CountDown;
 import clientHandlers.Item;
@@ -18,7 +19,7 @@ public abstract class Player extends playerInstances {
 	public boolean hasLoadedAllNPCs = false;
 
 	public int slot = -1;
-	public CountDown countDown = null;
+	public LinkedList<CountDown> CountDowns = new LinkedList<CountDown>();
 
 	public void followEnemy(Enemy e){
 		int id = e.getID();

@@ -1,4 +1,4 @@
--Create a combat object that can be handled in the attack method instead of two separate methods for pvp and pve
+
 
 -Place tanners at locations throughout world
 -Add ability to craft from hides

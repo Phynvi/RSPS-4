@@ -160,7 +160,7 @@ public class Combat {
 			}
 			int _NPCTYPE = e.getNPCType();
 
-			if(e.getNPC().attackable){
+			if(!e.getNPC().attackable){
 				c.sendMessage("That's a friendly NPC that I should not attack.");
 				c.stopPlayerMovement();
 				return false;
@@ -349,12 +349,8 @@ public class Combat {
 			useSpecialAndSubtractDelay(2);
 			c.SpecTimer = 3;
 			c.getFrameMethodHandler().stillgfx(246, c.absY, c.absX);
-			if(c.getEnemy().isNPC()){
-				c.BOWHANDLER.arrowProjectile(c.getEnemy().getNPCId());
-			}
-			if (c.getEnemy().isPlayer()){
-				c.BOWHANDLER.arrowProjectilePlayer(c.getEnemy().getPlayerIndex());
-			}
+			c.BOWHANDLER.arrowProjectile(c.getEnemy());
+			
 			return (int)(original*1.1); // +25%
 		}
 
@@ -363,8 +359,7 @@ public class Combat {
 			c.SpecTimer = 3;
 			c.getFrameMethodHandler().gfx100(250);
 			c.getFrameMethodHandler().stillgfx(332, c.absY, c.absX);
-			if(c.getEnemy().isPlayer()) c.BOWHANDLER.arrowProjectilePlayer(c.getEnemy().getPlayerIndex());
-			else c.BOWHANDLER.arrowProjectile(c.getEnemy().getNPCId());
+			c.BOWHANDLER.arrowProjectile(c.getEnemy());
 			return original*2; //double original
 		}
 
@@ -375,8 +370,8 @@ public class Combat {
 			int Y3 = c.getEnemy().getY();
 			int offsetX = (c.absX - X3) * -1;
 			int offsetY = (c.absY - Y3) * -1;
-			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 70, c.BOWHANDLER.getArrowGFX(), 43, 31, c.getEnemy().getID()+1,40);
-			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 70, c.BOWHANDLER.getArrowGFX(), 43, 31, c.getEnemy().getID()+1,50);
+			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 70, c.BOWHANDLER.getArrowGFX(), 43, 31, c.getEnemy().getID(),40, c.getEnemy().isNPC());
+			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 70, c.BOWHANDLER.getArrowGFX(), 43, 31, c.getEnemy().getID(),50, c.getEnemy().isNPC());
 			return original + (int)(original*0.3); //original and 30% bonus
 		}
 
@@ -388,8 +383,8 @@ public class Combat {
 			int Y3 = c.getEnemy().getY();
 			int offsetX = (c.absX - X3) * -1;
 			int offsetY = (c.absY - Y3) * -1;
-			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 60, 249, 43, 31, c.getEnemy().getID()+1,40);
-			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 70, 249, 43, 31, c.getEnemy().getID()+1,50);
+			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 60, 249, 43, 31, c.getEnemy().getID(), 40, c.getEnemy().isNPC());
+			c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 70, 249, 43, 31, c.getEnemy().getID(), 50, c.getEnemy().isNPC());
 			return original + misc.random(c.playerLevel[c.playerAttack]/25); //original and small bonus
 		} 
 
@@ -819,12 +814,8 @@ public class Combat {
 					hitDiff = checkSpecials(hitDiff, EnemyY, EnemyX);
 					c.getFrameMethodHandler().getFilling();
 				}
-				else{
-					if(e.isNPC()){
-						c.BOWHANDLER.arrowProjectile(e.getID());
-					}
-					c.startAnimation(c.BOWHANDLER.getBowEmote());
-				}
+				else
+					c.BOWHANDLER.arrowProjectile(e);
 
 				c.BOWHANDLER.checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
 

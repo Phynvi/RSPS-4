@@ -5,6 +5,7 @@ package playerData;
 
 import java.io.*;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import clientHandlers.ButtonClickHandler;
 import clientHandlers.ChatRoomHandler;
 import clientHandlers.ClientMethodHandler;
 import clientHandlers.CommandHandler;
+import clientHandlers.CountDown;
 import clientHandlers.EventManager;
 import clientHandlers.FileLoading;
 import clientHandlers.FoodHandler;
@@ -1345,10 +1347,18 @@ playerName.trim();*/
 
 
 	public boolean process() { 	// is being called regularily every 500ms	
-		if(countDown != null && --countDown.counter == 0){
-			countDown.execute();
-			countDown = null;
+		
+		if(!CountDowns.isEmpty()){
+			ListIterator<CountDown> iterator = CountDowns.listIterator();
+			while(iterator.hasNext()){
+				CountDown c = iterator.next();
+				if(--c.counter == 0){
+					c.execute();
+					iterator.remove();
+				}
+			}
 		}
+		
 		getSkillHandler().process();
 		checkSpecialTimers();
 		getMiniGameHandler().miniGameTimers();

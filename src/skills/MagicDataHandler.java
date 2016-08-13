@@ -1,7 +1,6 @@
 package skills;
 import playerData.Player;
 import playerData.client;
-import clientHandlers.GraphicsHandler;
 import clientHandlers.Item;
 import clientHandlers.combat.Enemy;
 import npcInformation.NPC;
@@ -338,189 +337,6 @@ public class MagicDataHandler {
 			}
 		}
 	}
-
-	public int ancientsAttackPlayersWithin(int x, int y, int gfx, int maxDamage, int range, int level, boolean binds, int durationOfBind) {
-		c.startAnimation(1979);
-		int totalDamage = 0;
-		for (Player p : server.playerHandler.players){
-			if(p != null) {
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null")) {
-					if(person.distanceToPoint(x, y) <= range && person.playerId != c.playerId) {
-						Enemy e = new Enemy(person);
-						if(!c.getCombatHandler().doIHitEnemyWithMagic(e)){
-							maxDamage = 0;
-							gfx = 339;
-						}
-						int damage = misc.random(this.calculateMagicMaxHit(maxDamage, level));
-						if(damage != 0 && binds)
-							person.frozen(durationOfBind);
-						person.getFrameMethodHandler().stillgfx(gfx, person.absY, person.absX);
-						e.inflictMagicDamage(damage, p.playerId);
-					}
-				}
-			}
-		}
-		c.stopPlayerMovement();
-		c.getClientMethodHandler().addSkillXP((totalDamage * c.mageXP2)*c.rate, 6);
-		return totalDamage;
-	}
-
-	//TODO - get rid of this shit
-	public boolean firespell(int castID, int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int movegfxID,int startHeight, int endHeight, int finishID, int enemyY,int enemyX, int Lockon) 
-	{
-		c.fcastid = castID;
-		c.fcasterY = casterY;
-		c.fcasterX = casterX;
-		c.foffsetY = offsetY;
-		c.foffsetX = offsetX;
-		c.fangle = angle;
-		c.fspeed = speed;
-		c.fmgfxid = movegfxID;
-		c.fsh = startHeight;
-		c.feh = endHeight;
-		c.ffinishid = finishID;
-		c.fenemyY = enemyY;
-		c.fenemyX = enemyX;
-		c.fLockon = Lockon;
-
-		c.actionTimer = 0;
-
-		//Casts Spell In Hands
-		if(c.cast == false && c.actionTimer <= 0) {
-			c.getFrameMethodHandler().stillgfxz(castID, casterY, casterX, 100, 0);
-			c.cast = true;
-			c.firingspell = true;
-		}
-		//Fires Projectile
-		if(c.cast == true && c.fired == false && c.actionTimer <= 0) {
-			c.getFrameMethodHandler().createProjectile(casterY, casterX, offsetY, offsetX, angle, speed, movegfxID, startHeight, endHeight, Lockon);
-			c.fired = true;
-		}
-		//Finishes Spell
-		if(c.fired == true && c.actionTimer <= 0) {
-			c.getFrameMethodHandler().stillgfxz(finishID, enemyY, enemyX, 100, 95);
-			resetGFX(castID, enemyX, enemyY);
-			return false;
-		}
-		return true;
-	}
-
-	public void resetGFX(int id, int X, int Y)
-	{
-		GraphicsHandler.removeGFX(id, X, Y);
-		c.firingspell = false;
-		c.cast = false;
-		c.fired = false;
-	}
-
-
-	/**
-	 * @param speed quickness of the gfx transition, default is 95
-	 */
-	public void projectileOnNPC(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int speed) {
-		//GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
-		firespell(startID, casterY, casterX, offsetY, offsetX, 50, speed, movingID, 23, 20, finishID, enemyY, enemyX, index+1);
-	}	
-
-	public int ProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
-		c.startAnimation(711);
-		projectileOnNPC(startID, movingID, finishID, casterY, casterX, offsetY,offsetX,index,enemyY,enemyX,95);
-		int hit = misc.random(this.calculateMagicMaxHit(maxDmg, level));
-		c.getClientMethodHandler().addSkillXP((hit * c.mageXP2)*c.rate, 6);
-		return hit;   
-	}
-
-	public int ancientsProjectileSpell(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX, int maxDmg, int level) {
-		c.startAnimation(1978);
-		projectileOnNPC(startID, movingID, finishID, casterY, casterX, offsetY,offsetX,index,enemyY,enemyX,95);
-		int hit = misc.random(this.calculateMagicMaxHit(maxDmg, level));
-		c.getClientMethodHandler().addSkillXP((hit * c.mageXP2)*c.rate, 6);
-		return hit;   
-	}
-
-
-	public int ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, Enemy e, int enemyY, int enemyX, int maxDmg, int level) {
-		c.startAnimation(711);
-		int index = e.getID();
-		if(!c.getCombatHandler().doIHitEnemyWithMagic(e)){
-			maxDmg = 0;
-			finishID = 339;
-		}
-		GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
-		return misc.random(this.calculateMagicMaxHit(maxDmg, level));
-	}
-
-	public void ProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, int index, int enemyY, int enemyX) {
-		GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
-		return;
-	}
-
-	public int ancientsProjectileSpellPlayer(int startID, int movingID, int finishID, int casterY, int casterX, int offsetY, int offsetX, Enemy e, int enemyY, int enemyX, int maxDmg, int level) {
-		c.startAnimation(1978);
-		int index = e.getID();
-		
-		if(!c.getCombatHandler().doIHitEnemyWithMagic(e)){
-			maxDmg = 0;
-			finishID = 339;
-		}
-		GraphicsHandler.createSpell(startID, casterY, casterX, offsetY, offsetX, 50, 95, movingID, 43, 31, finishID, enemyY, enemyX, 0 - index);
-		return misc.random(this.calculateMagicMaxHit(maxDmg, level));
-	}
-
-
-	/**
-	 * Will attack NPCs within a range and display the GFX on them
-	 * @param maxDamage Randomizes this damage
-	 */
-	public void attackNPCSWithinRangeWithGFX(int gfx, int maxDamage, int range, int level) {
-		for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
-			if(server.npcHandler.npcs[i] != null){
-				if(c.distanceToPoint(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY) <= range && !server.npcHandler.npcs[i].IsDead)
-				{
-					int damage = 0;
-					Enemy e = new Enemy(server.npcHandler.npcs[i]);
-					if(c.getCombatHandler().doIHitEnemyWithMagic(e)) 
-						damage = misc.random(this.calculateMagicMaxHit(maxDamage, level));
-					c.getFrameMethodHandler().stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
-					e.inflictMagicDamage(damage, c.playerId);
-				}
-			}
-			else break;
-		}
-	}
-
-	/**
-	 * Will attack NPCs within a range and display the GFX on them, used for ancient spellbook
-	 * @param maxDamage Randomizes this damage
-	 */
-	private int ancientsAttackNPCSWithin(int x, int y, int gfx, int maxDamage, int range, int level) {
-		c.startAnimation(1979);
-		int totalDamage = 0;
-		for (int i = 1; i <= server.npcHandler.maxNPCs-1; i++){
-			if(server.npcHandler.npcs[i] == null) break;
-			if(server.npcHandler.npcs[i] != null) 
-			{
-				if(misc.distanceBetweenPoints(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y) <= range && !server.npcHandler.npcs[i].IsDead)
-				{				
-					int damage = 0;
-					Enemy e = new Enemy(server.npcHandler.npcs[i]);
-					if(c.getCombatHandler().doIHitEnemyWithMagic(e)) 
-						damage = misc.random(calculateMagicMaxHit(maxDamage, level));
-					else gfx = 339;
-					totalDamage += damage;
-					c.getFrameMethodHandler().stillgfx(gfx, server.npcHandler.npcs[i].absY, server.npcHandler.npcs[i].absX);
-					if(server.npcHandler.npcs[i].npcType == 277){
-						c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
-						damage = 0;
-					}
-					e.inflictMagicDamage(damage, c.playerId);
-				}
-			}
-		}
-		c.getClientMethodHandler().addSkillXP((totalDamage * c.mageXP2)*c.rate, 6);
-		return totalDamage;
-	}
 	
 	final int SPELLSPLASH = 85;
 
@@ -559,10 +375,10 @@ public class MagicDataHandler {
 		
 		caster.getFrameMethodHandler().gfx100(startId);
 		//TODO - cast delay
-		caster.getFrameMethodHandler().createProjectilez(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, e.getID(), false);
+		caster.getFrameMethodHandler().createProjectile(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, e.getID(), e.isNPC());
 		//TODO hit delay
 		
-		caster.countDown = new CountDown(3, new Object[]{e, hitDiff, finishId, caster.playerId}) {
+		CountDown countDown = new CountDown(5, new Object[]{e, hitDiff, finishId, caster.playerId}) {
 			@Override
 			public void execute() {
 				Enemy enemy = (Enemy) this.objects[0];			
@@ -571,6 +387,7 @@ public class MagicDataHandler {
 				enemy.inflictMagicDamage(hitDiff, (int)this.objects[3]);
 			}			
 		};
+		caster.CountDowns.add(countDown);
 
 		int exp = hitDiff*4*c.CombatExpRate;
 		if (exp < 0) exp = 4*c.CombatExpRate;
@@ -600,8 +417,7 @@ public class MagicDataHandler {
 			int offsetY = (casterY - enemyY) * -1;
 
 			//TODO - delayed casting
-			caster.getFrameMethodHandler().createProjectilez(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, enemy.getID(), false);
-			
+			caster.getFrameMethodHandler().createProjectileWithDelay(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, enemy.getID(), 55, enemy.isNPC());
 			//hit calculation
 			int totalDamage = 0;
 			int hitDiff = misc.random(this.calculateMagicMaxHit(maxDamage, levelRequired));
@@ -609,11 +425,13 @@ public class MagicDataHandler {
 			LinkedList<Enemy> enemiesInRange = new LinkedList<Enemy>();
 			
 			for(Player p : server.playerHandler.players){
+				if(p == null || p == caster) continue;
 				if(misc.distanceBetweenPoints(p.absX, p.absY, enemyX, enemyY) <= range){
 					enemiesInRange.add(new Enemy(p));
 				}
 			}
 			for(NPC n : server.npcHandler.npcs){
+				if(n == null) continue;
 				if(misc.distanceBetweenPoints(n.absX, n.absY, enemyX, enemyY) <= range){
 					enemiesInRange.add(new Enemy(n));
 				}
@@ -625,12 +443,14 @@ public class MagicDataHandler {
 				Tuple<Enemy,Boolean> info = new Tuple<Enemy, Boolean>();
 				info.Item1 = e;
 				info.Item2 = caster.getCombatHandler().doIHitEnemyWithMagic(e);
+				if(info.Item2)
+					totalDamage += hitDiff;
 				hitInfo.add(info);
 			}
 			
 			Object[] arguments = new Object[]{hitInfo, caster.playerId, finishId, SPELLSPLASH, hitDiff};
 			
-			caster.countDown = new CountDown(3, arguments){
+			CountDown countDown = new CountDown(5, arguments){
 				@SuppressWarnings("unchecked")
 				LinkedList<Tuple<Enemy,Boolean>> hitInfo = (LinkedList<Tuple<Enemy,Boolean>>)this.objects[0];
 				
@@ -649,6 +469,12 @@ public class MagicDataHandler {
 					}
 				}
 			};
+			
+			caster.CountDowns.add(countDown);
+
+			int exp = totalDamage*4*c.CombatExpRate*c.rate;
+			if (exp <= 0) exp = 4*c.CombatExpRate*c.rate;
+			c.getClientMethodHandler().addSkillXP(exp, 6);
 			
 		return totalDamage;
 	}
@@ -751,6 +577,7 @@ public class MagicDataHandler {
 
 		case 12939: // Smoke Rush - Level 50
 			projectileSpell(384, 384, 385,  14,50, true, c, e);
+			break;
 
 		case 12963: // Smoke Burst - Level 62
 			AoE_Spell(c, e, 384, 384, 389, true, 18, 62, BURST,0);

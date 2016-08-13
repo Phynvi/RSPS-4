@@ -221,29 +221,6 @@ public int idleTimer = 0;
 	public boolean Smite = false;
 	//prayer
 
-	//magic
-	public int MageAttackIndex = -1;
-	public boolean cast = false;
-	public boolean fired = false;
-	public boolean firingspell = false;
-	public int fcastid = 0;
-	public int fcasterY = 0;
-	public int fcasterX = 0;
-	public int foffsetY = 0;
-	public int foffsetX = 0;
-	public int fangle = 0;
-	public int fspeed = 0;
-	public int fmgfxid = 0;
-	public int fsh = 0;
-	public int feh = 0;
-	public int ffinishid = 0;
-	public int fenemyY = 0;
-	public int fenemyX = 0;
-	public int fLockon = 0;
-	public boolean fMageNpc = false;
-	public boolean Inair = false;	
-	//magic
-
 	public static boolean snowFilter;
 	public static boolean dustFilter;
 	public static boolean dizzyFilter;
