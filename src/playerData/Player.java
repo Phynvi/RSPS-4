@@ -4,22 +4,22 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
-import clientHandlers.CountDown;
+import Resources.misc;
 import clientHandlers.Item;
 import clientHandlers.playerInstances;
 import clientHandlers.combat.Enemy;
 import npcInformation.NPC;
-import root.misc;
 import root.server;
 import serverHandlers.NPCHandler;
 import serverHandlers.PlayerHandler;
+import serverHandlers.Task;
 
 public abstract class Player extends playerInstances {
 
 	public boolean hasLoadedAllNPCs = false;
 
 	public int slot = -1;
-	public LinkedList<CountDown> CountDowns = new LinkedList<CountDown>();
+	public LinkedList<Task> CountDowns = new LinkedList<Task>();
 
 	public void followEnemy(Enemy e){
 		int id = e.getID();

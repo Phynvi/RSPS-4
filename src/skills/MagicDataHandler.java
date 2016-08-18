@@ -2,18 +2,19 @@ package skills;
 import playerData.Player;
 import playerData.client;
 import clientHandlers.Item;
+import clientHandlers.combat.Combat;
 import clientHandlers.combat.Enemy;
 import npcInformation.NPC;
-import root.misc;
 import root.server;
 import serverHandlers.PlayerHandler;
+import serverHandlers.Task;
 import struct.lists;
 
 import java.util.LinkedList;
 
 import Resources.Messages;
 import Resources.Tuple;
-import clientHandlers.CountDown;
+import Resources.misc;
 
 public class MagicDataHandler {
 	private client c;
@@ -279,14 +280,6 @@ public class MagicDataHandler {
 		}
 	}
 
-
-	public void Teleblock()
-	{
-		c.teleblock = true;
-		c.sendMessage("A teleblock has been cast on you!");
-		c.getFrameMethodHandler().stillgfx(345, c.absY, c.absX);
-	}
-
 	/*TELEOTHER*/
 	public void teleOtherRequest(String teleLocation, int player) {
 
@@ -302,43 +295,8 @@ public class MagicDataHandler {
 
 	}
 
-	public void StillMagicGFX(int id, int Y, int X, int time, int height)
-	{
-		for (Player p : server.playerHandler.players)
-		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(X, Y) <= 60)
-					{
-						person.getFrameMethodHandler().StillMagicGFX2(id, Y, X, time, height);
-					}
-				}
-			}
-		}
-	}
-
-
-
-	public void MagicProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
-			int startHeight, int endHeight, int lockon, int time)
-	{
-		for (Player p : server.playerHandler.players)
-		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != "null"))
-				{
-					person.getFrameMethodHandler().MagicProjectile2(casterY, casterX, offsetY, offsetX, angle, speed, gfxMoving, startHeight, endHeight, lockon, time);
-				}
-			}
-		}
-	}
 	
-	final int SPELLSPLASH = 85;
+	final static int SPELLSPLASH = 85;
 
 	/**
 	 * Will calculate hitDiff on enemy e and create projectile from player c to enemy e.
@@ -378,13 +336,14 @@ public class MagicDataHandler {
 		caster.getFrameMethodHandler().createProjectile(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, e.getID(), e.isNPC());
 		//TODO hit delay
 		
-		CountDown countDown = new CountDown(5, new Object[]{e, hitDiff, finishId, caster.playerId}) {
+		Task countDown = new Task(5, new Object[]{e, hitDiff, finishId, caster}) {
 			@Override
 			public void execute() {
 				Enemy enemy = (Enemy) this.objects[0];			
 				int hitDiff = (int)this.objects[1];
 				enemy.gfx100((int)this.objects[2]);
-				enemy.inflictMagicDamage(hitDiff, (int)this.objects[3]);
+				client caster = (client)this.objects[3];
+				enemy.inflictMagicDamage(hitDiff, new Enemy(caster));
 			}			
 		};
 		caster.CountDowns.add(countDown);
@@ -408,75 +367,17 @@ public class MagicDataHandler {
 				castEmote = 1978;
 			caster.startAnimation(castEmote);
 			caster.getFrameMethodHandler().gfx100(startId);
+			
+			int maxPossibleDamage = this.calculateMagicMaxHit(maxDamage, levelRequired);
+			Enemy playerEnemy = new Enemy(caster);
+			
+			Combat.attackEnemiesWithin(finishId, movingId, true, enemy, range, maxPossibleDamage, playerEnemy, 2, playerEnemy, true, true);
 
-			int casterX = caster.absX;
-			int casterY = caster.absY;
-			int enemyX = enemy.getX();
-			int enemyY = enemy.getY();
-			int offsetX = (casterX - enemyX) * -1;
-			int offsetY = (casterY - enemyY) * -1;
-
-			//TODO - delayed casting
-			caster.getFrameMethodHandler().createProjectileWithDelay(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, enemy.getID(), 55, enemy.isNPC());
-			//hit calculation
-			int totalDamage = 0;
-			int hitDiff = misc.random(this.calculateMagicMaxHit(maxDamage, levelRequired));
-			
-			LinkedList<Enemy> enemiesInRange = new LinkedList<Enemy>();
-			
-			for(Player p : server.playerHandler.players){
-				if(p == null || p == caster) continue;
-				if(misc.distanceBetweenPoints(p.absX, p.absY, enemyX, enemyY) <= range){
-					enemiesInRange.add(new Enemy(p));
-				}
-			}
-			for(NPC n : server.npcHandler.npcs){
-				if(n == null) continue;
-				if(misc.distanceBetweenPoints(n.absX, n.absY, enemyX, enemyY) <= range){
-					enemiesInRange.add(new Enemy(n));
-				}
-			}
-			
-			LinkedList<Tuple<Enemy,Boolean>> hitInfo = new LinkedList<Tuple<Enemy,Boolean>>();
-			
-			for(Enemy e : enemiesInRange){
-				Tuple<Enemy,Boolean> info = new Tuple<Enemy, Boolean>();
-				info.Item1 = e;
-				info.Item2 = caster.getCombatHandler().doIHitEnemyWithMagic(e);
-				if(info.Item2)
-					totalDamage += hitDiff;
-				hitInfo.add(info);
-			}
-			
-			Object[] arguments = new Object[]{hitInfo, caster.playerId, finishId, SPELLSPLASH, hitDiff};
-			
-			CountDown countDown = new CountDown(5, arguments){
-				@SuppressWarnings("unchecked")
-				LinkedList<Tuple<Enemy,Boolean>> hitInfo = (LinkedList<Tuple<Enemy,Boolean>>)this.objects[0];
-				
-				@Override
-				public void execute(){
-					for(Tuple<Enemy, Boolean> info : hitInfo){
-						Enemy e = info.Item1;
-						boolean wasHit = info.Item2;
-						if(wasHit){
-							e.gfx100((int)this.objects[2]);
-						}
-						else{
-							e.gfx100((int)this.objects[3]);
-						}
-						e.inflictMagicDamage((int)this.objects[4], (int)this.objects[1]);
-					}
-				}
-			};
-			
-			caster.CountDowns.add(countDown);
-
-			int exp = totalDamage*4*c.CombatExpRate*c.rate;
+			int exp = maxPossibleDamage*4*4*c.CombatExpRate*c.rate;
 			if (exp <= 0) exp = 4*c.CombatExpRate*c.rate;
 			c.getClientMethodHandler().addSkillXP(exp, 6);
 			
-		return totalDamage;
+		return maxPossibleDamage;
 	}
 	
 	
@@ -513,7 +414,7 @@ public class MagicDataHandler {
 			projectileSpell(117, 118, 119,  9,17, false, c, e);
 			break;
 			
-		case 1163: //thing
+		case 1163: //Water Bolt
 			projectileSpell(120, 121, 122,  10,23, false, c, e);
 			break;
 

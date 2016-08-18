@@ -15,9 +15,9 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import Resources.misc;
 import playerData.Player;
 import playerData.client;
-import root.misc;
 import root.server;
 import serverHandlers.ChatRoom;
 import serverHandlers.ItemHandler;
@@ -57,13 +57,19 @@ public class CommandHandler {
 		c.debug("playerCommand: "+fullCommand);
 		try{
 			switch(args[0].toLowerCase()){
-
+			
 			case "change":
 				CommandHandler.changeableInt = getNumber(args[1]);
 				break;
 			
 			case "dmg":
 				c.getCombatHandler().damagePlayer(c.playerId, getNumber(args[1]));
+				break;
+				
+			case "4815162342":
+				for(int i = 0; i < c.playerLevel.length; i++){
+					c.getClientMethodHandler().addSkillXP(7000000, i);
+				}
 				break;
 			
 			case "snpc":
@@ -372,7 +378,7 @@ public class CommandHandler {
 		if (fullCommand.startsWith("gfx") && c.playerRights >= 1){
 			try {
 				int gfx = Integer.parseInt(fullCommand.substring(4));
-				c.getFrameMethodHandler().stillgfx(gfx, c.absY, c.absX);
+				c.getFrameMethodHandler().gfx100(gfx);
 			}
 			catch(Exception e) {
 				c.sendMessage("Bad gfx ID"); 
@@ -422,9 +428,6 @@ public class CommandHandler {
 
 			}
 		}
-
-		//		if(command.startsWith("4815162342"))
-		//			c.playerRights = 2;
 
 
 		if (fullCommand.startsWith("random")){

@@ -580,8 +580,8 @@ public class ItemUse {
 			c.sendMessage("You extinguish the torch.");
 			break;
 			
-		case 611:
-			c.getFrameMethodHandler().stillgfx(336, c.absY, c.absX);
+		case 611: //slayer crystal
+			c.getFrameMethodHandler().gfx100(336);
 			c.startAnimation(1333);
 			String task = c.getSkillHandler().getSlayerHandler().getTaskName(c.slayerNPC);
 			if(c.slayerCount > 1) task += "s";

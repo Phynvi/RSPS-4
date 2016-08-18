@@ -1,5 +1,5 @@
 package struct;
-import root.misc;
+import Resources.misc;
 
 
 public class lists {
@@ -14,7 +14,7 @@ public class lists {
 	public static BST craftingList = new BST();
 	public static BST prayerList = new BST();
 	public static BST bones = new BST();
-	public static BST safeNPCs = new BST(132,878,257,873,874,875,876);
+	public static BST safeNPCs = new BST(132,878,257);
 	
 	//Ranged
 	public static BST bows = new BST();
@@ -123,8 +123,8 @@ public class lists {
 		//Ranged
 		
 		//For safe NPCs
-		safeNPCs.add(1208,933,3010,1055,1840,1794,1202,1836,1709,1182,2999,606,608,943,286,1303,171,460,510,1187,949,376,381,518,
-				599,1780,1697,922,220,1263,1302,1283,845,1080,219,1675,1696);
+		safeNPCs.add(1208,3010,1055,1840,1202,1836,1709,1182,2999,606,608,943,286,1303,171,460,510,1187,949,376,381,518,
+				599,1780,922,220,1263,1302,1283,1080,219,1675,1696);
 		//For safe NPCs
 				
 		

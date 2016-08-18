@@ -1,8 +1,65 @@
-package root;
+package Resources;
+
+import java.util.LinkedList;
+
+import clientHandlers.combat.Enemy;
+import root.server;
+import playerData.Player;
+import npcInformation.NPC;
 
 // a collection of misc methods
 public class misc {
 
+	/**
+	 * Will return a linked list of all NPC enemies in radius.
+	 * @param radius Inclusive radius to search.
+	 */
+	public static LinkedList<Enemy> getAllEnemyNPCsInRange(int x, int y, int radius){
+		LinkedList<Enemy> inRange = new LinkedList<Enemy>();
+		for(NPC n : server.npcHandler.npcs){
+			if(n != null && n.distanceToPoint(x, y) <= radius){
+				inRange.add(new Enemy(n));
+			}
+		}
+		return inRange;
+	}
+
+	/**
+	 * Will return a linked list of all player enemies in radius.
+	 * @param radius Inclusive radius to search.
+	 */
+	public static LinkedList<Enemy> getAllEnemyPlayersInRange(int x, int y, int radius){
+		LinkedList<Enemy> inRange = new LinkedList<Enemy>();
+		for(Player p : server.playerHandler.players){
+			if(p != null && p.distanceToPoint(x, y) <= radius){
+				inRange.add(new Enemy(p));
+			}
+		}
+		return inRange;
+	}
+	
+	/**
+	 * Will return a linked list of all enemies in radius.
+	 * @param radius Inclusive radius to search.
+	 */
+	public static LinkedList<Enemy> getAllEnemiesInRange(int x, int y, int radius){
+		LinkedList<Enemy> inRange = new LinkedList<Enemy>();
+		
+		for(Player p : server.playerHandler.players){
+			if(p != null && p.distanceToPoint(x, y) <= radius){
+				inRange.add(new Enemy(p));
+			}
+		}
+		
+		for(NPC n : server.npcHandler.npcs){
+			if(n != null && n.distanceToPoint(x, y) <= radius){
+				inRange.add(new Enemy(n));
+			}
+		}
+		
+		return inRange;
+	}
+	
 	public static int distanceBetweenPoints(int pointX1,int pointY1, int pointX2, int pointY2) {
     return (int) Math.sqrt(Math.pow(pointX2 - pointX1, 2) + Math.pow(pointY2 - pointY1, 2));
 }

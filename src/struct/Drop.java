@@ -1,5 +1,5 @@
 package struct;
-import root.misc;
+import Resources.misc;
 
 	public class Drop {
 		

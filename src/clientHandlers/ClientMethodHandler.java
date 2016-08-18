@@ -10,13 +10,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
+import Resources.misc;
 import playerData.Player;
 import playerData.client;
 import root.server;
 import serverHandlers.PlayerHandler;
 import struct.Drop;
-
-import root.misc;
 
 public class ClientMethodHandler {
 
@@ -270,7 +269,7 @@ public class ClientMethodHandler {
 			break;
 		}			
 		c.sendMessage("Congratulations, you just advanced a "+c.getSkillHandler().getSkillName(skill)+" level.");
-		c.getFrameMethodHandler().stillgfx(199, c.absY, c.absX);
+		c.getFrameMethodHandler().gfx100(199);
 		if (c.playerLevel[skill] >= 99){
 			c.masteries += 1;
 			c.sendMessage("You have reached a skill mastery. Skill capes and hoods are");
@@ -392,8 +391,8 @@ public class ClientMethodHandler {
 	public void startDialogue(int n){
 		c.npcLines.clear();
 		c.npcID = n;
-		c.npcName = c.DIALOGUEHANDLER.getName();
-		String[] lines = c.DIALOGUEHANDLER.getLines();
+		c.npcName = server.npcDialogueHandler.getName();
+		String[] lines = server.npcDialogueHandler.getLines();
 		for(int i = 0; i < lines.length; i++)
 			c.npcLines.add(lines[i]);
 		npcChat();

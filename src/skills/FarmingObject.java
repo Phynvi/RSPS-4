@@ -1,5 +1,5 @@
 package skills;
-import root.misc;
+import Resources.misc;
 import root.server;
 import serverHandlers.GlobalObject;
 

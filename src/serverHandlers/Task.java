@@ -1,7 +1,7 @@
-package clientHandlers;
+package serverHandlers;
 
-public abstract class CountDown {
-	public CountDown(int c, Object[] objects){
+public abstract class Task {
+	public Task(int c, Object[] objects){
 		this.counter = c;
 		this.objects = objects;
 	}

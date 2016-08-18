@@ -13,7 +13,13 @@ public class NPCAnim {
 		final int TWO_HAND_CRUSH = 437;
 
 		switch(npcID){ 
-		
+	//Tower Archer
+		case 688:
+		case 689:
+		case 690:
+		case 691: 
+			return 426;
+			
 		//Daggonoths
 		case 1338: case 1339: case 1340:
 		case 1341: case 1342: case 1343:

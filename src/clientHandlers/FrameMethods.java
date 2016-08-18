@@ -1,10 +1,12 @@
 package clientHandlers;
+import clientHandlers.combat.Enemy;
 import playerData.Player;
 import playerData.client;
 import playerData.stream;
 import root.server;
 import serverHandlers.ChatRoom;
 import serverHandlers.PlayerHandler;
+import serverHandlers.Task;
 
 
 public class FrameMethods {
@@ -783,76 +785,34 @@ public class FrameMethods {
 		c.mask100update = true;
 		c.updateRequired = true;
 	}
-
-	public void stillgfxz(int id, int Y, int X, int height, int time)
-	{
-		for (Player p : server.playerHandler.players)
-		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(X, Y) <= 60)
-					{
-						stillgfxz2(id, Y, X, height, time);
-					}
-				}
-			}
-		}
+	
+	//TODO - get this right
+	public void gfx(int id){
+		gfxWithDelay(id, c.absX, c.absY, 0, 0);
 	}
-	public void stillgfxz2(int id, int Y, int X, int height, int time)
-	{
+	
+	public void gfxAtPoint(int id, int x, int y){
+		gfxWithDelay(id, x, y, 0, 0);
+	}
+	
+	public void gfxWithDelay(int id, int x, int y, int delay, int height){
 		outStream.createFrame(85);
-		outStream.writeByteC(Y - (c.mapRegionY * 8));
-		outStream.writeByteC(X - (c.mapRegionX * 8));
+		outStream.writeByteC(y - (c.mapRegionY * 8));
+		outStream.writeByteC(x - (c.mapRegionX * 8));
 		outStream.createFrame(4);
 		outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
 		outStream.writeWord(id);//Graphic id
 		outStream.writeByte(height);//height of the spell above it's basic place, i think it's written in pixels 100 pixels higher
-		outStream.writeWord(time);//Time before casting the graphic
+		outStream.writeWord(delay);//Time before casting the graphic
 	}
-
-	public void stillgfx(int id, int Y, int X)
+	
+	public static void gfxAll(int id, int x, int y)
 	{
 		for (Player p : server.playerHandler.players)
 		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(X, Y) <= 60)
-					{
-						person.getFrameMethodHandler().stillgfx2(id, Y, X);
-					}
-				}
-			}
-		}
-	}
-	public void stillgfx2(int id, int Y, int X)
-	{
-		outStream.createFrame(85);
-		outStream.writeByteC(Y - (c.mapRegionY * 8));
-		outStream.writeByteC(X - (c.mapRegionX * 8));
-		outStream.createFrame(4);
-		outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
-		outStream.writeWord(id);//Graphic id
-		outStream.writeByte(0);//height of the spell above it's basic place, i think it's written in pixels 100 pixels higher
-		outStream.writeWord(0);//Time before casting the graphic
-	}
-
-	public void multiTargetGfx(int id, int targetY, int targetX) {
-		for (Player p : server.playerHandler.players) {
-			if(p != null) {
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(targetX, targetY) <= 60)
-					{
-						person.getFrameMethodHandler().stillgfx2(id, person.absY, person.absX);
-					}
-				}
+			client pc = (client)p;
+			if(pc != null && pc.distanceToPoint(x, y) <= 60){
+				pc.getFrameMethodHandler().gfxAtPoint(id, x, y);
 			}
 		}
 	}
@@ -991,8 +951,26 @@ public class FrameMethods {
 		c.mask100update = true;
 		c.updateRequired = true;
 	}
-
-	public void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+	
+	/**
+	 * Will create a gfx at points x and y counting down from delayMS.
+	 * The gfx will be visible to all players.
+	 */
+	public static void createAllGfxWithDelay(int delayMS, int gfxId, int x, int y){
+		Object[] arguments = new Object[]{gfxId, x, y};
+		Task t = new Task(delayMS, arguments){
+			@Override
+			public void execute() {
+				int gfxId = (int) this.objects[0];
+				int x = (int) this.objects[1];
+				int y = (int) this.objects[2];
+				FrameMethods.gfxAll(gfxId, x, y);
+			}			
+		};
+		server.taskScheduler.schedule(t);
+	}
+	
+	public static void createProjectileWithDelay(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
 			int startHeight, int endHeight, int lockon,int delay, boolean isNPC) {
 		lockon = lockon+1;
 		for (Player p : server.playerHandler.players) {
@@ -1000,8 +978,8 @@ public class FrameMethods {
 				if(p.isInArea(casterX, casterY, casterX+20,casterY+20)){
 					client g = (client) p;
 					g.outStream.createFrame(85);
-					g.outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
-					g.outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
+					g.outStream.writeByteC((casterY - (g.mapRegionY * 8)) - 2);
+					g.outStream.writeByteC((casterX - (g.mapRegionX * 8)) - 3);
 					g.outStream.createFrame(117);
 					g.outStream.writeByte(angle);                     //Starting place of the projectile
 					g.outStream.writeByte(offsetY);               //Distance between caster and enemy Y
@@ -1021,10 +999,18 @@ public class FrameMethods {
 			}
 		}
 	}
-
-	public void createProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
+	
+	public static void createProjectileWithDelay(Enemy origin, Enemy target, int angle, int speed, int gfxMoving, int startHeight, int endHeight, int delay){
+		int originX = origin.getX();
+		int originY = origin.getY();
+		int offsetX = (originX - target.getX())*-1;
+		int offsetY = (originY - target.getY())*-1;
+		createProjectileWithDelay(originY, originX, offsetY, offsetX, angle, speed, gfxMoving, startHeight, endHeight, target.getID(), delay, target.isNPC());
+	}
+	
+	public static void createProjectile(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
 			int startHeight, int endHeight, int lockon, boolean isNPC) {
-		this.createProjectileWithDelay(casterY, casterX, offsetY, offsetX, angle, speed, gfxMoving, startHeight, endHeight, lockon, 51, isNPC);
+		createProjectileWithDelay(casterY, casterX, offsetY, offsetX, angle, speed, gfxMoving, startHeight, endHeight, lockon, 51, isNPC);
 	}
 	
 	public void menu(String ... lines){
@@ -1039,40 +1025,6 @@ public class FrameMethods {
 		showInterface(8134);
 		c.flushOutStream();		
 	}
-
-
-	public void StillMagicGFX2(int id, int Y, int X, int time, int height)
-	{
-		outStream.createFrame(85);
-		outStream.writeByteC(Y - (c.mapRegionY * 8));
-		outStream.writeByteC(X - (c.mapRegionX * 8));
-		outStream.createFrame(4);
-		outStream.writeByte(0);//Tiles away (X >> 4 + Y & 7)
-		outStream.writeWord(id);//Graphic id
-		outStream.writeByte(height);//height of the spell above it's basic place, i think it's written in pixels 100 pixels higher
-		outStream.writeWord(time);//Time before casting the graphic
-	}
-
-
-	public void MagicProjectile2(int casterY, int casterX, int offsetY, int offsetX, int angle, int speed, int gfxMoving,
-			int startHeight, int endHeight, int lockon, int time) {
-		outStream.createFrame(85);
-		outStream.writeByteC((casterY - (c.mapRegionY * 8)) - 2);
-		outStream.writeByteC((casterX - (c.mapRegionX * 8)) - 3);
-		outStream.createFrame(117);
-		outStream.writeByte(angle);                     //Starting place of the projectile
-		outStream.writeByte(offsetY);               //Distance between caster and enemy Y
-		outStream.writeByte(offsetX);                //Distance between caster and enemy X
-		outStream.writeWord(lockon);        //The NPC the missle is locked on to
-		outStream.writeWord(gfxMoving);             //The moving graphic ID
-		outStream.writeByte(startHeight);           //The starting height
-		outStream.writeByte(endHeight);             //Destination height
-		outStream.writeWord(time);                        //Time the missle is created
-		outStream.writeWord(speed);                     //Speed minus the distance making it set
-		outStream.writeByte(16);                        //Initial slope
-		outStream.writeByte(64);                        //Initial distance from source (in the direction of the missile) //64    
-	}
-
 
 	public void createGroundItem(int itemID, int itemX, int itemY, int itemAmount) {// Phate: Omg fucking sexy! creates item at absolute X and Y
 		outStream.createFrame(85);								// Phate: Spawn ground item

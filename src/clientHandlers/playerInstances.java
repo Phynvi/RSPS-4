@@ -8,9 +8,9 @@ package clientHandlers;
 
 import java.util.ArrayList;
 
-import npcInformation.npcDialogueBST;
 import playerData.QuestVariable;
 import serverHandlers.ChatRoom;
+import serverHandlers.npcDialogueBST;
 import skills.Fishing;
 import skills.MagicDataHandler;
 import skills.RangeDataHandler;
@@ -36,8 +36,6 @@ public class playerInstances {
 	public boolean newUser = false;
 	public int pirate = 0;
 	public EventManager Events;
-
-	public static npcDialogueBST DIALOGUEHANDLER;
 	public String bankRearrange = "swap"; //default
 	public FoodHandler MISCSTRUCTS;
 	public long itemTimer = 0;

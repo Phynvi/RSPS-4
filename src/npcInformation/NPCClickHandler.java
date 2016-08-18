@@ -1,7 +1,7 @@
 package npcInformation;
+import Resources.misc;
 import clientHandlers.Item;
 import playerData.client;
-import root.misc;
 import root.server;
 import skills.Thieving;
 
@@ -331,7 +331,7 @@ public class NPCClickHandler {
 			return;
 
 		default:
-			if(c.DIALOGUEHANDLER.exists(NPCID)){ //dialogue handler
+			if(server.npcDialogueHandler.exists(NPCID)){ //dialogue handler
 				c.getClientMethodHandler().startDialogue(NPCID);
 			}
 
@@ -376,7 +376,7 @@ public class NPCClickHandler {
 			return;
 		}
 
-		if(c.DIALOGUEHANDLER.exists(NPCID)){ //dialogue handler
+		if(server.npcDialogueHandler.exists(NPCID)){ //dialogue handler
 			c.getClientMethodHandler().startDialogue(NPCID);
 			return;
 		}
@@ -878,8 +878,9 @@ public class NPCClickHandler {
 		case 943:
 			if(c.starter == 0)
 				c.getClientMethodHandler().dialogue(NPCID, "","@pla@Hello, I'm new here.","","", 
-						"Welcome newcomer!", "To get your starter kit, head", "Northwest of here and talk to", "Professor Oddenstein.",
-						"He can be found North, in the clothes shop.");
+						"","@npc@Hello, 'new here.'","How's it going?","",
+						"","@pla@No, my name is "+c.playerName+"!","","",
+						"@npc@Oh yes, we've been expecting you actually.","We have some equipment that was left for you.","Head north of here and speak with Professor Oddenstein.","He should be in the clothes shop.");
 			else {
 				c.getClientMethodHandler().optionsAndDialogue(NPCID, 
 						new String[]{"I'm ready to leave!"}, 
@@ -996,7 +997,7 @@ public class NPCClickHandler {
 			if(c.isInArea(3682,2953,3685,2956)){ //tutorial island
 				if(c.pirate < 10){
 					int remaining = 10-c.pirate;
-					c.getClientMethodHandler().dialogue(518, "These c.pirate ships are blocking us","from safely leaving. They landed", "North of here. I need you to kill",""+remaining+" c.pirates before we can leave.");
+					c.getClientMethodHandler().dialogue(518, "These pirate ships are blocking us","from safely leaving. They landed", "North of here. I need you to kill",""+remaining+" pirates before we can leave.");
 					break;
 				}
 				if(c.pirate == 10){ //quest completed

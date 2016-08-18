@@ -8,7 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.*;
 
-import root.misc;
+import Resources.misc;
 
 public class WorldMap {
 

@@ -1,6 +1,6 @@
 package skills;
 import playerData.client;
-import root.misc;
+import Resources.misc;
 import clientHandlers.Item;
 
 public class Fishing{

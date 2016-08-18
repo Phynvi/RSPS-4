@@ -1,6 +1,7 @@
 package root;
 import java.util.*;
 
+import Resources.misc;
 import serverHandlers.GlobalChatRoomHandler;
 import serverHandlers.GlobalObjectHandler;
 import serverHandlers.ItemHandler;
@@ -9,16 +10,18 @@ import serverHandlers.NPCHandler;
 import serverHandlers.PestControlHandler;
 import serverHandlers.PlayerHandler;
 import serverHandlers.ShopHandler;
+import serverHandlers.TaskScheduler;
 import serverHandlers.WorldMap;
 import serverHandlers.cHandler;
+import serverHandlers.npcDialogueBST;
 import struct.lists;
 import tests.AllTests;
 import tests.Test;
 
 public class server implements Runnable {
 	
-	public static boolean RUN_TESTS = false;
-	public static boolean showDelay = false;
+	public static boolean RUN_TESTS = true;
+	public static boolean showDelay = true;
 	
 public static WorldMap worldMap = null;	
 
@@ -28,6 +31,7 @@ public static ArrayList<String> connectedList = new ArrayList<String>();
 public static final String SERVERNAME = "SarimScape";
 
 public static boolean debugmode = false;
+public static npcDialogueBST npcDialogueHandler;
 
 	public server() {
 		// the current way of controlling the server at runtime and a great debugging/testing tool
@@ -44,8 +48,10 @@ public static boolean debugmode = false;
 	public static long upTime;
 	public static GlobalObjectHandler globalObjectHandler = null;
 	public static GlobalChatRoomHandler globalChatRoomHandler = null;
+	public static TaskScheduler taskScheduler = null;
 	
 	public static void main(java.lang.String args[]) {
+		taskScheduler = new TaskScheduler();
 		lists.generateLists();
 		pestControlHandler = new PestControlHandler();
 		worldMap = new WorldMap();
@@ -61,6 +67,7 @@ public static boolean debugmode = false;
 		muteHandler = new MuteHandler();
 		globalObjectHandler = new GlobalObjectHandler();
 		globalChatRoomHandler = new GlobalChatRoomHandler();
+		npcDialogueHandler = new npcDialogueBST();
 		//dialogueHandler = new DialogueHandler(); 
 		int waitFails = 0;
 		long lastTicks = System.currentTimeMillis();
@@ -68,7 +75,8 @@ public static boolean debugmode = false;
 		int cycle = 0;
 		long playerTimeSpentProcessing = 0,npcTimeSpentProcessing = 0,
 				itemTimeSpentProcessing = 0,shopTimeSpentProcessing = 0,
-				pestControlTimeSpentProcessing=0,globalObjectTimeSpentProcessing = 0;
+				pestControlTimeSpentProcessing=0,globalObjectTimeSpentProcessing = 0,
+				taskSchedulerTimeSpentProcessing=0;
 		int printOutDelay = 0;
 		int averages = 0;
 		long totals = 0;
@@ -94,13 +102,10 @@ public static boolean debugmode = false;
 			globalObjectHandler.process();
 			if(showDelay) globalObjectTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
 			globalChatRoomHandler.process();
-			//antilag.process();
-			//itemspawnpoints.process();
+			if(showDelay) taskSchedulerTimeSpentProcessing = System.currentTimeMillis() - lastTicks;
+			taskScheduler.process();
 
 			System.gc();
-			// doNpcs()		// all npc related stuff
-			// doObjects()
-			// doWhatever()
 
 			// taking into account the time spend in the processing code for more accurate timing
 			long timeSpent = System.currentTimeMillis() - lastTicks;
@@ -111,7 +116,8 @@ public static boolean debugmode = false;
 				System.out.println("[KERNEL] : Process time spent report:");
 				System.out.println("	 player:"+playerTimeSpentProcessing+", npc:"+npcTimeSpentProcessing+
 						", item:"+itemTimeSpentProcessing+", shop:"+shopTimeSpentProcessing+
-						", PC:"+pestControlTimeSpentProcessing+", GlobalObject: "+globalObjectTimeSpentProcessing);
+						", PC:"+pestControlTimeSpentProcessing+", GlobalObject: "+globalObjectTimeSpentProcessing+
+						", taskScheduler:"+taskSchedulerTimeSpentProcessing);
 				
 				totals += (playerTimeSpentProcessing+npcTimeSpentProcessing+itemTimeSpentProcessing+
 						shopTimeSpentProcessing+pestControlTimeSpentProcessing+globalObjectTimeSpentProcessing)/6;

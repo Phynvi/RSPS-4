@@ -2,8 +2,8 @@ package skills;
 
 import java.util.Hashtable;
 
+import Resources.misc;
 import playerData.client;
-import root.misc;
 import root.server;
 import struct.lists;
 

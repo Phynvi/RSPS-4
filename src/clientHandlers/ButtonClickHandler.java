@@ -1,7 +1,8 @@
 package clientHandlers;
+import Resources.Messages;
+import Resources.misc;
 import playerData.QuestVariable;
 import playerData.client;
-import root.misc;
 import root.server;
 import serverHandlers.ChatRoom;
 import serverHandlers.GlobalObjectHandler;
@@ -307,6 +308,10 @@ public class ButtonClickHandler {
 				break;
 
 			case 0:
+				if(c.getClientMethodHandler().isInPKZone()){
+					c.sendMessage(Messages.CannotTeleportInPVP);
+					break;
+				}
 				c.teleport(c.oX1, c.oY1, 0);
 				c.oX1 = -1;
 				c.oY1 = -1;
@@ -653,6 +658,10 @@ public class ButtonClickHandler {
 				break;
 
 			case 0:
+				if(c.getClientMethodHandler().isInPKZone()){
+					c.sendMessage(Messages.CannotTeleportInPVP);
+					break;
+				}
 				c.teleport(c.oX2, c.oY2);
 				c.oX2 = -1;
 				c.oY2 = -1;
@@ -900,9 +909,14 @@ public class ButtonClickHandler {
 				break;
 
 			case 0:
+				if(c.getClientMethodHandler().isInPKZone()){
+					c.sendMessage(Messages.CannotTeleportInPVP);
+					break;
+				}
 				c.teleport(c.oX3, c.oY3);
 				c.oX3 = -1;
 				c.oY3 = -1;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;			
 
 			case 1:
@@ -1088,7 +1102,14 @@ public class ButtonClickHandler {
 				c.getClientMethodHandler().optionsDialogue();
 				return;
 			case 0:
+				if(c.getClientMethodHandler().isInPKZone()){
+					c.sendMessage(Messages.CannotTeleportInPVP);
+					break;
+				}
 				c.teleport(c.oX4, c.oY4);
+				c.oX4 = -1;
+				c.oY4 = -1;
+				c.getFrameMethodHandler().RemoveAllWindows();
 				break;
 
 			case 1:

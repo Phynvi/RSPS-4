@@ -1,4 +1,4 @@
-@echo off
-title Server
-java -Xmx2048m -classpath bin server
+@ECHO OFF
+cd bin
+java -Xmx2048m root.server
 pause

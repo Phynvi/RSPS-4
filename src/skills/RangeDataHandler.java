@@ -1,11 +1,12 @@
 package skills;
 import playerData.client;
+import Resources.misc;
 import clientHandlers.Item;
 import clientHandlers.combat.Enemy;
-import root.misc;
 import root.server;
 import serverHandlers.ItemHandler;
 import serverHandlers.PlayerHandler;
+import serverHandlers.Task;
 import struct.lists;
 
 
@@ -327,14 +328,28 @@ public class RangeDataHandler {
 	 * Projectile will travel from player to Enemy e
 	 */
 	public void arrowProjectile(Enemy e){
-		int EnemyX2 = e.getX();
-		int EnemyY2 = e.getY();
-		int casterX = c.absX;
-		int casterY = c.absY;
-		int offsetX = (casterX - EnemyX2) * -1;
-		int offsetY = (casterY - EnemyY2) * -1;
+		
 		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
-		c.getFrameMethodHandler().createProjectileWithDelay(c.absY, c.absX, offsetY, offsetX, 50, 55, getArrowGFX(), 43, 31, e.getID(), 40, c.getEnemy().isNPC());
+		
+		Task countDown = new Task(2, new Object[]{c, e}){
+			@Override
+			public void execute() {
+				client playerClient = (client) this.objects[0];
+				Enemy enemy = (Enemy) this.objects[1];
+
+				int EnemyX2 = enemy.getX();
+				int EnemyY2 = enemy.getY();
+				int casterX = playerClient.absX;
+				int casterY = playerClient.absY;
+				int offsetX = (casterX - EnemyX2) * -1;
+				int offsetY = (casterY - EnemyY2) * -1;
+				
+				playerClient.getFrameMethodHandler().createProjectileWithDelay(playerClient.absY, playerClient.absX, offsetY, offsetX, 
+						50, 55, getArrowGFX(), 43, 31, enemy.getID(), 40, enemy.isNPC());
+			}
+		};
+		
+		c.CountDowns.add(countDown);
 	}
 
 }

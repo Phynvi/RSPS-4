@@ -2,15 +2,17 @@ package serverHandlers;
 import java.io.*;
 import java.util.Hashtable;
 
+import Resources.misc;
 import struct.NPCList;
 import playerData.Player;
 import playerData.client;
-import root.misc;
 import root.server;
 import struct.BST;
 import struct.DropList;
 import struct.lists;
+import clientHandlers.FrameMethods;
 import clientHandlers.Item;
+import clientHandlers.combat.Combat;
 import clientHandlers.combat.Enemy;
 import npcInformation.NPC;
 import npcInformation.NPCAnim;
@@ -21,10 +23,9 @@ public class NPCHandler {
 	public static BST ignoreCombatLevel = new BST(221,938,178,179,1267,1265,62,2499,2501,2503,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();
 
-	private static int NPCFightType; 
-	public static int hitRange = 0;
-	public static int hitMage = 0;
-	public static int hitDiff = 0;
+	private int NPCGfxMoving;
+	private int NPCFightType; 
+	private int NPCGfxFinished;
 	public static int maxNPCs = 10000;
 	public static int maxListedNPCs = 10000;
 	public NPC npcs[] = new NPC[maxNPCs];
@@ -1227,24 +1228,6 @@ WORLDMAP 2: (not-walk able places)
 			},
 	};
 
-	public void gfxAll(int id, int Y, int X)
-	{
-		for (Player p : server.playerHandler.players)
-		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(X, Y) <= 60)
-					{
-						person.getFrameMethodHandler().stillgfx2(id, Y, X);
-					}
-				}
-			}
-		}
-	}
-
 	public boolean AttackPlayer(int NPCID) {
 
 
@@ -1297,12 +1280,15 @@ WORLDMAP 2: (not-walk able places)
 
 			if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
 
+				NPCGfxFinished = -1;
+				NPCGfxMoving = -1;
+				
 				switch (_npcID){
 				case 1115: //Troll General, used in God Wars
 					melee(15);
 					break;
 				case 1101: //dangerous thrower troll, used in god wars
-					range(21);
+					range(21, 70, -1);
 					break;
 
 					//skeletal wyverns
@@ -1322,13 +1308,11 @@ WORLDMAP 2: (not-walk able places)
 					if(npcs[NPCID].attackDistance == 6){
 						if(c.getCombatHandler().hasAnyDragonFireShield()){
 							c.sendMessage("Your shield helps protect you from the Wyvern's icey breath.");
-							c.getFrameMethodHandler().stillgfx(361, c.absY, c.absX);
-							magic(10);
+							magic(10, 362,361);
 						}
 						else{
 							c.sendMessage("The Wyvern strikes with icey breath.");
-							c.getFrameMethodHandler().stillgfx(363, c.absY, c.absX);
-							magic(50);
+							magic(50, 362,363);
 						}
 						freezePlayer = 5;
 					}
@@ -1346,7 +1330,7 @@ WORLDMAP 2: (not-walk able places)
 				case 3759: //Torcher
 				case 3760: //Torcher
 				case 3761: //Torcher
-					magic(npcs[NPCID].MaxHit);
+					magic(npcs[NPCID].MaxHit, 100,-1);
 					break;
 
 					//Ranged
@@ -1360,12 +1344,12 @@ WORLDMAP 2: (not-walk able places)
 				case 3769: //Defiler
 				case 3770: //Defiler
 				case 3771: //Defiler
-					range(npcs[NPCID].MaxHit);
+					range(npcs[NPCID].MaxHit, 294,-1);
 					break;
 
 				case 2361: //""
 				case 2362: //elf warrior
-					range(11);
+					range(11, 249,-1);
 					//							int X3 = c.absX;
 					//							int Y3 = c.absY;
 					//							int offsetX = (npcs[NPCID].absX - X3) * -1;
@@ -1375,46 +1359,45 @@ WORLDMAP 2: (not-walk able places)
 
 				case 2028:
 					npcs[NPCID].animNumber = 2075; //Karil
-					range(10);
-					c.getFrameMethodHandler().stillgfx(401, c.absY, c.absX);
+					range(10, 28,401);
 					break;
 
 				case 2025: //Ahrim
 					npcs[NPCID].animNumber = 724;
-					magic(20);
+					
+					int gfxHit = -1;
 					switch(misc.random(3)){
 					case 0:
-						gfxAll(377, playerY, playerX);	
+						gfxHit = 377;
 						break;
 					case 1:
-						gfxAll(368, playerY, playerX);	
+						gfxHit = 368;
 						break;
 					case 2:
-						gfxAll(435, playerY, playerX);	
+						gfxHit = 435;
 						break;
 					}
+					magic(20, 195,gfxHit);
 					break; 
 
 					//Test NPC for GFX
 				case 199:
-					range(0);
+					range(0,17,-1);
 					//int offsetX = (npcs[NPCID].absX - c.absX) * -1;
 					//int offsetY = (npcs[NPCID].absY - c.absY) * -1;
 					//c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 80, 11, 43, 31, c.playerId+1); //does not guarnatee work
 					break;
 
 				case 1157: //Kalphite Guardian magic
-					magic(16);
-					c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);
+					magic(16,100,134);
 					break;
 
 				case 172: //dark wizard
 				case 173: //necromancer
 				case 14: //druid - mage npc
 				case 181: //chaos druid
-					magic(npcs[NPCID].MaxHit);
+					magic(npcs[NPCID].MaxHit,133,134);
 					npcs[NPCID].animNumber = 711;
-					c.getFrameMethodHandler().stillgfx(134, c.absY, c.absX);
 					break;
 
 				case 81: case 397: case 1766: case 1767: case 1768:
@@ -1422,21 +1405,18 @@ WORLDMAP 2: (not-walk able places)
 					break;
 
 				case 1624:
-					magic(21);
-					gfxAll(346, playerY, playerX);
-					c.getFrameMethodHandler().stillgfx(346, c.absY, c.absX);
+					magic(21,100,134);
 					break;
 
 				case 1615:
 					melee(26);
-					c.getFrameMethodHandler().stillgfx(409, npcs[NPCID].absY, npcs[NPCID].absX);
+					npcs[NPCID].gfx100(409);
 					break;
 
 				case 912:
 				case 913://battle mages
-					magic(20);
+					magic(20,344,345);
 					npcs[NPCID].animNumber = 711; 
-					c.getFrameMethodHandler().stillgfxz(345, c.absY, c.absX, 50, 50);
 					break;
 
 				case 677: //demon boss from dwarf problems ii
@@ -1448,15 +1428,12 @@ WORLDMAP 2: (not-walk able places)
 						break;
 					case 2:
 						npcs[NPCID].animNumber = 69;
-						c.getFrameMethodHandler().stillgfx(131, c.absY, c.absX);
 						if (c.getCombatHandler().ivandis()){
-							magic(30);
+							magic(0,130,131);
 							c.sendMessage("Your staff helps protect you from the attack");
 						}
 						else {
-							NPCFightType = 2;
-							maxHitOverride = true;
-							hitDiffOverride = misc.random(30)+30;
+							magic(60,130,131);
 							c.sendMessage("The demon strikes with an other-wordly magic");
 						}
 						break;
@@ -1465,20 +1442,18 @@ WORLDMAP 2: (not-walk able places)
 					break;
 
 				case 1611: //gargoyle, mob with general graador
-					range(15);
+					range(15,294,-1);
 					break;
 
 				case 1647: //infernal mage, mob with general graador
-					magic(15);
-					c.getFrameMethodHandler().stillgfx(131, c.absY, c.absX);
+					magic(15,165,166);
 					break;
 
 					//shades
 				case 1250:
 				case 1248:
 				case 1246:
-					magic(npcs[NPCID].MaxHit);
-					c.getFrameMethodHandler().stillgfx(292, c.absY, c.absX);
+					magic(npcs[NPCID].MaxHit,124,125);
 					break;
 
 					//Dragons	
@@ -1490,19 +1465,12 @@ WORLDMAP 2: (not-walk able places)
 						break;
 					case 2:
 						if (c.getCombatHandler().dragfire()){
-							magic(2);
-							gfxAll(440, playerY, playerX);
-							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
+							magic(2,-1,440);
 							c.sendMessage("Your shield protects you from the Dragon's breath.");
 						}
 						else if (c.getCombatHandler().hasDFS()){
-							gfxAll(440, playerY, playerX);
-							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
-							c.getFrameMethodHandler().stillgfx(4, c.absY, c.absX);
-							c.getFrameMethodHandler().stillgfx(5, c.absY, c.absX);
-							c.getFrameMethodHandler().stillgfx(82, c.absY, c.absX);
 							c.startAnimation(1156);
-							magic(0);
+							magic(0,-1,4);
 							if (c.dragcharge < 50){
 								c.dragcharge += 1;
 								c.sendMessage("Your Dragon Fire Shield absorbs a charge and has "+c.dragcharge+"/50 charges.");}
@@ -1512,9 +1480,7 @@ WORLDMAP 2: (not-walk able places)
 						}
 						else {
 							npcs[NPCID].animNumber = 81; //Dragons
-							gfxAll(440, playerY, playerX);
-							c.getFrameMethodHandler().stillgfx(440, c.absY, c.absX);
-							magic(50);
+							magic(50,-1,440);
 							c.sendMessage("The Dragon strikes with its fiery breath.");
 						}
 						break;
@@ -1583,8 +1549,7 @@ WORLDMAP 2: (not-walk able places)
 						maxHitOverride = true;
 						hitDiffOverride = misc.random(40);
 						npcs[NPCID].animNumber = 2081; 
-						c.getFrameMethodHandler().stillgfx(398, c.absY, c.absX);
-						gfxAll(398, playerY, playerX);
+						FrameMethods.gfxAll(398, c.absX, c.absY);
 						if(npcs[NPCID].HP < 125 && hitDiffOverride != 0 && !c.PMelee)
 							npcs[NPCID].HP += hitDiffOverride; 	
 						break;
@@ -1606,14 +1571,7 @@ WORLDMAP 2: (not-walk able places)
 				case 1160:
 					npcs[NPCID].animNumber = 1177; //KQ
 					melee(31);
-					if (misc.random(4) == 0){
-						c.getFrameMethodHandler().stillgfx(537, c.absY, c.absX);
-						gfxAll(537, playerY, playerX);
-						c.getFrameMethodHandler().stillgfx(172, c.absY, c.absX);
-						gfxAll(172, playerY, playerX);
-						magic(41);
-						c.sendMessage("The Kalphite Queen strikes with Magic!");
-					}
+					//TODO
 					break;
 
 				case 195: case 196:
@@ -1622,22 +1580,20 @@ WORLDMAP 2: (not-walk able places)
 
 				case 3001: //Kree'arra
 					npcs[NPCID].animNumber = 6976;
-					c.getFrameMethodHandler().stillgfx(305, c.absY, c.absX);
-					range(71);
+					range(71,243,-1);
 					break;
 
 				case 871: //Ogre Shaman - Used in godwars
-					magic(16);
-					c.getFrameMethodHandler().stillgfx(346, c.absY, c.absX);
+					magic(16,130,346);
 					break;
 
 				case 3000: //general graardor
 					switch(misc.random(3)+1){
 					case 4:
-						range(35);
+						range(35,-1,-1);
 						c.sendMessage ("The General strikes with a ranged special.");
-						c.getCombatHandler().attackPlayersWithin2(198, 35, 10); 
-						c.getFrameMethodHandler().stillgfx(198, c.absY, c.absX);
+						Enemy playerClient = new Enemy(c);
+						Combat.attackEnemiesWithin(198, -1, true, playerClient, 5, 35, new Enemy(npcs[NPCID]), 1, playerClient, false, true);
 						npcs[NPCID].animNumber = 7063; 
 						break;
 					case 1: case 2: case 3:
@@ -1667,19 +1623,23 @@ WORLDMAP 2: (not-walk able places)
 					npcs[NPCID].animNumber = CRUSH;
 					break;
 
-				case 691: //tower archer, health 70
-					range(11);
-					npcs[NPCID].animNumber = 426; 
+					//Tower Archer
+				case 688:
+				case 689:
+				case 690:
+				case 691: 
+					range(npcs[NPCID].MaxHit,11,-1);
 					break;
+					
 				case 1183: //elf warrior, health 100
-					range(13);
+					range(13, 249, -1);
 					npcs[NPCID].animNumber = 426;
 					break;
 				case 2034: //crypt spider, health 60
 					npcs[NPCID].animNumber = 2080;
 					break;
 				case 205: //salarin the twisted, health 160
-					magic(26);
+					magic(26, 133,134);
 					npcs[NPCID].animNumber = 724;
 					break;
 				case 87:
@@ -1703,34 +1663,30 @@ WORLDMAP 2: (not-walk able places)
 				//Defence
 
 				int hitDiff = misc.random(_maxHit);
-				int npcBonus = (int) (npcs[NPCID].MaxHP*1.5+_maxHit);
 
+				//c.debug("[NPCHandler] NPCFightType: "+NPCFightType);
+				
 				if (NPCFightType == 1){ //melee
 					if (c.PMelee)
 						hitDiff = 0;
-					else{
-						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMeleeDefEquipmentBonus();
-						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
+					else if(!doesNPCHitPlayerWithMelee(npcs[NPCID], c)){
+						 hitDiff = 0;
 					}
 				}
-				//TODO - add projectiles
 				if (NPCFightType == 2){ //range
 					if (c.PRange)
 						hitDiff = 0;
-					else{
-						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerRangeDefEquipmentBonus();
-						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
+					else if(!doesNPCHitPlayerWithRanged(npcs[NPCID], c)){
+						 hitDiff = 0;
 					}
 				}
 				if (NPCFightType == 3){ //mage
 					if (c.PMage)
 						hitDiff = 0;
-					else{
-						int playerBonus = c.playerLevel[c.playerDefence] + c.getCombatHandler().getPlayerMagicDefEquipmentBonus();
-						if (!isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus)) hitDiff = 0;
+					else if(!doesNPCHitPlayerWithMagic(npcs[NPCID], c)){
+						 hitDiff = 0;
 					}
 				}
-
 				if (maxHitOverride){
 					hitDiff = hitDiffOverride;
 					hitDiffOverride = 0;
@@ -1743,51 +1699,69 @@ WORLDMAP 2: (not-walk able places)
 						if(NPCFightType == 3)
 							if(c.PMage) hitDiff = 0;
 					}
+				}		
+
+				int hitDelay = 1;
+				if(NPCGfxMoving != -1){
+					FrameMethods.createProjectileWithDelay(new Enemy(npcs[NPCID]), new Enemy(c), 50, 95, NPCGfxMoving, 23, 20, 40);
+					hitDelay = 5;
 				}
-
-				if(c.getCombatHandler().ElysianSpiritShield()){ //70% chance to reduce total damage by 25%
-					int chance = misc.random(9);
-					if(chance != 0 && chance != 1 && chance != 2){
-						hitDiff -= hitDiff/4;
-						gfxAll(575, c.absY, c.absX);
-					}
+				if(NPCGfxFinished != -1){
+					c.getFrameMethodHandler().gfxWithDelay(NPCGfxFinished, c.absX, c.absY, hitDelay, 100);
 				}
-				if(c.getCombatHandler().DivineSpiritShield()){ //reduces by 30%
-					hitDiff = (int)(hitDiff*0.7);
-				}
+				
+				Object[] arguments = new Object[]{c, e, hitDiff, freezePlayer, NPCFightType};
+				
+				server.taskScheduler.schedule(getHitDelayTask(hitDelay, arguments));
 
-				if (hitDiff < 0)
-					hitDiff = 0;
-
-				if ((EnemyHP - hitDiff) < 0) 
-					hitDiff = EnemyHP;
-
-				if(freezePlayer > -1 && hitDiff > 0)
-					c.frozen(freezePlayer);						
-
-				if (c.SpecEmoteTimer == 0 && server.playerHandler.players[playerID].DirectionCount >= 2) //if the player is not in the middle of animation for special or walking/running
-					c.startAnimation(Item.GetBlockAnim(c.playerEquipment[c.playerWeapon]));
-
-				server.playerHandler.players[playerID].hitDiff = hitDiff;
-				server.playerHandler.players[playerID].updateRequired = true;
-				server.playerHandler.players[playerID].hitUpdateRequired = true;
-				server.playerHandler.players[playerID].appearanceUpdateRequired = true;
 				npcs[NPCID].animUpdateRequired = true;
 				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 				npcs[NPCID].faceplayer(playerID);
-				c.getFrameMethodHandler().RemoveAllWindows();
-
-				if( c.autoRetaliate == 1 && c.getEnemy() == null ){ //&& c.distanceToPoint(npcs[NPCID].absX, npcs[NPCID].absY) < 5){
-					c.setEnemy(e);
-					c.getCombatHandler().Attack();
-				}
-				if(c.teleportDelayCast && c.teleportDelay > 0)
-					c.interruptTeleport();
 				return true;
 			}
 		}
 		if(!npcs[NPCID].moveToSpawn) FollowPlayerCB(NPCID, playerID);
 		return false;
+	}
+	
+	private Task getHitDelayTask(int delay, Object[] arguments){
+		return new Task(delay, arguments){
+			@Override
+			public void execute() {
+				client c = (client)this.objects[0];
+				Enemy playerEnemy = new Enemy(c);
+				Enemy enemy = (Enemy)this.objects[1];
+				int hitDiff = (int)this.objects[2];
+				int freezePlayer = (int)this.objects[3];
+				int style = (int)this.objects[4];
+
+				if(freezePlayer > -1 && hitDiff > 0)
+					c.frozen(freezePlayer);			
+				
+				if(style == 1)
+					playerEnemy.inflictMagicDamage(hitDiff, enemy, true);
+				else if(style == 2)
+					playerEnemy.inflictRangeDamage(hitDiff, enemy, true);
+				else if(style == 3)
+					playerEnemy.inflictMagicDamage(hitDiff, enemy, true);
+			}					
+		};
+	}
+	
+	public static boolean doesNPCHitPlayerWithMelee(NPC n, client player){
+		int npcBonus = (int) (n.MaxHP*1.5+n.MaxHit);
+		int playerBonus = player.playerLevel[player.playerDefence] + player.getCombatHandler().getPlayerMeleeDefEquipmentBonus();
+		return (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus));
+	}
+	public static boolean doesNPCHitPlayerWithRanged(NPC n, client player){
+		int npcBonus = (int) (n.MaxHP*1.5+n.MaxHit);
+		int playerBonus = player.playerLevel[player.playerDefence] + player.getCombatHandler().getPlayerRangeDefEquipmentBonus();
+		return (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus));		
+	}
+	public static boolean doesNPCHitPlayerWithMagic(NPC n, client player){
+		int npcBonus = (int) (n.MaxHP*1.5+n.MaxHit);
+		int playerBonus = player.playerLevel[player.playerDefence] + player.getCombatHandler().getPlayerMagicDefEquipmentBonus();
+		return (isMyBonusGreaterThanTheEnemy(npcBonus, playerBonus));		
 	}
 
 	public int _maxHit;
@@ -1797,13 +1771,24 @@ WORLDMAP 2: (not-walk able places)
 		_maxHit = maxHit;
 		NPCFightType = 1;
 	}
-	private void range(int maxHit){ //, int projectileGFX){
+	
+	/**
+	 * Set gfxMoving or finishId as -1 if not needed.
+	 */
+	private void range(int maxHit, int gfxMoving, int finishId){ //, int projectileGFX){
+		NPCGfxMoving = gfxMoving;
+		NPCGfxFinished = finishId;
 		_maxHit = maxHit;
 		NPCFightType = 2;
 		//npcProjectileGFX = projectileGFX;
 	}
-	private int npcProjectileGFX = -1;
-	private void magic(int maxHit){
+	
+	/**
+	 * Set gfxMoving or finishId as -1 if not needed.
+	 */
+	private void magic(int maxHit, int gfxMoving, int finishId){
+		NPCGfxMoving = gfxMoving;
+		NPCGfxFinished = finishId;
 		_maxHit = maxHit;
 		NPCFightType = 3;
 	}
@@ -1978,7 +1963,7 @@ WORLDMAP 2: (not-walk able places)
 	}
 
 
-	public boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
+	public static boolean isMyBonusGreaterThanTheEnemy(int myBonus, int enemyBonus){
 		if(enemyBonus < 2) enemyBonus = 2;
 		if(myBonus < 2) myBonus = 2; 
 		int myRandom = misc.random(myBonus); //declaring for debugging purposes

@@ -1,11 +1,15 @@
 package clientHandlers.combat;
+import java.util.LinkedList;
+
+import Resources.misc;
+import clientHandlers.FrameMethods;
 import clientHandlers.Item;
 import npcInformation.NPCAnim;
 import playerData.Player;
 import playerData.client;
-import root.misc;
 import root.server;
 import serverHandlers.PlayerHandler;
+import serverHandlers.Task;
 import struct.lists;
 import npcInformation.NPC;
 
@@ -131,65 +135,74 @@ public class Combat {
 		c.specialDelay -= amount;
 	}
 	
-	/**
-	 * Will check if the enemy is currently attackable
-	 * @param e Attack object to check status of
-	 * @return True if can be attacked, false if not.
-	 */
-	public boolean canIAttackMyEnemy(Enemy e){
-
-		if (e.isDead()){
+	public static boolean CanEnemyAttackTarget(Enemy e, Enemy target){
+		
+		if (target.isDead()){
 			return false;
 		}
 		
-		if(e.isNPC()){
-			if(c.getSkillHandler().getSlayerHandler().slayerNPC.exists(e.getNPCType())){ //slayer NPC
-				if(c.playerLevel[18] < c.getSkillHandler().getSlayerHandler().getTaskLevel(e.getNPCType()) && 
-						c.slayerNPC != e.getNPCType()){
-					c.sendMessage("You need a higher Slayer level to do that.");
-					return false;
+		if(target.isNPC()){
+			if(e.isNPC()){ //npc attacking npc
+				return true;
+			}
+			else{ //player attacking npc
+				client c = e.getPlayerClient();
+				if(c.getSkillHandler().getSlayerHandler().slayerNPC.exists(target.getNPCType())){ //slayer NPC
+					if(c.playerLevel[18] < c.getSkillHandler().getSlayerHandler().getTaskLevel(e.getNPCType()) && 
+							c.slayerNPC != target.getNPCType()){
+						c.sendMessage("You need a higher Slayer level to do that.");
+						return false;
+					}
 				}
-			}
 
-			if(server.npcHandler.npcs[e.getNPCId()].moveToSpawn) 
-				return false;
-
-			if(server.npcHandler.npcs[e.getNPCId()].attacknpc > 0) {
-				c.sendMessage("That NPC is already under attack.");
-				return false;
-			}
-			int _NPCTYPE = e.getNPCType();
-
-			if(!e.getNPC().attackable){
-				c.sendMessage("That's a friendly NPC that I should not attack.");
-				c.stopPlayerMovement();
-				return false;
-			}						
-
-			if((_NPCTYPE == 221 || _NPCTYPE == 938) && !c.PDAggro){
-				c.sendMessage("I don't think I want to do that.");
-				c.stopPlayerMovement();
-				return false;
-			}
-
-			if(c.getSkillHandler().getSlayerHandler().slayerNPC.exists(_NPCTYPE)){ //slayer NPC
-				if(c.playerLevel[18] < c.getSkillHandler().getSlayerHandler().getTaskLevel(_NPCTYPE) && c.slayerNPC != _NPCTYPE){
-					c.sendMessage("You need a higher Slayer level to do that.");
+				if(server.npcHandler.npcs[target.getNPCId()].moveToSpawn){
+					c.debug("NPC is reseting");
 					return false;
 				}
 
+				if(server.npcHandler.npcs[target.getNPCId()].attacknpc > 0) {
+					c.sendMessage("That NPC is already under attack.");
+					return false;
+				}
+				int _NPCTYPE = target.getNPCType();
+
+				if(!target.getNPC().attackable){
+					c.sendMessage("That's a friendly NPC that I should not attack.");
+					c.stopPlayerMovement();
+					return false;
+				}						
+
+				if((_NPCTYPE == 221 || _NPCTYPE == 938) && !c.PDAggro){
+					c.sendMessage("I don't think I want to do that.");
+					c.stopPlayerMovement();
+					return false;
+				}
+
+				if(c.getSkillHandler().getSlayerHandler().slayerNPC.exists(_NPCTYPE)){ //slayer NPC
+					if(c.playerLevel[18] < c.getSkillHandler().getSlayerHandler().getTaskLevel(_NPCTYPE) && c.slayerNPC != _NPCTYPE){
+						c.sendMessage("You need a higher Slayer level to do that.");
+						return false;
+					}
+
+				}
 			}
 		}
 		else{
-			if(!c.getClientMethodHandler().isInPKZone()){
-				c.sendMessage("You are in a safe zone.");
-				resetAttack();
-				return false;
+			if(e.isNPC()){ //npc attacking player
+				return true;
 			}
-			if(e.getPlayerClient().getClientMethodHandler().isInPKZone()){
-				c.sendMessage("That player is in a safe zone.");
-				resetAttack();
-				return false;
+			else{ //player attacking player
+				client c = e.getPlayerClient();
+				if(!c.getClientMethodHandler().isInPKZone()){
+					c.sendMessage("You are in a safe zone.");
+					c.getCombatHandler().resetAttack();
+					return false;
+				}
+				if(!target.getPlayerClient().getClientMethodHandler().isInPKZone()){
+					c.sendMessage("That player is in a safe zone.");
+					c.getCombatHandler().resetAttack();
+					return false;
+				}
 			}
 		}
 		return true;
@@ -226,9 +239,9 @@ public class Combat {
 		}    
 		if (playerEquipment[playerWeapon] == 6739){ //dragon axe
 			useSpecialAndSubtractDelay(10);
-			c.getFrameMethodHandler().stillgfxz(479, c.absY, c.absX, 50, 20);
-			c.getFrameMethodHandler().stillgfxz(479, c.absY, c.absX, 50, 30);
-			c.getFrameMethodHandler().stillgfxz(479, c.absY, c.absX, 50, 40);
+			c.getFrameMethodHandler().gfxWithDelay(479, c.absX, c.absY, 20, 50);
+			c.getFrameMethodHandler().gfxWithDelay(479, c.absX, c.absY, 30, 50);
+			c.getFrameMethodHandler().gfxWithDelay(479, c.absX, c.absY, 40, 50);
 			return original+(int)((double)original/10.0); //player hit + 10%
 		}    
 		if (playerEquipment[playerWeapon] == 15335){ // Saradomin Godsword
@@ -263,16 +276,16 @@ public class Combat {
 				usedZamorakSpecial = true;
 			}
 			useSpecialAndSubtractDelay(6);
-			c.getFrameMethodHandler().stillgfxz(368, Y, X, 50, 50);
-			c.getFrameMethodHandler().stillgfxz(382, Y, X, 50, 50);
+			c.getFrameMethodHandler().gfxWithDelay(368, X, Y, 50, 50);
+			c.getFrameMethodHandler().gfxWithDelay(382, X, Y, 50, 50);
 			return original + misc.random(c.playerLevel[c.playerMagic]/3);	                	
 		}    
 
 		if (playerEquipment[playerWeapon] == 15351){ //Saradomin Sword
 			useSpecialAndSubtractDelay(10);
-			c.getFrameMethodHandler().stillgfxz(119, Y, X, 50, 75);
-			c.getFrameMethodHandler().stillgfxz(76, Y, X, 50, 60);
-			c.getFrameMethodHandler().stillgfxz(85, Y, X, 50, 75);
+			c.getFrameMethodHandler().gfxWithDelay(119, X, Y, 75, 50);
+			c.getFrameMethodHandler().gfxWithDelay(76, X, Y, 60, 50);
+			c.getFrameMethodHandler().gfxWithDelay(85, X, Y, 75, 50);
 			return original+5+misc.random(10)+misc.random(c.playerLevel[c.playerMagic]/7); //original + 5-15 dmg + random magic dmg
 		}    
 		if (playerEquipment[playerWeapon] == 11337){
@@ -290,14 +303,14 @@ public class Combat {
 		}
 		if (playerEquipment[playerWeapon] == 1305){
 			useSpecialAndSubtractDelay(4);
-			c.getFrameMethodHandler().stillgfxz(248, c.absY, c.absX, 100, 28);
-			c.getFrameMethodHandler().stillgfxz(248, c.absY, c.absX, 100, 30);
-			c.getFrameMethodHandler().stillgfxz(248, c.absY, c.absX, 100, 32);
+			c.getFrameMethodHandler().gfxWithDelay(248, X, Y, 28, 100);
+			c.getFrameMethodHandler().gfxWithDelay(248, X, Y, 30, 100);
+			c.getFrameMethodHandler().gfxWithDelay(248, X, Y, 32, 100);
 			return original+misc.random(c.playerLevel[c.playerAttack]/7); //original random playerattack/7
 		}       
 		if (playerEquipment[playerWeapon] == 4151){ //Abby whip
 			useSpecialAndSubtractDelay(5);
-			c.getFrameMethodHandler().stillgfxz(341, Y, X, 100, 25);
+			c.getFrameMethodHandler().gfxWithDelay(341, X, Y, 25, 50);
 			if (original == 0 && misc.random(1) == 0){ //if hit is zero, 50% chance to recalculate
 				int c2 = misc.random(getMaxMeleeHit());
 				if (c2 == 0) // if player hits zero again
@@ -309,34 +322,35 @@ public class Combat {
 		}    
 		if (playerEquipment[playerWeapon] == 7158){ //Dragon 2h
 			useSpecialAndSubtractDelay(6);
-			c.getFrameMethodHandler().stillgfxz(246, c.absY, c.absX, 0, 20);
-			if (c.getEnemy().isNPC())
-				attackNPCSWithin(original, 2, c.absX, c.absY);    		
+			Enemy playerEnemy = new Enemy(c);
+			Combat.attackEnemiesWithin(-1, -1, false, playerEnemy, 2, original, new Enemy(c), 0, playerEnemy, true, true);
+			c.getFrameMethodHandler().gfx0(246);
+			c.getFrameMethodHandler().gfxWithDelay(246, c.absX, c.absY, 20, 0);	
 			return original; //
 		} 
 		if (playerEquipment[playerWeapon] == 3204){
 			useSpecialAndSubtractDelay(3);
-			c.getFrameMethodHandler().stillgfxz(284, Y, X, 100, 25);
-			c.getFrameMethodHandler().stillgfxz(284, Y, X, 100, 30);
-			c.getFrameMethodHandler().stillgfxz(284, Y, X, 100, 35);
+			c.getFrameMethodHandler().gfxWithDelay(284, X, Y, 25, 100);
+			c.getFrameMethodHandler().gfxWithDelay(284, X, Y, 30, 100);
+			c.getFrameMethodHandler().gfxWithDelay(284, X, Y, 35, 100);
 			return original+misc.random(c.playerLevel[c.playerAttack]/9); //original and small bonus
 		} 
 		if (playerEquipment[playerWeapon] == 1434){
 			useSpecialAndSubtractDelay(2);
-			c.getFrameMethodHandler().stillgfxz(251, c.absY, c.absX, 100, 25);
-			c.getFrameMethodHandler().stillgfxz(251, c.absY, c.absX, 100, 27);
-			c.getFrameMethodHandler().stillgfxz(251, c.absY, c.absX, 100, 29);
+			c.getFrameMethodHandler().gfxWithDelay(251, c.absX, c.absY, 25, 100);
+			c.getFrameMethodHandler().gfxWithDelay(251, c.absX, c.absY, 27, 100);
+			c.getFrameMethodHandler().gfxWithDelay(251, c.absX, c.absY, 29, 100);
 			return original+misc.random(c.playerLevel[c.playerStrength]/9); //original and small bonus
 		} 
 		if (playerEquipment[playerWeapon] == 4153){ //Granite Maul
 			useSpecialAndSubtractDelay(5);
 			c.SpecTimer = 4;
-			c.getFrameMethodHandler().stillgfxz(337, Y, X, 100, 10);
+			c.getFrameMethodHandler().gfxWithDelay(337, X, Y, 10, 100);
 			return original; //original and extra hit
 		} 
 		if (playerEquipment[playerWeapon] == 4587){ 
 			useSpecialAndSubtractDelay(5);
-			c.getFrameMethodHandler().stillgfxz(347, Y, X, 100, 30);
+			c.getFrameMethodHandler().gfxWithDelay(347, X, Y, 30, 100);
 			return original + misc.random(c.playerLevel[c.playerPrayer]/9); //original and small bonus
 		} 
 		if (playerEquipment[playerWeapon] == 5698 || playerEquipment[playerWeapon] == 1215 || playerEquipment[playerWeapon] == 1231 || playerEquipment[playerWeapon] == 5680){ //dragon daggers
@@ -348,7 +362,7 @@ public class Combat {
 		if(playerEquipment[playerWeapon] == Item.KARILSCROSSBOW){
 			useSpecialAndSubtractDelay(2);
 			c.SpecTimer = 3;
-			c.getFrameMethodHandler().stillgfx(246, c.absY, c.absX);
+			c.getFrameMethodHandler().gfx0(246);
 			c.BOWHANDLER.arrowProjectile(c.getEnemy());
 			
 			return (int)(original*1.1); // +25%
@@ -358,7 +372,7 @@ public class Combat {
 			useSpecialAndSubtractDelay(10);
 			c.SpecTimer = 3;
 			c.getFrameMethodHandler().gfx100(250);
-			c.getFrameMethodHandler().stillgfx(332, c.absY, c.absX);
+			c.getFrameMethodHandler().gfx0(332);
 			c.BOWHANDLER.arrowProjectile(c.getEnemy());
 			return original*2; //double original
 		}
@@ -392,7 +406,7 @@ public class Combat {
 			if(misc.random(3) == 0) { //25% chance
 				c.getClientMethodHandler().heal(original);
 				c.sendMessage("You drain your enemy's health.");
-				c.getFrameMethodHandler().stillgfx(398, c.absY, c.absX);
+				c.getFrameMethodHandler().gfx0(398);
 			}
 		}
 		if(FullDharokEquipped()){
@@ -444,6 +458,8 @@ public class Combat {
 			int myPrayerBonus = (int)(c.attEffect*0.01);
 			int myBonus = c.playerLevel[c.playerAttack]+getPlayerMeleeAtkEquipmentBonus()+myPrayerBonus;
 			
+			c.debug("NPC max HP: "+npcMaxHP+", npc type: "+npcEnemy.npcType);
+			
 			return isMyBonusGreaterThanTheEnemy(myBonus,enemyBonus);
 		}
 		else{
@@ -488,59 +504,127 @@ public class Combat {
 		opp.getCombatHandler().Attack();
 	}
 
-	public void attackPlayersWithin2(int gfx, int maxDamage, int range) {
-		for (Player p : server.playerHandler.players)
-		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(c.absX, c.absY) <= range && person.playerId != c.playerId)
-					{
-						int damage = misc.random(maxDamage);
-						hitPlayer(person.playerId, damage);
-					}
-				}
-			}
-		}
-	}
-
-	public void attackPlayersWithin(int gfx, int maxDamage, int range) {
-		for (Player p : server.playerHandler.players)
-		{
-			if(p != null) 
-			{
-				client person = (client)p;
-				if((person.playerName != null || person.playerName != "null"))
-				{
-					if(person.distanceToPoint(c.absX, c.absY) <= range && person.playerId != c.playerId)
-					{
-						int damage = misc.random(maxDamage);
-						hitPlayer(person.playerId, damage);
-					}
-				}
-			}
-		}
-	}
-
-
+	
 	/**
-	 * Will attack NPCs within a range
-	 * @param maxDamage Randomizes this damage
+	 * Private helper method for attackPlayersWithin, should not be called by anything else.
+	 * @param style 0 for melee, 1 for ranged, 2 for magic
 	 */
-	public void attackNPCSWithin(int maxDamage, int range, int x, int y) {
-		for (int i = 1; i < server.npcHandler.maxNPCs; i++){
-			if(server.npcHandler.npcs[i] != null){
-				if(misc.GoodDistance(server.npcHandler.npcs[i].absX, server.npcHandler.npcs[i].absY, x, y, range) && !server.npcHandler.npcs[i].IsDead)
-				{
-					int damage = misc.random(maxDamage);
-					server.npcHandler.npcs[i].damageNPC(damage);
-				}
-			}
-			else break;
+	private static boolean isTargetHitWithStyle(Enemy e, Enemy target, int style){
+		switch(style){
+		case 1:
+			return e.DoIHitTargetWithRanged(target);
+		case 2:
+			return e.DoIHitTargetWithMagic(target);
+		default:
+			return e.DoIHitTargetWithMelee(target);
 		}
 	}
+	
+	private static void hitTargetWithStyle(Enemy e, Enemy target, int style, int amount){
+		switch(style){
+		case 0:
+			target.inflictMeleeDamage(amount, e);
+			break;
+		case 1:
+			target.inflictRangeDamage(amount, e);
+			break;
+		case 2:
+			target.inflictMagicDamage(amount, e);
+			break;
+		}
+	}
+	
+	public static void attackEnemiesWithin(int gfx, int movingGfxId, boolean gfxSpread, Enemy target, int range, int maxDamage, 
+			Enemy attacker, int damageType, Enemy ignore, boolean includeNPCs, boolean includePlayers){
+		int hitDiff = misc.random(maxDamage);
+		int hitDelay = 1;
+		
+		if(movingGfxId != -1){
+			hitDelay = 5;
+			FrameMethods.createProjectileWithDelay(attacker, target, 50, 95, movingGfxId, 23, 20, 40);
+		}
+					
+		if(gfx != -1)
+			FrameMethods.createAllGfxWithDelay(hitDelay, gfx, target.getX(), target.getY());
+		
+		int tempHitDiff = hitDiff;
+		if(!isTargetHitWithStyle(attacker, target, damageType))
+			tempHitDiff = 0;
+		
+		Object[] arguments = new Object[]{attacker, target, damageType, tempHitDiff, includeNPCs, includePlayers, range, ignore, gfxSpread, hitDiff, movingGfxId, gfx};		
+		Task t = new Task(hitDelay, arguments){
+			@Override
+			public void execute() {
+				Enemy attacker = (Enemy)this.objects[0];
+				Enemy target = (Enemy)this.objects[1];
+				int damageType = (int)this.objects[2];
+				int tempHitDiff = (int)this.objects[3];
+				boolean includeNPCs = (boolean)this.objects[4];
+				boolean includePlayers = (boolean)this.objects[5];
+				int range = (int)this.objects[6];
+				Enemy ignore = (Enemy)this.objects[7];
+				boolean gfxSpread = (boolean)this.objects[8];
+				int hitDiff = (int)this.objects[9];
+				int movingGfxId = (int)this.objects[10];
+				int gfx = (int)this.objects[11];
+				
+				LinkedList<Enemy> enemies = new LinkedList<Enemy>();
+				
+				if(includeNPCs && includePlayers)
+					enemies = misc.getAllEnemiesInRange(target.getX(), target.getY(), range);
+				if(!includeNPCs && includePlayers)
+					enemies = misc.getAllEnemyPlayersInRange(target.getX(), target.getY(), range);
+				if(includeNPCs && !includePlayers)
+					enemies = misc.getAllEnemyNPCsInRange(target.getX(), target.getY(), range);
+				
+				for(Enemy e : enemies){
+					if(!e.isNull() && e != ignore && e.getID() != target.getID() && e.getID() != attacker.getID() && 
+							e.distanceToPoint(target.getX(), target.getY()) <= range &&
+							Combat.CanEnemyAttackTarget(attacker, e)){
+						attacker.getPlayerClient().debug("In attackEnemiesWithin: Attacking Enemy e, is e a player : "+e.isPlayer());
+						int hitDelay2 = 1;
+						if(gfxSpread){
+							hitDelay2 = 2;
+							FrameMethods.createProjectileWithDelay(target, e, 50, 95, movingGfxId, 23, 20, 40);
+						}
+						
+						if(gfx != -1)
+							FrameMethods.createAllGfxWithDelay(hitDelay2, gfx, e.getX(), e.getY());
+						
+						int tempHitDiff2 = hitDiff;					
+						
+						if(!isTargetHitWithStyle(attacker, e, damageType))
+							tempHitDiff2 = 0;
+						
+						Object[] arguments2 = new Object[]{attacker,e,tempHitDiff2,ignore, damageType};
+						Task t2 = new Task(hitDelay2, arguments2){
+							Enemy attacker2 = (Enemy)this.objects[0];
+							Enemy target2 = (Enemy)this.objects[1];
+							int tempHitDiff2 = (int)this.objects[2];
+							Enemy ignore2 = (Enemy)this.objects[3];
+							int damageType2 = (int)this.objects[4];
+							@Override
+							public void execute() {
+								if(target2 != ignore2)
+									hitTargetWithStyle(attacker2, target2, damageType2, tempHitDiff2);
+							}
+						};
+						
+						server.taskScheduler.schedule(t2);
+						
+						if(target != ignore && target != attacker)
+							hitTargetWithStyle(attacker, target, damageType, tempHitDiff);
+					}
+				}
+				
+			}			
+		};
+		
+		server.taskScheduler.schedule(t);
+		
+	}
+	
+	
 
 	public boolean damagePlayer(int playerID, int damage){
 		try{
@@ -583,14 +667,18 @@ public class Combat {
 		double prayerBonuses = c.strEffect*0.01;
 		double C = Math.floor(A*B); //effective strength
 		if(c.FightType == 3) C += 3; //aggressive
-		if(c.FightType == 1) C += 1; //controlled
+		else C += 1; //controlled (default)
 
 		double D = c.playerBonus[strength];
 
 		max = 0.8 + (C/10.0) + (C*D)/640.0;
 		max = (C+8)*(D+64)/640.0;
 
-		return (int)Math.floor(max);
+		int maxHit = (int)Math.floor(max);
+		
+		c.debug("maxHit calculated: "+maxHit);
+		
+		return maxHit;
 	}
 
 	public int getHighestMeleeDefEquipmentBonus(){
@@ -629,6 +717,7 @@ public class Combat {
 			
 			playerToHit.inCombat();
 			playerToHit.interruptTeleport();
+			playerToHit.getFrameMethodHandler().RemoveAllWindows();
 			
 			if(playerToHit.autoRetaliate == 1 && playerToHit.getEnemy() == null)
 				opponentAutoAttack(playerToHit);
@@ -650,10 +739,12 @@ public class Combat {
 		try{
 			if ( (server.npcHandler.npcs[npcID].HP-damage) < 0)
 				damage = server.npcHandler.npcs[npcID].HP;
+			
 			server.npcHandler.npcs[npcID].StartKilling = playerId;
 			server.npcHandler.npcs[npcID].RandomWalk = false;
 			server.npcHandler.npcs[npcID].IsUnderAttack = true;
 			server.npcHandler.npcs[npcID].Killing[playerId] += damage;
+
 			server.npcHandler.npcs[npcID].damageNPC(damage);
 			server.npcHandler.npcs[npcID].updateRequired = true;
 			int blockAnim = NPCAnim.getBlockAnimation(server.npcHandler.npcs[npcID].npcType);
@@ -714,8 +805,7 @@ public class Combat {
 	//TODO
 	public void Attack() {
 		Enemy e = c.getEnemy();
-		
-		if(!c.getCombatHandler().canIAttackMyEnemy(e)){
+		if(!Combat.CanEnemyAttackTarget(new Enemy(c), e)){
 			c.getCombatHandler().resetAttack();
 			c.stopPlayerMovement();
 			return;
@@ -789,7 +879,7 @@ public class Combat {
 				c.inCombat(); 
 				c.followingNPCID = -1;
 
-				e.inflictMeleeDamage(hitDiff, c.playerId);
+				e.inflictMeleeDamage(hitDiff, new Enemy(c));
 				return;
 			}			
 			else{
@@ -805,8 +895,15 @@ public class Combat {
 				
 				if(c.LoopAttDelay > 0)
 					return;
+
+				c.startAnimation(Item.GetWepAnim(c));
 				
 				hitDiff = misc.random(getMaxRangedHit());
+
+				if(e.getNPCType() == 277 && c.playerEquipment[c.playerArrows] != 78){
+					c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
+					hitDiff = 0;
+				}
 
 				if(!this.doIHitEnemyWithRanged(e)) hitDiff = 0;
 
@@ -816,20 +913,24 @@ public class Combat {
 				}
 				else
 					c.BOWHANDLER.arrowProjectile(e);
+				
 
-				c.BOWHANDLER.checkForAccumulatorOrDistributeArrowOnGround(EnemyX, EnemyY);
-
+				Task countDownHit = new Task(5, new Object[]{c, e, hitDiff}){
+					@Override
+					public void execute() {
+						client playerClient = (client) this.objects[0];
+						Enemy enemy = (Enemy) this.objects[1];
+						playerClient.BOWHANDLER.checkForAccumulatorOrDistributeArrowOnGround(enemy.getX(), enemy.getY());
+						enemy.inflictRangeDamage((int)this.objects[2], new Enemy(playerClient));
+					}						
+				};
+				c.CountDowns.add(countDownHit);
+				
 				addCombatRangedXP(hitDiff);
-
-				if(e.getNPCType() == 277 && c.playerEquipment[c.playerArrows] != 78){
-					c.sendMessage("The fire warrior can only be hurt with Ice Arrows.");
-					hitDiff = 0;
-				}
 
 				//pkingdelay updated when checking ammo and bow
 				c.LoopAttDelay = c.PkingDelay;
 
-				e.inflictRangeDamage(hitDiff, c.playerId);
 				return;
 			}	
 			else{
@@ -850,7 +951,7 @@ public class Combat {
 		if(c.playerLevel[2] < 120) {
 			c.playerLevel[2] += 15;
 			c.getClientMethodHandler().addSkillXP(0, 2);
-			c.getFrameMethodHandler().stillgfx(246, c.absX, c.absY);
+			c.getFrameMethodHandler().gfx0(246);
 			c.requirePlayerUpdate();
 			c.txt4 = "RRRRRAAAAAAAAAGGGGGGGGGHHHHH!!";
 			c.string4UpdateRequired = true;
@@ -869,9 +970,10 @@ public class Combat {
 
 	public void Dragon2hSpecial(){	
 		c.litBar = false;
-		c.getFrameMethodHandler().stillgfxz(246, c.absY, c.absX, 0, 50);	
+		c.getFrameMethodHandler().gfxWithDelay(246, c.absX, c.absY, 50, 0);
 		c.startAnimation(3157);
-		attackNPCSWithin(getMaxMeleeHit(), 2, c.absX, c.absY); 
+		Enemy playerEnemy = new Enemy(c);
+		Combat.attackEnemiesWithin(-1, -1, false, playerEnemy, 2, getMaxMeleeHit(), playerEnemy, 0, playerEnemy, true, true);
 		c.AnimationReset = true;
 		c.teleportToX = c.absX;
 		c.teleportToY = c.absY;
@@ -882,7 +984,7 @@ public class Combat {
 		if (c.playerLevel[1] < 130){
 			c.playerLevel[1] += 15;
 			c.getClientMethodHandler().addSkillXP(0, 1); //forces refresh of tab for exc increase
-			c.getFrameMethodHandler().stillgfx(247, c.absY, c.absX);
+			c.getFrameMethodHandler().gfx0(247);
 			c.requirePlayerUpdate();
 			c.AnimationReset = true;
 			c.startAnimation(1979);

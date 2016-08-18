@@ -1,8 +1,9 @@
-package npcInformation;
+package serverHandlers;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import root.server;
+import struct.lists;
 
 	public class npcDialogueBST{
 		
@@ -382,6 +383,8 @@ import root.server;
 		}
 		
 		public void add(String n, int numb, String ... lines){
+			
+			lists.safeNPCs.add(numb);
 			
 			if(root == null){
 				root = new Node(numb, n, lines);

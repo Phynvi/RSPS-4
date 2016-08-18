@@ -1,8 +1,8 @@
 package clientHandlers;
 import java.util.LinkedList;
 
+import Resources.misc;
 import playerData.client;
-import root.misc;
 import root.server;
 import serverHandlers.GlobalObjectHandler;
 import serverHandlers.ItemHandler;
@@ -1858,7 +1858,7 @@ break;*/
 			break;
 
 		case 2484:
-			c.getFrameMethodHandler().stillgfx(246, c.absY, c.absX);
+			c.getFrameMethodHandler().gfx0(246);
 			c.startAnimation(791);
 			c.AnimDelay = 20;
 			break;
