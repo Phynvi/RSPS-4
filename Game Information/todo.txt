@@ -1,5 +1,3 @@
--Apply all armor deductions for total damage in inflict damage methods
-
 -Place tanners at locations throughout world
 -Add ability to craft from hides
 
@@ -8,8 +6,6 @@
 -Quest that uses boxing gloves
 
 -pvp points
-
--Smithing loops
 
 -Add in farming patches
 

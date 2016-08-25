@@ -1,5 +1,5 @@
 [ACCOUNT]
-character-username = achilles
+character-username = Achilles
 character-password = lollol
 
 [CHARACTER]
@@ -9,9 +9,9 @@ character-posy = 2977
 character-rights = 0
 character-ismember = 1
 character-messages = 0
-character-lastconnection = WRT610N
-character-lastlogin = 20160106
-character-energy = 93
+character-lastconnection = 192.168.1.107
+character-lastlogin = 20160720
+character-energy = 95
 character-gametime = 0
 character-gamecount = 0
 
