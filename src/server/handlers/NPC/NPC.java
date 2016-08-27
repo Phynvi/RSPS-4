@@ -9,6 +9,7 @@ import server.root.server;
 
 public class NPC {
 	private Enemy asEnemy;
+	private Enemy enemy;
 	private Tile currentTile;
 	public int attackDistance = 1; //by default
 	public int attackDelay = 7; //by default
@@ -44,6 +45,14 @@ public class NPC {
 	public String textUpdate;
 	private ArrayList<playerDamage> attackingPlayers = new ArrayList<playerDamage>();
 
+	public Enemy getEnemy(){
+		return this.enemy;
+	}
+	
+	public void setEnemy(Enemy e){
+		this.enemy = e;
+	}
+	
 	/**
 	 * Will display a text above NPC
 	 */

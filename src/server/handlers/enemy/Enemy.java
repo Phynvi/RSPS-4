@@ -77,9 +77,16 @@ public class Enemy {
 
 		if(seconds == 0) return;
 
-		this.resistPoisonTimerMinutes = (60/seconds)+1;
+		int tempM = (60/seconds)+1;
+		
+		if(tempM <= this.resistPoisonTimerMinutes)
+			return;
+		
+		this.resistPoisonTimerMinutes = tempM;
+		
 		if(this.resistPoisonTimerMinutes == 0)
 			this.resistPoisonTimerMinutes = 1;
+		
 		Object[] arguments = new Object[]{this};
 
 		Task resistPoison = new Task(resistPoisonTimerMinutes*120, arguments, true){
@@ -90,7 +97,6 @@ public class Enemy {
 				if(this.e.resistPoisonTimerMinutes == 0){
 					this.e.sendMessage("The effects of poison resist have worn off.");
 					this.e.resistPoisonTimer.stop();
-					this.e.resistPoisonTimer = null;
 					return;
 				}
 				else{
@@ -99,16 +105,17 @@ public class Enemy {
 			}			
 		};
 
-		server.taskScheduler.schedule(resistPoison);
+		this.resistPoisonTimer = server.taskScheduler.schedule(resistPoison);
 	}
 
 	public void stopPoison(){
+		if(this.poisonTimer == null) return;
 		this.poisonTimer.stop();
 		this.poisonTimer = null;
 		this.poisonAmount = 0;
 	}
 	
-	private void applyStatusEffects(){
+	public void applyStatusEffects(){
 		if(this.resistPoisonTimerMinutes > 0){
 			this.resistPoison(this.resistPoisonTimerMinutes*60);
 		}

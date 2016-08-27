@@ -1236,7 +1236,8 @@ WORLDMAP 2: (not-walk able places)
 
 		if (npcs[NPCID].actionTimer != 0) return false;
 
-		int playerID = npcs[NPCID].StartKilling;
+		int playerID = npcs[NPCID].StartKilling; //TODO make this enemy
+		
 		if (server.playerHandler.players[playerID] == null) {
 			ResetAttackPlayer(NPCID);
 			return false;
@@ -1272,387 +1273,70 @@ WORLDMAP 2: (not-walk able places)
 			NPCFightType = 1; //1 by default, 1 = melee, 2 = range, 3 = mage
 			melee(npcs[NPCID].MaxHit); //melee by default
 
-			int SLASH = 451;
-			int CRUSH = 401;
-
 			boolean maxHitOverride = false;
 			int hitDiffOverride = 0;
 			int freezePlayer = -1;
 
 
 			if (GoodDistance(npcs[NPCID].absX, npcs[NPCID].absY, playerX, playerY, npcs[NPCID].attackDistance)) {
-
-				NPCGfxFinished = -1;
-				NPCGfxMoving = -1;
 				
-				switch (_npcID){
-				case 1115: //Troll General, used in God Wars
-					melee(15);
+				setDamageAndAnimation(NPCID, c);
+				
+				//Special setups
+				switch(npcs[NPCID].npcType){
+				//skeletal wyverns
+			case 3068:
+			case 3069:
+			case 3070:
+			case 3071:
+				if(misc.random(3) == 0){
+					npcs[NPCID].attackDistance = 6;
+					npcs[NPCID].animNumber = 2985;
+				}
+				else{
+					npcs[NPCID].attackDistance = 1;
+					npcs[NPCID].animNumber = 2986;
 					break;
-				case 1101: //dangerous thrower troll, used in god wars
-					range(21, 70, -1);
-					break;
-
-					//skeletal wyverns
-				case 3068:
-				case 3069:
-				case 3070:
-				case 3071:
-					if(misc.random(3) == 0){
-						npcs[NPCID].attackDistance = 6;
-						npcs[NPCID].animNumber = 2985;
+				}
+				if(npcs[NPCID].attackDistance == 6){
+					if(c.getCombatHandler().hasAnyDragonFireShield()){
+						c.sendMessage("Your shield helps protect you from the Wyvern's icey breath.");
+						magic(10, 362,361);
 					}
 					else{
-						npcs[NPCID].attackDistance = 1;
-						npcs[NPCID].animNumber = 2986;
-						break;
+						c.sendMessage("The Wyvern strikes with icey breath.");
+						magic(50, 362,363);
 					}
-					if(npcs[NPCID].attackDistance == 6){
-						if(c.getCombatHandler().hasAnyDragonFireShield()){
-							c.sendMessage("Your shield helps protect you from the Wyvern's icey breath.");
-							magic(10, 362,361);
-						}
-						else{
-							c.sendMessage("The Wyvern strikes with icey breath.");
-							magic(50, 362,363);
-						}
-						freezePlayer = 5;
-					}
-					else melee(13);
-					break;
+					freezePlayer = 5;
+				}
+				else melee(13);
+				break;
 
-					//Magic
-				case 3752: //Torcher
-				case 3753: //Torcher
-				case 3754: //Torcher
-				case 3755: //Torcher
-				case 3756: //Torcher
-				case 3757: //Torcher
-				case 3758: //Torcher
-				case 3759: //Torcher
-				case 3760: //Torcher
-				case 3761: //Torcher
-					magic(npcs[NPCID].MaxHit, 100,-1);
-					break;
-
-					//Ranged
-				case 3762: //Defiler
-				case 3763: //Defiler
-				case 3764: //Defiler
-				case 3765: //Defiler
-				case 3766: //Defiler
-				case 3767: //Defiler
-				case 3768: //Defiler
-				case 3769: //Defiler
-				case 3770: //Defiler
-				case 3771: //Defiler
-					range(npcs[NPCID].MaxHit, 294,-1);
-					break;
-
-				case 2361: //""
-				case 2362: //elf warrior
-					range(11, 249,-1);
-					//							int X3 = c.absX;
-					//							int Y3 = c.absY;
-					//							int offsetX = (npcs[NPCID].absX - X3) * -1;
-					//							int offsetY = (npcs[NPCID].absY - Y3) * -1;
-					//							c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 75, 20, 43, 31, Player+1);
-					break;		
-
-				case 2028:
-					npcs[NPCID].animNumber = 2075; //Karil
-					range(10, 28,401);
-					break;
-
-				case 2025: //Ahrim
-					npcs[NPCID].animNumber = 724;
-					
-					int gfxHit = -1;
-					switch(misc.random(3)){
-					case 0:
-						gfxHit = 377;
-						break;
-					case 1:
-						gfxHit = 368;
-						break;
-					case 2:
-						gfxHit = 435;
-						break;
-					}
-					magic(20, 195,gfxHit);
-					break; 
-
-					//Test NPC for GFX
-				case 199: //Gunthar the fuckin brave
-					melee(10);
-					poison(5);
-					break;
-
-				case 1157: //Kalphite Guardian magic
-					magic(16,100,134);
-					break;
-
-				case 172: //dark wizard
-				case 173: //necromancer
-				case 14: //druid - mage npc
-				case 181: //chaos druid
-					magic(npcs[NPCID].MaxHit,133,134);
-					npcs[NPCID].animNumber = 711;
-					break;
-
-				case 81: case 397: case 1766: case 1767: case 1768:
-					npcs[NPCID].animNumber = 0x03B; //cow attack
-					break;
-
-				case 1624:
-					magic(21,100,134);
-					break;
-
-				case 1615:
-					melee(26);
-					npcs[NPCID].gfx100(409);
-					break;
-
-				case 912:
-				case 913://battle mages
-					magic(20,344,345);
-					npcs[NPCID].animNumber = 711; 
-					break;
-
-				case 677: //demon boss from dwarf problems ii
-					switch (misc.random(2)){
-					case 0:
-					case 1:
-						npcs[NPCID].animNumber = 64;
-						melee(40);
-						break;
-					case 2:
-						npcs[NPCID].animNumber = 69;
-						if (c.getCombatHandler().ivandis()){
-							magic(0,130,131);
-							c.sendMessage("Your staff helps protect you from the attack");
-						}
-						else {
-							magic(60,130,131);
-							c.sendMessage("The demon strikes with an other-wordly magic");
-						}
-						break;
-					}
-
-					break;
-
-				case 1611: //gargoyle, mob with general graador
-					range(15,294,-1);
-					break;
-
-				case 1647: //infernal mage, mob with general graador
-					magic(15,165,166);
-					break;
-
-					//shades
-				case 1250:
-				case 1248:
-				case 1246:
-					magic(npcs[NPCID].MaxHit,124,125);
-					break;
-
-					//Dragons	
-				case 50: case 53: case 54: case 55: case 941: case 1589: case 1590: case 1591: case 1592: case 2642:
-					switch (misc.random(3)+1){
-					case 1: case 4:
-						npcs[NPCID].animNumber = 80; //Dragons
-						melee(npcs[NPCID].MaxHit);
-						break;
-					case 2:
-						if (c.getCombatHandler().dragfire()){
-							magic(2,-1,440);
-							c.sendMessage("Your shield protects you from the Dragon's breath.");
-						}
-						else if (c.getCombatHandler().hasDFS()){
-							c.startAnimation(1156);
-							magic(0,-1,4);
-							if (c.dragcharge < 50){
-								c.dragcharge += 1;
-								c.sendMessage("Your Dragon Fire Shield absorbs a charge and has "+c.dragcharge+"/50 charges.");}
-							else if (c.dragcharge >= 50){
-								c.sendMessage("Your Dragon Fire Shield is fully charged.");
-							}
-						}
-						else {
-							npcs[NPCID].animNumber = 81; //Dragons
-							magic(50,-1,440);
-							c.sendMessage("The Dragon strikes with its fiery breath.");
-						}
-						break;
-					case 3:
-						npcs[NPCID].animNumber = 91; //Dragons
-						break;
-					}
-
-					break;
-
-				case 369: //paladin
-					npcs[NPCID].animNumber = SLASH;
-					break;
-
-				case 41: //chicken
-					npcs[NPCID].animNumber = 0x037; //chicken attack
-					melee(2);
-					break;
-
-				case 1076: //guard
-					npcs[NPCID].animNumber = CRUSH; 
-					break;
-
-				case 27: case 678: //archer
-					npcs[NPCID].animNumber = 426; 
-					break;
-
-				case 10: //guard with crossbow
-					npcs[NPCID].animNumber = 427; 
-					break;
-
-				case 2573:
-					npcs[NPCID].animNumber = CRUSH;
-					melee(50);
-					break;
-
-				case 9: case 32: case 812: case 887: case 34: case 20: case 21:
-					npcs[NPCID].animNumber = 412; 
-					break;
-
-				case 2026: //dharok
-					melee(47);
-					npcs[NPCID].animNumber = 2067;
-					break;
-
-				case 2030:
-					NPCFightType = 4;
-					maxHitOverride = true;
-					hitDiffOverride = misc.random(35);
-					npcs[NPCID].animNumber = 2062; //Verac attack
-					break;
-
-				case 2029:
+			case 2027: //guthan
+				switch (misc.random(2)+1){
+				case 1: case 3:
+					npcs[NPCID].animNumber = 2080; //Guthan
 					melee(30);
-					npcs[NPCID].animNumber = 2068; //Torags
 					break;
+				case 2:
+					NPCFightType = 1; //melee
+					maxHitOverride = true;
+					hitDiffOverride = misc.random(40);
+					npcs[NPCID].animNumber = 2081; 
+					FrameMethods.gfxAll(398, c.absX, c.absY);
+					if(npcs[NPCID].HP < 125 && hitDiffOverride != 0 && !c.PMelee)
+						npcs[NPCID].HP += hitDiffOverride; 	
+					break;
+				}							
+				break;
 
-				case 2027: //guthan
-					switch (misc.random(2)+1){
-					case 1: case 3:
-						npcs[NPCID].animNumber = 2080; //Guthan
-						melee(30);
-						break;
-					case 2:
-						NPCFightType = 1; //melee
-						maxHitOverride = true;
-						hitDiffOverride = misc.random(40);
-						npcs[NPCID].animNumber = 2081; 
-						FrameMethods.gfxAll(398, c.absX, c.absY);
-						if(npcs[NPCID].HP < 125 && hitDiffOverride != 0 && !c.PMelee)
-							npcs[NPCID].HP += hitDiffOverride; 	
-						break;
-					}							
-					break;
-
-				case 1154: //kalphite soldier
-					melee(9);
-					break;
-
-				case 1155: //Kalphite Guardian melee
-					melee(16);
-					break;
-
-				case 1153: //kalphite worker
-					melee(4);
-					break;
-
-				case 1160:
-					npcs[NPCID].animNumber = 1177; //KQ
-					melee(31);
-					//TODO
-					break;
-
-				case 195: case 196:
-					melee(15);
-					break;			
-
-				case 3001: //Kree'arra
-					npcs[NPCID].animNumber = 6976;
-					range(71,243,-1);
-					break;
-
-				case 871: //Ogre Shaman - Used in godwars
-					magic(16,130,346);
-					break;
-
-				case 3000: //general graardor
-					switch(misc.random(3)+1){
-					case 4:
-						range(35,-1,-1);
-						c.sendMessage ("The General strikes with a ranged special.");
-						Combat.attackEnemiesWithin(198, -1, true, c.GetPlayerAsEnemy(), 5, 35, npcs[NPCID].getAsEnemy(), 1, c.GetPlayerAsEnemy(), false, true);
-						npcs[NPCID].animNumber = 7063; 
-						break;
-					case 1: case 2: case 3:
-						melee(60);
-						npcs[NPCID].animNumber = 7060; 
-						break;
-					}
-					break;
-
-				case 124: //earth warrior, health 75
-					melee(13);
-					npcs[NPCID].animNumber = 406;
-					break;
-				case 931: //jungle savage, health 110
-					melee(16);
-					npcs[NPCID].animNumber = 412; 
-					break;
-
-				case 799:
-				case 182: //pirates
-				case 183:
-				case 184:
-				case 185:
-					npcs[NPCID].animNumber = 451;
-					break;
-				case 193: //chaos druid warrior, health 45
-					npcs[NPCID].animNumber = CRUSH;
-					break;
-
-					//Tower Archer
-				case 688:
-				case 689:
-				case 690:
-				case 691: 
-					range(npcs[NPCID].MaxHit,11,-1);
-					break;
-					
-				case 1183: //elf warrior, health 100
-					range(13, 249, -1);
-					npcs[NPCID].animNumber = 426;
-					break;
-				case 2034: //crypt spider, health 60
-					poison(4);
-					npcs[NPCID].animNumber = 2080;
-					break;
-				case 205: //salarin the twisted, health 160
-					magic(26, 133,134);
-					npcs[NPCID].animNumber = 724;
-					break;
-				case 87:
-					npcs[NPCID].animNumber = 0x08A; //rat attack
-					break;
-				case 3200: //chaos elemental, health 560
-					melee(60);
-					npcs[NPCID].animNumber = 0x326;
-					break;
-
-				default:
-					melee(npcs[NPCID].MaxHit); //melee by default
-					break;
+			case 2030:
+				NPCFightType = 4;
+				maxHitOverride = true;
+				hitDiffOverride = misc.random(35);
+				npcs[NPCID].animNumber = 2062; //Verac attack
+				break;
+				
 				}
 
 				if(npcs[NPCID].animNumber == -1){
@@ -1726,6 +1410,334 @@ WORLDMAP 2: (not-walk able places)
 		}
 		if(!npcs[NPCID].moveToSpawn) FollowPlayerCB(NPCID, playerID);
 		return false;
+	}
+	
+	private void setDamageAndAnimation(int NPCID, client c){
+		NPC n = npcs[NPCID];
+
+		NPCGfxFinished = -1;
+		NPCGfxMoving = -1;
+
+		int SLASH = 451;
+		int CRUSH = 401;
+		
+		switch(n.npcType){
+		case 1115: //Troll General, used in God Wars
+			melee(15);
+			break;
+		case 1101: //dangerous thrower troll, used in god wars
+			range(21, 70, -1);
+			break;
+
+			//Magic
+		case 3752: //Torcher
+		case 3753: //Torcher
+		case 3754: //Torcher
+		case 3755: //Torcher
+		case 3756: //Torcher
+		case 3757: //Torcher
+		case 3758: //Torcher
+		case 3759: //Torcher
+		case 3760: //Torcher
+		case 3761: //Torcher
+			magic(npcs[NPCID].MaxHit, 100,-1);
+			break;
+
+			//Ranged
+		case 3762: //Defiler
+		case 3763: //Defiler
+		case 3764: //Defiler
+		case 3765: //Defiler
+		case 3766: //Defiler
+		case 3767: //Defiler
+		case 3768: //Defiler
+		case 3769: //Defiler
+		case 3770: //Defiler
+		case 3771: //Defiler
+			range(npcs[NPCID].MaxHit, 294,-1);
+			break;
+
+		case 2361: //""
+		case 2362: //elf warrior
+			range(11, 249,-1);
+			//							int X3 = c.absX;
+			//							int Y3 = c.absY;
+			//							int offsetX = (npcs[NPCID].absX - X3) * -1;
+			//							int offsetY = (npcs[NPCID].absY - Y3) * -1;
+			//							c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 75, 20, 43, 31, Player+1);
+			break;		
+
+		case 2028:
+			npcs[NPCID].animNumber = 2075; //Karil
+			range(10, 28,401);
+			break;
+
+		case 2025: //Ahrim
+			npcs[NPCID].animNumber = 724;
+			
+			int gfxHit = -1;
+			switch(misc.random(3)){
+			case 0:
+				gfxHit = 377;
+				break;
+			case 1:
+				gfxHit = 368;
+				break;
+			case 2:
+				gfxHit = 435;
+				break;
+			}
+			magic(20, 195,gfxHit);
+			break; 
+
+			//Test NPC for GFX
+		case 199: //Gunthar the fuckin brave
+			melee(10);
+			poison(5);
+			break;
+
+		case 1157: //Kalphite Guardian magic
+			magic(16,100,134);
+			break;
+
+		case 172: //dark wizard
+		case 173: //necromancer
+		case 14: //druid - mage npc
+		case 181: //chaos druid
+			magic(npcs[NPCID].MaxHit,133,134);
+			npcs[NPCID].animNumber = 711;
+			break;
+
+		case 81: case 397: case 1766: case 1767: case 1768:
+			npcs[NPCID].animNumber = 0x03B; //cow attack
+			break;
+
+		case 1624:
+			magic(21,100,134);
+			break;
+
+		case 1615:
+			melee(26);
+			npcs[NPCID].gfx100(409);
+			break;
+
+		case 912:
+		case 913://battle mages
+			magic(20,344,345);
+			npcs[NPCID].animNumber = 711; 
+			break;
+
+		case 677: //demon boss from dwarf problems ii
+			switch (misc.random(2)){
+			case 0:
+			case 1:
+				npcs[NPCID].animNumber = 64;
+				melee(40);
+				break;
+			case 2:
+				npcs[NPCID].animNumber = 69;
+				if (c.getCombatHandler().ivandis()){
+					magic(0,130,131);
+					c.sendMessage("Your staff helps protect you from the attack");
+				}
+				else {
+					magic(60,130,131);
+					c.sendMessage("The demon strikes with an other-wordly magic");
+				}
+				break;
+			}
+
+			break;
+
+		case 1611: //gargoyle, mob with general graador
+			range(15,294,-1);
+			break;
+
+		case 1647: //infernal mage, mob with general graador
+			magic(15,165,166);
+			break;
+
+			//shades
+		case 1250:
+		case 1248:
+		case 1246:
+			magic(npcs[NPCID].MaxHit,124,125);
+			break;
+
+			//Dragons	
+		case 50: case 53: case 54: case 55: case 941: case 1589: case 1590: case 1591: case 1592: case 2642:
+			switch (misc.random(3)+1){
+			case 1: case 4:
+				npcs[NPCID].animNumber = 80; //Dragons
+				melee(npcs[NPCID].MaxHit);
+				break;
+			case 2:
+				if (c.getCombatHandler().dragfire()){
+					magic(2,-1,440);
+					c.sendMessage("Your shield protects you from the Dragon's breath.");
+				}
+				else if (c.getCombatHandler().hasDFS()){
+					c.startAnimation(1156);
+					magic(0,-1,4);
+					if (c.dragcharge < 50){
+						c.dragcharge += 1;
+						c.sendMessage("Your Dragon Fire Shield absorbs a charge and has "+c.dragcharge+"/50 charges.");}
+					else if (c.dragcharge >= 50){
+						c.sendMessage("Your Dragon Fire Shield is fully charged.");
+					}
+				}
+				else {
+					npcs[NPCID].animNumber = 81; //Dragons
+					magic(50,-1,440);
+					c.sendMessage("The Dragon strikes with its fiery breath.");
+				}
+				break;
+			case 3:
+				npcs[NPCID].animNumber = 91; //Dragons
+				break;
+			}
+
+			break;
+
+		case 369: //paladin
+			npcs[NPCID].animNumber = SLASH;
+			break;
+
+		case 41: //chicken
+			npcs[NPCID].animNumber = 0x037; //chicken attack
+			melee(2);
+			break;
+
+		case 1076: //guard
+			npcs[NPCID].animNumber = CRUSH; 
+			break;
+
+		case 27: case 678: //archer
+			npcs[NPCID].animNumber = 426; 
+			break;
+
+		case 10: //guard with crossbow
+			npcs[NPCID].animNumber = 427; 
+			break;
+
+		case 2573:
+			npcs[NPCID].animNumber = CRUSH;
+			melee(50);
+			break;
+
+		case 9: case 32: case 812: case 887: case 34: case 20: case 21:
+			npcs[NPCID].animNumber = 412; 
+			break;
+
+		case 2026: //dharok
+			melee(47);
+			npcs[NPCID].animNumber = 2067;
+			break;
+
+		case 2029:
+			melee(30);
+			npcs[NPCID].animNumber = 2068; //Torags
+			break;
+
+		case 1154: //kalphite soldier
+			melee(9);
+			break;
+
+		case 1155: //Kalphite Guardian melee
+			melee(16);
+			break;
+
+		case 1153: //kalphite worker
+			melee(4);
+			break;
+
+		case 1160:
+			npcs[NPCID].animNumber = 1177; //KQ
+			melee(31);
+			//TODO
+			break;
+
+		case 195: case 196:
+			melee(15);
+			break;			
+
+		case 3001: //Kree'arra
+			npcs[NPCID].animNumber = 6976;
+			range(71,243,-1);
+			break;
+
+		case 871: //Ogre Shaman - Used in godwars
+			magic(16,130,346);
+			break;
+
+		case 3000: //general graardor
+			switch(misc.random(3)+1){
+			case 4:
+				range(35,-1,-1);
+				c.sendMessage ("The General strikes with a ranged special.");
+				Combat.attackEnemiesWithin(198, -1, true, c.GetPlayerAsEnemy(), 5, 35, npcs[NPCID].getAsEnemy(), 1, c.GetPlayerAsEnemy(), false, true);
+				npcs[NPCID].animNumber = 7063; 
+				break;
+			case 1: case 2: case 3:
+				melee(60);
+				npcs[NPCID].animNumber = 7060; 
+				break;
+			}
+			break;
+
+		case 124: //earth warrior, health 75
+			melee(13);
+			npcs[NPCID].animNumber = 406;
+			break;
+		case 931: //jungle savage, health 110
+			melee(16);
+			npcs[NPCID].animNumber = 412; 
+			break;
+
+		case 799:
+		case 182: //pirates
+		case 183:
+		case 184:
+		case 185:
+			npcs[NPCID].animNumber = 451;
+			break;
+		case 193: //chaos druid warrior, health 45
+			npcs[NPCID].animNumber = CRUSH;
+			break;
+
+			//Tower Archer
+		case 688:
+		case 689:
+		case 690:
+		case 691: 
+			range(npcs[NPCID].MaxHit,11,-1);
+			break;
+			
+		case 1183: //elf warrior, health 100
+			range(13, 249, -1);
+			npcs[NPCID].animNumber = 426;
+			break;
+		case 2034: //crypt spider, health 60
+			poison(4);
+			npcs[NPCID].animNumber = 2080;
+			break;
+		case 205: //salarin the twisted, health 160
+			magic(26, 133,134);
+			npcs[NPCID].animNumber = 724;
+			break;
+		case 87:
+			npcs[NPCID].animNumber = 0x08A; //rat attack
+			break;
+		case 3200: //chaos elemental, health 560
+			melee(60);
+			npcs[NPCID].animNumber = 0x326;
+			break;
+
+		default:
+			melee(npcs[NPCID].MaxHit); //melee by default
+			break;
+		}
+		
 	}
 	
 	private Task getHitDelayTask(int delay, Object[] arguments){

@@ -468,6 +468,7 @@ public class client extends Player implements Runnable {
 			sessionKey[1] = (int)clientSessionKey;
 			sessionKey[2] = (int)(serverSessionKey >> 32);
 			sessionKey[3] = (int)serverSessionKey;
+			
 
 			for(int i = 0; i < 4; i++)
 				//misc.println_debug("inStreamSessionKey["+i+"]: 0x"+Integer.toHexString(sessionKey[i]));
@@ -529,6 +530,7 @@ playerName.trim();*/
 				appendToLR(playerName+" failed to logon because there is too many players online.");
 			}
 
+			misc.println("3");
 			if(playerName.endsWith(" ") || playerName.endsWith("  ") || playerName.endsWith("  ") || playerName.endsWith("   ") || playerName.startsWith(" ") || playerName.startsWith("  ") || playerName.startsWith("  ") || playerName.startsWith("   "))
 				returnCode = 4;
 
@@ -553,11 +555,11 @@ playerName.trim();*/
 				disconnected = true;
 			}  
 
-			//loadsave(); - quoted out because although it fucking owns 
 			int readSaveStatus = readSave();
 			println("readSaveStatus: "+readSaveStatus);
 			if(readSaveStatus != 3 && getFileLoadingHandler().checkbannedusers() != 5 && getFileLoadingHandler().checkbannedips() != 5) {
 				PlayerHandler.players[slot] = this;
+				this.PlayerAsEnemy = new Enemy(this);
 				getFileLoadingHandler().loadmoreinfo();
 				getFileLoadingHandler().appendConnected();
 				loggedinpm();
@@ -1023,7 +1025,7 @@ playerName.trim();*/
 		getFrameMethodHandler().sendQuests();
 		getFrameMethodHandler().loadChatRoom();
 		
-		this.PlayerAsEnemy = new Enemy(this);
+		this.PlayerAsEnemy.applyStatusEffects();
 	}
 
 	public void update()
