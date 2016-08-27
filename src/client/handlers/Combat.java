@@ -1,12 +1,11 @@
-package client.handlers.combat;
+package client.handlers;
 import java.util.LinkedList;
 
 import client.Player;
 import client.client;
-import client.handlers.FrameMethods;
-import client.handlers.Item;
 import server.handlers.NPC.NPC;
 import server.handlers.NPC.NPCAnim;
+import server.handlers.enemy.Enemy;
 import server.handlers.player.PlayerHandler;
 import server.handlers.task.Task;
 import server.resources.Lists;
@@ -322,8 +321,7 @@ public class Combat {
 		}    
 		if (playerEquipment[playerWeapon] == 7158){ //Dragon 2h
 			useSpecialAndSubtractDelay(6);
-			Enemy playerEnemy = new Enemy(c);
-			Combat.attackEnemiesWithin(-1, -1, false, playerEnemy, 2, original, new Enemy(c), 0, playerEnemy, true, true);
+			Combat.attackEnemiesWithin(-1, -1, false, c.GetPlayerAsEnemy(), 2, original, c.GetPlayerAsEnemy(), 0, c.GetPlayerAsEnemy(), true, true);
 			c.getFrameMethodHandler().gfx0(246);
 			c.getFrameMethodHandler().gfxWithDelay(246, c.absX, c.absY, 20, 0);	
 			return original; //
@@ -500,7 +498,7 @@ public class Combat {
 	 * @param opp Will have its enemy set as this player. Will start combat to auto attack on the player.
 	 */
 	public void opponentAutoAttack(client opp){
-		opp.setEnemy(new Enemy(this.c));
+		opp.setEnemy(c.GetPlayerAsEnemy());
 		opp.getCombatHandler().Attack();
 	}
 
@@ -520,16 +518,16 @@ public class Combat {
 		}
 	}
 	
-	private static void hitTargetWithStyle(Enemy e, Enemy target, int style, int amount){
+	private static void hitTargetWithStyle(Enemy e, Enemy target, int style, int amount, int poisonAmount){
 		switch(style){
 		case 0:
-			target.inflictMeleeDamage(amount, e);
+			target.inflictMeleeDamage(amount, e, poisonAmount);
 			break;
 		case 1:
-			target.inflictRangeDamage(amount, e);
+			target.inflictRangeDamage(amount, e, poisonAmount);
 			break;
 		case 2:
-			target.inflictMagicDamage(amount, e);
+			target.inflictMagicDamage(amount, e, poisonAmount);
 			break;
 		}
 	}
@@ -552,7 +550,7 @@ public class Combat {
 			tempHitDiff = 0;
 		
 		Object[] arguments = new Object[]{attacker, target, damageType, tempHitDiff, includeNPCs, includePlayers, range, ignore, gfxSpread, hitDiff, movingGfxId, gfx};		
-		Task t = new Task(hitDelay, arguments){
+		Task t = new Task(hitDelay, arguments, false){
 			@Override
 			public void execute() {
 				Enemy attacker = (Enemy)this.objects[0];
@@ -578,7 +576,7 @@ public class Combat {
 					enemies = misc.getAllEnemyNPCsInRange(target.getX(), target.getY(), range);
 				
 				if(target != ignore && target != attacker)
-					hitTargetWithStyle(attacker, target, damageType, tempHitDiff);
+					hitTargetWithStyle(attacker, target, damageType, tempHitDiff,0);
 				
 				for(Enemy e : enemies){
 					//attacker.getPlayerClient().debug("In attackEnemiesWithin: Ignore ID:"+ignore.getID()+", Enemy ID:"+e.getID()+
@@ -602,7 +600,7 @@ public class Combat {
 							tempHitDiff2 = 0;
 						
 						Object[] arguments2 = new Object[]{attacker,e,tempHitDiff2,ignore, damageType};
-						Task t2 = new Task(hitDelay2, arguments2){
+						Task t2 = new Task(hitDelay2, arguments2, false){
 							Enemy attacker2 = (Enemy)this.objects[0];
 							Enemy target2 = (Enemy)this.objects[1];
 							int tempHitDiff2 = (int)this.objects[2];
@@ -611,7 +609,7 @@ public class Combat {
 							@Override
 							public void execute() {
 								if(target2 != ignore2)
-									hitTargetWithStyle(attacker2, target2, damageType2, tempHitDiff2);
+									hitTargetWithStyle(attacker2, target2, damageType2, tempHitDiff2,0);
 							}
 						};
 						
@@ -627,9 +625,10 @@ public class Combat {
 	
 	
 
-	public boolean damagePlayer(int playerID, int damage){
+	public static boolean damagePlayer(int playerID, int damage){
 		try{
-			int playerHP = PlayerHandler.players[playerID].playerLevel[c.playerHitpoints];
+			Player p = PlayerHandler.players[playerID];
+			int playerHP = p.playerLevel[p.playerHitpoints];
 			if (damage > playerHP) damage = playerHP;
 			if (damage < 0) damage = 0;
 			PlayerHandler.players[playerID].hitDiff = damage;
@@ -639,7 +638,7 @@ public class Combat {
 			return true;
 		}
 		catch(Exception e){
-			c.error("In damagePlayer : "+e.getMessage());
+			server.KernelStream.println("In damagePlayer : "+e.getMessage());
 			return false;
 		}
 	}
@@ -734,7 +733,8 @@ public class Combat {
 	}
 	
 	/**
-	 * private helper method to assist with npc attack loop
+	 * Will inflict damage on npc and make npc use its block emote.
+	 * Will update NPC's attacking players list.
 	 */
 	public boolean hitNPC(int npcID, int damage, int playerId){
 		try{
@@ -805,7 +805,7 @@ public class Combat {
 	
 	public void Attack() {
 		Enemy e = c.getEnemy();
-		if(!Combat.CanEnemyAttackTarget(new Enemy(c), e)){
+		if(!Combat.CanEnemyAttackTarget(c.GetPlayerAsEnemy(), e)){
 			c.getCombatHandler().resetAttack();
 			c.stopPlayerMovement();
 			return;
@@ -879,7 +879,8 @@ public class Combat {
 				c.inCombat(); 
 				c.followingNPCID = -1;
 
-				e.inflictMeleeDamage(hitDiff, new Enemy(c));
+				e.inflictMeleeDamage(hitDiff, c.GetPlayerAsEnemy(),0);
+				//TODO poison
 				return;
 			}			
 			else{
@@ -915,22 +916,21 @@ public class Combat {
 					c.BOWHANDLER.arrowProjectile(e);
 				
 
-				Task countDownHit = new Task(5, new Object[]{c, e, hitDiff}){
+				Task countDownHit = new Task(5, new Object[]{c, e, hitDiff}, false){
 					@Override
 					public void execute() {
 						client playerClient = (client) this.objects[0];
 						Enemy enemy = (Enemy) this.objects[1];
 						playerClient.BOWHANDLER.checkForAccumulatorOrDistributeArrowOnGround(enemy.getX(), enemy.getY());
-						enemy.inflictRangeDamage((int)this.objects[2], new Enemy(playerClient));
+						enemy.inflictRangeDamage((int)this.objects[2], playerClient.GetPlayerAsEnemy(), 0);
 					}						
 				};
-				c.CountDowns.add(countDownHit);
+				server.taskScheduler.schedule(countDownHit);
 				
 				addCombatRangedXP(hitDiff);
 
 				//pkingdelay updated when checking ammo and bow
 				c.LoopAttDelay = c.PkingDelay;
-
 				return;
 			}	
 			else{
@@ -971,8 +971,7 @@ public class Combat {
 		c.litBar = false;
 		c.getFrameMethodHandler().gfxWithDelay(246, c.absX, c.absY, 50, 0);
 		c.startAnimation(3157);
-		Enemy playerEnemy = new Enemy(c);
-		Combat.attackEnemiesWithin(-1, -1, false, playerEnemy, 2, getMaxMeleeHit(), playerEnemy, 0, playerEnemy, true, true);
+		Combat.attackEnemiesWithin(-1, -1, false, c.GetPlayerAsEnemy(), 2, getMaxMeleeHit(), c.GetPlayerAsEnemy(), 0, c.GetPlayerAsEnemy(), true, true);
 		c.AnimationReset = true;
 		c.teleportToX = c.absX;
 		c.teleportToY = c.absY;

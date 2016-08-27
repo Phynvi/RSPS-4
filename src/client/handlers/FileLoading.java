@@ -166,9 +166,6 @@ public class FileLoading {
 
 	}
 
-
-
-
 	@SuppressWarnings("resource")
 	public int loadmoreinfo() {
 		String line = "";
@@ -309,6 +306,10 @@ public class FileLoading {
 						c.randomh = Integer.parseInt(token2);
 					else if (token.equals("PD"))
 						c.PD.setValue(Integer.parseInt(token2));
+					else if (token.equals("PoisonAmount"))
+						c.GetPlayerAsEnemy().poisonAmount = Integer.parseInt(token2);
+					else if (token.equals("PoisonResistAmount"))
+						c.GetPlayerAsEnemy().resistPoisonTimerMinutes = Integer.parseInt(token2);
 					break;
 				case 2: 
 					if (token.equals("character-questpoints")) {
@@ -425,6 +426,17 @@ public class FileLoading {
 		try{
 			String s = varName+" = "; b.write(s, 0, s.length());
 			b.write(Integer.toString(actualVar), 0, Integer.toString(actualVar).length());
+			b.newLine();
+		}
+		catch(Exception e){
+			c.error("In FileLoading, writeToCharacterFile: "+e.toString());
+		}
+	}
+
+	public void writeToCharacterFile(BufferedWriter b, boolean actualVar, String varName){
+		try{
+			String s = varName+" = "; b.write(s, 0, s.length());
+			b.write(Boolean.toString(actualVar), 0, Boolean.toString(actualVar).length());
 			b.newLine();
 		}
 		catch(Exception e){
@@ -571,6 +583,10 @@ public class FileLoading {
 			characterfile.write(Integer.toString(c.randomh), 0, Integer.toString(c.randomh).length());
 			characterfile.newLine();
 			writeToCharacterFile(characterfile, c.PD.getValue(), "PD");
+			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.GetPlayerAsEnemy().poisonAmount, "PoisonAmount");
+			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.GetPlayerAsEnemy().resistPoisonTimerMinutes, "PoisonResistAmount");
 			characterfile.newLine();
 
 			characterfile.write("[QUESTS]", 0, 8);

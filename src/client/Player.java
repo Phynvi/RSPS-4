@@ -5,9 +5,9 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 import client.handlers.Item;
-import client.handlers.combat.Enemy;
 import server.handlers.NPC.NPC;
 import server.handlers.NPC.NPCHandler;
+import server.handlers.enemy.Enemy;
 import server.handlers.player.PlayerHandler;
 import server.handlers.task.Task;
 import server.resources.misc;
@@ -16,10 +16,15 @@ import server.root.server;
 
 public abstract class Player extends playerInstances {
 
+	protected Enemy PlayerAsEnemy;
+	
+	public Enemy GetPlayerAsEnemy(){
+		return this.PlayerAsEnemy;
+	}
+	
 	public boolean hasLoadedAllNPCs = false;
 
 	public int slot = -1;
-	public LinkedList<Task> CountDowns = new LinkedList<Task>();
 
 	public void followEnemy(Enemy e){
 		int id = e.getID();

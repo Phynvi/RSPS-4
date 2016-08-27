@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import client.handlers.ButtonClickHandler;
 import client.handlers.ChatRoomHandler;
 import client.handlers.ClientMethodHandler;
+import client.handlers.Combat;
 import client.handlers.CommandHandler;
 import client.handlers.EventManager;
 import client.handlers.FileLoading;
@@ -24,8 +25,6 @@ import client.handlers.MenuHandler;
 import client.handlers.MiniGameHandler;
 import client.handlers.ObjectClick;
 import client.handlers.SkillHandler;
-import client.handlers.combat.Combat;
-import client.handlers.combat.Enemy;
 import client.handlers.skills.Farming;
 import client.handlers.skills.MagicDataHandler;
 import client.handlers.skills.Mining;
@@ -41,6 +40,7 @@ import java.security.*;
 
 import server.handlers.NPC.NPCClickHandler;
 import server.handlers.NPC.npcDialogueBST;
+import server.handlers.enemy.Enemy;
 import server.handlers.globalObject.GlobalObject;
 import server.handlers.item.ItemHandler;
 import server.handlers.player.PlayerHandler;
@@ -1022,7 +1022,8 @@ playerName.trim();*/
 		getFrameMethodHandler().loadQuestTab();
 		getFrameMethodHandler().sendQuests();
 		getFrameMethodHandler().loadChatRoom();
-
+		
+		this.PlayerAsEnemy = new Enemy(this);
 	}
 
 	public void update()
@@ -1194,7 +1195,7 @@ playerName.trim();*/
 		if (SpecTimer == 1 && (this.getEnemy() != null)){
 
 			if (playerEquipment[playerWeapon] == 4153){ // g maul
-				this.getEnemy().inflictMeleeDamage(this.getCombatHandler().getMaxMeleeHit(), new Enemy(this));
+				this.getEnemy().inflictMeleeDamage(this.getCombatHandler().getMaxMeleeHit(), this.PlayerAsEnemy,0);
 				FrameMethods.createAllGfxWithDelayInMS(1, 337, this.getEnemy().getX(), this.getEnemy().getY());
 				startAnimation(1667);
 			}
@@ -1204,18 +1205,18 @@ playerName.trim();*/
 					playerEquipment[playerWeapon] == 1215 || 
 					playerEquipment[playerWeapon] == 1231 || 
 					playerEquipment[playerWeapon] == 5680){
-				this.getEnemy().inflictMeleeDamage(this.getCombatHandler().getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11), new Enemy(this));
+				this.getEnemy().inflictMeleeDamage(this.getCombatHandler().getMaxMeleeHit() + misc.random(playerLevel[playerAttack]/11), this.PlayerAsEnemy,4);
 			}
 
 			if(playerEquipment[playerWeapon] == 861){ //magic shortbow
 				startAnimation(426);
-				this.getEnemy().inflictRangeDamage(this.getCombatHandler().getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25), new Enemy(this));
+				this.getEnemy().inflictRangeDamage(this.getCombatHandler().getMaxRangedHit() + misc.random(playerLevel[playerRanged]/25), this.PlayerAsEnemy,0);
 			}
 			
 			if(playerEquipment[playerWeapon] == Item.DARKBOW){ 
 				startAnimation(426);
 				int maxHit = this.getCombatHandler().getMaxRangedHit();
-				this.getEnemy().inflictRangeDamage(maxHit + (int)((double)maxHit*0.3), new Enemy(this));
+				this.getEnemy().inflictRangeDamage(maxHit + (int)((double)maxHit*0.3), this.PlayerAsEnemy,0);
 			}
 
 		}
@@ -1225,14 +1226,14 @@ playerName.trim();*/
 		if (DClawsHit1 == true && (this.getEnemy() != null) && DClawsTimer == 8){
 			if (DClawsDmg > 0){ //if first hit is greater than 0
 				DClawsHit2 = DClawsDmg/2; //2nd hit is first hit divided by 2
-				this.getEnemy().inflictMeleeDamage(DClawsHit2, new Enemy(this));
+				this.getEnemy().inflictMeleeDamage(DClawsHit2, this.PlayerAsEnemy,0);
 				DClawsHit3 = (DClawsHit2/2)-misc.random(2); //3rd and 4th hit add up to 2nd hit
 				DClawsHit4 = DClawsHit2-DClawsHit3;
 			}
 
 			if (DClawsDmg == 0){ //if zero damage dealt on first hit
 				DClawsHit2 = misc.random(this.getCombatHandler().getMaxMeleeHit());
-				this.getEnemy().inflictMeleeDamage(DClawsHit2, new Enemy(this));
+				this.getEnemy().inflictMeleeDamage(DClawsHit2, this.PlayerAsEnemy,0);
 				if (DClawsHit2 == 0){ //if zero damage dealt on second hit
 					int maxHit = this.getCombatHandler().getMaxMeleeHit();
 					DClawsHit3 = misc.random(maxHit); //3rd is normal hit	
@@ -1253,27 +1254,16 @@ playerName.trim();*/
 		}
 		
 		if (this.getEnemy() != null && DClawsTimer == 7){
-			this.getEnemy().inflictMeleeDamage(DClawsHit3, new Enemy(this));
+			this.getEnemy().inflictMeleeDamage(DClawsHit3, this.PlayerAsEnemy,0);
 		}
 		
 		if (this.getEnemy() != null && DClawsTimer == 6){
-			this.getEnemy().inflictMeleeDamage(DClawsHit4, new Enemy(this));
+			this.getEnemy().inflictMeleeDamage(DClawsHit4, this.PlayerAsEnemy,0);
 		}
 	}
 
 
 	public boolean process() { 	// is being called regularily every 500ms	
-		
-		if(!CountDowns.isEmpty()){
-			ListIterator<Task> iterator = CountDowns.listIterator();
-			while(iterator.hasNext()){
-				Task c = iterator.next();
-				if(--c.counter == 0){
-					c.execute();
-					iterator.remove();
-				}
-			}
-		}
 		
 		getSkillHandler().process();
 		checkSpecialTimers();
@@ -1306,10 +1296,9 @@ playerName.trim();*/
 		//If killed apply dead
 		if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 
 			startAnimation(2304);
-			if(getSkillHandler().getPrayerHandler().Retribution){
-				Enemy playerEnemy = new Enemy(this);
+			if(getSkillHandler().getPrayerHandler().Retribution){				
 				int maxDamage = getLevelForXP(playerXP[playerPrayer])/4;
-				Combat.attackEnemiesWithin(-1, -1, false, playerEnemy, 3, maxDamage, playerEnemy, 2, playerEnemy, true, true);
+				Combat.attackEnemiesWithin(-1, -1, false, this.PlayerAsEnemy, 3, maxDamage, this.PlayerAsEnemy, 2, this.PlayerAsEnemy, true, true);
 				getFrameMethodHandler().gfx100(437);
 			}
 			deadAnimTimer = 5;
@@ -1664,7 +1653,7 @@ playerName.trim();*/
 			int npcid = inStream.readUnsignedWordA();
 
 			this.setEnemy(null);
-			this.setEnemy(new Enemy(server.npcHandler.npcs[npcid]));
+			this.setEnemy(server.npcHandler.npcs[npcid].getAsEnemy());
 			break;
 
 
@@ -2051,7 +2040,7 @@ playerName.trim();*/
 			//Attacking player
 		case 73: 
 			this.setEnemy(null);
-			this.setEnemy(new Enemy((client) server.playerHandler.players[inStream.readSignedWordBigEndian()]));
+			this.setEnemy(server.playerHandler.players[inStream.readSignedWordBigEndian()].PlayerAsEnemy);
 			break;
 
 		case 128: //Trade Request
@@ -2096,8 +2085,8 @@ playerName.trim();*/
 			// MAGE_00
 			int playerIndex = inStream.readSignedWordA();
 			spellID = inStream.readSignedWordBigEndian();			
-			Enemy e = new Enemy(server.playerHandler.players[playerIndex]);
-			if(Combat.CanEnemyAttackTarget(new Enemy(this), e)){
+			Enemy e = server.playerHandler.players[playerIndex].PlayerAsEnemy;
+			if(Combat.CanEnemyAttackTarget(this.PlayerAsEnemy, e)){
 				getMagicHandler().magicOnEnemy(e, spellID);
 			}
 			break;
@@ -2105,12 +2094,12 @@ playerName.trim();*/
 
 		case 131: //Magic on NPCs
 			int npcIndex = inStream.readSignedWordBigEndianA();
-			e = new Enemy(server.npcHandler.npcs[npcIndex]);
+			e = server.npcHandler.npcs[npcIndex].getAsEnemy();
 
 			debug("Case 131 : npcIndex: "+npcIndex+", NPCID :"+server.npcHandler.npcs[npcIndex].npcType);
 
 			spellID = inStream.readSignedWordA();
-			if(Combat.CanEnemyAttackTarget(new Enemy(this), e)){
+			if(Combat.CanEnemyAttackTarget(this.PlayerAsEnemy, e)){
 				getMagicHandler().magicOnEnemy(e, spellID);
 			}
 					

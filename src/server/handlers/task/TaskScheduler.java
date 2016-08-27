@@ -1,53 +1,45 @@
 package server.handlers.task;
 
-import java.util.ConcurrentModificationException;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
-import server.handlers.processes.ServerProcess;
-import server.resources.misc;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class TaskScheduler extends ServerProcess {
+import javax.swing.Timer;
+
+import server.root.server;
+
+public class TaskScheduler {
 	
-	public TaskScheduler(String name) {
-		super(name);
-	}
-
-	private static LinkedList<Task> _tasks = new LinkedList<Task>();
-
-	public void process(){
-		if(!_tasks.isEmpty()){
-			try{
-				ListIterator<Task> iterator = _tasks.listIterator();
-				while(iterator.hasNext()){
-					Task c = iterator.next();
-					if(--c.counter == 0){
-						misc.println_debug("[TaskScheduler] - process() : Task Executed.");
-						c.execute();
-						iterator.remove();
-					}
-				}
-			}
-			catch(ConcurrentModificationException ce){
-				return;
-			}
-		}
-	}
-	
-	public static void schedule(Task t){
+	/**
+	 * This method will schedule a task through a timer, and start that timer.
+	 * @return If task was successfully scheduled, will return the timer associated with its execution.
+	 */
+	public static Timer schedule(Task t){
 		
 		if(t == null){
-			misc.println_debug("In TaskScheduler, void schedule : Given null task t");
-			return;
+			server.KernelStream.println("In TaskScheduler, void schedule : Given null task t");
+			return null;
 		}
-		_tasks.add(t);
+		final Task task = t;
 		
-	}
-	
-	public static void schedule(Task ... tasks){
-		for(Task t : tasks){
-			_tasks.add(t);
-		}
+		server.debug("Task t scheduled: "+task.toString());				
+		
+		int delay = task.counter*500; //t counter is in 500ms ticks
+	  ActionListener taskPerformer = new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+      	try{
+          task.execute();
+      	}
+      	catch(Exception e){
+      		server.KernelStream.println(e.toString());
+      	}
+      }
+  };
+  
+  Timer timer = new Timer(delay, taskPerformer);
+  timer.setRepeats(task.repeats);
+  timer.start();
+  return timer;
 	}
 	
 }

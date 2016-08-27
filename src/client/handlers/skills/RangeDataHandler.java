@@ -1,7 +1,7 @@
 package client.handlers.skills;
 import client.client;
 import client.handlers.Item;
-import client.handlers.combat.Enemy;
+import server.handlers.enemy.Enemy;
 import server.handlers.item.ItemHandler;
 import server.handlers.player.PlayerHandler;
 import server.handlers.task.Task;
@@ -331,7 +331,7 @@ public class RangeDataHandler {
 		
 		c.getFrameMethodHandler().gfx100(getDrawbackArrowGFX());
 		
-		Task countDown = new Task(2, new Object[]{c, e}){
+		Task countDown = new Task(2, new Object[]{c, e}, false){
 			@Override
 			public void execute() {
 				client playerClient = (client) this.objects[0];
@@ -348,8 +348,8 @@ public class RangeDataHandler {
 						50, 55, getArrowGFX(), 43, 31, enemy.getID(), 40, enemy.isNPC());
 			}
 		};
-		
-		c.CountDowns.add(countDown);
+
+		server.taskScheduler.schedule(countDown);
 	}
 
 }

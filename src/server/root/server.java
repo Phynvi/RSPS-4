@@ -52,14 +52,12 @@ public static TextAreaOutputStream SystemStream;
 		//jserv js = new jserv(this);
 		//js.start();
 		serverInformationWindow = new ServerInformation();
-		SystemStream = serverInformationWindow.addTextTab("SYSTEM").getStream();
-		System.setOut(new PrintStream(SystemStream));
-		KernelStream = serverInformationWindow.addTextTab("KERNEL").getStream();
-		DelayStream = serverInformationWindow.addTextTab("DELAY").getStream();
-		DebugStream = serverInformationWindow.addTextTab("DEBUG").getStream();
-		ServerTestsStream = serverInformationWindow.addTextTab("TESTS").getStream();
-		serverInformationWindow.setVisible(true);
-		serverInformationWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		SystemStream = ServerInformation.SystemPanel.getStream();
+		KernelStream = ServerInformation.KernelPanel.getStream();
+		DelayStream = ServerInformation.DelayPanel.getStream();
+		DebugStream = ServerInformation.DebugPanel.getStream();
+		ServerTestsStream = ServerInformation.ServerTestsPanel.getStream();
 		
 		lists = new Lists();
 		worldMap = new WorldMap(); //TODO - remove reference
@@ -88,14 +86,18 @@ public static TextAreaOutputStream SystemStream;
 	
 	private static LinkedList<ServerProcess> processes = new LinkedList<ServerProcess>();
 	
-	private static void addToProcesses(ServerProcess ... servProc){
-		for(ServerProcess s : servProc){
-			processes.add(s);
-		}
+	public static void debug(String s){
+		System.out.println("Called, debugmode: "+debugmode);
+		if(debugmode)
+			DebugStream.println(s);
+	}
+	
+	public static void addToProcesses(ServerProcess servProc){
+		processes.add(servProc);
 	}
 	
 	public static void main(java.lang.String args[]) {
-		taskScheduler = new TaskScheduler("Task Scheduler");
+		taskScheduler = new TaskScheduler();
 		pestControlHandler = new PestControlHandler("Pest Control Handler");
 		clientHandler = new server();
 		(new Thread(clientHandler)).start();			// launch server listener
@@ -109,10 +111,7 @@ public static TextAreaOutputStream SystemStream;
 		globalObjectHandler = new GlobalObjectHandler("Global Object Handler");
 		globalChatRoomHandler = new GlobalChatRoomHandler("Global Chatroom Handler");
 		npcDialogueHandler = new npcDialogueBST();
-		enemyHandler = new EnemyHandler("Enemy Handler");
-		
-		addToProcesses(enemyHandler, taskScheduler, playerHandler, npcHandler, 
-				itemHandler, shopHandler, pestControlHandler,globalObjectHandler,globalChatRoomHandler);
+		enemyHandler = new EnemyHandler();
 
 		int printOutDelay = 0;
 		while(!shutdownServer) {

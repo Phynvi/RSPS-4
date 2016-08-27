@@ -1,12 +1,12 @@
 package client.handlers.skills;
+import server.handlers.enemy.Enemy;
 import server.handlers.task.Task;
 import server.resources.misc;
 import server.root.server;
 import client.client;
+import client.handlers.Combat;
 import client.handlers.FrameMethods;
 import client.handlers.Item;
-import client.handlers.combat.Combat;
-import client.handlers.combat.Enemy;
 
 public class MagicDataHandler {
 	private client c;
@@ -326,17 +326,17 @@ public class MagicDataHandler {
 		caster.getFrameMethodHandler().gfx100(startId);
 		FrameMethods.createProjectile(casterY, casterX, offsetY, offsetX, 50, 95, movingId, 23, 20, e.getID(), e.isNPC());
 		
-		Task countDown = new Task(5, new Object[]{e, hitDiff, finishId, caster}) {
+		Task countDown = new Task(5, new Object[]{e, hitDiff, finishId, caster}, false) {
 			@Override
 			public void execute() {
 				Enemy enemy = (Enemy) this.objects[0];			
 				int hitDiff = (int)this.objects[1];
 				enemy.gfx100((int)this.objects[2]);
 				client caster = (client)this.objects[3];
-				enemy.inflictMagicDamage(hitDiff, new Enemy(caster));
+				enemy.inflictMagicDamage(hitDiff, caster.GetPlayerAsEnemy(),0);
 			}			
 		};
-		caster.CountDowns.add(countDown);
+		server.taskScheduler.schedule(countDown);
 
 		int exp = hitDiff*4*c.CombatExpRate;
 		if (exp < 0) exp = 4*c.CombatExpRate;
@@ -360,9 +360,8 @@ public class MagicDataHandler {
 			caster.getFrameMethodHandler().createAllGfxWithDelay(50, startId, caster.absX, caster.absY, 100);
 			
 			int maxPossibleDamage = this.calculateMagicMaxHit(maxDamage, levelRequired);
-			Enemy playerEnemy = new Enemy(caster);
 			
-			Combat.attackEnemiesWithin(finishId, movingId, true, enemy, range, maxPossibleDamage, playerEnemy, 2, playerEnemy, true, true);
+			Combat.attackEnemiesWithin(finishId, movingId, true, enemy, range, maxPossibleDamage, caster.GetPlayerAsEnemy(), 2, caster.GetPlayerAsEnemy(), true, true);
 
 			int exp = maxPossibleDamage*4*4*c.CombatExpRate*c.rate;
 			if (exp <= 0) exp = 4*c.CombatExpRate*c.rate;

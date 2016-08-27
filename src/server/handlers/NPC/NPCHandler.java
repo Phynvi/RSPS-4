@@ -4,11 +4,11 @@ import java.util.Hashtable;
 
 import client.Player;
 import client.client;
+import client.handlers.Combat;
 import client.handlers.FrameMethods;
 import client.handlers.Item;
-import client.handlers.combat.Combat;
-import client.handlers.combat.Enemy;
 import server.handlers.WorldMap;
+import server.handlers.enemy.Enemy;
 import server.handlers.item.DropList;
 import server.handlers.processes.ServerProcess;
 import server.handlers.task.Task;
@@ -24,6 +24,7 @@ public class NPCHandler extends ServerProcess {
 	public static BST ignoreCombatLevel = new BST(221,938,178,179,1267,1265,62,2499,2501,2503,1115,1101,103,2783,3068,3069,3070,3071,122,123,125,64); //NPCs in this list will be aggressive no matter what
 	public static Hashtable<Integer, Boolean> largeNPC = new Hashtable<Integer, Boolean>();
 
+	private int PoisonAmount;
 	private int NPCGfxMoving;
 	private int NPCFightType; 
 	private int NPCGfxFinished;
@@ -1233,7 +1234,7 @@ WORLDMAP 2: (not-walk able places)
 	public boolean AttackPlayer(int NPCID) {
 
 
-		if (npcs[NPCID].actionTimer != 0) return true;
+		if (npcs[NPCID].actionTimer != 0) return false;
 
 		int playerID = npcs[NPCID].StartKilling;
 		if (server.playerHandler.players[playerID] == null) {
@@ -1249,11 +1250,10 @@ WORLDMAP 2: (not-walk able places)
 		int playerY = server.playerHandler.players[playerID].absY;
 		npcs[NPCID].enemyX = playerX;
 		npcs[NPCID].enemyY = playerY;
-		Enemy e = new Enemy(npcs[NPCID]);
+		Enemy e = npcs[NPCID].getAsEnemy();
 
 		int _npcID = npcs[NPCID].npcType;
-
-		int EnemyHP = server.playerHandler.players[playerID].playerLevel[server.playerHandler.players[playerID].playerHitpoints];
+		PoisonAmount = 0;
 
 		if(playerX == npcs[NPCID].absX && playerY == npcs[NPCID].absY){ //steps off player if on top of player
 			int rX = misc.random(1);
@@ -1383,11 +1383,9 @@ WORLDMAP 2: (not-walk able places)
 					break; 
 
 					//Test NPC for GFX
-				case 199:
-					melee(0);
-					//int offsetX = (npcs[NPCID].absX - c.absX) * -1;
-					//int offsetY = (npcs[NPCID].absY - c.absY) * -1;
-					//c.createProjectile(npcs[NPCID].absY, npcs[NPCID].absX, offsetY, offsetX, 50, 80, 11, 43, 31, c.playerId+1); //does not guarnatee work
+				case 199: //Gunthar the fuckin brave
+					melee(10);
+					poison(5);
 					break;
 
 				case 1157: //Kalphite Guardian magic
@@ -1594,8 +1592,7 @@ WORLDMAP 2: (not-walk able places)
 					case 4:
 						range(35,-1,-1);
 						c.sendMessage ("The General strikes with a ranged special.");
-						Enemy playerClient = new Enemy(c);
-						Combat.attackEnemiesWithin(198, -1, true, playerClient, 5, 35, new Enemy(npcs[NPCID]), 1, playerClient, false, true);
+						Combat.attackEnemiesWithin(198, -1, true, c.GetPlayerAsEnemy(), 5, 35, npcs[NPCID].getAsEnemy(), 1, c.GetPlayerAsEnemy(), false, true);
 						npcs[NPCID].animNumber = 7063; 
 						break;
 					case 1: case 2: case 3:
@@ -1638,6 +1635,7 @@ WORLDMAP 2: (not-walk able places)
 					npcs[NPCID].animNumber = 426;
 					break;
 				case 2034: //crypt spider, health 60
+					poison(4);
 					npcs[NPCID].animNumber = 2080;
 					break;
 				case 205: //salarin the twisted, health 160
@@ -1705,20 +1703,21 @@ WORLDMAP 2: (not-walk able places)
 
 				int hitDelay = 1;
 				if(NPCGfxMoving != -1){
-					FrameMethods.createProjectileWithDelay(new Enemy(npcs[NPCID]), new Enemy(c), 50, 95, NPCGfxMoving, 23, 20, 40);
+					FrameMethods.createProjectileWithDelay(npcs[NPCID].getAsEnemy(), c.GetPlayerAsEnemy(), 50, 95, NPCGfxMoving, 23, 20, 40);
 					hitDelay = 5;
-					Object[] arguments = new Object[]{c, e, hitDiff, freezePlayer, NPCFightType};
+					Object[] arguments = new Object[]{c, e, hitDiff, freezePlayer, NPCFightType, PoisonAmount};
 					
 					TaskScheduler.schedule(getHitDelayTask(hitDelay, arguments));
 				}
 				else{
-					hitEnemyWithStyle(hitDiff, NPCFightType, new Enemy(npcs[NPCID]), new Enemy(c), true);
+					hitEnemyWithStyle(hitDiff, NPCFightType, npcs[NPCID].getAsEnemy(), c.GetPlayerAsEnemy(), true, PoisonAmount);
 				}
 				
 				if(NPCGfxFinished != -1){
 					c.getFrameMethodHandler().gfxWithDelay(NPCGfxFinished, c.absX, c.absY, hitDelay, 100);
 				}				
 
+				c.debug("NPC ActionTimer: "+npcs[NPCID].actionTimer);
 				npcs[NPCID].animUpdateRequired = true;
 				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 				npcs[NPCID].faceplayer(playerID);
@@ -1730,20 +1729,21 @@ WORLDMAP 2: (not-walk able places)
 	}
 	
 	private Task getHitDelayTask(int delay, Object[] arguments){
-		return new Task(delay, arguments){
+		return new Task(delay, arguments, false){
 			@Override
 			public void execute() {
 				client c = (client)this.objects[0];
-				Enemy playerEnemy = new Enemy(c);
+				Enemy playerEnemy = c.GetPlayerAsEnemy();
 				Enemy enemy = (Enemy)this.objects[1];
 				int hitDiff = (int)this.objects[2];
 				int freezePlayer = (int)this.objects[3];
 				int style = (int)this.objects[4];
+				int poisonAmount = (int)this.objects[5];
 
 				if(freezePlayer > -1 && hitDiff > 0)
 					c.frozen(freezePlayer);			
 				
-				hitEnemyWithStyle(hitDiff, style, enemy, playerEnemy, true);
+				hitEnemyWithStyle(hitDiff, style, enemy, playerEnemy, true, poisonAmount);
 
 			}					
 		};
@@ -1752,13 +1752,13 @@ WORLDMAP 2: (not-walk able places)
 	/**
 	 * Private helper method for npc attack method, should not be used by anything else.
 	 */
-	private void hitEnemyWithStyle(int hitDiff, int style, Enemy origin, Enemy target, boolean ignorePrayer){
+	private void hitEnemyWithStyle(int hitDiff, int style, Enemy origin, Enemy target, boolean ignorePrayer, int poisonAmount){
 		if(style == 1)
-			target.inflictMeleeDamage(hitDiff, origin, true);
+			target.inflictMeleeDamage(hitDiff, origin, true, PoisonAmount);
 		else if(style == 2)
-			target.inflictRangeDamage(hitDiff, origin, true);
+			target.inflictRangeDamage(hitDiff, origin, true, PoisonAmount);
 		else if(style == 3)
-			target.inflictMagicDamage(hitDiff, origin, true);
+			target.inflictMagicDamage(hitDiff, origin, true, PoisonAmount);
 	}
 	
 	public static boolean doesNPCHitPlayerWithMelee(NPC n, client player){
@@ -1779,6 +1779,10 @@ WORLDMAP 2: (not-walk able places)
 
 	public int _maxHit;
 
+	private void poison(int amount){
+		PoisonAmount = amount;
+	}
+	
 	//setter methods
 	private void melee(int maxHit){
 		_maxHit = maxHit;

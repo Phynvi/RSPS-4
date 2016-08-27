@@ -1,8 +1,8 @@
 package client.handlers;
 import client.Player;
 import client.client;
-import client.handlers.combat.Enemy;
 import server.handlers.chat.ChatRoom;
+import server.handlers.enemy.Enemy;
 import server.handlers.player.PlayerHandler;
 import server.handlers.task.Task;
 import server.resources.stream;
@@ -949,7 +949,7 @@ public class FrameMethods {
 	 */
 	public static void createAllGfxWithDelayInMS(int delayMS, int gfxId, int x, int y){
 		Object[] arguments = new Object[]{gfxId, x, y};
-		Task t = new Task(delayMS, arguments){
+		Task t = new Task(delayMS, arguments, false){
 			@Override
 			public void execute() {
 				int gfxId = (int) this.objects[0];

@@ -1,6 +1,7 @@
 package server.handlers.processes;
 
 import java.util.LinkedList;
+import server.root.server;
 
 public abstract class ServerProcess {
 
@@ -8,12 +9,16 @@ public abstract class ServerProcess {
 	
 	public ServerProcess(String name){
 		this.ProcessName = name;
+		server.addToProcesses(this);
 	}
 	
 	public String GetProcessName(){
 		return this.ProcessName;
 	}
 	
+	/**
+	 * Will be called every 500ms from server cycle.
+	 */
 	public abstract void process();
 	
 	private LinkedList<Long> historyMS = new LinkedList<Long>();

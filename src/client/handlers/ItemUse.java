@@ -173,24 +173,28 @@ public class ItemUse {
 			return pot(2, Item, 229,Slot);
 
 		case 2446: //Antipoison(4)
+			c.GetPlayerAsEnemy().resistPoison(120);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the antipoison.");
 			c.getInventoryHandler().deleteItem(2446, c.getInventoryHandler().GetItemSlot(2446), 1);
 			c.getInventoryHandler().addItem(175, 1);
 			break;
 		case 175: //Antipoison(3)
+			c.GetPlayerAsEnemy().resistPoison(120);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the antipoison.");
 			c.getInventoryHandler().deleteItem(175, c.getInventoryHandler().GetItemSlot(175), 1);
 			c.getInventoryHandler().addItem(177, 1);
 			break;
 		case 177: //Antipoison(2)
+			c.GetPlayerAsEnemy().resistPoison(120);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the antipoison.");
 			c.getInventoryHandler().deleteItem(177, c.getInventoryHandler().GetItemSlot(177), 1);
 			c.getInventoryHandler().addItem(179, 1);
 			break;
 		case 179: //Antipoison(1)
+			c.GetPlayerAsEnemy().resistPoison(120);
 			c.startAnimation(829);
 			c.sendMessage("You drink the last dose of the super anti-poison.");
 			c.getInventoryHandler().deleteItem(179, c.getInventoryHandler().GetItemSlot(179), 1);
@@ -234,71 +238,84 @@ public class ItemUse {
 			c.flushOutStream();
 			break;
 		case 2448: //superAntipoison(4)
+			c.GetPlayerAsEnemy().resistPoison(360);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the super anti-poison.");
 			c.getInventoryHandler().deleteItem(2448, c.getInventoryHandler().GetItemSlot(2448), 1);
 			c.getInventoryHandler().addItem(181, 1);
 			break;
 		case 181: //superAntipoison(3)
+			c.GetPlayerAsEnemy().resistPoison(360);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the super anti-poison.");
 			c.getInventoryHandler().deleteItem(181, c.getInventoryHandler().GetItemSlot(181), 1);
 			c.getInventoryHandler().addItem(183, 1);
 			break;
 		case 183: //superAntipoison(2)
+			c.GetPlayerAsEnemy().resistPoison(360);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the super anti-poison.");
 			c.getInventoryHandler().deleteItem(183, c.getInventoryHandler().GetItemSlot(183), 1);
 			c.getInventoryHandler().addItem(184, 1);
 			break;
 		case 185: //superAntipoison(1)
+			c.GetPlayerAsEnemy().resistPoison(360);
 			c.startAnimation(829);
 			c.sendMessage("You drink the last dose of the super anti-poison.");
 			c.getInventoryHandler().deleteItem(185, c.getInventoryHandler().GetItemSlot(185), 1);
 			c.getInventoryHandler().addItem(229, 1);
 			break;
 		case 5943: //extra-strongAntidote(4)
+			c.GetPlayerAsEnemy().resistPoison(540);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the extra strong antidote");
 			c.getInventoryHandler().deleteItem(5943, c.getInventoryHandler().GetItemSlot(5943), 1);
 			c.getInventoryHandler().addItem(5945, 1);
 			break;
 		case 5945: //extra-strongAntidote(3)
+			c.GetPlayerAsEnemy().resistPoison(540);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the extra strong antidote");
 			c.getInventoryHandler().deleteItem(5945, c.getInventoryHandler().GetItemSlot(5945), 1);
 			c.getInventoryHandler().addItem(5945, 1);
 			break;
 		case 5947: //extra-strongAntidote(2)
+			c.GetPlayerAsEnemy().resistPoison(540);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the extra strong antidote");
 			c.getInventoryHandler().deleteItem(5947, c.getInventoryHandler().GetItemSlot(5947), 1);
 			c.getInventoryHandler().addItem(5949, 1);
 			break;
 		case 5949: //extra-strongAntidote(1)
+			c.GetPlayerAsEnemy().resistPoison(540);
 			c.startAnimation(829);
 			c.sendMessage("You drink the last dose of the extra strong antidote");
 			c.getInventoryHandler().deleteItem(5949, c.getInventoryHandler().GetItemSlot(5949), 1);
 			c.getInventoryHandler().addItem(229, 1);
 			break;
 		case 5952: //super-strongAntidote(4)
+			c.GetPlayerAsEnemy().resistPoison(720);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the super strong antidote");
 			c.getInventoryHandler().deleteItem(5952, c.getInventoryHandler().GetItemSlot(5952), 1);
 			c.getInventoryHandler().addItem(5954, 1);
 			break;
 		case 5954: //super-strongAntidote(3)
+			c.GetPlayerAsEnemy().resistPoison(720);
 			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the super strong antidote");
 			c.getInventoryHandler().deleteItem(5954, c.getInventoryHandler().GetItemSlot(5954), 1);
 			c.getInventoryHandler().addItem(5956, 1);
 			break;
 		case 5956: //super-strongAntidote(2)
+			c.GetPlayerAsEnemy().resistPoison(720);
+			c.startAnimation(829);
 			c.sendMessage("You drink a dose of the super strong antidote");
 			c.getInventoryHandler().deleteItem(5956, c.getInventoryHandler().GetItemSlot(5956), 1);
 			c.getInventoryHandler().addItem(5958, 1);
 			break;
 		case 5958: //super-strongAntidote(1)
+			c.GetPlayerAsEnemy().resistPoison(720);
 			c.startAnimation(829);
 			c.sendMessage("You drink the last dose of the super strong antidote");
 			c.getInventoryHandler().deleteItem(5958, c.getInventoryHandler().GetItemSlot(5958), 1);

@@ -3,8 +3,8 @@ package server.resources;
 import java.util.LinkedList;
 
 import client.Player;
-import client.handlers.combat.Enemy;
 import server.handlers.NPC.NPC;
+import server.handlers.enemy.Enemy;
 import server.root.server;
 
 // a collection of misc methods
@@ -18,7 +18,7 @@ public class misc {
 		LinkedList<Enemy> inRange = new LinkedList<Enemy>();
 		for(NPC n : server.npcHandler.npcs){
 			if(n != null && n.distanceToPoint(x, y) <= radius){
-				inRange.add(new Enemy(n));
+				inRange.add(n.getAsEnemy());
 			}
 		}
 		return inRange;
@@ -32,7 +32,7 @@ public class misc {
 		LinkedList<Enemy> inRange = new LinkedList<Enemy>();
 		for(Player p : server.playerHandler.players){
 			if(p != null && p.distanceToPoint(x, y) <= radius){
-				inRange.add(new Enemy(p));
+				inRange.add(p.GetPlayerAsEnemy());
 			}
 		}
 		return inRange;
@@ -47,13 +47,13 @@ public class misc {
 		
 		for(Player p : server.playerHandler.players){
 			if(p != null && p.distanceToPoint(x, y) <= radius){
-				inRange.add(new Enemy(p));
+				inRange.add(p.GetPlayerAsEnemy());
 			}
 		}
 		
 		for(NPC n : server.npcHandler.npcs){
 			if(n != null && n.distanceToPoint(x, y) <= radius){
-				inRange.add(new Enemy(n));
+				inRange.add(n.getAsEnemy());
 			}
 		}
 		

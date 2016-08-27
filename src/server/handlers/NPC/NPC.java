@@ -2,11 +2,13 @@ package server.handlers.NPC;
 import java.util.ArrayList;
 
 import server.handlers.WorldMap;
+import server.handlers.enemy.Enemy;
 import server.resources.misc;
 import server.resources.stream;
 import server.root.server;
 
 public class NPC {
+	private Enemy asEnemy;
 	private Tile currentTile;
 	public int attackDistance = 1; //by default
 	public int attackDelay = 7; //by default
@@ -223,6 +225,11 @@ public class NPC {
 		for (int i = 0; i < Killing.length; i++) {
 			Killing[i] = 0;
 		}
+		this.asEnemy = new Enemy(this);
+	}
+	
+	public Enemy getAsEnemy(){
+		return this.asEnemy;
 	}
 
 	public void reset(){

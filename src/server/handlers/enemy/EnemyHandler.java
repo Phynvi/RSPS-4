@@ -1,36 +1,43 @@
 package server.handlers.enemy;
 
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import client.handlers.combat.Enemy;
+import client.Player;
+import server.handlers.NPC.NPC;
 import server.handlers.processes.ServerProcess;
+import server.root.server;
 
-public class EnemyHandler extends ServerProcess{
-	public EnemyHandler(String name) {
-		super(name);
-	}
+public class EnemyHandler{
 
-	private LinkedList<Enemy> enemies = new LinkedList<Enemy>();
-	private HashSet<Enemy> existingEnemies = new HashSet<Enemy>();
+	private static Map<Integer, Enemy> enemies = new LinkedHashMap<>();
 	
-	private static int GenerateID = 0;
-	public static int getUniqueEnemyID(){
-		GenerateID += 1;
-		return GenerateID;
+	private static int GenerateIDNPC = 0;
+	
+	private static int GenerateIDPlayer = server.npcHandler.maxNPCs + 1;
+	
+	public static int getUniqueEnemyID(Enemy e){
+		if(e.isNPC()){
+			return e.getNPC().npcId + GenerateIDNPC;
+		}
+		else{
+			return e.getPlayerClient().playerId + GenerateIDPlayer;
+		}
+	}
+	public static int getUniqueEnemyID(NPC n){
+		return n.npcId + GenerateIDNPC;
+	}
+	public static int getUniqueEnemyID(Player p){
+		return p.playerId + GenerateIDPlayer;
 	}
 	
-	public void addEnemy(Enemy e){
-		
-		
-		enemies.add(e);
-		
-	}
-
-	@Override
-	public void process() {
-		// TODO Auto-generated method stub
-		
+	public static boolean addEnemy(Enemy e){
+		if(enemies.containsKey(e.getUniqueID())){
+			return false;
+		}
+		enemies.put(e.getUniqueID(), e);
+		return true;
 	}
 	
 }
