@@ -1388,8 +1388,8 @@ WORLDMAP 2: (not-walk able places)
 				int hitDelay = 1;
 				if(NPCGfxMoving != -1){
 					FrameMethods.createProjectileWithDelay(npcs[NPCID].getAsEnemy(), c.GetPlayerAsEnemy(), 50, 95, NPCGfxMoving, 23, 20, 40);
-					hitDelay = 5;
-					Object[] arguments = new Object[]{c, e, hitDiff, freezePlayer, NPCFightType, PoisonAmount};
+					hitDelay = 3;
+					Object[] arguments = new Object[]{c, e, hitDiff, freezePlayer, NPCFightType, PoisonAmount, NPCGfxFinished};
 					
 					TaskScheduler.schedule(getHitDelayTask(hitDelay, arguments));
 				}
@@ -1397,11 +1397,11 @@ WORLDMAP 2: (not-walk able places)
 					hitEnemyWithStyle(hitDiff, NPCFightType, npcs[NPCID].getAsEnemy(), c.GetPlayerAsEnemy(), true, PoisonAmount);
 				}
 				
-				if(NPCGfxFinished != -1){
+				if(NPCGfxFinished != -1 && NPCGfxMoving == -1){
 					c.getFrameMethodHandler().gfxWithDelay(NPCGfxFinished, c.absX, c.absY, hitDelay, 100);
 				}				
 
-				c.debug("NPC ActionTimer: "+npcs[NPCID].actionTimer);
+				//c.debug("NPC ActionTimer: "+npcs[NPCID].actionTimer);
 				npcs[NPCID].animUpdateRequired = true;
 				npcs[NPCID].actionTimer = npcs[NPCID].attackDelay;
 				npcs[NPCID].faceplayer(playerID);
@@ -1410,6 +1410,21 @@ WORLDMAP 2: (not-walk able places)
 		}
 		if(!npcs[NPCID].moveToSpawn) FollowPlayerCB(NPCID, playerID);
 		return false;
+	}
+	
+	private void setPoisonIfNecessary(int npcType){
+		switch(npcType){
+		//Tribesman
+		case 191:
+		case 2497:
+			poison(8);
+		break;
+		
+		//Jungle Spider
+		case 62:
+			poison(6);
+			break;
+		}
 	}
 	
 	private void setDamageAndAnimation(int NPCID, client c){
@@ -1421,7 +1436,10 @@ WORLDMAP 2: (not-walk able places)
 		int SLASH = 451;
 		int CRUSH = 401;
 		
+		setPoisonIfNecessary(n.npcType);
+		
 		switch(n.npcType){
+			
 		case 1115: //Troll General, used in God Wars
 			melee(15);
 			break;
@@ -1751,12 +1769,14 @@ WORLDMAP 2: (not-walk able places)
 				int freezePlayer = (int)this.objects[3];
 				int style = (int)this.objects[4];
 				int poisonAmount = (int)this.objects[5];
+				int finishedGFX = (int)this.objects[6];
 
 				if(freezePlayer > -1 && hitDiff > 0)
 					c.frozen(freezePlayer);			
 				
 				hitEnemyWithStyle(hitDiff, style, enemy, playerEnemy, true, poisonAmount);
 
+				FrameMethods.gfxAll(finishedGFX, playerEnemy.getX(), playerEnemy.getY());
 			}					
 		};
 	}

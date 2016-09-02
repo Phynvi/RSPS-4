@@ -1,5 +1,5 @@
 -add in poison to enemies
--add resist poison to pots and get the times correct
+
 
 -Place tanners at locations throughout world
 -Add ability to craft from hides

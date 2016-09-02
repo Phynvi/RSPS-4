@@ -1,6 +1,6 @@
 package server.handlers.chat;
 import java.util.LinkedList;
-
+import server.root.server;
 import client.Player;
 import client.client;
 
@@ -48,8 +48,11 @@ public class ChatRoom {
 			for(Player p : playerList){
 				if(p != null){
 					client c = (client)p;
-					if(c != null)
-						c.sendMessage("["+initials+"] "+msg);
+					if(c != null){
+						String toDeliver = "["+initials+"] "+msg;
+						c.sendMessage(toDeliver, false);
+						server.AllChatStream.println(toDeliver);
+					}
 				}
 			}
 		}

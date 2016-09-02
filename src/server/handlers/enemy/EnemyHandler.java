@@ -17,6 +17,10 @@ public class EnemyHandler{
 	
 	private static int GenerateIDPlayer = server.npcHandler.maxNPCs + 1;
 	
+	public Enemy getEnemy(int uniqueEnemyID){
+		return enemies.get(uniqueEnemyID);
+	}
+	
 	public static int getUniqueEnemyID(Enemy e){
 		if(e.isNPC()){
 			return e.getNPC().npcId + GenerateIDNPC;

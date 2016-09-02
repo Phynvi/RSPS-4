@@ -34,7 +34,7 @@ public class ObjectClick {
 	public static BST objectDest1 = new BST(2111, 2091, 2094, 2093, 11184, 2097, 2103, 2105, 2107);
 	public static BST objectDest2 = new BST(4616,4615,4569,4570,4568,4550,4559,4557,4555,4553,4551,2287,3416,11729,9293,1738);
 	public static BST objectDest4 = new BST(2282,1734,1733,5098,5094,3340,57,56,54,55,5014,5008,5973,5998,4499,5013,9034);
-	public static BST objectDest8 = new BST(194,8742,2491);
+	public static BST objectDest8 = new BST(3236,194,8742,2491);
 
 	public ObjectClick(client pc){
 		this.c = pc;
@@ -1218,7 +1218,13 @@ public class ObjectClick {
 			//start of Dangt351s agility FIXED BY AAA Mods
 
 		case 3263:
-			c.sendMessage("I should probably try to climb the rockslides instead.");
+			
+			int offsetX = objectX-c.absX;
+			int offsetY = objectY-c.absY;
+			int newX = offsetX+objectX;
+			int newY = offsetY+objectY;
+			
+			agilityHandler.agilityObstacleOneWay(c.absX, c.absY, newX, newY, 1115, 50, 20, true, true, 3, 0);
 			break;
 
 		case 3309:

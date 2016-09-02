@@ -21,12 +21,7 @@ public class ServerInformation extends JFrame {
   
 	JTabbedPane tabs = new JTabbedPane();
 
-	public static TextAreaPanel DebugPanel;
-	public static TextAreaPanel ServerTestsPanel;
-	public static TextAreaPanel KernelPanel;
-	public static TextAreaPanel DelayPanel;
-	public static TextAreaPanel SystemPanel;
-	
+	public static TextAreaPanel DebugPanel, ServerTestsPanel,KernelPanel,DelayPanel,SystemPanel,PlayerMessagesPanel,ChatPanel;
 	
 	public ServerInformation(){
 		super();
@@ -130,6 +125,8 @@ public class ServerInformation extends JFrame {
 		SystemPanel = addTextTab("SYSTEM");
 		System.setOut(new PrintStream(SystemPanel.getStream()));
 		KernelPanel = addTextTab("KERNEL");
+		PlayerMessagesPanel = addTextTab("MESSAGES");
+		ChatPanel = addTextTab("CHAT");
 		
 		DelayPanel = addTextTab("DELAY");
 		DelayPanel.setLayout(new FlowLayout());

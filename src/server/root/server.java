@@ -46,6 +46,8 @@ public static TextAreaOutputStream ServerTestsStream;
 public static TextAreaOutputStream KernelStream;
 public static TextAreaOutputStream DelayStream;
 public static TextAreaOutputStream SystemStream;
+public static TextAreaOutputStream PlayerMessagesStream;
+public static TextAreaOutputStream AllChatStream;
 
 	public server() {
 		// the current way of controlling the server at runtime and a great debugging/testing tool
@@ -58,6 +60,8 @@ public static TextAreaOutputStream SystemStream;
 		DelayStream = ServerInformation.DelayPanel.getStream();
 		DebugStream = ServerInformation.DebugPanel.getStream();
 		ServerTestsStream = ServerInformation.ServerTestsPanel.getStream();
+		PlayerMessagesStream = ServerInformation.PlayerMessagesPanel.getStream();
+		AllChatStream = ServerInformation.ChatPanel.getStream();
 		
 		lists = new Lists();
 		worldMap = new WorldMap(); //TODO - remove reference
@@ -87,7 +91,6 @@ public static TextAreaOutputStream SystemStream;
 	private static LinkedList<ServerProcess> processes = new LinkedList<ServerProcess>();
 	
 	public static void debug(String s){
-		System.out.println("Called, debugmode: "+debugmode);
 		if(debugmode)
 			DebugStream.println(s);
 	}

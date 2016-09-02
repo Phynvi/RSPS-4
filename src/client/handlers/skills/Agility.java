@@ -162,6 +162,8 @@ public class Agility {
 	 * @return
 	 */
 	public boolean agilityObstacle(int x1, int y1, int x2, int y2, int emote, int level, int exp, boolean isFast, boolean dmg, int amount, int specialCase){
+		if(c.distanceToPoint(x1, y1) > 5)
+			return false;
 		if(c.playerLevel[c.playerAgility] >= level){
 			boolean tookDamage = false;
 			if((dmg && misc.random(c.playerLevel[c.playerAgility]-level) == 0) || agilityTesting){

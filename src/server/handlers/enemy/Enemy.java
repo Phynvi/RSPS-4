@@ -46,7 +46,7 @@ public class Enemy {
 		}
 
 		Object[] arguments = new Object[]{this, 4};
-		Task poison = new Task(10, arguments, true){
+		Task poison = new Task(120, arguments, true){
 
 			private Enemy e = (Enemy)this.objects[0];
 			private int ticks = (int)this.objects[1];
@@ -73,42 +73,54 @@ public class Enemy {
 	}
 
 	public void resistPoison(int seconds){
-		stopPoison();
+		this.stopPoison();
 
 		if(seconds == 0) return;
 
-		int tempM = (60/seconds)+1;
+		int tempM = (seconds/60)+1;
 		
-		if(tempM <= this.resistPoisonTimerMinutes)
+		server.debug("in resistPoison, tempM is "+tempM);
+		
+		if(tempM <= this.resistPoisonTimerMinutes && this.resistPoisonTimer != null)
 			return;
 		
 		this.resistPoisonTimerMinutes = tempM;
 		
-		if(this.resistPoisonTimerMinutes == 0)
-			this.resistPoisonTimerMinutes = 1;
+//		if(this.resistPoisonTimerMinutes == 0)
+//			this.resistPoisonTimerMinutes = 1;
 		
-		Object[] arguments = new Object[]{this};
+		Object[] arguments = new Object[]{this.uniqueID};
 
-		Task resistPoison = new Task(resistPoisonTimerMinutes*120, arguments, true){
-			private Enemy e = (Enemy)this.objects[0];
+		Task resistPoison = new Task(120, arguments, true){ //ticks every minute
+			private int id = (int)this.objects[0];
 
 			@Override
 			public void execute() {
-				if(this.e.resistPoisonTimerMinutes == 0){
-					this.e.sendMessage("The effects of poison resist have worn off.");
-					this.e.resistPoisonTimer.stop();
+				Enemy e = server.enemyHandler.getEnemy(id);
+				if(e.resistPoisonTimerMinutes == 0){
+					e.stopPoisonResist();
 					return;
 				}
 				else{
-					this.e.resistPoisonTimerMinutes -= 1;
+					e.resistPoisonTimerMinutes -= 1;
 				}
 			}			
 		};
 
 		this.resistPoisonTimer = server.taskScheduler.schedule(resistPoison);
 	}
+	
+	public void stopPoisonResist(){
+		server.debug("stopPoisonResist called.");
+		if(this.resistPoisonTimer == null) return;
+		this.resistPoisonTimer.stop();
+		this.poisonTimer = null;
+		this.resistPoisonTimerMinutes = 0;
+		this.sendMessage("The effects of poison resist have worn off.");
+	}
 
 	public void stopPoison(){
+		server.debug("stopPoison called.");
 		if(this.poisonTimer == null) return;
 		this.poisonTimer.stop();
 		this.poisonTimer = null;
@@ -156,12 +168,12 @@ public class Enemy {
 	public Enemy(NPC n){
 		this.npcType = n.npcType;
 		this.selfNPC = n;
-		AddToEnemyHandler();
+		this.AddToEnemyHandler();
 	}
 
 	public Enemy(client c){
 		this.selfPlayer = c;
-		AddToEnemyHandler();
+		this.AddToEnemyHandler();
 	}
 
 	public boolean DoIHitTargetWithMelee(Enemy e){
@@ -269,10 +281,10 @@ public class Enemy {
 	}
 
 	public int getX(){
-		if(selfPlayer != null)
-			return selfPlayer.absX;
+		if(this.selfPlayer != null)
+			return this.selfPlayer.absX;
 		else
-			return selfNPC.absX;
+			return this.selfNPC.absX;
 	}
 
 	public String getName(){
@@ -285,14 +297,14 @@ public class Enemy {
 	}
 
 	public int getY(){
-		if(selfPlayer != null)
-			return selfPlayer.absY;
+		if(this.selfPlayer != null)
+			return this.selfPlayer.absY;
 		else
-			return selfNPC.absY;
+			return this.selfNPC.absY;
 	}
 
 	public boolean isUnderAttack(){
-		return(opponent != null);
+		return(this.opponent != null);
 	}
 
 	private int npcType = -1;
@@ -304,7 +316,7 @@ public class Enemy {
 	 * @return NPC index in npchandler NPCs array
 	 */
 	public int getNPCId(){
-		return selfNPC.npcId;
+		return this.selfNPC.npcId;
 	}
 
 	public boolean isNPC(){

@@ -3,6 +3,8 @@ package server.handlers.window;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -20,8 +22,12 @@ public class TextAreaOutputStream extends OutputStream {
    public TextAreaOutputStream(final JTextArea textArea, String title) {
       this.textArea = textArea;
       this.title = title;
-      sb.append(title + "> ");
+      sb.append("["+title + "] ["+this.getTime()+"] : ");
       printStream = new PrintStream(this);
+   }
+   
+   public String getTime(){
+  	 return new SimpleDateFormat("HH:mm.ss").format(new Date());
    }
    
    public void print(String s){
@@ -58,7 +64,7 @@ public class TextAreaOutputStream extends OutputStream {
             }
          });
          sb.setLength(0);
-         sb.append(title + "> ");
+         sb.append("["+title + "] ["+this.getTime()+"] : ");
          return;
       }
 

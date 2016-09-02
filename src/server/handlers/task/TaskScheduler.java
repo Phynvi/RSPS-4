@@ -28,6 +28,7 @@ public class TaskScheduler {
 	  ActionListener taskPerformer = new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
       	try{
+      		server.debug("Task Executed.");		
           task.execute();
       	}
       	catch(Exception e){

@@ -823,8 +823,16 @@ playerName.trim();*/
 	}
 
 	// sends a game message of trade/duelrequests: "PlayerName:tradereq:" or "PlayerName:duelreq:"
-	public void sendMessage(String msg){
+	public void sendMessage(String msg, boolean logMessage){
+		if(logMessage){
+			server.PlayerMessagesStream.println("["+this.playerName+"] : "+msg);
+		}
 		getFrameMethodHandler().sendMessage(msg);
+	}
+	
+	// sends a game message of trade/duelrequests: "PlayerName:tradereq:" or "PlayerName:duelreq:"
+	public void sendMessage(String msg){
+		sendMessage(msg, true);
 	}
 
 	public void logout(){
@@ -1856,6 +1864,7 @@ playerName.trim();*/
 				sendMessage("You can't talk because you are muted!");
 			else{
 				inStream.readBytes_reverseA(chatText, chatTextSize, 0);
+				server.AllChatStream.println("["+this.playerName+"]: "+misc.textUnpack(chatText, packetSize-2));
 				//String msg = misc.textUnpack(chatText, packetSize-2);
 				chatTextUpdateRequired = true;
 				//String playerchat = "["+playerName+"]: "+misc.textUnpack(chatText, packetSize-2)+"";

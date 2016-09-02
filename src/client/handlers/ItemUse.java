@@ -196,7 +196,7 @@ public class ItemUse {
 		case 179: //Antipoison(1)
 			c.GetPlayerAsEnemy().resistPoison(120);
 			c.startAnimation(829);
-			c.sendMessage("You drink the last dose of the super anti-poison.");
+			c.sendMessage("You drink the last dose of the antipoison.");
 			c.getInventoryHandler().deleteItem(179, c.getInventoryHandler().GetItemSlot(179), 1);
 			c.getInventoryHandler().addItem(229, 1);
 			break;

@@ -166,6 +166,10 @@ public class CommandHandler {
 				c.debug("x,y : "+c.absX+", "+c.absY);
 				break;
 
+			case "poisontimer":
+				c.sendMessage("poisonTimerMinutes: "+c.GetPlayerAsEnemy().resistPoisonTimerMinutes);
+				return;
+				
 			case "create":
 				String chatRoomName = getEverythingAfterCommand(args);
 				if(chatRoomName.length() >= 10 || chatRoomName.length() <= 3){
