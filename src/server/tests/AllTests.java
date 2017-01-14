@@ -35,6 +35,7 @@ public class AllTests {
 		
 		new ItemTests();
 		new PlayerTests();
+		new TaskSchedulerTests();
 		this.tests = tests;
 	}
 	

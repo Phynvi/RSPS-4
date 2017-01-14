@@ -1776,7 +1776,9 @@ WORLDMAP 2: (not-walk able places)
 				
 				hitEnemyWithStyle(hitDiff, style, enemy, playerEnemy, true, poisonAmount);
 
-				FrameMethods.gfxAll(finishedGFX, playerEnemy.getX(), playerEnemy.getY());
+				if(finishedGFX != -1){
+					FrameMethods.gfxAll(finishedGFX, playerEnemy.getX(), playerEnemy.getY());
+				}
 			}					
 		};
 	}

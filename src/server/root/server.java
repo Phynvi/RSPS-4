@@ -95,6 +95,10 @@ public static TextAreaOutputStream AllChatStream;
 			DebugStream.println(s);
 	}
 	
+	public static void test(String s){
+		ServerTestsStream.println(s);
+	}
+	
 	public static void addToProcesses(ServerProcess servProc){
 		processes.add(servProc);
 	}
