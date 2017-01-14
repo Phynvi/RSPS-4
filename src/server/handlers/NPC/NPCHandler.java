@@ -4,9 +4,9 @@ import java.util.Hashtable;
 
 import client.Player;
 import client.client;
-import client.handlers.Combat;
 import client.handlers.FrameMethods;
 import client.handlers.Item;
+import client.handlers.combat.Combat;
 import server.handlers.WorldMap;
 import server.handlers.enemy.Enemy;
 import server.handlers.item.DropList;

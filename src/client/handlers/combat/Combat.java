@@ -1,8 +1,10 @@
-package client.handlers;
+package client.handlers.combat;
 import java.util.LinkedList;
 
 import client.Player;
 import client.client;
+import client.handlers.FrameMethods;
+import client.handlers.Item;
 import server.handlers.NPC.NPC;
 import server.handlers.NPC.NPCAnim;
 import server.handlers.enemy.Enemy;
@@ -625,16 +627,18 @@ public class Combat {
 	
 	
 
-	public static boolean damagePlayer(int playerID, int damage){
+	public static boolean damagePlayer(int playerID, int damage, DamageType damageType){
 		try{
+			//this is already handled in updatehit method in player
 			Player p = PlayerHandler.players[playerID];
-			int playerHP = p.playerLevel[p.playerHitpoints];
-			if (damage > playerHP) damage = playerHP;
-			if (damage < 0) damage = 0;
-			PlayerHandler.players[playerID].hitDiff = damage;
-			PlayerHandler.players[playerID].hitUpdateRequired = true;
-			PlayerHandler.players[playerID].updateRequired = true;
-			PlayerHandler.players[playerID].appearanceUpdateRequired = true;
+//			int playerHP = p.playerLevel[p.playerHitpoints];
+//			if (damage > playerHP) damage = playerHP;
+//			if (damage < 0) damage = 0;
+			p.SetDamageType(damageType);
+			p.hitDiff = damage;
+			p.hitUpdateRequired = true;
+			p.updateRequired = true;
+			p.appearanceUpdateRequired = true;
 			return true;
 		}
 		catch(Exception e){
@@ -724,7 +728,7 @@ public class Combat {
 			
 		if(playerToHit.SpecEmoteTimer == 0)
 			playerToHit.startAnimation(Item.GetBlockAnim(playerToHit.playerEquipment[playerToHit.playerWeapon]));
-			return damagePlayer(playerId, damage);
+			return damagePlayer(playerId, damage, DamageType.NORMAL);
 		}
 		catch(Exception e){
 			c.error("In Combat.hitPlayer, given npcID : "+playerId+", error: "+e.toString());

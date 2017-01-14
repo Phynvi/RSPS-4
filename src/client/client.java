@@ -12,7 +12,6 @@ import java.util.StringTokenizer;
 import client.handlers.ButtonClickHandler;
 import client.handlers.ChatRoomHandler;
 import client.handlers.ClientMethodHandler;
-import client.handlers.Combat;
 import client.handlers.CommandHandler;
 import client.handlers.EventManager;
 import client.handlers.FileLoading;
@@ -25,6 +24,7 @@ import client.handlers.MenuHandler;
 import client.handlers.MiniGameHandler;
 import client.handlers.ObjectClick;
 import client.handlers.SkillHandler;
+import client.handlers.combat.Combat;
 import client.handlers.skills.Farming;
 import client.handlers.skills.MagicDataHandler;
 import client.handlers.skills.Mining;
@@ -1300,8 +1300,6 @@ playerName.trim();*/
 
 		getFrameMethodHandler().CheckBar();
 		getFrameMethodHandler().getFilling();
-
-		//TODO poison
 
 		//If killed apply dead
 		if (IsDead == true && NewHP <= 0 && deadAnimTimer == -1){ 

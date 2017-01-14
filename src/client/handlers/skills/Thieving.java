@@ -1,5 +1,6 @@
 package client.handlers.skills;
 import client.client;
+import client.handlers.combat.DamageType;
 import server.resources.misc;
 import server.root.server;
 
@@ -75,7 +76,7 @@ public class Thieving{
 		}
 
 		c.startAnimation(779);
-		c.getCombatHandler().damagePlayer(c.playerId, misc.random(getChestDamage(objectID))+1);
+		c.getCombatHandler().damagePlayer(c.playerId, misc.random(getChestDamage(objectID))+1, DamageType.NORMAL);
 		c.sendMessage("A trap goes off, injuring you");
 		return false;
 	}
@@ -92,7 +93,7 @@ public class Thieving{
 		if(misc.random(chance) == 0){
 			c.sendMessage("While disarming the trap, it goes off and injures you.");
 			c.startAnimation(779);
-			c.getCombatHandler().damagePlayer(c.playerId, misc.random(getChestDamage(objectID))+1);
+			c.getCombatHandler().damagePlayer(c.playerId, misc.random(getChestDamage(objectID))+1,DamageType.NORMAL);
 		}
 		else{
 			c.startAnimation(2244);

@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 import client.handlers.Item;
+import client.handlers.combat.DamageType;
 import server.handlers.NPC.NPC;
 import server.handlers.NPC.NPCHandler;
 import server.handlers.enemy.Enemy;
@@ -115,8 +116,6 @@ public abstract class Player extends playerInstances {
 	
 	public boolean newhptype = false;
 
-	public int hptype = 0;
-	public boolean poisondmg = false;
 	public int autoRetaliate = 1; //1 for true, 0 for false, use int for writing player save file
 
 	public String clanName = "none", clanLeader = "nobody";
@@ -1246,7 +1245,6 @@ public abstract class Player extends playerInstances {
 		faceNPC = 65535;
 		mask100update = false;
 		update1Required = false;
-		IsStair = false;
 	}
 
 
@@ -1404,50 +1402,39 @@ public abstract class Player extends playerInstances {
 	}
 
 	//TODO delete stuff not needed?
-	public int hitRange = 0;
-	public int hitMage = 0;
 	public int hitDiff = 0;
 	public boolean hitUpdateRequired = false;
 	public boolean IsDead = false;
 	public int NewHP = 10;
-	public boolean SafeMyLife = false;
-	public boolean IsStair = false;
-
-	protected void appendHitUpdate2(stream str) {
-		try {
-			str.writeByte(hitDiff); // What the perseon got 'hit' for
-			if (hitDiff > 0 && newhptype == false && poisondmg == false) {
-				str.writeByteA(1); // 0: red hitting - 1: blue hitting
-			} else if (hitDiff > 0 && poisondmg == true) {
-				str.writeByteA(2); // 0: red hitting - 1: blue hitting 2: poison 3: orange
-			} else if (hitDiff > 0 && newhptype == true) {
-				str.writeByteA(hptype); // 0: red hitting - 1: blue hitting
-			} else {
-				str.writeByteA(0); // 0: red hitting - 1: blue hitting
-			}
-			NewHP = (playerLevel[playerHitpoints] - hitDiff);
-			if (NewHP <= 0) {
-				NewHP = 0;
-				IsDead = true;
-			}
-			str.writeByteC(NewHP); // Their current hp, for HP bar
-			str.writeByte(getLevelForXP(playerXP[playerHitpoints])); // Their max hp, for HP bar
-			poisondmg = false;
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	private DamageType damageType;
+	
+	public void SetDamageType(DamageType damage){
+		this.damageType = damage;
 	}
+	
+	//TODO - Proper hit updating
 	protected void appendHitUpdate(stream str) {		
 		try {
-			str.writeByte(hitDiff); // What the perseon got 'hit' for
-			if (hitDiff > 0 && newhptype == false && poisondmg == false) {
-				str.writeByteS(1); // 0: red hitting - 1: blue hitting
-			} else if (hitDiff > 0 && poisondmg == true) {
-				str.writeByteS(2); // 0: red hitting - 1: blue hitting 2: poison 3: orange
-			} else if (hitDiff > 0 && newhptype == true) {
-				str.writeByteS(hptype); // 0: red hitting - 1: blue hitting
-			} else {
-				str.writeByteS(0); // 0: red hitting - 1: blue hitting
+			str.writeByte(hitDiff); // What the person got 'hit' for
+			 // 0: blue, 1: red, 2: green, 3: orange	
+			this.debug("hitDiff: "+hitDiff+", damageType: "+this.damageType);
+			if(hitDiff != 0){
+				if(this.damageType == DamageType.POISON){
+					this.debug("Poison Damage");
+					str.writeByteS(2); //poison dmg
+				}
+				else if (this.damageType == DamageType.OTHER){
+					this.debug("Other Damage");
+					str.writeByteS(3); //other dmg
+				}
+				else{
+					this.debug("Regular Damage");
+					str.writeByteS(1); //regular dmg
+				}
+			}
+			else{
+				this.debug("No Damage");
+				str.writeByteS(0); //no dmg
 			}
 			NewHP = (playerLevel[playerHitpoints] - hitDiff);
 			if (NewHP <= 0) {
@@ -1456,16 +1443,10 @@ public abstract class Player extends playerInstances {
 			}
 			str.writeByte(NewHP); // Their current hp, for HP bar
 			str.writeByteC(getLevelForXP(playerXP[playerHitpoints])); // Their max hp, for HP bar
-			poisondmg = false;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}	
-
-
-
-
-
 
 
 	public int getLevelForXP(int exp) {

@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 
 import client.Player;
 import client.client;
+import client.handlers.combat.DamageType;
 import server.handlers.chat.ChatRoom;
 import server.handlers.item.ItemHandler;
 import server.handlers.player.PlayerHandler;
@@ -58,12 +59,16 @@ public class CommandHandler {
 		try{
 			switch(args[0].toLowerCase()){
 			
+			case "poisonamount":
+				c.sendMessage("poisonAmount: "+c.GetPlayerAsEnemy().poisonAmount);
+				break;
+			
 			case "change":
 				CommandHandler.changeableInt = getNumber(args[1]);
 				break;
 			
 			case "dmg":
-				c.getCombatHandler().damagePlayer(c.playerId, getNumber(args[1]));
+				c.getCombatHandler().damagePlayer(c.playerId, getNumber(args[1]), DamageType.NORMAL);
 				break;
 				
 			case "4815162342":

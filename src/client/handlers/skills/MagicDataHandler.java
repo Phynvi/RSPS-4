@@ -4,9 +4,9 @@ import server.handlers.task.Task;
 import server.resources.misc;
 import server.root.server;
 import client.client;
-import client.handlers.Combat;
 import client.handlers.FrameMethods;
 import client.handlers.Item;
+import client.handlers.combat.Combat;
 
 public class MagicDataHandler {
 	private client c;

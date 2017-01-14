@@ -1,6 +1,7 @@
 package client.handlers.skills;
 import client.client;
 import client.handlers.Item;
+import client.handlers.combat.DamageType;
 import server.resources.misc;
 
 
@@ -168,7 +169,7 @@ public class Agility {
 			boolean tookDamage = false;
 			if((dmg && misc.random(c.playerLevel[c.playerAgility]-level) == 0) || agilityTesting){
 				if(specialCase <= 0){
-					c.getCombatHandler().damagePlayer(c.playerId, misc.random(amount)+1);
+					c.getCombatHandler().damagePlayer(c.playerId, misc.random(amount)+1, DamageType.NORMAL);
 					c.sendMessage("You injure yourself.");
 				}
 				else{
@@ -267,7 +268,7 @@ public class Agility {
 				if(c.absX == 2532 && c.absY == 3547){
 					failedObstacleCase = -1;
 					c.getClientMethodHandler().teleportWithAnimationDelay(2533, 3545, 0, 1258, 2);
-					c.getCombatHandler().damagePlayer(c.playerId, damageBecauseFailed);
+					c.getCombatHandler().damagePlayer(c.playerId, damageBecauseFailed, DamageType.NORMAL);
 					c.sendMessage("You fall down.");
 				}
 				break;
@@ -281,7 +282,7 @@ public class Agility {
 				}
 				if(c.absX == 2546 && c.absY == 3546){
 					c.teleport(2546, 3547, 0);
-					c.getCombatHandler().damagePlayer(c.playerId, damageBecauseFailed);
+					c.getCombatHandler().damagePlayer(c.playerId, damageBecauseFailed, DamageType.NORMAL);
 					c.sendMessage("You fall in the water!");
 					waitToSwimTimer = 1;
 				}

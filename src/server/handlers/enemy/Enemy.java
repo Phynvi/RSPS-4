@@ -4,9 +4,10 @@ import javax.swing.Timer;
 
 import client.Player;
 import client.client;
-import client.handlers.Combat;
 import client.handlers.FrameMethods;
 import client.handlers.Item;
+import client.handlers.combat.Combat;
+import client.handlers.combat.DamageType;
 import server.handlers.NPC.NPC;
 import server.handlers.NPC.NPCHandler;
 import server.handlers.task.Task;
@@ -42,7 +43,8 @@ public class Enemy {
 			if(this.poisonAmount < amount){
 				this.poisonAmount = amount;
 			}
-			return;
+			if(this.poisonTimer != null)
+				return;
 		}
 
 		Object[] arguments = new Object[]{this, 4};
@@ -58,13 +60,14 @@ public class Enemy {
 					this.e.stopPoison();
 					return;
 				}				
-				this.e.inflictDamage(e.poisonAmount);
+				this.e.inflictDamage(e.poisonAmount, DamageType.POISON);
+				//server.debug("ticks before decrement: "+this.ticks+", e.poisonAmount: "+e.poisonAmount); 
 				this.ticks -= 1;
 				if(this.ticks == 0){
 					e.poisonAmount -= 1;
 					this.ticks = 3;
 				}
-
+				//server.debug("ticks after decrement: "+this.ticks+", e.poisonAmount: "+e.poisonAmount); 
 			}
 
 		};
@@ -128,6 +131,9 @@ public class Enemy {
 	}
 	
 	public void applyStatusEffects(){
+		if(this.poisonAmount > 0){
+			this.Poison(this.poisonAmount);
+		}
 		if(this.resistPoisonTimerMinutes > 0){
 			this.resistPoison(this.resistPoisonTimerMinutes*60);
 		}
@@ -142,12 +148,12 @@ public class Enemy {
 		}
 	}
 
-	public void inflictDamage(int amount){
+	public void inflictDamage(int amount, DamageType damage){
 		if(this.isNPC()){
 			this.selfNPC.damageNPC(amount);
 		}
 		else{
-			Combat.damagePlayer(this.selfPlayer.playerId, amount);
+			Combat.damagePlayer(this.selfPlayer.playerId, amount, damage);
 		}
 	}
 
