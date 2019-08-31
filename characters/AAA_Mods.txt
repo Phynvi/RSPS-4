@@ -4,13 +4,13 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2597
-character-posy = 3420
+character-posx = 2586
+character-posy = 3421
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = activate.adobe.com
-character-lastlogin = 20140608
+character-lastconnection = DESKTOP-CHF2GR8
+character-lastlogin = 20190728
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -43,7 +43,7 @@ character-look = 5	0
 character-skill = 0	58	228400
 character-skill = 1	56	200400
 character-skill = 2	69	734400
-character-skill = 3	70	853555
+character-skill = 3	71	853555
 character-skill = 4	1	0
 character-skill = 5	61	303960
 character-skill = 6	1	0
@@ -67,30 +67,7 @@ character-skill = 23	1	0
 character-skill = 24	1	0
 
 [ITEMS]
-character-item = 0	996	1131704
-character-item = 1	682	1
-character-item = 2	2887	1
-character-item = 3	1941	1
-character-item = 4	1602	1
-character-item = 9	380	1
-character-item = 10	380	1
-character-item = 11	380	1
-character-item = 12	380	1
-character-item = 13	380	1
-character-item = 14	380	1
-character-item = 15	380	1
-character-item = 16	380	1
-character-item = 17	380	1
-character-item = 18	380	1
-character-item = 19	380	1
-character-item = 20	380	1
-character-item = 21	380	1
-character-item = 22	380	1
-character-item = 23	380	1
-character-item = 24	380	1
-character-item = 25	380	1
-character-item = 26	380	1
-character-item = 27	380	1
+character-item = 0	4754	1
 
 [BANK]
 character-bank = 0	380	185
@@ -160,21 +137,22 @@ character-bank = 63	11343	1
 character-bank = 64	324	4
 character-bank = 65	316	77
 character-bank = 66	382	9
-character-bank = 68	7400	1
-character-bank = 69	7399	1
-character-bank = 70	386	2
-character-bank = 71	1248	1
-character-bank = 72	445	3
-character-bank = 73	1276	1
-character-bank = 74	204	2
-character-bank = 75	1334	1
-character-bank = 76	218	1
-character-bank = 77	200	1
-character-bank = 78	212	1
-character-bank = 79	220	1
-character-bank = 80	7452	1
-character-bank = 81	1374	1
-character-bank = 82	208	1
+character-bank = 67	7400	1
+character-bank = 68	7399	1
+character-bank = 69	386	2
+character-bank = 70	1248	1
+character-bank = 71	445	3
+character-bank = 72	1276	1
+character-bank = 73	204	2
+character-bank = 74	1334	1
+character-bank = 75	218	1
+character-bank = 76	200	1
+character-bank = 77	212	1
+character-bank = 78	220	1
+character-bank = 79	7452	1
+character-bank = 80	1374	1
+character-bank = 81	208	1
+character-bank = 82	996	1131704
 
 [FRIENDS]
 

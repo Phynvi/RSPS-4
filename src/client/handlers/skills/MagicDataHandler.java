@@ -315,8 +315,9 @@ public class MagicDataHandler {
 		if(!caster.getCombatHandler().doIHitEnemyWithMagic(e))
 			hitDiff = 0;
 		
-		if(hitDiff == 0)
+		if(hitDiff == 0){
 			finishId = SPELLSPLASH;
+		}			
 		
 		int casterX = caster.absX;
 		int casterY = caster.absY;
@@ -336,11 +337,9 @@ public class MagicDataHandler {
 				enemy.inflictMagicDamage(hitDiff, caster.GetPlayerAsEnemy(),0);
 			}			
 		};
-		server.taskScheduler.schedule(countDown);
+		server.taskScheduler.schedule(countDown);	
 
-		int exp = hitDiff*4*c.CombatExpRate;
-		if (exp < 0) exp = 4*c.CombatExpRate;
-		c.getClientMethodHandler().addSkillXP(exp, 6);
+		Combat.GiveMagicExpForCombatSpell(hitDiff, levelRequired, caster);
 		
 		return hitDiff;
 	}
@@ -361,15 +360,116 @@ public class MagicDataHandler {
 			
 			int maxPossibleDamage = this.calculateMagicMaxHit(maxDamage, levelRequired);
 			
-			Combat.attackEnemiesWithin(finishId, movingId, true, enemy, range, maxPossibleDamage, caster.GetPlayerAsEnemy(), 2, caster.GetPlayerAsEnemy(), true, true);
-
-			int exp = maxPossibleDamage*4*4*c.CombatExpRate*c.rate;
-			if (exp <= 0) exp = 4*c.CombatExpRate*c.rate;
-			c.getClientMethodHandler().addSkillXP(exp, 6);
+			Combat.attackEnemiesWithin(finishId, movingId, true, 
+					enemy, range, maxPossibleDamage, caster.GetPlayerAsEnemy(), 2, 
+					caster.GetPlayerAsEnemy(), true, true, true, caster);
+			
+			c.getClientMethodHandler().addSkillXP(levelRequired * c.CombatExpRate, 6);
 			
 		return maxPossibleDamage;
 	}
-	
+	private String getSpellNameById(int spellId){
+		
+		switch(spellId){ 
+		case 1152: //Wind Strike
+			return "Wind Strike";
+
+		case 1154: //Water Strike
+			return "Water Strike";
+
+		case 1156: //Earth Strike
+			return "Earth Strike";
+
+		case 1158: //Fire Strike
+			return "Fire Strike";
+
+		case 1160: //Wind Bolt
+			return "Wind Bolt";
+			
+		case 1163: //Water Bolt
+			return "Water Bolt";
+
+		case 1166: //Earth Bolt
+			return "Earth Bolt";
+
+		case 1169: //Fire Bolt
+			return "Fire Bolt";
+
+		case 1172: //Wind Blast
+			return "Wind Blast";
+
+		case 1175: //Water Blast
+			return "Water Blast";
+
+		case 1177: //Earth Blast
+			return "Earth Blast";
+
+		case 1181: //Fire Blast
+			return "Fire Blast";
+
+		case 1183: //Wind Wave
+			return "Wind Wave";
+
+		case 1185: //Water Wave
+			return "Water Wave";
+
+		case 1188: //Earth Wave
+			return "Earth Wave";
+
+		case 1189: //Fire Wave
+			return "Fire Wave";
+
+		case 12861: //Ice Rush - Level 58
+			return "Ice Rush";
+
+		case 12881: //Ice Burst - Level 70
+			return "Ice Burst";
+
+		case 12871: //Ice Blitz - Level 82
+			return "Ice Blitz";
+
+		case 12891: //Ice Barrage - Level 94
+			return "Ice Barrage";
+
+		case 12939: // Smoke Rush - Level 50
+			return "Smoke Rush";
+
+		case 12963: // Smoke Burst - Level 62
+			return "Smoke Burst";
+
+		case 12951: //Smoke Blitz - Level 74
+			return "Smoke Blitz";
+
+		case 12975: //Smoke Barrage - Level 86
+			return "Smoke Barrage";
+
+		case 12987: //Shadow Rush - Level 52
+			return "Shadow Rush";
+
+		case 13011: //Shadow Burst - Level 64
+			return "Shadow Burst";
+
+		case 12999: //Shadow Blitz - Level 76
+			return "Shadow Blitz";
+
+		case 13023: //Shadow Barrage - Level 88
+			return "Shadow Barrage";
+
+		case 12901: //Blood Rush - Level 56
+			return "Blood Rush";
+
+		case 12919: //Blood Burst - Level 68
+			return "Blood Burst";
+
+		case 12911: //Blood Blitz - Level 80
+			return "Blood Blitz";
+
+		case 12929: //Blood Barrage - Level 92
+			return "Blood Barrage";
+		}
+
+		return "Unknown Spell";
+	}
 	
 	/**
 	 * Private helper method for magicOnEnemy.
@@ -521,12 +621,12 @@ public class MagicDataHandler {
 			break;
 
 		default:
-			c.debug("Unhandled magicID : "+c.spellID);
+			c.debug("Unhandled magicID : " + spellId);
 			break;
 		}
 	}
 	
-	final int AUTOCASTDISTANCE = 5;
+	final int AUTOCASTDISTANCE = 8;
 	
 	public void magicOnEnemy(Enemy e, int spellId){
 		if(e.isDead()) return;
@@ -581,9 +681,8 @@ public class MagicDataHandler {
 			}
 
 			c.getFrameMethodHandler().setSidebarInterface(0, 328);
-			c.spellID = magicID;
-			c.autocast = true;
-			c.sendMessage("Autocast has been activated.");
+			c.autoCastSpellId = magicID;
+			c.getFrameMethodHandler().sendQuest(this.getSpellNameById(magicID), 18585);
 			return true;
 		}
 		c.sendMessage("You need at least "+lvl+" Magic to do that.");

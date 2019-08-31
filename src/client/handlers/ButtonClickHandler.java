@@ -12,6 +12,8 @@ import server.root.server;
 
 public class ButtonClickHandler {
 	private client c = null;
+	private int frameGuess = 100;
+	private int frameToggle = 0;
 
 	public ButtonClickHandler(client pc){
 		this.c = pc;
@@ -940,6 +942,12 @@ public class ButtonClickHandler {
 				else c.getClientMethodHandler().npcdialogue("Oddenstein", 286, "You need at least 8 free inventory slots", "for the gear I am willing", "to give you.");
 				break;
 
+			case 6:
+				if(c.skillMasterShopId != -1){
+					c.getFrameMethodHandler().openUpShopFrame(c.skillMasterShopId);
+				}
+				break;
+				
 			case 11:
 				if(c.getLevelForXP(c.playerXP[c.skill99ID]) >= 99){
 					if(c.getInventoryHandler().playerHasItemAmount(995, 99000)){ //99k to purchase
@@ -1203,7 +1211,19 @@ public class ButtonClickHandler {
 
 			/* case 29030: DragonLongSpecial(); break; */
 
-
+		case 3138:
+			c.brightnessSetting = 1;
+			break;
+		case 3140:
+			c.brightnessSetting = 2;
+			break;
+		case 3142:
+			c.brightnessSetting = 3;
+			break;
+		case 3144:
+			c.brightnessSetting = 4;
+			break;
+			
 		case 153:
 			c.getFrameMethodHandler().sendQuest("@gre@Move speed", 158);
 			if (c.runningEnergy > 0) 
@@ -1723,13 +1743,20 @@ public class ButtonClickHandler {
 			break;
 
 		case 1093:
-			if(!c.autocast){
-				c.sendMessage("Autocast has been activated.");
-				c.autocast = true;
+			if(c.autoCastSpellId != -1){
+				if(c.autocast){
+					c.autocast = false;
+					c.sendMessage("Autocast has been deactivated.");
+					c.getFrameMethodHandler().frame36(108, 0); //turn off autocast icon
+				}
+				else{
+					c.getFrameMethodHandler().frame36(108, 1); //turn on autocast icon
+					c.autocast = true;
+					c.sendMessage("Autocast has been activated.");
+				}				
 			}
 			else{
-				c.autocast = false;
-				c.sendMessage("Autocast has been deactivated.");
+				c.sendMessage("There is no selected spell for this action.");
 			}
 			break;
 

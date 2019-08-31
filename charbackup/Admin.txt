@@ -1,6 +1,6 @@
 [ACCOUNT]
-character-username = 
-character-password = 
+character-username = Admin
+character-password = lol123
 
 [CHARACTER]
 character-height = 0
@@ -9,8 +9,8 @@ character-posy = 2954
 character-rights = 0
 character-ismember = 1
 character-messages = 0
-character-lastconnection = activate.adobe.com
-character-lastlogin = 20160218
+character-lastconnection = DESKTOP-CHF2GR8
+character-lastlogin = 20190728
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
@@ -32,12 +32,12 @@ character-equip = 12	-1	0
 character-equip = 13	-1	0	
 
 [LOOK]
-character-look = 0	8
-character-look = 1	16
-character-look = 2	24
-character-look = 3	31
-character-look = 4	34
-character-look = 5	43
+character-look = 0	0
+character-look = 1	0
+character-look = 2	0
+character-look = 3	0
+character-look = 4	0
+character-look = 5	0
 
 [SKILLS]
 character-skill = 0	1	0

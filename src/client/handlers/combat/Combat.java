@@ -533,9 +533,29 @@ public class Combat {
 			break;
 		}
 	}
+
+	public static void GiveMagicExpForCombatSpell(int totalDamage, int levelRequired, client caster){
+		int magicRate = 2;
+		int totalMagicExp = levelRequired < 0 ? 0 : levelRequired;
+		
+		if(totalDamage < 0){
+			totalDamage = 0;
+		}
+		
+		totalMagicExp += totalDamage * 2 * magicRate;
+		int totalHitpointsEXP = (int)Math.ceil(totalDamage * 1.33 * magicRate);
+		
+		caster.getClientMethodHandler().addSkillXP(totalMagicExp * caster.CombatExpRate, 6);
+		caster.getClientMethodHandler().addSkillXP(totalHitpointsEXP * caster.CombatExpRate, 3);
+	}
 	
 	public static void attackEnemiesWithin(int gfx, int movingGfxId, boolean gfxSpread, Enemy target, int range, int maxDamage, 
 			Enemy attacker, int damageType, Enemy ignore, boolean includeNPCs, boolean includePlayers){
+		attackEnemiesWithin(gfx, movingGfxId, gfxSpread, target, range, maxDamage, attacker, damageType, ignore, includeNPCs, includePlayers, false, null);
+	}
+	
+	public static void attackEnemiesWithin(int gfx, int movingGfxId, boolean gfxSpread, Enemy target, int range, int maxDamage, 
+			Enemy attacker, int damageType, Enemy ignore, boolean includeNPCs, boolean includePlayers, boolean isMagic, client caster){
 		int hitDiff = misc.random(maxDamage);
 		int hitDelay = 1;
 		
@@ -551,7 +571,11 @@ public class Combat {
 		if(!isTargetHitWithStyle(attacker, target, damageType))
 			tempHitDiff = 0;
 		
-		Object[] arguments = new Object[]{attacker, target, damageType, tempHitDiff, includeNPCs, includePlayers, range, ignore, gfxSpread, hitDiff, movingGfxId, gfx};		
+		Object[] arguments = new Object[]{
+				attacker, target, damageType, tempHitDiff, 
+				includeNPCs, includePlayers, range, ignore, gfxSpread, 
+				hitDiff, movingGfxId, gfx, isMagic, caster
+				};		
 		Task t = new Task(hitDelay, arguments, false){
 			@Override
 			public void execute() {
@@ -567,6 +591,8 @@ public class Combat {
 				int hitDiff = (int)this.objects[9];
 				int movingGfxId = (int)this.objects[10];
 				int gfx = (int)this.objects[11];
+				boolean isMagic = (boolean)this.objects[12];
+				client caster = (client)this.objects[13];
 				
 				LinkedList<Enemy> enemies = new LinkedList<Enemy>();
 				
@@ -601,17 +627,26 @@ public class Combat {
 						if(!isTargetHitWithStyle(attacker, e, damageType))
 							tempHitDiff2 = 0;
 						
-						Object[] arguments2 = new Object[]{attacker,e,tempHitDiff2,ignore, damageType};
+						Object[] arguments2 = new Object[]{
+								attacker,e,tempHitDiff2, ignore, 
+								damageType, isMagic, caster
+								};
 						Task t2 = new Task(hitDelay2, arguments2, false){
 							Enemy attacker2 = (Enemy)this.objects[0];
 							Enemy target2 = (Enemy)this.objects[1];
 							int tempHitDiff2 = (int)this.objects[2];
 							Enemy ignore2 = (Enemy)this.objects[3];
 							int damageType2 = (int)this.objects[4];
+							boolean isMagic = (boolean)this.objects[5];
+							client caster = (client)this.objects[6];
 							@Override
 							public void execute() {
-								if(target2 != ignore2)
+								if(target2 != ignore2){
+									if(isMagic && tempHitDiff2 > 0){
+										GiveMagicExpForCombatSpell(tempHitDiff2, -1, caster);
+									}
 									hitTargetWithStyle(attacker2, target2, damageType2, tempHitDiff2,0);
+								}
 							}
 						};
 						
@@ -622,7 +657,6 @@ public class Combat {
 		};
 		
 		server.taskScheduler.schedule(t);
-		
 	}
 	
 	
@@ -945,7 +979,7 @@ public class Combat {
 
 		/* Magic */
 		if(c.autocast){
-			c.getMagicHandler().magicOnEnemy(e, c.spellID);
+			c.getMagicHandler().magicOnEnemy(e, c.autoCastSpellId);
 		}
 	}
 

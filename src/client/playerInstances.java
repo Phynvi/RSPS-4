@@ -43,7 +43,7 @@ public class playerInstances {
 	public String[] skillMasterDialogue;
 	public String skillMasterName, skillName;
 
-	public int skillcape, skillcapeTrimmed, skillHood, skillMasterID, skill99ID;
+	public int skillcape, skillcapeTrimmed, skillHood, skillMasterID, skill99ID, skillMasterShopId;
 	public int masteries = 0;
 	public int homeTeleportTimer = 0;
 	public DropList DROPHANDLER = new DropList();
@@ -51,6 +51,7 @@ public class playerInstances {
 	public int deadAnimTimer = -1;
 	public long magicSpamTimer = 0;
 	public boolean autocast = false;
+	public int autoCastSpellId = -1;
 	public RangeDataHandler BOWHANDLER;
 	public final int SPAMAMOUNT = 2000;
 	public int noClickTimeout;

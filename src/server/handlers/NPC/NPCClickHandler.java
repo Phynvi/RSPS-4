@@ -340,8 +340,11 @@ public class NPCClickHandler {
 		c.error("Unhandled second click NPC ID : "+NPCID);
 		return;
 	}
-
 	public void skillMaster(int npcID, String name, int cape, int capeTrimmed, int hood, String _skillName, int skillID, String[] dialogue){
+		skillMaster(npcID, name, cape, capeTrimmed, hood, _skillName, skillID, -1, dialogue);
+	}
+	
+	public void skillMaster(int npcID, String name, int cape, int capeTrimmed, int hood, String _skillName, int skillID, int shopId, String[] dialogue){
 		c.skillMasterDialogue = dialogue;
 		c.skillMasterName = name;
 		c.skillName = _skillName;
@@ -350,7 +353,13 @@ public class NPCClickHandler {
 		c.skillHood = hood;
 		c.skillMasterID = npcID;
 		c.skill99ID = skillID;
-		c.getFrameMethodHandler().select4Options(6,"Options", "Talk to "+c.skillMasterName, "Purchase a "+c.skillName+" Hood or Cape", "", "Nevermind.");
+		c.skillMasterShopId = shopId;
+		c.getFrameMethodHandler().select4Options(6,
+				"Options", 
+				"Talk to "+c.skillMasterName, 
+				"Purchase a "+c.skillName+" Hood or Cape", 
+				shopId == -1 ? "" : "View the Shop", 
+				"Nevermind.");
 	}
 
 	/**
@@ -832,7 +841,7 @@ public class NPCClickHandler {
 			break;
 
 		case 946:
-			skillMaster(NPCID, "Magic Instructor", 14088,14089,14090, "Magic", c.playerMagic, new String[]{"Your fisrt two spells, air and ","water strike do no require","runes to cast."});
+			skillMaster(NPCID, "Magic Instructor", 14088,14089,14090, "Magic", c.playerMagic, 16, new String[]{"Your fisrt two spells, air and ","water strike do no require","runes to cast."});
 			break;
 
 		case 553:

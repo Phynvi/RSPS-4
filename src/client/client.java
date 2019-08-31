@@ -1659,9 +1659,8 @@ playerName.trim();*/
 
 		case 72: //Click to attack
 			int npcid = inStream.readUnsignedWordA();
-
-			this.setEnemy(null);
 			this.setEnemy(server.npcHandler.npcs[npcid].getAsEnemy());
+			this.getCombatHandler().Attack();
 			break;
 
 
@@ -2050,6 +2049,7 @@ playerName.trim();*/
 		case 73: 
 			this.setEnemy(null);
 			this.setEnemy(server.playerHandler.players[inStream.readSignedWordBigEndian()].PlayerAsEnemy);
+			this.getCombatHandler().Attack();
 			break;
 
 		case 128: //Trade Request

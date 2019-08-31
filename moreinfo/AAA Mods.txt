@@ -1,7 +1,7 @@
 [MOREINFO]
 character-muteright0
-character-lastlogin = 192.168.1.100
-character-lastlogintime = 20160713
+character-lastlogin = DESKTOP-CHF2GR8
+character-lastlogintime = 20180303
 character-starter = 1
 character-hasegg = 0
 character-hasset = 11
@@ -44,6 +44,10 @@ randomx = 2723
 randomy = 3492
 randomh = 0
 PD = 5
+
+PoisonAmount = 0
+
+PoisonResistAmount = 0
 
 [QUESTS]
 character-questpoints = 0

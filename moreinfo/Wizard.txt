@@ -1,12 +1,12 @@
 [MOREINFO]
 character-muteright0
 character-lastlogin = DESKTOP-CHF2GR8
-character-lastlogintime = 20180303
+character-lastlogintime = 20190730
 character-starter = 1
 character-hasegg = 0
-character-hasset = 1
-character-pkpoints = 1
-character-killcount = 1
+character-hasset = 0
+character-pkpoints = 0
+character-killcount = 0
 character-deathcount = 0
 character-mutedate = 0
 character-height = 0
@@ -20,30 +20,39 @@ character-bandit = 0
 character-Donar = 0
 character-chickenleave = 0
 character-RM = 4
-character-dragcharge = 50
-character-beta = 1
-slayerNPC = 84
-slayerCount = 21
+character-dragcharge = 0
+character-beta = 0
+slayerNPC = 0
+slayerCount = 0
 specialDelay = 10
-masteries = 2
+masteries = 0
 pirate = 11
-homeTeleportTimer = 15
-bandos = 22
+homeTeleportTimer = 0
+bandos = 0
 armadyl = 0
 prevarmadyl = 0
-prevbandos = 46
+prevbandos = 0
 spellbook = 0
 pestcontrolpoints = 0
-questPoints = 7
-chatRoomName = Public Chat
-favour = 50
-barrowed = 2
-TUP = 7
-slug = 5
-randomx = 2857
-randomy = 2965
+questPoints = 2
+chatRoomName = 
+favour = 0
+barrowed = 0
+TUP = 0
+slug = 0
+randomx = 0
+randomy = 0
 randomh = 0
-PD = 5
+autoRetaliate = 0
+isRunning = 1
+
+brightness = 4
+
+autoCastSpellId = 1154
+
+autocast = 1
+
+PD = 0
 
 PoisonAmount = 0
 
@@ -54,7 +63,7 @@ character-questpoints = 0
 
 [LOOK]
 character-look = 0	0
-character-head = 0
+character-head = 3
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -62,8 +71,8 @@ character-legs = 36
 character-feet = 42
 character-beard = 10
 
-character-look = 1	0
-character-head = 0
+character-look = 1	8
+character-head = 3
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -72,7 +81,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 2	0
-character-head = 0
+character-head = 3
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -81,7 +90,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 3	0
-character-head = 0
+character-head = 3
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -90,7 +99,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 4	0
-character-head = 0
+character-head = 3
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -99,7 +108,7 @@ character-feet = 42
 character-beard = 10
 
 character-look = 5	0
-character-head = 0
+character-head = 3
 character-torso = 18
 character-arms = 26
 character-hands = 33
@@ -109,8 +118,6 @@ character-beard = 10
 
 
 [FRIENDS]
-character-friend = 0	97229002984747107
-character-friend = 1	29488836083
 
 [IGNORES]
 

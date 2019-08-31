@@ -29,8 +29,10 @@ public class InventoryHandler {
 			c.getFrameMethodHandler().resetItems(3214); // THIS MIGHT STOP CLIENT HACKS HMM?
 			targetSlot = Item.itemType(wearID);
 
-			if(targetSlot == c.playerWeapon)
+			if(targetSlot == c.playerWeapon){
 				c.autocast = false;
+				c.getFrameMethodHandler().frame36(108, 0); //turn off autocast icon
+			}
 
 			int wearAmount = c.playerItemsN[slot];
 			if (wearAmount < 1) {

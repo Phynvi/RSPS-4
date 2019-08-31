@@ -50,6 +50,8 @@ public class FrameMethods {
 		this.outStream = s;
 	}
 
+	private int frameGuess = 0;
+	
 	public void sendQuest(String s, int id)
 	{
 		outStream.createFrameVarSizeWord(126);
@@ -2656,6 +2658,7 @@ public class FrameMethods {
 	}
 
 	public void openUpShopFrame(int ShopID) {
+		c.debug("Opening up shop id: " + ShopID);
 		openUpShopFrame(ShopID, 995); //default is coins
 	}
 
@@ -3294,7 +3297,7 @@ public class FrameMethods {
 		sendQuest("Walk", 160);
 		sendQuest("Run", 159);
 		sendQuest("Energy left:", 148);
-		sendQuest("@gre@Auto Retaliate", 155); //auto retaliate
+		sendQuest((c.autoRetaliate == 0 ? "@red@" : "@gre@") + "Auto Retaliate", 155); //auto retaliate
 		sendQuest("On", 157); //on
 		sendQuest("Off", 156); //off
 

@@ -589,6 +589,7 @@ public abstract class Player extends playerInstances {
 	public boolean Killedqueen = false;
 	// end of quest1 stuff @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+	public int brightnessSetting = 0;
 	public boolean isInWilderness = false;
 	
 	public boolean takeAsNote = false;
@@ -963,27 +964,29 @@ public abstract class Player extends playerInstances {
 
 	public void addNewNPC(NPC npc, stream str, stream updateBlock)
 	{
-		int id = npc.npcId;
-		npcInListBitmap[id >> 3] |= 1 << (id&7);	// set the flag
-		npcList[npcListSize++] = npc;
+		synchronized(this){
+			int id = npc.npcId;
+			npcInListBitmap[id >> 3] |= 1 << (id&7);	// set the flag
+			npcList[npcListSize++] = npc;
 
-		str.writeBits(14, id);	// client doesn't seem to like id=0 //TODO - used to be 14
+			str.writeBits(14, id);	// client doesn't seem to like id=0 //TODO - used to be 14
 
-		int z = npc.absY-absY;
-		if(z < 0) z += 32;
-		str.writeBits(5, z);	// y coordinate relative to thisPlayer
-		z = npc.absX-absX;
-		if(z < 0) z += 32;
-		str.writeBits(5, z);	// x coordinate relative to thisPlayer
+			int z = npc.absY-absY;
+			if(z < 0) z += 32;
+			str.writeBits(5, z);	// y coordinate relative to thisPlayer
+			z = npc.absX-absX;
+			if(z < 0) z += 32;
+			str.writeBits(5, z);	// x coordinate relative to thisPlayer
 
-		str.writeBits(1, 0); //something??
-		str.writeBits(14, npc.npcType); //TODO - used to be 12
+			str.writeBits(1, 0); //something??
+			str.writeBits(12, npc.npcType); //TODO - used to be 12
 
-		boolean savedUpdateRequired = npc.updateRequired;
-		npc.updateRequired = true;
-		npc.appendNPCUpdateBlock(updateBlock);
-		npc.updateRequired = savedUpdateRequired;	
-		str.writeBits(1, 1); // update required
+			boolean savedUpdateRequired = npc.updateRequired;
+			npc.updateRequired = true;
+			npc.appendNPCUpdateBlock(updateBlock);
+			npc.updateRequired = savedUpdateRequired;	
+			str.writeBits(1, 1); // update required
+		}		
 	}
 
 	public void addNewPlayer(Player plr, stream str, stream updateBlock) {

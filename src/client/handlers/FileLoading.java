@@ -257,6 +257,30 @@ public class FileLoading {
 						c.pkpoints = Integer.parseInt(token2);
 					} else if (token.equals("character-RM")) {
 						c.RM = Integer.parseInt(token2);
+					} else if (token.equals("autoRetaliate")) {
+						c.autoRetaliate = Integer.parseInt(token2);
+						String colorIndication = c.autoRetaliate == 0 ? "@red@" : "@gre@";
+						c.getFrameMethodHandler().sendQuest(colorIndication + "Auto Retaliate", 155); //auto retaliate
+						c.getFrameMethodHandler().frame36(172, c.autoRetaliate == 0 ? 1 : 0);
+					} else if (token.equals("isRunning")) {
+						c.isRunning2 = c.runningEnergy > 0 && Integer.parseInt(token2) == 1;
+						//String colorIndication = c.isRunning2 ? "@red@" : "@gre@"; //TODO maybe
+						//c.getFrameMethodHandler().sendQuest(colorIndication + "Auto Retaliate", 155); //auto retaliate
+						c.getFrameMethodHandler().frame36(173, c.isRunning2 ? 1 : 0);
+					} else if (token.equals("brightness")) {
+						c.brightnessSetting = Integer.parseInt(token2);
+						c.getFrameMethodHandler().frame36(166, c.brightnessSetting);
+					} else if (token.equals("autoCastSpellId")) {
+						c.autoCastSpellId = Integer.parseInt(token2);
+					} else if (token.equals("autocast")) {
+						c.autocast = Integer.parseInt(token2) == 1;
+						if(c.autocast){
+							c.getMagicHandler().setAutocast(c.autoCastSpellId);
+							c.getFrameMethodHandler().frame36(108, 1); //turn on autocast icon
+						}
+						else{
+							c.getFrameMethodHandler().frame36(108, 0); //turn off autocast icon
+						}
 					} else if (token.equals("TUP")) {
 						c.TUP = Integer.parseInt(token2);
 					}
@@ -581,6 +605,17 @@ public class FileLoading {
 			characterfile.newLine();
 			String s22 = "randomh = "; characterfile.write(s22, 0, s22.length());
 			characterfile.write(Integer.toString(c.randomh), 0, Integer.toString(c.randomh).length());
+			characterfile.newLine();
+			String s23 = "autoRetaliate = "; characterfile.write(s23, 0, s23.length());
+			characterfile.write(Integer.toString(c.autoRetaliate), 0, Integer.toString(c.autoRetaliate).length());
+			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.isRunning2 ? 1 : 0, "isRunning");
+			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.brightnessSetting, "brightness");
+			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.autoCastSpellId, "autoCastSpellId");
+			characterfile.newLine();
+			writeToCharacterFile(characterfile, c.autocast ? 1 : 0, "autocast");
 			characterfile.newLine();
 			writeToCharacterFile(characterfile, c.PD.getValue(), "PD");
 			characterfile.newLine();

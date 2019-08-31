@@ -9,9 +9,9 @@ character-posy = 2977
 character-rights = 0
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.107
-character-lastlogin = 20160720
-character-energy = 95
+character-lastconnection = DESKTOP-CHF2GR8
+character-lastlogin = 20190728
+character-energy = 98
 character-gametime = 0
 character-gamecount = 0
 

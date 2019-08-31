@@ -4,22 +4,22 @@ character-password = lollol
 
 [CHARACTER]
 character-height = 0
-character-posx = 2493
-character-posy = 3313
+character-posx = 2092
+character-posy = 3194
 character-rights = 2
 character-ismember = 1
 character-messages = 0
-character-lastconnection = 192.168.1.100
-character-lastlogin = 20160713
+character-lastconnection = DESKTOP-CHF2GR8
+character-lastlogin = 20180303
 character-energy = 100
 character-gametime = 0
 character-gamecount = 0
 
 [EQUIPMENT]
-character-equip = 0	-1	0	
-character-equip = 1	-1	0	
+character-equip = 0	14093	1	
+character-equip = 1	14092	1	
 character-equip = 2	-1	0	
-character-equip = 3	13308	1	
+character-equip = 3	1279	1	
 character-equip = 4	-1	0	
 character-equip = 5	-1	0	
 character-equip = 6	-1	0	
@@ -29,7 +29,7 @@ character-equip = 9	-1	0
 character-equip = 10	-1	0	
 character-equip = 11	-1	0	
 character-equip = 12	-1	0	
-character-equip = 13	892	9967	
+character-equip = 13	892	9978	
 
 [LOOK]
 character-look = 0	0
@@ -40,13 +40,13 @@ character-look = 4	0
 character-look = 5	0
 
 [SKILLS]
-character-skill = 0	99	32265600
+character-skill = 0	99	32256000
 character-skill = 1	99	16267980
 character-skill = 2	99	35631600
-character-skill = 3	99	57304660
-character-skill = 4	99	20243480
+character-skill = 3	99	57276260
+character-skill = 4	99	20224680
 character-skill = 5	99	16501488
-character-skill = 6	99	20127552
+character-skill = 6	99	20125176
 character-skill = 7	99	16184120
 character-skill = 8	99	16554305
 character-skill = 9	99	14867735
@@ -67,19 +67,7 @@ character-skill = 23	99	14000000
 character-skill = 24	99	14000000
 
 [ITEMS]
-character-item = 0	555	99934
-character-item = 1	556	99992
-character-item = 2	557	99934
-character-item = 3	558	100000
-character-item = 4	559	100000
-character-item = 5	560	100000
-character-item = 6	561	99912
-character-item = 7	562	100000
-character-item = 8	563	99964
-character-item = 9	564	99996
-character-item = 10	565	100000
-character-item = 11	566	99971
-character-item = 12	567	100000
+character-item = 0	862	1
 
 [BANK]
 character-bank = 0	392	57
@@ -111,8 +99,6 @@ character-bank = 25	360	973
 character-bank = 26	390	945
 character-bank = 27	1512	911
 character-bank = 28	591	998
-character-bank = 29	14094	1
-character-bank = 30	14093	1
 character-bank = 31	501	2
 character-bank = 32	566	60
 character-bank = 33	51	2
